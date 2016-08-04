@@ -112,7 +112,7 @@ public abstract class AbstractSpec {
     }
 
     private static EnvironmentType setupEnvironment () {
-        String overrideEnvironment = System.getProperty("q4inc.specs.environment");
+        String overrideEnvironment = System.getProperty("q4inc.specs");
         if (overrideEnvironment != null) {
             return EnvironmentType.valueOf(overrideEnvironment);
         } else {
