@@ -1,4 +1,4 @@
-package pageobjects.Dashboard;
+package pageobjects.dashboard;
 
 import org.openqa.selenium.WebDriver;
 import pageobjects.AbstractPageObject;

@@ -112,10 +112,6 @@ public interface PageObject {
         return (T) this;
     }
 
-    default void waitForAjaxLoader() {
-        waitForElementToDissapear(By.cssSelector(".ajax-load"));
-    }
-
     default void searchSelect2For(By selector, String thingToSelect) {
         findParentOf(selector).findElement(By.cssSelector(".select2-container > a")).click();
         typeInSelect2Input(thingToSelect);

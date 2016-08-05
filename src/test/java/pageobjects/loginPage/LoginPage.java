@@ -1,10 +1,9 @@
-package pageobjects.LoginPage;
+package pageobjects.loginPage;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import pageobjects.Dashboard.Dashboard;
+import pageobjects.dashboard.Dashboard;
 import pageobjects.Page;
-import pageobjects.PageObject;
 
 /**
  * Created by patrickp on 2016-08-03.
