@@ -5,6 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 import pageobjects.dashboard.Dashboard;
 import pageobjects.loginPage.LoginPage;
+import pageobjects.watchlist.Watchlist;
 import specs.AbstractSpec;
 
 /**
@@ -30,7 +31,10 @@ public class TabNavigationExpanded extends AbstractSpec {
     @Test
     public void canNavigateToWatchlist() {
         String pageTitle = "Watchlist";
+        Watchlist finish = new Watchlist(driver);
         new Dashboard(driver).accessSideNav()
                 .selectWatchListFromSideNav();
+
+        Assert.assertEquals(pageTitle, finish.getWatchlistPageTitle());
     }
 }
