@@ -6,6 +6,7 @@ import org.junit.Test;
 import pageobjects.dashboard.Dashboard;
 import pageobjects.loginPage.LoginPage;
 import pageobjects.watchlist.Watchlist;
+import pageobjects.activityPage.ActivityPage;
 import specs.AbstractSpec;
 
 /**
@@ -18,8 +19,9 @@ public class TabNavigationExpanded extends AbstractSpec {
         new LoginPage(driver).loginUser();
     }
 
+
     @Test
-    public void canNavigateToDashboard() {
+     public void canNavigateToDashboard() {
         String searchFieldText = "What are you looking for?";
         Dashboard start = new Dashboard(driver);
         start.accessSideNav()
@@ -27,6 +29,7 @@ public class TabNavigationExpanded extends AbstractSpec {
 
         Assert.assertEquals(searchFieldText, start.getSearchFieldText());
     }
+
 
     @Test
     public void canNavigateToWatchlist() {
@@ -37,4 +40,16 @@ public class TabNavigationExpanded extends AbstractSpec {
 
         Assert.assertEquals(pageTitle, finish.getWatchlistPageTitle());
     }
+
+
+    @Test
+    public void canNavigateToActivity() {
+        String pageTitle = "Activity";
+        ActivityPage finish = new ActivityPage(driver);
+        new Dashboard(driver).accessSideNav()
+                .selectActivityPageFromSideNav();
+
+        Assert.assertEquals(pageTitle, finish.getActivityPageTitle());
+    }
+
 }
