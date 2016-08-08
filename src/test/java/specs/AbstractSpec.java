@@ -89,7 +89,7 @@ public abstract class AbstractSpec {
         capability.setCapability("resolution","1920x1200");
         capability.setCapability("acceptSslCerts", "true");
         capability.setCapability("browserstack.video","false");
-        capability.setCapability("browserstack.debug", "true");
+        capability.setCapability("browserstack.debug", "false");
 
         driver = new RemoteWebDriver(new URL(BROWSER_STACK_URL), capability);
         driver.manage().timeouts().implicitlyWait(DEFAULT_TIMEOUT, TimeUnit.SECONDS);
