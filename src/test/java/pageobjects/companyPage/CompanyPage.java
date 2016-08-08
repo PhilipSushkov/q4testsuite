@@ -1,4 +1,4 @@
-package pageobjects.companyDetails;
+package pageobjects.companyPage;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;

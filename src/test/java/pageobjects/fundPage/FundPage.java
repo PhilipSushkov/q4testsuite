@@ -1,0 +1,20 @@
+package pageobjects.fundPage;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import pageobjects.Page;
+
+/**
+ * Created by patrickp on 2016-08-08.
+ */
+public class FundPage extends Page {
+    private final By fundName = By.className("page-title");
+
+    public FundPage(WebDriver driver) {
+        super(driver);
+    }
+
+    public String getFundName() {
+        return findElement(fundName).getText();
+    }
+}

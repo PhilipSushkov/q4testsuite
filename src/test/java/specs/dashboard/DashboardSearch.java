@@ -4,8 +4,11 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
-import pageobjects.companyDetails.CompanyPage;
+import pageobjects.companyPage.CompanyPage;
+import pageobjects.contactPage.ContactPage;
 import pageobjects.dashboard.Dashboard;
+import pageobjects.fundPage.FundPage;
+import pageobjects.institutionPage.InstitutionPage;
 import pageobjects.loginPage.LoginPage;
 import specs.AbstractSpec;
 
@@ -48,4 +51,37 @@ public class DashboardSearch extends AbstractSpec{
 
         Assert.assertEquals(companyName, finish.getCompanyName());
     }
+
+    @Test
+    public void canSearchForInstitution() {
+        String institutionName = "JPMorgan Investment Management, Inc.";
+        InstitutionPage finish = new InstitutionPage(driver);
+        new Dashboard(driver).searchForCompany(institutionName)
+                .selectInstitutionFromSearchResults();
+
+        Assert.assertEquals(true, finish.getInstitutionName().contains(institutionName));
+    }
+
+    @Test
+    public void canSearchForContact() {
+        String contactName = "Mr. Christoph Christen";
+        ContactPage finish = new ContactPage(driver);
+        new Dashboard(driver).searchForCompany(contactName)
+                .selectContactFromSearchResults();
+
+        Assert.assertEquals(contactName, finish.getContactName());
+    }
+
+    @Test
+    public void canSearchForFund() {
+        String fundName = "Fundy";
+        String pageTitle = "Fundy\n" +
+                "Open-End Fund";
+        FundPage finish = new FundPage(driver);
+        new Dashboard(driver).searchForCompany(fundName)
+                .selectFundFromSearchResults();
+
+        Assert.assertEquals(pageTitle, finish.getFundName());
+    }
 }
+
