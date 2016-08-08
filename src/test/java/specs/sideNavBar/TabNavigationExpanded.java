@@ -16,7 +16,7 @@ public class TabNavigationExpanded extends AbstractSpec {
 
     @Before
     public void setUp() {
-        new LoginPage(driver).loginUser("patrickp@q4inc.com", "patrick1");
+        new LoginPage(driver).loginUser("patrickp@q4inc.com", "patrick!");
     }
 
 
