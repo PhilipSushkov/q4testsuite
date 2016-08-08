@@ -39,4 +39,19 @@ public class ForgotPassword extends AbstractSpec {
 
         Assert.assertEquals(invalidEmailError, start.getInvalidEmailError());
     }
+
+    @Test
+    public void canSubmitValidEmailAddress() {
+        String confirmationModalText = "If an account with that email address exists in our system, then a reset email will be sent with further instructions.\n" +
+                "OK";
+        LoginPage start = new LoginPage(driver);
+        start.forgotPassword()
+                .enterForgotPasswordEmail("mail@mail.com");
+
+        Assert.assertEquals(confirmationModalText, start.getConfirmationText());
+
+        start.dismissConfirmationModal();
+
+        Assert.assertEquals(1, driver.findElements(By.className("q4i-logo")).size());
+    }
 }

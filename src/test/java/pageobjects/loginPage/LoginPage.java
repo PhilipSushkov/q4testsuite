@@ -32,11 +32,13 @@ public class LoginPage extends Page {
     // Invalid email modal (triggered by entering invalid email on password reset)
     private final By invalidEmailErrorModal= By.id("ext-messagebox-1");
 
+    // Valid email confirmation modal
+    private final By confirmationModal = By.id("ext-messagebox-1");
+    private final By confirmationOkButton = By.cssSelector(".x-msgbox-buttons .x-button");
+
     public LoginPage(WebDriver driver) {
         super(driver);
     }
-
-    JavascriptExecutor js;
 
     public Dashboard loginUser(String email, String password) {
         waitForElementToAppear(emailField);
@@ -96,5 +98,17 @@ public class LoginPage extends Page {
     public String getInvalidEmailError() {
         waitForElementToAppear(invalidEmailErrorModal);
         return findElement(invalidEmailErrorModal).getText();
+    }
+
+    public String getConfirmationText() {
+        waitForElementToAppear(confirmationModal);
+        return findElement(confirmationModal).getText();
+    }
+
+    public LoginPage dismissConfirmationModal() {
+        waitForElementToAppear(confirmationOkButton);
+        findElement(confirmationOkButton).click();
+
+        return this;
     }
 }
