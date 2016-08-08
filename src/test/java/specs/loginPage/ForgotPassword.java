@@ -31,7 +31,7 @@ public class ForgotPassword extends AbstractSpec {
 
     @Test
     public void cannotSubmitInvalidEmail() {
-        String invalidEmailError = "Please enter a valid email address.\n" +
+        String invalidEmailError = "PPPlease enter a valid email address.\n" +
                 "OK";
         LoginPage start = new LoginPage(driver);
         start.forgotPassword()
