@@ -23,7 +23,6 @@ public class Dashboard extends AbstractPageObject {
         waitForElementToAppear(searchField);
         findElement(searchField).click();
         findElement(searchField).sendKeys(companyName);
-        pause(10000L);
 
         return this;
     }
