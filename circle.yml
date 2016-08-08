@@ -21,9 +21,6 @@ test:
 
 experimental:
   notify:
-    webhooks:
-      # A list of hook hashes, containing the URL field
-      - url: https://hooks.zapier.com/hooks/catch/1591642/4lqytr/
-      branches:
-        only:
-          - master
+    branches:
+      only:
+        - master
