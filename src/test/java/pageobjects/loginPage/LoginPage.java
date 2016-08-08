@@ -14,6 +14,7 @@ public class LoginPage extends Page {
     private final By passwordField = By.name("password");
     private final By loginButton = By.cssSelector(".login .x-button.login-button");
     private final By incorrectUsernamePasswordErrorModal = By.id("ext-messagebox-1");
+    private final By okButtonInErrorModal = By.cssSelector(".x-button-no-icon > .x-button-label");
 
     public LoginPage(WebDriver driver) {
         super(driver);
@@ -21,6 +22,8 @@ public class LoginPage extends Page {
 
     public Dashboard loginUser(String email, String password) {
         waitForElementToAppear(emailField);
+        findElement(emailField).clear();
+        findElement(passwordField).clear();
         findElement(emailField).sendKeys(email);
         findElement(passwordField).sendKeys(password);
         pause(2000L);
@@ -30,8 +33,15 @@ public class LoginPage extends Page {
         return new Dashboard(getDriver());
     }
 
-    public String getIncorrectCombinationMessage() {
+    public String getErrorMessage() {
         waitForElementToAppear(incorrectUsernamePasswordErrorModal);
         return findElement(incorrectUsernamePasswordErrorModal).getText();
+    }
+
+    public LoginPage dismissErrorModal() {
+        waitForElementToAppear(incorrectUsernamePasswordErrorModal);
+        findElement(okButtonInErrorModal).click();
+
+        return this;
     }
 }
