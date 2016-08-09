@@ -27,7 +27,6 @@ public class DashboardSearch extends AbstractSpec{
                 .selectCompanyFromSearch();
 
         Assert.assertEquals(companyName, finish.getCompanyName());
-        System.out.println(finish.getCompanyName());
     }
 
     @Test
