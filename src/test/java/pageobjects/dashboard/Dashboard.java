@@ -23,9 +23,6 @@ public class Dashboard extends AbstractPageObject {
     // Dashboard background (to get out of focused search)
     private final By dashboardGeneral = By.className("x-dock-body");
 
-    // Side hamburger menu icon
-    private final By sideNavIcon = By.cssSelector(".page-home .menu-btn");
-
     // Big and small share price shown on dashboard
     private final By bigSharePrice = By.id("ext-home-stock-1");
     private final By smallSharePrice = By.cssSelector(".company-details");
@@ -56,13 +53,6 @@ public class Dashboard extends AbstractPageObject {
         retryClick(clearSearchButton);
 
         return this;
-    }
-
-    public SideNavBar accessSideNav() {
-        wait.until(ExpectedConditions.elementToBeClickable(sideNavIcon));
-        findElement(sideNavIcon).click();
-
-        return new SideNavBar(getDriver());
     }
 
     public String getSearchFieldText() {
