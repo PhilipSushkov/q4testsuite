@@ -31,7 +31,6 @@ public class UserLogin extends AbstractSpec {
         Assert.assertEquals(errorMessage, start.getErrorMessage());
     }
 
-
     @Test
     public void incorrectPassword() {
         String errorMessage = "Wrong username and password combination.\n" +
