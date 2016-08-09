@@ -25,6 +25,8 @@ public class LogActivity extends AbstractPageObject {
         super(driver);
     }
 
+    // TODO Remove pauses from these tests and replace with something that won't break when things are running slowly
+
     public LogActivity enterNoteDetails(String comment, String note, String tag) {
         retryClick(findElement(commentField));
         findElement(commentField).sendKeys(comment);

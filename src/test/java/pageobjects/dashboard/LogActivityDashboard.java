@@ -99,3 +99,4 @@ public class LogActivityDashboard extends AbstractSpec {
         Assert.assertThat(finish.getNewNote(), containsString(tag));
     }
 }
+// TODO Patrick -- Add linking tests for each note and link type

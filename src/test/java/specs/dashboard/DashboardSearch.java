@@ -12,6 +12,8 @@ import pageobjects.institutionPage.InstitutionPage;
 import pageobjects.loginPage.LoginPage;
 import specs.AbstractSpec;
 
+import static org.hamcrest.CoreMatchers.containsString;
+
 public class DashboardSearch extends AbstractSpec{
 
     @Before
@@ -58,7 +60,7 @@ public class DashboardSearch extends AbstractSpec{
         new Dashboard(driver).searchForCompany(institutionName)
                 .selectInstitutionFromSearchResults();
 
-        Assert.assertEquals(true, finish.getInstitutionName().contains(institutionName));
+        Assert.assertThat(finish.getInstitutionName(), containsString(institutionName));
     }
 
     @Test
