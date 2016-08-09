@@ -107,7 +107,6 @@ public abstract class AbstractSpec {
         }
     }
 
-
     public static EnvironmentType getActiveEnvironment() {
         return activeEnvironment;
     }
