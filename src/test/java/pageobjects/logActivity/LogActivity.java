@@ -80,7 +80,7 @@ public class LogActivity extends AbstractPageObject {
         wait.until(ExpectedConditions.elementToBeClickable(postButton));
         findElement(postButton).click();
         pause(2000L);
-        
+
         return this;
     }
 }
