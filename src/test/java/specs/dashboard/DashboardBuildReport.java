@@ -3,6 +3,7 @@ package specs.dashboard;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.openqa.selenium.By;
 import pageobjects.dashboardPage.Dashboard;
 import pageobjects.loginPage.LoginPage;
 import specs.AbstractSpec;
@@ -19,13 +20,22 @@ public class DashboardBuildReport extends AbstractSpec {
     }
 
     @Test
-    public void canDismissBuildReportModal() {
-        String searchFieldText = "What are you looking for?";
-        Dashboard start = new Dashboard(driver);
+    public void canCancelBuildReport() {
+        Dashboard dashboard = new Dashboard(driver);
 
-        start.selectBuildReport()
+        dashboard.selectBuildReport()
+                .cancelBuildReportModal();
+
+        Assert.assertEquals(0, driver.findElements(By.cssSelector(".report-create .cancel-button")).size());
+    }
+
+    @Test
+    public void canDismissBuildReportModal() {
+        Dashboard dashboard = new Dashboard(driver);
+
+        dashboard.selectBuildReport()
                 .dismissBuildReportModal();
 
-        Assert.assertEquals(searchFieldText, start.getSearchFieldText());
+        Assert.assertEquals(0, driver.findElements(By.cssSelector(".report-create .cancel-button")).size());
     }
 }

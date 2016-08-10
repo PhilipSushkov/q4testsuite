@@ -12,15 +12,21 @@ import pageobjects.dashboardPage.Dashboard;
 public class BuildReportModal extends AbstractPageObject {
 
     private final By cancelReportButton = By.cssSelector(".report-create .cancel-button");
+    private final By closeReportIcon = By.cssSelector(".report-create.x-floating .close-button");
 
     public BuildReportModal(WebDriver driver) {
         super(driver);
     }
 
-    public Dashboard dismissBuildReportModal() {
-        pause(2000L);
+    public Dashboard cancelBuildReportModal() {
         wait.until(ExpectedConditions.elementToBeClickable(cancelReportButton));
         findElement(cancelReportButton).click();
+
+        return new Dashboard(getDriver());
+    }
+
+    public Dashboard dismissBuildReportModal() {
+        wait.until(ExpectedConditions.elementToBeClickable(closeReportIcon));
 
         return new Dashboard(getDriver());
     }

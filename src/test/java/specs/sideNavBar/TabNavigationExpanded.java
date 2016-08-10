@@ -33,7 +33,7 @@ public class TabNavigationExpanded extends AbstractSpec {
 
     @Test
     public void canNavigateToWatchlist() {
-        String pageTitle = "WatchlistPage";
+        String pageTitle = "Watchlist";
         WatchlistPage finish = new WatchlistPage(driver);
         new Dashboard(driver).accessSideNav()
                 .selectWatchListFromSideNav();
