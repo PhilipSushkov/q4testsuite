@@ -7,7 +7,7 @@ public enum BrowserType {
   FIREFOX("firefox", "45"),
   OPERA("opera", "12"),
   SAFARI("safari", "9"),
-  INTERNET_EXPLORER("internet explorer", "11");
+  IE("internet explorer", "11");
 
   private final String name;
   private final String latestVersion;
