@@ -1,6 +1,7 @@
 package pageobjects.dashboardPage;
 
 
+import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -9,6 +10,7 @@ import pageobjects.companyPage.CompanyPage;
 import pageobjects.contactPage.ContactPage;
 import pageobjects.fundPage.FundPage;
 import pageobjects.institutionPage.InstitutionPage;
+import pageobjects.logActivity.LogActivityModal;
 import pageobjects.reportBuilder.BuildReportModal;
 
 public class Dashboard extends AbstractPageObject {
@@ -31,6 +33,13 @@ public class Dashboard extends AbstractPageObject {
     // Build report icon
 
     private final By buildReportDashboardButton = By.id("ext-button-14");
+
+    // Log Note icon (unique selectors for dashboard)
+
+    private final By logNoteIcon = By.id("ext-button-10");
+    private final By logPhoneIcon = By.id("ext-button-11");
+    private final By logEmailIcon = By.id("ext-button-12");
+    private final By logMeetingIcon = By.id("ext-button-13");
 
     public Dashboard(WebDriver driver) {
         super(driver);
@@ -104,5 +113,33 @@ public class Dashboard extends AbstractPageObject {
         findElement(buildReportDashboardButton).click();
 
         return new BuildReportModal(getDriver());
+    }
+
+    public LogActivityModal logNote() {
+        wait.until(ExpectedConditions.elementToBeClickable(logNoteIcon));
+        findElement(logNoteIcon).click();
+
+        return new LogActivityModal(getDriver());
+    }
+
+    public LogActivityModal logPhoneNote() {
+        wait.until(ExpectedConditions.elementToBeClickable(logPhoneIcon));
+        findElement(logPhoneIcon).click();
+
+        return new LogActivityModal(getDriver());
+    }
+
+    public LogActivityModal logEmailNote() {
+        wait.until(ExpectedConditions.elementToBeClickable(logEmailIcon));
+        findElement(logEmailIcon).click();
+
+        return new LogActivityModal(getDriver());
+    }
+
+    public LogActivityModal logMeetingNote() {
+        wait.until(ExpectedConditions.elementToBeClickable(logMeetingIcon));
+        findElement(logMeetingIcon).click();
+
+        return new LogActivityModal(getDriver());
     }
 }

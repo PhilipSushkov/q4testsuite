@@ -5,6 +5,7 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageobjects.AbstractPageObject;
+import pageobjects.dashboardPage.Dashboard;
 
 /**
  * Created by patrickp on 2016-08-09.
@@ -20,6 +21,7 @@ public class LogActivityModal extends AbstractPageObject {
     private final By cityField = By.name("person_city");
     private final By emailField = By.name("email");
     private final By stateField = By.name("person_state");
+    private final By cancelNoteButton = By.cssSelector(".new-note .cancel-btn");
 
     public LogActivityModal(WebDriver driver) {
         super(driver);
@@ -84,5 +86,12 @@ public class LogActivityModal extends AbstractPageObject {
         pause(2000L);
 
         return this;
+    }
+
+    public Dashboard cancelNote() {
+        findElement(cancelNoteButton).click();
+        pause(500L);
+
+        return new Dashboard(getDriver());
     }
 }

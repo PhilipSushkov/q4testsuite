@@ -4,12 +4,15 @@ import org.apache.commons.lang.RandomStringUtils;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.openqa.selenium.By;
 import pageobjects.activityPage.ActivityPage;
 import pageobjects.dashboardPage.Dashboard;
 import pageobjects.loginPage.LoginPage;
 import specs.AbstractSpec;
 
 import static org.hamcrest.CoreMatchers.containsString;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.not;
 
 /**
  * Created by patrickp on 2016-08-04.
@@ -27,16 +30,16 @@ public class DashboardLogActivity extends AbstractSpec {
         String note = "This is a test note" + RandomStringUtils.randomAlphanumeric(6);
         String tag = "TestTag" + RandomStringUtils.randomAlphanumeric(6);
 
-        ActivityPage finish = new ActivityPage(driver);
+        ActivityPage activityPage = new ActivityPage(driver);
         new Dashboard(driver).logNote()
                 .enterNoteDetails(comment, note, tag);
 
         new Dashboard(driver).accessSideNav()
                 .selectActivityPageFromSideNav();
 
-        Assert.assertThat(finish.getNewNote(), containsString(comment));
-        Assert.assertThat(finish.getNewNote(), containsString(note));
-        Assert.assertThat(finish.getNewNote(), containsString(tag));
+        Assert.assertThat(activityPage.getNewNote(), containsString(comment));
+        Assert.assertThat(activityPage.getNewNote(), containsString(note));
+        Assert.assertThat(activityPage.getNewNote(), containsString(tag));
     }
 
     @Test
@@ -48,16 +51,16 @@ public class DashboardLogActivity extends AbstractSpec {
         String note = "This ia a phone note" + RandomStringUtils.randomAlphanumeric(6);
         String tag = "PhoneTag" + RandomStringUtils.randomAlphanumeric(6);
 
-        ActivityPage finish = new ActivityPage(driver);
+        ActivityPage activityPage = new ActivityPage(driver);
         new Dashboard(driver).logPhoneNote()
                 .enterPhoneNoteDetails(comment, phone, name, city, note, tag);
 
         new Dashboard(driver).accessSideNav()
                 .selectActivityPageFromSideNav();
 
-        Assert.assertThat(finish.getNewNote(), containsString(comment));
-        Assert.assertThat(finish.getNewNote(), containsString(note));
-        Assert.assertThat(finish.getNewNote(), containsString(tag));
+        Assert.assertThat(activityPage.getNewNote(), containsString(comment));
+        Assert.assertThat(activityPage.getNewNote(), containsString(note));
+        Assert.assertThat(activityPage.getNewNote(), containsString(tag));
     }
 
     @Test
@@ -67,16 +70,16 @@ public class DashboardLogActivity extends AbstractSpec {
         String note = "This is an email noe" + RandomStringUtils.randomAlphanumeric(6);
         String tag = "EmailTag" + RandomStringUtils.randomAlphanumeric(6);
 
-        ActivityPage finish = new ActivityPage(driver);
+        ActivityPage activityPage = new ActivityPage(driver);
         new Dashboard(driver).logEmailNote()
                 .enterEmailNoteDetails(comment, email, note, tag);
 
         new Dashboard(driver).accessSideNav()
                 .selectActivityPageFromSideNav();
 
-        Assert.assertThat(finish.getNewNote(), containsString(comment));
-        Assert.assertThat(finish.getNewNote(), containsString(note));
-        Assert.assertThat(finish.getNewNote(), containsString(tag));
+        Assert.assertThat(activityPage.getNewNote(), containsString(comment));
+        Assert.assertThat(activityPage.getNewNote(), containsString(note));
+        Assert.assertThat(activityPage.getNewNote(), containsString(tag));
     }
 
     @Test
@@ -88,16 +91,23 @@ public class DashboardLogActivity extends AbstractSpec {
         String note = "This is a meeting note" + RandomStringUtils.randomAlphanumeric(6);
         String tag = "MeetingTag" + RandomStringUtils.randomAlphanumeric(3);
 
-        ActivityPage finish = new ActivityPage(driver);
+        ActivityPage activityPage = new ActivityPage(driver);
         new Dashboard(driver).logMeetingNote()
                 .enterMeetingDetails(comment, name, city, state, note, tag);
 
         new Dashboard(driver).accessSideNav()
                 .selectActivityPageFromSideNav();
 
-        Assert.assertThat(finish.getNewNote(), containsString(comment));
-        Assert.assertThat(finish.getNewNote(), containsString(note));
-        Assert.assertThat(finish.getNewNote(), containsString(tag));
+        Assert.assertThat(activityPage.getNewNote(), containsString(comment));
+        Assert.assertThat(activityPage.getNewNote(), containsString(note));
+        Assert.assertThat(activityPage.getNewNote(), containsString(tag));
+    }
+
+    @Test
+    public void canCancelActivity() {
+        new Dashboard(driver).logNote()
+                .cancelNote();
+
+        Assert.assertEquals(0, driver.findElements(By.cssSelector(".new-note .cancel-btn")).size());
     }
 }
-// TODO Patrick -- Add linking tests for each note and link type
