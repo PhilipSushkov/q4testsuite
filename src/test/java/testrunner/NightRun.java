@@ -2,7 +2,7 @@ package testrunner;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
-import pageobjects.dashboard.LogActivityDashboard;
+import specs.dashboard.LogActivityDashboard;
 import specs.dashboard.DashboardLinksToMyCompany;
 import specs.dashboard.DashboardSearch;
 import specs.loginPage.ForgotPassword;
