@@ -11,8 +11,6 @@ import pageobjects.loginPage.LoginPage;
 import specs.AbstractSpec;
 
 import static org.hamcrest.CoreMatchers.containsString;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.not;
 
 /**
  * Created by patrickp on 2016-08-04.
