@@ -3,9 +3,9 @@ package specs.sideNavBar;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import pageobjects.dashboard.Dashboard;
+import pageobjects.dashboardPage.Dashboard;
 import pageobjects.loginPage.LoginPage;
-import pageobjects.watchlist.Watchlist;
+import pageobjects.watchlist.WatchlistPage;
 import pageobjects.activityPage.ActivityPage;
 import specs.AbstractSpec;
 
@@ -33,8 +33,8 @@ public class TabNavigationExpanded extends AbstractSpec {
 
     @Test
     public void canNavigateToWatchlist() {
-        String pageTitle = "Watchlist";
-        Watchlist finish = new Watchlist(driver);
+        String pageTitle = "WatchlistPage";
+        WatchlistPage finish = new WatchlistPage(driver);
         new Dashboard(driver).accessSideNav()
                 .selectWatchListFromSideNav();
 

@@ -2,7 +2,7 @@ package pageobjects.loginPage;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import pageobjects.dashboard.Dashboard;
+import pageobjects.dashboardPage.Dashboard;
 import pageobjects.Page;
 
 /**

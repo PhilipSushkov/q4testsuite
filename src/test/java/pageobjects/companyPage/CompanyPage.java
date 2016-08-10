@@ -2,7 +2,7 @@ package pageobjects.companyPage;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import pageobjects.dashboard.Dashboard;
+import pageobjects.dashboardPage.Dashboard;
 
 /**
  * Created by patrickp on 2016-08-04.

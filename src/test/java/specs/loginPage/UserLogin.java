@@ -2,7 +2,7 @@ package specs.loginPage;
 
 import org.junit.Assert;
 import org.junit.Test;
-import pageobjects.dashboard.Dashboard;
+import pageobjects.dashboardPage.Dashboard;
 import pageobjects.loginPage.LoginPage;
 import specs.AbstractSpec;
 

@@ -6,7 +6,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import pageobjects.logActivity.LogActivity;
+import pageobjects.logActivity.LogActivityModal;
 import pageobjects.sideNavBar.SideNavBar;
 
 public class AbstractPageObject implements PageObject {
@@ -66,31 +66,31 @@ public class AbstractPageObject implements PageObject {
         return new SideNavBar(getDriver());
     }
 
-    public LogActivity logNote() {
+    public LogActivityModal logNote() {
         wait.until(ExpectedConditions.elementToBeClickable(logNoteIcon));
         findElement(logNoteIcon).click();
 
-        return new LogActivity(getDriver());
+        return new LogActivityModal(getDriver());
     }
 
-    public LogActivity logPhoneNote() {
+    public LogActivityModal logPhoneNote() {
         wait.until(ExpectedConditions.elementToBeClickable(logPhoneIcon));
         findElement(logPhoneIcon).click();
 
-        return new LogActivity(getDriver());
+        return new LogActivityModal(getDriver());
     }
 
-    public LogActivity logEmailNote() {
+    public LogActivityModal logEmailNote() {
         wait.until(ExpectedConditions.elementToBeClickable(logEmailIcon));
         findElement(logEmailIcon).click();
 
-        return new LogActivity(getDriver());
+        return new LogActivityModal(getDriver());
     }
 
-    public LogActivity logMeetingNote() {
+    public LogActivityModal logMeetingNote() {
         wait.until(ExpectedConditions.elementToBeClickable(logMeetingIcon));
         findElement(logMeetingIcon).click();
 
-        return new LogActivity(getDriver());
+        return new LogActivityModal(getDriver());
     }
 }

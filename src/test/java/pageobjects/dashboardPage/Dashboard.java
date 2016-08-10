@@ -1,4 +1,4 @@
-package pageobjects.dashboard;
+package pageobjects.dashboardPage;
 
 
 import org.openqa.selenium.By;
@@ -9,10 +9,11 @@ import pageobjects.companyPage.CompanyPage;
 import pageobjects.contactPage.ContactPage;
 import pageobjects.fundPage.FundPage;
 import pageobjects.institutionPage.InstitutionPage;
-import pageobjects.sideNavBar.SideNavBar;
+import pageobjects.reportBuilder.BuildReportModal;
 
 public class Dashboard extends AbstractPageObject {
-    // Search field on dashboard
+
+    // Search field on dashboardPage
     private final By searchField = By.name("search");
     private final By firstCompanyInList = By.cssSelector("span:nth-child(1)");
     private final By clearSearchButton = By.cssSelector(".home-search .x-field-input .x-clear-icon");
@@ -23,9 +24,13 @@ public class Dashboard extends AbstractPageObject {
     // Dashboard background (to get out of focused search)
     private final By dashboardGeneral = By.className("x-dock-body");
 
-    // Big and small share price shown on dashboard
+    // Big and small share price shown on dashboardPage
     private final By bigSharePrice = By.id("ext-home-stock-1");
     private final By smallSharePrice = By.cssSelector(".company-details");
+
+    // Build report icon
+
+    private final By buildReportDashboardButton = By.id("ext-button-14");
 
     public Dashboard(WebDriver driver) {
         super(driver);
@@ -92,5 +97,12 @@ public class Dashboard extends AbstractPageObject {
         findElement(fundResult).click();
 
         return new FundPage(getDriver());
+    }
+
+    public BuildReportModal selectBuildReport() {
+        wait.until(ExpectedConditions.elementToBeClickable(buildReportDashboardButton));
+        findElement(buildReportDashboardButton).click();
+
+        return new BuildReportModal(getDriver());
     }
 }

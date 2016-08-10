@@ -9,7 +9,7 @@ import pageobjects.AbstractPageObject;
 /**
  * Created by patrickp on 2016-08-09.
  */
-public class LogActivity extends AbstractPageObject {
+public class LogActivityModal extends AbstractPageObject {
 
     private final By commentField = By.name("title");
     private final By typeNoteField = By.name("body");
@@ -21,13 +21,13 @@ public class LogActivity extends AbstractPageObject {
     private final By emailField = By.name("email");
     private final By stateField = By.name("person_state");
 
-    public LogActivity(WebDriver driver) {
+    public LogActivityModal(WebDriver driver) {
         super(driver);
     }
 
     // TODO Remove pauses from these tests and replace with something that won't break when things are running slowly
 
-    public LogActivity enterNoteDetails(String comment, String note, String tag) {
+    public LogActivityModal enterNoteDetails(String comment, String note, String tag) {
         retryClick(findElement(commentField));
         findElement(commentField).sendKeys(comment);
         findElement(typeNoteField).sendKeys(note);
@@ -40,7 +40,7 @@ public class LogActivity extends AbstractPageObject {
         return this;
     }
 
-    public LogActivity enterPhoneNoteDetails(String comment, String phone, String name, String city, String note, String tag) {
+    public LogActivityModal enterPhoneNoteDetails(String comment, String phone, String name, String city, String note, String tag) {
         retryClick(findElement(commentField));
         findElement(commentField).sendKeys(comment);
         findElement(phoneNumberField).sendKeys(phone);
@@ -56,7 +56,7 @@ public class LogActivity extends AbstractPageObject {
         return this;
     }
 
-    public LogActivity enterEmailNoteDetails(String comment, String email, String note, String tag) {
+    public LogActivityModal enterEmailNoteDetails(String comment, String email, String note, String tag) {
         retryClick(findElement(commentField));
         findElement(commentField).sendKeys(comment);
         findElement(emailField).sendKeys(email);
@@ -70,7 +70,7 @@ public class LogActivity extends AbstractPageObject {
         return this;
     }
 
-    public LogActivity enterMeetingDetails(String comment, String name, String city, String state, String note, String tag) {
+    public LogActivityModal enterMeetingDetails(String comment, String name, String city, String state, String note, String tag) {
         retryClick(findElement(commentField));
         findElement(commentField).sendKeys(comment);
         findElement(nameField).sendKeys(name);

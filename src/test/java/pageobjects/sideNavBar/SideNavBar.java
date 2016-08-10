@@ -3,8 +3,8 @@ package pageobjects.sideNavBar;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import pageobjects.AbstractPageObject;
-import pageobjects.dashboard.Dashboard;
-import pageobjects.watchlist.Watchlist;
+import pageobjects.dashboardPage.Dashboard;
+import pageobjects.watchlist.WatchlistPage;
 import pageobjects.activityPage.ActivityPage;
 
 /**
@@ -29,12 +29,12 @@ public class SideNavBar extends AbstractPageObject{
         return new Dashboard(getDriver());
     }
 
-    public Watchlist selectWatchListFromSideNav() {
+    public WatchlistPage selectWatchListFromSideNav() {
         pause(2000L);
         waitForElementToAppear(watchlistSideNav);
         findElement(watchlistSideNav).click();
 
-        return new Watchlist(getDriver());
+        return new WatchlistPage(getDriver());
     }
 
     public ActivityPage selectActivityPageFromSideNav() {

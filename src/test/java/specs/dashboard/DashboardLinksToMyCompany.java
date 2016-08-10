@@ -4,7 +4,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import pageobjects.companyPage.CompanyPage;
-import pageobjects.dashboard.Dashboard;
+import pageobjects.dashboardPage.Dashboard;
 import pageobjects.loginPage.LoginPage;
 import specs.AbstractSpec;
 

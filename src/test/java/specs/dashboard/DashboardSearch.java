@@ -6,7 +6,7 @@ import org.junit.Test;
 import org.openqa.selenium.By;
 import pageobjects.companyPage.CompanyPage;
 import pageobjects.contactPage.ContactPage;
-import pageobjects.dashboard.Dashboard;
+import pageobjects.dashboardPage.Dashboard;
 import pageobjects.fundPage.FundPage;
 import pageobjects.institutionPage.InstitutionPage;
 import pageobjects.loginPage.LoginPage;

@@ -2,7 +2,7 @@ package testrunner;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
-import specs.dashboard.LogActivityDashboard;
+import specs.dashboard.DashboardLogActivity;
 import specs.dashboard.DashboardLinksToMyCompany;
 import specs.dashboard.DashboardSearch;
 import specs.loginPage.ForgotPassword;
@@ -16,7 +16,7 @@ import specs.sideNavBar.TabNavigationExpanded;
         TabNavigationExpanded.class,
         ForgotPassword.class,
         DashboardLinksToMyCompany.class,
-        LogActivityDashboard.class
+        DashboardLogActivity.class
 })
 
 public class NightRun {

@@ -5,7 +5,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import pageobjects.activityPage.ActivityPage;
-import pageobjects.dashboard.Dashboard;
+import pageobjects.dashboardPage.Dashboard;
 import pageobjects.loginPage.LoginPage;
 import specs.AbstractSpec;
 
@@ -14,7 +14,7 @@ import static org.hamcrest.CoreMatchers.containsString;
 /**
  * Created by patrickp on 2016-08-04.
  */
-public class LogActivityDashboard extends AbstractSpec {
+public class DashboardLogActivity extends AbstractSpec {
 
     @Before
     public void setUp() {
