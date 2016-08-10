@@ -27,6 +27,7 @@ public class BuildReportModal extends AbstractPageObject {
 
     public Dashboard dismissBuildReportModal() {
         wait.until(ExpectedConditions.elementToBeClickable(closeReportIcon));
+        findElement(closeReportIcon).click();
 
         return new Dashboard(getDriver());
     }
