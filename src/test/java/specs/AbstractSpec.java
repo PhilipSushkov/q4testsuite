@@ -101,10 +101,10 @@ public abstract class AbstractSpec {
     @After
     public void teardownWebDriver() {
 
-        //if (getActiveEnvironment() != EnvironmentType.DEVELOP) {
+        if (getActiveEnvironment() != EnvironmentType.DEVELOP) {
             driver.quit();
         }
-    //}
+    }
 
     public static EnvironmentType getActiveEnvironment() {
         return activeEnvironment;
