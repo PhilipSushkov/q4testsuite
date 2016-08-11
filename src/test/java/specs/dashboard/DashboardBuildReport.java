@@ -21,9 +21,7 @@ public class DashboardBuildReport extends AbstractSpec {
 
     @Test
     public void canCancelBuildReport() {
-        Dashboard dashboard = new Dashboard(driver);
-
-        dashboard.selectBuildReport()
+        new Dashboard(driver).selectBuildReport()
                 .cancelBuildReportModal();
 
         Assert.assertEquals(0, driver.findElements(By.cssSelector(".report-create .cancel-button")).size());
@@ -31,9 +29,7 @@ public class DashboardBuildReport extends AbstractSpec {
 
     @Test
     public void canDismissBuildReportModal() {
-        Dashboard dashboard = new Dashboard(driver);
-
-        dashboard.selectBuildReport()
+        new Dashboard(driver).selectBuildReport()
                 .dismissBuildReportModal();
 
         Assert.assertEquals(0, driver.findElements(By.cssSelector(".report-create .cancel-button")).size());

@@ -30,9 +30,8 @@ public class DashboardLogActivity extends AbstractSpec {
 
         ActivityPage activityPage = new ActivityPage(driver);
         new Dashboard(driver).logNote()
-                .enterNoteDetails(comment, note, tag);
-
-        new Dashboard(driver).accessSideNav()
+                .enterNoteDetails(comment, note, tag)
+                .accessSideNav()
                 .selectActivityPageFromSideNav();
 
         Assert.assertThat(activityPage.getNewNote(), containsString(comment));
@@ -51,9 +50,8 @@ public class DashboardLogActivity extends AbstractSpec {
 
         ActivityPage activityPage = new ActivityPage(driver);
         new Dashboard(driver).logPhoneNote()
-                .enterPhoneNoteDetails(comment, phone, name, city, note, tag);
-
-        new Dashboard(driver).accessSideNav()
+                .enterPhoneNoteDetails(comment, phone, name, city, note, tag)
+                .accessSideNav()
                 .selectActivityPageFromSideNav();
 
         Assert.assertThat(activityPage.getNewNote(), containsString(comment));
@@ -70,9 +68,8 @@ public class DashboardLogActivity extends AbstractSpec {
 
         ActivityPage activityPage = new ActivityPage(driver);
         new Dashboard(driver).logEmailNote()
-                .enterEmailNoteDetails(comment, email, note, tag);
-
-        new Dashboard(driver).accessSideNav()
+                .enterEmailNoteDetails(comment, email, note, tag)
+                .accessSideNav()
                 .selectActivityPageFromSideNav();
 
         Assert.assertThat(activityPage.getNewNote(), containsString(comment));
@@ -91,9 +88,8 @@ public class DashboardLogActivity extends AbstractSpec {
 
         ActivityPage activityPage = new ActivityPage(driver);
         new Dashboard(driver).logMeetingNote()
-                .enterMeetingDetails(comment, name, city, state, note, tag);
-
-        new Dashboard(driver).accessSideNav()
+                .enterMeetingDetails(comment, name, city, state, note, tag)
+                .accessSideNav()
                 .selectActivityPageFromSideNav();
 
         Assert.assertThat(activityPage.getNewNote(), containsString(comment));

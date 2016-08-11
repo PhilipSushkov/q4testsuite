@@ -24,8 +24,7 @@ public class DashboardSearch extends AbstractSpec{
     @Test
     public void canSearchForCompany() {
         String companyName = "Tesla Motors, Inc.";
-        CompanyPage finish = new CompanyPage(driver);
-        new Dashboard(driver).searchForCompany(companyName)
+        CompanyPage finish = new CompanyPage(driver).searchForCompany(companyName)
                 .selectCompanyFromSearch();
 
         Assert.assertEquals(companyName, finish.getCompanyName());
@@ -34,8 +33,7 @@ public class DashboardSearch extends AbstractSpec{
     @Test
     public void cantSearchForUnknownCompany() {
         String companyName = "12345qwerty";
-        Dashboard start = new Dashboard(driver);
-        start.searchForCompany(companyName);
+        new Dashboard(driver).searchForCompany(companyName);
 
         Assert.assertEquals(0, driver.findElements(By.className("company-name")).size());
     }
@@ -44,8 +42,7 @@ public class DashboardSearch extends AbstractSpec{
     public void specialCharactersShouldntBreakSearch() {
         String crazyCharacters = "!!!$$$%%%";
         String companyName = "Tesla Motors, Inc.";
-        CompanyPage finish = new CompanyPage(driver);
-        new Dashboard(driver).searchForCompany(crazyCharacters)
+        CompanyPage finish = new CompanyPage(driver).searchForCompany(crazyCharacters)
                 .clearSearchField()
                 .searchForCompany(companyName)
                 .selectCompanyFromSearch();
