@@ -8,6 +8,7 @@ import org.openqa.selenium.By;
 import pageobjects.activityPage.ActivityPage;
 import pageobjects.dashboardPage.Dashboard;
 import pageobjects.loginPage.LoginPage;
+import pageobjects.noteDetailsPage.NoteDetailsPage;
 import specs.AbstractSpec;
 
 import static org.hamcrest.CoreMatchers.containsString;
@@ -103,5 +104,89 @@ public class DashboardLogActivity extends AbstractSpec {
                 .cancelNote();
 
         Assert.assertEquals(0, driver.findElements(By.cssSelector(".new-note .cancel-btn")).size());
+    }
+
+    @Test
+    public void canLinkNoteToInstitution() {
+        String comment = "This is a test comment" + RandomStringUtils.randomAlphanumeric(6);
+        String note = "This is a test note" + RandomStringUtils.randomAlphanumeric(6);
+        String tag = "TestTag" + RandomStringUtils.randomAlphanumeric(6);
+        String institution = "Norfund";
+
+        NoteDetailsPage noteDetailsPage = new NoteDetailsPage(driver);
+
+        new Dashboard(driver).logNote()
+                .linkNoteToInstitution(institution)
+                .enterNoteDetails(comment, note, tag)
+                .accessSideNav()
+                .selectActivityPageFromSideNav()
+                .selectFirstNoteInList();
+
+        Assert.assertThat(noteDetailsPage.getNoteBody(), containsString(note));
+        Assert.assertThat(noteDetailsPage.getCommentText(), containsString(comment));
+        Assert.assertThat(noteDetailsPage.getLinkedToText(), containsString(institution));
+    }
+
+    @Test
+    public void canLinkNoteToFund() {
+        String comment = "This is a test comment" + RandomStringUtils.randomAlphanumeric(6);
+        String note = "This is a test note" + RandomStringUtils.randomAlphanumeric(6);
+        String tag = "TestTag" + RandomStringUtils.randomAlphanumeric(6);
+        String fund = "Fundy";
+
+        NoteDetailsPage noteDetailsPage = new NoteDetailsPage(driver);
+
+        new Dashboard(driver).logNote()
+                .linkNoteToFund(fund)
+                .enterNoteDetails(comment, note, tag)
+                .accessSideNav()
+                .selectActivityPageFromSideNav()
+                .selectFirstNoteInList();
+
+        Assert.assertThat(noteDetailsPage.getNoteBody(), containsString(note));
+        Assert.assertThat(noteDetailsPage.getCommentText(), containsString(comment));
+        Assert.assertThat(noteDetailsPage.getLinkedToText(), containsString(fund));
+    }
+
+    @Test
+    public void canLinkNoteToContact() {
+        String comment = "This is a test comment" + RandomStringUtils.randomAlphanumeric(6);
+        String note = "This is a test note" + RandomStringUtils.randomAlphanumeric(6);
+        String tag = "TestTag" + RandomStringUtils.randomAlphanumeric(6);
+        String contact = "Joe Galligan";
+
+        NoteDetailsPage noteDetailsPage = new NoteDetailsPage(driver);
+
+        new Dashboard(driver).logNote()
+                .linkNoteToContact(contact)
+                .enterNoteDetails(comment, note, tag)
+                .accessSideNav()
+                .selectActivityPageFromSideNav()
+                .selectFirstNoteInList();
+
+        Assert.assertThat(noteDetailsPage.getNoteBody(), containsString(note));
+        Assert.assertThat(noteDetailsPage.getCommentText(), containsString(comment));
+        Assert.assertThat(noteDetailsPage.getLinkedToText(), containsString(contact));
+    }
+
+    @Test
+    public void canLinkNoteToCompany() {
+        String comment = "This is a test comment" + RandomStringUtils.randomAlphanumeric(6);
+        String note = "This is a test note" + RandomStringUtils.randomAlphanumeric(6);
+        String tag = "TestTag" + RandomStringUtils.randomAlphanumeric(6);
+        String company = "LinkedIn";
+
+        NoteDetailsPage noteDetailsPage = new NoteDetailsPage(driver);
+
+        new Dashboard(driver).logNote()
+                .linkNoteToCompany(company)
+                .enterNoteDetails(comment, note, tag)
+                .accessSideNav()
+                .selectActivityPageFromSideNav()
+                .selectFirstNoteInList();
+
+        Assert.assertThat(noteDetailsPage.getNoteBody(), containsString(note));
+        Assert.assertThat(noteDetailsPage.getCommentText(), containsString(comment));
+        Assert.assertThat(noteDetailsPage.getLinkedToText(), containsString(company));
     }
 }

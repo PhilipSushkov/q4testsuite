@@ -22,6 +22,12 @@ public class LogActivityModal extends AbstractPageObject {
     private final By emailField = By.name("email");
     private final By stateField = By.name("person_state");
     private final By cancelNoteButton = By.cssSelector(".new-note .cancel-btn");
+    private final By linkDropdown = By.cssSelector(".link-field");
+    private final By keywordField = By.cssSelector(".link-field .search-field.x-field .x-form-field");
+    private final By institutionSearchResult = By.cssSelector(".link-field-result .result-item");
+    private final By fundIcon = By.id("ext-radiofield-2");
+    private final By contactIcon = By.id("ext-radiofield-3");
+    private final By companyIcon = By.id("ext-radiofield-4");
 
     public LogActivityModal(WebDriver driver) {
         super(driver);
@@ -94,4 +100,48 @@ public class LogActivityModal extends AbstractPageObject {
 
         return new Dashboard(getDriver());
     }
+
+    public LogActivityModal linkNoteToInstitution(String institution) {
+        findElement(linkDropdown).click();
+        findElement(keywordField).sendKeys(institution);
+        findElement(institutionSearchResult).click();
+        findElement(linkDropdown).click();
+
+        return this;
+    }
+
+    public LogActivityModal linkNoteToFund(String fund) {
+        findElement(linkDropdown).click();
+        wait.until(ExpectedConditions.elementToBeClickable(fundIcon));
+        findElement(fundIcon).click();
+        findElement(keywordField).sendKeys(fund);
+        findElement(institutionSearchResult).click();
+        findElement(linkDropdown).click();
+
+        return this;
+    }
+
+    public LogActivityModal linkNoteToContact(String contact) {
+        findElement(linkDropdown).click();
+        wait.until(ExpectedConditions.elementToBeClickable(contactIcon));
+        findElement(contactIcon).click();
+        findElement(keywordField).sendKeys(contact);
+        pause(1000L);
+        findElement(institutionSearchResult).click();
+        findElement(linkDropdown).click();
+
+        return this;
+    }
+
+    public LogActivityModal linkNoteToCompany(String company) {
+        findElement(linkDropdown).click();
+        wait.until(ExpectedConditions.elementToBeClickable(companyIcon));
+        findElement(companyIcon).click();
+        findElement(keywordField).sendKeys(company);
+        pause(1000L);
+        findElement(institutionSearchResult).click();
+        findElement(linkDropdown).click();
+
+        return this;
+}
 }
