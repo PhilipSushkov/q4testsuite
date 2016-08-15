@@ -17,8 +17,8 @@ public class Dashboard extends AbstractPageObject {
     private final By searchField = By.name("search");
     private final By firstCompanyInList = By.cssSelector("span:nth-child(1)");
     private final By clearSearchButton = By.cssSelector(".home-search .x-field-input .x-clear-icon");
-    private final By institutionResult = By.id("ext-simplelistitem-16");
-    private final By contactResult = By.id("ext-simplelistitem-6");
+    private final By institutionResult = By.id("ext-simplelistitem-6");
+    private final By contactResult = By.id("ext-simplelistitem-11");
     private final By fundResult = By.id("ext-simplelistitem-3");
 
     // Dashboard background (to get out of focused search)
