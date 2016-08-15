@@ -12,7 +12,7 @@ import pageobjects.noteDetailsPage.NoteDetailsPage;
  */
 public class ActivityPage extends Page {
 
-    private final By pageTitle = By.cssSelector(".note-manager-header .page-title");
+    private final By pageTitle = By.cssSelector(".page-header");
     private final By notesSection = By.id("ext-note-list-1");
     private final By loadMoreButton = By.cssSelector(".load-more .x-button-icon");
     private final By firstNoteInList = By.cssSelector(".note-manager-list .note-header");

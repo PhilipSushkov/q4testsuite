@@ -9,7 +9,7 @@ import pageobjects.AbstractPageObject;
  */
 public class WatchlistPage extends AbstractPageObject{
 
-    private final By pageTitle = By.cssSelector(".watchlist-header .page-title");
+    private final By pageTitle = By.cssSelector(".page-header");
 
     public WatchlistPage(WebDriver driver) {
         super(driver);

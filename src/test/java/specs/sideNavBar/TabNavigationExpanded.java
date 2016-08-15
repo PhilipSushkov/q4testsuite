@@ -9,6 +9,8 @@ import pageobjects.watchlist.WatchlistPage;
 import pageobjects.activityPage.ActivityPage;
 import specs.AbstractSpec;
 
+import static org.hamcrest.CoreMatchers.containsString;
+
 /**
  * Created by patrickp on 2016-08-04.
  */
@@ -38,7 +40,7 @@ public class TabNavigationExpanded extends AbstractSpec {
         new Dashboard(driver).accessSideNav()
                 .selectWatchListFromSideNav();
 
-        Assert.assertEquals(pageTitle, finish.getWatchlistPageTitle());
+        Assert.assertThat(finish.getWatchlistPageTitle(), containsString(pageTitle));
     }
 
 
@@ -50,6 +52,7 @@ public class TabNavigationExpanded extends AbstractSpec {
                 .selectActivityPageFromSideNav();
 
         Assert.assertEquals(pageTitle, finish.getActivityPageTitle());
+        System.out.println(finish.getActivityPageTitle());
     }
 
 }
