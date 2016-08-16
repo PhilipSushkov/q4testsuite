@@ -7,10 +7,10 @@ import pageobjects.dashboardPage.Dashboard;
 /**
  * Created by patrickp on 2016-08-04.
  */
-public class CompanyPage extends Dashboard {
+public class CompanyOverviewPage extends Dashboard {
     private final By companyName = By.className("company-name");
 
-    public CompanyPage(WebDriver driver) {
+    public CompanyOverviewPage(WebDriver driver) {
         super(driver);
     }
 

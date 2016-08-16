@@ -3,7 +3,7 @@ package specs.dashboard;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import pageobjects.companyPage.CompanyPage;
+import pageobjects.companyPage.CompanyOverviewPage;
 import pageobjects.dashboardPage.Dashboard;
 import pageobjects.loginPage.LoginPage;
 import specs.AbstractSpec;
@@ -21,7 +21,7 @@ public class DashboardLinksToMyCompany extends AbstractSpec {
     @Test
     public void canNavigateToMyCompanyBigSharePrice() {
         String companyName = "LinkedIn Corp.";
-        CompanyPage finish = new CompanyPage(driver);
+        CompanyOverviewPage finish = new CompanyOverviewPage(driver);
         new Dashboard(driver).clickBigSharePrice();
 
         Assert.assertEquals(companyName, finish.getCompanyName());
@@ -30,7 +30,7 @@ public class DashboardLinksToMyCompany extends AbstractSpec {
     @Test
     public void canNavigateToMyCompanySmallSharePrice() {
         String companyName = "LinkedIn Corp.";
-        CompanyPage finish = new CompanyPage(driver);
+        CompanyOverviewPage finish = new CompanyOverviewPage(driver);
         new Dashboard(driver).clickSmallSharePrice();
 
         Assert.assertEquals(companyName, finish.getCompanyName());
