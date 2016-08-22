@@ -27,7 +27,7 @@ public class ActivityPage extends Page {
     }
 
     public String getNewNote() {
-        // Waits for the load more button to appear at the bottom of the page
+        // Waits for the load more button to appear at the bottom of the page.
         waitForElementToAppear(loadMoreButton);
         return findElement(notesSection).getText();
     }

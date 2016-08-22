@@ -23,7 +23,7 @@ public class LoginPage extends Page {
     private final By forgotPasswordLink = By.cssSelector(".login .x-button.forgot-pass-button");
     private final By forgotPasswordModalTitle = By.cssSelector(".forgot-password-form h1");
     private final By cancelForgotPassword = By.cssSelector(".forgot-password-form .forgot-password-cancel .x-button-label, .forgot-password-form .forgot-password-submit .x-button-label");
-    private final By forgotPasswordEmailField = By.id("ext-element-75");
+    private final By forgotPasswordEmailField = By.id("ext-element-73");
     private final By submitForgottenEmail = By.cssSelector(".forgot-password-form .forgot-password-submit .x-button-label");
 
     // Invalid email modal (triggered by entering invalid email on password reset)
