@@ -5,8 +5,6 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageobjects.AbstractPageObject;
-import pageobjects.Page;
-import pageobjects.dashboardPage.Dashboard;
 import pageobjects.logActivity.LogActivityModal;
 import pageobjects.noteDetailsPage.NoteDetailsPage;
 
@@ -65,6 +63,10 @@ public class ActivityPage extends AbstractPageObject {
 
     public String getNoNote() {
         return findElement(emptyResults).getText();
+    }
+
+    public String getSearchResults() {
+        return findElement(notesSection).getText();
     }
 }
 

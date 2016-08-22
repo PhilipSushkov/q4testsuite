@@ -41,7 +41,7 @@ public class SearchForActivity extends AbstractSpec {
 
         activityPage.searchForNote(comment2);
 
-        Assert.assertThat(activityPage.getNewNote(), containsString(comment2));
+        Assert.assertThat(activityPage.getSearchResults(), containsString(comment2));
     }
 
     @Test
