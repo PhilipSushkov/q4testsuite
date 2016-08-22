@@ -15,7 +15,7 @@ public class LogActivityModal extends AbstractPageObject {
     private final By commentField = By.name("title");
     private final By typeNoteField = By.name("body");
     private final By tagField = By.name("tag");
-    private final By postButton = By.id("ext-button-22");
+    private final By postButton = By.cssSelector(".new-note .post-btn");
     private final By phoneNumberField = By.name("person_phone");
     private final By nameField = By.name("person_name");
     private final By cityField = By.name("person_city");
@@ -143,5 +143,5 @@ public class LogActivityModal extends AbstractPageObject {
         findElement(linkDropdown).click();
 
         return this;
-}
+    }
 }
