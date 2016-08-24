@@ -28,7 +28,8 @@ public class EditWatchlist extends AbstractSpec {
     @Test
     public void canAddCompanyToWatchlist() {
         String security = "Apple, Inc.";
-        WatchlistPage watchlist = new WatchlistPage(driver).addSecurityToWatchlist(security);
+        WatchlistPage watchlist = new WatchlistPage(driver).removeSecurityFromWatchlist()
+                .addSecurityToWatchlist(security);
 
         Assert.assertThat(watchlist.getWatchlistSecurities(), containsString(security));
     }

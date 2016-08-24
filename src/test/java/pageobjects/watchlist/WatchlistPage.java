@@ -50,6 +50,7 @@ public class WatchlistPage extends AbstractPageObject{
     }
 
     public WatchlistPage removeSecurityFromWatchlist() {
+        // Removes first company from watchlist
         wait.until(ExpectedConditions.elementToBeClickable(editWatchlistButton));
         findElement(editWatchlistButton).click();
         pause(1000L);
