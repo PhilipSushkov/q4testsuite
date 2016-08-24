@@ -7,7 +7,6 @@ machine:
 # otherwise only runs compile on a git push
 
 test:
-  parallel: true
   override:
     - ? |
         if [ -n "${TEST_ENV}" ]; then
