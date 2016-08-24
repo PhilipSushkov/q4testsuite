@@ -16,7 +16,7 @@ public class UserLogin extends AbstractSpec {
         String errorMessage = "Wrong username and password combination.\n" +
                 "OK";
         LoginPage start = new LoginPage(driver);
-        start.loginUser("imnotauser@mail.com", "notapassword");
+        start.customLoginUser("imnotauser@mail.com", "notapassword");
 
         Assert.assertEquals(errorMessage, start.getErrorMessage());
     }
@@ -26,7 +26,7 @@ public class UserLogin extends AbstractSpec {
         String errorMessage = "Please enter username and password\n" +
                 "OK";
         LoginPage start = new LoginPage(driver);
-        start.loginUser("email", "password");
+        start.customLoginUser("email", "password");
 
         Assert.assertEquals(errorMessage, start.getErrorMessage());
     }
@@ -36,7 +36,7 @@ public class UserLogin extends AbstractSpec {
         String errorMessage = "Wrong username and password combination.\n" +
                 "OK";
         LoginPage start = new LoginPage(driver);
-        start.loginUser("patrickp@q4inc.com", "nottherightpassword");
+        start.customLoginUser("patrickp@q4inc.com", "nottherightpassword");
 
         Assert.assertEquals(errorMessage, start.getErrorMessage());
     }
@@ -46,7 +46,7 @@ public class UserLogin extends AbstractSpec {
         String errorMessage = "Please enter username and password\n" +
                 "OK";
         LoginPage start = new LoginPage(driver);
-        start.loginUser("","");
+        start.customLoginUser("","");
 
         Assert.assertEquals(errorMessage, start.getErrorMessage());
     }
@@ -58,12 +58,12 @@ public class UserLogin extends AbstractSpec {
         String searchFieldText = "What are you looking for?";
         LoginPage start = new LoginPage(driver);
         Dashboard finish = new Dashboard(driver);
-        start.loginUser("1234@qwer.com", "1235");
+        start.customLoginUser("1234@qwer.com", "1235");
 
         Assert.assertEquals(errorMessage, start.getErrorMessage());
 
         start.dismissErrorModal()
-                .loginUser("patrickp@q4inc.com", "patrick!");
+                .customLoginUser("patrickp@q4inc.com", "patrick!");
 
         Assert.assertEquals(searchFieldText, finish.getSearchFieldText());
     }

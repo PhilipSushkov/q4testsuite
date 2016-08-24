@@ -17,7 +17,7 @@ public class LogActivityFromActivityPage extends AbstractSpec {
 
     @Before
     public void setUp() {
-        new LoginPage(driver).loginUser("patrickp@q4inc.com", "patrick!")
+        new LoginPage(driver).loginUser()
                 .accessSideNav()
                 .selectActivityPageFromSideNav();
     }

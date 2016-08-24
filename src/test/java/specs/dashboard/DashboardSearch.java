@@ -18,7 +18,7 @@ public class DashboardSearch extends AbstractSpec{
 
     @Before
     public void logInUserBeforeEachTest() {
-        new LoginPage(driver).loginUser("patrickp@q4inc.com", "patrick!");
+        new LoginPage(driver).loginUser();
     }
 
     @Test

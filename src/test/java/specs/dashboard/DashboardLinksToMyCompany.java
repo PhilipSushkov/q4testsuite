@@ -15,7 +15,7 @@ public class DashboardLinksToMyCompany extends AbstractSpec {
 
     @Before
     public void logInUser() {
-        new LoginPage(driver).loginUser("patrickp@q4inc.com", "patrick!");
+        new LoginPage(driver).loginUser();
     }
 
     @Test

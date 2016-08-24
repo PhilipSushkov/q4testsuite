@@ -37,7 +37,20 @@ public class LoginPage extends Page {
         super(driver);
     }
 
-    public Dashboard loginUser(String email, String password) {
+    public Dashboard loginUser() {
+        waitForElementToAppear(emailField);
+        findElement(emailField).clear();
+        findElement(passwordField).clear();
+        findElement(emailField).sendKeys("patrickp@q4inc.com");
+        findElement(passwordField).sendKeys("patrick!");
+        pause(2000L);
+        waitForElementToAppear(loginButton);
+        retryClick(loginButton);
+
+        return new Dashboard(getDriver());
+    }
+
+    public Dashboard customLoginUser(String email, String password) {
         waitForElementToAppear(emailField);
         findElement(emailField).clear();
         findElement(passwordField).clear();
