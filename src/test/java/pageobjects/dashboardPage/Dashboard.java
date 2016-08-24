@@ -4,7 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageobjects.AbstractPageObject;
-import pageobjects.companyPage.CompanyOverviewPage;
+import pageobjects.securityPage.SecurityOverviewPage;
 import pageobjects.contactPage.ContactPage;
 import pageobjects.fundPage.FundPage;
 import pageobjects.institutionPage.InstitutionPage;
@@ -51,11 +51,11 @@ public class Dashboard extends AbstractPageObject {
         return this;
     }
 
-    public CompanyOverviewPage selectCompanyFromSearch() {
+    public SecurityOverviewPage selectCompanyFromSearch() {
         waitForElementToAppear(firstCompanyInList);
         findElement(firstCompanyInList).click();
 
-        return new CompanyOverviewPage(getDriver());
+        return new SecurityOverviewPage(getDriver());
     }
 
     public Dashboard clearSearchField() {
@@ -71,18 +71,18 @@ public class Dashboard extends AbstractPageObject {
         return findElement(searchField).getAttribute("placeholder");
     }
 
-    public CompanyOverviewPage clickBigSharePrice() {
+    public SecurityOverviewPage clickBigSharePrice() {
         wait.until(ExpectedConditions.elementToBeClickable(bigSharePrice));
         findElement(bigSharePrice).click();
 
-        return new CompanyOverviewPage(getDriver());
+        return new SecurityOverviewPage(getDriver());
     }
 
-    public CompanyOverviewPage clickSmallSharePrice() {
+    public SecurityOverviewPage clickSmallSharePrice() {
         wait.until(ExpectedConditions.elementToBeClickable(smallSharePrice));
         findElement(smallSharePrice).click();
 
-        return new CompanyOverviewPage(getDriver());
+        return new SecurityOverviewPage(getDriver());
     }
 
     public InstitutionPage selectInstitutionFromSearchResults() {

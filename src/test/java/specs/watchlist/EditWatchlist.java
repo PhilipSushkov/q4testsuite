@@ -3,7 +3,7 @@ package specs.watchlist;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import pageobjects.companyPage.CompanyOverviewPage;
+import pageobjects.securityPage.SecurityOverviewPage;
 import pageobjects.loginPage.LoginPage;
 import pageobjects.watchlist.WatchlistPage;
 import specs.AbstractSpec;
@@ -53,8 +53,8 @@ public class EditWatchlist extends AbstractSpec {
         String companyName = new WatchlistPage(driver).getFirstCompanyInList();
         System.out.println(new WatchlistPage(driver).getFirstCompanyInList());
 
-        CompanyOverviewPage companyOverviewPage = new CompanyOverviewPage(driver).clickOnFirstWatchlistCompany();
+        SecurityOverviewPage securityOverviewPage = new SecurityOverviewPage(driver).clickOnFirstWatchlistCompany();
 
-        Assert.assertThat(companyName, containsString(companyOverviewPage.getCompanyName()));
+        Assert.assertThat(companyName, containsString(securityOverviewPage.getCompanyName()));
     }
 }

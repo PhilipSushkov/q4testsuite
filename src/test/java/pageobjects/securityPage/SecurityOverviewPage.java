@@ -1,17 +1,16 @@
-package pageobjects.companyPage;
+package pageobjects.securityPage;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import pageobjects.dashboardPage.Dashboard;
 import pageobjects.watchlist.WatchlistPage;
 
 /**
  * Created by patrickp on 2016-08-04.
  */
-public class CompanyOverviewPage extends WatchlistPage {
+public class SecurityOverviewPage extends WatchlistPage {
     private final By companyName = By.className("company-name");
 
-    public CompanyOverviewPage(WebDriver driver) {
+    public SecurityOverviewPage(WebDriver driver) {
         super(driver);
     }
 

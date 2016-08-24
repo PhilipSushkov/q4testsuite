@@ -10,6 +10,7 @@ import pageobjects.Page;
 public class ContactPage extends Page {
 
     private final By contactName = By.className("full-name");
+    private final By pageTitle = By.cssSelector(".page-header");
 
     public ContactPage(WebDriver driver) {
         super(driver);
@@ -17,5 +18,9 @@ public class ContactPage extends Page {
 
     public String getContactName() {
         return findElement(contactName).getText();
+    }
+
+    public String getContactsPageTitle() {
+        return findElement(pageTitle).getText();
     }
 }

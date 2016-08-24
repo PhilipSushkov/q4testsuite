@@ -4,7 +4,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
-import pageobjects.companyPage.CompanyOverviewPage;
+import pageobjects.securityPage.SecurityOverviewPage;
 import pageobjects.contactPage.ContactPage;
 import pageobjects.dashboardPage.Dashboard;
 import pageobjects.fundPage.FundPage;
@@ -24,7 +24,7 @@ public class DashboardSearch extends AbstractSpec{
     @Test
     public void canSearchForCompany() {
         String companyName = "Tesla Motors, Inc.";
-        CompanyOverviewPage finish = new CompanyOverviewPage(driver);
+        SecurityOverviewPage finish = new SecurityOverviewPage(driver);
         new Dashboard(driver).searchForCompany(companyName)
                 .selectCompanyFromSearch();
 
@@ -43,7 +43,7 @@ public class DashboardSearch extends AbstractSpec{
     public void specialCharactersShouldntBreakSearch() {
         String crazyCharacters = "!!!$$$%%%";
         String companyName = "Tesla Motors, Inc.";
-        CompanyOverviewPage finish = new CompanyOverviewPage(driver);
+        SecurityOverviewPage finish = new SecurityOverviewPage(driver);
         new Dashboard(driver).searchForCompany(crazyCharacters)
                 .clearSearchField()
                 .searchForCompany(companyName)

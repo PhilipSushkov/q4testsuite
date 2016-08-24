@@ -4,7 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageobjects.AbstractPageObject;
-import pageobjects.companyPage.CompanyOverviewPage;
+import pageobjects.securityPage.SecurityOverviewPage;
 
 /**
  * Created by patrickp on 2016-08-05.
@@ -70,9 +70,9 @@ public class WatchlistPage extends AbstractPageObject{
         return findElement(firstCompanyInList).getText();
     }
 
-    public CompanyOverviewPage clickOnFirstWatchlistCompany() {
+    public SecurityOverviewPage clickOnFirstWatchlistCompany() {
         findElement(firstCompanyInList).click();
 
-        return new CompanyOverviewPage(getDriver());
+        return new SecurityOverviewPage(getDriver());
     }
 }
