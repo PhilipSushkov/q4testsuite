@@ -11,9 +11,6 @@ test:
     - ? |
         if [ -n "${TEST_ENV}" ]; then
           mvn -Dsurefire.rerunFailingTestsCount=2 test -fae -D q4inc.specs=${TEST_ENV} -Dtest=${SUITE_NAME}
-          parallel: true
-                  files:
-                   - specs/**/*.java
         else
           mvn compile
         fi
