@@ -11,6 +11,9 @@ test:
     - ? |
         if [ -n "${TEST_ENV}" ]; then
           mvn -Dsurefire.rerunFailingTestsCount=2 test -fae -D q4inc.specs=${TEST_ENV} -Dtest=${SUITE_NAME}
+          parallel: true
+                  files:
+                   - specs/**/*.java
         else
           mvn compile
         fi
@@ -18,9 +21,6 @@ test:
   post:
     - mkdir -p $CIRCLE_TEST_REPORTS/junit/
     - find . -type f -regex ".*/target/surefire-reports/.*xml" -exec cp {} $CIRCLE_TEST_REPORTS/junit/ \;
-      parallel: true
-      files:
-        - specs/**/*.java
 experimental:
   notify:
     branches:
