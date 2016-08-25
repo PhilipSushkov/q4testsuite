@@ -5,7 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import pageobjects.securityPage.SecurityOverviewPage;
-import pageobjects.contactPage.ContactPage;
+import pageobjects.contactPage.ContactDetailsPage;
 import pageobjects.dashboardPage.Dashboard;
 import pageobjects.fundPage.FundPage;
 import pageobjects.institutionPage.InstitutionPage;
@@ -65,7 +65,7 @@ public class DashboardSearch extends AbstractSpec{
     @Test
     public void canSearchForContact() {
         String contactName = "Mr. Christoph Christen";
-        ContactPage finish = new ContactPage(driver);
+        ContactDetailsPage finish = new ContactDetailsPage(driver);
         new Dashboard(driver).searchForCompany(contactName)
                 .selectContactFromSearchResults();
 

@@ -5,7 +5,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageobjects.AbstractPageObject;
 import pageobjects.securityPage.SecurityOverviewPage;
-import pageobjects.contactPage.ContactPage;
+import pageobjects.contactPage.ContactDetailsPage;
 import pageobjects.fundPage.FundPage;
 import pageobjects.institutionPage.InstitutionPage;
 import pageobjects.logActivity.LogActivityModal;
@@ -92,11 +92,11 @@ public class Dashboard extends AbstractPageObject {
         return new InstitutionPage(getDriver());
     }
 
-    public ContactPage selectContactFromSearchResults() {
+    public ContactDetailsPage selectContactFromSearchResults() {
         wait.until(ExpectedConditions.elementToBeClickable(contactResult));
         findElement(contactResult).click();
 
-        return new ContactPage(getDriver());
+        return new ContactDetailsPage(getDriver());
     }
 
     public FundPage selectFundFromSearchResults() {

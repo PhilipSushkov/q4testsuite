@@ -4,6 +4,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
+import pageobjects.activityPage.ActivityPage;
 import pageobjects.checklistPage.ChecklistPage;
 import pageobjects.contactPage.ContactPage;
 import pageobjects.dashboardPage.Dashboard;
@@ -16,7 +17,6 @@ import pageobjects.securityPage.SecurityOverviewPage;
 import pageobjects.securityPage.SecurityOwnershipPage;
 import pageobjects.supportTicketsPage.SupportTicketsPage;
 import pageobjects.watchlist.WatchlistPage;
-import pageobjects.activityPage.ActivityPage;
 import pageobjects.webAnalyticsPage.WebAnalyticsPage;
 import pageobjects.webcastAnalyticsPage.WebcastAnalyticsPage;
 import specs.AbstractSpec;
@@ -70,11 +70,11 @@ public class TabNavigationExpanded extends AbstractSpec {
     @Test
     public void canNavigateToContacts() {
         String pageTitle = "Contacts";
-        ContactPage contactPage = new ContactPage(driver);
+        ContactPage contactDetailsPage = new ContactPage(driver);
         new Dashboard(driver).accessSideNav()
                 .selectContactsFromSideNav();
 
-        Assert.assertThat(contactPage.getContactsPageTitle(), containsString(pageTitle));
+        Assert.assertThat(contactDetailsPage.getContactsPageTitle(), containsString(pageTitle));
     }
 
     @Test
