@@ -43,9 +43,10 @@ public class Dashboard extends AbstractPageObject {
         super(driver);
     }
 
-    public Dashboard searchForCompany(String companyName) {
+    public Dashboard searchFor(String companyName) {
         waitForElementToAppear(searchField);
         findElement(searchField).click();
+        findElement(searchField).clear();
         findElement(searchField).sendKeys(companyName);
 
         return this;

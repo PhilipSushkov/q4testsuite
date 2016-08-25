@@ -25,7 +25,7 @@ public class DashboardSearch extends AbstractSpec{
     public void canSearchForCompany() {
         String companyName = "Tesla Motors, Inc.";
         SecurityOverviewPage finish = new SecurityOverviewPage(driver);
-        new Dashboard(driver).searchForCompany(companyName)
+        new Dashboard(driver).searchFor(companyName)
                 .selectCompanyFromSearch();
 
         Assert.assertEquals(companyName, finish.getCompanyName());
@@ -34,7 +34,7 @@ public class DashboardSearch extends AbstractSpec{
     @Test
     public void cantSearchForUnknownCompany() {
         String companyName = "12345qwerty";
-        new Dashboard(driver).searchForCompany(companyName);
+        new Dashboard(driver).searchFor(companyName);
 
         Assert.assertEquals(0, driver.findElements(By.className("company-name")).size());
     }
@@ -44,9 +44,9 @@ public class DashboardSearch extends AbstractSpec{
         String crazyCharacters = "!!!$$$%%%";
         String companyName = "Tesla Motors, Inc.";
         SecurityOverviewPage finish = new SecurityOverviewPage(driver);
-        new Dashboard(driver).searchForCompany(crazyCharacters)
+        new Dashboard(driver).searchFor(crazyCharacters)
                 .clearSearchField()
-                .searchForCompany(companyName)
+                .searchFor(companyName)
                 .selectCompanyFromSearch();
 
         Assert.assertEquals(companyName, finish.getCompanyName());
@@ -56,7 +56,7 @@ public class DashboardSearch extends AbstractSpec{
     public void canSearchForInstitution() {
         String institutionName = "JPMorgan Investment Management, Inc.";
         InstitutionPage finish = new InstitutionPage(driver);
-        new Dashboard(driver).searchForCompany(institutionName)
+        new Dashboard(driver).searchFor(institutionName)
                 .selectInstitutionFromSearchResults();
 
         Assert.assertThat(finish.getInstitutionName(), containsString(institutionName));
@@ -66,7 +66,7 @@ public class DashboardSearch extends AbstractSpec{
     public void canSearchForContact() {
         String contactName = "Mr. Christoph Christen";
         ContactDetailsPage finish = new ContactDetailsPage(driver);
-        new Dashboard(driver).searchForCompany(contactName)
+        new Dashboard(driver).searchFor(contactName)
                 .selectContactFromSearchResults();
 
         Assert.assertEquals(contactName, finish.getContactName());
@@ -78,7 +78,7 @@ public class DashboardSearch extends AbstractSpec{
         String pageTitle = "Fundy\n" +
                 "Open-End Fund";
         FundPage finish = new FundPage(driver);
-        new Dashboard(driver).searchForCompany(fundName)
+        new Dashboard(driver).searchFor(fundName)
                 .selectFundFromSearchResults();
 
         Assert.assertEquals(pageTitle, finish.getFundName());

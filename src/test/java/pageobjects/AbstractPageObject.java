@@ -6,7 +6,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import pageobjects.logActivity.LogActivityModal;
 import pageobjects.sideNavBar.SideNavBar;
 
 public class AbstractPageObject implements PageObject {
@@ -24,6 +23,7 @@ public class AbstractPageObject implements PageObject {
 
     // Side hamburger menu icon
     private final By sideNavIcon = By.cssSelector(".page-home .menu-btn");
+    private final By hamburgerIcon = By.cssSelector(".navigation-toggler .x-button-icon");
 
     public AbstractPageObject(WebDriver driver) {
         this.driver = driver;
@@ -56,6 +56,11 @@ public class AbstractPageObject implements PageObject {
         wait.until(ExpectedConditions.elementToBeClickable(sideNavIcon));
         findElement(sideNavIcon).click();
 
+        return new SideNavBar(getDriver());
+    }
+
+    public SideNavBar accessSideNavFromPage() {
+        findElement(hamburgerIcon).click();
         return new SideNavBar(getDriver());
     }
 }

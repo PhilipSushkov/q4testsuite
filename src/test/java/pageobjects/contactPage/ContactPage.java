@@ -10,6 +10,7 @@ import pageobjects.AbstractPageObject;
 public class ContactPage extends AbstractPageObject {
 
     private final By pageTitle = By.cssSelector(".page-header");
+    private final By contactList = By.cssSelector(".contact-favorite-list");
 
     public ContactPage(WebDriver driver) {
         super(driver);
@@ -17,5 +18,10 @@ public class ContactPage extends AbstractPageObject {
 
     public String getContactsPageTitle() {
         return findElement(pageTitle).getText();
+    }
+
+    public String getContacts() {
+        pause(500L);
+        return findElement(contactList).getText();
     }
 }
