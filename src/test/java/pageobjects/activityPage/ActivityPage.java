@@ -17,7 +17,7 @@ public class ActivityPage extends AbstractPageObject {
     private final By notesSection = By.id("ext-note-list-1");
     private final By loadMoreButton = By.cssSelector(".load-more .x-button-icon");
     private final By firstNoteInList = By.cssSelector(".note-manager-list .note-header");
-    private final By newActivityIcon = By.cssSelector(".page-header .action-button + .action-button");
+    private final By newActivityIcon = By.cssSelector(".q4-hero-banner .action-button + .action-button");
     private final By activitySearchField = By.cssSelector(".toolbar-panel .search .x-field-input .x-input-el");
     private final By emptyResults = By.cssSelector(".note-manager-list .x-dataview-emptytext");
 
