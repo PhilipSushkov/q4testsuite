@@ -101,7 +101,7 @@ public abstract class AbstractSpec {
     @After
     public void teardownWebDriver() {
 
-        if (getActiveEnvironment() != EnvironmentType.BETA) {
+        if (getActiveEnvironment() != EnvironmentType.DEVELOP) {
             driver.quit();
         }
     }
