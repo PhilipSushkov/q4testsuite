@@ -4,11 +4,11 @@ package util;
 public enum EnvironmentType {
 
   DEVELOP("beta.q4desktop.com"),
-  BETA("beta.q4desktop.com"),
+  BETA("q4desktop-develop.s3-website-us-east-1.amazonaws.com/"),
   PRODUCTION("");
 
   private final String host;
-  private final String protocol = "https://";
+  private final String protocol = "http://";
 
   EnvironmentType(String host) {
     this.host = host;
