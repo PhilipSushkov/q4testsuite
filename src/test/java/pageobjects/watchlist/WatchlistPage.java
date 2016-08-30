@@ -11,7 +11,6 @@ import pageobjects.securityPage.SecurityOverviewPage;
  */
 public class WatchlistPage extends AbstractPageObject{
 
-    private final By pageTitle = By.cssSelector(".page-header");
     private final By editWatchlistButton = By.cssSelector(".toolbar-panel .toolbar-button");
     private final By securitySearchField = By.cssSelector(".toolbar-panel .search .x-field-input .x-input-el");
     private final By searchResult = By.cssSelector(".watchlist-search-results .x-list-item .icon.q4i-add-4pt");
@@ -23,11 +22,6 @@ public class WatchlistPage extends AbstractPageObject{
 
     public WatchlistPage(WebDriver driver) {
         super(driver);
-    }
-
-    public String getWatchlistPageTitle() {
-
-        return findElement(pageTitle).getText();
     }
 
     public WatchlistPage addSecurityToWatchlist(String security) {

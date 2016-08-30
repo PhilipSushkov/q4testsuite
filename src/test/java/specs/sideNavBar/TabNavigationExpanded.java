@@ -52,7 +52,7 @@ public class TabNavigationExpanded extends AbstractSpec {
         new Dashboard(driver).accessSideNav()
                 .selectWatchListFromSideNav();
 
-        Assert.assertThat(finish.getWatchlistPageTitle(), containsString(pageTitle));
+        Assert.assertThat(finish.getPageTitle(), containsString(pageTitle));
     }
 
 
@@ -63,8 +63,8 @@ public class TabNavigationExpanded extends AbstractSpec {
         new Dashboard(driver).accessSideNav()
                 .selectActivityPageFromSideNav();
 
-        Assert.assertEquals(pageTitle, finish.getActivityPageTitle());
-        System.out.println(finish.getActivityPageTitle());
+        Assert.assertEquals(pageTitle, finish.getPageTitle());
+        System.out.println(finish.getPageTitle());
     }
 
     @Test
@@ -74,7 +74,7 @@ public class TabNavigationExpanded extends AbstractSpec {
         new Dashboard(driver).accessSideNav()
                 .selectContactsFromSideNav();
 
-        Assert.assertThat(contactDetailsPage.getContactsPageTitle(), containsString(pageTitle));
+        Assert.assertThat(contactDetailsPage.getPageTitle(), containsString(pageTitle));
     }
 
     @Test
@@ -84,7 +84,7 @@ public class TabNavigationExpanded extends AbstractSpec {
         new Dashboard(driver).accessSideNav()
                 .selectEventsAndTranscriptsFromSideNav();
 
-        Assert.assertThat(eventsTranscriptsPage.getEventsPageTitle(), containsString(pageTitle));
+        Assert.assertThat(eventsTranscriptsPage.getPageTitle(), containsString(pageTitle));
     }
 
     @Test
@@ -94,7 +94,7 @@ public class TabNavigationExpanded extends AbstractSpec {
         new Dashboard(driver).accessSideNav()
                 .selectReportBuilderFromSideNav();
 
-        Assert.assertThat(reportBuilderPage.getReportBuilderPageTitle(), containsString(pageTitle));
+        Assert.assertThat(reportBuilderPage.getPageTitle(), containsString(pageTitle));
     }
 
     @Test
@@ -135,7 +135,7 @@ public class TabNavigationExpanded extends AbstractSpec {
         new Dashboard(driver).accessSideNav()
                 .selectWebAnalyticsFromSideNav();
 
-        Assert.assertThat(webAnalyticsPage.getWebAnalyticsPageTitle(), containsString(pageTitle));
+        Assert.assertThat(webAnalyticsPage.getPageTitle(), containsString(pageTitle));
     }
 
     @Test
@@ -145,7 +145,7 @@ public class TabNavigationExpanded extends AbstractSpec {
         new Dashboard(driver).accessSideNav()
                 .selectWebcastAnalyticsFromSideNav();
 
-        Assert.assertThat(webcastAnalyticsPage.getWecastAnalyticsPageTitle(), containsString(pageTitle));
+        Assert.assertThat(webcastAnalyticsPage.getPageTitle(), containsString(pageTitle));
     }
 
     @Test
@@ -155,7 +155,7 @@ public class TabNavigationExpanded extends AbstractSpec {
         new Dashboard(driver).accessSideNav()
                 .selectMyQ4TeamFromSideNav();
 
-        Assert.assertThat(myQ4TeamPage.getMyQ4TeamPageTitle(), containsString(pageTitle));
+        Assert.assertThat(myQ4TeamPage.getPageTitle(), containsString(pageTitle));
     }
 
     @Test
@@ -165,7 +165,7 @@ public class TabNavigationExpanded extends AbstractSpec {
         new Dashboard(driver).accessSideNav()
                 .selectSupportTicketsFromSideNav();
 
-        Assert.assertThat(supportTicketsPage.getSupportTicketsPageTitle(), containsString(pageTitle));
+        Assert.assertThat(supportTicketsPage.getPageTitle(), containsString(pageTitle));
     }
 
     @Test
@@ -175,6 +175,6 @@ public class TabNavigationExpanded extends AbstractSpec {
         new Dashboard(driver).accessSideNav()
                 .selectChecklistFromSideNav();
 
-        Assert.assertThat(checklistPage.getChecklistPageTitle(), containsString(pageTitle));
+        Assert.assertThat(checklistPage.getPageTitle(), containsString(pageTitle));
     }
 }

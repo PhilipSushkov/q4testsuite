@@ -1,6 +1,5 @@
 package pageobjects.reportBuilder;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import pageobjects.AbstractPageObject;
 
@@ -10,13 +9,7 @@ import pageobjects.AbstractPageObject;
 
 public class ReportBuilderPage extends AbstractPageObject {
 
-    private final By pageTitle = By.cssSelector(".page-header");
-
     public ReportBuilderPage(WebDriver driver) {
         super(driver);
-    }
-
-    public String getReportBuilderPageTitle() {
-        return findElement(pageTitle).getText();
     }
 }

@@ -25,6 +25,8 @@ public class AbstractPageObject implements PageObject {
     private final By sideNavIcon = By.cssSelector(".page-home .menu-btn");
     private final By hamburgerIcon = By.cssSelector(".navigation-toggler .x-button-icon");
 
+    private final By pageTitle = By.cssSelector(".q4-hero-banner .page-title");
+
     public AbstractPageObject(WebDriver driver) {
         this.driver = driver;
         this.wait = new WebDriverWait(driver, 15L);
@@ -62,5 +64,10 @@ public class AbstractPageObject implements PageObject {
     public SideNavBar accessSideNavFromPage() {
         findElement(hamburgerIcon).click();
         return new SideNavBar(getDriver());
+    }
+
+    public String getPageTitle() {
+        pause(500L);
+        return findElement(pageTitle).getText();
     }
 }
