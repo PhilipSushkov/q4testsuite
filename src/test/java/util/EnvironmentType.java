@@ -3,6 +3,7 @@ package util;
 
 public enum EnvironmentType {
 
+  LOCAL("q4desktop-develop.s3-website-us-east-1.amazonaws.com/"),
   DEVELOP("q4desktop-develop.s3-website-us-east-1.amazonaws.com/"),
   BETA("q4desktop-staging.s3-website-us-east-1.amazonaws.com/"),
   PRODUCTION("");

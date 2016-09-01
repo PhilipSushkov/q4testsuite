@@ -9,11 +9,12 @@ import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import util.BrowserStackCapability;
-import org.openqa.selenium.remote.DesiredCapabilities;
 import util.BrowserType;
 import util.EnvironmentType;
+
 import java.net.URL;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
@@ -23,7 +24,7 @@ public abstract class AbstractSpec {
 // IMPORTANT:
 // Determines which environment the test suite will run on but can be overridden by command line
 //------------------------------------------------------------------------------
-    private static final EnvironmentType DEFAULT_ENVIRONMENT = EnvironmentType.DEVELOP;
+    private static final EnvironmentType DEFAULT_ENVIRONMENT = EnvironmentType.LOCAL;
 //------------------------------------------------------------------------------
 
     private static final EnvironmentType activeEnvironment = setupEnvironment();
@@ -50,18 +51,19 @@ public abstract class AbstractSpec {
 
             LOG.info("ENV URL: " + desktopUrl);
 
-            browser = new BrowserStackCapability(Platform.WIN8, BrowserType.CHROME, null);
+            //browser = new BrowserStackCapability(Platform.WIN8, BrowserType.CHROME, null);
             //browser = new BrowserStackCapability(Platform.WIN8, BrowserType.OPERA, null);
-            //browser = new BrowserStackCapability(Platform.WIN8, BrowserType.IE, null);
+            browser = new BrowserStackCapability(Platform.WIN8, BrowserType.IE, null);
             //browser = new BrowserStackCapability(Platform.WIN8, BrowserType.FIREFOX, null);
 
             setupIsDone = true;
         }
 
         switch (getActiveEnvironment()) {
-            case DEVELOP:
+            case LOCAL:
                 setupLocalDriver();
                 break;
+            case DEVELOP:
             case BETA:
             case PRODUCTION:
                 setupWebDriver();
@@ -101,7 +103,7 @@ public abstract class AbstractSpec {
     @After
     public void teardownWebDriver() {
 
-        if (getActiveEnvironment() != EnvironmentType.DEVELOP) {
+        if (getActiveEnvironment() != EnvironmentType.LOCAL) {
             driver.quit();
         }
     }
