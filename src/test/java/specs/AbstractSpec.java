@@ -51,9 +51,9 @@ public abstract class AbstractSpec {
 
             LOG.info("ENV URL: " + desktopUrl);
 
-            //browser = new BrowserStackCapability(Platform.WIN8, BrowserType.CHROME, null);
+            browser = new BrowserStackCapability(Platform.WIN8, BrowserType.CHROME, null);
             //browser = new BrowserStackCapability(Platform.WIN8, BrowserType.OPERA, null);
-            browser = new BrowserStackCapability(Platform.WIN8, BrowserType.IE, null);
+            //browser = new BrowserStackCapability(Platform.WIN8, BrowserType.IE, null);
             //browser = new BrowserStackCapability(Platform.WIN8, BrowserType.FIREFOX, null);
 
             setupIsDone = true;
