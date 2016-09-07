@@ -15,6 +15,6 @@ public class SecurityOverviewPage extends WatchlistPage {
     }
 
     public String getCompanyName() {
-        return findElement(companyName).getText();
+        return findElement(companyName).getText().replaceAll("\\p{P}", "");
     }
 }

@@ -61,7 +61,7 @@ public class WatchlistPage extends AbstractPageObject{
     }
 
     public String getFirstCompanyInList() {
-        return findElement(firstCompanyInList).getText();
+        return findElement(firstCompanyInList).getText().replaceAll("\\p{P}", "");
     }
 
     public SecurityOverviewPage clickOnFirstWatchlistCompany() {

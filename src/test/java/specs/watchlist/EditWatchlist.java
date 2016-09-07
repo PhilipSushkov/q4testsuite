@@ -51,7 +51,7 @@ public class EditWatchlist extends AbstractSpec {
     public void canNavigateToCompanyFromWatchlist() {
         // Get first company from list and store as a string
         String companyName = new WatchlistPage(driver).getFirstCompanyInList();
-        System.out.println(new WatchlistPage(driver).getFirstCompanyInList());
+        System.out.println(companyName);
 
         SecurityOverviewPage securityOverviewPage = new SecurityOverviewPage(driver).clickOnFirstWatchlistCompany();
 
