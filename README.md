@@ -20,7 +20,7 @@ module for q4webdriver, if not add one.
 
 8. If there is an issue with maven go to View > Tool Windows > Maven Projects and reimport or add a project by selecting the pom.xml
 
-9. If there is an issue with Git, restart intellij and look for the popup to 'Add Git Root'
+9. If there is an issue with Git, restart intellij and look for the popup to 'Add Git Root'.
 
 
 To trigger build manually, copy the line below and paste it into your terminal (change {"TEST_ENV":"BETA","SUITE_NAME":"SmokeTest"} to appropriate environment and suite if needed)
