@@ -14,7 +14,7 @@ public class WatchlistPage extends AbstractPageObject{
     private final By editWatchlistButton = By.cssSelector(".toolbar-panel .toolbar-button");
     private final By securitySearchField = By.cssSelector(".toolbar-panel .search .x-field-input .x-input-el");
     private final By searchResult = By.cssSelector(".watchlist-search-results .x-list-item .icon.q4i-add-4pt");
-    private final By watchlist = By.id("ext-dataview-element-container-2");
+    private final By watchlist = By.id("ext-component-7");
     private final By watchlistDeleteButton = By.cssSelector(".watch-list.done-mode .delete-btn");
     private final By deleteButton = By.cssSelector(".watch-list .watchlist-action-toolbar .x-button.delete");
     private final By firstCompanyInList = By.cssSelector(".watch-list .watchlist-row");

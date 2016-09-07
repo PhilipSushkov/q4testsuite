@@ -10,7 +10,7 @@ import pageobjects.Page;
  */
 public class ContactDetailsPage extends Page {
 
-    private final By contactName = By.className("full-name");
+    private final By contactName = By.className("contact-name");
     private final By contactDropDown = By.cssSelector(".contact-page .utility-menu .more-button");
     private final By addOption = By.id("ext-button-47");
     private final By favIcon = By.cssSelector(".contact-page .contact-header .contact-favorite");
