@@ -20,7 +20,7 @@ public class DashboardLinksToMyCompany extends AbstractSpec {
 
     @Test
     public void canNavigateToMyCompanyBigSharePrice() {
-        String companyName = "LinkedIn Corp.";
+        String companyName = "LinkedIn Corp";
         SecurityOverviewPage finish = new SecurityOverviewPage(driver);
         new Dashboard(driver).clickBigSharePrice();
 
@@ -29,7 +29,7 @@ public class DashboardLinksToMyCompany extends AbstractSpec {
 
     @Test
     public void canNavigateToMyCompanySmallSharePrice() {
-        String companyName = "LinkedIn Corp.";
+        String companyName = "LinkedIn Corp";
         SecurityOverviewPage finish = new SecurityOverviewPage(driver);
         new Dashboard(driver).clickSmallSharePrice();
 

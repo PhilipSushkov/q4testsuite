@@ -23,7 +23,7 @@ public class DashboardSearch extends AbstractSpec{
 
     @Test
     public void canSearchForCompany() {
-        String companyName = "Tesla Motors, Inc.";
+        String companyName = "Tesla Motors Inc";
         SecurityOverviewPage finish = new SecurityOverviewPage(driver);
         new Dashboard(driver).searchFor(companyName)
                 .selectCompanyFromSearch();
@@ -42,7 +42,7 @@ public class DashboardSearch extends AbstractSpec{
     @Test
     public void specialCharactersShouldntBreakSearch() {
         String crazyCharacters = "!!!$$$%%%";
-        String companyName = "Tesla Motors, Inc.";
+        String companyName = "Tesla Motors Inc";
         SecurityOverviewPage finish = new SecurityOverviewPage(driver);
         new Dashboard(driver).searchFor(crazyCharacters)
                 .clearSearchField()
