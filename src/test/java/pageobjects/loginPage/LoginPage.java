@@ -41,7 +41,7 @@ public class LoginPage extends Page {
         waitForElementToAppear(emailField);
         findElement(emailField).clear();
         findElement(passwordField).clear();
-        findElement(emailField).sendKeys("patrickp@q4inc.com");
+        findElement(emailField).sendKeys("patrickp@q4websystems.com");
         findElement(passwordField).sendKeys("patrick!");
         pause(2000L);
         waitForElementToAppear(loginButton);
