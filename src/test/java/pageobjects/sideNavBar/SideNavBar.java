@@ -4,8 +4,9 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageobjects.AbstractPageObject;
+import pageobjects.activityPage.ActivityPage;
 import pageobjects.checklistPage.ChecklistPage;
-import pageobjects.contactPage.ContactDetailsPage;
+import pageobjects.contactPage.ContactPage;
 import pageobjects.dashboardPage.Dashboard;
 import pageobjects.eventsTranscriptsPage.EventsTranscriptsPage;
 import pageobjects.myQ4TeamPage.MyQ4TeamPage;
@@ -15,7 +16,6 @@ import pageobjects.securityPage.SecurityOverviewPage;
 import pageobjects.securityPage.SecurityOwnershipPage;
 import pageobjects.supportTicketsPage.SupportTicketsPage;
 import pageobjects.watchlist.WatchlistPage;
-import pageobjects.activityPage.ActivityPage;
 import pageobjects.webAnalyticsPage.WebAnalyticsPage;
 import pageobjects.webcastAnalyticsPage.WebcastAnalyticsPage;
 
@@ -68,12 +68,12 @@ public class SideNavBar extends AbstractPageObject{
         return new ActivityPage(getDriver());
     }
 
-    public ContactDetailsPage selectContactsFromSideNav() {
+    public ContactPage selectContactsFromSideNav() {
         pause(2000L);
         wait.until(ExpectedConditions.elementToBeClickable(contactsSideNav));
         findElement(contactsSideNav).click();
 
-        return new ContactDetailsPage(getDriver());
+        return new ContactPage(getDriver());
     }
 
     public EventsTranscriptsPage selectEventsAndTranscriptsFromSideNav() {
