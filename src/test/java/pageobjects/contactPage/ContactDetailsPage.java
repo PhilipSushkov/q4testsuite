@@ -12,8 +12,10 @@ public class ContactDetailsPage extends Page {
 
     private final By contactName = By.className("contact-name");
     private final By contactDropDown = By.cssSelector(".contact-page .utility-menu .more-button");
+    private final By contactDropdownPostAdd = By.cssSelector(".contact-page .utility-menu .more-button");
     private final By addOption = By.id("ext-button-47");
     private final By favIcon = By.cssSelector(".contact-page .contact-header .contact-favorite");
+    private final By removeFromContacts = By.id("ext-button-45");
 
     public ContactDetailsPage(WebDriver driver) {
         super(driver);
@@ -30,6 +32,17 @@ public class ContactDetailsPage extends Page {
         wait.until(ExpectedConditions.elementToBeClickable(addOption));
         findElement(addOption).click();
         pause(500L);
+
+        return this;
+    }
+
+    public ContactDetailsPage removeContactFromList() {
+        pause(500L);
+        driver.navigate().refresh();
+        wait.until(ExpectedConditions.elementToBeClickable(contactDropdownPostAdd));
+        retryClick(contactDropdownPostAdd);
+        wait.until(ExpectedConditions.elementToBeClickable(removeFromContacts));
+        findElement(removeFromContacts).click();
 
         return this;
     }

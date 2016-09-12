@@ -61,6 +61,7 @@ public class WatchlistPage extends AbstractPageObject{
     }
 
     public String getFirstCompanyInList() {
+        wait.until(ExpectedConditions.elementToBeClickable(firstCompanyInList));
         return findElement(firstCompanyInList).getText().replaceAll("\\p{P}", "");
     }
 
