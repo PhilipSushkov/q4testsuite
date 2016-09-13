@@ -11,7 +11,7 @@ import specs.AbstractSpec;
 /**
  * Created by patrickp on 2016-08-08.
  */
-public class DashboardLinksToMyCompany extends AbstractSpec {
+public class DashboardLinks extends AbstractSpec {
 
     @Before
     public void logInUser() {

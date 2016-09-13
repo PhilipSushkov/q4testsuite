@@ -30,7 +30,6 @@ public class ContactDetailsPage extends Page {
     private final By logActivityOption = By.id("ext-button-48");
     private final By noteDetails = By.cssSelector(".entity-note-list .details");
     private final By createTearSheet = By.id("ext-button-50");
-    private final By loadingScreen = By.cssSelector("x-mask x-sized x-floating");
     private final By reportTitle = By.cssSelector(".report-create .x-input-el");
     private final By createButton = By.cssSelector(".report-create .submit-button");
     private final By cancelButton = By.cssSelector(".report-create .cancel-button");

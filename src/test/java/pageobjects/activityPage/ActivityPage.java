@@ -19,6 +19,7 @@ public class ActivityPage extends AbstractPageObject {
     private final By newActivityIcon = By.cssSelector(".q4-hero-banner .action-button + .action-button");
     private final By activitySearchField = By.cssSelector(".toolbar-panel .search .x-field-input .x-input-el");
     private final By emptyResults = By.cssSelector(".note-manager-list .x-dataview-emptytext");
+    private By notesCount = By.cssSelector("#ext-element-275 > ul > li:nth-child(1) > div.counter");
 
     public ActivityPage(WebDriver driver) {
         super(driver);
@@ -61,6 +62,11 @@ public class ActivityPage extends AbstractPageObject {
 
     public String getSearchResults() {
         return findElement(notesSection).getText();
+    }
+
+    public int getNoteCount() {
+        pause(1000L);
+        return Integer.parseInt(findElement(notesCount).getText());
     }
 }
 
