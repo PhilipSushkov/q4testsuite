@@ -3,6 +3,7 @@ package specs.contacts;
 import org.apache.commons.lang.RandomStringUtils;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import pageobjects.advancedSearchResultsPage.AdvancedSearchResults;
 import pageobjects.contactPage.ContactDetailsPage;
@@ -15,12 +16,14 @@ import static org.hamcrest.CoreMatchers.containsString;
 /**
  * Created by patrickp on 2016-09-12.
  */
-public class ContactDetailsActions extends AbstractSpec {
+public class ContactDetails extends AbstractSpec {
+
+    private String contactName = "Mr. Christoph Christen";
 
     @Before
     public void setUp() {
         new LoginPage(driver).loginUser()
-                .searchFor("Mr. Christoph Christen")
+                .searchFor(contactName)
                 .selectContactFromSearchResults();
     }
 
@@ -67,5 +70,24 @@ public class ContactDetailsActions extends AbstractSpec {
                 .pageRefresh();
 
         Assert.assertThat(contactDetailsPage.getNoteDetails(), containsString(comment));
+    }
+
+    @Ignore
+    @Test
+    public void canCreateTearSheet() {
+        String reportTitle = "New Report" + RandomStringUtils.randomAlphanumeric(3);
+        ContactDetailsPage contactDetailsPage = new ContactDetailsPage(driver);
+        contactDetailsPage.accessContactDropdown()
+                .createTearSheet(reportTitle);
+    }
+
+    @Test
+    public void canCancelReportCreation() {
+        ContactDetailsPage contactDetailsPage = new ContactDetailsPage(driver);
+        contactDetailsPage.accessContactDropdown()
+                .selectCreateTearSheet()
+                .cancelTearSheetCreation();
+
+        Assert.assertThat(contactDetailsPage.getContactName(), containsString(contactName));
     }
 }

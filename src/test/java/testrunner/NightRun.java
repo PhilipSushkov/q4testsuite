@@ -4,8 +4,8 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import specs.activity.LogActivityFromActivityPage;
 import specs.activity.SearchForActivity;
-import specs.contacts.AddRemoveContacts;
-import specs.contacts.ContactDetailsActions;
+import specs.contacts.ContactList;
+import specs.contacts.ContactDetails;
 import specs.dashboard.DashboardBuildReport;
 import specs.dashboard.DashboardLinksToMyCompany;
 import specs.dashboard.DashboardLogActivity;
@@ -19,8 +19,8 @@ import specs.watchlist.EditWatchlist;
 @Suite.SuiteClasses({
         LogActivityFromActivityPage.class,
         SearchForActivity.class,
-        AddRemoveContacts.class,
-        ContactDetailsActions.class,
+        ContactList.class,
+        ContactDetails.class,
         DashboardBuildReport.class,
         DashboardLinksToMyCompany.class,
         DashboardLogActivity.class,

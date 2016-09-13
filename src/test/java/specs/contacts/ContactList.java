@@ -2,6 +2,7 @@ package specs.contacts;
 
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import pageobjects.contactPage.ContactPage;
 import pageobjects.dashboardPage.Dashboard;
@@ -15,7 +16,7 @@ import static org.hamcrest.CoreMatchers.not;
 /**
  * Created by patrickp on 2016-08-25.
  */
-public class AddRemoveContacts extends AbstractSpec {
+public class ContactList extends AbstractSpec {
 
     @Before
     public void setUp() {
@@ -41,5 +42,11 @@ public class AddRemoveContacts extends AbstractSpec {
                 .selectContactsFromSideNav();
 
         Assert.assertThat(contactPage.getContacts(), is(not(contactName)));
+    }
+
+    @Ignore
+    @Test
+    public void canSearchForContact() {
+
     }
 }

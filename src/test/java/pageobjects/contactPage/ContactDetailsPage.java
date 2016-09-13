@@ -29,6 +29,11 @@ public class ContactDetailsPage extends Page {
     private final By tagIcon = By.cssSelector(".x-dataview-inlineblock .x-dataview-item, .x-dataview-inlineblock .x-data-item");
     private final By logActivityOption = By.id("ext-button-48");
     private final By noteDetails = By.cssSelector(".entity-note-list .details");
+    private final By createTearSheet = By.id("ext-button-50");
+    private final By loadingScreen = By.cssSelector("x-mask x-sized x-floating");
+    private final By reportTitle = By.cssSelector(".report-create .x-input-el");
+    private final By createButton = By.cssSelector(".report-create .submit-button");
+    private final By cancelButton = By.cssSelector(".report-create .cancel-button");
 
     public ContactDetailsPage(WebDriver driver) {
         super(driver);
@@ -120,5 +125,28 @@ public class ContactDetailsPage extends Page {
 
     public String getNoteDetails() {
         return findElement(noteDetails).getText();
+    }
+
+    public ContactDetailsPage createTearSheet(String report) {
+        wait.until(ExpectedConditions.elementToBeClickable(createTearSheet));
+        findElement(createTearSheet).click();
+        findElement(reportTitle).sendKeys(report);
+        findElement(createButton).click();
+
+        return this;
+    }
+
+    public ContactDetailsPage selectCreateTearSheet() {
+        wait.until(ExpectedConditions.elementToBeClickable(createTearSheet));
+        findElement(createTearSheet).click();
+
+        return this;
+    }
+
+    public ContactDetailsPage cancelTearSheetCreation() {
+        wait.until(ExpectedConditions.elementToBeClickable(cancelButton));
+        findElement(cancelButton).click();
+
+        return this;
     }
 }
