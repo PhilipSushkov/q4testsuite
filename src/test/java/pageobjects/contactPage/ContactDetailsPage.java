@@ -5,6 +5,9 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageobjects.Page;
+import pageobjects.advancedSearchResultsPage.AdvancedSearchResults;
+import pageobjects.institutionPage.InstitutionPage;
+import pageobjects.logActivity.LogActivityModal;
 
 /**
  * Created by patrickp on 2016-08-08.
@@ -20,6 +23,12 @@ public class ContactDetailsPage extends Page {
     private final By addTag = By.cssSelector(".tags-view .tag.add-button");
     private final By tagInputField = By.cssSelector(".tags-modal-list .tag-field input");
     private final By contactTags = By.cssSelector(".contact-hero-banner .tags-view");
+    private final By institutionName = By.cssSelector(".contact-background .informational-cards .card-header h1");
+    private final By managedFunds = By.id("ext-tab-2");
+    private final By fundTableNames = By.cssSelector(".q4-list .x-dataview-container");
+    private final By tagIcon = By.cssSelector(".x-dataview-inlineblock .x-dataview-item, .x-dataview-inlineblock .x-data-item");
+    private final By logActivityOption = By.id("ext-button-48");
+    private final By noteDetails = By.cssSelector(".entity-note-list .details");
 
     public ContactDetailsPage(WebDriver driver) {
         super(driver);
@@ -58,6 +67,7 @@ public class ContactDetailsPage extends Page {
         wait.until(ExpectedConditions.elementToBeClickable(tagInputField));
         findElement(tagInputField).sendKeys(tag);
         findElement(tagInputField).sendKeys(Keys.RETURN);
+        pause(500L);
         driver.navigate().refresh();
 
         return this;
@@ -66,5 +76,49 @@ public class ContactDetailsPage extends Page {
     public String getContactTags() {
         waitForElementToAppear(contactTags);
         return findElement(contactTags).getText();
+    }
+
+    public String getInstitutionName() {
+        return findElement(institutionName).getText();
+    }
+
+    public InstitutionPage navigateToInstitution() {
+        findElement(institutionName).click();
+        driver.navigate().refresh();
+        return new InstitutionPage(getDriver());
+    }
+
+    public ContactDetailsPage switchToManagedFundsTab() {
+        wait.until(ExpectedConditions.elementToBeClickable(managedFunds));
+        findElement(managedFunds).click();
+
+        return this;
+    }
+
+    public String getManagedFunds() {
+        return findElement(fundTableNames).getText();
+    }
+
+    public AdvancedSearchResults viewTagResults() {
+        findElement(tagIcon).click();
+
+        return new AdvancedSearchResults(getDriver());
+    }
+
+    public ContactDetailsPage accessContactDropdown() {
+        wait.until(ExpectedConditions.elementToBeClickable(contactDropDown));
+        findElement(contactDropDown).click();
+        
+        return this;
+    }
+
+    public LogActivityModal logActivity() {
+        findElement(logActivityOption).click();
+        
+        return new LogActivityModal(getDriver());
+    }
+
+    public String getNoteDetails() {
+        return findElement(noteDetails).getText();
     }
 }

@@ -4,7 +4,9 @@ import org.apache.commons.lang.RandomStringUtils;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import pageobjects.advancedSearchResultsPage.AdvancedSearchResults;
 import pageobjects.contactPage.ContactDetailsPage;
+import pageobjects.institutionPage.InstitutionPage;
 import pageobjects.loginPage.LoginPage;
 import specs.AbstractSpec;
 
@@ -18,9 +20,8 @@ public class ContactDetailsActions extends AbstractSpec {
     @Before
     public void setUp() {
         new LoginPage(driver).loginUser()
-                .accessSideNav()
-                .selectContactsFromSideNav()
-                .viewContactDetails();
+                .searchFor("Mr. Christoph Christen")
+                .selectContactFromSearchResults();
     }
 
     @Test
@@ -29,5 +30,42 @@ public class ContactDetailsActions extends AbstractSpec {
         ContactDetailsPage contactDetailsPage = new ContactDetailsPage(driver).addTagToContact(tagName);
 
         Assert.assertThat(contactDetailsPage.getContactTags(), containsString(tagName));
+    }
+
+    @Test
+    public void canNavigateToInstitutionFromDetailsPage() {
+        String institutionName = new ContactDetailsPage(driver).getInstitutionName();
+        InstitutionPage institutionPage = new ContactDetailsPage(driver).navigateToInstitution();
+
+        Assert.assertThat(institutionPage.getInstitutionName(), containsString(institutionName));
+    }
+
+    @Test
+    public void canViewManagedFundsTab() {
+        ContactDetailsPage contactDetailsPage = new ContactDetailsPage(driver).switchToManagedFundsTab();
+
+        Assert.assertThat(contactDetailsPage.getManagedFunds(), containsString("Csa Mixta - Bvg"));
+    }
+
+    @Test
+    public void canLinkToTagDetails() {
+        String contactName = new ContactDetailsPage(driver).getContactName();
+        AdvancedSearchResults advancedSearchResults = new ContactDetailsPage(driver).viewTagResults();
+
+        Assert.assertThat(advancedSearchResults.getAdvancedSearchResults(), containsString(contactName));
+    }
+
+    @Test
+    public void canLogActivityFromDropdown() {
+        String comment = "This is a test comment" + RandomStringUtils.randomAlphanumeric(6);
+        String note = "This is a test note" + RandomStringUtils.randomAlphanumeric(6);
+        String tag = "TestTag" + RandomStringUtils.randomAlphanumeric(6);
+        ContactDetailsPage contactDetailsPage = new ContactDetailsPage(driver);
+        contactDetailsPage.accessContactDropdown()
+                .logActivity()
+                .enterNoteDetails(comment, note, tag)
+                .pageRefresh();
+
+        Assert.assertThat(contactDetailsPage.getNoteDetails(), containsString(comment));
     }
 }

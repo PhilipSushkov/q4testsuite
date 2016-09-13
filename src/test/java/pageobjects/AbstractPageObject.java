@@ -6,6 +6,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import pageobjects.logActivity.LogActivityModal;
 import pageobjects.sideNavBar.SideNavBar;
 
 public class AbstractPageObject implements PageObject {
@@ -69,5 +70,11 @@ public class AbstractPageObject implements PageObject {
     public String getPageTitle() {
         pause(500L);
         return findElement(pageTitle).getText();
+    }
+
+    public LogActivityModal pageRefresh() {
+        driver.navigate().refresh();
+
+        return new LogActivityModal(getDriver());
     }
 }
