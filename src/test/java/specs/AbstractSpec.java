@@ -24,7 +24,7 @@ public abstract class AbstractSpec {
 // IMPORTANT:
 // Determines which environment the test suite will run on but can be overridden by command line
 //------------------------------------------------------------------------------
-    private static final EnvironmentType DEFAULT_ENVIRONMENT = EnvironmentType.LOCAL;
+    private static final EnvironmentType DEFAULT_ENVIRONMENT = EnvironmentType.DEVELOP;
 //------------------------------------------------------------------------------
 
     private static final EnvironmentType activeEnvironment = setupEnvironment();
@@ -64,6 +64,7 @@ public abstract class AbstractSpec {
                 setupLocalDriver();
                 break;
             case DEVELOP:
+            case STAGING:
             case BETA:
             case PRODUCTION:
                 setupWebDriver();
