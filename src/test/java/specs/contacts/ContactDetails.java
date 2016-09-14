@@ -19,6 +19,7 @@ import static org.hamcrest.CoreMatchers.containsString;
 public class ContactDetails extends AbstractSpec {
 
     private String contactName = "Mr. Christoph Christen";
+    private String shortName = "Christoph Christen";
 
     @Before
     public void setUp() {
@@ -52,10 +53,9 @@ public class ContactDetails extends AbstractSpec {
 
     @Test
     public void canLinkToTagDetails() {
-        String contactName = new ContactDetailsPage(driver).getContactName();
         AdvancedSearchResults advancedSearchResults = new ContactDetailsPage(driver).viewTagResults();
 
-        Assert.assertThat(advancedSearchResults.getAdvancedSearchResults(), containsString(contactName));
+        Assert.assertThat(advancedSearchResults.getAdvancedSearchResults(), containsString(shortName));
     }
 
     @Test
