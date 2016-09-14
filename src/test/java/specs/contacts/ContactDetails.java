@@ -3,7 +3,6 @@ package specs.contacts;
 import org.apache.commons.lang.RandomStringUtils;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import pageobjects.advancedSearchResultsPage.AdvancedSearchResults;
 import pageobjects.contactPage.ContactDetailsPage;
@@ -70,15 +69,6 @@ public class ContactDetails extends AbstractSpec {
                 .pageRefresh();
 
         Assert.assertThat(contactDetailsPage.getNoteDetails(), containsString(comment));
-    }
-
-    @Ignore
-    @Test
-    public void canCreateTearSheet() {
-        String reportTitle = "New Report" + RandomStringUtils.randomAlphanumeric(3);
-        ContactDetailsPage contactDetailsPage = new ContactDetailsPage(driver);
-        contactDetailsPage.accessContactDropdown()
-                .createTearSheet(reportTitle);
     }
 
     @Test

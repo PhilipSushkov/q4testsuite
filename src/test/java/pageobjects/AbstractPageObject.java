@@ -26,7 +26,7 @@ public class AbstractPageObject implements PageObject {
     private final By sideNavIcon = By.cssSelector(".page-home .menu-btn");
     private final By hamburgerIcon = By.cssSelector(".navigation-toggler .x-button-icon");
 
-    private final By pageTitle = By.cssSelector(".q4-hero-banner .page-title");
+    private final By pageTitle = By.cssSelector(".q4-hero-banner .page-title h1");
 
     public AbstractPageObject(WebDriver driver) {
         this.driver = driver;
@@ -76,5 +76,11 @@ public class AbstractPageObject implements PageObject {
         driver.navigate().refresh();
 
         return new LogActivityModal(getDriver());
+    }
+
+    public void switchToNewTab() {
+        for(String winHandle : driver.getWindowHandles()){
+            driver.switchTo().window(winHandle);
+        }
     }
 }
