@@ -28,6 +28,9 @@ public class LogActivityModal extends AbstractPageObject {
     private final By fundIcon = By.id("ext-radiofield-2");
     private final By contactIcon = By.id("ext-radiofield-3");
     private final By companyIcon = By.id("ext-radiofield-4");
+    private final By phoneTab = By.cssSelector(".new-note.x-floating .new-note-tabs .tab-phone");
+    private final By emailTab = By.cssSelector(".new-note.x-floating .new-note-tabs .tab-email");
+    private final By meetingTab = By.cssSelector(".new-note.x-floating .new-note-tabs .tab-meeting");
 
     public LogActivityModal(WebDriver driver) {
         super(driver);
@@ -142,6 +145,24 @@ public class LogActivityModal extends AbstractPageObject {
         pause(1000L);
         findElement(institutionSearchResult).click();
         findElement(linkDropdown).click();
+
+        return this;
+    }
+
+    public LogActivityModal choosePhoneTab() {
+        findElement(phoneTab).click();
+
+        return this;
+    }
+
+    public LogActivityModal chooseEmailTab() {
+        findElement(emailTab).click();
+
+        return this;
+    }
+
+    public LogActivityModal chooseMeetingTab() {
+        findElement(meetingTab).click();
 
         return this;
     }

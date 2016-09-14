@@ -19,7 +19,10 @@ public class ActivityPage extends AbstractPageObject {
     private final By newActivityIcon = By.cssSelector(".q4-hero-banner .action-button + .action-button");
     private final By activitySearchField = By.cssSelector(".toolbar-panel .search .x-field-input .x-input-el");
     private final By emptyResults = By.cssSelector(".note-manager-list .x-dataview-emptytext");
-    private By notesCount = By.cssSelector("#ext-element-275 > ul > li:nth-child(1) > div.counter");
+    private By notesCount = By.xpath("//*[@class=\"counter\"][1]");
+    private By callCount = By.cssSelector("#ext-element-272 > ul > li:nth-child(2) > div.counter");
+    private By emailCount = By.cssSelector("#ext-element-272 > ul > li:nth-child(3) > div.counter");
+    private By meetingCount = By.cssSelector("#ext-element-272 > ul > li:nth-child(4) > div.counter");
 
     public ActivityPage(WebDriver driver) {
         super(driver);
@@ -67,6 +70,21 @@ public class ActivityPage extends AbstractPageObject {
     public int getNoteCount() {
         pause(1000L);
         return Integer.parseInt(findElement(notesCount).getText());
+    }
+
+    public int getCallCount() {
+        pause(1000L);
+        return Integer.parseInt(findElement(callCount).getText());
+    }
+
+    public int getEmailCount() {
+        pause(1000L);
+        return Integer.parseInt(findElement(emailCount).getText());
+    }
+
+    public int getMeetingCount() {
+        pause(1000L);
+        return Integer.parseInt(findElement(meetingCount).getText());
     }
 }
 
