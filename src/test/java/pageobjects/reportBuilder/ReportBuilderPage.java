@@ -1,5 +1,6 @@
 package pageobjects.reportBuilder;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import pageobjects.AbstractPageObject;
 
@@ -9,7 +10,14 @@ import pageobjects.AbstractPageObject;
 
 public class ReportBuilderPage extends AbstractPageObject {
 
+    private final By reportList = By.id("ext-report-list-1");
+
     public ReportBuilderPage(WebDriver driver) {
         super(driver);
+    }
+
+    public String getReportList() {
+        pause(500L);
+        return findElement(reportList).getText();
     }
 }

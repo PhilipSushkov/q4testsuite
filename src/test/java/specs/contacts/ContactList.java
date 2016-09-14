@@ -41,7 +41,7 @@ public class ContactList extends AbstractSpec {
                 .accessSideNavFromPage()
                 .selectContactsFromSideNav();
 
-        Assert.assertThat(contactPage.getContacts(), is(not(contactName)));
+        Assert.assertThat(contactPage.getContacts(), is(not(containsString(contactName))));
     }
 
     @Ignore

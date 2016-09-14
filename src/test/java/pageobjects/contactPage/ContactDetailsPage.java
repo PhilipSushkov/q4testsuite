@@ -29,7 +29,7 @@ public class ContactDetailsPage extends Page {
     private final By tagIcon = By.cssSelector(".x-dataview-inlineblock .x-dataview-item, .x-dataview-inlineblock .x-data-item");
     private final By logActivityOption = By.id("ext-button-48");
     private final By noteDetails = By.cssSelector(".entity-note-list .details");
-    private final By createTearSheet = By.id("ext-button-50");
+    private final By createTearSheet = By.xpath("//*[contains(text(), 'Create Tear Sheet')]");
     private final By reportTitle = By.cssSelector(".report-create .x-input-el");
     private final By createButton = By.cssSelector(".report-create .submit-button");
     private final By cancelButton = By.cssSelector(".report-create .cancel-button");
