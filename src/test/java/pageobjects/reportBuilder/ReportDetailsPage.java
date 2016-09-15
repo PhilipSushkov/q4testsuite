@@ -19,7 +19,7 @@ public class ReportDetailsPage extends AbstractPageObject{
     private final By tagInputField = By.cssSelector(".add-report-entity .x-input-el");
     private final By addButton = By.cssSelector(".add-report-entity .continue-button");
     private final By reportContent = By.cssSelector(".x-list .x-list-inner");
-    private final By saveButton = By.xpath("//*[contains(text(), 'Save')]");
+    private final By saveButton = By.cssSelector(".q4-hero-banner .action-button + .action-button");
 
     public ReportDetailsPage(WebDriver driver) {
         super(driver);
