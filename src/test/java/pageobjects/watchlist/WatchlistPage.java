@@ -43,6 +43,7 @@ public class WatchlistPage extends AbstractPageObject{
         return findElement(watchlist).getText().replaceAll("\\p{P}", "");
     }
 
+    // Checks to see if the watchlist is empty
     public boolean watchlistHadSecurities() {
         if (findElements(firstCompanyInList).size() != 0) {
 
@@ -77,6 +78,7 @@ public class WatchlistPage extends AbstractPageObject{
         return new SecurityOverviewPage(getDriver());
     }
 
+    // If the watchlist is empty, this adds a company so it can later be removed
     public WatchlistPage checkForExistingSecurities() {
         if (watchlistHadSecurities()) {
             wait.until(ExpectedConditions.elementToBeClickable(firstCompanyInList));

@@ -27,11 +27,11 @@ public class EditWatchlist extends AbstractSpec {
 
     @Test
     public void canAddCompanyToWatchlist() {
-        String security = "Apple, Inc.";
+        String security = "Apple Inc";
         WatchlistPage watchlist = new WatchlistPage(driver).removeSecurityFromWatchlist()
                 .addSecurityToWatchlist(security);
 
-        Assert.assertThat(watchlist.getWatchlistSecurities(), containsString(security));
+        Assert.assertThat(watchlist.getFirstCompanyInList(), containsString(security));
     }
 
     @Test
@@ -51,7 +51,8 @@ public class EditWatchlist extends AbstractSpec {
     @Test
     public void canNavigateToCompanyFromWatchlist() {
         // Get first company from list and store as a string
-        String companyName = new WatchlistPage(driver).getFirstCompanyInList();
+        WatchlistPage watchlistPage = new WatchlistPage(driver).checkForExistingSecurities();
+        String companyName = watchlistPage.getFirstCompanyInList();
         System.out.println(companyName);
 
         SecurityOverviewPage securityOverviewPage = new SecurityOverviewPage(driver).clickOnFirstWatchlistCompany();
