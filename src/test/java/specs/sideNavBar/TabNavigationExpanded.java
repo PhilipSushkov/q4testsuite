@@ -2,7 +2,6 @@ package specs.sideNavBar;
 
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import pageobjects.activityPage.ActivityPage;
 import pageobjects.checklistPage.ChecklistPage;
@@ -33,7 +32,6 @@ public class TabNavigationExpanded extends AbstractSpec {
         new LoginPage(driver).loginUser();
     }
 
-
     @Test
      public void canNavigateToDashboard() {
         String searchFieldText = "What are you looking for?";
@@ -44,7 +42,6 @@ public class TabNavigationExpanded extends AbstractSpec {
         Assert.assertEquals(searchFieldText, start.getSearchFieldText());
     }
 
-
     @Test
     public void canNavigateToWatchlist() {
         String pageTitle = "Watchlist";
@@ -54,7 +51,6 @@ public class TabNavigationExpanded extends AbstractSpec {
 
         Assert.assertThat(finish.getPageTitle(), containsString(pageTitle));
     }
-
 
     @Test
     public void canNavigateToActivity() {
@@ -127,7 +123,6 @@ public class TabNavigationExpanded extends AbstractSpec {
         Assert.assertThat(securityEstimatesPage.getEstimatesTabTitle(), containsString(tabTitle));
     }
 
-    @Ignore
     @Test
     public void canNavigateToWebAnalytics() {
         String pageTitle = "Web Analytics";
