@@ -19,10 +19,10 @@ public class ActivityPage extends AbstractPageObject {
     private final By newActivityIcon = By.cssSelector(".q4-hero-banner .action-button + .action-button");
     private final By activitySearchField = By.cssSelector(".toolbar-panel .search .x-field-input .x-input-el");
     private final By emptyResults = By.cssSelector(".note-manager-list .x-dataview-emptytext");
-    private By notesCount = By.xpath("//*[@class=\"counter\"][1]");
-    private By callCount = By.cssSelector("#ext-element-272 > ul > li:nth-child(2) > div.counter");
-    private By emailCount = By.cssSelector("#ext-element-272 > ul > li:nth-child(3) > div.counter");
-    private By meetingCount = By.cssSelector("#ext-element-272 > ul > li:nth-child(4) > div.counter");
+    private final By notesCount = By.xpath("//*[@class=\"counter\"][1]");
+    private final By callCount = By.xpath("(//*[@class=\"counter\"])[2]");
+    private final By emailCount = By.xpath("(//*[@class=\"counter\"])[3]");
+    private final By meetingCount = By.xpath("(//*[@class=\"counter\"])[4]");
 
     public ActivityPage(WebDriver driver) {
         super(driver);
