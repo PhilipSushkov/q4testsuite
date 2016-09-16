@@ -6,8 +6,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import pageobjects.logActivity.LogActivityModal;
-import pageobjects.sideNavBar.SideNavBar;
+import pageobjects.user.logActivity.LogActivityModal;
+import pageobjects.user.sideNavBar.SideNavBar;
 
 public class AbstractPageObject implements PageObject {
 

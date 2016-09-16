@@ -2,19 +2,19 @@ package testrunner;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
-import specs.activity.LogActivity;
-import specs.activity.SearchForActivity;
-import specs.contacts.ContactDetails;
-import specs.contacts.ContactList;
-import specs.dashboard.DashboardBuildReport;
-import specs.dashboard.DashboardLinks;
-import specs.dashboard.DashboardLogActivity;
-import specs.dashboard.DashboardSearch;
-import specs.loginPage.ForgotPassword;
-import specs.loginPage.UserLogin;
-import specs.reportBuilder.CreateContactTearSheet;
-import specs.sideNavBar.TabNavigationExpanded;
-import specs.watchlist.EditWatchlist;
+import specs.user.activity.LogActivity;
+import specs.user.activity.SearchForActivity;
+import specs.user.contacts.ContactDetails;
+import specs.user.contacts.ContactList;
+import specs.user.dashboard.DashboardBuildReport;
+import specs.user.dashboard.DashboardLinks;
+import specs.user.dashboard.DashboardLogActivity;
+import specs.user.dashboard.DashboardSearch;
+import specs.user.loginPage.ForgotPassword;
+import specs.user.loginPage.UserLogin;
+import specs.user.reportBuilder.CreateContactTearSheet;
+import specs.user.sideNavBar.TabNavigationExpanded;
+import specs.user.watchlist.EditWatchlist;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
