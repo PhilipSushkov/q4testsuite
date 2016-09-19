@@ -15,6 +15,7 @@ import pageobjects.user.securityPage.SecurityEstimatesPage;
 import pageobjects.user.securityPage.SecurityOverviewPage;
 import pageobjects.user.securityPage.SecurityOwnershipPage;
 import pageobjects.user.supportTicketsPage.SupportTicketsPage;
+import pageobjects.user.targetingPage.TargetingPage;
 import pageobjects.user.watchlist.WatchlistPage;
 import pageobjects.user.webAnalyticsPage.WebAnalyticsPage;
 import pageobjects.user.webcastAnalyticsPage.WebcastAnalyticsPage;
@@ -91,6 +92,16 @@ public class TabNavigationExpanded extends AbstractSpec {
                 .selectReportBuilderFromSideNav();
 
         Assert.assertThat(reportBuilderPage.getPageTitle(), containsString(pageTitle));
+    }
+
+    @Test
+    public void canNavigateToTargeting() {
+        String pageTitle = "Targeting";
+        TargetingPage targetingPage = new TargetingPage(driver);
+        new Dashboard(driver).accessSideNav()
+                .selectTargetingFromSideNav();
+
+        Assert.assertThat(targetingPage.getPageTitle(), containsString(pageTitle));
     }
 
     @Test

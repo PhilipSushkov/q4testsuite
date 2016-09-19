@@ -15,6 +15,7 @@ import pageobjects.user.securityPage.SecurityEstimatesPage;
 import pageobjects.user.securityPage.SecurityOverviewPage;
 import pageobjects.user.securityPage.SecurityOwnershipPage;
 import pageobjects.user.supportTicketsPage.SupportTicketsPage;
+import pageobjects.user.targetingPage.TargetingPage;
 import pageobjects.user.watchlist.WatchlistPage;
 import pageobjects.user.webAnalyticsPage.WebAnalyticsPage;
 import pageobjects.user.webcastAnalyticsPage.WebcastAnalyticsPage;
@@ -30,6 +31,7 @@ public class SideNavBar extends AbstractPageObject{
     private final By contactsSideNav = By.id("ext-treelistitem-4");
     private final By eventsSideNav = By.id("ext-treelistitem-5");
     private final By reportsSideNav = By.id("ext-treelistitem-6");
+    private final By targetingSideNav = By.id("ext-treelistitem-7");
     private final By ownershipSideNav = By.id("ext-treelistitem-10");
     private final By estimatesSideNav = By.id("ext-treelistitem-11");
     private final By webAnalyticsSideNav = By.id("ext-treelistitem-12");
@@ -154,5 +156,13 @@ public class SideNavBar extends AbstractPageObject{
         findElement(securitySideNav).click();
 
         return new SecurityOverviewPage(getDriver());
+    }
+
+    public TargetingPage selectTargetingFromSideNav() {
+        pause(2000L);
+        waitForElement(targetingSideNav);
+        findElement(targetingSideNav).click();
+
+        return new TargetingPage(getDriver());
     }
 }
