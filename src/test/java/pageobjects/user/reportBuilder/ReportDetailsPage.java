@@ -25,7 +25,7 @@ public class ReportDetailsPage extends AbstractPageObject{
         super(driver);
     }
     public ReportDetailsPage generateTearSheet() {
-        findElement(generateButton).click();
+        wait.until(ExpectedConditions.elementToBeClickable(generateButton)).click();
 
         return this;
     }

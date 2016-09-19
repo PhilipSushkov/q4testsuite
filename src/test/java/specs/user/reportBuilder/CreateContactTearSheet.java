@@ -38,7 +38,7 @@ public class CreateContactTearSheet extends AbstractSpec {
         contactDetailsPage.accessContactDropdown()
                 .createTearSheet(reportTitle);
 
-        Assert.assertThat(reportDetailsPage.getPageTitle(), containsString(reportTitle));
+        Assert.assertThat(reportDetailsPage.getOtherPageTitle(), containsString(reportTitle));
 
         reportDetailsPage.generateTearSheet()
                 .switchToNewTab();
