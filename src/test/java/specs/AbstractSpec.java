@@ -61,6 +61,7 @@ public abstract class AbstractSpec {
 
         switch (getActiveEnvironment()) {
             case LOCAL:
+            case LOCALADMIN:
                 setupLocalDriver();
                 break;
             case DEVELOP:

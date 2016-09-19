@@ -26,7 +26,9 @@ public class AbstractPageObject implements PageObject {
     private final By sideNavIcon = By.cssSelector(".page-home .menu-btn");
     private final By hamburgerIcon = By.cssSelector(".navigation-toggler .x-button-icon");
 
-    private final By pageTitle = By.cssSelector(".q4-hero-banner .page-title h1");
+    private final By pageTitle = By.cssSelector(".q4-hero-banner .page-title");
+    private final By otherPageTitle = By.cssSelector(".q4-hero-banner .page-title h1");
+    private final By analyticsPageTitle = By.cssSelector(".analytics-header .page-title");
 
     public AbstractPageObject(WebDriver driver) {
         this.driver = driver;
@@ -70,6 +72,12 @@ public class AbstractPageObject implements PageObject {
     public String getPageTitle() {
         pause(500L);
         return findElement(pageTitle).getText();
+    }
+
+    // Some pages have a different header
+    public String getOtherPageTitle() {
+        pause(500L);
+        return findElement(otherPageTitle).getText();
     }
 
     public LogActivityModal pageRefresh() {
