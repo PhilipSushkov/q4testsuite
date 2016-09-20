@@ -19,14 +19,54 @@ public class LoginPage extends AbstractPageObject {
         super(driver);
     }
 
+    public LoginPage customLoginAdmin(String email, String password) {
+        findElement(loginButton).click();
+        findElement(googleLoginButton).click();
+        // Store the current window handle
+        String winHandleBefore = driver.getWindowHandle();
+
+        // Perform the click operation that opens new window
+
+        // Switch to new window opened
+        for(String winHandle : driver.getWindowHandles()){
+            driver.switchTo().window(winHandle);
+        }
+
+        // Perform the actions on new window
+        findElement(enterEmail).sendKeys(email);
+        findElement(nextButton).click();
+        findElement(enterPassword).sendKeys(password);
+        findElement(submit).click();
+        pause(2000L);
+
+        // Switch back to original browser (first window)
+        driver.switchTo().window(winHandleBefore);
+
+        return this;
+    }
+
     public LoginPage loginAdmin() {
         findElement(loginButton).click();
         findElement(googleLoginButton).click();
-        switchToNewTab();
+        // Store the current window handle
+        String winHandleBefore = driver.getWindowHandle();
+
+        // Perform the click operation that opens new window
+
+        // Switch to new window opened
+        for(String winHandle : driver.getWindowHandles()){
+            driver.switchTo().window(winHandle);
+        }
+
+        // Perform the actions on new window
         findElement(enterEmail).sendKeys("test@q4websystems.com");
         findElement(nextButton).click();
         findElement(enterPassword).sendKeys("testing!");
         findElement(submit).click();
+        pause(2000L);
+
+        // Switch back to original browser (first window)
+        driver.switchTo().window(winHandleBefore);
 
         return this;
     }
