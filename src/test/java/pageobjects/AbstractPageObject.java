@@ -34,6 +34,7 @@ public class AbstractPageObject implements PageObject {
     // Admin page elements
     private final By adminSideNav = By.cssSelector(".navigation-toggler[_ngcontent-yjn-4] .toggler-button[_ngcontent-yjn-4]");
     private final By companyPage = By.cssSelector("body > q4-app > div > q4-navbar > nav > div > ul > li:nth-child(2) > a > i");
+    private final By adminPageTitle = By.cssSelector(".page-header .page-title .details h2");
 
     public AbstractPageObject(WebDriver driver) {
         this.driver = driver;
@@ -102,5 +103,9 @@ public class AbstractPageObject implements PageObject {
         findElement(companyPage).click();
 
         return new CompanyPage(getDriver());
+    }
+
+    public String getAdminPageTitle() {
+        return findElement(adminPageTitle).getText();
     }
 }
