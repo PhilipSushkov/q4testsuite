@@ -2,9 +2,6 @@ package testrunner;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
-import specs.admin.companyPage.CompaniesPageActions;
-import specs.admin.companyPage.CompanyDetails;
-import specs.admin.loginPage.AdminLogin;
 import specs.user.activity.LogActivity;
 import specs.user.activity.SearchForActivity;
 import specs.user.contacts.ContactDetails;
@@ -33,10 +30,7 @@ import specs.user.watchlist.EditWatchlist;
         UserLogin.class,
         CreateContactTearSheet.class,
         TabNavigationExpanded.class,
-        EditWatchlist.class,
-        CompaniesPageActions.class,
-        CompanyDetails.class,
-        AdminLogin.class
+        EditWatchlist.class
 })
 
 public class NightRun {
