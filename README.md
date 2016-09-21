@@ -27,5 +27,8 @@ To trigger build manually, copy the line below and paste it into your terminal (
 ==========
 ' curl -H "Content-Type: application/json" -d '{"build_parameters": {"TEST_ENV":"DEVELOP","SUITE_NAME":"NightRun"}}' https://circleci.com/api/v1/project/q4mobile/q4testsuite/tree/master?circle-token=5439aa08dd79b73f2f13535f252c0d69dbb31edb '
 
+Admin suite
+
+curl -H "Content-Type: application/json" -d '{"build_parameters": {"TEST_ENV":"DEVELOPADMIN","SUITE_NAME":"AdminSuite"}}' https://circleci.com/api/v1/project/q4mobile/q4testsuite/tree/master?circle-token=5439aa08dd79b73f2f13535f252c0d69dbb31edb
 
 

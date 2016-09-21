@@ -62,14 +62,11 @@ public class AdminAbstractSpec {
         }
 
         switch (getActiveEnvironment()) {
-            case LOCAL:
             case LOCALADMIN:
                 setupLocalDriver();
                 break;
-            case DEVELOP:
-            case STAGING:
-            case BETA:
-            case PRODUCTION:
+            case DEVELOPADMIN:
+            case STAGINGADMIN:
                 setupWebDriver();
                 break;
         }
@@ -107,7 +104,7 @@ public class AdminAbstractSpec {
     @After
     public void teardownWebDriver() {
 
-        if (getActiveEnvironment() != EnvironmentType.LOCAL) {
+        if (getActiveEnvironment() != EnvironmentType.LOCALADMIN) {
             driver.quit();
         }
     }
