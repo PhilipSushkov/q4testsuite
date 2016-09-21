@@ -9,6 +9,7 @@ import pageobjects.AbstractPageObject;
  * Created by patrickp on 2016-09-16.
  */
 public class CompanyPage extends AbstractPageObject {
+
     private final By addCompanyButton = By.cssSelector(".page-header .action-buttons .add");
     private final By companyField = By.cssSelector(".modal .ui-dialog .ui-dialog-content .ui-autocomplete.auto-complete-search .ui-inputtext");
     private final By saveButton = By.cssSelector(".button-yellow");
@@ -45,11 +46,11 @@ public class CompanyPage extends AbstractPageObject {
         return this;
     }
 
-    public CompanyPage selectFirstCompanyInList() {
+    public CompanyDetailsPage selectFirstCompanyInList() {
         pause(1000L);
         findElement(firstCompany).click();
 
-        return new CompanyDetails(getDriver());
+        return new CompanyDetailsPage(getDriver());
     }
 
     public String getFirstCompanyName() {
