@@ -3,6 +3,7 @@ package testrunner;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import specs.admin.companyPage.CompaniesPageActions;
+import specs.admin.companyPage.CompanyDetails;
 import specs.admin.loginPage.AdminLogin;
 
 /**
@@ -11,7 +12,8 @@ import specs.admin.loginPage.AdminLogin;
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
         AdminLogin.class,
-        CompaniesPageActions.class
+        CompaniesPageActions.class,
+        CompanyDetails.class
 })
 
 public class AdminSuite {
