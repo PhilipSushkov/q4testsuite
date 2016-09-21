@@ -4,12 +4,12 @@ import org.junit.Before;
 import org.junit.Test;
 import pageobjects.admin.companyPage.CompanyPage;
 import pageobjects.admin.loginPage.LoginPage;
-import specs.AbstractSpec;
+import specs.AdminAbstractSpec;
 
 /**
  * Created by patrickp on 2016-09-20.
  */
-public class CompanyDetails extends AbstractSpec {
+public class CompanyDetails extends AdminAbstractSpec {
 
     @Before
     public void setUp() {

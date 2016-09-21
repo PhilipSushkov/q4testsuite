@@ -9,9 +9,11 @@ public enum EnvironmentType {
   BETA("beta.q4desktop.com/"),
   PRODUCTION("www.q4desktop.com/"),
   // Admin
-  LOCALADMIN("q4admin-develop.s3-website-us-east-1.amazonaws.com/");
+  LOCALADMIN("q4admin-develop.s3-website-us-east-1.amazonaws.com/"),
+  DEVELOPADMIN("q4admin-develop.s3-website-us-east-1.amazonaws.com/"),
+  STAGINGADMIN("q4admin-staging.s3-website-us-east-1.amazonaws.com/");
   private final String host;
-  private final String protocol = "https://";
+  private final String protocol = "http://";
 
   EnvironmentType(String host) {
     this.host = host;

@@ -4,14 +4,14 @@ import org.junit.Assert;
 import org.junit.Test;
 import pageobjects.admin.homePage.HomePage;
 import pageobjects.admin.loginPage.LoginPage;
-import specs.AbstractSpec;
+import specs.AdminAbstractSpec;
 
 import static org.hamcrest.CoreMatchers.containsString;
 
 /**
  * Created by patrickp on 2016-09-16.
  */
-public class AdminLogin extends AbstractSpec {
+public class AdminLogin extends AdminAbstractSpec {
 
     @Test
     public void adminCanLogin() {

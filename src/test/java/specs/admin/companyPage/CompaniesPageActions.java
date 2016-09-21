@@ -6,14 +6,14 @@ import org.junit.Ignore;
 import org.junit.Test;
 import pageobjects.admin.companyPage.CompanyPage;
 import pageobjects.admin.loginPage.LoginPage;
-import specs.AbstractSpec;
+import specs.AdminAbstractSpec;
 
 import static org.hamcrest.CoreMatchers.containsString;
 
 /**
  * Created by patrickp on 2016-09-20.
  */
-public class CompaniesPageActions extends AbstractSpec{
+public class CompaniesPageActions extends AdminAbstractSpec {
 
     @Before
     public void setUp() {
