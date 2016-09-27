@@ -13,7 +13,7 @@ public enum EnvironmentType {
   DEVELOPADMIN("q4admin-develop.s3-website-us-east-1.amazonaws.com/"),
   STAGINGADMIN("q4admin-staging.s3-website-us-east-1.amazonaws.com/");
   private final String host;
-  private final String protocol = "http://";
+  private final String protocol = "https://";
 
   EnvironmentType(String host) {
     this.host = host;
