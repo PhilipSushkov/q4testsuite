@@ -14,6 +14,7 @@ public enum EnvironmentType {
   STAGINGADMIN("q4admin-staging.s3-website-us-east-1.amazonaws.com/");
   private final String host;
   private final String protocol = "https://";
+  private final String adminProtocol = "http://";
 
   EnvironmentType(String host) {
     this.host = host;
@@ -25,6 +26,10 @@ public enum EnvironmentType {
 
   public String getProtocol() {
     return protocol;
+  }
+
+  public String getAdminProtocol() {
+    return adminProtocol;
   }
 }
 

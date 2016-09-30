@@ -49,7 +49,7 @@ public class AdminAbstractSpec {
         if (!setupIsDone) {
             setupEnvironment();
 
-            desktopUrl = new URL(activeEnvironment.getProtocol() + activeEnvironment.getHost());
+            desktopUrl = new URL(activeEnvironment.getAdminProtocol() + activeEnvironment.getHost());
 
             LOG.info("ENV URL: " + desktopUrl);
 
