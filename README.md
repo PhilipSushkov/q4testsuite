@@ -23,7 +23,7 @@ module for q4webdriver, if not add one.
 9. If there is an issue with Git, restart intellij and look for the popup to 'Add Git Root'.
 
 
-To trigger build manually, copy the line below and paste it into your terminal (change {"TEST_ENV":"BETA","SUITE_NAME":"SmokeTest"} to appropriate environment and suite if needed)
+**To trigger build manually, copy the line below and paste it into your terminal (change {"TEST_ENV":"BETA","SUITE_NAME":"SmokeTest"} to appropriate environment and suite if needed)**
 
 curl -H "Content-Type: application/json" -d '{"build_parameters": {"TEST_ENV":"DEVELOP","SUITE_NAME":"NightRun"}}' https://circleci.com/api/v1/project/q4mobile/q4testsuite/tree/master?circle-token=5439aa08dd79b73f2f13535f252c0d69dbb31edb
 
