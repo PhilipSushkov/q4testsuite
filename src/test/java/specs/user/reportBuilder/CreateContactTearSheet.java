@@ -66,9 +66,9 @@ public class CreateContactTearSheet extends AbstractSpec {
     public void canAddMoreTags() {
         ReportDetailsPage reportDetailsPage = new ReportDetailsPage(driver);
         ContactDetailsPage contactDetailsPage = new ContactDetailsPage(driver);
-        String existingTag = "TestTagKQWwo8 ";
+        String existingTag = "TestTagaYhc3o ";
         String reportTitle = "New Report" + RandomStringUtils.randomAlphanumeric(3);
-        String comment = "This is a test commentIF9Ltc";
+        String comment = "This is a test commentLu7zoq";
         contactDetailsPage.accessContactDropdown()
                 .createTearSheet(reportTitle);
 

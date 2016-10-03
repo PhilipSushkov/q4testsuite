@@ -18,7 +18,7 @@ public class ReportDetailsPage extends AbstractPageObject{
     private final By addMoreButton = By.xpath("//*[contains(text(), 'Add more')]");
     private final By tagInputField = By.cssSelector(".add-report-entity .x-input-el");
     private final By addButton = By.cssSelector(".add-report-entity .continue-button");
-    private final By reportContent = By.cssSelector(".x-list .x-list-inner");
+    private final By reportContent = By.cssSelector(".report-edit-page");
     private final By saveButton = By.cssSelector(".q4-hero-banner .action-button + .action-button");
 
     public ReportDetailsPage(WebDriver driver) {
@@ -26,6 +26,7 @@ public class ReportDetailsPage extends AbstractPageObject{
     }
     public ReportDetailsPage generateTearSheet() {
         wait.until(ExpectedConditions.elementToBeClickable(generateButton)).click();
+        pause(500L);
 
         return this;
     }

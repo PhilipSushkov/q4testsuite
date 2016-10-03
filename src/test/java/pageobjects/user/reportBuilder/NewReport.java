@@ -15,7 +15,7 @@ public class NewReport extends AbstractPageObject{
     }
 
     public String getReportPageTitle() {
-        pause(5000L);
+        waitForElementToAppear(reportPageTitle);
         return findElement(reportPageTitle).getText();
     }
 }
