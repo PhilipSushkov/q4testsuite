@@ -106,7 +106,7 @@ public class TabNavigationExpanded extends AbstractSpec {
 
     @Test
     public void canNavigateToSecurity() {
-        String pageTitle = "LinkedIn Corp";
+        String pageTitle = "Sysco Corp";
         SecurityOverviewPage securityOverviewPage = new SecurityOverviewPage(driver);
         new Dashboard(driver).accessSideNav()
                 .selectSecurityFromSideNav();

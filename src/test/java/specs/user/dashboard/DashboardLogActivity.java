@@ -174,7 +174,7 @@ public class DashboardLogActivity extends AbstractSpec {
         String comment = "This is a test comment" + RandomStringUtils.randomAlphanumeric(6);
         String note = "This is a test note" + RandomStringUtils.randomAlphanumeric(6);
         String tag = "TestTag" + RandomStringUtils.randomAlphanumeric(6);
-        String company = "LinkedIn";
+        String company = "Sysco";
 
         NoteDetailsPage noteDetailsPage = new NoteDetailsPage(driver);
 
