@@ -45,13 +45,12 @@ public class DashboardLogActivity extends AbstractSpec {
         String comment = "This is a phone comment" + RandomStringUtils.randomAlphanumeric(6);
         String phone = RandomStringUtils.randomNumeric(10);
         String name = "Joe" + RandomStringUtils.randomAlphanumeric(6);
-        String city = "Toronto" + RandomStringUtils.randomAlphanumeric(6);
         String note = "This ia a phone note" + RandomStringUtils.randomAlphanumeric(6);
         String tag = "PhoneTag" + RandomStringUtils.randomAlphanumeric(6);
 
         ActivityPage activityPage = new ActivityPage(driver);
         new Dashboard(driver).logPhoneNote()
-                .enterPhoneNoteDetails(comment, phone, name, city, note, tag)
+                .enterPhoneNoteDetails(comment, phone, name, note, tag)
                 .accessSideNav()
                 .selectActivityPageFromSideNav();
 

@@ -52,12 +52,11 @@ public class LogActivityModal extends AbstractPageObject {
         return this;
     }
 
-    public LogActivityModal enterPhoneNoteDetails(String comment, String phone, String name, String city, String note, String tag) {
+    public LogActivityModal enterPhoneNoteDetails(String comment, String phone, String name, String note, String tag) {
         retryClick(findElement(commentField));
         findElement(commentField).sendKeys(comment);
         findElement(phoneNumberField).sendKeys(phone);
         findElement(nameField).sendKeys(name);
-        findElement(cityField).sendKeys(city);
         findElement(typeNoteField).sendKeys(note);
         findElement(tagField).sendKeys(tag);
         findElement(tagField).sendKeys(Keys.RETURN);

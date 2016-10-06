@@ -50,7 +50,6 @@ public class LogActivity extends AbstractSpec {
         String tag = "TestTag" + RandomStringUtils.randomAlphanumeric(6);
         String name = "Person" + RandomStringUtils.randomAlphanumeric(3);
         String phoneNumber = RandomStringUtils.randomNumeric(7);
-        String city = "Toronto";
 
         int count = new ActivityPage(driver).getCallCount();
 
@@ -59,7 +58,7 @@ public class LogActivity extends AbstractSpec {
         ActivityPage activityPage = new ActivityPage(driver);
         new ActivityPage(driver).logNote()
                 .choosePhoneTab()
-                .enterPhoneNoteDetails(comment, phoneNumber, name, city, note, tag);
+                .enterPhoneNoteDetails(comment, phoneNumber, name, note, tag);
 
         // Make sure the new comment appears on page
         Assert.assertThat(activityPage.getNewNote(), containsString(comment));
