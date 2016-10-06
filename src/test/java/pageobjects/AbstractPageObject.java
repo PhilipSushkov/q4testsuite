@@ -29,7 +29,7 @@ public class AbstractPageObject implements PageObject {
 
     private final By pageTitle = By.cssSelector(".q4-hero-banner .page-title");
     private final By otherPageTitle = By.cssSelector(".q4-hero-banner .page-title h1");
-    private final By analyticsPageTitle = By.cssSelector(".analytics-header .page-title");
+    private final By analyticsPageTitle = By.cssSelector(".analytics-header .page-title .x-innerhtml .details .title");
 
     // Admin page elements
     private final By adminSideNav = By.cssSelector(".navigation-toggler[_ngcontent-yjn-4] .toggler-button[_ngcontent-yjn-4]");

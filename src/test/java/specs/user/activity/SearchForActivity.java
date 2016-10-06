@@ -41,6 +41,8 @@ public class SearchForActivity extends AbstractSpec {
 
         activityPage.searchForNote(comment2);
 
+        // TODO this assertion should make sure comment1 is NOT visible
+
         Assert.assertThat(activityPage.getSearchResults(), containsString(comment2));
     }
 
