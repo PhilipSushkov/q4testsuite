@@ -13,7 +13,7 @@ import static org.hamcrest.CoreMatchers.containsString;
 /**
  * Created by patrickp on 2016-09-20.
  */
-public class CompaniesPageActions extends AdminAbstractSpec {
+public class CompaniesList extends AdminAbstractSpec {
 
     @Before
     public void setUp() {
@@ -34,5 +34,13 @@ public class CompaniesPageActions extends AdminAbstractSpec {
         CompanyPage companyPage = new CompanyPage(driver).selectFirstCompanyInList();
 
         Assert.assertThat(companyPage.getAdminPageTitle(), containsString(companyName));
+    }
+
+    @Test
+    public void canSearchForCompany() {
+        String companyName = "Yum";
+        CompanyPage companyPage = new CompanyPage(driver).searchForCompany(companyName);
+
+        Assert.assertThat(companyPage.getCompanyList(), containsString(companyName));
     }
 }

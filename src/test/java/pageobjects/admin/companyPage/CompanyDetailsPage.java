@@ -2,6 +2,7 @@ package pageobjects.admin.companyPage;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 /**
  * Created by patrickp on 2016-09-20.
@@ -10,19 +11,39 @@ public class CompanyDetailsPage extends CompanyPage {
 
     private final By addButton = By.cssSelector(".button.button-blue");
     private final By companySearchField = By.cssSelector(".modal .ui-dialog .ui-dialog-content .ui-autocomplete.auto-complete-search .ui-inputtext");
-    private final By saveButton = By.cssSelector(".button-yellow");
+    private final By saveButton = By.xpath("/html/body/q4-app/div/div/q4-organization-details/q4-organization-peers/p-dialog[1]/div/div[2]/q4-peer-create/div/button[2]");
+    private final By companyNameSaveButton = By.xpath("/html/body/q4-app/div/div/q4-organization-details/p-dialog[2]/div/div[2]/q4-organization-details-edit/div/button");
+
     private final By searchResult = By.cssSelector("body > q4-app > div > div > q4-organization-details > q4-organization-peers > p-dialog:nth-child(3) > div > div.ui-dialog-content.ui-widget-content > q4-peer-create > p-autocomplete > span > div");
+
+    private final By loadingSpinner = By.className("outer-spinner-container");
+    private final By editCompanyButton = By.xpath("/html/body/q4-app/div/div/q4-organization-details/header/div/div[2]/button[1]");
+    private final By companyNameField = By.cssSelector(".ui-inputtext");
 
     public CompanyDetailsPage(WebDriver driver) {
         super(driver);
     }
 
     public CompanyDetailsPage addPeer(String company) {
-        waitForElementToAppear(addButton);
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(loadingSpinner));
+        wait.until(ExpectedConditions.elementToBeClickable(addButton));
         findElement(addButton).click();
         findElement(companySearchField).sendKeys(company);
+        waitForElementToAppear(searchResult);
         findElement(searchResult).click();
+        wait.until(ExpectedConditions.elementToBeClickable(saveButton));
         findElement(saveButton).click();
+
+        return this;
+    }
+
+    public CompanyDetailsPage editCompanyName(String newName) {
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(loadingSpinner));
+        wait.until(ExpectedConditions.elementToBeClickable(editCompanyButton));
+        findElement(editCompanyButton).click();
+        findElement(companyNameField).clear();
+        findElement(companyNameField).sendKeys(newName);
+        findElement(companyNameSaveButton).click();
 
         return this;
     }

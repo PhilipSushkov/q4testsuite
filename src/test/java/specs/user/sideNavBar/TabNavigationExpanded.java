@@ -135,7 +135,7 @@ public class TabNavigationExpanded extends AbstractSpec {
         Assert.assertThat(securityEstimatesPage.getEstimatesTabTitle(), containsString(tabTitle));
     }
 
-    // TODO getPageTitle will no retrieve text for some reason. Ignoring until I can make this work.
+    // TODO getPageTitle will not retrieve text for some reason. Ignoring until I can make this work.
     @Ignore
     @Test
     public void canNavigateToWebAnalytics() {

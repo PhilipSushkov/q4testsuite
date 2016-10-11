@@ -7,6 +7,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import pageobjects.admin.companyPage.CompanyPage;
+import pageobjects.admin.profilesPage.ProfilesList;
 import pageobjects.user.logActivity.LogActivityModal;
 import pageobjects.user.sideNavBar.SideNavBar;
 
@@ -35,6 +36,7 @@ public class AbstractPageObject implements PageObject {
     private final By adminSideNav = By.cssSelector(".navigation-toggler[_ngcontent-yjn-4] .toggler-button[_ngcontent-yjn-4]");
     private final By companyPage = By.cssSelector("body > q4-app > div > q4-navbar > nav > div > ul > li:nth-child(2) > a > i");
     private final By adminPageTitle = By.cssSelector(".page-header .page-title .details h2");
+    private final By profilesPage = By.cssSelector("body > q4-app > div > q4-navbar > nav > div > ul > li:nth-child(3) > a > i");
 
     public AbstractPageObject(WebDriver driver) {
         this.driver = driver;
@@ -107,5 +109,12 @@ public class AbstractPageObject implements PageObject {
 
     public String getAdminPageTitle() {
         return findElement(adminPageTitle).getText();
+    }
+
+    public ProfilesList navigateToProfilesPage() {
+        wait.until(ExpectedConditions.elementToBeClickable(profilesPage));
+        findElement(profilesPage).click();
+
+        return new ProfilesList(driver);
     }
 }

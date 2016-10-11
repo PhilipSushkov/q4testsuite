@@ -33,7 +33,7 @@ public class AdminAbstractSpec {
 
     private static final String BROWSER_STACK_URL = "http://jencampbell2:6jEURzbszfaWhLJc7XWx@hub.browserstack.com/wd/hub";
     private static final String BUILD_ID = RandomStringUtils.randomAlphanumeric(6);
-    public static final long DEFAULT_TIMEOUT = 8L;
+    public static final long DEFAULT_TIMEOUT = 1L;
 
     private static URL desktopUrl;
     private static BrowserStackCapability browser;
@@ -49,7 +49,7 @@ public class AdminAbstractSpec {
         if (!setupIsDone) {
             setupEnvironment();
 
-            desktopUrl = new URL(activeEnvironment.getAdminProtocol() + activeEnvironment.getHost());
+            desktopUrl = new URL(activeEnvironment.getProtocol() + activeEnvironment.getHost());
 
             LOG.info("ENV URL: " + desktopUrl);
 
