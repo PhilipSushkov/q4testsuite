@@ -5,6 +5,7 @@ import org.junit.runners.Suite;
 import specs.admin.companyPage.CompaniesList;
 import specs.admin.companyPage.CompanyDetails;
 import specs.admin.loginPage.AdminLogin;
+import specs.admin.profiles.Profiles;
 
 /**
  * Created by patrickp on 2016-09-20.
@@ -13,7 +14,8 @@ import specs.admin.loginPage.AdminLogin;
 @Suite.SuiteClasses({
         AdminLogin.class,
         CompaniesList.class,
-        CompanyDetails.class
+        CompanyDetails.class,
+        Profiles.class
 })
 
 public class AdminSuite {
