@@ -20,15 +20,20 @@ public class CompanyPage extends AbstractPageObject {
     private final By searchField = By.cssSelector(".search.dark .search-input");
     private final By companyList = By.cssSelector(".ui-datatable table");
     private final By companyHeaderName = By.cssSelector(".page-header .page-title .details h2");
+    private final By peerList = By.cssSelector(".ui-datatable table");
+    private final By deletePeerButton = By.cssSelector("body > q4-app > div > div > q4-organization-details > q4-organization-peers > p-datatable > div > div > table > tbody > tr.ui-widget-content.ui-datatable-even > td.action-buttons > span > button.square-button.button-no-background.remove");
+    private final By firstSearchResult = By.cssSelector("body > q4-app > div > div > q4-organization > p-dialog > div > div.ui-dialog-content.ui-widget-content > q4-organization-create > p-autocomplete > span > div > ul > li:nth-child(1)");
 
     public CompanyPage(WebDriver driver) {
         super(driver);
     }
 
-    public CompanyPage addNewCompany() {
+    public CompanyPage addNewCompany(String companyName) {
         wait.until(ExpectedConditions.elementToBeClickable(addCompanyButton));
         findElement(addCompanyButton).click();
-        findElement(companyField).sendKeys("Microsoft");
+        findElement(companyField).sendKeys(companyName);
+        pause(500L);
+        findElement(firstSearchResult).click();
         findElement(saveButton).click();
 
         return this;
@@ -74,5 +79,16 @@ public class CompanyPage extends AbstractPageObject {
     public String getCompanyName() {
         wait.until(ExpectedConditions.invisibilityOfElementLocated(loading));
         return findElement(companyHeaderName).getText();
+    }
+
+    public String getPeerList() {
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(loading));
+        return findElement(peerList).getText();
+    }
+
+    public CompanyPage removePeer() {
+        findElement(deletePeerButton).click();
+
+        return this;
     }
 }

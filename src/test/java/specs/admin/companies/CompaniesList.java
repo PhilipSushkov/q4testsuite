@@ -1,4 +1,4 @@
-package specs.admin.companyPage;
+package specs.admin.companies;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -21,11 +21,17 @@ public class CompaniesList extends AdminAbstractSpec {
                 .navigateToCompanyPage();
     }
 
-    // Delete company is currently broken. Add this later.
     @Ignore
     @Test
     public void canAddCompanyToList() {
-        CompanyPage companyPage = new CompanyPage(driver).addNewCompany();
+        String companyName = "Canopy Growth Corp.";
+        CompanyPage companyPage = new CompanyPage(driver).addNewCompany(companyName);
+    }
+
+    @Ignore
+    @Test
+    public void canEditCompanyNameWhenAdding() {
+
     }
 
     @Test
@@ -42,5 +48,13 @@ public class CompaniesList extends AdminAbstractSpec {
         CompanyPage companyPage = new CompanyPage(driver).searchForCompany(companyName);
 
         Assert.assertThat(companyPage.getCompanyList(), containsString(companyName));
+    }
+
+    @Test
+    public void unknownSearchReturnsNoResults() {
+        String fakeName = "1234";
+        CompanyPage companyPage = new CompanyPage(driver).searchForCompany(fakeName);
+
+        Assert.assertThat(companyPage.getCompanyList(), containsString("No records found"));
     }
 }

@@ -1,5 +1,6 @@
-package specs.admin.companyPage;
+package specs.admin.companies;
 
+import org.apache.commons.lang.RandomStringUtils;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -22,12 +23,6 @@ public class CompanyDetails extends AdminAbstractSpec {
     }
 
     @Test
-    public void canAddPeer() {
-        new CompanyPage(driver).selectFirstCompanyInList()
-                .addPeer("GOOGL");
-    }
-
-    @Test
     public void canEditCompanyDetails() {
         String newName = "Testing";
         CompanyPage companyPage = new CompanyPage(driver);
@@ -38,5 +33,17 @@ public class CompanyDetails extends AdminAbstractSpec {
         Assert.assertThat(companyPage.getCompanyName(), containsString(newName));
 
         new CompanyDetailsPage(driver).editCompanyName(companyName);
+    }
+
+    @Test
+    public void canEditPeerNameWhenAdding() {
+        String peer = "GOOG";
+        String name = "New Test" + RandomStringUtils.randomAlphanumeric(3);
+        CompanyPage companyPage = new CompanyPage(driver).selectFirstCompanyInList()
+                .addEditPeer(peer, name);
+
+        Assert.assertThat(companyPage.getPeerList(), containsString(name));
+
+        companyPage.removePeer();
     }
 }

@@ -2,10 +2,11 @@ package testrunner;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
-import specs.admin.companyPage.CompaniesList;
-import specs.admin.companyPage.CompanyDetails;
+import specs.admin.companies.CompaniesList;
+import specs.admin.companies.CompanyDetails;
+import specs.admin.implementation.AddEditImplementations;
 import specs.admin.loginPage.AdminLogin;
-import specs.admin.profiles.Profiles;
+import specs.admin.profiles.EditProfilesList;
 
 /**
  * Created by patrickp on 2016-09-20.
@@ -15,7 +16,8 @@ import specs.admin.profiles.Profiles;
         AdminLogin.class,
         CompaniesList.class,
         CompanyDetails.class,
-        Profiles.class
+        EditProfilesList.class,
+        AddEditImplementations.class
 })
 
 public class AdminSuite {

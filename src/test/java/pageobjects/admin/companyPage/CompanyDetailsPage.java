@@ -19,6 +19,7 @@ public class CompanyDetailsPage extends CompanyPage {
     private final By loadingSpinner = By.className("outer-spinner-container");
     private final By editCompanyButton = By.xpath("/html/body/q4-app/div/div/q4-organization-details/header/div/div[2]/button[1]");
     private final By companyNameField = By.cssSelector(".ui-inputtext");
+    private final By companyEditField = By.name("company_name");
 
     public CompanyDetailsPage(WebDriver driver) {
         super(driver);
@@ -44,6 +45,21 @@ public class CompanyDetailsPage extends CompanyPage {
         findElement(companyNameField).clear();
         findElement(companyNameField).sendKeys(newName);
         findElement(companyNameSaveButton).click();
+
+        return this;
+    }
+
+    public CompanyPage addEditPeer(String name, String newName) {
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(loadingSpinner));
+        wait.until(ExpectedConditions.elementToBeClickable(addButton));
+        findElement(addButton).click();
+        findElement(companySearchField).sendKeys(name);
+        waitForElementToAppear(searchResult);
+        findElement(searchResult).click();
+        findElement(companyEditField).clear();
+        findElement(companyEditField).sendKeys(newName);
+        wait.until(ExpectedConditions.elementToBeClickable(saveButton));
+        findElement(saveButton).click();
 
         return this;
     }
