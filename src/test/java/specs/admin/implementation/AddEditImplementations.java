@@ -62,7 +62,7 @@ public class AddEditImplementations extends AdminAbstractSpec {
 
     @Test
     public void canCancelImplementationCreation() {
-        ImplementationPage implementationPage = new ImplementationPage(driver).openNewImplementationModal()
+        new ImplementationPage(driver).openNewImplementationModal()
                 .cancelImplementationCreation();
 
         // Assert that modal has been dismissed.

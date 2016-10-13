@@ -4,6 +4,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.openqa.selenium.By;
 import pageobjects.admin.companyPage.CompanyPage;
 import pageobjects.admin.loginPage.LoginPage;
 import specs.AdminAbstractSpec;
@@ -56,5 +57,21 @@ public class CompaniesList extends AdminAbstractSpec {
         CompanyPage companyPage = new CompanyPage(driver).searchForCompany(fakeName);
 
         Assert.assertThat(companyPage.getCompanyList(), containsString("No records found"));
+    }
+
+    @Test
+    public void canCancelAddModal() {
+        new CompanyPage(driver).triggerAddCompanyModal()
+                .cancelAddCompany();
+
+        Assert.assertEquals(1, driver.findElements(By.className("ui-dialog-title")).size());
+    }
+
+    @Test
+    public void canDismissAddModal() {
+        new CompanyPage(driver).triggerAddCompanyModal()
+                .exitAddCompanyModal();
+
+        Assert.assertEquals(1, driver.findElements(By.className("ui-dialog-title")).size());
     }
 }
