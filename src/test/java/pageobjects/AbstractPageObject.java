@@ -61,9 +61,19 @@ public class AbstractPageObject implements PageObject {
         return this.wait;
     }
 
-    public void checkIfUnchecked(By selector) {
-        String value = findElement(selector).getAttribute("checked");
-        if (!Boolean.parseBoolean(value)) {
+    // Check if subscription toggle is unchecked. If its unchecked, check it
+    public void toggleOn(By selector) {
+        String value = findElement(selector).getAttribute("class");
+        if (value.equals("off ng-untouched ng-pristine ng-valid")) {
+            findElement(selector).click();
+        }
+    }
+
+    // Check if subscription toggle is check. If its checked, un-check it
+    public void toggleOff(By selector) {
+        String value = findElement(selector).getAttribute("class");
+        System.out.println(value);
+        if (value.equals("on ng-untouched ng-pristine ng-valid")) {
             findElement(selector).click();
         }
     }
@@ -117,6 +127,7 @@ public class AbstractPageObject implements PageObject {
     public ProfilesList navigateToProfilesPage() {
         wait.until(ExpectedConditions.invisibilityOfElementLocated(loading));
         findElement(profilesPage).click();
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(loading));
 
         return new ProfilesList(driver);
     }

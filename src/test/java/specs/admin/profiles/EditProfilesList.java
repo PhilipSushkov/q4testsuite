@@ -5,7 +5,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-import pageobjects.admin.loginPage.LoginPage;
+import pageobjects.admin.loginPage.AdminLoginPage;
 import pageobjects.admin.profilesPage.ProfileDetails;
 import pageobjects.admin.profilesPage.ProfilesList;
 import specs.AdminAbstractSpec;
@@ -19,7 +19,7 @@ public class EditProfilesList extends AdminAbstractSpec {
 
     @Before
     public void setUp() {
-        new LoginPage(driver).loginAdmin()
+        new AdminLoginPage(driver).loginAdmin()
                 .navigateToProfilesPage();
     }
 
@@ -36,7 +36,7 @@ public class EditProfilesList extends AdminAbstractSpec {
     @Test
     public void canAddProfile() {
         String email = "Test@" + RandomStringUtils.randomAlphanumeric(5) + ".com";
-        String password = RandomStringUtils.randomAlphanumeric(6) + "!";
+        String password = "testing123!";
         String organization = "WIX";
         String firstName = "Test";
         String lastName = "Testerson";

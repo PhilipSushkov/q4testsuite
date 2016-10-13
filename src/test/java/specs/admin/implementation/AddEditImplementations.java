@@ -6,7 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import pageobjects.admin.implementationPage.ImplementationPage;
-import pageobjects.admin.loginPage.LoginPage;
+import pageobjects.admin.loginPage.AdminLoginPage;
 import specs.AdminAbstractSpec;
 
 import static org.hamcrest.CoreMatchers.containsString;
@@ -18,7 +18,7 @@ public class AddEditImplementations extends AdminAbstractSpec {
 
     @Before
     public void setUp() {
-        new LoginPage(driver).loginAdmin()
+        new AdminLoginPage(driver).loginAdmin()
                 .navigateToImplementationPage();
     }
 

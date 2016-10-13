@@ -36,6 +36,7 @@ public class ProfilesList extends AbstractPageObject {
 
     public ProfilesList searchForProfile(String username) {
         findElement(profileSearchField).sendKeys(username);
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(loadingSpinner));
 
         return this;
     }

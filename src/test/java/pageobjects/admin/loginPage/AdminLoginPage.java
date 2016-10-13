@@ -7,7 +7,7 @@ import pageobjects.AbstractPageObject;
 /**
  * Created by patrickp on 2016-09-16.
  */
-public class LoginPage extends AbstractPageObject {
+public class AdminLoginPage extends AbstractPageObject {
     private final By loginButton = By.cssSelector("#login-page > div > button.login-button");
     private final By googleLoginButton = By.cssSelector("#a0-onestep > div.a0-mode-container > div > form > div.a0-body-content > div.a0-collapse-social > div.a0-iconlist > div > span");
     private final By enterEmail = By.id("Email");
@@ -15,11 +15,11 @@ public class LoginPage extends AbstractPageObject {
     private final By submit = By.id("signIn");
     private final By nextButton = By.id("next");
 
-    public LoginPage(WebDriver driver) {
+    public AdminLoginPage(WebDriver driver) {
         super(driver);
     }
 
-    public LoginPage customLoginAdmin(String email, String password) {
+    public AdminLoginPage customLoginAdmin(String email, String password) {
         findElement(loginButton).click();
         findElement(googleLoginButton).click();
         // Store the current window handle
@@ -45,7 +45,7 @@ public class LoginPage extends AbstractPageObject {
         return this;
     }
 
-    public LoginPage loginAdmin() {
+    public AdminLoginPage loginAdmin() {
         findElement(loginButton).click();
         findElement(googleLoginButton).click();
         // Store the current window handle
