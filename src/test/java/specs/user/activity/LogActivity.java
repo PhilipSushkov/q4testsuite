@@ -9,7 +9,6 @@ import pageobjects.user.loginPage.LoginPage;
 import specs.AbstractSpec;
 
 import static org.hamcrest.CoreMatchers.containsString;
-import static org.hamcrest.CoreMatchers.equalTo;
 
 /**
  * Created by patrickp on 2016-08-22.
@@ -28,9 +27,6 @@ public class LogActivity extends AbstractSpec {
         String comment = "This is a test comment" + RandomStringUtils.randomAlphanumeric(6);
         String note = "This is a test note" + RandomStringUtils.randomAlphanumeric(6);
         String tag = "TestTag" + RandomStringUtils.randomAlphanumeric(6);
-        int count = new ActivityPage(driver).getNoteCount();
-
-        System.out.println(new ActivityPage(driver).getNoteCount());
 
         ActivityPage activityPage = new ActivityPage(driver);
         new ActivityPage(driver).logNote()
@@ -39,8 +35,7 @@ public class LogActivity extends AbstractSpec {
 
         // Make sure the new comment appears on page
         Assert.assertThat(activityPage.getNewNote(), containsString(comment));
-        // Make sure the note count increased by 1
-        Assert.assertThat(activityPage.getNoteCount(), (equalTo((count + 1 ))));
+
     }
 
     @Test
@@ -51,19 +46,14 @@ public class LogActivity extends AbstractSpec {
         String name = "Person" + RandomStringUtils.randomAlphanumeric(3);
         String phoneNumber = RandomStringUtils.randomNumeric(7);
 
-        int count = new ActivityPage(driver).getCallCount();
-
-        System.out.println(new ActivityPage(driver).getCallCount());
 
         ActivityPage activityPage = new ActivityPage(driver);
         new ActivityPage(driver).logNote()
-                .choosePhoneTab()
-                .enterPhoneNoteDetails(comment, phoneNumber, name, note, tag);
+                .enterPhoneNoteDetails(comment, phoneNumber, name, note, tag)
+                .choosePhoneTab();
 
         // Make sure the new comment appears on page
         Assert.assertThat(activityPage.getNewNote(), containsString(comment));
-        // Make sure the note count increased by 1
-        Assert.assertThat(activityPage.getCallCount(), (equalTo((count + 1 ))));
     }
 
     @Test
@@ -73,19 +63,13 @@ public class LogActivity extends AbstractSpec {
         String tag = "TestTag" + RandomStringUtils.randomAlphanumeric(6);
         String email = "person@" + RandomStringUtils.randomAlphanumeric(4) + ".com";
 
-        int count = new ActivityPage(driver).getEmailCount();
-
-        System.out.println(new ActivityPage(driver).getEmailCount());
-
         ActivityPage activityPage = new ActivityPage(driver);
         new ActivityPage(driver).logNote()
-                .chooseEmailTab()
-                .enterEmailNoteDetails(comment, email, note, tag);
+                .enterEmailNoteDetails(comment, note, tag)
+                .chooseEmailTab();
 
         // Make sure the new comment appears on page
         Assert.assertThat(activityPage.getNewNote(), containsString(comment));
-        // Make sure the note count increased by 1
-        Assert.assertThat(activityPage.getEmailCount(), (equalTo((count + 1 ))));
     }
 
     @Test
@@ -97,18 +81,12 @@ public class LogActivity extends AbstractSpec {
         String phoneNumber = RandomStringUtils.randomNumeric(7);
         String city = "Toronto";
 
-        int count = new ActivityPage(driver).getMeetingCount();
-
-        System.out.println(new ActivityPage(driver).getMeetingCount());
-
         ActivityPage activityPage = new ActivityPage(driver);
         new ActivityPage(driver).logNote()
-                .chooseMeetingTab()
-                .enterMeetingDetails(comment, phoneNumber, name, city, note, tag);
+                .enterMeetingDetails(comment, name, note, tag)
+                .chooseMeetingTab();
 
         // Make sure the new comment appears on page
         Assert.assertThat(activityPage.getNewNote(), containsString(comment));
-        // Make sure the note count increased by 1
-        Assert.assertThat(activityPage.getMeetingCount(), (equalTo((count + 1 ))));
     }
 }

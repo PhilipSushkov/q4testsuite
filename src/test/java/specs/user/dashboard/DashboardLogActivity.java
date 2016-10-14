@@ -62,13 +62,12 @@ public class DashboardLogActivity extends AbstractSpec {
     @Test
     public void canLogEmailFromDashboard() {
         String comment = "This is an email comment" + RandomStringUtils.randomAlphanumeric(6);
-        String email = RandomStringUtils.randomAlphanumeric(6) + "@mail.com";
         String note = "This is an email noe" + RandomStringUtils.randomAlphanumeric(6);
         String tag = "EmailTag" + RandomStringUtils.randomAlphanumeric(6);
 
         ActivityPage activityPage = new ActivityPage(driver);
         new Dashboard(driver).logEmailNote()
-                .enterEmailNoteDetails(comment, email, note, tag)
+                .enterEmailNoteDetails(comment, note, tag)
                 .accessSideNav()
                 .selectActivityPageFromSideNav();
 
@@ -81,14 +80,12 @@ public class DashboardLogActivity extends AbstractSpec {
     public void canLogMeetingFromDashboard() {
         String comment = "This is a meeting comment" + RandomStringUtils.randomAlphanumeric(6);
         String name = "Joe" + RandomStringUtils.randomAlphanumeric(5);
-        String city = "Toronto" + RandomStringUtils.randomAlphanumeric(6);
-        String state = "Ontario" + RandomStringUtils.randomAlphanumeric(6);
         String note = "This is a meeting note" + RandomStringUtils.randomAlphanumeric(6);
         String tag = "MeetingTag" + RandomStringUtils.randomAlphanumeric(3);
 
         ActivityPage activityPage = new ActivityPage(driver);
         new Dashboard(driver).logMeetingNote()
-                .enterMeetingDetails(comment, name, city, state, note, tag)
+                .enterMeetingDetails(comment, name, note, tag)
                 .accessSideNav()
                 .selectActivityPageFromSideNav();
 

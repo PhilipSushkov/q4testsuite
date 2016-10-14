@@ -16,8 +16,7 @@ public class LogActivityModal extends AbstractPageObject {
     private final By typeNoteField = By.name("body");
     private final By tagField = By.name("tag");
     private final By postButton = By.cssSelector(".new-note .post-btn");
-    private final By phoneNumberField = By.name("person_phone");
-    private final By nameField = By.name("person_name");
+    private final By nameField = By.xpath("/html/body/div/div/div[1]/form/div[1]/div[2]/div/div[2]/div[4]/div/div[3]/div[2]/div/input");
     private final By cityField = By.name("person_city");
     private final By emailField = By.name("email");
     private final By stateField = By.name("person_state");
@@ -28,9 +27,10 @@ public class LogActivityModal extends AbstractPageObject {
     private final By fundIcon = By.id("ext-radiofield-2");
     private final By contactIcon = By.id("ext-radiofield-3");
     private final By companyIcon = By.id("ext-radiofield-4");
-    private final By phoneTab = By.cssSelector(".new-note.x-floating .new-note-tabs .tab-phone");
-    private final By emailTab = By.cssSelector(".new-note.x-floating .new-note-tabs .tab-email");
-    private final By meetingTab = By.cssSelector(".new-note.x-floating .new-note-tabs .tab-meeting");
+    private final By phoneTab = By.id("ext-simplelistitem-2");
+    private final By emailTab = By.id("ext-simplelistitem-3");
+    private final By meetingTab = By.id("ext-simplelistitem-4");
+    private final By meetingDropdown = By.xpath("/html/body/div/div/div[1]/form/div[1]/div[2]/div/div[2]/div[6]/div[2]/div");
 
     public LogActivityModal(WebDriver driver) {
         super(driver);
@@ -55,43 +55,35 @@ public class LogActivityModal extends AbstractPageObject {
     public LogActivityModal enterPhoneNoteDetails(String comment, String phone, String name, String note, String tag) {
         retryClick(findElement(commentField));
         findElement(commentField).sendKeys(comment);
-        findElement(phoneNumberField).sendKeys(phone);
+        findElement(nameField).click();
         findElement(nameField).sendKeys(name);
+        findElement(nameField).sendKeys(Keys.ENTER);
         findElement(typeNoteField).sendKeys(note);
         findElement(tagField).sendKeys(tag);
         findElement(tagField).sendKeys(Keys.RETURN);
-        wait.until(ExpectedConditions.elementToBeClickable(postButton));
-        findElement(postButton).click();
         pause(2000L);
 
         return this;
     }
 
-    public LogActivityModal enterEmailNoteDetails(String comment, String email, String note, String tag) {
+    public LogActivityModal enterEmailNoteDetails(String comment, String note, String tag) {
         retryClick(findElement(commentField));
         findElement(commentField).sendKeys(comment);
-        findElement(emailField).sendKeys(email);
         findElement(typeNoteField).sendKeys(note);
         findElement(tagField).sendKeys(tag);
         findElement(tagField).sendKeys(Keys.RETURN);
-        wait.until(ExpectedConditions.elementToBeClickable(postButton));
-        findElement(postButton).click();
         pause(2000L);
 
         return this;
     }
 
-    public LogActivityModal enterMeetingDetails(String comment, String name, String city, String state, String note, String tag) {
+    public LogActivityModal enterMeetingDetails(String comment, String name, String note, String tag) {
         retryClick(findElement(commentField));
         findElement(commentField).sendKeys(comment);
         findElement(nameField).sendKeys(name);
-        findElement(cityField).sendKeys(city);
-        findElement(stateField).sendKeys(state);
         findElement(typeNoteField).sendKeys(note);
         findElement(tagField).sendKeys(tag);
         findElement(tagField).sendKeys(Keys.RETURN);
-        wait.until(ExpectedConditions.elementToBeClickable(postButton));
-        findElement(postButton).click();
         pause(2000L);
 
         return this;
@@ -149,19 +141,31 @@ public class LogActivityModal extends AbstractPageObject {
     }
 
     public LogActivityModal choosePhoneTab() {
+        waitForElementToAppear(meetingDropdown);
+        findElement(meetingDropdown).click();
         findElement(phoneTab).click();
+        wait.until(ExpectedConditions.elementToBeClickable(postButton));
+        findElement(postButton).click();
 
         return this;
     }
 
     public LogActivityModal chooseEmailTab() {
+        waitForElementToAppear(meetingDropdown);
+        findElement(meetingDropdown).click();
         findElement(emailTab).click();
+        wait.until(ExpectedConditions.elementToBeClickable(postButton));
+        findElement(postButton).click();
 
         return this;
     }
 
     public LogActivityModal chooseMeetingTab() {
+        waitForElementToAppear(meetingDropdown);
+        findElement(meetingDropdown).click();
         findElement(meetingTab).click();
+        wait.until(ExpectedConditions.elementToBeClickable(postButton));
+        findElement(postButton).click();
 
         return this;
     }
