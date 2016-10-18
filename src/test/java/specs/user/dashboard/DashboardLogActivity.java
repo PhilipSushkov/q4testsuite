@@ -36,26 +36,23 @@ public class DashboardLogActivity extends AbstractSpec {
                 .selectActivityPageFromSideNav();
 
         Assert.assertThat(activityPage.getNewNote(), containsString(comment));
-        Assert.assertThat(activityPage.getNewNote(), containsString(note));
         Assert.assertThat(activityPage.getNewNote(), containsString(tag));
     }
 
     @Test
     public void canLogPhoneCallFromDashboard() {
         String comment = "This is a phone comment" + RandomStringUtils.randomAlphanumeric(6);
-        String phone = RandomStringUtils.randomNumeric(10);
         String name = "Joe" + RandomStringUtils.randomAlphanumeric(6);
-        String note = "This ia a phone note" + RandomStringUtils.randomAlphanumeric(6);
+        String note = "This is a phone note" + RandomStringUtils.randomAlphanumeric(6);
         String tag = "PhoneTag" + RandomStringUtils.randomAlphanumeric(6);
 
         ActivityPage activityPage = new ActivityPage(driver);
         new Dashboard(driver).logPhoneNote()
-                .enterPhoneNoteDetails(comment, phone, name, note, tag)
+                .enterPhoneNoteDetails(comment, name, note, tag)
                 .accessSideNav()
                 .selectActivityPageFromSideNav();
 
         Assert.assertThat(activityPage.getNewNote(), containsString(comment));
-        Assert.assertThat(activityPage.getNewNote(), containsString(note));
         Assert.assertThat(activityPage.getNewNote(), containsString(tag));
     }
 
@@ -72,7 +69,6 @@ public class DashboardLogActivity extends AbstractSpec {
                 .selectActivityPageFromSideNav();
 
         Assert.assertThat(activityPage.getNewNote(), containsString(comment));
-        Assert.assertThat(activityPage.getNewNote(), containsString(note));
         Assert.assertThat(activityPage.getNewNote(), containsString(tag));
     }
 
@@ -90,7 +86,6 @@ public class DashboardLogActivity extends AbstractSpec {
                 .selectActivityPageFromSideNav();
 
         Assert.assertThat(activityPage.getNewNote(), containsString(comment));
-        Assert.assertThat(activityPage.getNewNote(), containsString(note));
         Assert.assertThat(activityPage.getNewNote(), containsString(tag));
     }
 

@@ -49,7 +49,7 @@ public class LogActivity extends AbstractSpec {
 
         ActivityPage activityPage = new ActivityPage(driver);
         new ActivityPage(driver).logNote()
-                .enterPhoneNoteDetails(comment, phoneNumber, name, note, tag)
+                .enterPhoneNoteDetails(comment, name, note, tag)
                 .choosePhoneTab();
 
         // Make sure the new comment appears on page

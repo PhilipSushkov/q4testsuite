@@ -52,7 +52,7 @@ public class LogActivityModal extends AbstractPageObject {
         return this;
     }
 
-    public LogActivityModal enterPhoneNoteDetails(String comment, String phone, String name, String note, String tag) {
+    public LogActivityModal enterPhoneNoteDetails(String comment, String name, String note, String tag) {
         retryClick(findElement(commentField));
         findElement(commentField).sendKeys(comment);
         findElement(nameField).click();
@@ -61,6 +61,7 @@ public class LogActivityModal extends AbstractPageObject {
         findElement(typeNoteField).sendKeys(note);
         findElement(tagField).sendKeys(tag);
         findElement(tagField).sendKeys(Keys.RETURN);
+        findElement(postButton).click();
         pause(2000L);
 
         return this;
@@ -72,6 +73,7 @@ public class LogActivityModal extends AbstractPageObject {
         findElement(typeNoteField).sendKeys(note);
         findElement(tagField).sendKeys(tag);
         findElement(tagField).sendKeys(Keys.RETURN);
+        findElement(postButton).click();
         pause(2000L);
 
         return this;
@@ -84,6 +86,7 @@ public class LogActivityModal extends AbstractPageObject {
         findElement(typeNoteField).sendKeys(note);
         findElement(tagField).sendKeys(tag);
         findElement(tagField).sendKeys(Keys.RETURN);
+        findElement(postButton).click();
         pause(2000L);
 
         return this;
