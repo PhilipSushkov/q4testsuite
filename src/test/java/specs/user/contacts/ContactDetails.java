@@ -66,6 +66,7 @@ public class ContactDetails extends AbstractSpec {
         contactDetailsPage.accessContactDropdown()
                 .logActivity()
                 .enterNoteDetails(comment, note, tag)
+                .postActivity()
                 .pageRefresh();
 
         Assert.assertThat(contactDetailsPage.getNoteDetails(), containsString(comment));

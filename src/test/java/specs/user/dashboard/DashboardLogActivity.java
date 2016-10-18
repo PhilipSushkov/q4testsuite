@@ -32,6 +32,7 @@ public class DashboardLogActivity extends AbstractSpec {
         ActivityPage activityPage = new ActivityPage(driver);
         new Dashboard(driver).logNote()
                 .enterNoteDetails(comment, note, tag)
+                .postActivity()
                 .accessSideNav()
                 .selectActivityPageFromSideNav();
 
@@ -49,6 +50,7 @@ public class DashboardLogActivity extends AbstractSpec {
         ActivityPage activityPage = new ActivityPage(driver);
         new Dashboard(driver).logPhoneNote()
                 .enterPhoneNoteDetails(comment, name, note, tag)
+                .postActivity()
                 .accessSideNav()
                 .selectActivityPageFromSideNav();
 
@@ -65,6 +67,7 @@ public class DashboardLogActivity extends AbstractSpec {
         ActivityPage activityPage = new ActivityPage(driver);
         new Dashboard(driver).logEmailNote()
                 .enterEmailNoteDetails(comment, note, tag)
+                .postActivity()
                 .accessSideNav()
                 .selectActivityPageFromSideNav();
 
@@ -109,6 +112,7 @@ public class DashboardLogActivity extends AbstractSpec {
         new Dashboard(driver).logNote()
                 .linkNoteToInstitution(institution)
                 .enterNoteDetails(comment, note, tag)
+                .postActivity()
                 .accessSideNav()
                 .selectActivityPageFromSideNav()
                 .selectFirstNoteInList();
@@ -130,6 +134,7 @@ public class DashboardLogActivity extends AbstractSpec {
         new Dashboard(driver).logNote()
                 .linkNoteToFund(fund)
                 .enterNoteDetails(comment, note, tag)
+                .postActivity()
                 .accessSideNav()
                 .selectActivityPageFromSideNav()
                 .selectFirstNoteInList();
@@ -151,6 +156,7 @@ public class DashboardLogActivity extends AbstractSpec {
         new Dashboard(driver).logNote()
                 .linkNoteToContact(contact)
                 .enterNoteDetails(comment, note, tag)
+                .postActivity()
                 .accessSideNav()
                 .selectActivityPageFromSideNav()
                 .selectFirstNoteInList();
@@ -172,6 +178,7 @@ public class DashboardLogActivity extends AbstractSpec {
         new Dashboard(driver).logNote()
                 .linkNoteToCompany(company)
                 .enterNoteDetails(comment, note, tag)
+                .postActivity()
                 .accessSideNav()
                 .selectActivityPageFromSideNav()
                 .selectFirstNoteInList();

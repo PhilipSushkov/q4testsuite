@@ -34,10 +34,12 @@ public class SearchForActivity extends AbstractSpec {
 
         ActivityPage activityPage = new ActivityPage(driver);
         activityPage.logNote()
-                .enterNoteDetails(comment1, note1, tag1);
+                .enterNoteDetails(comment1, note1, tag1)
+                .postActivity();
 
         activityPage.logNote()
-                .enterNoteDetails(comment2, note2, tag2);
+                .enterNoteDetails(comment2, note2, tag2)
+                .postActivity();
 
         activityPage.searchForNote(comment2);
 

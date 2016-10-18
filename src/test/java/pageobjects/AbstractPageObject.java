@@ -31,10 +31,8 @@ public class AbstractPageObject implements PageObject {
 
     private final By pageTitle = By.cssSelector(".q4-hero-banner .page-title");
     private final By otherPageTitle = By.cssSelector(".q4-hero-banner .page-title h1");
-    private final By analyticsPageTitle = By.cssSelector(".analytics-header .page-title .x-innerhtml .details .title");
 
     // Admin page elements
-    private final By adminSideNav = By.cssSelector(".navigation-toggler[_ngcontent-yjn-4] .toggler-button[_ngcontent-yjn-4]");
     private final By companyPage = By.cssSelector("body > q4-app > div > q4-navbar > nav > div > ul > li:nth-child(2) > a > i");
     private final By adminPageTitle = By.cssSelector(".page-header .page-title .details h2");
     private final By profilesPage = By.cssSelector("body > q4-app > div > q4-navbar > nav > div > ul > li:nth-child(3) > a > i");
@@ -79,7 +77,7 @@ public class AbstractPageObject implements PageObject {
     }
 
     public SideNavBar accessSideNav() {
-        wait.until(ExpectedConditions.elementToBeClickable(sideNavIcon));
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(loading));
         findElement(sideNavIcon).click();
 
         return new SideNavBar(getDriver());
@@ -102,6 +100,7 @@ public class AbstractPageObject implements PageObject {
     }
 
     public LogActivityModal pageRefresh() {
+        pause(2000L);
         driver.navigate().refresh();
 
         return new LogActivityModal(getDriver());
