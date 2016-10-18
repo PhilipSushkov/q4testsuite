@@ -17,9 +17,9 @@ public class ContactDetailsPage extends Page {
     private final By contactName = By.className("contact-name");
     private final By contactDropDown = By.cssSelector(".contact-page .utility-menu .more-button");
     private final By contactDropdownPostAdd = By.cssSelector(".contact-page .utility-menu .more-button");
-    private final By addOption = By.id("ext-button-47");
+    private final By addOption = By.xpath("//*[contains(text(), 'Add to Contacts')]");
     private final By favIcon = By.cssSelector(".contact-page .contact-header .contact-favorite");
-    private final By removeFromContacts = By.id("ext-button-45");
+    private final By removeFromContacts = By.xpath("//*[contains(text(), 'Remove from Contacts')]");
     private final By addTag = By.cssSelector(".tags-view .tag.add-button");
     private final By tagInputField = By.cssSelector(".tags-modal-list .tag-field input");
     private final By contactTags = By.cssSelector(".contact-hero-banner .tags-view");

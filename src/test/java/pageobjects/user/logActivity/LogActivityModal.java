@@ -17,9 +17,6 @@ public class LogActivityModal extends AbstractPageObject {
     private final By tagField = By.name("tag");
     private final By postButton = By.cssSelector(".new-note .post-btn");
     private final By nameField = By.xpath("/html/body/div/div/div[1]/form/div[1]/div[2]/div/div[2]/div[4]/div/div[3]/div[2]/div/input");
-    private final By cityField = By.name("person_city");
-    private final By emailField = By.name("email");
-    private final By stateField = By.name("person_state");
     private final By cancelNoteButton = By.cssSelector(".new-note .cancel-btn");
     private final By linkDropdown = By.cssSelector(".link-field");
     private final By keywordField = By.cssSelector(".link-field .search-field.x-field .x-form-field");
