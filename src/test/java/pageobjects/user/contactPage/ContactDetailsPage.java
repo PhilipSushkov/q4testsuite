@@ -27,7 +27,7 @@ public class ContactDetailsPage extends Page {
     private final By managedFunds = By.id("ext-tab-2");
     private final By fundTableNames = By.cssSelector(".q4-list .x-dataview-container");
     private final By tagIcon = By.cssSelector(".x-dataview-inlineblock .x-dataview-item, .x-dataview-inlineblock .x-data-item");
-    private final By logActivityOption = By.id("ext-button-48");
+    private final By logActivityOption = By.xpath("//*[contains(text(), 'Log an Activity')]");
     private final By noteDetails = By.cssSelector(".entity-note-list .details");
     private final By createTearSheet = By.xpath("//*[contains(text(), 'Create Tear Sheet')]");
     private final By reportTitle = By.cssSelector(".report-create .x-input-el");

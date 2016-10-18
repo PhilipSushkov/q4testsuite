@@ -31,7 +31,8 @@ public class LogActivity extends AbstractSpec {
         ActivityPage activityPage = new ActivityPage(driver);
         new ActivityPage(driver).logNote()
 
-                .enterNoteDetails(comment, note, tag);
+                .enterNoteDetails(comment, note, tag)
+                .postActivity();
 
         // Make sure the new comment appears on page
         Assert.assertThat(activityPage.getNewNote(), containsString(comment));

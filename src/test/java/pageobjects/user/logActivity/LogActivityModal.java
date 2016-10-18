@@ -46,7 +46,6 @@ public class LogActivityModal extends AbstractPageObject {
         findElement(tagField).sendKeys(tag);
         findElement(tagField).sendKeys(Keys.RETURN);
         wait.until(ExpectedConditions.elementToBeClickable(postButton));
-        findElement(postButton).click();
         pause(2000L);
 
         return this;
@@ -61,7 +60,6 @@ public class LogActivityModal extends AbstractPageObject {
         findElement(typeNoteField).sendKeys(note);
         findElement(tagField).sendKeys(tag);
         findElement(tagField).sendKeys(Keys.RETURN);
-        findElement(postButton).click();
         pause(2000L);
 
         return this;
@@ -73,7 +71,6 @@ public class LogActivityModal extends AbstractPageObject {
         findElement(typeNoteField).sendKeys(note);
         findElement(tagField).sendKeys(tag);
         findElement(tagField).sendKeys(Keys.RETURN);
-        findElement(postButton).click();
         pause(2000L);
 
         return this;
@@ -167,6 +164,13 @@ public class LogActivityModal extends AbstractPageObject {
         waitForElementToAppear(meetingDropdown);
         findElement(meetingDropdown).click();
         findElement(meetingTab).click();
+        wait.until(ExpectedConditions.elementToBeClickable(postButton));
+        findElement(postButton).click();
+
+        return this;
+    }
+
+    public LogActivityModal postActivity() {
         wait.until(ExpectedConditions.elementToBeClickable(postButton));
         findElement(postButton).click();
 
