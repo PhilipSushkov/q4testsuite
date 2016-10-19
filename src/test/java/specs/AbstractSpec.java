@@ -108,7 +108,7 @@ public abstract class AbstractSpec {
 
         if (getActiveEnvironment() != EnvironmentType.LOCAL) {
             driver.quit();
-            System.out.println(testMethodName + "complete");
+            System.out.println(testMethodName + " - " + "complete");
         }
     }
 
