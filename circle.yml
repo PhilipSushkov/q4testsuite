@@ -1,7 +1,9 @@
 machine:
   java:
     version: oraclejdk8
-
+  environment:
+      SELENIUM_HOST: hub-cloud.browserstack.com
+      SELENIUM_PORT: 80
 
 # Only runs a full test suite on CircleCI when build parameters are passed in.
 # otherwise only runs compile on a git push

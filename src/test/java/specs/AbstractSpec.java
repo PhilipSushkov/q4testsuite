@@ -103,7 +103,7 @@ public abstract class AbstractSpec {
     }
 
     @After
-    public void teardownWebDriver() {
+    public void teardownWebDriver() throws Exception {
 
         if (getActiveEnvironment() != EnvironmentType.LOCAL) {
             driver.quit();
