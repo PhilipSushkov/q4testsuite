@@ -1,14 +1,14 @@
 machine:
   java:
     version: oraclejdk8
-  environment:
-      SELENIUM_HOST: hub-cloud.browserstack.com
-      SELENIUM_PORT: 80
 
 # Only runs a full test suite on CircleCI when build parameters are passed in.
 # otherwise only runs compile on a git push
 
 test:
+  post:
+      - mkdir -p $CIRCLE_TEST_REPORTS/junit/
+      - find . -type f -regex ".*/target/surefire-reports/.*xml" -exec cp {} $CIRCLE_TEST_REPORTS/junit/ \;
   override:
     - ? |
         if [ -n "${TEST_ENV}" ]; then
@@ -17,11 +17,3 @@ test:
           mvn compile
         fi
       : timeout: 1500
-  post:
-    - mkdir -p $CIRCLE_TEST_REPORTS/junit/
-    - find . -type f -regex ".*/target/surefire-reports/.*xml" -exec cp {} $CIRCLE_TEST_REPORTS/junit/ \;
-experimental:
-  notify:
-    branches:
-      only:
-        - master
