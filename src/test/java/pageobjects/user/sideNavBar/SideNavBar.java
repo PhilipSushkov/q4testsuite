@@ -15,7 +15,7 @@ import pageobjects.user.securityPage.SecurityEstimatesPage;
 import pageobjects.user.securityPage.SecurityOverviewPage;
 import pageobjects.user.securityPage.SecurityOwnershipPage;
 import pageobjects.user.supportTicketsPage.SupportTicketsPage;
-import pageobjects.user.targetingPage.TargetingPage;
+import pageobjects.user.targeting.TargetingPage;
 import pageobjects.user.watchlist.WatchlistPage;
 import pageobjects.user.webAnalyticsPage.WebAnalyticsPage;
 import pageobjects.user.webcastAnalyticsPage.WebcastAnalyticsPage;

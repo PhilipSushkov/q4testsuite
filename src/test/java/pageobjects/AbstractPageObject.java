@@ -26,8 +26,8 @@ public class AbstractPageObject implements PageObject {
     };
 
     // Side hamburger menu icon
-    private final By sideNavIcon = By.cssSelector(".page-home .menu-btn");
-    private final By hamburgerIcon = By.cssSelector(".navigation-toggler .x-button-icon");
+    private final By sideNavIcon = By.cssSelector(".page-home .menu-btn"); //use for dashboard
+    private final By hamburgerIcon = By.cssSelector(".navigation-toggler .x-button-icon"); //use for other pages
 
     private final By pageTitle = By.cssSelector(".q4-hero-banner .page-title");
     private final By otherPageTitle = By.cssSelector(".q4-hero-banner .page-title h1");
@@ -76,6 +76,7 @@ public class AbstractPageObject implements PageObject {
         }
     }
 
+    //use from dashboard
     public SideNavBar accessSideNav() {
         wait.until(ExpectedConditions.invisibilityOfElementLocated(loading));
         findElement(sideNavIcon).click();
@@ -83,6 +84,7 @@ public class AbstractPageObject implements PageObject {
         return new SideNavBar(getDriver());
     }
 
+    //use from other pages
     public SideNavBar accessSideNavFromPage() {
         findElement(hamburgerIcon).click();
         return new SideNavBar(getDriver());
