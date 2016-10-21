@@ -5,8 +5,6 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.remote.server.handler.FindElements;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageobjects.AbstractPageObject;
 
 import java.util.List;
@@ -18,14 +16,20 @@ public class NewSearchPage extends AbstractPageObject{
 
     private final By locationFilter = By.cssSelector("[placeholder=City]");
     private final By locationListItem = By.id("ext-simplelistitem-1");
-    private final By searchTypeSelectors = By.cssSelector("[name=target_type]");
-    private final By searchTypeSelectorDivs = By.cssSelector("[name=target_type] + div");
+    private final By searchTypeSelectors = By.cssSelector("[name=target_type] + div");
 
     private final By draggableSliders = By.cssSelector("div.x-draggable");
 
     private final By filterDropdownSelectors = By.cssSelector(".targeting-filters-inner .dropdown-field");
     private final By dropdownOptionTitleSelectors = By.cssSelector(".dropdown-field.open .dropdown-content .x-field span");
     private final By dropdownOptionCheckboxSelectors = By.cssSelector(".dropdown-field.open .dropdown-content .x-field input + div");
+
+    private final By ownershipStockSelectors = By.cssSelector("[name=ownership_stock] + div");
+    private final By sectorActivitySelectors = By.cssSelector("[name=sector_activity] + div");
+    private final By peerActivitySelectors = By.cssSelector("[name=peer_activity] + div");
+
+    private final By excludeActivistsCheckbox = By.cssSelector("[name=exclude_activists] + div");
+    private final By loggedActivityCheckbox = By.cssSelector("[name=logged_activity] + div");
 
     private final By saveSearchButton = By.xpath("//div[span/text()='Save Search']");
     private final By searchNameField = By.cssSelector("[name=name]");
@@ -49,15 +53,8 @@ public class NewSearchPage extends AbstractPageObject{
 
         // changing selection to search funds if desired
         if (filters[1]=="Fund" || filters[1]=="fund"){
-            List<WebElement> searchTypes = findElements(searchTypeSelectors);
-            List<WebElement> searchTypeDivs = findElements(searchTypeSelectorDivs);
-            if (searchTypes.get(0).isSelected()){
-                //searchTypes.get(1).click();
-                searchTypeDivs.get(1).click();
-            }
-            else {
-                searchTypes.get(0).click();
-            }
+            List<WebElement> searchTypeDivs = findElements(searchTypeSelectors);
+            searchTypeDivs.get(1).click();
         }
 
         List<WebElement> sliders = findElements(draggableSliders);
@@ -68,9 +65,7 @@ public class NewSearchPage extends AbstractPageObject{
 
         // Filtering by QR
         actions.dragAndDropBy(sliders.get(2), sliderRange*Integer.parseInt(filters[2])/100, 0).perform();
-        //System.out.println("Moved left slider with offset of: "+sliderRange*Integer.parseInt(filters[2])/100);
         actions.dragAndDropBy(sliders.get(3), sliderRange*(Integer.parseInt(filters[3])-100)/100, 0).perform();
-        //System.out.println("Moved right slider with offset of: "+sliderRange*(Integer.parseInt(filters[3])-100)/100);
 
         // Filtering by purchasing power
         actions.dragAndDropBy(sliders.get(4), sliderRange*Integer.parseInt(filters[4])/10, 0).perform();
@@ -88,7 +83,7 @@ public class NewSearchPage extends AbstractPageObject{
         List<WebElement> dropdownOptionTitles = findElements(dropdownOptionTitleSelectors);
         List<WebElement> dropdownOptionCheckboxes = findElements(dropdownOptionCheckboxSelectors);
         for (int i=0; i<dropdownOptionTitles.size(); i++){
-            if (dropdownOptionTitles.get(i).getText().equals(filters[8])){
+            if (dropdownOptionTitles.get(i).getText().equalsIgnoreCase(filters[8])){
                 dropdownOptionCheckboxes.get(i).click();
                 System.out.println("SELECTED: "+dropdownOptionTitles.get(i).getText());
             }
@@ -102,7 +97,7 @@ public class NewSearchPage extends AbstractPageObject{
         dropdownOptionTitles = findElements(dropdownOptionTitleSelectors);
         dropdownOptionCheckboxes = findElements(dropdownOptionCheckboxSelectors);
         for (int i=0; i<dropdownOptionTitles.size(); i++){
-            if (dropdownOptionTitles.get(i).getText().equals(filters[9])){
+            if (dropdownOptionTitles.get(i).getText().equalsIgnoreCase(filters[9])){
                 dropdownOptionCheckboxes.get(i).click();
                 System.out.println("SELECTED: "+dropdownOptionTitles.get(i).getText());
             }
@@ -116,7 +111,7 @@ public class NewSearchPage extends AbstractPageObject{
         dropdownOptionTitles = findElements(dropdownOptionTitleSelectors);
         dropdownOptionCheckboxes = findElements(dropdownOptionCheckboxSelectors);
         for (int i=0; i<dropdownOptionTitles.size(); i++){
-            if (dropdownOptionTitles.get(i).getText().equals(filters[10])){
+            if (dropdownOptionTitles.get(i).getText().equalsIgnoreCase(filters[10])){
                 dropdownOptionCheckboxes.get(i).click();
                 System.out.println("SELECTED: "+dropdownOptionTitles.get(i).getText());
             }
@@ -130,15 +125,58 @@ public class NewSearchPage extends AbstractPageObject{
         dropdownOptionTitles = findElements(dropdownOptionTitleSelectors);
         dropdownOptionCheckboxes = findElements(dropdownOptionCheckboxSelectors);
         for (int i=0; i<dropdownOptionTitles.size(); i++){
-            if (dropdownOptionTitles.get(i).getText().equals(filters[11])){
+            if (dropdownOptionTitles.get(i).getText().equalsIgnoreCase(filters[11])){
                 dropdownOptionCheckboxes.get(i).click();
                 System.out.println("SELECTED: "+dropdownOptionTitles.get(i).getText());
             }
             else System.out.println("NOT MATCHED: "+dropdownOptionTitles.get(i).getText());
         }
-        filterDropdowns.get(3).click();
 
-        //TO DO HERE: Filter by ownership in my stock, sector activity, peer activity, activists, logged activity
+        // changing Ownership in My Stock to Underweight if desired
+        if (filters[12].equalsIgnoreCase("Underweight")){
+            List<WebElement> ownershipStockDivs = findElements(ownershipStockSelectors);
+            ownershipStockDivs.get(0).click();
+        }
+
+        // changing Ownership in My Stock to Overweight if desired
+        if (filters[12].equalsIgnoreCase("Overweight")){
+            List<WebElement> ownershipStockDivs = findElements(ownershipStockSelectors);
+            ownershipStockDivs.get(1).click();
+        }
+
+        // changing Sector Activity to Net Buyer if desired
+        if (filters[13].equalsIgnoreCase("Net Buyer")){
+            List<WebElement> sectorActivityDivs = findElements(sectorActivitySelectors);
+            sectorActivityDivs.get(0).click();
+        }
+
+        // changing Sector Activity to Net Seller if desired
+        if (filters[13].equalsIgnoreCase("Net Seller")){
+            List<WebElement> sectorActivityDivs = findElements(sectorActivitySelectors);
+            sectorActivityDivs.get(1).click();
+        }
+
+        // changing Peer Activity to Net Buyer if desired
+        if (filters[14].equalsIgnoreCase("Net Buyer")){
+            List<WebElement> peerActivityDivs = findElements(peerActivitySelectors);
+            peerActivityDivs.get(0).click();
+        }
+
+        // changing Peer Activity to Net Seller if desired
+        if (filters[14].equalsIgnoreCase("Net Seller")){
+            List<WebElement> peerActivityDivs = findElements(peerActivitySelectors);
+            peerActivityDivs.get(1).click();
+        }
+
+        // enable Exclude Activists filter if desired
+        if (filters[15].equalsIgnoreCase("Yes")){
+            findElement(excludeActivistsCheckbox).click();
+        }
+
+        // enable Logged Activity filter if desired
+        if (filters[16].equalsIgnoreCase("Yes")){
+            findElement(loggedActivityCheckbox).click();
+        }
 
         // Saving search
         findElement(saveSearchButton).click();

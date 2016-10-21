@@ -32,17 +32,17 @@ public class TargetingList extends AbstractSpec {
             "New York, NY", // City
                 "Institution", // Institution or Fund
                 "3", "97", // Quality Rating (lower and upper bounds, between 0 and 100)
-                "0", "8", // Purchasing Power (lower and upper bounds, between 0 and 10)
-                "0", "960", // AUM (lower and upper bounds, between 0 and 1000)
+                "1", "8", // Purchasing Power (lower and upper bounds, between 0 and 10)
+                "30", "960", // AUM (lower and upper bounds, between 0 and 1000)
                 "Low", // Turnover
                 "Investment Adviser", // Type
                 "Growth", // Style
                 "Owns Only Me", // Ownership
-                "All", // Ownership in My Stock - TO DO
-                "All", // Sector Activity - TO DO
-                "All", // Peer Activity - TO DO
-                "no", // Exclude Activists - TO DO
-                "no" // Logged Activity - TO DO
+                "Underweight", // Ownership in My Stock
+                "Net Buyer", // Sector Activity
+                "Net Buyer", // Peer Activity
+                "yes", // Exclude Activists
+                "yes" // Logged Activity
         };
 
         // creating a new search and saving it
