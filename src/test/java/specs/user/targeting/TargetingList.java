@@ -30,19 +30,19 @@ public class TargetingList extends AbstractSpec {
         String searchName = current.toString(); // makes title of search to equal current time
         String[] filters = {
             "New York, NY", // City
-                "Fund", // Institution or Fund
-                "70", "90", // Quality Rating (lower and upper bounds, between 0 and 100)
-                "0", "10", // Purchasing Power (lower and upper bounds, between 0 and 10)
-                "0", "1000", // AUM (lower and upper bounds, between 0 and 1000)
-                "Very Low", // Turnover
-                "Open-End Fund", // Type
-                "Index", // Style
-                "", // Ownership
-                "All", // Ownership in My Stock
-                "All", // Sector Activity
-                "All", // Peer Activity
-                "no", // Exclude Activists
-                "no" // Logged Activity
+                "Institution", // Institution or Fund
+                "3", "97", // Quality Rating (lower and upper bounds, between 0 and 100)
+                "0", "8", // Purchasing Power (lower and upper bounds, between 0 and 10)
+                "0", "960", // AUM (lower and upper bounds, between 0 and 1000)
+                "Low", // Turnover
+                "Investment Adviser", // Type
+                "Growth", // Style
+                "Owns Only Me", // Ownership
+                "All", // Ownership in My Stock - TO DO
+                "All", // Sector Activity - TO DO
+                "All", // Peer Activity - TO DO
+                "no", // Exclude Activists - TO DO
+                "no" // Logged Activity - TO DO
         };
 
         // creating a new search and saving it
