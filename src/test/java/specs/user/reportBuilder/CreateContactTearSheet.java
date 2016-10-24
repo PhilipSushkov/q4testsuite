@@ -62,13 +62,14 @@ public class CreateContactTearSheet extends AbstractSpec {
         Assert.assertThat(reportBuilderPage.getReportList(), is(not(containsString(reportTitle))));
     }
 
+    // Todo: Clean  up this test. We're using a tag that doesn't exist on all environments.
     @Test
     public void canAddMoreTags() {
         ReportDetailsPage reportDetailsPage = new ReportDetailsPage(driver);
         ContactDetailsPage contactDetailsPage = new ContactDetailsPage(driver);
-        String existingTag = "TestTagaYhc3o ";
+        String existingTag = "TestTagcmmB9o";
         String reportTitle = "New Report" + RandomStringUtils.randomAlphanumeric(3);
-        String comment = "This is a test commentLu7zoq";
+        String comment = "This is a test commento0Lz8x";
         contactDetailsPage.accessContactDropdown()
                 .createTearSheet(reportTitle);
 

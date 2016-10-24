@@ -42,8 +42,7 @@ public class ActivityPage extends AbstractPageObject {
     }
 
     public LogActivityModal logNote() {
-        pause(500L);
-        wait.until(ExpectedConditions.elementToBeClickable(newActivityIcon));
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(loadingSpinner));
         findElement(newActivityIcon).click();
 
         return new LogActivityModal(getDriver());

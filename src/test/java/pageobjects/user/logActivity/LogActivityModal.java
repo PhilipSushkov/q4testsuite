@@ -80,7 +80,6 @@ public class LogActivityModal extends AbstractPageObject {
         findElement(typeNoteField).sendKeys(note);
         findElement(tagField).sendKeys(tag);
         findElement(tagField).sendKeys(Keys.RETURN);
-        findElement(postButton).click();
         pause(2000L);
 
         return this;
