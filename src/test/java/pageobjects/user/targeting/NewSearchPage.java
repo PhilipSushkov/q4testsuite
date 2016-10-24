@@ -52,7 +52,7 @@ public class NewSearchPage extends AbstractPageObject{
         findElement(locationFilter).sendKeys(Keys.RETURN);
 
         // changing selection to search funds if desired
-        if (filters[1]=="Fund" || filters[1]=="fund"){
+        if (filters[1].equalsIgnoreCase("Fund")){
             List<WebElement> searchTypeDivs = findElements(searchTypeSelectors);
             searchTypeDivs.get(1).click();
         }

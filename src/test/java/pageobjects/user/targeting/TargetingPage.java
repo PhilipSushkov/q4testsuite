@@ -2,7 +2,11 @@ package pageobjects.user.targeting;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import pageobjects.AbstractPageObject;
+
+import java.io.IOException;
+import java.util.List;
 
 /**
  * Created by patrickp on 2016-09-19.
@@ -10,24 +14,41 @@ import pageobjects.AbstractPageObject;
 public class TargetingPage extends AbstractPageObject {
 
     private final By newSearchButton = By.cssSelector(".q4-hero-banner .x-dock .action-button");
-    //private final By showSearches = By.id("ext-tab-1");
-    //private final By showTargets = By.id("ext-tab-2");
-    //private final By showInstitutions = By.cssSelector(".range-tabs-inner:nth-child(1)");
-    //private final By showFunds = By.id("ext-button-271");
-    //private final By showContacts = By.id("ext-button-272");
+    private final By showSearches = By.cssSelector(".x-tabbar-inner div:first-child");
+    private final By searchNameSelectors = By.cssSelector(".x-grid-row .x-grid-cell:first-child .x-grid-cell-inner");
+    private final By searchNameDivSelectors = By.cssSelector(".x-grid-row");
+    private final By showTargets = By.cssSelector(".x-tabbar-inner div:last-child");
+
 
     public TargetingPage(WebDriver driver) {
         super(driver);
     }
 
-    //navigation to other pages here
+
     public NewSearchPage newSearch(){
-        waitForElementToAppear(newSearchButton);
+        waitForElement(newSearchButton);
         findElement(newSearchButton).click();
 
         return new NewSearchPage(getDriver());
 
     }
 
-    //other methods here
+    public int findSearchNameIndex(String searchName){
+        waitForElement(showSearches);
+        List<WebElement> searchNames = findElements(searchNameSelectors);
+
+        for (int i=0; i<searchNames.size(); i++){
+            if (searchNames.get(i).getText().equals(searchName)){
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    public EditSearchPage editSearch(int index){
+        List<WebElement> searchNameDivs = findElements(searchNameDivSelectors);
+        searchNameDivs.get(index).click();
+
+        return new EditSearchPage(getDriver());
+    }
 }

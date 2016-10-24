@@ -1,8 +1,10 @@
 package specs.user.targeting;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import pageobjects.user.loginPage.LoginPage;
+import pageobjects.user.targeting.EditSearchPage;
 import pageobjects.user.targeting.TargetingPage;
 import specs.AbstractSpec;
 
@@ -23,7 +25,7 @@ public class TargetingList extends AbstractSpec {
     Date current = new Date();
 
     @Test
-    /**Combination of TestRail test cases C2285, C2286, and C2345.
+    /**Combination of TestRail test cases C2352, C2285, C2286, and C2345.
      * Will create a new search with specified filters, save it, view it, verify
      * filters are correct, then delete it using button on filter page. */
     public void canAddViewAndDeleteASavedSearch() {
@@ -47,6 +49,21 @@ public class TargetingList extends AbstractSpec {
 
         // creating a new search and saving it
         new TargetingPage(driver).newSearch().createNewSearch(searchName, filters);
+
+        // verifying that search name is listed
+        int searchNameIndex = new TargetingPage(driver).findSearchNameIndex(searchName);
+        Assert.assertNotEquals("Search name not found in saved searches list", -1, searchNameIndex);
+
+        // opening search and verifying that filters are correct
+        boolean filtersMatch = new TargetingPage(driver).editSearch(searchNameIndex).verifyFilters(filters);
+        Assert.assertTrue("Filters do not match.", filtersMatch);
+
+        // deleting search using button on filter page
+        new EditSearchPage(driver).deleteSearch();
+
+        // verifying that search is gone
+        searchNameIndex = new TargetingPage(driver).findSearchNameIndex(searchName);
+        Assert.assertEquals("Search has not been deleted", -1, searchNameIndex);
 
     }
 }
