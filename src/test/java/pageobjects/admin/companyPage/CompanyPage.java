@@ -23,7 +23,7 @@ public class CompanyPage extends AbstractPageObject {
     private final By peerList = By.cssSelector(".ui-datatable table");
     private final By deletePeerButton = By.cssSelector("body > q4-app > div > div > q4-organization-details > q4-organization-peers > p-datatable > div > div > table > tbody > tr.ui-widget-content.ui-datatable-even > td.action-buttons > span > button.square-button.button-no-background.remove");
     private final By firstSearchResult = By.cssSelector("body > q4-app > div > div > q4-organization > p-dialog > div > div.ui-dialog-content.ui-widget-content > q4-organization-create > p-autocomplete > span > div > ul > li:nth-child(1)");
-    private final By modalX = By.className("ui-dialog-titlebar-icon ui-dialog-titlebar-close ui-corner-all");
+    private final By modalX = By.xpath("/html/body/q4-app/div/div/q4-organization/p-dialog/div/div[1]/a");
 
     public CompanyPage(WebDriver driver) {
         super(driver);
@@ -94,6 +94,7 @@ public class CompanyPage extends AbstractPageObject {
     }
 
     public CompanyPage exitAddCompanyModal() {
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(loading));
         findElement(modalX).click();
 
         return this;

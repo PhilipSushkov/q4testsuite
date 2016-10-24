@@ -103,9 +103,11 @@ public class AdminAbstractSpec {
 
     @After
     public void teardownWebDriver() {
+        String testMethodName = testName.getMethodName();
 
         if (getActiveEnvironment() != EnvironmentType.LOCALADMIN) {
             driver.quit();
+            System.out.println(testMethodName + " - " + "complete");
         }
     }
 
