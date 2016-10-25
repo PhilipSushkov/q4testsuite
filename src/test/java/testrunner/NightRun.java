@@ -14,6 +14,7 @@ import specs.user.loginPage.ForgotPassword;
 import specs.user.loginPage.UserLogin;
 import specs.user.reportBuilder.CreateContactTearSheet;
 import specs.user.sideNavBar.TabNavigationExpanded;
+import specs.user.targeting.TargetingList;
 import specs.user.team.Q4TeamPage;
 import specs.user.watchlist.EditWatchlist;
 
@@ -32,7 +33,8 @@ import specs.user.watchlist.EditWatchlist;
         CreateContactTearSheet.class,
         TabNavigationExpanded.class,
         EditWatchlist.class,
-        Q4TeamPage.class
+        Q4TeamPage.class,
+        TargetingList.class
 })
 
 public class NightRun {
