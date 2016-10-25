@@ -5,6 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 import pageobjects.user.loginPage.LoginPage;
 import pageobjects.user.targeting.EditSearchPage;
+import pageobjects.user.targeting.NewSearchPage;
 import pageobjects.user.targeting.TargetingPage;
 import specs.AbstractSpec;
 
@@ -96,5 +97,21 @@ public class TargetingList extends AbstractSpec {
         String contactPageTitle = new TargetingPage(driver).openFirstContact().getContactName();
         Assert.assertTrue("Empty fund name listed.",!firstContact.isEmpty());
         Assert.assertThat("Fund page title doesn't match.", contactPageTitle, containsString(firstContact));
+    }
+
+    @Test
+    public void canTargetAndRemoveAInstitution() {
+        // performing a filterless institution search and targeting a random untargeted result
+        String targetedInstitution = new TargetingPage(driver).newSearch().targetRandomInstitution();
+        System.out.println("Targeted institution is: "+targetedInstitution);
+
+        // going to targets list and checking that institution appears
+        int targetedInstitutionIndex = new NewSearchPage(driver).accessSideNavFromPage().selectTargetingFromSideNav().findInstitutionIndex(targetedInstitution);
+        Assert.assertNotEquals("Institution not found in targets list", -1, targetedInstitutionIndex);
+
+        // removing the target and checking that the target no longer appears
+        new TargetingPage(driver).untargetInstitution(targetedInstitutionIndex);
+        targetedInstitutionIndex = new TargetingPage(driver).findInstitutionIndex(targetedInstitution);
+        Assert.assertEquals("Institution has not been removed from targets list", -1, targetedInstitutionIndex);
     }
 }

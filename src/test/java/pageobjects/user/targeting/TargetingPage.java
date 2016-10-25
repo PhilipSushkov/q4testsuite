@@ -27,6 +27,8 @@ public class TargetingPage extends AbstractPageObject {
     private final By showContacts = By.xpath("//div[contains(@class,'range-tabs-inner')]/div[span/text()='Contacts']");
     private final By firstEntitySelector = By.cssSelector(".targeting-grid-item-first.x-has-height");
     private final By firstEntityNameSelector = By.cssSelector(".targeting-grid-item-first.x-has-height div:first-child .x-grid-cell-inner");
+    private final By institutionName = By.cssSelector(".x-grid-row.x-has-height div:first-child .x-grid-cell-inner");
+    private final By institutionTargetButton = By.className("target");
 
 
     public TargetingPage(WebDriver driver) {
@@ -59,6 +61,40 @@ public class TargetingPage extends AbstractPageObject {
         searchNameDivs.get(index).click();
 
         return new EditSearchPage(getDriver());
+    }
+
+    public int findInstitutionIndex(String name){
+        waitForElement(showTargets);
+        findVisibleElement(showTargets).click();
+        pause(2000);
+        findVisibleElement(showInstitutions).click();
+        pause(2000);
+        List<WebElement> institutionNames = findElements(institutionName);
+        int startIndex = 0;
+        for (int i=0; i<institutionNames.size(); i++){
+            if (institutionNames.get(i).isDisplayed()){
+                startIndex = i;
+                break;
+            }
+        }
+        for (int i=0; i+startIndex<institutionNames.size(); i++){
+            if (institutionNames.get(i+startIndex).getText().contains(name)){
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    public void untargetInstitution(int index){
+        List<WebElement> targetButtons = findElements(institutionTargetButton);
+        int startIndex = 0;
+        for (int i=0; i<targetButtons.size(); i++){
+            if (targetButtons.get(i).isDisplayed()){
+                startIndex = i;
+                break;
+            }
+        }
+        targetButtons.get(index+startIndex).click();
     }
 
     public String getFirstInstitution(){

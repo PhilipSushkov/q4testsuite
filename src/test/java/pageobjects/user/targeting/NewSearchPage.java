@@ -8,6 +8,7 @@ import org.openqa.selenium.interactions.Actions;
 import pageobjects.AbstractPageObject;
 
 import java.util.List;
+import java.util.Random;
 
 /**
  * Created by jasons on 2016-10-03.
@@ -35,7 +36,12 @@ public class NewSearchPage extends AbstractPageObject{
     private final By searchNameField = By.cssSelector("[name=name]");
     private final By saveButton = By.xpath("//div[span/text()='Save']");
 
+    private final By searchButton = By.xpath("//div[span/text()='Search']");
+    private final By saveTargetButton = By.className("target-toggle");
+    private final By resultName = By.cssSelector(".row div:first-child .content .value");
+
     Actions actions = new Actions(driver);
+    Random random = new Random();
 
     public NewSearchPage(WebDriver driver) {
         super(driver);
@@ -185,5 +191,25 @@ public class NewSearchPage extends AbstractPageObject{
         findElement(saveButton).click();
 
         return new TargetingPage(getDriver());
+    }
+
+    public String targetRandomInstitution(){
+        // performing filterless institution search
+        waitForElement(searchButton);
+        findElement(searchButton).click();
+        waitForElement(saveTargetButton);
+
+        // randomly selecting entry in result (among first 20) that is not already targeted
+        int index = random.nextInt(20);
+        List<WebElement> saveTargetButtons = findElements(saveTargetButton);
+        List<WebElement> resultNames = findElements(resultName);
+        while (!saveTargetButtons.get(index).getAttribute("class").contains("unsaved")){
+            index = random.nextInt(20);
+        }
+
+        // targeting selected institution and returning its name
+        String targetedInstitution = resultNames.get(index).getText();
+        saveTargetButtons.get(index).click();
+        return targetedInstitution;
     }
 }
