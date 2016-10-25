@@ -85,6 +85,7 @@ public class DashboardLogActivity extends AbstractSpec {
         ActivityPage activityPage = new ActivityPage(driver);
         new Dashboard(driver).logMeetingNote()
                 .enterMeetingDetails(comment, name, note, tag)
+                .postActivity()
                 .accessSideNav()
                 .selectActivityPageFromSideNav();
 

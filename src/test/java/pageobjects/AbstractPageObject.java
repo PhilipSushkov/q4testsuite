@@ -41,7 +41,7 @@ public class AbstractPageObject implements PageObject {
 
     public AbstractPageObject(WebDriver driver) {
         this.driver = driver;
-        this.wait = new WebDriverWait(driver, 15L);
+        this.wait = new WebDriverWait(driver, 5L);
     }
 
     @Override
