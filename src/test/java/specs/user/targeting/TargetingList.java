@@ -9,6 +9,8 @@ import pageobjects.user.targeting.TargetingPage;
 import specs.AbstractSpec;
 
 import java.util.Date;
+import static org.hamcrest.CoreMatchers.containsString;
+
 
 /**
  * Created by jasons on 2016-10-03.
@@ -64,6 +66,35 @@ public class TargetingList extends AbstractSpec {
         // verifying that search is gone
         searchNameIndex = new TargetingPage(driver).findSearchNameIndex(searchName);
         Assert.assertEquals("Search has not been deleted", -1, searchNameIndex);
+    }
 
+    @Test
+    /**Based on TestRail test case C2291.
+     * Can navigate to a targeted institution. */
+    public void canAccessATargetedInstitution() {
+        String firstInstitution = new TargetingPage(driver).getFirstInstitution();
+        String institutionPageTitle = new TargetingPage(driver).openFirstInstitution().getInstitutionName();
+        Assert.assertTrue("Empty institution name listed.",!firstInstitution.isEmpty());
+        Assert.assertTrue("Institution page title doesn't match.",firstInstitution.equalsIgnoreCase(institutionPageTitle));
+    }
+
+    @Test
+    /**Based on TestRail test case C2292.
+     * Can navigate to a targeted fund. */
+    public void canAccessATargetedFund() {
+        String firstFund = new TargetingPage(driver).getFirstFund();
+        String fundPageTitle = new TargetingPage(driver).openFirstFund().getFundName();
+        Assert.assertTrue("Empty fund name listed.",!firstFund.isEmpty());
+        Assert.assertTrue("Fund page title doesn't match.",firstFund.equalsIgnoreCase(fundPageTitle));
+    }
+
+    @Test
+    /**Based on TestRail test case C2293.
+     * Can navigate to a targeted contact. */
+    public void canAccessATargetedContact() {
+        String firstContact = new TargetingPage(driver).getFirstContact();
+        String contactPageTitle = new TargetingPage(driver).openFirstContact().getContactName();
+        Assert.assertTrue("Empty fund name listed.",!firstContact.isEmpty());
+        Assert.assertThat("Fund page title doesn't match.", contactPageTitle, containsString(firstContact));
     }
 }

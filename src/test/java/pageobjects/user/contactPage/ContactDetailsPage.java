@@ -3,11 +3,14 @@ package pageobjects.user.contactPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageobjects.Page;
 import pageobjects.user.advancedSearchResultsPage.AdvancedSearchResults;
 import pageobjects.user.institutionPage.InstitutionPage;
 import pageobjects.user.logActivity.LogActivityModal;
+
+import java.util.List;
 
 /**
  * Created by patrickp on 2016-08-08.
@@ -15,6 +18,8 @@ import pageobjects.user.logActivity.LogActivityModal;
 public class ContactDetailsPage extends Page {
 
     private final By contactName = By.className("contact-name");
+    private final By contactIcon = By.cssSelector(".contact-header .icon.q4i-contact-2pt");
+
     private final By contactDropDown = By.cssSelector(".contact-page .utility-menu .more-button");
     private final By contactDropdownPostAdd = By.cssSelector(".contact-page .utility-menu .more-button");
     private final By addOption = By.xpath("//*[contains(text(), 'Add to Contacts')]");
@@ -39,6 +44,13 @@ public class ContactDetailsPage extends Page {
     }
 
     public String getContactName() {
+        waitForElementToAppear(contactIcon);
+        List<WebElement> contactNames = findElements(contactName);
+        for (int i=0; i<contactNames.size(); i++){
+            if (contactNames.get(i).isDisplayed()){
+                return contactNames.get(i).getText();
+            }
+        }
         return findElement(contactName).getText();
     }
 
