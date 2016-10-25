@@ -2,7 +2,6 @@ package pageobjects.admin.profilesPage;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageobjects.AbstractPageObject;
 
 /**
@@ -12,7 +11,6 @@ public class ProfilesList extends AbstractPageObject {
     private final By profileSearchField = By.cssSelector(".search.dark .search-input");
     private final By profileList = By.cssSelector(".ui-datatable table");
 
-    private final By loadingSpinner = By.className("outer-spinner-container");
     private final By addProfileButton = By.cssSelector(".page-header .action-buttons .add");
 
     //Add profile modal
@@ -36,18 +34,18 @@ public class ProfilesList extends AbstractPageObject {
 
     public ProfilesList searchForProfile(String username) {
         findElement(profileSearchField).sendKeys(username);
-        wait.until(ExpectedConditions.invisibilityOfElementLocated(loadingSpinner));
+        waitForLoadingScreen();
 
         return this;
     }
 
     public String getProfileList() {
-        wait.until(ExpectedConditions.invisibilityOfElementLocated(loadingSpinner));
+        waitForLoadingScreen();
         return findElement(profileList).getText();
     }
 
     public ProfilesList addNewProfile(String email, String password, String organization, String firstName, String lastName, String title, String phone) {
-        wait.until(ExpectedConditions.invisibilityOfElementLocated(loadingSpinner));
+        waitForLoadingScreen();
         findElement(addProfileButton).click();
         findElement(emailField).sendKeys(email);
         findElement(passwordField).sendKeys(password);
@@ -66,7 +64,7 @@ public class ProfilesList extends AbstractPageObject {
     }
 
     public ProfileDetails selectFirstProfileInList() {
-        wait.until(ExpectedConditions.invisibilityOfElementLocated(loadingSpinner));
+        waitForLoadingScreen();
         findElement(firstProfileInList).click();
 
         return new ProfileDetails(getDriver());

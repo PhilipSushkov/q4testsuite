@@ -13,9 +13,7 @@ import pageobjects.user.noteDetailsPage.NoteDetailsPage;
  */
 public class ActivityPage extends AbstractPageObject {
 
-    private final By loadingSpinner = By.className("outer-spinner-container");
     private final By notesSection = By.cssSelector(".note-manager-list .note-item.x-dataview-item");
-    private final By loadMoreButton = By.cssSelector(".load-more .x-button-icon");
     private final By firstNoteInList = By.cssSelector(".note-manager-list .note-item.x-dataview-item");
     private final By newActivityIcon = By.xpath("/html/body/div/div/div/div/div/div[2]/div/div/div/div[2]/div[3]/div[1]/div[2]/div/div/div[2]/div/div[1]/div/div/div/div[4]");
     private final By activitySearchField = By.cssSelector(".toolbar-panel .search .x-field-input .x-input-el");
@@ -31,7 +29,7 @@ public class ActivityPage extends AbstractPageObject {
 
     public String getNewNote() {
         // Waits for the load more button to appear at the bottom of the page.
-        wait.until(ExpectedConditions.invisibilityOfElementLocated(loadingSpinner));
+        waitForLoadingScreen();
         return findElement(notesSection).getText();
     }
 
@@ -42,19 +40,19 @@ public class ActivityPage extends AbstractPageObject {
     }
 
     public LogActivityModal logNote() {
-        wait.until(ExpectedConditions.invisibilityOfElementLocated(loadingSpinner));
+        waitForLoadingScreen();
         findElement(newActivityIcon).click();
 
         return new LogActivityModal(getDriver());
     }
 
     public ActivityPage searchForNote(String note) {
-        pause(500L);
+        waitForLoadingScreen();
         wait.until(ExpectedConditions.elementToBeClickable(activitySearchField));
         findElement(activitySearchField).click();
         findElement(activitySearchField).sendKeys(note);
         findElement(activitySearchField).sendKeys(Keys.RETURN);
-        pause(500L);
+        waitForLoadingScreen();
 
         return this;
     }

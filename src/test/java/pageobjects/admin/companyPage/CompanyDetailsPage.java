@@ -16,7 +16,6 @@ public class CompanyDetailsPage extends CompanyPage {
 
     private final By searchResult = By.cssSelector("body > q4-app > div > div > q4-organization-details > q4-organization-peers > p-dialog:nth-child(3) > div > div.ui-dialog-content.ui-widget-content > q4-peer-create > p-autocomplete > span > div");
 
-    private final By loadingSpinner = By.className("outer-spinner-container");
     private final By editCompanyButton = By.xpath("/html/body/q4-app/div/div/q4-organization-details/header/div/div[2]/button[1]");
     private final By companyNameField = By.cssSelector(".ui-inputtext");
     private final By companyEditField = By.name("company_name");
@@ -26,7 +25,7 @@ public class CompanyDetailsPage extends CompanyPage {
     }
 
     public CompanyDetailsPage addPeer(String company) {
-        wait.until(ExpectedConditions.invisibilityOfElementLocated(loadingSpinner));
+        waitForLoadingScreen();
         wait.until(ExpectedConditions.elementToBeClickable(addButton));
         findElement(addButton).click();
         findElement(companySearchField).sendKeys(company);
@@ -39,7 +38,7 @@ public class CompanyDetailsPage extends CompanyPage {
     }
 
     public CompanyDetailsPage editCompanyName(String newName) {
-        wait.until(ExpectedConditions.invisibilityOfElementLocated(loadingSpinner));
+        waitForLoadingScreen();
         wait.until(ExpectedConditions.elementToBeClickable(editCompanyButton));
         findElement(editCompanyButton).click();
         findElement(companyNameField).clear();
@@ -50,7 +49,7 @@ public class CompanyDetailsPage extends CompanyPage {
     }
 
     public CompanyPage addEditPeer(String name, String newName) {
-        wait.until(ExpectedConditions.invisibilityOfElementLocated(loadingSpinner));
+        waitForLoadingScreen();
         wait.until(ExpectedConditions.elementToBeClickable(addButton));
         findElement(addButton).click();
         findElement(companySearchField).sendKeys(name);

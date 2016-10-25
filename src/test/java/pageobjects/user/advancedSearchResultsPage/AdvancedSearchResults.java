@@ -15,7 +15,7 @@ public class AdvancedSearchResults extends AbstractPageObject {
     }
 
     public String getAdvancedSearchResults() {
-        pause(2000L);
+        waitForLoadingScreen();
         return findElement(searchResults).getText();
     }
 }

@@ -78,7 +78,7 @@ public class AbstractPageObject implements PageObject {
 
     //use from dashboard
     public SideNavBar accessSideNav() {
-        wait.until(ExpectedConditions.invisibilityOfElementLocated(loading));
+        waitForLoadingScreen();
         findElement(sideNavIcon).click();
 
         return new SideNavBar(getDriver());
@@ -115,7 +115,7 @@ public class AbstractPageObject implements PageObject {
     }
 
     public CompanyPage navigateToCompanyPage() {
-        wait.until(ExpectedConditions.invisibilityOfElementLocated(loading));
+        waitForLoadingScreen();
         findElement(companyPage).click();
 
         return new CompanyPage(getDriver());
@@ -126,17 +126,21 @@ public class AbstractPageObject implements PageObject {
     }
 
     public ProfilesList navigateToProfilesPage() {
-        wait.until(ExpectedConditions.invisibilityOfElementLocated(loading));
+        waitForLoadingScreen();
         findElement(profilesPage).click();
-        wait.until(ExpectedConditions.invisibilityOfElementLocated(loading));
+        waitForLoadingScreen();
 
         return new ProfilesList(driver);
     }
 
     public ImplementationPage navigateToImplementationPage() {
-        wait.until(ExpectedConditions.invisibilityOfElementLocated(loading));
+        waitForLoadingScreen();
         findElement(implementationPage).click();
 
         return new ImplementationPage(getDriver());
+    }
+
+    public void waitForLoadingScreen() {
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(loading));
     }
 }

@@ -14,7 +14,6 @@ public class CompanyPage extends AbstractPageObject {
     private final By companyField = By.cssSelector(".modal .ui-dialog .ui-dialog-content .ui-autocomplete.auto-complete-search .ui-inputtext");
     private final By saveButton = By.cssSelector(".button-yellow");
     private final By cancelButton = By.cssSelector(".button-no-background");
-    private final By loading = By.className("outer-spinner-container");
     private final By firstCompany = By.cssSelector("body > q4-app > div > div > q4-organization > p-datatable > div > div > table > tbody > tr:nth-child(1)");
     private final By companyName = By.cssSelector("body > q4-app > div > div > q4-organization > p-datatable > div > div > table > tbody > tr:nth-child(1) > td:nth-child(2)");
     private final By searchField = By.cssSelector(".search.dark .search-input");
@@ -73,17 +72,17 @@ public class CompanyPage extends AbstractPageObject {
     }
 
     public String getCompanyList() {
-        wait.until(ExpectedConditions.invisibilityOfElementLocated(loading));
+        waitForLoadingScreen();
         return findElement(companyList).getText();
     }
 
     public String getCompanyName() {
-        wait.until(ExpectedConditions.invisibilityOfElementLocated(loading));
+        waitForLoadingScreen();
         return findElement(companyHeaderName).getText();
     }
 
     public String getPeerList() {
-        wait.until(ExpectedConditions.invisibilityOfElementLocated(loading));
+        waitForLoadingScreen();
         return findElement(peerList).getText();
     }
 
@@ -94,7 +93,7 @@ public class CompanyPage extends AbstractPageObject {
     }
 
     public CompanyPage exitAddCompanyModal() {
-        wait.until(ExpectedConditions.invisibilityOfElementLocated(loading));
+        waitForLoadingScreen();
         findElement(modalX).click();
 
         return this;

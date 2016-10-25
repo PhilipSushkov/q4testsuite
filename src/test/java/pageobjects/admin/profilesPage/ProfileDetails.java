@@ -2,7 +2,6 @@ package pageobjects.admin.profilesPage;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageobjects.AbstractPageObject;
 
 /**
@@ -30,12 +29,12 @@ public class ProfileDetails extends AbstractPageObject{
     }
 
     public ProfileDetails editProfileFirstName(String firstName) {
-        wait.until(ExpectedConditions.invisibilityOfElementLocated(loadingSpinner));
+        waitForLoadingScreen();
         findElement(editProfileButton).click();
         findElement(firstNameField).clear();
         findElement(firstNameField).sendKeys(firstName);
         findElement(saveButton).click();
-        wait.until(ExpectedConditions.invisibilityOfElementLocated(loadingSpinner));
+        waitForLoadingScreen();
 
         return this;
     }

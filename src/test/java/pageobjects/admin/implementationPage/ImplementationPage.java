@@ -2,14 +2,12 @@ package pageobjects.admin.implementationPage;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageobjects.AbstractPageObject;
 
 /**
  * Created by patrickp on 2016-10-12.
  */
 public class ImplementationPage extends AbstractPageObject {
-    private final By loading = By.className("outer-spinner-container");
 
     private final By addButton = By.cssSelector("body > q4-app > div > div > q4-implementation > header > div > div.action-buttons > button");
     private final By aliasField = By.name("alias");
@@ -25,7 +23,7 @@ public class ImplementationPage extends AbstractPageObject {
     }
 
     public ImplementationPage addNewImplementation(String alias, String sourceUrl) {
-        wait.until(ExpectedConditions.invisibilityOfElementLocated(loading));
+        waitForLoadingScreen();
         findElement(addButton).click();
         findElement(aliasField).sendKeys(alias);
         findElement(sourceField).sendKeys(sourceUrl);
@@ -35,19 +33,19 @@ public class ImplementationPage extends AbstractPageObject {
     }
 
     public String getImplementationList() {
-        wait.until(ExpectedConditions.invisibilityOfElementLocated(loading));
+        waitForLoadingScreen();
         return findElement(implementationList).getText();
     }
 
     public ImplementationPage selectFirstImplementation() {
-        wait.until(ExpectedConditions.invisibilityOfElementLocated(loading));
+        waitForLoadingScreen();
         findElement(firstImplementation).click();
 
         return this;
     }
 
     public ImplementationPage editDetails(String sourceUrl) {
-        wait.until(ExpectedConditions.invisibilityOfElementLocated(loading));
+        waitForLoadingScreen();
         findElement(sourceField).clear();
         findElement(sourceField).sendKeys(sourceUrl);
         findElement(saveButton).click();
@@ -60,7 +58,7 @@ public class ImplementationPage extends AbstractPageObject {
     }
 
     public ImplementationPage openNewImplementationModal() {
-        wait.until(ExpectedConditions.invisibilityOfElementLocated(loading));
+        waitForLoadingScreen();
         findElement(addButton).click();
 
         return this;
@@ -68,7 +66,7 @@ public class ImplementationPage extends AbstractPageObject {
 
 
     public ImplementationPage cancelImplementationCreation() {
-        wait.until(ExpectedConditions.invisibilityOfElementLocated(loading));
+        waitForLoadingScreen();
         findElement(cancelButton).click();
 
         return this;
