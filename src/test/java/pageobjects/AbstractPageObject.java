@@ -12,6 +12,8 @@ import pageobjects.admin.profilesPage.ProfilesList;
 import pageobjects.user.logActivity.LogActivityModal;
 import pageobjects.user.sideNavBar.SideNavBar;
 
+import java.util.List;
+
 public class AbstractPageObject implements PageObject {
 
     public final WebDriver driver;
@@ -142,5 +144,27 @@ public class AbstractPageObject implements PageObject {
 
     public void waitForLoadingScreen() {
         wait.until(ExpectedConditions.invisibilityOfElementLocated(loading));
+    }
+
+    public boolean elementsAreAlphaUpSorted(List<WebElement> elements){
+        boolean sortedWell = true;
+        for (int i=0; i<elements.size()-1; i++){
+            if (elements.get(i+1).getText().compareTo/*IgnoreCase*/(elements.get(i).getText()) < 0){
+                System.out.println("MIS-SORT: Ascending: '"+elements.get(i+1).getText()+"' should not be after '"+elements.get(i).getText()+"'");
+                sortedWell = false;
+            }
+        }
+        return sortedWell;
+    }
+
+    public boolean elementsAreAlphaDownSorted(List<WebElement> elements){
+        boolean sortedWell = true;
+        for (int i=0; i<elements.size()-1; i++){
+            if (elements.get(i+1).getText().compareTo/*IgnoreCase*/(elements.get(i).getText()) > 0){
+                System.out.println("MIS-SORT: Descending: '"+elements.get(i+1).getText()+"' should not be after '"+elements.get(i).getText()+"'");
+                sortedWell = false;
+            }
+        }
+        return sortedWell;
     }
 }

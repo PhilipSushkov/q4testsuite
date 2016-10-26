@@ -142,4 +142,18 @@ public class TargetingList extends AbstractSpec {
         targetedContactIndex = new ContactDetailsPage(driver).accessSideNavFromPage().selectTargetingFromSideNav().findContactIndex(targetedContact);
         Assert.assertEquals("Contact has not been removed from targets list", -1, targetedContactIndex);
     }
+
+    @Test
+    public void canShowMoreAndSortResults(){
+        // performing a filterless institution search and verifying sorting
+        new TargetingPage(driver).newSearch().blankSearch();
+        Assert.assertEquals("Incorrect number of initial results displayed", 20, new NewSearchPage(driver).numResultsDisplayed());
+        Assert.assertTrue("Initial sorting failed.", new NewSearchPage(driver).resultsCanBeSorted());
+        // loop ??? times: clicking show more and then verifying sorting again
+        for (int i=1; i<=1; i++){
+            new NewSearchPage(driver).showMoreResults();
+            Assert.assertEquals("Incorrect number of results displayed upon iteration "+i, 20*(i+1), new NewSearchPage(driver).numResultsDisplayed());
+            Assert.assertTrue("Sorting failed upon iteration "+i, new NewSearchPage(driver).resultsCanBeSorted());
+        }
+    }
 }

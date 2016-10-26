@@ -46,6 +46,11 @@ public class NewSearchPage extends AbstractPageObject{
     private final By contactName = By.cssSelector(".contact .column.name");
     private final By contactSaveTargetButton = By.cssSelector(".contact .target-toggle");
 
+    private final By showMoreButton = By.cssSelector(".load-more .x-button");
+    private final By nameColumnHeader = By.cssSelector(".list-header .column:first-child");
+    private final By locationColumnHeader = By.cssSelector(".list-header .column:nth-child(2)");
+    private final By resultLocation = By.cssSelector(".row .location .value");
+
     Actions actions = new Actions(driver);
     Random random = new Random();
 
@@ -253,5 +258,65 @@ public class NewSearchPage extends AbstractPageObject{
         pause (1000);
         findElement(contactName).click();
         return new ContactDetailsPage(getDriver());
+    }
+
+    public void blankSearch(){
+        waitForElement(searchButton);
+        findElement(searchButton).click();
+        waitForElement(saveTargetButton);
+    }
+
+    public int numResultsDisplayed(){
+        return findElements(resultName).size();
+    }
+
+    public boolean resultsCanBeSorted(){
+        // sorting by name ascending
+        findElement(nameColumnHeader).click();
+        pause(100);
+        if (!elementsAreAlphaUpSorted(findElements(resultName))){
+            System.out.println("SORT ERROR: Names are not in ascending order.");
+            return false;
+        }
+
+        // sorting by name descending
+        findElement(nameColumnHeader).click();
+        pause(100);
+        if (!elementsAreAlphaDownSorted(findElements(resultName))){
+            System.out.println("SORT ERROR: Names are not in decending order.");
+            return false;
+        }
+
+        // sorting by location ascending
+        findElement(locationColumnHeader).click();
+        pause(100);
+        if (!elementsAreAlphaUpSorted(findElements(resultLocation))){
+            System.out.println("SORT ERROR: Locations are not in ascending order.");
+            return false;
+        }
+
+        // sorting by location descending
+        findElement(locationColumnHeader).click();
+        pause(100);
+        if (!elementsAreAlphaDownSorted(findElements(resultLocation))){
+            System.out.println("SORT ERROR: Locations are not in decending order.");
+            return false;
+        }
+
+        //TO DO: insert other forms of sorting here
+
+        return true;
+    }
+
+    public void showMoreResults(){
+        int numResults = numResultsDisplayed();
+        findVisibleElement(showMoreButton).click();
+        for (int i=0; i<100; i++){
+            if (numResultsDisplayed()>numResults){
+                return;
+            }
+            pause(100);
+        }
+        System.out.println("TIMEOUT: More results haven't been loaded after 10 seconds");
     }
 }
