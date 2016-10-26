@@ -3,6 +3,8 @@ package specs.user.targeting;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import pageobjects.user.contactPage.ContactDetailsPage;
+import pageobjects.user.institutionPage.InstitutionPage;
 import pageobjects.user.loginPage.LoginPage;
 import pageobjects.user.targeting.EditSearchPage;
 import pageobjects.user.targeting.NewSearchPage;
@@ -105,13 +107,18 @@ public class TargetingList extends AbstractSpec {
         String targetedInstitution = new TargetingPage(driver).newSearch().targetRandomInstitution();
         System.out.println("Targeted institution is: "+targetedInstitution);
 
+        // going to institution page and checking that "Saved Target" icon appears
+        String institutionPageURL = new NewSearchPage(driver).goToInstitution(targetedInstitution).getURL();
+        Assert.assertTrue("'Saved Target' icon does not appear on institution page.", new InstitutionPage(driver).isSavedTarget());
+
         // going to targets list and checking that institution appears
-        int targetedInstitutionIndex = new NewSearchPage(driver).accessSideNavFromPage().selectTargetingFromSideNav().findInstitutionIndex(targetedInstitution);
+        int targetedInstitutionIndex = new InstitutionPage(driver).accessSideNavFromPage().selectTargetingFromSideNav().findInstitutionIndex(targetedInstitution);
         Assert.assertNotEquals("Institution not found in targets list", -1, targetedInstitutionIndex);
 
         // removing the target and checking that the target no longer appears
         new TargetingPage(driver).untargetInstitution(targetedInstitutionIndex);
-        targetedInstitutionIndex = new TargetingPage(driver).findInstitutionIndex(targetedInstitution);
+        Assert.assertFalse("'Saved Target' icon still appears on institution page.", new TargetingPage(driver).goToInstitutionURL(institutionPageURL).isSavedTarget());
+        targetedInstitutionIndex = new InstitutionPage(driver).accessSideNavFromPage().selectTargetingFromSideNav().findInstitutionIndex(targetedInstitution);
         Assert.assertEquals("Institution has not been removed from targets list", -1, targetedInstitutionIndex);
     }
 
@@ -121,13 +128,18 @@ public class TargetingList extends AbstractSpec {
         String targetedContact = new TargetingPage(driver).newSearch().targetRandomContact();
         System.out.println("Targeted contact is: "+targetedContact);
 
+        // going to contact page and checking that "Saved Target" icon appears
+        String contactPageURL = new NewSearchPage(driver).goToContact(targetedContact).getURL();
+        Assert.assertTrue("'Saved Target' icon does not appear on contact page.", new ContactDetailsPage(driver).isSavedTarget());
+
         // going to targets list and checking that contact appears
-        int targetedContactIndex = new NewSearchPage(driver).accessSideNavFromPage().selectTargetingFromSideNav().findContactIndex(targetedContact);
+        int targetedContactIndex = new ContactDetailsPage(driver).accessSideNavFromPage().selectTargetingFromSideNav().findContactIndex(targetedContact);
         Assert.assertNotEquals("Contact not found in targets list", -1, targetedContactIndex);
 
         // removing the target and checking that the target no longer appears
         new TargetingPage(driver).untargetContact(targetedContactIndex);
-        targetedContactIndex = new TargetingPage(driver).findContactIndex(targetedContact);
+        Assert.assertFalse("'Saved Target' icon still appears on contact page.", new TargetingPage(driver).goToContactURL(contactPageURL).isSavedTarget());
+        targetedContactIndex = new ContactDetailsPage(driver).accessSideNavFromPage().selectTargetingFromSideNav().findContactIndex(targetedContact);
         Assert.assertEquals("Contact has not been removed from targets list", -1, targetedContactIndex);
     }
 }

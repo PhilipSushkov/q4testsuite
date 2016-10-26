@@ -38,6 +38,7 @@ public class ContactDetailsPage extends Page {
     private final By reportTitle = By.cssSelector(".report-create .x-input-el");
     private final By createButton = By.cssSelector(".report-create .submit-button");
     private final By cancelButton = By.cssSelector(".report-create .cancel-button");
+    private final By targetIcon = By.className("q4i-savedtargets-2pt");
 
     public ContactDetailsPage(WebDriver driver) {
         super(driver);
@@ -159,5 +160,21 @@ public class ContactDetailsPage extends Page {
         findElement(cancelButton).click();
 
         return this;
+    }
+
+    public String getURL(){
+        waitForElementToAppear(contactIcon);
+        return driver.getCurrentUrl();
+    }
+
+    public boolean isSavedTarget(){
+        waitForElement(contactDropDown);
+        List<WebElement> targetIcons = findElements(targetIcon);
+        for (int i=0; i<targetIcons.size(); i++){
+            if (targetIcons.get(i).isDisplayed()){
+                return true;
+            }
+        }
+        return false;
     }
 }

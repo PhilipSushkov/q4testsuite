@@ -208,4 +208,14 @@ public class TargetingPage extends AbstractPageObject {
         return new ContactDetailsPage(getDriver());
     }
 
+    public InstitutionPage goToInstitutionURL(String URL){
+        driver.get(URL);
+        return new InstitutionPage(getDriver());
+    }
+
+    public ContactDetailsPage goToContactURL(String URL){
+        driver.get(URL);
+        return new ContactDetailsPage(getDriver());
+    }
+
 }

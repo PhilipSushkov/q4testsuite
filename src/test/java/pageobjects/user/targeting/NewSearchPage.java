@@ -6,6 +6,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import pageobjects.AbstractPageObject;
+import pageobjects.user.contactPage.ContactDetailsPage;
+import pageobjects.user.institutionPage.InstitutionPage;
 
 import java.util.List;
 import java.util.Random;
@@ -233,5 +235,23 @@ public class NewSearchPage extends AbstractPageObject{
         String targetedContact = findElement(contactName).getText();
         findElement(contactSaveTargetButton).click();
         return targetedContact;
+    }
+
+    public InstitutionPage goToInstitution(String name){
+        pause (1000);
+        List<WebElement> resultNames = findElements(resultName);
+        for (int i=0; i<resultNames.size(); i++){
+            if (resultNames.get(i).getText().equalsIgnoreCase(name)){
+                resultNames.get(i).click();
+                return new InstitutionPage(getDriver());
+            }
+        }
+        return null;
+    }
+
+    public ContactDetailsPage goToContact(String name){
+        pause (1000);
+        findElement(contactName).click();
+        return new ContactDetailsPage(getDriver());
     }
 }

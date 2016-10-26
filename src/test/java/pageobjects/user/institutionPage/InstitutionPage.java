@@ -14,6 +14,8 @@ public class InstitutionPage extends Page {
 
     private final By institutionName  = By.className("page-title");
     private final By institutionIcon = By.className("institution");
+    private final By targetIcon = By.className("q4i-savedtargets-2pt");
+    private final By QrIcon = By.cssSelector(".rating .val");
 
     public InstitutionPage(WebDriver driver) {
         super(driver);
@@ -29,5 +31,21 @@ public class InstitutionPage extends Page {
             }
         }
         return findElement(institutionName).getText();
+    }
+
+    public String getURL(){
+        waitForElementToAppear(institutionIcon);
+        return driver.getCurrentUrl();
+    }
+
+    public boolean isSavedTarget(){
+        waitForElement(QrIcon);
+        List<WebElement> targetIcons = findElements(targetIcon);
+        for (int i=0; i<targetIcons.size(); i++){
+            if (targetIcons.get(i).isDisplayed()){
+                return true;
+            }
+        }
+        return false;
     }
 }
