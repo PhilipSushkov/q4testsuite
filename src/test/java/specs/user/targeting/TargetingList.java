@@ -32,7 +32,7 @@ public class TargetingList extends AbstractSpec {
      * Will create a new search with specified filters, save it, view it, verify
      * filters are correct, then delete it using button on filter page. */
     public void canAddViewAndDeleteASavedSearch() {
-        String searchName = current.toString(); // makes title of search to equal current time
+        String searchName = current.toString(); // makes title of search equal to current time
         String[] filters = {
             "New York, NY", // City
                 "Institution", // Institution or Fund
@@ -96,7 +96,7 @@ public class TargetingList extends AbstractSpec {
         String firstContact = new TargetingPage(driver).getFirstContact();
         String contactPageTitle = new TargetingPage(driver).openFirstContact().getContactName();
         Assert.assertTrue("Empty fund name listed.",!firstContact.isEmpty());
-        Assert.assertThat("Fund page title doesn't match.", contactPageTitle, containsString(firstContact));
+        Assert.assertThat("Fund page title doesn't match.", contactPageTitle, containsString(firstContact.substring(0, firstContact.indexOf("\n"))));
     }
 
     @Test
@@ -113,5 +113,21 @@ public class TargetingList extends AbstractSpec {
         new TargetingPage(driver).untargetInstitution(targetedInstitutionIndex);
         targetedInstitutionIndex = new TargetingPage(driver).findInstitutionIndex(targetedInstitution);
         Assert.assertEquals("Institution has not been removed from targets list", -1, targetedInstitutionIndex);
+    }
+
+    @Test
+    public void canTargetAndRemoveAContact() {
+        // performing a filterless fund search and targeting the first contact in a random result
+        String targetedContact = new TargetingPage(driver).newSearch().targetRandomContact();
+        System.out.println("Targeted contact is: "+targetedContact);
+
+        // going to targets list and checking that contact appears
+        int targetedContactIndex = new NewSearchPage(driver).accessSideNavFromPage().selectTargetingFromSideNav().findContactIndex(targetedContact);
+        Assert.assertNotEquals("Contact not found in targets list", -1, targetedContactIndex);
+
+        // removing the target and checking that the target no longer appears
+        new TargetingPage(driver).untargetContact(targetedContactIndex);
+        targetedContactIndex = new TargetingPage(driver).findContactIndex(targetedContact);
+        Assert.assertEquals("Contact has not been removed from targets list", -1, targetedContactIndex);
     }
 }

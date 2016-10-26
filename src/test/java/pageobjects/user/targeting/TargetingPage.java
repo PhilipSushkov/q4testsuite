@@ -6,7 +6,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageobjects.AbstractPageObject;
 import pageobjects.user.contactPage.ContactDetailsPage;
-import pageobjects.user.contactPage.ContactPage;
 import pageobjects.user.fundPage.FundPage;
 import pageobjects.user.institutionPage.InstitutionPage;
 
@@ -27,8 +26,8 @@ public class TargetingPage extends AbstractPageObject {
     private final By showContacts = By.xpath("//div[contains(@class,'range-tabs-inner')]/div[span/text()='Contacts']");
     private final By firstEntitySelector = By.cssSelector(".targeting-grid-item-first.x-has-height");
     private final By firstEntityNameSelector = By.cssSelector(".targeting-grid-item-first.x-has-height div:first-child .x-grid-cell-inner");
-    private final By institutionName = By.cssSelector(".x-grid-row.x-has-height div:first-child .x-grid-cell-inner");
-    private final By institutionTargetButton = By.className("target");
+    private final By entityName = By.cssSelector(".x-grid-row.x-has-height div:first-child .x-grid-cell-inner");
+    private final By entityTargetButton = By.className("target");
 
 
     public TargetingPage(WebDriver driver) {
@@ -69,7 +68,7 @@ public class TargetingPage extends AbstractPageObject {
         pause(2000);
         findVisibleElement(showInstitutions).click();
         pause(2000);
-        List<WebElement> institutionNames = findElements(institutionName);
+        List<WebElement> institutionNames = findElements(entityName);
         int startIndex = 0;
         for (int i=0; i<institutionNames.size(); i++){
             if (institutionNames.get(i).isDisplayed()){
@@ -85,8 +84,42 @@ public class TargetingPage extends AbstractPageObject {
         return -1;
     }
 
+    public int findContactIndex(String name){
+        waitForElement(showTargets);
+        findVisibleElement(showTargets).click();
+        pause(2000);
+        findVisibleElement(showContacts).click();
+        pause(2000);
+        List<WebElement> contactNames = findElements(entityName);
+        int startIndex = 0;
+        for (int i=0; i<contactNames.size(); i++){
+            if (contactNames.get(i).isDisplayed()){
+                startIndex = i;
+                break;
+            }
+        }
+        for (int i=0; i+startIndex<contactNames.size(); i++){
+            if (contactNames.get(i+startIndex).getText().contains(name)){
+                return i;
+            }
+        }
+        return -1;
+    }
+
     public void untargetInstitution(int index){
-        List<WebElement> targetButtons = findElements(institutionTargetButton);
+        List<WebElement> targetButtons = findElements(entityTargetButton);
+        int startIndex = 0;
+        for (int i=0; i<targetButtons.size(); i++){
+            if (targetButtons.get(i).isDisplayed()){
+                startIndex = i;
+                break;
+            }
+        }
+        targetButtons.get(index+startIndex).click();
+    }
+
+    public void untargetContact(int index){
+        List<WebElement> targetButtons = findElements(entityTargetButton);
         int startIndex = 0;
         for (int i=0; i<targetButtons.size(); i++){
             if (targetButtons.get(i).isDisplayed()){

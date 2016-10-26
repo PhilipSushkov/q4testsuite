@@ -40,6 +40,10 @@ public class NewSearchPage extends AbstractPageObject{
     private final By saveTargetButton = By.className("target-toggle");
     private final By resultName = By.cssSelector(".row div:first-child .content .value");
 
+    private final By contactToggle = By.className("contacts-toggle");
+    private final By contactName = By.cssSelector(".contact .column.name");
+    private final By contactSaveTargetButton = By.cssSelector(".contact .target-toggle");
+
     Actions actions = new Actions(driver);
     Random random = new Random();
 
@@ -211,5 +215,23 @@ public class NewSearchPage extends AbstractPageObject{
         String targetedInstitution = resultNames.get(index).getText();
         saveTargetButtons.get(index).click();
         return targetedInstitution;
+    }
+
+    public String targetRandomContact(){
+        // performing filterless fund search
+        waitForElement(searchButton);
+        List<WebElement> searchTypeDivs = findElements(searchTypeSelectors);
+        searchTypeDivs.get(1).click();
+        findElement(searchButton).click();
+
+        // randomly selecting fund in result (among first 10 that contain contacts)
+        int index = random.nextInt(10);
+        List<WebElement> contactToggles = findElements(contactToggle);
+
+        // targeting first contact and returning its name
+        contactToggles.get(index).click();
+        String targetedContact = findElement(contactName).getText();
+        findElement(contactSaveTargetButton).click();
+        return targetedContact;
     }
 }
