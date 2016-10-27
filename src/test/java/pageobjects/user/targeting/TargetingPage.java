@@ -20,6 +20,12 @@ public class TargetingPage extends AbstractPageObject {
     private final By showSearches = By.cssSelector(".x-tabbar-inner div:first-child");
     private final By searchNameSelectors = By.cssSelector(".x-grid-row .x-grid-cell:first-child .x-grid-cell-inner");
     private final By searchNameDivSelectors = By.cssSelector(".x-grid-row");
+    private final By editButton = By.cssSelector(".edit .x-button-label");
+    private final By redButton = By.className("delete-button");
+    private final By cancelDelete = By.cssSelector(".targeting-action-toolbar .x-button:first-child");
+    private final By confirmDelete = By.cssSelector(".targeting-action-toolbar .x-button.delete");
+    private final By doneButton = By.cssSelector(".done .x-button-label");
+
     private final By showTargets = By.cssSelector(".x-tabbar-inner div:last-child");
     private final By showInstitutions = By.xpath("//div[contains(@class,'range-tabs-inner')]/div[span/text()='Institutions']");
     private final By showFunds = By.xpath("//div[contains(@class,'range-tabs-inner')]/div[span/text()='Funds']");
@@ -60,6 +66,30 @@ public class TargetingPage extends AbstractPageObject {
         searchNameDivs.get(index).click();
 
         return new EditSearchPage(getDriver());
+    }
+
+    public void deleteSearchAbort(int index){
+        waitForElement(editButton);
+        findVisibleElement(editButton).click();
+        waitForElementToAppear(redButton);
+        List<WebElement> redButtons = findElements(redButton);
+        redButtons.get(index).click();
+        waitForElementToAppear(cancelDelete);
+        findElement(cancelDelete).click();
+        waitForElementToDissapear(cancelDelete);
+        findElement(doneButton).click();
+    }
+
+    public void deleteSearch(int index){
+        waitForElement(editButton);
+        findVisibleElement(editButton).click();
+        waitForElementToAppear(redButton);
+        List<WebElement> redButtons = findElements(redButton);
+        redButtons.get(index).click();
+        waitForElementToAppear(confirmDelete);
+        findElement(confirmDelete).click();
+        waitForElementToDissapear(confirmDelete);
+        findElement(doneButton).click();
     }
 
     public int findInstitutionIndex(String name){

@@ -171,4 +171,26 @@ public class TargetingList extends AbstractSpec {
         new NewSearchPage(driver).closeLocationPopup();
         Assert.assertFalse("Location popup is not closed.", new NewSearchPage(driver).locationPopupIsOpen());
     }
+
+    @Test
+    public void canAddAndDeleteSearchFromList(){
+        String searchName = current.toString()+"_v2";
+        String[] filters = {
+                "New York, NY", "Institution", "3", "97", "1", "8", "30", "960", "Low",
+                "Investment Adviser", "Growth", "Owns Only Me", "Underweight", "Net Buyer", "Net Buyer", "yes", "yes"
+        };
+        // creating a new search and saving it
+        new TargetingPage(driver).newSearch().createNewSearch(searchName, filters);
+        // verifying that search name is listed
+        int searchNameIndex = new TargetingPage(driver).findSearchNameIndex(searchName);
+        Assert.assertNotEquals("Search name not found in saved searches list", -1, searchNameIndex);
+        // starting then aborting a delete and verifying that the search is still there
+        new TargetingPage(driver).deleteSearchAbort(searchNameIndex);
+        searchNameIndex = new TargetingPage(driver).findSearchNameIndex(searchName);
+        Assert.assertNotEquals("Search name not found despite aborted delete", -1, searchNameIndex);
+        // actually deleting the search and verifying that it is gone
+        new TargetingPage(driver).deleteSearch(searchNameIndex);
+        searchNameIndex = new TargetingPage(driver).findSearchNameIndex(searchName);
+        Assert.assertEquals("Search has not been deleted", -1, searchNameIndex);
+    }
 }
