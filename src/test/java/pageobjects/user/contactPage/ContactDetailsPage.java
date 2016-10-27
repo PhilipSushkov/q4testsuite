@@ -39,6 +39,8 @@ public class ContactDetailsPage extends Page {
     private final By createButton = By.cssSelector(".report-create .submit-button");
     private final By cancelButton = By.cssSelector(".report-create .cancel-button");
     private final By targetIcon = By.className("q4i-savedtargets-2pt");
+    private final By markTarget = By.xpath("//*[contains(text(), 'Mark as Target')]");
+    private final By removeTarget = By.xpath("//*[contains(text(), 'Remove from Targets')]");
 
     public ContactDetailsPage(WebDriver driver) {
         super(driver);
@@ -177,5 +179,21 @@ public class ContactDetailsPage extends Page {
             }
         }
         return false;
+    }
+
+    public void markAsTarget(){
+        waitForElementToAppear(contactDropDown);
+        findElement(contactDropDown).click();
+        waitForElementToAppear(markTarget);
+        findElement(markTarget).click();
+        waitForElementToDissapear(markTarget);
+    }
+
+    public void removeFromTargets(){
+        waitForElementToAppear(contactDropDown);
+        findElement(contactDropDown).click();
+        waitForElementToAppear(removeTarget);
+        findElement(removeTarget).click();
+        waitForElementToDissapear(removeTarget);
     }
 }

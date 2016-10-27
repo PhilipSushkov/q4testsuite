@@ -81,4 +81,14 @@ public class ContactDetails extends AbstractSpec {
 
         Assert.assertThat(contactDetailsPage.getContactName(), containsString(contactName));
     }
+
+    @Test
+    public void canTargetAndUntargetContactFromPage(){
+        // targeting contact and verifying that "Saved Target" icon appears
+        new ContactDetailsPage(driver).markAsTarget();
+        Assert.assertTrue("'Saved Target' icon does not appear.", new ContactDetailsPage(driver).isSavedTarget());
+        // untargeting contact and verifying that "Saved Target" icon no longer appears
+        new ContactDetailsPage(driver).removeFromTargets();
+        Assert.assertFalse("'Saved Target' icon still appears.", new ContactDetailsPage(driver).isSavedTarget());
+    }
 }
