@@ -1,9 +1,6 @@
 package pageobjects.user.targeting;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import pageobjects.AbstractPageObject;
 import pageobjects.user.contactPage.ContactDetailsPage;
@@ -61,6 +58,10 @@ public class NewSearchPage extends AbstractPageObject{
     private final By resultTurnover = By.cssSelector(".row .turnover");
     private final By resultStyle = By.cssSelector(".row .style");
     private final By resultQRValue = By.cssSelector(".row .qr-value");
+
+    private final By numLocations = By.className("location-count");
+    private final By locationPopup = By.className("target-search-result-locations-modal");
+    private final By address = By.className("address");
 
     Actions actions = new Actions(driver);
     Random random = new Random();
@@ -407,5 +408,28 @@ public class NewSearchPage extends AbstractPageObject{
             pause(100);
         }
         System.out.println("TIMEOUT: More results haven't been loaded after 10 seconds");
+    }
+
+    /** Returns the number in the circle for the first result with "Multiple" locations. */
+    public int numLocationsFirst(){
+        return Integer.parseInt(findElement(numLocations).getText());
+    }
+
+    public void openFirstLocationPopup(){
+        findElement(numLocations).click();
+        waitForElementToAppear(locationPopup);
+    }
+
+    public boolean locationPopupIsOpen(){
+        return doesElementExist(locationPopup);
+    }
+
+    public int numLocationsDisplayedInPopup(){
+        return findElements(address).size();
+    }
+
+    public void closeLocationPopup(){
+        actions.moveToElement(findElement(locationPopup), -1, -1).click().build().perform();
+        waitForElementToDissapear(locationPopup);
     }
 }

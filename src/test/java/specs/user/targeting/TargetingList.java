@@ -156,4 +156,19 @@ public class TargetingList extends AbstractSpec {
             Assert.assertTrue("Sorting failed upon iteration "+i, new NewSearchPage(driver).resultsCanBeSorted());
         }
     }
+
+    @Test
+    public void canOpenAndCloseLocationPopup(){
+        // performing a filterless institution search and opening first "Multiple" location indicator
+        new TargetingPage(driver).newSearch().blankSearch();
+        int numLocations = new NewSearchPage(driver).numLocationsFirst();
+        new NewSearchPage(driver).openFirstLocationPopup();
+        // verifying that the indicator is open and displaying right number of addresses
+        Assert.assertTrue("Location popup is not open.", new NewSearchPage(driver).locationPopupIsOpen());
+        int locationsDisplayed = new NewSearchPage(driver).numLocationsDisplayedInPopup();
+        Assert.assertEquals("Incorrect number of locations displayed in popup", numLocations, locationsDisplayed);
+        // closing the indicator by clicking elsewhere and verifying that it is closed
+        new NewSearchPage(driver).closeLocationPopup();
+        Assert.assertFalse("Location popup is not closed.", new NewSearchPage(driver).locationPopupIsOpen());
+    }
 }
