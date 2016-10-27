@@ -47,9 +47,20 @@ public class NewSearchPage extends AbstractPageObject{
     private final By contactSaveTargetButton = By.cssSelector(".contact .target-toggle");
 
     private final By showMoreButton = By.cssSelector(".load-more .x-button");
-    private final By nameColumnHeader = By.cssSelector(".list-header .column:first-child");
-    private final By locationColumnHeader = By.cssSelector(".list-header .column:nth-child(2)");
+    private final By nameColumnHeader = By.cssSelector(".list-header .column.name");
+    private final By locationColumnHeader = By.cssSelector(".list-header .column.location");
+    private final By PPColumnHeader = By.cssSelector(".list-header .column.purchase-power");
+    private final By AUMColumnHeader = By.cssSelector(".list-header .column.aum");
+    private final By turnoverColumnHeader = By.cssSelector(".list-header .column.turnover");
+    private final By styleColumnHeader = By.cssSelector(".list-header .column.style");
+    private final By QRColumnHeader = By.cssSelector(".list-header .column.qr");
+
     private final By resultLocation = By.cssSelector(".row .location .value");
+    private final By resultPP = By.cssSelector(".row .purchase-power");
+    private final By resultAUM = By.cssSelector(".row .aum");
+    private final By resultTurnover = By.cssSelector(".row .turnover");
+    private final By resultStyle = By.cssSelector(".row .style");
+    private final By resultQRValue = By.cssSelector(".row .qr-value");
 
     Actions actions = new Actions(driver);
     Random random = new Random();
@@ -283,7 +294,7 @@ public class NewSearchPage extends AbstractPageObject{
         findElement(nameColumnHeader).click();
         pause(100);
         if (!elementsAreAlphaDownSorted(findElements(resultName))){
-            System.out.println("SORT ERROR: Names are not in decending order.");
+            System.out.println("SORT ERROR: Names are not in descending order.");
             return false;
         }
 
@@ -299,11 +310,89 @@ public class NewSearchPage extends AbstractPageObject{
         findElement(locationColumnHeader).click();
         pause(100);
         if (!elementsAreAlphaDownSorted(findElements(resultLocation))){
-            System.out.println("SORT ERROR: Locations are not in decending order.");
+            System.out.println("SORT ERROR: Locations are not in descending order.");
             return false;
         }
 
-        //TO DO: insert other forms of sorting here
+        // sorting by PP ascending
+        findElement(PPColumnHeader).click();
+        pause(100);
+        if (!elementsAreNumUpSorted(findElements(resultPP))){
+            System.out.println("SORT ERROR: PP values are not in ascending order.");
+            return false;
+        }
+
+        // sorting by PP descending
+        findElement(PPColumnHeader).click();
+        pause(100);
+        if (!elementsAreNumDownSorted(findElements(resultPP))){
+            System.out.println("SORT ERROR: PP values are not in descending order.");
+            return false;
+        }
+
+        // sorting by AUM ascending
+        findElement(AUMColumnHeader).click();
+        pause(100);
+        if (!elementsAreNumUpSorted(findElements(resultAUM))){
+            System.out.println("SORT ERROR: AUM values are not in ascending order.");
+            return false;
+        }
+
+        // sorting by AUM descending
+        findElement(AUMColumnHeader).click();
+        pause(100);
+        if (!elementsAreNumDownSorted(findElements(resultAUM))){
+            System.out.println("SORT ERROR: AUM values are not in descending order.");
+            return false;
+        }
+
+        // sorting by turnover ascending
+        findElement(turnoverColumnHeader).click();
+        pause(100);
+        if (!elementsAreTurnoverUpSorted(findElements(resultTurnover))){
+            System.out.println("SORT ERROR: Turnover values are not in ascending order.");
+            return false;
+        }
+
+        // sorting by turnover descending
+        findElement(turnoverColumnHeader).click();
+        pause(100);
+        if (!elementsAreTurnoverDownSorted(findElements(resultTurnover))){
+            System.out.println("SORT ERROR: Turnover values are not in descending order.");
+            return false;
+        }
+
+        // sorting by style ascending
+        findElement(styleColumnHeader).click();
+        pause(100);
+        if (!elementsAreAlphaUpSorted(findElements(resultStyle))){
+            System.out.println("SORT ERROR: Styles are not in ascending order.");
+            return false;
+        }
+
+        // sorting by style descending
+        findElement(styleColumnHeader).click();
+        pause(100);
+        if (!elementsAreAlphaDownSorted(findElements(resultStyle))){
+            System.out.println("SORT ERROR: Styles are not in descending order.");
+            return false;
+        }
+
+        // sorting by QR ascending
+        findElement(QRColumnHeader).click();
+        pause(100);
+        if (!elementsAreNumUpSorted(findElements(resultQRValue))){
+            System.out.println("SORT ERROR: QR scores are not in ascending order.");
+            return false;
+        }
+
+        // sorting by QR descending
+        findElement(QRColumnHeader).click();
+        pause(100);
+        if (!elementsAreNumDownSorted(findElements(resultQRValue))){
+            System.out.println("SORT ERROR: QR scores are not in descending order.");
+            return false;
+        }
 
         return true;
     }

@@ -167,4 +167,71 @@ public class AbstractPageObject implements PageObject {
         }
         return sortedWell;
     }
+
+    /** Used for numerical values displayed on page. Treats '-' as having value of zero. */
+    private double getNumFromText(String text){
+        if (text.equals("-")){
+            return 0;
+        }
+        else {
+            return Double.parseDouble(text);
+        }
+    }
+
+    public boolean elementsAreNumUpSorted(List<WebElement> elements){
+        boolean sortedWell = true;
+        for (int i=0; i<elements.size()-1; i++){
+            if (getNumFromText(elements.get(i+1).getText()) < getNumFromText(elements.get(i).getText())){
+                System.out.println("MIS-SORT: Ascending: '"+elements.get(i+1).getText()+"' should not be after '"+elements.get(i).getText()+"'");
+                sortedWell = false;
+            }
+        }
+        return sortedWell;
+    }
+
+    public boolean elementsAreNumDownSorted(List<WebElement> elements){
+        boolean sortedWell = true;
+        for (int i=0; i<elements.size()-1; i++){
+            if (getNumFromText(elements.get(i+1).getText()) > getNumFromText(elements.get(i).getText())){
+                System.out.println("MIS-SORT: Descending: '"+elements.get(i+1).getText()+"' should not be after '"+elements.get(i).getText()+"'");
+                sortedWell = false;
+            }
+        }
+        return sortedWell;
+    }
+
+    private enum Turnover {
+        None, Very_Low, Low, Medium, High, Very_High
+    }
+
+    private int turnoverTextToValue(String text){
+        if (text.equals("-")){
+            return Turnover.None.ordinal();
+        }
+        else {
+            return Turnover.valueOf(text.replace(' ','_')).ordinal();
+        }
+    }
+
+    public boolean elementsAreTurnoverUpSorted(List<WebElement> elements){
+        boolean sortedWell = true;
+        for (int i=0; i<elements.size()-1; i++){
+            if (turnoverTextToValue(elements.get(i+1).getText()) < turnoverTextToValue(elements.get(i).getText())){
+                System.out.println("MIS-SORT: Ascending: '"+elements.get(i+1).getText()+"' should not be after '"+elements.get(i).getText()+"'");
+                sortedWell = false;
+            }
+        }
+        return sortedWell;
+    }
+
+    public boolean elementsAreTurnoverDownSorted(List<WebElement> elements){
+        boolean sortedWell = true;
+        for (int i=0; i<elements.size()-1; i++){
+            if (turnoverTextToValue(elements.get(i+1).getText()) > turnoverTextToValue(elements.get(i).getText())){
+                System.out.println("MIS-SORT: Descending: '"+elements.get(i+1).getText()+"' should not be after '"+elements.get(i).getText()+"'");
+                sortedWell = false;
+            }
+        }
+        return sortedWell;
+    }
 }

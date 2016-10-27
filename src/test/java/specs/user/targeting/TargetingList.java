@@ -149,7 +149,7 @@ public class TargetingList extends AbstractSpec {
         new TargetingPage(driver).newSearch().blankSearch();
         Assert.assertEquals("Incorrect number of initial results displayed", 20, new NewSearchPage(driver).numResultsDisplayed());
         Assert.assertTrue("Initial sorting failed.", new NewSearchPage(driver).resultsCanBeSorted());
-        // loop ??? times: clicking show more and then verifying sorting again
+        // loop 1 time (can increase if desired): clicking show more and then verifying sorting again
         for (int i=1; i<=1; i++){
             new NewSearchPage(driver).showMoreResults();
             Assert.assertEquals("Incorrect number of results displayed upon iteration "+i, 20*(i+1), new NewSearchPage(driver).numResultsDisplayed());
