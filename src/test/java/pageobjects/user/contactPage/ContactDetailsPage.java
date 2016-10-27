@@ -91,6 +91,7 @@ public class ContactDetailsPage extends Page {
     }
 
     public String getContactTags() {
+        waitForLoadingScreen();
         waitForElementToAppear(contactTags);
         return findElement(contactTags).getText();
     }
