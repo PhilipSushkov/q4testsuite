@@ -51,6 +51,7 @@ public class TargetingPage extends AbstractPageObject {
 
     public int findSearchNameIndex(String searchName){
         waitForElement(showSearches);
+        pause(2000);
         List<WebElement> searchNames = findElements(searchNameSelectors);
 
         for (int i=0; i<searchNames.size(); i++){
@@ -119,7 +120,7 @@ public class TargetingPage extends AbstractPageObject {
         findVisibleElement(showTargets).click();
         pause(2000);
         findVisibleElement(showContacts).click();
-        pause(2000);
+        pause(3000);
         List<WebElement> contactNames = findElements(entityName);
         int startIndex = 0;
         for (int i=0; i<contactNames.size(); i++){
@@ -239,11 +240,13 @@ public class TargetingPage extends AbstractPageObject {
     }
 
     public InstitutionPage goToInstitutionURL(String URL){
+        pause(2000);
         driver.get(URL);
         return new InstitutionPage(getDriver());
     }
 
     public ContactDetailsPage goToContactURL(String URL){
+        pause(2000);
         driver.get(URL);
         return new ContactDetailsPage(getDriver());
     }
