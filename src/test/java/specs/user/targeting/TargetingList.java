@@ -158,6 +158,27 @@ public class TargetingList extends AbstractSpec {
     }
 
     @Test
+    public void canShowAllSearchResults(){
+        // performing an institution search with only the location filter
+        new TargetingPage(driver).newSearch().performBasicLocationSearch("Toronto, ON");
+        // obtaining number of results (as displayed on top of results)
+        int numResultsExpected = new NewSearchPage(driver).numResultsClaimed();
+        int expectedExpansions = numResultsExpected/20;
+        if (numResultsExpected%20==0) expectedExpansions--;
+        // repeat until end of results should be reached: click show more and check right amount of results are displayed
+        Assert.assertEquals("Incorrect number of initial results displayed", 20, new NewSearchPage(driver).numResultsDisplayed());
+        for (int i=1; i<expectedExpansions; i++){
+            new NewSearchPage(driver).showMoreResults();
+            Assert.assertEquals("Incorrect number of results displayed upon iteration "+i, 20*(i+1), new NewSearchPage(driver).numResultsDisplayed());
+        }
+        new NewSearchPage(driver).showMoreResults();
+        System.out.println("Finished clicking 'Show more' after "+expectedExpansions+" iterations.");
+        // check that "Show more" is no longer present and that right number of results are displayed
+        Assert.assertFalse("Show more button still appears.", new NewSearchPage(driver).showMoreAppears());
+        Assert.assertEquals("Incorrect final number of results displayed", numResultsExpected, new NewSearchPage(driver).numResultsDisplayed());
+    }
+
+    @Test
     public void canOpenAndCloseLocationPopup(){
         // performing a filterless institution search and opening first "Multiple" location indicator
         new TargetingPage(driver).newSearch().blankSearch();

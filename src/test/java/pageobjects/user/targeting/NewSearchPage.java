@@ -63,6 +63,8 @@ public class NewSearchPage extends AbstractPageObject{
     private final By locationPopup = By.className("target-search-result-locations-modal");
     private final By address = By.className("address");
 
+    private final By numResultsClaimed = By.className("result-count");
+
     Actions actions = new Actions(driver);
     Random random = new Random();
 
@@ -216,6 +218,16 @@ public class NewSearchPage extends AbstractPageObject{
         return new TargetingPage(getDriver());
     }
 
+    public void performBasicLocationSearch(String location){
+        waitForElement(locationFilter);
+        findElement(locationFilter).sendKeys(location);
+        waitForElement(locationListItem);
+        findElement(locationFilter).sendKeys(Keys.RETURN);
+        waitForElement(searchButton);
+        findElement(searchButton).click();
+        waitForElement(saveTargetButton);
+    }
+
     public String targetRandomInstitution(){
         // performing filterless institution search
         waitForElement(searchButton);
@@ -278,8 +290,16 @@ public class NewSearchPage extends AbstractPageObject{
         waitForElement(saveTargetButton);
     }
 
+    /** Returns number of results currently displayed on the page. */
     public int numResultsDisplayed(){
         return findElements(resultName).size();
+    }
+
+    /** Returns number n displayed as "Results (n)" at top of results*/
+    public int numResultsClaimed(){
+        waitForElementToAppear(numResultsClaimed);
+        String numResultsText = findElement(numResultsClaimed).getText();
+        return Integer.parseInt(numResultsText.substring(1,numResultsText.indexOf(')')));
     }
 
     public boolean resultsCanBeSorted(){
@@ -408,6 +428,16 @@ public class NewSearchPage extends AbstractPageObject{
             pause(100);
         }
         System.out.println("TIMEOUT: More results haven't been loaded after 10 seconds");
+    }
+
+    public boolean showMoreAppears(){
+        List<WebElement> showMoreButtons = findElements(showMoreButton);
+        for (int i=0; i<showMoreButtons.size(); i++){
+            if (showMoreButtons.get(i).isDisplayed()){
+                return true;
+            }
+        }
+        return false;
     }
 
     /** Returns the number in the circle for the first result with "Multiple" locations. */
