@@ -16,18 +16,16 @@ public class LogActivityModal extends AbstractPageObject {
     private final By typeNoteField = By.name("body");
     private final By tagField = By.name("tag");
     private final By postButton = By.cssSelector(".new-note .post-btn");
-    private final By nameField = By.xpath("/html/body/div/div/div[1]/form/div[1]/div[2]/div/div[2]/div[4]/div/div[3]/div[2]/div/input");
-    private final By cancelNoteButton = By.cssSelector(".new-note .cancel-btn");
-    private final By linkDropdown = By.cssSelector(".link-field");
-    private final By keywordField = By.cssSelector(".link-field .search-field.x-field .x-form-field");
+    private final By nameField = By.cssSelector(".note-participants-field .participants-field .x-form-field");
+    private final By cancelNoteButton = By.xpath("//*[contains(text(), 'Cancel')]");
+    private final By linkDropdown = By.cssSelector(".note-link-field .toggle-field .x-toggle.x-toggle-off");
+    private final By keywordField = By.cssSelector(".note-link-field .search-field.x-field .x-form-field");
     private final By institutionSearchResult = By.cssSelector(".link-field-result .result-item");
-    private final By fundIcon = By.id("ext-radiofield-2");
-    private final By contactIcon = By.id("ext-radiofield-3");
-    private final By companyIcon = By.id("ext-radiofield-4");
-    private final By phoneTab = By.id("ext-simplelistitem-2");
-    private final By emailTab = By.id("ext-simplelistitem-3");
-    private final By meetingTab = By.id("ext-simplelistitem-4");
-    private final By meetingDropdown = By.xpath("/html/body/div/div/div[1]/form/div[1]/div[2]/div/div[2]/div[6]/div[2]/div");
+    private final By fundIcon = By.id("ext-radiofield-6");
+    private final By contactIcon = By.id("ext-radiofield-7");
+    private final By phoneTab = By.id("ext-radiofield-2");
+    private final By emailTab = By.id("ext-radiofield-3");
+    private final By meetingTab = By.id("ext-radiofield-4");
 
     public LogActivityModal(WebDriver driver) {
         super(driver);
@@ -86,6 +84,8 @@ public class LogActivityModal extends AbstractPageObject {
     }
 
     public Dashboard cancelNote() {
+        pause(500L);
+        waitForElementToAppear(cancelNoteButton);
         findElement(cancelNoteButton).click();
         pause(500L);
 
@@ -124,21 +124,7 @@ public class LogActivityModal extends AbstractPageObject {
         return this;
     }
 
-    public LogActivityModal linkNoteToCompany(String company) {
-        findElement(linkDropdown).click();
-        wait.until(ExpectedConditions.elementToBeClickable(companyIcon));
-        findElement(companyIcon).click();
-        findElement(keywordField).sendKeys(company);
-        pause(1000L);
-        findElement(institutionSearchResult).click();
-        findElement(linkDropdown).click();
-
-        return this;
-    }
-
     public LogActivityModal choosePhoneTab() {
-        waitForElementToAppear(meetingDropdown);
-        findElement(meetingDropdown).click();
         findElement(phoneTab).click();
         wait.until(ExpectedConditions.elementToBeClickable(postButton));
         findElement(postButton).click();
@@ -147,8 +133,6 @@ public class LogActivityModal extends AbstractPageObject {
     }
 
     public LogActivityModal chooseEmailTab() {
-        waitForElementToAppear(meetingDropdown);
-        findElement(meetingDropdown).click();
         findElement(emailTab).click();
         wait.until(ExpectedConditions.elementToBeClickable(postButton));
         findElement(postButton).click();
@@ -157,8 +141,6 @@ public class LogActivityModal extends AbstractPageObject {
     }
 
     public LogActivityModal chooseMeetingTab() {
-        waitForElementToAppear(meetingDropdown);
-        findElement(meetingDropdown).click();
         findElement(meetingTab).click();
         wait.until(ExpectedConditions.elementToBeClickable(postButton));
         findElement(postButton).click();

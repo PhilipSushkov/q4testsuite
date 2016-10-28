@@ -9,15 +9,16 @@ import pageobjects.user.activityPage.ActivityPage;
  * Created by patrickp on 2016-08-12.
  */
 public class NoteDetailsPage extends ActivityPage {
-    private final By noteDetails = By.cssSelector(".preview-note-view .activity-detail-body");
+    private final By noteDetails = By.cssSelector(".preview-note-view .preview-note-view-section");
     private final By commentDetails = By.cssSelector(".note-detail-header .note-detail-header-inner");
-    private final By linkedToDetails = By.cssSelector(".preview-note-view .links .link");
+    private final By linkedToDetails = By.cssSelector(".preview-note-view .note-links .x-dataview-item");
 
     public NoteDetailsPage(WebDriver driver) {
         super(driver);
     }
 
     public String getNoteBody() {
+        waitForLoadingScreen();
         wait.until(ExpectedConditions.visibilityOfElementLocated(noteDetails));
         return findElement(noteDetails).getText();
     }

@@ -166,26 +166,4 @@ public class DashboardLogActivity extends AbstractSpec {
         Assert.assertThat(noteDetailsPage.getCommentText(), containsString(comment));
         Assert.assertThat(noteDetailsPage.getLinkedToText(), containsString(contact));
     }
-
-    @Test
-    public void canLinkNoteToCompany() {
-        String comment = "This is a test comment" + RandomStringUtils.randomAlphanumeric(6);
-        String note = "This is a test note" + RandomStringUtils.randomAlphanumeric(6);
-        String tag = "TestTag" + RandomStringUtils.randomAlphanumeric(6);
-        String company = "Sysco";
-
-        NoteDetailsPage noteDetailsPage = new NoteDetailsPage(driver);
-
-        new Dashboard(driver).logNote()
-                .linkNoteToCompany(company)
-                .enterNoteDetails(comment, note, tag)
-                .postActivity()
-                .accessSideNav()
-                .selectActivityPageFromSideNav()
-                .selectFirstNoteInList();
-
-        Assert.assertThat(noteDetailsPage.getNoteBody(), containsString(note));
-        Assert.assertThat(noteDetailsPage.getCommentText(), containsString(comment));
-        Assert.assertThat(noteDetailsPage.getLinkedToText(), containsString(company));
-    }
 }
