@@ -64,6 +64,9 @@ public class NewSearchPage extends AbstractPageObject{
     private final By address = By.className("address");
 
     private final By numResultsClaimed = By.className("result-count");
+    private final By yellowArrow = By.className("collapse-button");
+    private final By yellowArrowIcon = By.cssSelector(".collapse-button .x-button-icon");
+    private final By filtersArea = By.className("targeting-filters");
 
     Actions actions = new Actions(driver);
     Random random = new Random();
@@ -461,5 +464,31 @@ public class NewSearchPage extends AbstractPageObject{
     public void closeLocationPopup(){
         actions.moveToElement(findElement(locationPopup), -1, -1).click().build().perform();
         waitForElementToDissapear(locationPopup);
+    }
+
+    public boolean filtersAreaIsCollapsed(){
+        String filterAreaHeightCSS = findElement(filtersArea).getCssValue("height");
+        int filterAreaHeight = Integer.parseInt(filterAreaHeightCSS.substring(0,filterAreaHeightCSS.indexOf('p')));
+        System.out.println("Filter area has height of "+filterAreaHeight);
+        return filterAreaHeight<600;
+    }
+
+    public void clickInFiltersArea(){
+        actions.moveToElement(findElement(locationFilter), 1, 1).click().build().perform();
+        pause(1000);
+    }
+
+    public void clickSearchButton(){
+        findElement(searchButton).click();
+        pause(1000);
+    }
+
+    public boolean yellowArrowIsUp(){
+        return findElement(yellowArrowIcon).getAttribute("class").contains("q4i-arrow-sm-up-4pt");
+    }
+
+    public void clickYellowArrow(){
+        findElement(yellowArrow).click();
+        pause(1000);
     }
 }

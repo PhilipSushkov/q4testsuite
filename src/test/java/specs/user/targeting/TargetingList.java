@@ -214,4 +214,26 @@ public class TargetingList extends AbstractSpec {
         searchNameIndex = new TargetingPage(driver).findSearchNameIndex(searchName);
         Assert.assertEquals("Search has not been deleted", -1, searchNameIndex);
     }
+
+    @Test
+    /** Based on TestRail test case C2348. */
+    public void canExpandAndCollapseFiltersArea(){
+        // performing a filterless institution search and verifying that the filters area is collapsed and yellow arrow points down
+        new TargetingPage(driver).newSearch().blankSearch();
+        Assert.assertTrue("Filters area is not collapsed after clicking 'Search'.", new NewSearchPage(driver).filtersAreaIsCollapsed());
+        Assert.assertFalse("Yellow arrow is not pointing down while filters area is collapsed.", new NewSearchPage(driver).yellowArrowIsUp());
+        // clicking in the filters area and verifying that it expands and yellow arrow points up
+        new NewSearchPage(driver).clickInFiltersArea();
+        Assert.assertFalse("Filters area is not expanded after clicking inside the filters area.", new NewSearchPage(driver).filtersAreaIsCollapsed());
+        Assert.assertTrue("Yellow arrow is not pointing up while filters area is expanded.", new NewSearchPage(driver).yellowArrowIsUp());
+        // clicking search and then yellow arrow and verifying that the filters area is expanded and yellow arrow points up
+        new NewSearchPage(driver).clickSearchButton();
+        new NewSearchPage(driver).clickYellowArrow();
+        Assert.assertFalse("Filters area is not expanded after clicking yellow arrow after clicking search button.", new NewSearchPage(driver).filtersAreaIsCollapsed());
+        Assert.assertTrue("Yellow arrow is not pointing up while filters area is expanded.", new NewSearchPage(driver).yellowArrowIsUp());
+        // clicking yellow arrow and verifying that filters area is collapsed and yellow arrow points down
+        new NewSearchPage(driver).clickYellowArrow();
+        Assert.assertTrue("Filters area is not collapsed after clicking yellow arrow.", new NewSearchPage(driver).filtersAreaIsCollapsed());
+        Assert.assertFalse("Yellow arrow is not pointing down while filters area is collapsed.", new NewSearchPage(driver).yellowArrowIsUp());
+    }
 }
