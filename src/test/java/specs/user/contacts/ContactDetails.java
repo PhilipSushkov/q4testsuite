@@ -73,16 +73,6 @@ public class ContactDetails extends AbstractSpec {
     }
 
     @Test
-    public void canCancelReportCreation() {
-        ContactDetailsPage contactDetailsPage = new ContactDetailsPage(driver);
-        contactDetailsPage.accessContactDropdown()
-                .selectCreateTearSheet()
-                .cancelTearSheetCreation();
-
-        Assert.assertThat(contactDetailsPage.getContactName(), containsString(contactName));
-    }
-
-    @Test
     public void canTargetAndUntargetContactFromPage(){
         // targeting contact and verifying that "Saved Target" icon appears
         new ContactDetailsPage(driver).markAsTarget();
