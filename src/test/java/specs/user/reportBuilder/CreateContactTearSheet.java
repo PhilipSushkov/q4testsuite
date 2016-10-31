@@ -3,6 +3,7 @@ package specs.user.reportBuilder;
 import org.apache.commons.lang.RandomStringUtils;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import pageobjects.user.contactPage.ContactDetailsPage;
 import pageobjects.user.loginPage.LoginPage;
@@ -28,6 +29,7 @@ public class CreateContactTearSheet extends AbstractSpec {
                 .selectContactFromSearchResults();
     }
 
+    @Ignore
     @Test
     public void canCreateTearSheet() {
         ReportDetailsPage reportDetailsPage = new ReportDetailsPage(driver);
@@ -46,6 +48,7 @@ public class CreateContactTearSheet extends AbstractSpec {
         Assert.assertThat(newReport.getReportPageTitle(), containsString(reportTitle));
     }
 
+    @Ignore
     @Test
     public void canDeleteTearSheet() {
         ReportBuilderPage reportBuilderPage = new ReportBuilderPage(driver);
@@ -63,6 +66,7 @@ public class CreateContactTearSheet extends AbstractSpec {
     }
 
     // Todo: Clean  up this test. We're using a tag that doesn't exist on all environments.
+    @Ignore
     @Test
     public void canAddMoreTags() {
         ReportDetailsPage reportDetailsPage = new ReportDetailsPage(driver);
