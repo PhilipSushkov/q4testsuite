@@ -53,6 +53,7 @@ public class LoginPage extends Page {
     }
 
     public Dashboard customLoginUser(String email, String password) {
+        waitForLoadingScreen();
         waitForElementToAppear(emailField);
         findElement(emailField).clear();
         findElement(passwordField).clear();
