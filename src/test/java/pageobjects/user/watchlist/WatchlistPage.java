@@ -39,6 +39,7 @@ public class WatchlistPage extends AbstractPageObject{
     }
 
     public String getWatchlistSecurities() {
+        waitForLoadingScreen();
         waitForElementToAppear(watchlist);
         return findElement(watchlist).getText().replaceAll("\\p{P}", "");
     }
@@ -69,6 +70,7 @@ public class WatchlistPage extends AbstractPageObject{
     }
 
     public String getFirstCompanyInList() {
+        waitForLoadingScreen();
         return findElement(firstCompanyInList).getText().replaceAll("\\p{P}", "");
     }
 

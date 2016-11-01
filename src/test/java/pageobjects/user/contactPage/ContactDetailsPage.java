@@ -71,6 +71,7 @@ public class ContactDetailsPage extends Page {
     public ContactDetailsPage removeContactFromList() {
         pause(500L);
         driver.navigate().refresh();
+        waitForLoadingScreen();
         wait.until(ExpectedConditions.elementToBeClickable(contactDropdownPostAdd));
         retryClick(contactDropdownPostAdd);
         wait.until(ExpectedConditions.elementToBeClickable(removeFromContacts));
@@ -139,6 +140,7 @@ public class ContactDetailsPage extends Page {
     }
 
     public String getNoteDetails() {
+        waitForLoadingScreen();
         return findElement(noteDetails).getText();
     }
 

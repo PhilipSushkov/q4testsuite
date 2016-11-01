@@ -2,6 +2,7 @@ package pageobjects.user.loginPage;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageobjects.user.dashboardPage.Dashboard;
 import pageobjects.Page;
 
@@ -38,7 +39,8 @@ public class LoginPage extends Page {
     }
 
     public Dashboard loginUser() {
-        waitForElementToAppear(emailField);
+        waitForLoadingScreen();
+        wait.until(ExpectedConditions.elementToBeClickable(emailField));
         findElement(emailField).clear();
         findElement(passwordField).clear();
         findElement(emailField).sendKeys("patrickp@q4websystems.com");
@@ -76,6 +78,7 @@ public class LoginPage extends Page {
     }
 
     public LoginPage forgotPassword() {
+        waitForLoadingScreen();
         findElement(forgotPasswordLink).click();
 
         return this;
