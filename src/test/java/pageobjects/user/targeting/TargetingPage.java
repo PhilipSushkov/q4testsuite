@@ -70,6 +70,7 @@ public class TargetingPage extends AbstractPageObject {
     }
 
     public void deleteSearchAbort(int index){
+        waitForLoadingScreen();
         waitForElement(editButton);
         findVisibleElement(editButton).click();
         waitForElementToAppear(redButton);

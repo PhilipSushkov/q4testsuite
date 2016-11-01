@@ -25,6 +25,7 @@ public class WatchlistPage extends AbstractPageObject{
     }
 
     public WatchlistPage addSecurityToWatchlist(String security) {
+        waitForLoadingScreen();
         wait.until(ExpectedConditions.elementToBeClickable(securitySearchField));
         findElement(securitySearchField).click();
         findElement(securitySearchField).sendKeys(security);
