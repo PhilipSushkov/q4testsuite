@@ -5,6 +5,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageobjects.AbstractPageObject;
 import pageobjects.user.activityPage.ActivityPage;
+import pageobjects.user.advancedSearchResultsPage.AdvancedSearchResults;
 import pageobjects.user.checklistPage.ChecklistPage;
 import pageobjects.user.contactPage.ContactPage;
 import pageobjects.user.dashboardPage.Dashboard;
@@ -40,6 +41,7 @@ public class SideNavBar extends AbstractPageObject{
     private final By supportTicketsSideNav = By.id("ext-treelistitem-17");
     private final By checklistSideNav = By.id("ext-treelistitem-18");
     private final By securitySideNav = By.id("ext-treelistitem-10");
+    private final By searchSideNav = By.id("ext-treelistitem-8");
 
     public SideNavBar(WebDriver driver) {
         super(driver);
@@ -164,5 +166,13 @@ public class SideNavBar extends AbstractPageObject{
         findElement(targetingSideNav).click();
 
         return new TargetingPage(getDriver());
+    }
+
+    public AdvancedSearchResults selectAdvancedSearchFromSideNav() {
+        pause(2000L);
+        waitForElement(searchSideNav);
+        findElement(searchSideNav).click();
+
+        return new AdvancedSearchResults(getDriver());
     }
 }
