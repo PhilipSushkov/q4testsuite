@@ -21,7 +21,7 @@ public class TargetingPage extends AbstractPageObject {
     private final By searchNameSelectors = By.cssSelector(".x-grid-row .x-grid-cell:first-child .x-grid-cell-inner");
     private final By searchNameDivSelectors = By.cssSelector(".x-grid-row");
     private final By editButton = By.cssSelector(".edit .x-button-label");
-    private final By redButton = By.className("delete-button");
+    private final By redButton = By.cssSelector(".delete-button .q4i-minus-4pt");
     private final By cancelDelete = By.cssSelector(".targeting-action-toolbar .x-button:first-child");
     private final By confirmDelete = By.cssSelector(".targeting-action-toolbar .x-button.delete");
     private final By doneButton = By.cssSelector(".done .x-button-label");
