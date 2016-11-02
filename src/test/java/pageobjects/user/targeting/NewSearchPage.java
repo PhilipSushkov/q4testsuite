@@ -257,6 +257,7 @@ public class NewSearchPage extends AbstractPageObject{
         List<WebElement> searchTypeDivs = findElements(searchTypeSelectors);
         searchTypeDivs.get(1).click();
         findElement(searchButton).click();
+        waitForElementToAppear(contactToggle);
 
         // randomly selecting fund in result (among first 10 that contain contacts)
         int index = random.nextInt(10);
