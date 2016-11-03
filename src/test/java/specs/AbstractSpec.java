@@ -31,7 +31,7 @@ public abstract class AbstractSpec {
 
     private static final String BROWSER_STACK_URL = "http://jencampbell2:6jEURzbszfaWhLJc7XWx@hub.browserstack.com/wd/hub";
     private static final String BUILD_ID = RandomStringUtils.randomAlphanumeric(6);
-    public static final long DEFAULT_TIMEOUT = 2L;
+    public static final long DEFAULT_TIMEOUT = 5L;
 
     private static URL desktopUrl;
     private static BrowserStackCapability browser;
