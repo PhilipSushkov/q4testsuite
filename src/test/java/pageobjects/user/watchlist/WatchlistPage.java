@@ -72,6 +72,7 @@ public class WatchlistPage extends AbstractPageObject{
 
     public String getFirstCompanyInList() {
         waitForLoadingScreen();
+        waitForElementToAppear(firstCompanyInList);
         return findElement(firstCompanyInList).getText().replaceAll("\\p{P}", "");
     }
 
