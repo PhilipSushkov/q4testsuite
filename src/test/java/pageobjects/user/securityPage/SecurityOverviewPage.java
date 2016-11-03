@@ -20,6 +20,7 @@ public class SecurityOverviewPage extends WatchlistPage {
     private final By companyTicker = By.className("company-symbol");
     private final By industry_Exchange = By.className("exchange");
     private final By stockQuote = By.className("stock-price");
+    private final By changeIcon = By.className("change-icon");
     private final By stockChange = By.className("change-value");
     private final By volume = By.xpath("//*[@class=\"value\"][1]");
     private final By avgVolume = By.xpath("//*[@class=\"value\"][2]");
@@ -194,7 +195,7 @@ public class SecurityOverviewPage extends WatchlistPage {
 
     public String getCompanyTicker()
     {
-        return findElement(companyTicker).getText().replaceAll("\\p{P}", "");
+        return findElement(companyTicker).getAttribute("innerHTML").replaceAll("\\p{P}", "");
     }
 
     public String getIndustry_Exchange()
@@ -202,14 +203,29 @@ public class SecurityOverviewPage extends WatchlistPage {
         return findElement(industry_Exchange).getText().replaceAll("\\p{P}", "");
     }
 
+    public String getStockQuote()
+    {
+        pause(4000L);
+        return findElement(stockQuote).getText();
+
+    }
+
+    public String getChangeIconColor()
+    {
+        pause(4000L);
+        String color = findElement(changeIcon).getCssValue("background-color");
+        return color.replaceAll("[ rgba(),]","");
+    }
+
     public String getStockChange()
     {
-        return findElement(stockChange).getText().replaceAll("\\p{P}", "");
+        pause(4000L);
+        return findElement(stockChange).getText();
     }
 
     public String getVolume()
     {
-        return findElement(volume).getText().replaceAll("\\p{P}", "");
+        return findElement(volume).getText();
     }
 
     public String getAvgVolume()
