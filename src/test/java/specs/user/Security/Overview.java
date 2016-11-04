@@ -100,7 +100,7 @@ public class Overview extends AbstractSpec {
 
     /**Test Case C494*/
 
-    public void correctVolumeFormat() //Have not checked if they find the right element yet. Xpath an issue, attempt to solve.
+    public void correctVolumeFormat()
     {
         SecurityOverviewPage test = new SecurityOverviewPage(driver);
 
@@ -120,8 +120,8 @@ public class Overview extends AbstractSpec {
             if (x%4 == 0 && x != 0) { //Checking the double is a whole number
                 Assert.assertEquals(volume.substring(volumeSize - x.intValue(), volumeSize - (x.intValue() - 1)), ",");
             }
-            else {
-            //Assert.assertNotEquals(",", volume.substring(volumeSize - (x.intValue() + 1),volumeSize - x.intValue()));
+            else if (volume.substring(volumeSize - (x.intValue() + 1),volumeSize - x.intValue()) == ",") {
+                Assert.assertFalse(true);
             }
         }
 
@@ -130,8 +130,8 @@ public class Overview extends AbstractSpec {
             if (x%4 == 0 && x != 0) { //Checking the double is a whole number
                 Assert.assertEquals(avgVolume.substring(avgVolumeSize - x.intValue(), avgVolumeSize - (x.intValue() - 1)), ",");
             }
-            else {
-               // Assert.assertNotEquals("WHY", avgVolume.substring(avgVolumeSize - (x.intValue() + 1),avgVolumeSize - x.intValue()));
+            else if (avgVolume.substring(avgVolumeSize - (x.intValue() + 1),avgVolumeSize - x.intValue()) == ",") {
+               Assert.assertFalse(true);
             }
         }
 
