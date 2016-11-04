@@ -22,8 +22,9 @@ public class SecurityOverviewPage extends WatchlistPage {
     private final By stockQuote = By.className("stock-price");
     private final By changeIcon = By.className("change-icon");
     private final By stockChange = By.className("change-value");
-    private final By volume = By.xpath("//*[@class=\"value\"][1]");
-    private final By avgVolume = By.xpath("//*[@class=\"value\"][2]");
+
+    private final By volume = By.xpath("//*[@class=\"value\"]");
+    private final By avgVolume = By.xpath("(//span[@class='value'])[2]");   // <- Follow this syntax!!!
 
     //dropdown\\
 
@@ -225,12 +226,14 @@ public class SecurityOverviewPage extends WatchlistPage {
 
     public String getVolume()
     {
+        pause(4000L);
         return findElement(volume).getText();
     }
 
     public String getAvgVolume()
     {
-        return findElement(avgVolume).getText().replaceAll("\\p{P}", "");
+        pause(4000L); ;
+        return findElement(avgVolume).getText();
     }
 
                                     //CHARTS\\
