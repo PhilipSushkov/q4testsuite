@@ -12,7 +12,12 @@ import pageobjects.user.watchlist.WatchlistPage;
 public class SecurityOverviewPage extends WatchlistPage {
 
 
-    /**       HEADER       */
+    private final By overviewModal = By.id("ext-company-overview-2");  //Create an interface including these things for overview page
+    private final By ownershipBuyersModal = By.id("ext-company-hero-report-buyers-2");
+    /**
+     * HEADER
+     */
+
 
     //data\\
 
@@ -28,18 +33,20 @@ public class SecurityOverviewPage extends WatchlistPage {
 
     //dropdown\\
 
-    private final By dropdownMenu = By.cssSelector(".company-header .menu-button .x-button-label");
-    private final By dropdownLeftArrow = By.cssSelector(".company-header .navigate-button:first-child");
-    private final By dropdownRightArrow = By.cssSelector(".company-header .navigate-button:last-child");
+    final By dropdownModal = By.className("x-inner company-service-list-inner");
 
-    private final By dropdownOverview = By.xpath("//*[@class=\"company-service-list-item menu-item\"][1]");
-    private final By dropdownOwnership = By.xpath("//*[@class=\"company-service-list-item menu-item\"][2]");
-    private final By dropdownTrading = By.xpath("//*[@class=\"company-service-list-item menu-item\"][3]");
-    private final By dropdownSentiment = By.xpath("//*[@class=\"company-service-list-item menu-item\"][4]");
-    private final By dropdownVolatility = By.xpath("//*[@class=\"company-service-list-item menu-item\"][5]");
-    private final By dropdownActivism = By.xpath("//*[@class=\"company-service-list-item menu-item\"][6]");
-    private final By dropdownPerformance = By.xpath("//*[@class=\"company-service-list-item menu-item\"][7]");
-    private final By dropdownEstimates = By.xpath("//*[@class=\"company-service-list-item menu-item\"][8]");
+    final By dropdownMenu = By.cssSelector(".company-header .menu-button .x-button-label");
+    final By dropdownLeftArrow = By.cssSelector(".company-header .navigate-button:first-child");
+    final By dropdownRightArrow = By.cssSelector(".company-header .navigate-button:last-child");
+
+    final By dropdownOverview = By.xpath("//*[@class=\"company-service-list-item menu-item\"][1]");
+    final By dropdownOwnership = By.xpath("//*[@class=\"company-service-list-item menu-item\"][2]");
+    final By dropdownTrading = By.xpath("//*[@class=\"company-service-list-item menu-item\"][3]");
+    final By dropdownSentiment = By.xpath("//*[@class=\"company-service-list-item menu-item\"][4]");
+    final By dropdownVolatility = By.xpath("//*[@class=\"company-service-list-item menu-item\"][5]");
+    final By dropdownActivism = By.xpath("//*[@class=\"company-service-list-item menu-item\"][6]");
+    final By dropdownPerformance = By.xpath("//*[@class=\"company-service-list-item menu-item\"][7]");
+    final By dropdownEstimates = By.xpath("//*[@class=\"company-service-list-item menu-item\"][8]");
 
     //buttons\\ -> to add stuff for modals that appear when clicking button
 
@@ -63,7 +70,9 @@ public class SecurityOverviewPage extends WatchlistPage {
     private final By removeTagBtn = By.className("delete");
 
 
-    /**       CHARTS      */
+    /**
+     * CHARTS
+     */
 
     //buttons\\
 
@@ -92,14 +101,16 @@ public class SecurityOverviewPage extends WatchlistPage {
     private final By intradayHighValue1 = By.xpath("//*[@class=\"value\"][8]");
     private final By intradayHighValue2 = By.xpath("//*[@id=\"day-bg-group\"]/text[3]"); //Found on 1d chart, above "HIGH"
     private final By yearLowValue1 = By.xpath("//*[@class=\"value\"][5]"); //year Low = 52wk Low
-    private final By yearLowValue2  = By.xpath("//*[@id=\"week-bg-group\"]/text[2]"); //Found on 52wk chart, above "LOW"
+    private final By yearLowValue2 = By.xpath("//*[@id=\"week-bg-group\"]/text[2]"); //Found on 52wk chart, above "LOW"
     private final By yearHighValue1 = By.xpath("//*[@class=\"value\"][9]");
     private final By yearHighValue2 = By.xpath("//*[@id=\"week-bg-group\"]/text[3]"); //Found on 52wk chart, above "HIGH"
     private final By dailyVolumeValue = By.xpath("//*[@class=\"value\"][6]");
     private final By currencyType = By.xpath("//*[@class=\"value\"][10]");
 
 
-    /**       QUALITY RATING      */
+    /**
+     * QUALITY RATING
+     */
 
     private final By qualityRatingValue = By.cssSelector(".overview-quality-rating .qr-value .x-innerhtml:not(:empty)");
 
@@ -124,7 +135,9 @@ public class SecurityOverviewPage extends WatchlistPage {
     //private final By salesBtn = //The Sales value to be found here.
 
 
-    /**       MINI CHARTS      */
+    /**
+     * MINI CHARTS
+     */
 
     //expected_trading_range\\
 
@@ -144,7 +157,7 @@ public class SecurityOverviewPage extends WatchlistPage {
 
     private final By volatilityValue = By.xpath("//*[contains(@class, 'volatility-chart')]"); //Click on value for redirection
 
-     //activism\\
+    //activism\\
 
     private final By activismValue = By.xpath("//*[contains(@class,'activism-chart')]"); //Click on value for redirection
 
@@ -164,7 +177,9 @@ public class SecurityOverviewPage extends WatchlistPage {
 
     /**       NEWS      */ //NO TEST CASES YET!!!
 
-    /**       WATCHLIST BAR       */ //WILL DO LATER
+    /**
+     * WATCHLIST BAR
+     */ //WILL DO LATER
 
     //private final By readMore
 
@@ -174,77 +189,90 @@ public class SecurityOverviewPage extends WatchlistPage {
     //Tests for color detection will be figured out during the time and as such, no elements have been identified (color)
 
 
-
-
-
     Actions execute = new Actions(driver);
 
     public SecurityOverviewPage(WebDriver driver) {
         super(driver);
     }
 
+
+    /**
+     *  EXISTS      //Create abstract class that contains all these.
+     */
+
+
+    public  boolean dropdownMenuExists()
+    {
+        pause(4000L);
+        return doesElementExist(dropdownModal);
+    }
+
+
+    public boolean OverviewPageExists()
+    {
+        pause(4000L);
+        return doesElementExist(overviewModal);
+    }
+
+    public boolean ownershipPageExists()
+    {
+        pause(4000L);
+        return doesElementExist(ownershipBuyersModal);
+    }
+
+
     /**
      * GETTERS:
      */
 
-                                    //HEADER\\
-
-    public String getCompanyName()
-    {
+    //HEADER\\
+    public String getCompanyName() {
         return findElement(companyName).getText().replaceAll("\\p{P}", "");
     }
 
-    public String getCompanyTicker()
-    {
+    public String getCompanyTicker() {
         return findElement(companyTicker).getAttribute("innerHTML").replaceAll("\\p{P}", "");
     }
 
-    public String getIndustry_Exchange()
-    {
+    public String getIndustry_Exchange() {
         return findElement(industry_Exchange).getText().replaceAll("\\p{P}", "");
     }
 
-    public String getStockQuote()
-    {
+    public String getStockQuote() {
         pause(4000L);
         return findElement(stockQuote).getText();
 
     }
 
-    public String getChangeIconColor()
-    {
+    public String getChangeIconColor() {
         pause(4000L);
         String color = findElement(changeIcon).getCssValue("background-color");
-        return color.replaceAll("[ rgba(),]","");
+        return color.replaceAll("[ rgba(),]", "");
     }
 
-    public String getStockChange()
-    {
+    public String getStockChange() {
         pause(4000L);
         return findElement(stockChange).getText();
     }
 
-    public String getVolume()
-    {
+    public String getVolume() {
         pause(4000L);
         return findElement(volume).getText();
     }
 
-    public String getAvgVolume()
-    {
-        pause(4000L); ;
+    public String getAvgVolume() {
+        pause(4000L);
+        ;
         return findElement(avgVolume).getText();
     }
 
-                                    //CHARTS\\
+    //CHARTS\\
 
-    public String getPrevCloseValue()
-    {
+    public String getPrevCloseValue() {
         return findElement(prevCloseValue).getText().replaceAll("\\p{P}", "");
     }
 
-    public String getOpenValue()
-    {
+    public String getOpenValue() {
         return findElement(openValue).getText().replaceAll("\\p{P}", "");
     }
 
@@ -253,141 +281,190 @@ public class SecurityOverviewPage extends WatchlistPage {
         return findElement(intradayLowValue1).getText().replaceAll("\\p{P}", "");
     }
 
-    public String getIntradayLowValue2()
-    {
+    public String getIntradayLowValue2() {
         return findElement(intradayLowValue2).getText().replaceAll("\\p{P}", "");
     }
 
-    public String getIntradayHighValue1()
-    {
+    public String getIntradayHighValue1() {
         return findElement(intradayHighValue1).getText().replaceAll("\\p{P}", "");
     }
 
-    public String getIntradayHighValue2()
-    {
+    public String getIntradayHighValue2() {
         return findElement(intradayHighValue2).getText().replaceAll("\\p{P}", "");
     }
 
-    public String getYearLowValue1()
-    {
+    public String getYearLowValue1() {
         return findElement(yearLowValue1).getText().replaceAll("\\p{P}", "");
     }
 
-    public String getYearLowValue2()
-    {
+    public String getYearLowValue2() {
         return findElement(yearLowValue2).getText().replaceAll("\\p{P}", "");
     }
 
-    public String getYearHighValue1()
-    {
+    public String getYearHighValue1() {
         return findElement(yearHighValue1).getText().replaceAll("\\p{P}", "");
     }
 
-    public String getYearHighValue2()
-    {
+    public String getYearHighValue2() {
         return findElement(yearHighValue2).getText().replaceAll("\\p{P}", "");
     }
 
-    public String getDailyVolumeValue()
-    {
+    public String getDailyVolumeValue() {
         return findElement(dailyVolumeValue).getText().replaceAll("\\p{P}", "");
     }
 
-    public String getCurrencyType()
-    {
+    public String getCurrencyType() {
         return findElement(currencyType).getText().replaceAll("\\p{P}", "");
     }
 
-                                    //QUALITY RATING\\
+    //QUALITY RATING\\
 
-    public String getGrowthValue()
-    {
+    public String getGrowthValue() {
         return findElement(growthValue).getText().replaceAll("\\p{P}", "");
     }
 
-    public String getIndexValue()
-    {
+    public String getIndexValue() {
         return findElement(indexValue).getText().replaceAll("\\p{P}", "");
     }
 
-    public String getYieldValue()
-    {
+    public String getYieldValue() {
         return findElement(yieldValue).getText().replaceAll("\\p{P}", "");
     }
 
-    public String getInvestorStyleOtherValue()
-    {
+    public String getInvestorStyleOtherValue() {
         return findElement(investorStyleOtherValue).getText().replaceAll("\\p{P}", "");
     }
 
 
-    public String getVeryLowValue()
-    {
+    public String getVeryLowValue() {
         return findElement(veryLowValue).getText().replaceAll("\\p{P}", "");
     }
 
-    public String getLowValue()
-    {
+    public String getLowValue() {
         return findElement(lowValue).getText().replaceAll("\\p{P}", "");
     }
 
-    public String getMediumValue()
-    {
+    public String getMediumValue() {
         return findElement(mediumValue).getText().replaceAll("\\p{P}", "");
     }
 
-    public String getTurnoverOtherValue()
-    {
+    public String getTurnoverOtherValue() {
         return findElement(turnoverOtherValue).getText().replaceAll("\\p{P}", "");
     }
 
-                                            //MINI CHARTS\\
+    //MINI CHARTS\\
 
-    public String getHiValue()
-    {
+    public String getHiValue() {
         return findElement(hiValue).getText().replaceAll("\\p{P}", "");
     }
 
-    public String getLoValue()
-    {
+    public String getLoValue() {
         return findElement(loValue).getText().replaceAll("\\p{P}", "");
     }
 
-    public String getActualValue()
-    {
+    public String getActualValue() {
         return findElement(actualValue).getText().replaceAll("\\p{P}", "");
     }
 
-    public String getStockValue()
-    {
+    public String getStockValue() {
         return findElement(stockValue).getText().replaceAll("\\p{P}", "");
     }
 
-    public String getSentimentValue()
-    {
+    public String getSentimentValue() {
         return findElement(sentimentValue).getText().replaceAll("\\p{P}", "");
     }
 
-    public String getVolatilityValue()
-    {
+    public String getVolatilityValue() {
         return findElement(volatilityValue).getText().replaceAll("\\p{P}", "");
     }
 
-    public String getActivismValue()
-    {
+    public String getActivismValue() {
         return findElement(activismValue).getText().replaceAll("\\p{P}", "");
     }
-
 
 
     /** A click used to exit a modal via inputing a web pages coordinates via offset of existing element.
      * This is used as modals may block/hide elements when they are up, so a reliable method is required to click.*/
 
-    public void offsetCompanyNameClick(int x, int y)
+    /**
+     * CLICKERS
+     */
+
+    //RECALL, ALL TESTS ARE BASED ON OVERVIEW PAGE, SO JUST CHECKS IF A BUTTON TAKES YOU TO RIGHT PAGE BUT NO MORE.
+    public void clickDropdownLeftArrowOverview()  //when testing, do this first to make sure you are still in same page
     {
+        pause(4000L);
+        findElement(dropdownLeftArrow);
+    }
+
+
+    public SecurityOwnershipPage clickDropdownRightArrowOverview()     //Other versions of this on other pages
+    {
+        pause(4000L);
+        findElement(dropdownRightArrow);
+        return new SecurityOwnershipPage(getDriver());
+    }
+
+    public void clickDropdownMenu_Overview() {
+        pause(4000L);
+        findElement(dropdownMenu).click();
+    }
+
+    public SecurityOverviewPage clickDropdownOverview()//Perhaps put these methods into an interface for security?
+    {
+        findElement(dropdownOverview).click();
+        return new SecurityOverviewPage(getDriver());
+
+    }
+
+    public SecurityOwnershipPage clickDropdownOwnership()
+    {
+          findElement(dropdownOwnership).click();
+          return new SecurityOwnershipPage(getDriver());
+    }
+
+    public TradingRangePage clickDropdownTrading() {
+
+        findElement(dropdownTrading).click();
+        return new TradingRangePage(getDriver());
+    }
+
+    public SentimentPage clickDropdownSentiment() {
+
+         findElement(dropdownSentiment).click();
+         return new SentimentPage(getDriver());
+    }
+
+     public VolatilityPage clickDropdownVolatility() {
+
+          findElement(dropdownVolatility).click();
+          return new VolatilityPage(getDriver());
+     }
+     public ActivismPage clickDropdownActivism() {
+
+          findElement(dropdownActivism).click();
+          return new ActivismPage(getDriver());
+     }
+
+     public RelativePerformacePage clickDropdownPerformance() {
+
+          findElement(dropdownPerformance).click();
+          return new RelativePerformacePage(getDriver());
+     }
+
+     public SecurityEstimatesPage clickDropdownEstimates() {
+
+          findElement(dropdownEstimates).click();
+          return new SecurityEstimatesPage(getDriver());
+     }
+
+
+     public void offsetCompanyNameClick(int x, int y)
+
+     {
         //Moves the mouse to an offset from the top-left corner of the companyName element.
         //Get chrome extension Mouse XY to find coordinates of a web-page
-        //The companyName element has coordinates of about (440, 95) when in 100% zoom
+        //The companyName element has coordinates of about (80, 95) when in 100% zoom
 
         WebElement offsetElement = findElement(companyName);
         execute.moveToElement(offsetElement, x, y).click();

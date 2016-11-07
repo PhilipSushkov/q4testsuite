@@ -2,6 +2,7 @@ package pageobjects;
 
 import org.apache.commons.collections4.Predicate;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -108,6 +109,13 @@ public class AbstractPageObject implements PageObject {
         driver.navigate().refresh();
 
         return new LogActivityModal(getDriver());
+    }
+
+    public void goBackPage() //Added this to allow functionality to go to a prev. page
+    {
+        JavascriptExecutor js = (JavascriptExecutor)driver;
+        js.executeScript("window.history.go(-1)");
+        pause(4000L);
     }
 
     public void switchToNewTab() {

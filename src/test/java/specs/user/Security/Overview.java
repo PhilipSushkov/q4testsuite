@@ -107,7 +107,6 @@ public class Overview extends AbstractSpec {
         String volume = test.getVolume();
         String avgVolume = test.getAvgVolume();
 
-        System.out.print(volume + "   " + avgVolume);
         int volumeValue = Integer.parseInt(volume.replaceAll(",", ""));
         int avgVolumeValue = Integer.parseInt(avgVolume.replaceAll(",", ""));
 
@@ -141,8 +140,38 @@ public class Overview extends AbstractSpec {
 
     }
 
-    //fix the side nav selectors.
+    @Test
 
+    /**Test Case C495*/
+
+    public void navigationDropdownMenu()
+    {
+
+        SecurityOverviewPage test = new SecurityOverviewPage(driver);
+        test.clickDropdownLeftArrowOverview(); //Taken to same page, i.e: nothing happens. If something does, test fails
+        test.clickDropdownMenu_Overview();
+
+        //Assert.assertTrue(test.dropdownMenuExists());
+
+        test.clickDropdownOwnership();//Taken to same page, so nothing happens
+
+        //Assert.assertTrue(test.ownershipPageExists());
+
+        test.goBackPage(); //This functions logic is not working. to fix
+
+
+        //Assert.assertTrue(test.OverviewPageExists());
+
+        test.clickDropdownMenu_Overview();
+
+        //Assert.assertTrue(test.dropdownMenuExists());
+
+        test.offsetCompanyNameClick(510, 30);
+
+        //Assert.assertFalse(test.dropdownMenuExists());
+
+
+    }
 
 
 
