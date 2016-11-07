@@ -1,5 +1,6 @@
 package specs.user.targeting;
 
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -236,4 +237,14 @@ public class TargetingList extends AbstractSpec {
         Assert.assertTrue("Filters area is not collapsed after clicking yellow arrow.", new NewSearchPage(driver).filtersAreaIsCollapsed());
         Assert.assertFalse("Yellow arrow is not pointing down while filters area is collapsed.", new NewSearchPage(driver).yellowArrowIsUp());
     }
+
+
+    @After
+    public void disableDriver()
+    {
+        driver.close();
+        driver.quit();
+    }
+
+
 }

@@ -115,7 +115,7 @@ public class AbstractPageObject implements PageObject {
     {
         JavascriptExecutor js = (JavascriptExecutor)driver;
         js.executeScript("window.history.go(-1)");
-        pause(4000L);
+        pause(2000L);
     }
 
     public void switchToNewTab() {

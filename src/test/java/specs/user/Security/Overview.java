@@ -151,24 +151,23 @@ public class Overview extends AbstractSpec {
         test.clickDropdownLeftArrowOverview(); //Taken to same page, i.e: nothing happens. If something does, test fails
         test.clickDropdownMenu_Overview();
 
-        //Assert.assertTrue(test.dropdownMenuExists());
+        Assert.assertTrue(test.dropdownMenuExists());
 
         test.clickDropdownOwnership();//Taken to same page, so nothing happens
 
-        //Assert.assertTrue(test.ownershipPageExists());
+        Assert.assertTrue(test.ownershipPageExists());
 
-        test.goBackPage(); //This functions logic is not working. to fix
+        test.goBackPage();
 
-
-        //Assert.assertTrue(test.OverviewPageExists());
+        Assert.assertTrue(test.OverviewPageExists());
 
         test.clickDropdownMenu_Overview();
 
-        //Assert.assertTrue(test.dropdownMenuExists());
+        Assert.assertTrue(test.dropdownMenuExists());
 
-        test.offsetCompanyNameClick(510, 30);
+        test.offsetCompanyNameClick(457, 45); //537, 151
 
-        //Assert.assertFalse(test.dropdownMenuExists());
+        Assert.assertFalse(test.dropdownMenuExists());
 
 
     }

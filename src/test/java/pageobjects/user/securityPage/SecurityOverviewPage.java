@@ -12,8 +12,8 @@ import pageobjects.user.watchlist.WatchlistPage;
 public class SecurityOverviewPage extends WatchlistPage {
 
 
-    private final By overviewModal = By.id("ext-company-overview-2");  //Create an interface including these things for overview page
-    private final By ownershipBuyersModal = By.id("ext-company-hero-report-buyers-2");
+    private final By overviewModal = By.cssSelector(".company-page .company-slide-inner");  //Create an interface including these things for overview page
+    private final By ownershipModal = By.cssSelector(".company-ownership .company-ownership-inner");
     /**
      * HEADER
      */
@@ -33,7 +33,7 @@ public class SecurityOverviewPage extends WatchlistPage {
 
     //dropdown\\
 
-    final By dropdownModal = By.className("x-inner company-service-list-inner");
+    final By dropdownModal = By.cssSelector(".company-service-list .company-service-list-container");
 
     final By dropdownMenu = By.cssSelector(".company-header .menu-button .x-button-label");
     final By dropdownLeftArrow = By.cssSelector(".company-header .navigate-button:first-child");
@@ -212,12 +212,13 @@ public class SecurityOverviewPage extends WatchlistPage {
     {
         pause(4000L);
         return doesElementExist(overviewModal);
+
     }
 
     public boolean ownershipPageExists()
     {
         pause(4000L);
-        return doesElementExist(ownershipBuyersModal);
+        return doesElementExist(ownershipModal);
     }
 
 
@@ -467,7 +468,7 @@ public class SecurityOverviewPage extends WatchlistPage {
         //The companyName element has coordinates of about (80, 95) when in 100% zoom
 
         WebElement offsetElement = findElement(companyName);
-        execute.moveToElement(offsetElement, x, y).click();
+        execute.moveToElement(offsetElement, x, y).click().perform();     //try a double click after
     }
 
 
