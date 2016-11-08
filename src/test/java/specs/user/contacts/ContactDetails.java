@@ -42,26 +42,22 @@ public class ContactDetails extends AbstractSpec {
     @Test
     public void loggedActivityDateCorrect()
     {
-        ContactDetailsPage test = new ContactDetailsPage(driver);
-        String timeStamp = new SimpleDateFormat("HHmm_dd_MMM_yyyy").format(Calendar.getInstance().getTime());
+        ContactDetailsPage ContactDetailsPage = new ContactDetailsPage(driver);
         canLogActivityFromDropdown();
-        String postedDate = test.getActivityDate();
+        String postedDate = ContactDetailsPage.getActivityDate();
 
         String dateMonth = postedDate.replaceAll("[0-9 : ]","").replace("Posted","").replace("at","").replace("on","")
-                .replace("pm","");
-
-        dateMonth = dateMonth.substring(0,3); //Short hand of a month or MMM
+                .replace("pm","").replace("am","").substring(0,3); //short hand of a month or MMM format
 
         String hourMins = postedDate.substring(10,18).replaceAll(" ","");
 
-        Integer hours;
-        Integer mins;
+        Integer hour, mins;
 
         if(hourMins.substring(5,7).equals("pm")) //getting the time in hours and minutes or HHmm format
         {
-            hours = Integer.parseInt(hourMins.substring(0,2)) + 12; //to 24 hour system
-            mins = Integer.parseInt(hourMins.substring(3,5)); //take int and change it back to string
-            hourMins = (hours.toString() + mins.toString());
+            hour = Integer.parseInt(hourMins.substring(0,2)) + 12; //to 24 hour system
+            mins = Integer.parseInt(hourMins.substring(3,5)); //
+            hourMins = (hour.toString() + mins.toString());
         } else
         {
             hourMins = hourMins.replace("am","");
@@ -73,9 +69,9 @@ public class ContactDetails extends AbstractSpec {
         String dateDay = postedDate.substring(length-7, length - 5); //dd
 
         String activityDate = (hourMins + "_" + dateDay + "_" + dateMonth + "_" + dateYear);
+        String timeStamp = new SimpleDateFormat("HHmm_dd_MMM_yyyy").format(Calendar.getInstance().getTime());
 
         Assert.assertEquals("Dates are not equal:", timeStamp, activityDate);
-
     }
 
     @Test
