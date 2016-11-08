@@ -3,10 +3,11 @@ package specs.user.dashboard;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import pageobjects.user.securityPage.SecurityOverviewPage;
 import pageobjects.user.dashboardPage.Dashboard;
 import pageobjects.user.loginPage.LoginPage;
+import pageobjects.user.securityPage.SecurityOverviewPage;
 import specs.AbstractSpec;
+
 
 /**
  * Created by patrickp on 2016-08-08.

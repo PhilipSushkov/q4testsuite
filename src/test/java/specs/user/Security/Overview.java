@@ -1,12 +1,16 @@
 package specs.user.Security;
 
-import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import pageobjects.user.loginPage.LoginPage;
 import pageobjects.user.securityPage.SecurityOverviewPage;
 import specs.AbstractSpec;
+import yahoofinance.Stock;
+import yahoofinance.YahooFinance;
+
+import java.io.IOException;
 
 /**
  * Created by kelvint on 11/2/16.
@@ -21,32 +25,35 @@ public class Overview extends AbstractSpec {
     }
 
     @Test
+    public void checkStockPrice() throws IOException {
+        SecurityOverviewPage finish = new SecurityOverviewPage(driver);
 
-    /**   Combines Test Cases C490 -> C492    */
+        Stock stock = YahooFinance.get("SYY");
+        float price = stock.getQuote().getPrice().floatValue();
+        System.out.println(price);
 
-    public void companyDataCorrect()
-    {
-
-        SecurityOverviewPage test = new SecurityOverviewPage(driver);
-        String[] companyData = {"Sysco Corp", "SYY", "Food Distributors\nNYSE"};
-
-        Assert.assertEquals("Company Name '" + companyData[0] + "' Not Found:",companyData[0]
-                ,test.getCompanyName());
-        Assert.assertEquals("Company Ticker '" + companyData[1] + "' Not Found:",companyData[1]
-                ,test.getCompanyTicker());
-        Assert.assertEquals("Company Industry and Exchange Not Found: \n" + companyData[2],companyData[2]
-                ,test.getIndustry_Exchange());
-
+        Assert.assertEquals(price, finish.getStockPrice(), 0.5);
     }
 
     @Test
+    /**   Combines Test Cases C490 -> C492    */
+    public void companyDataCorrect() {
+        SecurityOverviewPage securityOverviewPage = new SecurityOverviewPage(driver);
 
+        String[] companyData = {"Sysco Corp", "SYY", "Food Distributors\nNYSE"};
+
+        Assert.assertEquals(securityOverviewPage.getCompanyName(), companyData[0]);
+        Assert.assertEquals(securityOverviewPage.getCompanyTicker(), companyData[1]);
+        Assert.assertEquals(securityOverviewPage.getIndustry_Exchange(), companyData[2]);
+    }
+
+    @Test
     /**    Test Case C493    */
-
     public void correctStockFormat() {
 
-        SecurityOverviewPage test = new SecurityOverviewPage(driver);
-        String stockQuote = test.getStockQuote();
+        SecurityOverviewPage securityOverviewPage = new SecurityOverviewPage(driver);
+
+        String stockQuote = securityOverviewPage.getStockQuote();
 
         //To make it into a pure integer. If this fails, a number format exception would appear.
         Double.parseDouble(stockQuote.replace(".", ""));
@@ -55,7 +62,7 @@ public class Overview extends AbstractSpec {
         Assert.assertEquals("Stock Quote does not have a decimal point where it should be (2 decimal places):" , "."
                 ,stockQuote.substring((stockQuote.length() - 3), (stockQuote.length() - 2)));
 
-        String stockChange = test.getStockChange();
+        String stockChange = securityOverviewPage.getStockChange();
         String firstChange = "";
         String secondChange = "";
 
@@ -90,24 +97,21 @@ public class Overview extends AbstractSpec {
 
         //Checking change icon color (not arrow)
         if (secondChangeNumber > 0) {
-            Assert.assertEquals(test.getChangeIconColor(), "462041131"); //These numbers are rgba in a single int val
+            Assert.assertEquals(securityOverviewPage.getChangeIconColor(), "462041131"); //These numbers are rgba in a single int val
         } else if (secondChangeNumber < 0) {
-            Assert.assertEquals(test.getChangeIconColor(), "23175601"); //Formatted in getChangeIconColor method
+            Assert.assertEquals(securityOverviewPage.getChangeIconColor(), "23175601"); //Formatted in getChangeIconColor method
         }
-
     }
-
-
 
     @Test
 
-    /**     Test Case C494      */
+    /**Test Case C494*/
+    public void correctVolumeFormat() {
+        SecurityOverviewPage securityOverviewPage = new SecurityOverviewPage(driver);
 
-    public void correctVolumeFormat()
-    {
-        SecurityOverviewPage test = new SecurityOverviewPage(driver);
-        String volume = test.getVolume();
-        String avgVolume = test.getAvgVolume();
+        String volume = securityOverviewPage.getVolume();
+        String avgVolume = securityOverviewPage.getAvgVolume();
+
         int volumeValue = Integer.parseInt(volume.replaceAll(",", ""));
         int avgVolumeValue = Integer.parseInt(avgVolume.replaceAll(",", ""));
         int volumeSize = volume.length();
@@ -139,49 +143,30 @@ public class Overview extends AbstractSpec {
         }
     }
 
-    @Test //Think of a better manner to execute tests that regard going to new pages.
+    @Ignore
+    @Test
+    /**Test Case C495*/
+    public void navigationDropdownMenu() {
+        SecurityOverviewPage securityOverviewPage = new SecurityOverviewPage(driver).clickDropdownLeftArrowOverview()
+                .clickViewDropdownMenu();
 
-    /**     Test Case C495 -> C496      */
+        Assert.assertTrue(securityOverviewPage.dropdownMenuExists());
 
-    public void navigationFromOverview() {
+        securityOverviewPage.clickDropdownOwnership();//Taken to same page, so nothing happens
 
-        SecurityOverviewPage test = new SecurityOverviewPage(driver);
+        Assert.assertTrue(securityOverviewPage.ownershipPageExists());
 
-        test.clickDropdownLeftArrowOverview(); //Taken to same page, i.e:Nothing happens. If something does, test fails
-        //The above doesnt seem ot work as expected, it doesnt clikc intended element
+        securityOverviewPage.goBackPages(1);
 
-        test.clickDropdownMenu_Overview();
+        Assert.assertTrue(securityOverviewPage.overviewPageExists());
 
-        Assert.assertTrue(test.dropdownMenuExists());
+        securityOverviewPage.clickViewDropdownMenu();
 
-        test.clickDropdownOwnership();//Taken to same page, so nothing happens
+        Assert.assertTrue(securityOverviewPage.dropdownMenuExists());
 
-        Assert.assertTrue(test.ownershipPageExists());
+        securityOverviewPage.offsetCompanyNameClick(457, 45); //537, 151
 
-        test.goBackPages(1);
-
-        Assert.assertTrue(test.overviewPageExists());
-
-        test.clickDropdownMenu_Overview();
-
-        Assert.assertTrue(test.dropdownMenuExists());
-
-        test.offsetCompanyNameClick(457, 45); //537, 151 are the clicked coordinates, used to close the dropdown modal
-
-        Assert.assertFalse(test.dropdownMenuExists());
+        Assert.assertFalse(securityOverviewPage.dropdownMenuExists());
 
     }
-
-
-
-
-
-    @After
-    public void disableDriver()
-    {
-        driver.close();
-        driver.quit();
-    }
-
-
 }

@@ -392,23 +392,27 @@ public class SecurityOverviewPage extends WatchlistPage {
      */
 
     //RECALL, ALL TESTS ARE BASED ON OVERVIEW PAGE, SO JUST CHECKS IF A BUTTON TAKES YOU TO RIGHT PAGE BUT NO MORE.
-    public void clickDropdownLeftArrowOverview()  //when testing, do this first to make sure you are still in same page
+    public SecurityOverviewPage clickDropdownLeftArrowOverview()  //when testing, do this first to make sure you are still in same page
     {
-        pause(4000L);
-        findElement(dropdownLeftArrow);
+        waitForLoadingScreen();
+        findElement(dropdownLeftArrow).click();
+
+        return this;
     }
 
 
     public SecurityOwnershipPage clickDropdownRightArrowOverview()     //Other versions of this on other pages
     {
-        pause(4000L);
+        waitForLoadingScreen();
         findElement(dropdownRightArrow);
         return new SecurityOwnershipPage(getDriver());
     }
 
-    public void clickDropdownMenu_Overview() {
-        pause(4000L);
+    public SecurityOverviewPage clickViewDropdownMenu() {
+        waitForLoadingScreen();
         findElement(dropdownMenu).click();
+
+        return this;
     }
 
     public SecurityOverviewPage clickDropdownOverview()//Perhaps put these methods into an interface for security?
@@ -471,5 +475,8 @@ public class SecurityOverviewPage extends WatchlistPage {
         execute.moveToElement(offsetElement, x, y).click().perform();     //try a double click after
     }
 
-
+    // Gets the stock price from the security details page
+    public float getStockPrice() {
+        return Float.parseFloat(findElement(stockQuote).getText());
+    }
 }
