@@ -28,12 +28,14 @@ public class Overview extends AbstractSpec {
     {
 
         SecurityOverviewPage test = new SecurityOverviewPage(driver);
-
         String[] companyData = {"Sysco Corp", "SYY", "Food Distributors\nNYSE"};
 
-        Assert.assertEquals(test.getCompanyName(), companyData[0]);
-        Assert.assertEquals(test.getCompanyTicker(), companyData[1]);
-        Assert.assertEquals(test.getIndustry_Exchange(), companyData[2]);
+        Assert.assertEquals("Company Name '" + companyData[0] + "' Not Found:",companyData[0]
+                ,test.getCompanyName());
+        Assert.assertEquals("Company Ticker '" + companyData[1] + "' Not Found:",companyData[1]
+                ,test.getCompanyTicker());
+        Assert.assertEquals("Company Industry and Exchange Not Found: \n" + companyData[2],companyData[2]
+                ,test.getIndustry_Exchange());
 
     }
 
@@ -42,16 +44,16 @@ public class Overview extends AbstractSpec {
     /**    Test Case C493    */
 
     public void correctStockFormat() {
-        SecurityOverviewPage test = new SecurityOverviewPage(driver);
 
+        SecurityOverviewPage test = new SecurityOverviewPage(driver);
         String stockQuote = test.getStockQuote();
 
         //To make it into a pure integer. If this fails, a number format exception would appear.
         Double.parseDouble(stockQuote.replace(".", ""));
 
         //Checking if it is indeed two decimal places
-        Assert.assertEquals(stockQuote.substring((stockQuote.length() - 3), (stockQuote.length() - 2)), ".");
-
+        Assert.assertEquals("Stock Quote does not have a decimal point where it should be (2 decimal places):" , "."
+                ,stockQuote.substring((stockQuote.length() - 3), (stockQuote.length() - 2)));
 
         String stockChange = test.getStockChange();
         String firstChange = "";
@@ -68,7 +70,7 @@ public class Overview extends AbstractSpec {
             secondChange = stockChange.substring(stockChange.length() / 2 - 1, stockChange.length());
         } else if (stockChange.length() < 12 || 14 < stockChange.length()) //All other invalid cases
         {
-            Assert.assertTrue(false); //tends to fail, check
+            Assert.assertTrue(false);
         }
 
         //12 - 14 chars, depending if negative or positive.
@@ -81,6 +83,7 @@ public class Overview extends AbstractSpec {
         double secondChangeNumber = Double.parseDouble(secondChange.replaceAll("[()%]", ""));
         //replace the chars within [ ]
 
+        //All tests regarding format
         Assert.assertEquals(secondChange.substring(0, 1), "(");
         Assert.assertEquals(secondChange.substring(secondChange.length() - 1, secondChange.length()), ")");
         Assert.assertEquals(secondChange.substring(secondChange.length() - 2, secondChange.length() - 1), "%");
@@ -98,23 +101,19 @@ public class Overview extends AbstractSpec {
 
     @Test
 
-    /**Test Case C494*/
+    /**     Test Case C494      */
 
     public void correctVolumeFormat()
     {
         SecurityOverviewPage test = new SecurityOverviewPage(driver);
-
         String volume = test.getVolume();
         String avgVolume = test.getAvgVolume();
-
         int volumeValue = Integer.parseInt(volume.replaceAll(",", ""));
         int avgVolumeValue = Integer.parseInt(avgVolume.replaceAll(",", ""));
-
         int volumeSize = volume.length();
         int avgVolumeSize = avgVolume.length();
 
-
-        for (Double x = new Double(0); x < volumeSize; x++) //Checks if there is a comma for every 3 numbers for Volume a
+        for (Double x = new Double(0); x < volumeSize; x++) //Checks if there is a comma for every 3 numbers for Volume
         {
             if (x%4 == 0 && x != 0) { //Checking the double is a whole number
                 Assert.assertEquals(volume.substring(volumeSize - x.intValue(), volumeSize - (x.intValue() - 1)), ",");
@@ -124,10 +123,11 @@ public class Overview extends AbstractSpec {
             }
         }
 
-        for (Double x = new Double(0); x < avgVolumeSize; x++) //Checks if there is a comma for every 3 numbers for avg Volume
+        for (Double x = new Double(0); x < avgVolumeSize; x++) //Same as above for avg Volume
         {
             if (x%4 == 0 && x != 0) { //Checking the double is a whole number
-                Assert.assertEquals(avgVolume.substring(avgVolumeSize - x.intValue(), avgVolumeSize - (x.intValue() - 1)), ",");
+                Assert.assertEquals(avgVolume.substring(avgVolumeSize - x.intValue()
+                        ,avgVolumeSize - (x.intValue() - 1)), ",");
             }
             else if (avgVolume.substring(avgVolumeSize - (x.intValue() + 1),avgVolumeSize - x.intValue()) == ",") {
                Assert.assertFalse(true);
@@ -137,18 +137,19 @@ public class Overview extends AbstractSpec {
         if (volumeValue < 0  || avgVolumeValue < 0 ) { //Checking for negatives
             Assert.assertTrue(false);
         }
-
     }
 
-    @Test
+    @Test //Think of a better manner to execute tests that regard going to new pages.
 
-    /**Test Case C495*/
+    /**     Test Case C495 -> C496      */
 
-    public void navigationDropdownMenu()
-    {
+    public void navigationFromOverview() {
 
         SecurityOverviewPage test = new SecurityOverviewPage(driver);
-        test.clickDropdownLeftArrowOverview(); //Taken to same page, i.e: nothing happens. If something does, test fails
+
+        test.clickDropdownLeftArrowOverview(); //Taken to same page, i.e:Nothing happens. If something does, test fails
+        //The above doesnt seem ot work as expected, it doesnt clikc intended element
+
         test.clickDropdownMenu_Overview();
 
         Assert.assertTrue(test.dropdownMenuExists());
@@ -157,18 +158,17 @@ public class Overview extends AbstractSpec {
 
         Assert.assertTrue(test.ownershipPageExists());
 
-        test.goBackPage();
+        test.goBackPages(1);
 
-        Assert.assertTrue(test.OverviewPageExists());
+        Assert.assertTrue(test.overviewPageExists());
 
         test.clickDropdownMenu_Overview();
 
         Assert.assertTrue(test.dropdownMenuExists());
 
-        test.offsetCompanyNameClick(457, 45); //537, 151
+        test.offsetCompanyNameClick(457, 45); //537, 151 are the clicked coordinates, used to close the dropdown modal
 
         Assert.assertFalse(test.dropdownMenuExists());
-
 
     }
 

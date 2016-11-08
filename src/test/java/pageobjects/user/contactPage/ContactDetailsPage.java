@@ -41,9 +41,16 @@ public class ContactDetailsPage extends Page {
     private final By targetIcon = By.className("q4i-savedtargets-2pt");
     private final By markTarget = By.xpath("//*[contains(text(), 'Mark as Target')]");
     private final By removeTarget = By.xpath("//*[contains(text(), 'Remove from Targets')]");
+    private final By postedDate = By.cssSelector(".entity-note-list .details .date");
 
     public ContactDetailsPage(WebDriver driver) {
         super(driver);
+    }
+
+    public String getActivityDate()
+    {
+        pause(500L);
+        return findElement(postedDate).getText();
     }
 
     public String getContactName() {

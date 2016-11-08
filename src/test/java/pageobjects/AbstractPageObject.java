@@ -111,10 +111,10 @@ public class AbstractPageObject implements PageObject {
         return new LogActivityModal(getDriver());
     }
 
-    public void goBackPage() //Added this to allow functionality to go to a prev. page
+    public void goBackPages(int numPages) //Added this to allow functionality to go to a prev. page
     {
         JavascriptExecutor js = (JavascriptExecutor)driver;
-        js.executeScript("window.history.go(-1)");
+        js.executeScript("window.history.go(-" + numPages + ")");
         pause(2000L);
     }
 

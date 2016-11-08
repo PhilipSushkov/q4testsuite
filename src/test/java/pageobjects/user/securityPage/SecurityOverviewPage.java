@@ -208,7 +208,7 @@ public class SecurityOverviewPage extends WatchlistPage {
     }
 
 
-    public boolean OverviewPageExists()
+    public boolean overviewPageExists()
     {
         pause(4000L);
         return doesElementExist(overviewModal);

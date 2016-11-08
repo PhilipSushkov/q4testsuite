@@ -1,6 +1,7 @@
 package specs.user.contacts;
 
 import org.apache.commons.lang.RandomStringUtils;
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -9,6 +10,9 @@ import pageobjects.user.contactPage.ContactDetailsPage;
 import pageobjects.user.institutionPage.InstitutionPage;
 import pageobjects.user.loginPage.LoginPage;
 import specs.AbstractSpec;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 import static org.hamcrest.CoreMatchers.containsString;
 
@@ -33,6 +37,45 @@ public class ContactDetails extends AbstractSpec {
         ContactDetailsPage contactDetailsPage = new ContactDetailsPage(driver).addTagToContact(tagName);
 
         Assert.assertThat(contactDetailsPage.getContactTags(), containsString(tagName));
+    }
+
+    @Test
+    public void loggedActivityDateCorrect()
+    {
+        ContactDetailsPage test = new ContactDetailsPage(driver);
+        String timeStamp = new SimpleDateFormat("HHmm_dd_MMM_yyyy").format(Calendar.getInstance().getTime());
+        canLogActivityFromDropdown();
+        String postedDate = test.getActivityDate();
+
+        String dateMonth = postedDate.replaceAll("[0-9 : ]","").replace("Posted","").replace("at","").replace("on","")
+                .replace("pm","");
+
+        dateMonth = dateMonth.substring(0,3); //Short hand of a month or MMM
+
+        String hourMins = postedDate.substring(10,18).replaceAll(" ","");
+
+        Integer hours;
+        Integer mins;
+
+        if(hourMins.substring(5,7).equals("pm")) //getting the time in hours and minutes or HHmm format
+        {
+            hours = Integer.parseInt(hourMins.substring(0,2)) + 12; //to 24 hour system
+            mins = Integer.parseInt(hourMins.substring(3,5)); //take int and change it back to string
+            hourMins = (hours.toString() + mins.toString());
+        } else
+        {
+            hourMins = hourMins.replace("am","");
+        }
+
+        int length = postedDate.length();
+        String dateYear = postedDate.substring(length - 4, length); //yyyy
+
+        String dateDay = postedDate.substring(length-7, length - 5); //dd
+
+        String activityDate = (hourMins + "_" + dateDay + "_" + dateMonth + "_" + dateYear);
+
+        Assert.assertEquals("Dates are not equal:", timeStamp, activityDate);
+
     }
 
     @Test
@@ -80,5 +123,13 @@ public class ContactDetails extends AbstractSpec {
         // untargeting contact and verifying that "Saved Target" icon no longer appears
         new ContactDetailsPage(driver).removeFromTargets();
         Assert.assertFalse("'Saved Target' icon still appears.", new ContactDetailsPage(driver).isSavedTarget());
+    }
+
+
+    @After
+    public void disableDriver()
+    {
+        driver.close();
+        driver.quit();
     }
 }
