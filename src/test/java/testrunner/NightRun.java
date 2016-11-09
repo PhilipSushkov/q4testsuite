@@ -2,7 +2,7 @@ package testrunner;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
-import specs.user.Security.Overview;
+import specs.user.securityDetails.Overview;
 import specs.user.activity.LogActivity;
 import specs.user.activity.SearchForActivity;
 import specs.user.contacts.ContactDetails;

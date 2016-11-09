@@ -1,4 +1,4 @@
-package specs.user.Security;
+package specs.user.securityDetails;
 
 import org.junit.Before;
 import pageobjects.user.loginPage.LoginPage;

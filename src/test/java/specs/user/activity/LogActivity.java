@@ -45,7 +45,6 @@ public class LogActivity extends AbstractSpec {
         String note = "This is a test note" + RandomStringUtils.randomAlphanumeric(6);
         String tag = "TestTag" + RandomStringUtils.randomAlphanumeric(6);
         String name = "Person" + RandomStringUtils.randomAlphanumeric(3);
-        String phoneNumber = RandomStringUtils.randomNumeric(7);
 
 
         ActivityPage activityPage = new ActivityPage(driver);
@@ -62,7 +61,6 @@ public class LogActivity extends AbstractSpec {
         String comment = "This is a test comment" + RandomStringUtils.randomAlphanumeric(6);
         String note = "This is a test note" + RandomStringUtils.randomAlphanumeric(6);
         String tag = "TestTag" + RandomStringUtils.randomAlphanumeric(6);
-        String email = "person@" + RandomStringUtils.randomAlphanumeric(4) + ".com";
 
         ActivityPage activityPage = new ActivityPage(driver);
         new ActivityPage(driver).logNote()
@@ -79,8 +77,6 @@ public class LogActivity extends AbstractSpec {
         String note = "This is a test note" + RandomStringUtils.randomAlphanumeric(6);
         String tag = "TestTag" + RandomStringUtils.randomAlphanumeric(6);
         String name = "Person" + RandomStringUtils.randomAlphanumeric(3);
-        String phoneNumber = RandomStringUtils.randomNumeric(7);
-        String city = "Toronto";
 
         ActivityPage activityPage = new ActivityPage(driver);
         new ActivityPage(driver).logNote()

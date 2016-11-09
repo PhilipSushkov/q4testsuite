@@ -1,19 +1,18 @@
-package specs.user.Security;
+package specs.user.research;
 
 import org.junit.Before;
 import pageobjects.user.loginPage.LoginPage;
 import specs.AbstractSpec;
 
 /**
- * Created by kelvint on 11/2/16.
+ * Created by patrickp on 2016-11-09.
  */
-public class Volatility extends AbstractSpec {
+public class ResearchList extends AbstractSpec {
 
     @Before
     public void setUp() {
         new LoginPage(driver).loginUser()
                 .accessSideNav()
-                .selectSecurityFromSideNav();
+                .selectResearchFromSideNav();
     }
-
 }
