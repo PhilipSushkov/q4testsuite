@@ -12,6 +12,7 @@ import pageobjects.user.dashboardPage.Dashboard;
 import pageobjects.user.eventsTranscriptsPage.EventsTranscriptsPage;
 import pageobjects.user.myQ4TeamPage.MyQ4TeamPage;
 import pageobjects.user.reportBuilder.ReportBuilderPage;
+import pageobjects.user.researchPage.ResearchPage;
 import pageobjects.user.securityPage.SecurityEstimatesPage;
 import pageobjects.user.securityPage.SecurityOverviewPage;
 import pageobjects.user.securityPage.SecurityOwnershipPage;
@@ -177,5 +178,13 @@ public class SideNavBar extends AbstractPageObject{
         findElement(advancedSearchSideNav).click();
 
         return new AdvancedSearchResults(getDriver());
+    }
+
+    public ResearchPage selectResearchFromSideNav() {
+        pause(2000L);
+        wait.until(ExpectedConditions.elementToBeClickable(researchSideNav));
+        findElement(reportsSideNav).click();
+
+        return new ResearchPage(getDriver());
     }
 }
