@@ -5,6 +5,7 @@ import org.junit.runners.Suite;
 import specs.admin.companies.CompaniesList;
 import specs.admin.companies.CompanyDetails;
 import specs.admin.implementation.AddEditImplementations;
+import specs.admin.intelligence.IntelligenceList;
 import specs.admin.loginPage.AdminLogin;
 import specs.admin.profiles.EditProfilesList;
 
@@ -17,7 +18,8 @@ import specs.admin.profiles.EditProfilesList;
         CompaniesList.class,
         CompanyDetails.class,
         EditProfilesList.class,
-        AddEditImplementations.class
+        AddEditImplementations.class,
+        IntelligenceList.class
 })
 
 public class AdminSuite {

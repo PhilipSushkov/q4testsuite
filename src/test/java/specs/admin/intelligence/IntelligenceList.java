@@ -1,9 +1,74 @@
 package specs.admin.intelligence;
 
-import specs.AbstractSpec;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+import pageobjects.admin.intelligencePage.IntelligencePage;
+import pageobjects.admin.loginPage.AdminLoginPage;
+import specs.AdminAbstractSpec;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import static org.hamcrest.CoreMatchers.containsString;
 
 /**
  * Created by patrickp on 2016-11-09.
  */
-public class IntelligenceList extends AbstractSpec {
+public class IntelligenceList extends AdminAbstractSpec {
+
+    @Before
+    public void setUp() {
+        new AdminLoginPage(driver).loginAdmin()
+                .navigateToIntelligencePage();
+    }
+
+    @Test
+    public void canCreateNewTradeSummary() throws ParseException {
+        Date date = new Date();
+        SimpleDateFormat df2 = new SimpleDateFormat("MMM d, YYYY");
+        String dateText = df2.format(date);
+
+        String symbol = "SYY";
+        String type = "Weekly Trade Summary";
+
+        IntelligencePage intelligencePage = new IntelligencePage(driver).createWeeklyTradeSummary(symbol);
+
+        Assert.assertThat(intelligencePage.getNewReport(), containsString(symbol));
+        Assert.assertThat(intelligencePage.getNewReport(), containsString(type));
+        Assert.assertThat(intelligencePage.getNewReport(), containsString(dateText));
+    }
+
+    @Test
+    public void canCreateNewOptionsAnalytics() {
+        Date date = new Date();
+        SimpleDateFormat df2 = new SimpleDateFormat("MMM d, YYYY");
+        String dateText = df2.format(date);
+
+        String symbol = "SYY";
+        String type = "Weekly Options Analytics";
+
+        IntelligencePage intelligencePage = new IntelligencePage(driver).createWeeklyOptionsAnalytics(symbol);
+
+        Assert.assertThat(intelligencePage.getNewReport(), containsString(symbol));
+        Assert.assertThat(intelligencePage.getNewReport(), containsString(type));
+        Assert.assertThat(intelligencePage.getNewReport(), containsString(dateText));
+    }
+
+    @Test
+    public void canCreateNewSalesEquityAndOptions() {
+        Date date = new Date();
+        SimpleDateFormat df2 = new SimpleDateFormat("MMM d, YYYY");
+        String dateText = df2.format(date);
+
+        String symbol = "SYY";
+        String type = "Sales Equity And Options";
+
+        IntelligencePage intelligencePage = new IntelligencePage(driver).createSalesEquitAndOptions(symbol);
+
+        Assert.assertThat(intelligencePage.getNewReport(), containsString(symbol));
+        Assert.assertThat(intelligencePage.getNewReport(), containsString(type));
+        Assert.assertThat(intelligencePage.getNewReport(), containsString(dateText));
+    }
 }

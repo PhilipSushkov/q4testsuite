@@ -9,6 +9,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import pageobjects.admin.companyPage.CompanyPage;
 import pageobjects.admin.implementationPage.ImplementationPage;
+import pageobjects.admin.intelligencePage.IntelligencePage;
 import pageobjects.admin.profilesPage.ProfilesList;
 import pageobjects.user.logActivity.LogActivityModal;
 import pageobjects.user.sideNavBar.SideNavBar;
@@ -36,11 +37,15 @@ public class AbstractPageObject implements PageObject {
     private final By otherPageTitle = By.cssSelector(".q4-hero-banner .page-title h1");
 
     // Admin page elements
-    private final By companyPage = By.cssSelector("body > q4-app > div > q4-navbar > nav > div > ul > li:nth-child(2) > a > i");
     private final By adminPageTitle = By.cssSelector(".page-header .page-title .details h2");
-    private final By profilesPage = By.cssSelector("body > q4-app > div > q4-navbar > nav > div > ul > li:nth-child(3) > a > i");
     private final By loading = By.className("outer-spinner-container");
+    private final By homePage = By.cssSelector("body > q4-app > div > q4-navbar > nav > div > ul > li:nth-child(1) > a > i");
+    private final By companyPage = By.cssSelector("body > q4-app > div > q4-navbar > nav > div > ul > li:nth-child(2) > a > i");
+    private final By profilesPage = By.cssSelector("body > q4-app > div > q4-navbar > nav > div > ul > li:nth-child(3) > a > i");
+    private final By intelligencePage = By.cssSelector("body > q4-app > div > q4-navbar > nav > div > ul > li:nth-child(4) > a > i");
     private final By implementationPage = By.cssSelector("body > q4-app > div > q4-navbar > nav > div > ul > li:nth-child(5) > a > i");
+    private final By rolesPage = By.cssSelector("body > q4-app > div > q4-navbar > nav > div > ul > li:nth-child(6) > a > i");
+
 
     public AbstractPageObject(WebDriver driver) {
         this.driver = driver;
@@ -116,38 +121,6 @@ public class AbstractPageObject implements PageObject {
         JavascriptExecutor js = (JavascriptExecutor)driver;
         js.executeScript("window.history.go(-" + numPages + ")");
         pause(2000L);
-    }
-
-    public void switchToNewTab() {
-        for(String winHandle : driver.getWindowHandles()){
-            driver.switchTo().window(winHandle);
-        }
-    }
-
-    public CompanyPage navigateToCompanyPage() {
-        waitForLoadingScreen();
-        findElement(companyPage).click();
-
-        return new CompanyPage(getDriver());
-    }
-
-    public String getAdminPageTitle() {
-        return findElement(adminPageTitle).getText();
-    }
-
-    public ProfilesList navigateToProfilesPage() {
-        waitForLoadingScreen();
-        findElement(profilesPage).click();
-        waitForLoadingScreen();
-
-        return new ProfilesList(driver);
-    }
-
-    public ImplementationPage navigateToImplementationPage() {
-        waitForLoadingScreen();
-        findElement(implementationPage).click();
-
-        return new ImplementationPage(getDriver());
     }
 
     public void waitForLoadingScreen() {
@@ -241,5 +214,46 @@ public class AbstractPageObject implements PageObject {
             }
         }
         return sortedWell;
+    }
+
+    // ADMIN METHODS \\
+
+    public void switchToNewTab() {
+        for(String winHandle : driver.getWindowHandles()){
+            driver.switchTo().window(winHandle);
+        }
+    }
+
+    public CompanyPage navigateToCompanyPage() {
+        waitForLoadingScreen();
+        findElement(companyPage).click();
+
+        return new CompanyPage(getDriver());
+    }
+
+    public String getAdminPageTitle() {
+        return findElement(adminPageTitle).getText();
+    }
+
+    public ProfilesList navigateToProfilesPage() {
+        waitForLoadingScreen();
+        findElement(profilesPage).click();
+        waitForLoadingScreen();
+
+        return new ProfilesList(driver);
+    }
+
+    public ImplementationPage navigateToImplementationPage() {
+        waitForLoadingScreen();
+        findElement(implementationPage).click();
+
+        return new ImplementationPage(getDriver());
+    }
+
+    public IntelligencePage navigateToIntelligencePage() {
+        waitForLoadingScreen();
+        findElement(intelligencePage).click();
+
+        return new IntelligencePage(getDriver());
     }
 }
