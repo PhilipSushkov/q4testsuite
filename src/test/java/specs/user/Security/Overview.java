@@ -2,7 +2,6 @@ package specs.user.Security;
 
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import pageobjects.user.loginPage.LoginPage;
 import pageobjects.user.securityPage.SecurityOverviewPage;
@@ -143,30 +142,48 @@ public class Overview extends AbstractSpec {
         }
     }
 
-    @Ignore
     @Test
-    /**Test Case C495*/
-    public void navigationDropdownMenu() {
-        SecurityOverviewPage securityOverviewPage = new SecurityOverviewPage(driver).clickDropdownLeftArrowOverview()
-                .clickViewDropdownMenu();
+    public void dropdownExists() {
+        SecurityOverviewPage securityOverviewPage = new SecurityOverviewPage(driver).clickViewDropdownMenu();
 
-        Assert.assertTrue(securityOverviewPage.dropdownMenuExists());
+        Assert.assertTrue("Dropdown menu modal does not exist or open", securityOverviewPage.dropdownMenuExists());
 
-        securityOverviewPage.clickDropdownOwnership();//Taken to same page, so nothing happens
+        securityOverviewPage.clickDropdownOverview().offsetCompanyNameClick(457, 45); //nothing should happen
+        //537, 151. Clicking outside modal ^^^
 
-        Assert.assertTrue(securityOverviewPage.ownershipPageExists());
+        Assert.assertFalse("Dropdown menu modal did not close", securityOverviewPage.dropdownMenuExists());
+        Assert.assertTrue(securityOverviewPage.overviewPageExists());
+    }
 
-        securityOverviewPage.goBackPages(1);
+    @Test
+    public void navigationViaArrows() {
+        SecurityOverviewPage securityOverviewPage = new SecurityOverviewPage(driver).clickDropdownLeftArrowOverview();
 
         Assert.assertTrue(securityOverviewPage.overviewPageExists());
 
-        securityOverviewPage.clickViewDropdownMenu();
+        securityOverviewPage.clickDropdownRightArrowOverview();
 
-        Assert.assertTrue(securityOverviewPage.dropdownMenuExists());
+        Assert.assertTrue("Right arrow dropdown click did not take test to Ownership page"
+                ,securityOverviewPage.ownershipPageExists());
 
-        securityOverviewPage.offsetCompanyNameClick(457, 45); //537, 151
+        securityOverviewPage.clickDropdownLeftArrowOverview();
 
-        Assert.assertFalse(securityOverviewPage.dropdownMenuExists());
-
+        Assert.assertTrue("Left arrow dropdown click did not return test to Overview page",
+                securityOverviewPage.overviewPageExists());
     }
+
+    @Test
+    public void navigationViaDropdown() {
+        SecurityOverviewPage securityOverviewPage = new SecurityOverviewPage(driver).clickViewDropdownMenu();
+        securityOverviewPage.clickDropdownOwnership();
+
+        Assert.assertTrue("Ownership dropdown option did not take test to Ownership page"
+                ,securityOverviewPage.ownershipPageExists());
+
+        securityOverviewPage.clickViewDropdownMenu().clickDropdownOverview();
+
+        Assert.assertTrue("Overview dropdown option did not return test to Overview page"
+                ,securityOverviewPage.overviewPageExists());
+    }
+
 }

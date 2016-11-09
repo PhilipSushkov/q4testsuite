@@ -404,7 +404,7 @@ public class SecurityOverviewPage extends WatchlistPage {
     public SecurityOwnershipPage clickDropdownRightArrowOverview()     //Other versions of this on other pages
     {
         waitForLoadingScreen();
-        findElement(dropdownRightArrow);
+        findElement(dropdownRightArrow).click();
         return new SecurityOwnershipPage(getDriver());
     }
 

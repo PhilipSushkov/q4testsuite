@@ -11,6 +11,8 @@ import pageobjects.user.institutionPage.InstitutionPage;
 import pageobjects.user.loginPage.LoginPage;
 import specs.AbstractSpec;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
@@ -55,9 +57,12 @@ public class ContactDetails extends AbstractSpec {
 
         if(hourMins.substring(5,7).equals("pm")) //getting the time in hours and minutes or HHmm format
         {
+            NumberFormat formatter = new DecimalFormat("00");
             hour = Integer.parseInt(hourMins.substring(0,2)) + 12; //to 24 hour system
-            mins = Integer.parseInt(hourMins.substring(3,5)); //
-            hourMins = (hour.toString() + mins.toString());
+            mins = Integer.parseInt(hourMins.substring(3,5));
+            String newHour = formatter.format(hour); //This to make the ints 2 decimal places (so '0' added when < 10)
+            String newMins = formatter.format(mins);
+            hourMins = (newHour + newMins); //Make it so that int is always 2 digits. Currently this is failing, attempt to fina a way. Try this when hour and min < 10
         } else
         {
             hourMins = hourMins.replace("am","");
