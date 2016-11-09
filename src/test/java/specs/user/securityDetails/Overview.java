@@ -2,6 +2,7 @@ package specs.user.securityDetails;
 
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import pageobjects.user.loginPage.LoginPage;
 import pageobjects.user.securityPage.SecurityOverviewPage;
@@ -49,7 +50,6 @@ public class Overview extends AbstractSpec {
     @Test
     /**    Test Case C493    */
     public void correctStockFormat() {
-
         SecurityOverviewPage securityOverviewPage = new SecurityOverviewPage(driver);
 
         String stockQuote = securityOverviewPage.getStockQuote();
@@ -185,5 +185,59 @@ public class Overview extends AbstractSpec {
         Assert.assertTrue("Overview dropdown option did not return test to Overview page"
                 ,securityOverviewPage.overviewPageExists());
     }
+
+    /**     Tests below refer to tests regarding the Header buttons in Security     */
+
+    @Test
+    public void compareEstimatesNumToActual() {
+        SecurityOverviewPage securityOverviewPage = new SecurityOverviewPage(driver);
+
+        int estimatesButtonNum = Integer.parseInt(securityOverviewPage.getRecentEstimatesButtonNumber());
+        securityOverviewPage.clickRecentEstimatesButton();
+        int actualEstimatessNum = securityOverviewPage.getNumEstimatesResultsDisplayed();
+
+        Assert.assertEquals("Number shown in recent estimates button does not correspond with actual results"
+                ,estimatesButtonNum,actualEstimatessNum);
+    }
+
+    @Test
+    public void compareEventsNumToActual() {
+        SecurityOverviewPage securityOverviewPage = new SecurityOverviewPage(driver);
+
+        int eventsButtonNum = Integer.parseInt(securityOverviewPage.getRecentEventsButtonNumber());
+        securityOverviewPage.clickRecentEventsButton();
+        int actualEventssNum = securityOverviewPage.getNumEventsResultsDisplayed();
+
+        Assert.assertEquals("Number shown in recent events button does not correspond with actual results"
+                ,eventsButtonNum,actualEventssNum);
+    }
+
+    @Ignore //Can't find the element button
+    @Test
+    public void compareTranscriptsNumToActual() {
+        SecurityOverviewPage securityOverviewPage = new SecurityOverviewPage(driver);
+
+        int transcriptsButtonNum = Integer.parseInt(securityOverviewPage.getRecentTranscriptsButtonNumber());
+        securityOverviewPage.clickRecentTranscriptsButton();
+        int actualTranscriptsNum = securityOverviewPage.getNumTranscriptsResultsDisplayed();
+
+        Assert.assertEquals("Number shown in recent transcripts button does not correspond with actual results"
+                ,transcriptsButtonNum,actualTranscriptsNum);
+    }
+
+
+    @Test //This test WILL fail due to a bug
+    public void compareNewsNumToActual() {
+        SecurityOverviewPage securityOverviewPage = new SecurityOverviewPage(driver);
+
+        int newsButtonNum = Integer.parseInt(securityOverviewPage.getRecentNewsButtonNumber());
+        securityOverviewPage.clickRecentNewsButton();
+        int actualNewsNum = securityOverviewPage.getNumNewsResultsDisplayed();
+
+        Assert.assertEquals("Number shown in recent news button does not correspond with actual results"
+                ,newsButtonNum,actualNewsNum);
+    }
+
+
 
 }

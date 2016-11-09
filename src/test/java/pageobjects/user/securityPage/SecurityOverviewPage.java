@@ -31,6 +31,10 @@ public class SecurityOverviewPage extends WatchlistPage {
     private final By volume = By.xpath("//*[@class=\"value\"]");
     private final By avgVolume = By.xpath("(//span[@class='value'])[2]");   // <- Follow this syntax!!!
 
+    private final By recentEstimatesResults = By.cssSelector(".company-header-latest-estimates .latest-estimate-item");
+    private final By recentEventsResults = By.cssSelector(".company-header-latest-events .latest-events-item");
+    private final By recentTranscriptsResults = By.cssSelector(".company-header-latest-transcripts .latest-transcripts-item");
+    private final By recentNewsResults = By.cssSelector(".company-header-latest-news .news-item");
     //dropdown\\
 
     final By dropdownModal = By.cssSelector(".company-service-list .company-service-list-container");
@@ -50,10 +54,10 @@ public class SecurityOverviewPage extends WatchlistPage {
 
     //buttons\\ -> to add stuff for modals that appear when clicking button
 
-    private final By recentEstimatesBtn = By.className("x-button x-iconalign-center x-sized estimates-button has-data");
-    private final By recentEventsBtn = By.className("x-button x-iconalign-center x-sized events-button");
+    private final By recentEstimatesBtn = By.cssSelector(".company-header .header-notifications-tab .x-button:first-child");
+    private final By recentEventsBtn = By.cssSelector(".company-header .header-notifications-tab .x-button + .x-button");
     private final By recentTranscriptsBtn = By.className("x-button x-iconalign-center x-sized transcripts-button");
-    private final By recentNewsBtn = By.className("x-button x-iconalign-center x-sized");
+    private final By recentNewsBtn = By.cssSelector(".company-header .header-notifications-tab .x-button:last-child");
 
     //three_point_button\\ -> to add stuff for modals that appear when clicking button
 
@@ -267,6 +271,42 @@ public class SecurityOverviewPage extends WatchlistPage {
         return findElement(avgVolume).getText();
     }
 
+    public String getRecentEstimatesButtonNumber() { //Think of a better name...
+        waitForLoadingScreen();
+        return findElement(recentEstimatesBtn).getText();
+    }
+
+    public int getNumEstimatesResultsDisplayed() {
+        return findElements(recentEstimatesResults).size();
+    }
+
+    public String getRecentNewsButtonNumber() {
+        waitForLoadingScreen();
+        return findElement(recentNewsBtn).getText();
+    }
+
+    public int getNumNewsResultsDisplayed() {
+        return findElements(recentNewsResults).size();
+    }
+
+    public String getRecentEventsButtonNumber() {
+        waitForLoadingScreen();
+        return findElement(recentEventsBtn).getText();
+    }
+
+    public int getNumEventsResultsDisplayed() {
+        return findElements(recentEventsResults).size();
+    }
+
+    public String getRecentTranscriptsButtonNumber() {
+        waitForLoadingScreen();
+        return findElement(recentTranscriptsBtn).getText();
+    }
+
+    public int getNumTranscriptsResultsDisplayed() {
+        return findElements(recentTranscriptsResults).size();
+    }
+
     //CHARTS\\
 
     public String getPrevCloseValue() {
@@ -394,24 +434,19 @@ public class SecurityOverviewPage extends WatchlistPage {
     //RECALL, ALL TESTS ARE BASED ON OVERVIEW PAGE, SO JUST CHECKS IF A BUTTON TAKES YOU TO RIGHT PAGE BUT NO MORE.
     public SecurityOverviewPage clickDropdownLeftArrowOverview()  //when testing, do this first to make sure you are still in same page
     {
-        waitForLoadingScreen();
         findElement(dropdownLeftArrow).click();
-
         return this;
     }
 
 
     public SecurityOwnershipPage clickDropdownRightArrowOverview()     //Other versions of this on other pages
     {
-        waitForLoadingScreen();
         findElement(dropdownRightArrow).click();
         return new SecurityOwnershipPage(getDriver());
     }
 
     public SecurityOverviewPage clickViewDropdownMenu() {
-        waitForLoadingScreen();
         findElement(dropdownMenu).click();
-
         return this;
     }
 
@@ -419,7 +454,6 @@ public class SecurityOverviewPage extends WatchlistPage {
     {
         findElement(dropdownOverview).click();
         return new SecurityOverviewPage(getDriver());
-
     }
 
     public SecurityOwnershipPage clickDropdownOwnership()
@@ -463,6 +497,24 @@ public class SecurityOverviewPage extends WatchlistPage {
           return new SecurityEstimatesPage(getDriver());
      }
 
+     public void clickRecentEstimatesButton(){
+         findElement(recentEstimatesBtn).click();
+     }
+
+     public void clickRecentNewsButton(){
+         
+         findElement(recentNewsBtn).click();
+     }
+
+     public void clickRecentTranscriptsButton(){
+         
+         findElement(recentTranscriptsBtn).click();
+     }
+
+     public void clickRecentEventsButton(){
+         
+         findElement(recentEventsBtn).click();
+     }
 
      public void offsetCompanyNameClick(int x, int y)
 
