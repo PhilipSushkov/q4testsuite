@@ -69,10 +69,10 @@ public class IntelligencePage extends AbstractPageObject {
         return findElement(newReportInList).getText();
     }
 
-    public ReportDetailsPage selectNewReport() {
+    public WTSReportDetailsPage selectNewReport() {
         waitForLoadingScreen();
         findElement(firstReportInList).click();
 
-        return new ReportDetailsPage(getDriver());
+        return new WTSReportDetailsPage(getDriver());
     }
 }

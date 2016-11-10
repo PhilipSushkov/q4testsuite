@@ -45,6 +45,7 @@ public class AbstractPageObject implements PageObject {
     private final By intelligencePage = By.cssSelector("body > q4-app > div > q4-navbar > nav > div > ul > li:nth-child(4) > a > i");
     private final By implementationPage = By.cssSelector("body > q4-app > div > q4-navbar > nav > div > ul > li:nth-child(5) > a > i");
     private final By rolesPage = By.cssSelector("body > q4-app > div > q4-navbar > nav > div > ul > li:nth-child(6) > a > i");
+    private final By reportHeader = By.cssSelector(".page-header .page-title .details");
 
 
     public AbstractPageObject(WebDriver driver) {
@@ -255,5 +256,10 @@ public class AbstractPageObject implements PageObject {
         findElement(intelligencePage).click();
 
         return new IntelligencePage(getDriver());
+    }
+
+    public String getReportHeader() {
+        waitForLoadingScreen();
+        return findElement(reportHeader).getText();
     }
 }

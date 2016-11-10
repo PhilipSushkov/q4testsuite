@@ -4,7 +4,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import pageobjects.admin.intelligencePage.IntelligencePage;
-import pageobjects.admin.intelligencePage.ReportDetailsPage;
 import pageobjects.admin.loginPage.AdminLoginPage;
 import specs.AdminAbstractSpec;
 
@@ -28,8 +27,8 @@ public class IntelligenceList extends AdminAbstractSpec {
     @Test
     public void canCreateNewTradeSummary() throws ParseException {
         Date date = new Date();
-        SimpleDateFormat df2 = new SimpleDateFormat("MMM d, YYYY");
-        String dateText = df2.format(date);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MMM d, YYYY");
+        String dateText = simpleDateFormat.format(date);
 
         String symbol = "SYY";
         String type = "Weekly Trade Summary";
@@ -42,38 +41,38 @@ public class IntelligenceList extends AdminAbstractSpec {
         Assert.assertThat(intelligencePage.getNewReport(), containsString(type));
         Assert.assertThat(intelligencePage.getNewReport(), containsString(dateText));
 
-        ReportDetailsPage reportDetailsPage = intelligencePage.selectNewReport();
+        intelligencePage.selectNewReport();
 
-        Assert.assertThat(reportDetailsPage.getReportHeader(), containsString(reportTitle));
+        Assert.assertThat(intelligencePage.getReportHeader(), containsString(reportTitle));
     }
 
     @Test
     public void canCreateNewOptionsAnalytics() {
         Date date = new Date();
-        SimpleDateFormat df2 = new SimpleDateFormat("MMM d, YYYY");
-        String dateText = df2.format(date);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MMM d, YYYY");
+        String dateText = simpleDateFormat.format(date);
 
         String symbol = "SYY";
         String type = "Weekly Options Analytics";
         String reportTitle = "Sysco Corp. | SYY | XNYS\n" +
                 "Weekly Options Analytics";
-        
+
         IntelligencePage intelligencePage = new IntelligencePage(driver).createWeeklyOptionsAnalytics(symbol);
 
         Assert.assertThat(intelligencePage.getNewReport(), containsString(symbol));
         Assert.assertThat(intelligencePage.getNewReport(), containsString(type));
         Assert.assertThat(intelligencePage.getNewReport(), containsString(dateText));
 
-        ReportDetailsPage reportDetailsPage = intelligencePage.selectNewReport();
+        intelligencePage.selectNewReport();
 
-        Assert.assertThat(reportDetailsPage.getReportHeader(), containsString(reportTitle));
+        Assert.assertThat(intelligencePage.getReportHeader(), containsString(reportTitle));
     }
 
     @Test
     public void canCreateNewSalesEquityAndOptions() {
         Date date = new Date();
-        SimpleDateFormat df2 = new SimpleDateFormat("MMM d, YYYY");
-        String dateText = df2.format(date);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MMM d, YYYY");
+        String dateText = simpleDateFormat.format(date);
 
         String symbol = "SYY";
         String type = "Sales Equity And Options";
@@ -86,8 +85,8 @@ public class IntelligenceList extends AdminAbstractSpec {
         Assert.assertThat(intelligencePage.getNewReport(), containsString(type));
         Assert.assertThat(intelligencePage.getNewReport(), containsString(dateText));
 
-        ReportDetailsPage reportDetailsPage = intelligencePage.selectNewReport();
+        intelligencePage.selectNewReport();
 
-        Assert.assertThat(reportDetailsPage.getReportHeader(), containsString(reportTitle));
+        Assert.assertThat(intelligencePage.getReportHeader(), containsString(reportTitle));
     }
 }
