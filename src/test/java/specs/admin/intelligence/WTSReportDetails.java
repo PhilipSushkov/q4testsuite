@@ -6,8 +6,6 @@ import org.junit.Test;
 import pageobjects.admin.intelligencePage.WTSReportDetailsPage;
 import pageobjects.admin.loginPage.AdminLoginPage;
 import specs.AdminAbstractSpec;
-import yahoofinance.Stock;
-import yahoofinance.YahooFinance;
 
 import java.io.IOException;
 
@@ -39,12 +37,9 @@ public class WTSReportDetails extends AdminAbstractSpec {
     @Test
     public void verifyClosePrice() throws IOException {
         WTSReportDetailsPage wtsReportDetailsPage = new WTSReportDetailsPage(driver);
+        Float closePrice = wtsReportDetailsPage.getLastClosePrice(company);
 
-        Stock stock = YahooFinance.get(company);
-        float price = stock.getQuote().getPreviousClose().floatValue();
-        System.out.println(price);
-
-        Assert.assertEquals(price, wtsReportDetailsPage.getClosePrice(), 0.5);
+        Assert.assertEquals(closePrice, wtsReportDetailsPage.getClosePrice(), 0.5);
     }
 }
 
