@@ -17,6 +17,7 @@ public class IntelligencePage extends AbstractPageObject {
     private final By weeklyOptionsReport = By.cssSelector(".ui-dropdown-open > div:nth-child(5) > div:nth-child(1) > ul:nth-child(1) > li:nth-child(3)");
     private final By salesEquityAndOptions = By.cssSelector(".ui-dropdown-open > div:nth-child(5) > div:nth-child(1) > ul:nth-child(1) > li:nth-child(4)");
     private final By searchResult = By.cssSelector(".ui-autocomplete-list-item");
+    private final By firstReportInList = By.cssSelector("tr.ui-widget-content:nth-child(1)");
 
 
     public IntelligencePage(WebDriver driver) {
@@ -32,6 +33,7 @@ public class IntelligencePage extends AbstractPageObject {
         findElement(companySymbolField).sendKeys(symbol);
         findElement(searchResult).click();
         findElement(createReportButton).click();
+        waitForLoadingScreen();
 
         return this;
     }
@@ -65,5 +67,12 @@ public class IntelligencePage extends AbstractPageObject {
     public String getNewReport() {
         waitForLoadingScreen();
         return findElement(newReportInList).getText();
+    }
+
+    public ReportDetailsPage selectNewReport() {
+        waitForLoadingScreen();
+        findElement(firstReportInList).click();
+
+        return new ReportDetailsPage(getDriver());
     }
 }

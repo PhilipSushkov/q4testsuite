@@ -4,6 +4,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import pageobjects.admin.intelligencePage.IntelligencePage;
+import pageobjects.admin.intelligencePage.ReportDetailsPage;
 import pageobjects.admin.loginPage.AdminLoginPage;
 import specs.AdminAbstractSpec;
 
@@ -32,12 +33,18 @@ public class IntelligenceList extends AdminAbstractSpec {
 
         String symbol = "SYY";
         String type = "Weekly Trade Summary";
+        String reportTitle = "Sysco Corp. | SYY | XNYS\n" +
+                "Weekly Trade Summary";
 
         IntelligencePage intelligencePage = new IntelligencePage(driver).createWeeklyTradeSummary(symbol);
 
         Assert.assertThat(intelligencePage.getNewReport(), containsString(symbol));
         Assert.assertThat(intelligencePage.getNewReport(), containsString(type));
         Assert.assertThat(intelligencePage.getNewReport(), containsString(dateText));
+
+        ReportDetailsPage reportDetailsPage = intelligencePage.selectNewReport();
+
+        Assert.assertThat(reportDetailsPage.getReportHeader(), containsString(reportTitle));
     }
 
     @Test
@@ -48,12 +55,18 @@ public class IntelligenceList extends AdminAbstractSpec {
 
         String symbol = "SYY";
         String type = "Weekly Options Analytics";
-
+        String reportTitle = "Sysco Corp. | SYY | XNYS\n" +
+                "Weekly Options Analytics";
+        
         IntelligencePage intelligencePage = new IntelligencePage(driver).createWeeklyOptionsAnalytics(symbol);
 
         Assert.assertThat(intelligencePage.getNewReport(), containsString(symbol));
         Assert.assertThat(intelligencePage.getNewReport(), containsString(type));
         Assert.assertThat(intelligencePage.getNewReport(), containsString(dateText));
+
+        ReportDetailsPage reportDetailsPage = intelligencePage.selectNewReport();
+
+        Assert.assertThat(reportDetailsPage.getReportHeader(), containsString(reportTitle));
     }
 
     @Test
@@ -64,11 +77,17 @@ public class IntelligenceList extends AdminAbstractSpec {
 
         String symbol = "SYY";
         String type = "Sales Equity And Options";
+        String reportTitle = "Sysco Corp. | SYY | XNYS\n" +
+                "Sales Equity And Options";
 
         IntelligencePage intelligencePage = new IntelligencePage(driver).createSalesEquitAndOptions(symbol);
 
         Assert.assertThat(intelligencePage.getNewReport(), containsString(symbol));
         Assert.assertThat(intelligencePage.getNewReport(), containsString(type));
         Assert.assertThat(intelligencePage.getNewReport(), containsString(dateText));
+
+        ReportDetailsPage reportDetailsPage = intelligencePage.selectNewReport();
+
+        Assert.assertThat(reportDetailsPage.getReportHeader(), containsString(reportTitle));
     }
 }
