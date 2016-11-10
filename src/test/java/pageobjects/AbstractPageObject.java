@@ -1,10 +1,8 @@
 package pageobjects;
 
 import org.apache.commons.collections4.Predicate;
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import pageobjects.admin.companyPage.CompanyPage;
@@ -124,6 +122,22 @@ public class AbstractPageObject implements PageObject {
         JavascriptExecutor js = (JavascriptExecutor)driver;
         js.executeScript("window.history.go(-" + numPages + ")");
         pause(2000L);
+    }
+
+    //Allow the clicking of a specific coordinate. HEAVILY dependent on window size (the x & y values change due to it)
+    //Any element on the page can be used, the method adjusts for each.
+    public void clickCoordinate(By anyElement,int coordX,int coordY)
+    {
+        //Moves the mouse to an offset from the top-left corner of the companyName element.
+        //Get chrome extension Mouse XY to find coordinates of a web-page
+        //The companyName element has coordinates of about (80, 100) when in 100% zoom
+        //The coordinates are heavily dependent on the size of the browser screen(window)/resolution.
+        WebElement offsetElement = findElement(anyElement);
+        Point coordinate = offsetElement.getLocation();
+        coordX -= coordinate.getX();
+        coordY -= coordinate.getY();
+        Actions execute = new Actions(driver);
+        execute.moveToElement(offsetElement, coordX, coordY).click().perform();
     }
 
     public void waitForLoadingScreen() {

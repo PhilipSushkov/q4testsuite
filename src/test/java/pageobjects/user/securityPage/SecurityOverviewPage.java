@@ -2,7 +2,6 @@ package pageobjects.user.securityPage;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import pageobjects.user.watchlist.WatchlistPage;
 
@@ -14,6 +13,7 @@ public class SecurityOverviewPage extends WatchlistPage {
 
     private final By overviewModal = By.cssSelector(".company-page .company-slide-inner");  //Create an interface including these things for overview page
     private final By ownershipModal = By.cssSelector(".company-ownership .company-ownership-inner");
+    private final By estimatesModal = By.cssSelector(".company-page .company-slide-inner");
     /**
      * HEADER
      */
@@ -54,9 +54,11 @@ public class SecurityOverviewPage extends WatchlistPage {
 
     //buttons\\ -> to add stuff for modals that appear when clicking button
 
+    private final By recentEstimatesModal = By.cssSelector(".company-header-latest-estimates h2");
+
     private final By recentEstimatesBtn = By.cssSelector(".company-header .header-notifications-tab .x-button:first-child");
     private final By recentEventsBtn = By.cssSelector(".company-header .header-notifications-tab .x-button + .x-button");
-    private final By recentTranscriptsBtn = By.className("x-button x-iconalign-center x-sized transcripts-button");
+    private final By recentTranscriptsBtn = By.xpath("(//div[@class='x-innerhtml'])[24]");
     private final By recentNewsBtn = By.cssSelector(".company-header .header-notifications-tab .x-button:last-child");
 
     //three_point_button\\ -> to add stuff for modals that appear when clicking button
@@ -207,22 +209,34 @@ public class SecurityOverviewPage extends WatchlistPage {
 
     public  boolean dropdownMenuExists()
     {
-        pause(4000L);
+        pause(500L);
         return doesElementExist(dropdownModal);
     }
 
 
     public boolean overviewPageExists()
     {
-        pause(4000L);
+        pause(500L);
         return doesElementExist(overviewModal);
 
     }
 
     public boolean ownershipPageExists()
     {
-        pause(4000L);
+        pause(500L);
         return doesElementExist(ownershipModal);
+    }
+
+    public boolean estimatesPageExists()
+    {
+        pause(500L);
+        return doesElementExist(estimatesModal);
+    }
+
+    public boolean recentEstimatesModalExists()
+    {
+        pause(500L);
+        return doesElementExist(recentEstimatesModal);
     }
 
 
@@ -249,7 +263,7 @@ public class SecurityOverviewPage extends WatchlistPage {
     }
 
     public String getChangeIconColor() {
-        pause(4000L);
+        pause(500L);
         String color = findElement(changeIcon).getCssValue("background-color");
         return color.replaceAll("[ rgba(),]", "");
     }
@@ -260,12 +274,12 @@ public class SecurityOverviewPage extends WatchlistPage {
     }
 
     public String getVolume() {
-        pause(4000L);
+        pause(500L);
         return findElement(volume).getText();
     }
 
     public String getAvgVolume() {
-        pause(4000L);
+        pause(500L);
         ;
         return findElement(avgVolume).getText();
     }
@@ -515,16 +529,9 @@ public class SecurityOverviewPage extends WatchlistPage {
          findElement(recentEventsBtn).click();
      }
 
-     public void offsetCompanyNameClick(int x, int y)
-
-     {
-        //Moves the mouse to an offset from the top-left corner of the companyName element.
-        //Get chrome extension Mouse XY to find coordinates of a web-page
-        //The companyName element has coordinates of about (80, 95) when in 100% zoom
-
-        WebElement offsetElement = findElement(companyName);
-        execute.moveToElement(offsetElement, x, y).click().perform();     //try a double click after
-    }
+     public void clickRecentEstimatesResult(){
+         findElement(recentEstimatesResults).click();
+     }
 
     // Gets the stock price from the security details page
     public float getStockPrice() {

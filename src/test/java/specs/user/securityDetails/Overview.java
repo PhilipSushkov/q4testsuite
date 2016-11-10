@@ -1,9 +1,7 @@
 package specs.user.securityDetails;
 
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.*;
+import org.openqa.selenium.By;
 import pageobjects.user.loginPage.LoginPage;
 import pageobjects.user.securityPage.SecurityOverviewPage;
 import specs.AbstractSpec;
@@ -148,11 +146,13 @@ public class Overview extends AbstractSpec {
 
         Assert.assertTrue("Dropdown menu modal does not exist or open", securityOverviewPage.dropdownMenuExists());
 
-        securityOverviewPage.clickDropdownOverview().offsetCompanyNameClick(457, 45); //nothing should happen
-        //537, 151. Clicking outside modal ^^^
+        securityOverviewPage.clickDropdownOverview().clickCoordinate(By.className("company-name") ,537, 145);
+        //nothing should happen. 537, 145 -> Clicking outside modal
 
         Assert.assertFalse("Dropdown menu modal did not close", securityOverviewPage.dropdownMenuExists());
         Assert.assertTrue(securityOverviewPage.overviewPageExists());
+
+
     }
 
     @Test
@@ -201,6 +201,31 @@ public class Overview extends AbstractSpec {
     }
 
     @Test
+    public void estimatesButtonWorks(){
+        SecurityOverviewPage securityOverviewPage = new SecurityOverviewPage(driver);
+
+        if(Integer.parseInt((securityOverviewPage.getRecentEstimatesButtonNumber())) == 0)
+        {
+            securityOverviewPage.clickRecentEstimatesButton();
+            Assert.assertTrue("Clicking the Recent Estimates Button failed to open the modal."
+                    , securityOverviewPage.recentEstimatesModalExists());
+            securityOverviewPage.clickCoordinate(By.className("company-name"), 99, 223);
+            Assert.assertFalse("Recent Estimates modal failed to close."
+                    , securityOverviewPage.recentEstimatesModalExists());
+        }else
+        {
+            securityOverviewPage.clickRecentEstimatesButton();
+            Assert.assertTrue("Clicking the Recent Estimates Button failed to open the modal."
+                    , securityOverviewPage.recentEstimatesModalExists());
+            securityOverviewPage.clickRecentEstimatesResult();
+            Assert.assertTrue("Clicking on a Recent Estimates result did not redirect to Estimates page"
+            , securityOverviewPage.estimatesPageExists());
+            securityOverviewPage.goBackPages(1);
+            Assert.assertTrue(securityOverviewPage.overviewPageExists());
+        }
+    }
+
+    @Test
     public void compareEventsNumToActual() {
         SecurityOverviewPage securityOverviewPage = new SecurityOverviewPage(driver);
 
@@ -212,7 +237,6 @@ public class Overview extends AbstractSpec {
                 ,eventsButtonNum,actualEventssNum);
     }
 
-    @Ignore //Can't find the element button
     @Test
     public void compareTranscriptsNumToActual() {
         SecurityOverviewPage securityOverviewPage = new SecurityOverviewPage(driver);
@@ -225,7 +249,6 @@ public class Overview extends AbstractSpec {
                 ,transcriptsButtonNum,actualTranscriptsNum);
     }
 
-
     @Test //This test WILL fail due to a bug
     public void compareNewsNumToActual() {
         SecurityOverviewPage securityOverviewPage = new SecurityOverviewPage(driver);
@@ -237,7 +260,5 @@ public class Overview extends AbstractSpec {
         Assert.assertEquals("Number shown in recent news button does not correspond with actual results"
                 ,newsButtonNum,actualNewsNum);
     }
-
-
 
 }
