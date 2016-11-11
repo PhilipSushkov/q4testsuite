@@ -55,26 +55,31 @@ public class ContactDetails extends AbstractSpec {
 
         Integer hour, mins;
 
-        if(hourMins.substring(5,7).equals("pm")) //getting the time in hours and minutes or HHmm format
+        if(hourMins.substring(4,6).equals("pm")) //getting the time in hours and minutes or HHmm format
         {
             NumberFormat formatter = new DecimalFormat("00");
             hour = Integer.parseInt(hourMins.substring(0,2)) + 12; //to 24 hour system
             mins = Integer.parseInt(hourMins.substring(3,5));
             String newHour = formatter.format(hour); //This to make the ints 2 decimal places (so '0' added when < 10)
             String newMins = formatter.format(mins);
-            hourMins = (newHour + newMins); //Make it so that int is always 2 digits. Currently this is failing, attempt to fina a way. Try this when hour and min < 10
+            hourMins = (newHour + newMins).replace(":",""); //Make it so that int is always 2 digits. Currently this is failing, attempt to fina a way. Try this when hour and min < 10
         } else
         {
-            hourMins = hourMins.replace("am","");
+            hourMins = hourMins.replace("am","").replace(":","");
         }
 
         int length = postedDate.length();
         String dateYear = postedDate.substring(length - 4, length); //yyyy
 
-        String dateDay = postedDate.substring(length-7, length - 5); //dd
+        String dateDay = postedDate.substring(length-8, length - 6); //dd
+
+        String timeStamp = new SimpleDateFormat("HHmm_dd_MMM_yyyy").format(Calendar.getInstance().getTime());
+
+        if(Math.abs(Integer.parseInt(hourMins) - Integer.parseInt(timeStamp.substring(0,4))) <= 1) {
+            hourMins = timeStamp.substring(0,4); //When there is a minute difference (few seconds)
+        }
 
         String activityDate = (hourMins + "_" + dateDay + "_" + dateMonth + "_" + dateYear);
-        String timeStamp = new SimpleDateFormat("HHmm_dd_MMM_yyyy").format(Calendar.getInstance().getTime());
 
         Assert.assertEquals("Dates are not equal:", timeStamp, activityDate);
     }
