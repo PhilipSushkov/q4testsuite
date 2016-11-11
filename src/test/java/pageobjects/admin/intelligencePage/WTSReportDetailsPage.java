@@ -38,6 +38,7 @@ public class WTSReportDetailsPage extends AbstractPageObject {
         Stock stock = YahooFinance.get(company, cal, cal, Interval.WEEKLY);
         String test = String.valueOf(stock.getHistory()).replaceAll("", "").trim();
 
+        // After parsing the Yahoo csv file, the number within the parentheses is Friday's closing price
         String done = test.substring(test.indexOf("(") + 1, test.indexOf(")"));
 
         return Float.parseFloat(done);

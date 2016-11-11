@@ -1,5 +1,6 @@
 package specs.admin.intelligence;
 
+import org.joda.time.DateTime;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -26,7 +27,8 @@ public class IntelligenceList extends AdminAbstractSpec {
 
     @Test
     public void canCreateNewTradeSummary() throws ParseException {
-        Date date = new Date();
+        DateTime dateTime = new DateTime();
+        Date date = dateTime.toDate();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MMM d, YYYY");
         String dateText = simpleDateFormat.format(date);
 
@@ -48,7 +50,8 @@ public class IntelligenceList extends AdminAbstractSpec {
 
     @Test
     public void canCreateNewOptionsAnalytics() {
-        Date date = new Date();
+        DateTime dateTime = new DateTime().minusHours(4);
+        Date date = dateTime.toDate();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MMM d, YYYY");
         String dateText = simpleDateFormat.format(date);
 
@@ -70,7 +73,8 @@ public class IntelligenceList extends AdminAbstractSpec {
 
     @Test
     public void canCreateNewSalesEquityAndOptions() {
-        Date date = new Date();
+        DateTime dateTime = new DateTime().minusHours(4);
+        Date date = dateTime.toDate();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MMM d, YYYY");
         String dateText = simpleDateFormat.format(date);
 

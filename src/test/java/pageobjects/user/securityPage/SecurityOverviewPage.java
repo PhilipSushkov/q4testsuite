@@ -246,7 +246,6 @@ public class SecurityOverviewPage extends WatchlistPage {
     public String getStockQuote() {
         pause(4000L);
         return findElement(stockQuote).getText();
-
     }
 
     public String getChangeIconColor() {
