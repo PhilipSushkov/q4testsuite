@@ -1,4 +1,4 @@
-package specs.user.loginPage;
+package specs.user.login;
 
 import org.junit.Assert;
 import org.junit.Test;

@@ -2,8 +2,8 @@ package testrunner;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
-import specs.user.loginPage.ForgotPassword;
-import specs.user.loginPage.UserLogin;
+import specs.user.login.ForgotPassword;
+import specs.user.login.UserLogin;
 
 /**
  * Created by patrickp on 2016-08-08.
