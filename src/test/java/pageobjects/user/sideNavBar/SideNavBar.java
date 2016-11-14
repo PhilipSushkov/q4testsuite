@@ -34,11 +34,11 @@ public class SideNavBar extends AbstractPageObject{
     private final By eventsSideNav = By.id("ext-treelistitem-5");
     private final By reportsSideNav = By.id("ext-treelistitem-6");
     private final By targetingSideNav = By.id("ext-treelistitem-7");
-    private final By researchSideNav = By.id("ext-treelistitem-8");
     private final By advancedSearchSideNav = By.id("ext-treelistitem-9");
-    private final By securitySideNav = By.id("ext-treelistitem-11");
-    private final By ownershipSideNav = By.id("ext-treelistitem-12");
-    private final By estimatesSideNav = By.id("ext-treelistitem-13");
+    private final By securitySideNav = By.id("ext-treelistitem-10");
+    private final By ownershipSideNav = By.id("ext-treelistitem-11");
+    private final By estimatesSideNav = By.id("ext-treelistitem-12");
+    private final By researchSideNav = By.id("ext-treelistitem-13");
     private final By webAnalyticsSideNav = By.id("ext-treelistitem-14");
     private final By webcastAnalyticsSideNav = By.id("ext-treelistitem-15");
     private final By myQ4TeamSideNav = By.id("ext-treelistitem-17");
@@ -183,7 +183,7 @@ public class SideNavBar extends AbstractPageObject{
     public ResearchPage selectResearchFromSideNav() {
         pause(2000L);
         wait.until(ExpectedConditions.elementToBeClickable(researchSideNav));
-        findElement(reportsSideNav).click();
+        findElement(researchSideNav).click();
 
         return new ResearchPage(getDriver());
     }

@@ -2,6 +2,7 @@ package testrunner;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
+import specs.user.research.ResearchList;
 import specs.user.securityDetails.Overview;
 import specs.user.activity.LogActivity;
 import specs.user.activity.SearchForActivity;
@@ -36,7 +37,8 @@ import specs.user.watchlist.EditWatchlist;
         EditWatchlist.class,
         Q4TeamPage.class,
         TargetingList.class,
-        Overview.class
+        Overview.class,
+        ResearchList.class
 })
 
 public class NightRun {

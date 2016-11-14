@@ -23,7 +23,7 @@ public class InstitutionPage extends Page {
 
 
     public String getInstitutionName() {
-        waitForElementToAppear(institutionIcon);
+        waitForLoadingScreen();
         List<WebElement> institutionNames = findElements(institutionName);
         for (int i=0; i<institutionNames.size(); i++){
             if (institutionNames.get(i).isDisplayed()){
