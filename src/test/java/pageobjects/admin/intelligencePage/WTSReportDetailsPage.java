@@ -16,6 +16,7 @@ import java.util.Calendar;
 public class WTSReportDetailsPage extends AbstractPageObject {
     private final By reportHeader = By.cssSelector(".page-header .page-title .details");
     private final By closingPrice = By.cssSelector(".crowded > div:nth-child(1) > div:nth-child(1) > table:nth-child(1) > tbody:nth-child(2) > tr:nth-child(1) > td:nth-child(2)");
+    private final By deleteButton = By.cssSelector(".remove");
 
     public WTSReportDetailsPage(WebDriver driver) {
         super(driver);
@@ -42,5 +43,12 @@ public class WTSReportDetailsPage extends AbstractPageObject {
         String done = test.substring(test.indexOf("(") + 1, test.indexOf(")"));
 
         return Float.parseFloat(done);
+    }
+
+    public IntelligencePage deleteReport() {
+        waitForLoadingScreen();
+        findElement(deleteButton).click();
+
+        return new IntelligencePage(getDriver());
     }
 }

@@ -18,6 +18,8 @@ public class IntelligencePage extends AbstractPageObject {
     private final By salesEquityAndOptions = By.cssSelector(".ui-dropdown-open > div:nth-child(5) > div:nth-child(1) > ul:nth-child(1) > li:nth-child(4)");
     private final By searchResult = By.cssSelector(".ui-autocomplete-list-item");
     private final By firstReportInList = By.cssSelector("tr.ui-widget-content:nth-child(1)");
+    private final By firstReportDateTime = By.cssSelector("tr.ui-widget-content:nth-child(1) > td:nth-child(4)");
+    private final By reportList = By.cssSelector(".ui-datatable-data");
 
 
     public IntelligencePage(WebDriver driver) {
@@ -74,5 +76,15 @@ public class IntelligencePage extends AbstractPageObject {
         findElement(firstReportInList).click();
 
         return new WTSReportDetailsPage(getDriver());
+    }
+
+    public String getNewReportDateTime() {
+        waitForLoadingScreen();
+        return findElement(firstReportDateTime).getText();
+    }
+
+    public String getEntireReportList() {
+        waitForLoadingScreen();
+        return findElement(reportList).getText();
     }
 }

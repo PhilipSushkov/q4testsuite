@@ -13,6 +13,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import static org.hamcrest.CoreMatchers.containsString;
+import static org.hamcrest.CoreMatchers.not;
 
 /**
  * Created by patrickp on 2016-11-09.
@@ -92,5 +93,18 @@ public class IntelligenceList extends AdminAbstractSpec {
         intelligencePage.selectNewReport();
 
         Assert.assertThat(intelligencePage.getReportHeader(), containsString(reportTitle));
+    }
+
+    @Test
+    public void canDeleteExistingReport() {
+        String symbol = "SYY";
+        IntelligencePage intelligencePage = new IntelligencePage(driver).createWeeklyTradeSummary(symbol);
+
+        String newReportDateTime = intelligencePage.getNewReportDateTime();
+
+        intelligencePage.selectNewReport()
+                .deleteReport();
+
+        Assert.assertThat(intelligencePage.getEntireReportList(), not(containsString(newReportDateTime)));
     }
 }
