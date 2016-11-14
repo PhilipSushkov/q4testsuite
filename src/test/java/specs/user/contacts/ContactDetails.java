@@ -1,7 +1,6 @@
 package specs.user.contacts;
 
 import org.apache.commons.lang.RandomStringUtils;
-import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -52,7 +51,6 @@ public class ContactDetails extends AbstractSpec {
                 .replace("pm","").replace("am","").substring(0,3); //short hand of a month or MMM format
 
         String hourMins = postedDate.substring(10,18).replaceAll(" ","");
-
         Integer hour, mins;
 
         if(hourMins.substring(4,6).equals("pm")) //getting the time in hours and minutes or HHmm format
@@ -62,7 +60,7 @@ public class ContactDetails extends AbstractSpec {
             mins = Integer.parseInt(hourMins.substring(3,5));
             String newHour = formatter.format(hour); //This to make the ints 2 decimal places (so '0' added when < 10)
             String newMins = formatter.format(mins);
-            hourMins = (newHour + newMins).replace(":",""); //Make it so that int is always 2 digits. Currently this is failing, attempt to fina a way. Try this when hour and min < 10
+            hourMins = (newHour + newMins).replace(":",""); //Make it so that int is always 2 digits.
         } else
         {
             hourMins = hourMins.replace("am","").replace(":","");
@@ -70,9 +68,7 @@ public class ContactDetails extends AbstractSpec {
 
         int length = postedDate.length();
         String dateYear = postedDate.substring(length - 4, length); //yyyy
-
         String dateDay = postedDate.substring(length-8, length - 6); //dd
-
         String timeStamp = new SimpleDateFormat("HHmm_dd_MMM_yyyy").format(Calendar.getInstance().getTime());
 
         if(Math.abs(Integer.parseInt(hourMins) - Integer.parseInt(timeStamp.substring(0,4))) <= 1) {
@@ -131,11 +127,4 @@ public class ContactDetails extends AbstractSpec {
         Assert.assertFalse("'Saved Target' icon still appears.", new ContactDetailsPage(driver).isSavedTarget());
     }
 
-
-    @After
-    public void disableDriver()
-    {
-        driver.close();
-        driver.quit();
-    }
 }

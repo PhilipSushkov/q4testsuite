@@ -31,10 +31,6 @@ public class SecurityOverviewPage extends WatchlistPage {
     private final By volume = By.xpath("//*[@class=\"value\"]");
     private final By avgVolume = By.xpath("(//span[@class='value'])[2]");   // <- Follow this syntax!!!
 
-    private final By recentEstimatesResults = By.cssSelector(".company-header-latest-estimates .latest-estimate-item");
-    private final By recentEventsResults = By.cssSelector(".company-header-latest-events .latest-events-item");
-    private final By recentTranscriptsResults = By.cssSelector(".company-header-latest-transcripts .latest-transcripts-item");
-    private final By recentNewsResults = By.cssSelector(".company-header-latest-news .news-item");
     //dropdown\\
 
     final By dropdownModal = By.cssSelector(".company-service-list .company-service-list-container");
@@ -54,12 +50,24 @@ public class SecurityOverviewPage extends WatchlistPage {
 
     //buttons\\ -> to add stuff for modals that appear when clicking button
 
-    private final By recentEstimatesModal = By.cssSelector(".company-header-latest-estimates h2");
-
     private final By recentEstimatesBtn = By.cssSelector(".company-header .header-notifications-tab .x-button:first-child");
     private final By recentEventsBtn = By.cssSelector(".company-header .header-notifications-tab .x-button + .x-button");
     private final By recentTranscriptsBtn = By.xpath("(//div[@class='x-innerhtml'])[24]");
     private final By recentNewsBtn = By.cssSelector(".company-header .header-notifications-tab .x-button:last-child");
+
+    private final By recentEstimatesResults = By.cssSelector(".company-header-latest-estimates .latest-estimate-item");
+    private final By recentEventsResults = By.cssSelector(".company-header-latest-events .latest-events-item");
+    private final By recentTranscriptsResults = By.cssSelector(".company-header-latest-transcripts .latest-transcripts-item");
+    private final By recentNewsResults = By.cssSelector(".company-header-latest-news .news-item");
+
+    private final By recentEstimatesModal = By.cssSelector(".company-header-latest-estimates h2");
+    private final By recentEventsModal = By.cssSelector(".company-header-latest-events h2");
+    private final By recentTranscriptsModal = By.cssSelector(".company-header-latest-transcripts h2");
+    private final By recentNewsModal = By.cssSelector(".company-header-latest-news h2");
+
+    private final By eventsResultslModal = By.cssSelector(".event-detail .header"); //The modal that appears once you click on a result
+    private final By transcriptsResultsModal = By.cssSelector("");
+    private final By newsResultsModal = By.cssSelector(".modal.company-news .modal-news-header h1");
 
     //three_point_button\\ -> to add stuff for modals that appear when clicking button
 
@@ -239,7 +247,30 @@ public class SecurityOverviewPage extends WatchlistPage {
         return doesElementExist(recentEstimatesModal);
     }
 
+    public boolean recentNewsModalExists()
+    {
+        pause(500L);
+        return doesElementExist(recentNewsModal);
+    }
 
+    public boolean recentNewsResultsModalExists()
+    {
+        pause(500L);
+        return doesElementExist(newsResultsModal);
+
+    }
+
+    public boolean recentEventsModalExists()
+    {
+        pause(500L);
+        return doesElementExist(recentEventsModal);
+    }
+
+    public boolean recentEventsResultsModalExists()
+    {
+        pause(500L);
+        return doesElementExist(eventsResultslModal);
+    }
     /**
      * GETTERS:
      */
@@ -274,7 +305,7 @@ public class SecurityOverviewPage extends WatchlistPage {
     }
 
     public String getVolume() {
-        pause(500L);
+        pause(2000L);
         return findElement(volume).getText();
     }
 
@@ -531,6 +562,16 @@ public class SecurityOverviewPage extends WatchlistPage {
 
      public void clickRecentEstimatesResult(){
          findElement(recentEstimatesResults).click();
+     }
+
+     public void clickRecentNewsResult()
+     {
+         findElement(recentNewsModal).click();
+     }
+
+     public void clickRecentEventsResult()
+     {
+         findElement(recentEventsResults).click();
      }
 
     // Gets the stock price from the security details page
