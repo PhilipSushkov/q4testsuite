@@ -35,8 +35,11 @@ public class TargetingPage extends AbstractPageObject {
     private final By showContacts = By.xpath("//div[contains(@class,'range-tabs-inner')]/div[span/text()='Contacts']");
     private final By firstEntitySelector = By.cssSelector(".targeting-grid-item-first.x-has-height");
     private final By firstEntityNameSelector = By.cssSelector(".targeting-grid-item-first.x-has-height div:first-child .x-grid-cell-inner");
-    private final By entityName = By.cssSelector(".x-grid-row.x-has-height div:first-child .x-grid-cell-inner");
+    private final By entityName = By.cssSelector(".x-grid-row.q4-grid.x-has-height div:first-child .x-grid-cell-inner");
     private final By entityTargetButton = By.className("target");
+    private final By targetsNameColumnHeader = By.cssSelector(".x-grid-column:first-child");
+    private final By targetsLocationColumnHeader = By.cssSelector(".x-grid-column:nth-child(2)");
+    private final By entityLocation = By.cssSelector(".x-grid-row.q4-grid.x-has-height div:nth-child(2) .x-grid-cell-inner");
 
 
     public TargetingPage(WebDriver driver) {
@@ -66,7 +69,7 @@ public class TargetingPage extends AbstractPageObject {
     }
 
     public EditSearchPage editSearch(int index){
-        List<WebElement> searchNameDivs = findElements(searchNameDivSelectors);
+        List<WebElement> searchNameDivs = findVisibleElements(searchNameDivSelectors);
         searchNameDivs.get(index).click();
 
         return new EditSearchPage(getDriver());
@@ -99,7 +102,7 @@ public class TargetingPage extends AbstractPageObject {
 
     public boolean searchesCanBeSorted(){
         waitForElementToAppear(searchesColumnHeader);
-        pause(5000);
+        pause(2000);
 
         // sorting by name ascending
         findElements(searchesColumnHeader).get(0).click();
@@ -308,6 +311,171 @@ public class TargetingPage extends AbstractPageObject {
         pause(2000);
         driver.get(URL);
         return new ContactDetailsPage(getDriver());
+    }
+
+    public boolean allTargetsCanBeSorted(){
+        findVisibleElement(showTargets).click();
+        pause(2000);
+
+        // sorting by name ascending
+        findVisibleElement(targetsNameColumnHeader).click();
+        pause(300);
+        if (!elementsAreAlphaUpSorted(findVisibleElements(entityName))){
+            System.out.println("SORT ERROR: Names are not in ascending order.");
+            return false;
+        }
+
+        // sorting by name descending
+        findVisibleElement(targetsNameColumnHeader).click();
+        pause(300);
+        if (!elementsAreAlphaDownSorted(findVisibleElements(entityName))){
+            System.out.println("SORT ERROR: Names are not in descending order.");
+            return false;
+        }
+
+        // sorting by location ascending
+        findVisibleElement(targetsLocationColumnHeader).click();
+        pause(300);
+        if (!elementsAreAlphaUpSorted(findVisibleElements(entityLocation))){
+            System.out.println("SORT ERROR: Locations are not in ascending order.");
+            return false;
+        }
+
+        // sorting by location descending
+        findVisibleElement(targetsLocationColumnHeader).click();
+        pause(300);
+        if (!elementsAreAlphaDownSorted(findVisibleElements(entityLocation))){
+            System.out.println("SORT ERROR: Locations are not in descending order.");
+            return false;
+        }
+
+        return true;
+    }
+
+    public boolean institutionsCanBeSorted(){
+        findVisibleElement(showTargets).click();
+        pause(2000);
+        wait.until(ExpectedConditions.elementToBeClickable(showInstitutions));
+        findElement(showInstitutions).click();
+        pause(2000);
+
+        // sorting by name ascending
+        findVisibleElement(targetsNameColumnHeader).click();
+        pause(300);
+        if (!elementsAreAlphaUpSorted(findVisibleElements(entityName))){
+            System.out.println("SORT ERROR: Names are not in ascending order.");
+            return false;
+        }
+
+        // sorting by name descending
+        findVisibleElement(targetsNameColumnHeader).click();
+        pause(300);
+        if (!elementsAreAlphaDownSorted(findVisibleElements(entityName))){
+            System.out.println("SORT ERROR: Names are not in descending order.");
+            return false;
+        }
+
+        // sorting by location ascending
+        findVisibleElement(targetsLocationColumnHeader).click();
+        pause(300);
+        if (!elementsAreAlphaUpSorted(findVisibleElements(entityLocation))){
+            System.out.println("SORT ERROR: Locations are not in ascending order.");
+            return false;
+        }
+
+        // sorting by location descending
+        findVisibleElement(targetsLocationColumnHeader).click();
+        pause(300);
+        if (!elementsAreAlphaDownSorted(findVisibleElements(entityLocation))){
+            System.out.println("SORT ERROR: Locations are not in descending order.");
+            return false;
+        }
+
+        return true;
+    }
+
+    public boolean fundsCanBeSorted(){
+        findVisibleElement(showTargets).click();
+        pause(2000);
+        wait.until(ExpectedConditions.elementToBeClickable(showFunds));
+        findElement(showFunds).click();
+        pause(2000);
+
+        // sorting by name ascending
+        findVisibleElement(targetsNameColumnHeader).click();
+        pause(300);
+        if (!elementsAreAlphaUpSorted(findVisibleElements(entityName))){
+            System.out.println("SORT ERROR: Names are not in ascending order.");
+            return false;
+        }
+
+        // sorting by name descending
+        findVisibleElement(targetsNameColumnHeader).click();
+        pause(300);
+        if (!elementsAreAlphaDownSorted(findVisibleElements(entityName))){
+            System.out.println("SORT ERROR: Names are not in descending order.");
+            return false;
+        }
+
+        // sorting by location ascending
+        findVisibleElement(targetsLocationColumnHeader).click();
+        pause(300);
+        if (!elementsAreAlphaUpSorted(findVisibleElements(entityLocation))){
+            System.out.println("SORT ERROR: Locations are not in ascending order.");
+            return false;
+        }
+
+        // sorting by location descending
+        findVisibleElement(targetsLocationColumnHeader).click();
+        pause(300);
+        if (!elementsAreAlphaDownSorted(findVisibleElements(entityLocation))){
+            System.out.println("SORT ERROR: Locations are not in descending order.");
+            return false;
+        }
+
+        return true;
+    }
+
+    public boolean contactsCanBeSorted(){
+        findVisibleElement(showTargets).click();
+        pause(2000);
+        wait.until(ExpectedConditions.elementToBeClickable(showContacts));
+        findElement(showContacts).click();
+        pause(2000);
+
+        // sorting by name ascending
+        findVisibleElement(targetsNameColumnHeader).click();
+        pause(300);
+        if (!elementsAreAlphaUpSorted(findVisibleElements(entityName))){
+            System.out.println("SORT ERROR: Names are not in ascending order.");
+            return false;
+        }
+
+        // sorting by name descending
+        findVisibleElement(targetsNameColumnHeader).click();
+        pause(300);
+        if (!elementsAreAlphaDownSorted(findVisibleElements(entityName))){
+            System.out.println("SORT ERROR: Names are not in descending order.");
+            return false;
+        }
+
+        // sorting by location ascending
+        findVisibleElement(targetsLocationColumnHeader).click();
+        pause(300);
+        if (!elementsAreAlphaUpSorted(findVisibleElements(entityLocation))){
+            System.out.println("SORT ERROR: Locations are not in ascending order.");
+            return false;
+        }
+
+        // sorting by location descending
+        findVisibleElement(targetsLocationColumnHeader).click();
+        pause(300);
+        if (!elementsAreAlphaDownSorted(findVisibleElements(entityLocation))){
+            System.out.println("SORT ERROR: Locations are not in descending order.");
+            return false;
+        }
+
+        return true;
     }
 
 }

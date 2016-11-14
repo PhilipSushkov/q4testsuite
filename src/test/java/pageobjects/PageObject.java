@@ -1,5 +1,6 @@
 package pageobjects;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -84,6 +85,17 @@ public interface PageObject {
         List<WebElement> elements = getDriver().findElements(selector);
 
         return CollectionUtils.find(elements, getDisplayedElementPredicate());
+    }
+
+    default List<WebElement> findVisibleElements(By selector) {
+        List<WebElement> elements = getDriver().findElements(selector);
+        List<WebElement> visible = new ArrayList<WebElement>();
+        for (WebElement element : elements){
+            if (element.isDisplayed()){
+                visible.add(element);
+            }
+        }
+        return visible;
     }
 
     default WebElement findParentOf(By selector) {

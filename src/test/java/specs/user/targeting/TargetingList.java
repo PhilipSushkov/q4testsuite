@@ -243,6 +243,14 @@ public class TargetingList extends AbstractSpec {
         Assert.assertTrue("Saved searches list cannot be sorted.", new TargetingPage(driver).searchesCanBeSorted());
     }
 
+    @Test
+    public void canSortTargetsList(){
+        Assert.assertTrue("'All' Targets list cannot be sorted.", new TargetingPage(driver).allTargetsCanBeSorted());
+        Assert.assertTrue("Institutions list cannot be sorted.", new TargetingPage(driver).institutionsCanBeSorted());
+        Assert.assertTrue("Funds list cannot be sorted.", new TargetingPage(driver).fundsCanBeSorted());
+        Assert.assertTrue("Contacts list cannot be sorted.", new TargetingPage(driver).contactsCanBeSorted());
+    }
+
 
     @After
     public void disableDriver()
