@@ -37,12 +37,12 @@ public class WTSReportDetailsPage extends AbstractPageObject {
         cal.set(Calendar.DAY_OF_WEEK, Calendar.FRIDAY);
 
         Stock stock = YahooFinance.get(company, cal, cal, Interval.WEEKLY);
-        String test = String.valueOf(stock.getHistory()).replaceAll("", "").trim();
+        String rawData = String.valueOf(stock.getHistory()).replaceAll("", "").trim();
 
         // After parsing the Yahoo csv file, the number within the parentheses is Friday's closing price
-        String done = test.substring(test.indexOf("(") + 1, test.indexOf(")"));
+        String lastClosePrice = rawData.substring(rawData.indexOf("(") + 1, rawData.indexOf(")"));
 
-        return Float.parseFloat(done);
+        return Float.parseFloat(lastClosePrice);
     }
 
     public IntelligencePage deleteReport() {
