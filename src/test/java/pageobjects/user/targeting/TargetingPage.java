@@ -18,13 +18,16 @@ public class TargetingPage extends AbstractPageObject {
 
     private final By newSearchButton = By.cssSelector(".q4-hero-banner .x-dock .action-button");
     private final By showSearches = By.cssSelector(".x-tabbar-inner div:first-child");
-    private final By searchNameSelectors = By.cssSelector(".x-grid-row .x-grid-cell:first-child .x-grid-cell-inner");
+    private final By searchNameSelectors = By.cssSelector(".x-grid-row.q4-grid .x-grid-cell:first-child .x-grid-cell-inner");
     private final By searchNameDivSelectors = By.cssSelector(".x-grid-row");
     private final By editButton = By.cssSelector(".edit .x-button-label");
     private final By redButton = By.cssSelector(".delete-button .q4i-minus-4pt");
     private final By cancelDelete = By.cssSelector(".targeting-action-toolbar .x-button:first-child");
     private final By confirmDelete = By.cssSelector(".targeting-action-toolbar .x-button.delete");
     private final By doneButton = By.cssSelector(".done .x-button-label");
+    private final By searchesColumnHeader = By.cssSelector(".x-grid-header-container-inner .x-grid-column");
+    private final By searchCreatedDate = By.cssSelector(".x-grid-row.q4-grid .x-grid-cell:nth-child(2)");
+    private final By searchUpdatedDate = By.cssSelector(".x-grid-row.q4-grid .x-grid-cell:nth-child(3)");
 
     private final By showTargets = By.cssSelector(".x-tabbar-inner div:last-child");
     private final By showInstitutions = By.xpath("//div[contains(@class,'range-tabs-inner')]/div[span/text()='Institutions']");
@@ -92,6 +95,61 @@ public class TargetingPage extends AbstractPageObject {
         findElement(confirmDelete).click();
         waitForElementToDissapear(confirmDelete);
         findElement(doneButton).click();
+    }
+
+    public boolean searchesCanBeSorted(){
+        waitForElementToAppear(searchesColumnHeader);
+        pause(5000);
+
+        // sorting by name ascending
+        findElements(searchesColumnHeader).get(0).click();
+        pause(300);
+        if (!elementsAreAlphaUpSorted(findElements(searchNameSelectors))){
+            System.out.println("SORT ERROR: Names are not in ascending order.");
+            return false;
+        }
+
+        // sorting by name descending
+        findElements(searchesColumnHeader).get(0).click();
+        pause(300);
+        if (!elementsAreAlphaDownSorted(findElements(searchNameSelectors))){
+            System.out.println("SORT ERROR: Names are not in descending order.");
+            return false;
+        }
+
+        // sorting by created date ascending
+        findElements(searchesColumnHeader).get(1).click();
+        pause(300);
+        if (!elementsAreDateUpSorted(findElements(searchCreatedDate))){
+            System.out.println("SORT ERROR: Created dates are not in ascending order.");
+            return false;
+        }
+
+        // sorting by created date descending
+        findElements(searchesColumnHeader).get(1).click();
+        pause(300);
+        if (!elementsAreDateDownSorted(findElements(searchCreatedDate))){
+            System.out.println("SORT ERROR: Created dates are not in descending order.");
+            return false;
+        }
+
+        // sorting by last updated date ascending
+        findElements(searchesColumnHeader).get(2).click();
+        pause(300);
+        if (!elementsAreDateUpSorted(findElements(searchUpdatedDate))){
+            System.out.println("SORT ERROR: Last updated dates are not in ascending order.");
+            return false;
+        }
+
+        // sorting by last updated date descending
+        findElements(searchesColumnHeader).get(2).click();
+        pause(300);
+        if (!elementsAreDateDownSorted(findElements(searchUpdatedDate))){
+            System.out.println("SORT ERROR: Last updated dates are not in descending order.");
+            return false;
+        }
+
+        return true;
     }
 
     public int findInstitutionIndex(String name){

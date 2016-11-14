@@ -238,6 +238,11 @@ public class TargetingList extends AbstractSpec {
         Assert.assertFalse("Yellow arrow is not pointing down while filters area is collapsed.", new NewSearchPage(driver).yellowArrowIsUp());
     }
 
+    @Test
+    public void canSortSearchesList(){
+        Assert.assertTrue("Saved searches list cannot be sorted.", new TargetingPage(driver).searchesCanBeSorted());
+    }
+
 
     @After
     public void disableDriver()
