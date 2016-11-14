@@ -2,7 +2,10 @@ package pageobjects.admin.intelligencePage;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import pageobjects.AbstractPageObject;
+
+import java.util.List;
 
 /**
  * Created by patrickp on 2016-11-09.
@@ -20,6 +23,11 @@ public class IntelligencePage extends AbstractPageObject {
     private final By firstReportInList = By.cssSelector("tr.ui-widget-content:nth-child(1)");
     private final By firstReportDateTime = By.cssSelector("tr.ui-widget-content:nth-child(1) > td:nth-child(4)");
     private final By reportList = By.cssSelector(".ui-datatable-data");
+    private final By pendingFilter = By.xpath("//button[contains(text(),'Pending')]");
+    private final By readyFilter = By.xpath("//button[contains(text(),'Ready')]");
+    private final By approvedFilter = By.xpath("//button[contains(text(),'Approved')]");
+    private final By readyToPublishFilter = By.xpath("//button[contains(text(),'Ready to publish')]");
+    private final By reportStatus = By.cssSelector("td:nth-child(3)");
 
 
     public IntelligencePage(WebDriver driver) {
@@ -86,5 +94,41 @@ public class IntelligencePage extends AbstractPageObject {
     public String getEntireReportList() {
         waitForLoadingScreen();
         return findElement(reportList).getText();
+    }
+
+    public IntelligencePage showPendingReports(){
+        waitForLoadingScreen();
+        findElement(pendingFilter).click();
+        return this;
+    }
+
+    public IntelligencePage showReadyReports(){
+        waitForLoadingScreen();
+        findElement(readyFilter).click();
+        return this;
+    }
+
+    public IntelligencePage showApprovedReports(){
+        waitForLoadingScreen();
+        findElement(approvedFilter).click();
+        return this;
+    }
+
+    public IntelligencePage showReadyToPublishReports(){
+        waitForLoadingScreen();
+        findElement(readyToPublishFilter).click();
+        return this;
+    }
+
+    public boolean allReportsHaveStatus(String expected){
+        pause(2000);
+        List<WebElement> statuses = findElements(reportStatus);
+        for (WebElement status : statuses){
+            if (!status.getText().equalsIgnoreCase(expected)){
+                System.out.println("Found report with status of '"+status.getText()+"' instead of "+expected);
+                return false;
+            }
+        }
+        return true;
     }
 }

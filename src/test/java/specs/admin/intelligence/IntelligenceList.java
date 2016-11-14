@@ -107,4 +107,24 @@ public class IntelligenceList extends AdminAbstractSpec {
 
         Assert.assertThat(intelligencePage.getEntireReportList(), not(containsString(newReportDateTime)));
     }
+
+    @Test
+    public void canSeeOnlyPendingReports(){
+        Assert.assertTrue("One or more displayed reports are not of status 'Pending'.", new IntelligencePage(driver).showPendingReports().allReportsHaveStatus("Pending"));
+    }
+
+    @Test
+    public void canSeeOnlyReadyReports(){
+        Assert.assertTrue("One or more displayed reports are not of status 'Ready'.", new IntelligencePage(driver).showReadyReports().allReportsHaveStatus("Ready"));
+    }
+
+    @Test
+    public void canSeeOnlyApprovedReports(){
+        Assert.assertTrue("One or more displayed reports are not of status 'Approved'.", new IntelligencePage(driver).showApprovedReports().allReportsHaveStatus("Approved"));
+    }
+
+    @Test
+    public void canSeeOnlyReadyToPublishReports(){
+        Assert.assertTrue("One or more displayed reports are not of status 'Ready To Publish'.", new IntelligencePage(driver).showReadyToPublishReports().allReportsHaveStatus("Ready To Publish"));
+    }
 }
