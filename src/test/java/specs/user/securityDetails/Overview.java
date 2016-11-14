@@ -84,7 +84,9 @@ public class Overview extends AbstractSpec {
         // 0.80 (1.16%)  /2 = 6 -> "("
 
         Double.parseDouble(firstChange);
+        double firstChangeNumber = Double.parseDouble(firstChange.replaceAll("[()%]", ""));
         double secondChangeNumber = Double.parseDouble(secondChange.replaceAll("[()%]", ""));
+
         //replace the chars within [ ]
 
         //All tests regarding format
@@ -93,9 +95,9 @@ public class Overview extends AbstractSpec {
         Assert.assertEquals(secondChange.substring(secondChange.length() - 2, secondChange.length() - 1), "%");
 
         //Checking change icon color (not arrow)
-        if (secondChangeNumber > 0) {
+        if (secondChangeNumber > 0 && firstChangeNumber > 0) {
             Assert.assertEquals(securityOverviewPage.getChangeIconColor(), "462041131"); //These numbers are rgba in a single int val
-        } else if (secondChangeNumber < 0) {
+        } else if (secondChangeNumber < 0 || firstChangeNumber < 0) {
             Assert.assertEquals(securityOverviewPage.getChangeIconColor(), "23175601"); //Formatted in getChangeIconColor method
         }
     }
@@ -108,7 +110,6 @@ public class Overview extends AbstractSpec {
 
         String volume = securityOverviewPage.getVolume();
         String avgVolume = securityOverviewPage.getAvgVolume();
-
         int volumeValue = Integer.parseInt(volume.replaceAll(",", ""));
         int avgVolumeValue = Integer.parseInt(avgVolume.replaceAll(",", ""));
         int volumeSize = volume.length();
@@ -237,6 +238,21 @@ public class Overview extends AbstractSpec {
                 ,eventsButtonNum,actualEventssNum);
     }
 
+    @Ignore
+    @Test
+    public void eventsButtonWorks(){
+        SecurityOverviewPage securityOverviewPage = new SecurityOverviewPage(driver);
+
+        if(Integer.parseInt(securityOverviewPage.getRecentEventsButtonNumber()) == 0)
+        {
+
+        }else
+        {
+
+        }
+    }
+
+    @Ignore
     @Test
     public void compareTranscriptsNumToActual() {
         SecurityOverviewPage securityOverviewPage = new SecurityOverviewPage(driver);
@@ -249,7 +265,22 @@ public class Overview extends AbstractSpec {
                 ,transcriptsButtonNum,actualTranscriptsNum);
     }
 
-    @Test //This test WILL fail due to a bug
+    @Ignore//Currently cannot find any page with this available, so can't find modals yet
+    @Test
+    public void transcriptsButtonWorks() {
+        SecurityOverviewPage securityOverviewPage = new SecurityOverviewPage(driver);
+
+        if(Integer.parseInt(securityOverviewPage.getRecentTranscriptsButtonNumber()) == 0)
+        {
+
+        }else
+        {
+
+        }
+    }
+
+
+    @Test
     public void compareNewsNumToActual() {
         SecurityOverviewPage securityOverviewPage = new SecurityOverviewPage(driver);
 
@@ -259,6 +290,43 @@ public class Overview extends AbstractSpec {
 
         Assert.assertEquals("Number shown in recent news button does not correspond with actual results"
                 ,newsButtonNum,actualNewsNum);
+    }
+
+    @Ignore //SideNavIssues perhaps? Test again
+    @Test
+    public void newsButtonWorks(){
+        SecurityOverviewPage securityOverviewPage = new SecurityOverviewPage(driver);
+
+        if(Integer.parseInt(securityOverviewPage.getRecentNewsButtonNumber()) == 0)
+        {
+            securityOverviewPage.clickRecentNewsButton();
+            Assert.assertTrue("Clicking the Recent News Button failed to open the modal."
+                    , securityOverviewPage.recentNewsModalExists());
+            securityOverviewPage.clickCoordinate(By.className("company-name"), 99, 223);
+            Assert.assertFalse("Recent News modal failed to close."
+                    , securityOverviewPage.recentNewsModalExists());
+        }else
+        {
+            securityOverviewPage.clickRecentNewsButton();
+            Assert.assertTrue("Clicking the Recent News Button failed to open the modal."
+                    , securityOverviewPage.recentNewsModalExists());
+            securityOverviewPage.clickRecentNewsResult();
+            Assert.assertTrue("Clicking on a Recent News Result fails to open the results' modal", securityOverviewPage
+                    .recentNewsResultsModalExists());
+            securityOverviewPage.clickCoordinate(By.className("company-name"), 99, 223);
+            Assert.assertFalse("Recent News Result modal failed to close."
+                    , securityOverviewPage.recentNewsResultsModalExists());
+            securityOverviewPage.clickCoordinate(By.className("company-name"), 99, 223);
+            Assert.assertFalse("Recent News modal failed to close."
+                    , securityOverviewPage.recentNewsModalExists());
+        }
+    }
+
+    @After
+    public void disableDriver()
+    {
+        driver.close();
+        driver.quit();
     }
 
 }
