@@ -6,6 +6,7 @@ import specs.admin.companies.CompaniesList;
 import specs.admin.companies.CompanyDetails;
 import specs.admin.implementation.AddEditImplementations;
 import specs.admin.intelligence.IntelligenceList;
+import specs.admin.intelligence.WTSReportDetails;
 import specs.admin.loginPage.AdminLogin;
 import specs.admin.profiles.EditProfilesList;
 
@@ -19,7 +20,8 @@ import specs.admin.profiles.EditProfilesList;
         CompanyDetails.class,
         EditProfilesList.class,
         AddEditImplementations.class,
-        IntelligenceList.class
+        IntelligenceList.class,
+        WTSReportDetails.class
 })
 
 public class AdminSuite {
