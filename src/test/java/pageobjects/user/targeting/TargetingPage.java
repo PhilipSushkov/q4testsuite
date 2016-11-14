@@ -18,7 +18,7 @@ public class TargetingPage extends AbstractPageObject {
 
     private final By newSearchButton = By.cssSelector(".q4-hero-banner .x-dock .action-button");
     private final By showSearches = By.cssSelector(".x-tabbar-inner div:first-child");
-    private final By searchNameSelectors = By.cssSelector(".x-grid-row.q4-grid .x-grid-cell:first-child .x-grid-cell-inner");
+    private final By searchNameSelectors = By.cssSelector(".x-grid-row .x-grid-cell:first-child .x-grid-cell-inner");
     private final By searchNameDivSelectors = By.cssSelector(".x-grid-row");
     private final By editButton = By.cssSelector(".edit .x-button-label");
     private final By redButton = By.cssSelector(".delete-button .q4i-minus-4pt");
@@ -26,8 +26,8 @@ public class TargetingPage extends AbstractPageObject {
     private final By confirmDelete = By.cssSelector(".targeting-action-toolbar .x-button.delete");
     private final By doneButton = By.cssSelector(".done .x-button-label");
     private final By searchesColumnHeader = By.cssSelector(".x-grid-header-container-inner .x-grid-column");
-    private final By searchCreatedDate = By.cssSelector(".x-grid-row.q4-grid .x-grid-cell:nth-child(2)");
-    private final By searchUpdatedDate = By.cssSelector(".x-grid-row.q4-grid .x-grid-cell:nth-child(3)");
+    private final By searchCreatedDate = By.cssSelector(".x-grid-row .x-grid-cell:nth-child(2)");
+    private final By searchUpdatedDate = By.cssSelector(".x-grid-row .x-grid-cell:nth-child(3)");
 
     private final By showTargets = By.cssSelector(".x-tabbar-inner div:last-child");
     private final By showInstitutions = By.xpath("//div[contains(@class,'range-tabs-inner')]/div[span/text()='Institutions']");
@@ -58,7 +58,7 @@ public class TargetingPage extends AbstractPageObject {
     public int findSearchNameIndex(String searchName){
         waitForElement(showSearches);
         pause(2000);
-        List<WebElement> searchNames = findElements(searchNameSelectors);
+        List<WebElement> searchNames = findVisibleElements(searchNameSelectors);
 
         for (int i=0; i<searchNames.size(); i++){
             if (searchNames.get(i).getText().equals(searchName)){
@@ -100,6 +100,14 @@ public class TargetingPage extends AbstractPageObject {
         findElement(doneButton).click();
     }
 
+    public String getCreatedDate(int index){
+        return findVisibleElements(searchCreatedDate).get(index).getText();
+    }
+
+    public String getUpdatedDate(int index){
+        return findVisibleElements(searchUpdatedDate).get(index).getText();
+    }
+
     public boolean searchesCanBeSorted(){
         waitForElementToAppear(searchesColumnHeader);
         pause(2000);
@@ -107,7 +115,7 @@ public class TargetingPage extends AbstractPageObject {
         // sorting by name ascending
         findElements(searchesColumnHeader).get(0).click();
         pause(300);
-        if (!elementsAreAlphaUpSorted(findElements(searchNameSelectors))){
+        if (!elementsAreAlphaUpSorted(findElements(searchNameSelectors).subList(0,10))){
             System.out.println("SORT ERROR: Names are not in ascending order.");
             return false;
         }
@@ -115,7 +123,7 @@ public class TargetingPage extends AbstractPageObject {
         // sorting by name descending
         findElements(searchesColumnHeader).get(0).click();
         pause(300);
-        if (!elementsAreAlphaDownSorted(findElements(searchNameSelectors))){
+        if (!elementsAreAlphaDownSorted(findElements(searchNameSelectors).subList(0,10))){
             System.out.println("SORT ERROR: Names are not in descending order.");
             return false;
         }
@@ -123,7 +131,7 @@ public class TargetingPage extends AbstractPageObject {
         // sorting by created date ascending
         findElements(searchesColumnHeader).get(1).click();
         pause(300);
-        if (!elementsAreDateUpSorted(findElements(searchCreatedDate))){
+        if (!elementsAreDateUpSorted(findElements(searchCreatedDate).subList(0,10))){
             System.out.println("SORT ERROR: Created dates are not in ascending order.");
             return false;
         }
@@ -131,7 +139,7 @@ public class TargetingPage extends AbstractPageObject {
         // sorting by created date descending
         findElements(searchesColumnHeader).get(1).click();
         pause(300);
-        if (!elementsAreDateDownSorted(findElements(searchCreatedDate))){
+        if (!elementsAreDateDownSorted(findElements(searchCreatedDate).subList(0,10))){
             System.out.println("SORT ERROR: Created dates are not in descending order.");
             return false;
         }
@@ -139,7 +147,7 @@ public class TargetingPage extends AbstractPageObject {
         // sorting by last updated date ascending
         findElements(searchesColumnHeader).get(2).click();
         pause(300);
-        if (!elementsAreDateUpSorted(findElements(searchUpdatedDate))){
+        if (!elementsAreDateUpSorted(findElements(searchUpdatedDate).subList(0,10))){
             System.out.println("SORT ERROR: Last updated dates are not in ascending order.");
             return false;
         }
@@ -147,7 +155,7 @@ public class TargetingPage extends AbstractPageObject {
         // sorting by last updated date descending
         findElements(searchesColumnHeader).get(2).click();
         pause(300);
-        if (!elementsAreDateDownSorted(findElements(searchUpdatedDate))){
+        if (!elementsAreDateDownSorted(findElements(searchUpdatedDate).subList(0,10))){
             System.out.println("SORT ERROR: Last updated dates are not in descending order.");
             return false;
         }

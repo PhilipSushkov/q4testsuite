@@ -133,7 +133,7 @@ public class AbstractPageObject implements PageObject {
     public boolean elementsAreAlphaUpSorted(List<WebElement> elements){
         boolean sortedWell = true;
         for (int i=0; i<elements.size()-1; i++){
-            if (elements.get(i+1).getText().compareTo/*IgnoreCase*/(elements.get(i).getText()) < 0){
+            if (elements.get(i+1).getText().compareToIgnoreCase(elements.get(i).getText()) < 0){
                 System.out.println("MIS-SORT: Ascending: '"+elements.get(i+1).getText()+"' should not be after '"+elements.get(i).getText()+"'");
                 sortedWell = false;
             }
@@ -144,7 +144,7 @@ public class AbstractPageObject implements PageObject {
     public boolean elementsAreAlphaDownSorted(List<WebElement> elements){
         boolean sortedWell = true;
         for (int i=0; i<elements.size()-1; i++){
-            if (elements.get(i+1).getText().compareTo/*IgnoreCase*/(elements.get(i).getText()) > 0){
+            if (elements.get(i+1).getText().compareToIgnoreCase(elements.get(i).getText()) > 0){
                 System.out.println("MIS-SORT: Descending: '"+elements.get(i+1).getText()+"' should not be after '"+elements.get(i).getText()+"'");
                 sortedWell = false;
             }

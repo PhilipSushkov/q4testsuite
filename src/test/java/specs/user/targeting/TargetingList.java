@@ -12,6 +12,7 @@ import pageobjects.user.targeting.NewSearchPage;
 import pageobjects.user.targeting.TargetingPage;
 import specs.AbstractSpec;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import static org.hamcrest.CoreMatchers.containsString;
 
@@ -244,11 +245,28 @@ public class TargetingList extends AbstractSpec {
     }
 
     @Test
+    // This test will fail until bug DESKTOP-6903 is fixed.
     public void canSortTargetsList(){
         Assert.assertTrue("'All' Targets list cannot be sorted.", new TargetingPage(driver).allTargetsCanBeSorted());
         Assert.assertTrue("Institutions list cannot be sorted.", new TargetingPage(driver).institutionsCanBeSorted());
         Assert.assertTrue("Funds list cannot be sorted.", new TargetingPage(driver).fundsCanBeSorted());
         Assert.assertTrue("Contacts list cannot be sorted.", new TargetingPage(driver).contactsCanBeSorted());
+    }
+
+    @Test
+    /* This test requires the presence of a saved search titled "testing updated date - DO NOT REMOVE".
+    *  If this search does not exist, was not created on 11/14/16, or is not one of the first 10 entries
+    *  on the list, the test will fail.*/
+    public void canEditSearchAndSeeUpdatedDate(){
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yy");
+        int searchNameIndex = new TargetingPage(driver).findSearchNameIndex("testing updated date - DO NOT REMOVE");
+        Assert.assertNotEquals("Before editing: the required search cannot be found", -1, searchNameIndex);
+        Assert.assertEquals("Before editing: created date is incorrect", "11/14/16", new TargetingPage(driver).getCreatedDate(searchNameIndex));
+        new TargetingPage(driver).editSearch(searchNameIndex).resaveSearch();
+        searchNameIndex = new EditSearchPage(driver).accessSideNavFromPage().selectTargetingFromSideNav().findSearchNameIndex("testing updated date - DO NOT REMOVE");
+        Assert.assertNotEquals("After editing: the required search cannot be found", -1, searchNameIndex);
+        Assert.assertEquals("After editing: created date is incorrect", "11/14/16", new TargetingPage(driver).getCreatedDate(searchNameIndex));
+        Assert.assertEquals("After editing: last updated date is not today", dateFormat.format(current), new TargetingPage(driver).getUpdatedDate(searchNameIndex));
     }
 
 

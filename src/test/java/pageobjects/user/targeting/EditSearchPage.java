@@ -35,6 +35,7 @@ public class EditSearchPage extends AbstractPageObject {
     private final By loggedActivityCheckbox = By.cssSelector("[name=logged_activity]");
 
     private final By deleteSearchButton = By.cssSelector(".action-button.x-iconalign-center");
+    private final By saveSearchButton = By.xpath("//div[span/text()='Save Search']");
 
 
     public EditSearchPage(WebDriver driver) {
@@ -47,6 +48,11 @@ public class EditSearchPage extends AbstractPageObject {
         findElement(deleteSearchButton).click();
 
         return new TargetingPage(getDriver());
+    }
+
+    public void resaveSearch(){
+        waitForElementToAppear(saveSearchButton);
+        findVisibleElement(saveSearchButton).click();
     }
 
     public boolean verifyFilters(String[] filters){
