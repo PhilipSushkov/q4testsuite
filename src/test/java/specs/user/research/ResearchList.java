@@ -32,7 +32,7 @@ public class ResearchList extends AbstractSpec {
 
         Assert.assertThat("Searching did not return the correct result", researchPage.getResearchHeadline(), containsString(documentName));
         // Make sure number of returned documents is reflected in interface (should be 1)
-        Assert.assertEquals("Number of documents shown is greater than one", 5, researchPage.getNumberOfDocuments());
+        Assert.assertEquals("Number of documents shown is greater than one", 1, researchPage.getNumberOfDocuments());
     }
 
     @Test
