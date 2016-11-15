@@ -1,10 +1,13 @@
 package specs.admin.intelligence;
 
+import com.thoughtworks.selenium.DefaultSelenium;
 import org.joda.time.DateTime;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.openqa.selenium.server.SeleniumServer;
 import pageobjects.admin.intelligencePage.IntelligencePage;
+import pageobjects.admin.intelligencePage.WTSReportDetailsPage;
 import pageobjects.admin.loginPage.AdminLoginPage;
 import specs.AdminAbstractSpec;
 
@@ -144,5 +147,23 @@ public class IntelligenceList extends AdminAbstractSpec {
     public void canSeeOnlySalesEquityAndOptionsReports(){
         Assert.assertTrue("One or more displayed reports are not of type 'Sales Equity And Options'.",
                 new IntelligencePage(driver).showReportsOfType("Sales Equity And Options").allReportsAreOfType("Sales Equity And Options"));
+    }
+
+    @Test
+    public void canApproveNewReports(){
+        // creating new report
+        String symbol = "IBM";
+        String reportTitle = "International Business Machines Corp | IBM | XNYS\n" +
+                "Weekly Trade Summary";
+        IntelligencePage intelligencePage = new IntelligencePage(driver).createWeeklyTradeSummary(symbol);
+        // checking that report is listed
+        Assert.assertThat("Expected stock symbol doesn't match with first listed report", intelligencePage.getNewReport(), containsString(symbol));
+        // opening report and check that page has been opened
+        WTSReportDetailsPage wtsReportDetailsPage = intelligencePage.selectNewReport();
+        Assert.assertThat("Report title does not match expected", wtsReportDetailsPage.getReportHeader(), containsString(reportTitle));
+        // approving report and check that button says "Approved"
+        Assert.assertTrue("Report is not marked as 'Approved'.", wtsReportDetailsPage.approveReport().reportIsApproved());
+        // checking that report can be downloaded
+        Assert.assertTrue("Download button is not present.", wtsReportDetailsPage.downloadButtonIsPresent());
     }
 }

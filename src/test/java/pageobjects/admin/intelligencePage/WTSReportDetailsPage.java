@@ -17,6 +17,8 @@ public class WTSReportDetailsPage extends AbstractPageObject {
     private final By reportHeader = By.cssSelector(".page-header .page-title .details");
     private final By closingPrice = By.cssSelector(".crowded > div:nth-child(1) > div:nth-child(1) > table:nth-child(1) > tbody:nth-child(2) > tr:nth-child(1) > td:nth-child(2)");
     private final By deleteButton = By.cssSelector(".remove");
+    private final By approveButton = By.className("button-dark-grey");
+    private final By downloadButton = By.className("download");
 
     public WTSReportDetailsPage(WebDriver driver) {
         super(driver);
@@ -50,5 +52,20 @@ public class WTSReportDetailsPage extends AbstractPageObject {
         findElement(deleteButton).click();
 
         return new IntelligencePage(getDriver());
+    }
+
+    public WTSReportDetailsPage approveReport(){
+        waitForLoadingScreen();
+        findElement(approveButton).click();
+        return this;
+    }
+
+    public boolean reportIsApproved(){
+        waitForLoadingScreen();
+        return findElement(approveButton).getText().equalsIgnoreCase("Approved");
+    }
+
+    public boolean downloadButtonIsPresent(){
+        return doesElementExist(downloadButton) && findElement(downloadButton).isDisplayed();
     }
 }
