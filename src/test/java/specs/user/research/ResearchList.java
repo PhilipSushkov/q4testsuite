@@ -30,9 +30,9 @@ public class ResearchList extends AbstractSpec {
         String documentName = "Gimme Shelter";
         ResearchPage researchPage = new ResearchPage(driver).searchForDocument(documentName);
 
-        Assert.assertThat(researchPage.getResearchHeadline(), containsString(documentName));
+        Assert.assertThat("Searching did not return the correct result", researchPage.getResearchHeadline(), containsString(documentName));
         // Make sure number of returned documents is reflected in interface (should be 1)
-        Assert.assertEquals(1, researchPage.getNumberOfDocuments());
+        Assert.assertEquals("Number of documents shown is greater than one", 5, researchPage.getNumberOfDocuments());
     }
 
     @Test
@@ -44,7 +44,7 @@ public class ResearchList extends AbstractSpec {
 
         researchPage.selectFirmFromResearchList();
 
-        Assert.assertThat(institutionPage.getInstitutionName(), containsString(firmName));
+        Assert.assertThat("Institution name was not visible", institutionPage.getInstitutionName(), containsString(firmName));
     }
 
     @Test
@@ -57,6 +57,6 @@ public class ResearchList extends AbstractSpec {
 
         researchPage.selectAnalystFromResearchList();
 
-        Assert.assertThat(contactPage.getPageTitle(), containsString(analystName));
+        Assert.assertThat("Analysts name was not visible", contactPage.getPageTitle(), containsString(analystName));
     }
 }

@@ -40,13 +40,13 @@ public class IntelligenceList extends AdminAbstractSpec {
 
         IntelligencePage intelligencePage = new IntelligencePage(driver).createWeeklyTradeSummary(symbol);
 
-        Assert.assertThat(intelligencePage.getNewReport(), containsString(symbol));
-        Assert.assertThat(intelligencePage.getNewReport(), containsString(type));
-        Assert.assertThat(intelligencePage.getNewReport(), containsString(dateText));
+        Assert.assertThat("Stock symbol does not match expected", intelligencePage.getNewReport(), containsString(symbol));
+        Assert.assertThat("Report type does not match expected", intelligencePage.getNewReport(), containsString(type));
+        Assert.assertThat("New report date does not match expected", intelligencePage.getNewReport(), containsString(dateText));
 
         intelligencePage.selectNewReport();
 
-        Assert.assertThat(intelligencePage.getReportHeader(), containsString(reportTitle));
+        Assert.assertThat("Report title does not match expected", intelligencePage.getReportHeader(), containsString(reportTitle));
     }
 
     @Test
@@ -63,13 +63,13 @@ public class IntelligenceList extends AdminAbstractSpec {
 
         IntelligencePage intelligencePage = new IntelligencePage(driver).createWeeklyOptionsAnalytics(symbol);
 
-        Assert.assertThat(intelligencePage.getNewReport(), containsString(symbol));
-        Assert.assertThat(intelligencePage.getNewReport(), containsString(type));
-        Assert.assertThat(intelligencePage.getNewReport(), containsString(dateText));
+        Assert.assertThat("Stock symbol does not match expected", intelligencePage.getNewReport(), containsString(symbol));
+        Assert.assertThat("Report type does not match expected", intelligencePage.getNewReport(), containsString(type));
+        Assert.assertThat("New report date does not match expected", intelligencePage.getNewReport(), containsString(dateText));
 
         intelligencePage.selectNewReport();
 
-        Assert.assertThat(intelligencePage.getReportHeader(), containsString(reportTitle));
+        Assert.assertThat("Report title does not match expected", intelligencePage.getReportHeader(), containsString(reportTitle));
     }
 
     @Test
@@ -86,13 +86,13 @@ public class IntelligenceList extends AdminAbstractSpec {
 
         IntelligencePage intelligencePage = new IntelligencePage(driver).createSalesEquitAndOptions(symbol);
 
-        Assert.assertThat(intelligencePage.getNewReport(), containsString(symbol));
-        Assert.assertThat(intelligencePage.getNewReport(), containsString(type));
-        Assert.assertThat(intelligencePage.getNewReport(), containsString(dateText));
+        Assert.assertThat("Stock symbol does not match expected", intelligencePage.getNewReport(), containsString(symbol));
+        Assert.assertThat("Report type does not match expected", intelligencePage.getNewReport(), containsString(type));
+        Assert.assertThat("New report date does not match expected", intelligencePage.getNewReport(), containsString(dateText));
 
         intelligencePage.selectNewReport();
 
-        Assert.assertThat(intelligencePage.getReportHeader(), containsString(reportTitle));
+        Assert.assertThat("Report title does not match expected", intelligencePage.getReportHeader(), containsString(reportTitle));
     }
 
     @Test
@@ -105,7 +105,7 @@ public class IntelligenceList extends AdminAbstractSpec {
         intelligencePage.selectNewReport()
                 .deleteReport();
 
-        Assert.assertThat(intelligencePage.getEntireReportList(), not(containsString(newReportDateTime)));
+        Assert.assertThat("Deleted report is still visible in list", intelligencePage.getEntireReportList(), not(containsString(newReportDateTime)));
     }
 
     @Test
