@@ -28,6 +28,9 @@ public class IntelligencePage extends AbstractPageObject {
     private final By approvedFilter = By.xpath("//button[contains(text(),'Approved')]");
     private final By readyToPublishFilter = By.xpath("//button[contains(text(),'Ready to publish')]");
     private final By reportStatus = By.cssSelector("td:nth-child(3)");
+    private final By reportTypeFilterDropdown = By.className("ui-dropdown");
+    private final By reportTypeFilterOptions = By.className("ui-dropdown-item");
+    private final By reportType = By.className("type");
 
 
     public IntelligencePage(WebDriver driver) {
@@ -126,6 +129,31 @@ public class IntelligencePage extends AbstractPageObject {
         for (WebElement status : statuses){
             if (!status.getText().equalsIgnoreCase(expected)){
                 System.out.println("Found report with status of '"+status.getText()+"' instead of "+expected);
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public IntelligencePage showReportsOfType(String type){
+        waitForLoadingScreen();
+        findVisibleElement(reportTypeFilterDropdown).click();
+        List <WebElement> options = findVisibleElements(reportTypeFilterOptions);
+        for (WebElement option : options){
+            if (option.getText().equalsIgnoreCase(type)){
+                option.click();
+                break;
+            }
+        }
+        return this;
+    }
+
+    public boolean allReportsAreOfType(String expected){
+        pause(2000);
+        List<WebElement> types = findElements(reportType);
+        for (WebElement type : types){
+            if (!type.getText().equalsIgnoreCase(expected)){
+                System.out.println("Found report of type '"+type.getText()+"' instead of "+expected);
                 return false;
             }
         }

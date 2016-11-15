@@ -127,4 +127,22 @@ public class IntelligenceList extends AdminAbstractSpec {
     public void canSeeOnlyReadyToPublishReports(){
         Assert.assertTrue("One or more displayed reports are not of status 'Ready To Publish'.", new IntelligencePage(driver).showReadyToPublishReports().allReportsHaveStatus("Ready To Publish"));
     }
+
+    @Test
+    public void canSeeOnlyWeeklyTradeSummaryReports(){
+        Assert.assertTrue("One or more displayed reports are not of type 'Weekly Trade Summary'.",
+                new IntelligencePage(driver).showReportsOfType("Weekly Trade Summary").allReportsAreOfType("Weekly Trade Summary"));
+    }
+
+    @Test
+    public void canSeeOnlyWeeklyOptionsAnalyticsReports(){
+        Assert.assertTrue("One or more displayed reports are not of type 'Weekly Options Analytics'.",
+                new IntelligencePage(driver).showReportsOfType("Weekly Options Analytics").allReportsAreOfType("Weekly Options Analytics"));
+    }
+
+    @Test
+    public void canSeeOnlySalesEquityAndOptionsReports(){
+        Assert.assertTrue("One or more displayed reports are not of type 'Sales Equity And Options'.",
+                new IntelligencePage(driver).showReportsOfType("Sales Equity And Options").allReportsAreOfType("Sales Equity And Options"));
+    }
 }
