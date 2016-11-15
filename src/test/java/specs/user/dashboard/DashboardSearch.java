@@ -28,7 +28,7 @@ public class DashboardSearch extends AbstractSpec{
         new Dashboard(driver).searchFor(companyName)
                 .selectCompanyFromSearch();
 
-        Assert.assertEquals(companyName, finish.getCompanyName());
+        Assert.assertEquals("Expected company name is not shown in search results", companyName, finish.getCompanyName());
     }
 
     @Test
@@ -36,7 +36,7 @@ public class DashboardSearch extends AbstractSpec{
         String companyName = "12345qwerty";
         new Dashboard(driver).searchFor(companyName);
 
-        Assert.assertEquals(0, driver.findElements(By.className("company-name")).size());
+        Assert.assertEquals("Search returned results when none were expected", 0, driver.findElements(By.className("company-name")).size());
     }
 
     @Test
@@ -49,7 +49,7 @@ public class DashboardSearch extends AbstractSpec{
                 .searchFor(companyName)
                 .selectCompanyFromSearch();
 
-        Assert.assertEquals(companyName, finish.getCompanyName());
+        Assert.assertEquals("Expected company name is not shown in search results", companyName, finish.getCompanyName());
     }
 
     @Test
@@ -59,7 +59,7 @@ public class DashboardSearch extends AbstractSpec{
         new Dashboard(driver).searchFor(institutionName)
                 .selectInstitutionFromSearchResults();
 
-        Assert.assertThat(finish.getInstitutionName(), containsString(institutionName));
+        Assert.assertThat("Expected institution name is not shown in search results", finish.getInstitutionName(), containsString(institutionName));
     }
 
     @Test
@@ -69,7 +69,7 @@ public class DashboardSearch extends AbstractSpec{
         new Dashboard(driver).searchFor(contactName)
                 .selectContactFromSearchResults();
 
-        Assert.assertEquals(contactName, finish.getContactName());
+        Assert.assertEquals("Expected contact name is not shown in search results", contactName, finish.getContactName());
     }
 
     @Test
@@ -81,7 +81,7 @@ public class DashboardSearch extends AbstractSpec{
         new Dashboard(driver).searchFor(fundName)
                 .selectFundFromSearchResults();
 
-        Assert.assertEquals(pageTitle, finish.getFundName());
+        Assert.assertEquals("Expected fund name is not shown in search results", pageTitle, finish.getFundName());
     }
 }
 

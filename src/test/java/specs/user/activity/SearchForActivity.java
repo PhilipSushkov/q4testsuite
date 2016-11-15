@@ -45,7 +45,7 @@ public class SearchForActivity extends AbstractSpec {
 
         // TODO this assertion should make sure comment1 is NOT visible
 
-        Assert.assertThat(activityPage.getSearchResults(), containsString(comment2));
+        Assert.assertThat("Searching did not return the expected results", activityPage.getSearchResults(), containsString(comment2));
     }
 
     @Test
@@ -53,6 +53,6 @@ public class SearchForActivity extends AbstractSpec {
         String noResults = "No activities available.";
         ActivityPage activityPage = new ActivityPage(driver).searchForNote("123456789");
 
-        Assert.assertThat(activityPage.getNoNote(), containsString(noResults));
+        Assert.assertThat("Searching did not return the expected results", activityPage.getNoNote(), containsString(noResults));
     }
 }

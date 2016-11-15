@@ -35,8 +35,7 @@ public class LogActivity extends AbstractSpec {
                 .postActivity();
 
         // Make sure the new comment appears on page
-        Assert.assertThat(activityPage.getNewNote(), containsString(comment));
-
+        Assert.assertThat("Note text does not match expected", activityPage.getNewNote(), containsString(comment));
     }
 
     @Test
@@ -53,7 +52,7 @@ public class LogActivity extends AbstractSpec {
                 .choosePhoneTab();
 
         // Make sure the new comment appears on page
-        Assert.assertThat(activityPage.getNewNote(), containsString(comment));
+        Assert.assertThat("Note text does not match expected", activityPage.getNewNote(), containsString(comment));
     }
 
     @Test
@@ -68,7 +67,7 @@ public class LogActivity extends AbstractSpec {
                 .chooseEmailTab();
 
         // Make sure the new comment appears on page
-        Assert.assertThat(activityPage.getNewNote(), containsString(comment));
+        Assert.assertThat("Note text does not match expected", activityPage.getNewNote(), containsString(comment));
     }
 
     @Test
@@ -84,6 +83,6 @@ public class LogActivity extends AbstractSpec {
                 .chooseMeetingTab();
 
         // Make sure the new comment appears on page
-        Assert.assertThat(activityPage.getNewNote(), containsString(comment));
+        Assert.assertThat("Note text does not match expected", activityPage.getNewNote(), containsString(comment));
     }
 }

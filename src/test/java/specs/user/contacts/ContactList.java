@@ -34,14 +34,14 @@ public class ContactList extends AbstractSpec {
                 .accessSideNavFromPage()
                 .selectContactsFromSideNav();
 
-        Assert.assertThat(contactPage.getContacts(), containsString(contactName));
+        Assert.assertThat("Contact does not appear in contact list", contactPage.getContacts(), containsString(contactName));
 
         new ContactPage(driver).viewContactDetails()
                 .removeContactFromList()
                 .accessSideNavFromPage()
                 .selectContactsFromSideNav();
 
-        Assert.assertThat(contactPage.getContacts(), is(not(containsString(contactName))));
+        Assert.assertThat("Contact was not removed from contact list", contactPage.getContacts(), is(not(containsString(contactName))));
     }
 
     @Ignore

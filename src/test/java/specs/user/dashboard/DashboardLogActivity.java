@@ -36,8 +36,8 @@ public class DashboardLogActivity extends AbstractSpec {
                 .accessSideNav()
                 .selectActivityPageFromSideNav();
 
-        Assert.assertThat(activityPage.getNewNote(), containsString(comment));
-        Assert.assertThat(activityPage.getNewNote(), containsString(tag));
+        Assert.assertThat("Note does not contain the expected comment text", activityPage.getNewNote(), containsString(comment));
+        Assert.assertThat("Note does not contain the expected tag", activityPage.getNewNote(), containsString(tag));
     }
 
     @Test
@@ -54,8 +54,8 @@ public class DashboardLogActivity extends AbstractSpec {
                 .accessSideNav()
                 .selectActivityPageFromSideNav();
 
-        Assert.assertThat(activityPage.getNewNote(), containsString(comment));
-        Assert.assertThat(activityPage.getNewNote(), containsString(tag));
+        Assert.assertThat("Note does not contain the expected comment text", activityPage.getNewNote(), containsString(comment));
+        Assert.assertThat("Note does not contain the expected tag", activityPage.getNewNote(), containsString(tag));
     }
 
     @Test
@@ -71,8 +71,8 @@ public class DashboardLogActivity extends AbstractSpec {
                 .accessSideNav()
                 .selectActivityPageFromSideNav();
 
-        Assert.assertThat(activityPage.getNewNote(), containsString(comment));
-        Assert.assertThat(activityPage.getNewNote(), containsString(tag));
+        Assert.assertThat("Note does not contain the expected comment text", activityPage.getNewNote(), containsString(comment));
+        Assert.assertThat("Note does not contain the expected tag", activityPage.getNewNote(), containsString(tag));
     }
 
     @Test
@@ -89,8 +89,8 @@ public class DashboardLogActivity extends AbstractSpec {
                 .accessSideNav()
                 .selectActivityPageFromSideNav();
 
-        Assert.assertThat(activityPage.getNewNote(), containsString(comment));
-        Assert.assertThat(activityPage.getNewNote(), containsString(tag));
+        Assert.assertThat("Note does not contain the expected comment text", activityPage.getNewNote(), containsString(comment));
+        Assert.assertThat("Note does not contain the expected tag", activityPage.getNewNote(), containsString(tag));
     }
 
     @Test
@@ -98,7 +98,7 @@ public class DashboardLogActivity extends AbstractSpec {
         new Dashboard(driver).logNote()
                 .cancelNote();
 
-        Assert.assertEquals(0, driver.findElements(By.cssSelector(".new-note .cancel-btn")).size());
+        Assert.assertEquals("Activity modal was not dismissed", 0, driver.findElements(By.cssSelector(".new-note .cancel-btn")).size());
     }
 
     @Test
@@ -118,9 +118,9 @@ public class DashboardLogActivity extends AbstractSpec {
                 .selectActivityPageFromSideNav()
                 .selectFirstNoteInList();
 
-        Assert.assertThat(noteDetailsPage.getNoteBody(), containsString(note));
-        Assert.assertThat(noteDetailsPage.getCommentText(), containsString(comment));
-        Assert.assertThat(noteDetailsPage.getLinkedToText(), containsString(institution));
+        Assert.assertThat("Note does not contain expected text", noteDetailsPage.getNoteBody(), containsString(note));
+        Assert.assertThat("Note does not contain expected comment text", noteDetailsPage.getCommentText(), containsString(comment));
+        Assert.assertThat("Note does not contain expected linked institution", noteDetailsPage.getLinkedToText(), containsString(institution));
     }
 
     @Test
@@ -140,9 +140,9 @@ public class DashboardLogActivity extends AbstractSpec {
                 .selectActivityPageFromSideNav()
                 .selectFirstNoteInList();
 
-        Assert.assertThat(noteDetailsPage.getNoteBody(), containsString(note));
-        Assert.assertThat(noteDetailsPage.getCommentText(), containsString(comment));
-        Assert.assertThat(noteDetailsPage.getLinkedToText(), containsString(fund));
+        Assert.assertThat("Note does not contain expected text", noteDetailsPage.getNoteBody(), containsString(note));
+        Assert.assertThat("Note does not contain expected comment text", noteDetailsPage.getCommentText(), containsString(comment));
+        Assert.assertThat("Note does not contain expected linked fund", noteDetailsPage.getLinkedToText(), containsString(fund));
     }
 
     @Test
@@ -162,8 +162,8 @@ public class DashboardLogActivity extends AbstractSpec {
                 .selectActivityPageFromSideNav()
                 .selectFirstNoteInList();
 
-        Assert.assertThat(noteDetailsPage.getNoteBody(), containsString(note));
-        Assert.assertThat(noteDetailsPage.getCommentText(), containsString(comment));
-        Assert.assertThat(noteDetailsPage.getLinkedToText(), containsString(contact));
+        Assert.assertThat("Note does not contain expected text", noteDetailsPage.getNoteBody(), containsString(note));
+        Assert.assertThat("Note does not contain expected comment text", noteDetailsPage.getCommentText(), containsString(comment));
+        Assert.assertThat("Note does not contain expected linked contact", noteDetailsPage.getLinkedToText(), containsString(contact));
     }
 }

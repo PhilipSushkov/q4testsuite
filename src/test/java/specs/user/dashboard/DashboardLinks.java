@@ -25,7 +25,7 @@ public class DashboardLinks extends AbstractSpec {
         SecurityOverviewPage finish = new SecurityOverviewPage(driver);
         new Dashboard(driver).clickBigSharePrice();
 
-        Assert.assertEquals(companyName, finish.getCompanyName());
+        Assert.assertEquals("Company name is not visible, or doesn't match expected", companyName, finish.getCompanyName());
     }
 
     @Test
@@ -34,6 +34,6 @@ public class DashboardLinks extends AbstractSpec {
         SecurityOverviewPage finish = new SecurityOverviewPage(driver);
         new Dashboard(driver).clickSmallSharePrice();
 
-        Assert.assertEquals(companyName, finish.getCompanyName());
+        Assert.assertEquals("Company name is not visible, or doesn't match expected", companyName, finish.getCompanyName());
     }
 }

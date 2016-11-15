@@ -37,7 +37,7 @@ public class ContactDetails extends AbstractSpec {
         String tagName = "CoolTag" + RandomStringUtils.randomAlphanumeric(3);
         ContactDetailsPage contactDetailsPage = new ContactDetailsPage(driver).addTagToContact(tagName);
 
-        Assert.assertThat(contactDetailsPage.getContactTags(), containsString(tagName));
+        Assert.assertThat("New tag is not shown on Contact page", contactDetailsPage.getContactTags(), containsString(tagName));
     }
 
     @Test
@@ -85,21 +85,21 @@ public class ContactDetails extends AbstractSpec {
         String institutionName = new ContactDetailsPage(driver).getInstitutionName();
         InstitutionPage institutionPage = new ContactDetailsPage(driver).navigateToInstitution();
 
-        Assert.assertThat(institutionPage.getInstitutionName(), containsString(institutionName));
+        Assert.assertThat("Institution name does not match expected", institutionPage.getInstitutionName(), containsString(institutionName));
     }
 
     @Test
     public void canViewManagedFundsTab() {
         ContactDetailsPage contactDetailsPage = new ContactDetailsPage(driver).switchToManagedFundsTab();
 
-        Assert.assertThat(contactDetailsPage.getManagedFunds(), containsString("Csa Mixta - Bvg"));
+        Assert.assertThat("Managed funds page does not contain expected fund", contactDetailsPage.getManagedFunds(), containsString("Csa Mixta - Bvg"));
     }
 
     @Test
     public void canLinkToTagDetails() {
         AdvancedSearchResults advancedSearchResults = new ContactDetailsPage(driver).viewTagResults();
 
-        Assert.assertThat(advancedSearchResults.getAdvancedSearchResults(), containsString(shortName));
+        Assert.assertThat("Advanced search results did not contain contain contact's name", advancedSearchResults.getAdvancedSearchResults(), containsString(shortName));
     }
 
     @Test
@@ -114,7 +114,7 @@ public class ContactDetails extends AbstractSpec {
                 .postActivity()
                 .pageRefresh();
 
-        Assert.assertThat(contactDetailsPage.getNoteDetails(), containsString(comment));
+        Assert.assertThat("Not text is not visible after creation", contactDetailsPage.getNoteDetails(), containsString(comment));
     }
 
     @Test

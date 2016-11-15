@@ -24,7 +24,7 @@ public class DashboardBuildReport extends AbstractSpec {
         new Dashboard(driver).selectBuildReport()
                 .cancelBuildReportModal();
 
-        Assert.assertEquals(0, driver.findElements(By.cssSelector(".report-create .cancel-button")).size());
+        Assert.assertEquals("Report modal is still visible", 0, driver.findElements(By.cssSelector(".report-create .cancel-button")).size());
     }
 
     @Test
@@ -32,6 +32,6 @@ public class DashboardBuildReport extends AbstractSpec {
         new Dashboard(driver).selectBuildReport()
                 .dismissBuildReportModal();
 
-        Assert.assertEquals(0, driver.findElements(By.cssSelector(".report-create .cancel-button")).size());
+        Assert.assertEquals("Report modal is still visible", 0, driver.findElements(By.cssSelector(".report-create .cancel-button")).size());
     }
 }
