@@ -100,13 +100,13 @@ public class AbstractPageObject implements PageObject {
     }
 
     public String getPageTitle() {
-        pause(500L);
+        waitForLoadingScreen();
         return findElement(pageTitle).getText();
     }
 
     // Some pages have a different header
     public String getOtherPageTitle() {
-        pause(500L);
+        waitForLoadingScreen();
         return findElement(otherPageTitle).getText();
     }
 
