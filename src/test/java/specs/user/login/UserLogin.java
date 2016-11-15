@@ -18,7 +18,7 @@ public class UserLogin extends AbstractSpec {
         LoginPage start = new LoginPage(driver);
         start.customLoginUser("imnotauser@mail.com", "notapassword");
 
-        Assert.assertEquals(errorMessage, start.getErrorMessage());
+        Assert.assertEquals("Login error message not displayed", errorMessage, start.getErrorMessage());
     }
 
     @Test
@@ -28,7 +28,7 @@ public class UserLogin extends AbstractSpec {
         LoginPage start = new LoginPage(driver);
         start.customLoginUser("email", "password");
 
-        Assert.assertEquals(errorMessage, start.getErrorMessage());
+        Assert.assertEquals("Login error message not displayed", errorMessage, start.getErrorMessage());
     }
 
     @Test
@@ -38,7 +38,7 @@ public class UserLogin extends AbstractSpec {
         LoginPage start = new LoginPage(driver);
         start.customLoginUser("patrickp@q4inc.com", "nottherightpassword");
 
-        Assert.assertEquals(errorMessage, start.getErrorMessage());
+        Assert.assertEquals("Login error message not displayed", errorMessage, start.getErrorMessage());
     }
 
     @Test
@@ -48,7 +48,7 @@ public class UserLogin extends AbstractSpec {
         LoginPage start = new LoginPage(driver);
         start.customLoginUser("","");
 
-        Assert.assertEquals(errorMessage, start.getErrorMessage());
+        Assert.assertEquals("Login error message not displayed", errorMessage, start.getErrorMessage());
     }
 
     @Test
@@ -60,11 +60,11 @@ public class UserLogin extends AbstractSpec {
         Dashboard finish = new Dashboard(driver);
         start.customLoginUser("1234@qwer.com", "1235");
 
-        Assert.assertEquals(errorMessage, start.getErrorMessage());
+        Assert.assertEquals("Login error message not displayed", errorMessage, start.getErrorMessage());
 
         start.dismissErrorModal()
                 .customLoginUser("patrickp@q4inc.com", "patrick!");
 
-        Assert.assertEquals(searchFieldText, finish.getSearchFieldText());
+        Assert.assertEquals("User was not logged in successfully", searchFieldText, finish.getSearchFieldText());
     }
 }

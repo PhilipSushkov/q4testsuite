@@ -41,7 +41,7 @@ public class TabNavigationExpanded extends AbstractSpec {
         start.accessSideNav()
                 .selectDashboardFromSideNav();
 
-        Assert.assertEquals(searchFieldText, start.getSearchFieldText());
+        Assert.assertEquals("User was not taken to dashboard", searchFieldText, start.getSearchFieldText());
     }
 
     @Test
@@ -51,7 +51,7 @@ public class TabNavigationExpanded extends AbstractSpec {
         new Dashboard(driver).accessSideNav()
                 .selectWatchListFromSideNav();
 
-        Assert.assertThat(finish.getPageTitle(), containsString(pageTitle));
+        Assert.assertThat("User was not taken to watchlist", finish.getPageTitle(), containsString(pageTitle));
     }
 
     @Test
@@ -61,7 +61,7 @@ public class TabNavigationExpanded extends AbstractSpec {
         new Dashboard(driver).accessSideNav()
                 .selectActivityPageFromSideNav();
 
-        Assert.assertEquals(pageTitle, finish.getPageTitle());
+        Assert.assertEquals("User was not taken to activity page", pageTitle, finish.getPageTitle());
         System.out.println(finish.getPageTitle());
     }
 
@@ -72,7 +72,7 @@ public class TabNavigationExpanded extends AbstractSpec {
         new Dashboard(driver).accessSideNav()
                 .selectContactsFromSideNav();
 
-        Assert.assertThat(contactDetailsPage.getPageTitle(), containsString(pageTitle));
+        Assert.assertThat("User was not taken to contacts page", contactDetailsPage.getPageTitle(), containsString(pageTitle));
     }
 
     @Test
@@ -82,7 +82,7 @@ public class TabNavigationExpanded extends AbstractSpec {
         new Dashboard(driver).accessSideNav()
                 .selectEventsAndTranscriptsFromSideNav();
 
-        Assert.assertThat(eventsTranscriptsPage.getPageTitle(), containsString(pageTitle));
+        Assert.assertThat("User was not taken to events and transcripts page", eventsTranscriptsPage.getPageTitle(), containsString(pageTitle));
     }
 
     @Test
@@ -92,7 +92,7 @@ public class TabNavigationExpanded extends AbstractSpec {
         new Dashboard(driver).accessSideNav()
                 .selectReportBuilderFromSideNav();
 
-        Assert.assertThat(reportBuilderPage.getPageTitle(), containsString(pageTitle));
+        Assert.assertThat("User was not taken to report builder page", reportBuilderPage.getPageTitle(), containsString(pageTitle));
     }
 
     @Test
@@ -102,7 +102,7 @@ public class TabNavigationExpanded extends AbstractSpec {
         new Dashboard(driver).accessSideNav()
                 .selectTargetingFromSideNav();
 
-        Assert.assertThat(targetingPage.getPageTitle(), containsString(pageTitle));
+        Assert.assertThat("User was not taken to targeting page", targetingPage.getPageTitle(), containsString(pageTitle));
     }
 
     @Test
@@ -112,7 +112,7 @@ public class TabNavigationExpanded extends AbstractSpec {
         new Dashboard(driver).accessSideNav()
                 .selectSecurityFromSideNav();
 
-        Assert.assertThat(securityOverviewPage.getCompanyName(), containsString(pageTitle));
+        Assert.assertThat("User was not taken to Security overview page", securityOverviewPage.getCompanyName(), containsString(pageTitle));
     }
 
     @Test
@@ -122,7 +122,7 @@ public class TabNavigationExpanded extends AbstractSpec {
         new Dashboard(driver).accessSideNav()
                 .selectOwnershipFromSideNav();
 
-        Assert.assertThat(securityOwnershipPage.getOwnershipTabTitle(), containsString(tabTitle));
+        Assert.assertThat("User was not taken to ownership page", securityOwnershipPage.getOwnershipTabTitle(), containsString(tabTitle));
     }
 
     @Test
@@ -132,7 +132,7 @@ public class TabNavigationExpanded extends AbstractSpec {
         new Dashboard(driver).accessSideNav()
                 .selectEstimatesFromSideNav();
 
-        Assert.assertThat(securityEstimatesPage.getEstimatesTabTitle(), containsString(tabTitle));
+        Assert.assertThat("User was not taken to estimates page", securityEstimatesPage.getEstimatesTabTitle(), containsString(tabTitle));
     }
 
     // TODO getPageTitle will not retrieve text for some reason. Ignoring until I can make this work.
@@ -154,7 +154,7 @@ public class TabNavigationExpanded extends AbstractSpec {
         new Dashboard(driver).accessSideNav()
                 .selectWebcastAnalyticsFromSideNav();
 
-        Assert.assertThat(webcastAnalyticsPage.getOtherPageTitle(), containsString(pageTitle));
+        Assert.assertThat("User was not taken to webcast analytics page", webcastAnalyticsPage.getOtherPageTitle(), containsString(pageTitle));
     }
 
     @Test
@@ -164,7 +164,7 @@ public class TabNavigationExpanded extends AbstractSpec {
         new Dashboard(driver).accessSideNav()
                 .selectMyQ4TeamFromSideNav();
 
-        Assert.assertThat(myQ4TeamPage.getOtherPageTitle(), containsString(pageTitle));
+        Assert.assertThat("User was not taken to My Team page", myQ4TeamPage.getOtherPageTitle(), containsString(pageTitle));
     }
 
     @Test
@@ -174,7 +174,7 @@ public class TabNavigationExpanded extends AbstractSpec {
         new Dashboard(driver).accessSideNav()
                 .selectSupportTicketsFromSideNav();
 
-        Assert.assertThat(supportTicketsPage.getOtherPageTitle(), containsString(pageTitle));
+        Assert.assertThat("User was not taken to support tickets page", supportTicketsPage.getOtherPageTitle(), containsString(pageTitle));
     }
 
     @Test
@@ -184,6 +184,6 @@ public class TabNavigationExpanded extends AbstractSpec {
         new Dashboard(driver).accessSideNav()
                 .selectChecklistFromSideNav();
 
-        Assert.assertThat(checklistPage.getOtherPageTitle(), containsString(pageTitle));
+        Assert.assertThat("User was not taken to checklist page", checklistPage.getOtherPageTitle(), containsString(pageTitle));
     }
 }

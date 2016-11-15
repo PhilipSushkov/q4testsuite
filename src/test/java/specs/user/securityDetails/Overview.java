@@ -30,7 +30,7 @@ public class Overview extends AbstractSpec {
         float price = stock.getQuote().getPrice().floatValue();
         System.out.println(price);
 
-        Assert.assertEquals(price, finish.getStockPrice(), 0.5);
+        Assert.assertEquals("Stock price does not match expected", price, finish.getStockPrice(), 0.5);
     }
 
     @Test

@@ -1,6 +1,5 @@
 package specs.user.targeting;
 
-import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -14,6 +13,7 @@ import specs.AbstractSpec;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
 import static org.hamcrest.CoreMatchers.containsString;
 
 
@@ -268,14 +268,4 @@ public class TargetingList extends AbstractSpec {
         Assert.assertEquals("After editing: created date is incorrect", "11/14/16", new TargetingPage(driver).getCreatedDate(searchNameIndex));
         Assert.assertEquals("After editing: last updated date is not today", dateFormat.format(current), new TargetingPage(driver).getUpdatedDate(searchNameIndex));
     }
-
-
-    @After
-    public void disableDriver()
-    {
-        driver.close();
-        driver.quit();
-    }
-
-
 }

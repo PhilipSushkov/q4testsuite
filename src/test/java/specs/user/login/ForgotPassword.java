@@ -17,7 +17,7 @@ public class ForgotPassword extends AbstractSpec {
         LoginPage start = new LoginPage(driver);
         start.forgotPassword();
 
-        Assert.assertEquals(modalTitle, start.getForgotPasswordModalTitle());
+        Assert.assertEquals("Forgot password modal did not appear", modalTitle, start.getForgotPasswordModalTitle());
     }
 
     @Test
@@ -26,7 +26,7 @@ public class ForgotPassword extends AbstractSpec {
         start.forgotPassword()
                 .dismissForgotPasswordModal();
 
-        Assert.assertEquals(1, driver.findElements(By.className("q4i-logo")).size());
+        Assert.assertEquals("Forgot password modal was not successfully dismissed", 1, driver.findElements(By.className("q4i-logo")).size());
     }
 
     @Test
@@ -37,7 +37,7 @@ public class ForgotPassword extends AbstractSpec {
         start.forgotPassword()
                 .enterForgotPasswordEmail("notanemailaddress");
 
-        Assert.assertEquals(invalidEmailError, start.getInvalidEmailError());
+        Assert.assertEquals("Invalid email address message not shown", invalidEmailError, start.getInvalidEmailError());
     }
 
     @Test
@@ -52,6 +52,6 @@ public class ForgotPassword extends AbstractSpec {
 
         start.dismissConfirmationModal();
 
-        Assert.assertEquals(1, driver.findElements(By.className("q4i-logo")).size());
+        Assert.assertEquals("Valid email address not accepted", 1, driver.findElements(By.className("q4i-logo")).size());
     }
 }

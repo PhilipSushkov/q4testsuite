@@ -31,7 +31,7 @@ public class EditWatchlist extends AbstractSpec {
         WatchlistPage watchlist = new WatchlistPage(driver).removeSecurityFromWatchlist()
                 .addSecurityToWatchlist(security);
 
-        Assert.assertThat(watchlist.getFirstCompanyInList(), containsString(security));
+        Assert.assertThat("Company was not successfully added to watchlist", watchlist.getFirstCompanyInList(), containsString(security));
     }
 
     @Test
@@ -45,7 +45,7 @@ public class EditWatchlist extends AbstractSpec {
 
         // Compare stored string to first company in list. They shouldn't match
         System.out.println(new WatchlistPage(driver).getWatchlistSecurities());
-        Assert.assertThat(watchlistPage.getWatchlistSecurities(), is(not(companyName)));
+        Assert.assertThat("Removed company is still visible in watchlist", watchlistPage.getWatchlistSecurities(), is(not(companyName)));
     }
 
     @Test
@@ -57,6 +57,6 @@ public class EditWatchlist extends AbstractSpec {
 
         SecurityOverviewPage securityOverviewPage = new SecurityOverviewPage(driver).clickOnFirstWatchlistCompany();
 
-        Assert.assertThat(companyName, containsString(securityOverviewPage.getCompanyName()));
+        Assert.assertThat("Company name not visible", companyName, containsString(securityOverviewPage.getCompanyName()));
     }
 }
