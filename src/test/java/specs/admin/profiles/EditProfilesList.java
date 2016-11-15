@@ -28,7 +28,7 @@ public class EditProfilesList extends AdminAbstractSpec {
         String userName = "Patrick";
         ProfilesList profilesList = new ProfilesList(driver).searchForProfile(userName);
 
-        Assert.assertThat(profilesList.getProfileList(), containsString(userName));
+        Assert.assertThat("Search results did not contain expected username", profilesList.getProfileList(), containsString(userName));
     }
 
     // TODO ignoring until we have a way to delete profiles
@@ -55,6 +55,6 @@ public class EditProfilesList extends AdminAbstractSpec {
                 .selectFirstProfileInList()
                 .editProfileFirstName(firstName);
 
-        Assert.assertThat(profilesList.getAdminPageTitle(), containsString(firstName));
+        Assert.assertThat("Changes to profile not saved correctly", profilesList.getAdminPageTitle(), containsString(firstName));
     }
 }

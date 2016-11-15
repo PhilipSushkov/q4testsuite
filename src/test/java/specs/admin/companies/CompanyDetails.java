@@ -30,7 +30,7 @@ public class CompanyDetails extends AdminAbstractSpec {
         companyPage.selectFirstCompanyInList()
                 .editCompanyName(newName);
 
-        Assert.assertThat(companyPage.getCompanyName(), containsString(newName));
+        Assert.assertThat("New company name is not visible on Company details page", companyPage.getCompanyName(), containsString(newName));
 
         new CompanyDetailsPage(driver).editCompanyName(companyName);
     }
@@ -42,7 +42,7 @@ public class CompanyDetails extends AdminAbstractSpec {
         CompanyPage companyPage = new CompanyPage(driver).selectFirstCompanyInList()
                 .addEditPeer(peer, name);
 
-        Assert.assertThat(companyPage.getPeerList(), containsString(name));
+        Assert.assertThat("New peer name is not shown in peer list", companyPage.getPeerList(), containsString(name));
 
         companyPage.removePeer();
     }

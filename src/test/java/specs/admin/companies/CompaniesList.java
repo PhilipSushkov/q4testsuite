@@ -40,7 +40,7 @@ public class CompaniesList extends AdminAbstractSpec {
         String companyName = new CompanyPage(driver).getFirstCompanyName();
         CompanyPage companyPage = new CompanyPage(driver).selectFirstCompanyInList();
 
-        Assert.assertThat(companyPage.getAdminPageTitle(), containsString(companyName));
+        Assert.assertThat("Company name does not match expected", companyPage.getAdminPageTitle(), containsString(companyName));
     }
 
     @Test
@@ -48,7 +48,7 @@ public class CompaniesList extends AdminAbstractSpec {
         String companyName = "Yum";
         CompanyPage companyPage = new CompanyPage(driver).searchForCompany(companyName);
 
-        Assert.assertThat(companyPage.getCompanyList(), containsString(companyName));
+        Assert.assertThat("Search results did not return expected results", companyPage.getCompanyList(), containsString(companyName));
     }
 
     @Test
@@ -56,7 +56,7 @@ public class CompaniesList extends AdminAbstractSpec {
         String fakeName = "1234";
         CompanyPage companyPage = new CompanyPage(driver).searchForCompany(fakeName);
 
-        Assert.assertThat(companyPage.getCompanyList(), containsString("No records found"));
+        Assert.assertThat("Search returned results when none were expected", companyPage.getCompanyList(), containsString("No records found"));
     }
 
     @Test
@@ -64,7 +64,7 @@ public class CompaniesList extends AdminAbstractSpec {
         new CompanyPage(driver).triggerAddCompanyModal()
                 .cancelAddCompany();
 
-        Assert.assertEquals(1, driver.findElements(By.className("ui-dialog-title")).size());
+        Assert.assertEquals("New company modal was not dismissed", 1, driver.findElements(By.className("ui-dialog-title")).size());
     }
 
     @Test
@@ -72,6 +72,6 @@ public class CompaniesList extends AdminAbstractSpec {
         new CompanyPage(driver).triggerAddCompanyModal()
                 .exitAddCompanyModal();
 
-        Assert.assertEquals(1, driver.findElements(By.className("ui-dialog-title")).size());
+        Assert.assertEquals("New company modal was not dismissed", 1, driver.findElements(By.className("ui-dialog-title")).size());
     }
 }

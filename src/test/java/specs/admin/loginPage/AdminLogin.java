@@ -19,7 +19,7 @@ public class AdminLogin extends AdminAbstractSpec {
         HomePage homePage = new HomePage(driver);
         new AdminLoginPage(driver).customLoginAdmin("test@q4websystems.com", "testing!");
 
-        Assert.assertThat(homePage.getAdminPageTitle(), containsString(pageTitle));
+        Assert.assertThat("Dashboard not visible after successful login attempt", homePage.getAdminPageTitle(), containsString(pageTitle));
     }
 
     @Test
@@ -28,7 +28,7 @@ public class AdminLogin extends AdminAbstractSpec {
         HomePage homePage = new HomePage(driver);
         new AdminLoginPage(driver).customLoginAdmin("qfourtester@gmail.com", "testing!");
 
-        Assert.assertThat(homePage.getErrorMessage(), containsString(error));
+        Assert.assertThat("Login error message not visible after entering incorrect username and password", homePage.getErrorMessage(), containsString(error));
     }
 }
 

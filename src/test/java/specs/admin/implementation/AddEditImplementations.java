@@ -29,7 +29,7 @@ public class AddEditImplementations extends AdminAbstractSpec {
 
         ImplementationPage implementationPage = new ImplementationPage(driver).addNewImplementation(alias, sourceUrl);
 
-        Assert.assertThat(implementationPage.getImplementationList(), containsString(alias));
+        Assert.assertThat("New implementation not shown in list", implementationPage.getImplementationList(), containsString(alias));
     }
 
     @Test
@@ -39,7 +39,7 @@ public class AddEditImplementations extends AdminAbstractSpec {
         ImplementationPage implementationPage = new ImplementationPage(driver).selectFirstImplementation()
                 .editDetails(sourceUrl);
 
-        Assert.assertThat(implementationPage.getImplementationList(), containsString(sourceUrl));
+        Assert.assertThat("Implementation changes are not reflected after saving", implementationPage.getImplementationList(), containsString(sourceUrl));
     }
 
     @Test
@@ -48,7 +48,7 @@ public class AddEditImplementations extends AdminAbstractSpec {
         String emptyUrl = "";
         ImplementationPage implementationPage = new ImplementationPage(driver).addNewImplementation(alias, emptyUrl);
 
-        Assert.assertThat(implementationPage.getError(), containsString("ClientProxy validation failed"));
+        Assert.assertThat("Implementation error message not shown", implementationPage.getError(), containsString("ClientProxy validation failed"));
     }
 
     @Test
@@ -57,7 +57,7 @@ public class AddEditImplementations extends AdminAbstractSpec {
         String url = "www.test.com";
         ImplementationPage implementationPage = new ImplementationPage(driver).addNewImplementation(emptyAlias, url);
 
-        Assert.assertThat(implementationPage.getError(), containsString("ClientProxy validation failed"));
+        Assert.assertThat("Implementation error message not shown", implementationPage.getError(), containsString("ClientProxy validation failed"));
     }
 
     @Test
@@ -66,6 +66,6 @@ public class AddEditImplementations extends AdminAbstractSpec {
                 .cancelImplementationCreation();
 
         // Assert that modal has been dismissed.
-        Assert.assertEquals(1, driver.findElements(By.className("ui-dialog-title")).size());
+        Assert.assertEquals("Implementation modal not successfully dismissed", 1, driver.findElements(By.className("ui-dialog-title")).size());
     }
 }
