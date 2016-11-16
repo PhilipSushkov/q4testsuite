@@ -77,7 +77,7 @@ public class ContactDetails extends AbstractSpec {
 
         String activityDate = (hourMins + "_" + dateDay + "_" + dateMonth + "_" + dateYear);
 
-        Assert.assertEquals("Dates are not equal:", timeStamp, activityDate);
+        Assert.assertEquals("Known issue - DESKTOP-6837 - Dates are not equal:", timeStamp, activityDate);
     }
 
     @Test

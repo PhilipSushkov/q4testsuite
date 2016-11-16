@@ -31,7 +31,6 @@ public class TargetingList extends AbstractSpec {
 
     Date current = new Date();
 
-    // This will fail because of current bug DESKTOP-6898
     @Test
     /**Combination of TestRail test cases C2352, C2285, C2286, and C2345.
      * Will create a new search with specified filters, save it, view it, verify
@@ -64,7 +63,7 @@ public class TargetingList extends AbstractSpec {
 
         // opening search and verifying that filters are correct
         boolean filtersMatch = new TargetingPage(driver).editSearch(searchNameIndex).verifyFilters(filters);
-        Assert.assertTrue("Filters do not match.", filtersMatch);
+        Assert.assertTrue("Known issue - DESKTOP-6898 - Filters do not match.", filtersMatch);
 
         // deleting search using button on filter page
         new EditSearchPage(driver).deleteSearch();
@@ -249,7 +248,7 @@ public class TargetingList extends AbstractSpec {
     // This test will fail until bug DESKTOP-6903 is fixed.
     public void canSortTargetsList(){
         Assert.assertTrue("'All' Targets list cannot be sorted.", new TargetingPage(driver).allTargetsCanBeSorted());
-        Assert.assertTrue("Institutions list cannot be sorted.", new TargetingPage(driver).institutionsCanBeSorted());
+        Assert.assertTrue("Known issue - DESKTOP-6903 - Institutions list cannot be sorted.", new TargetingPage(driver).institutionsCanBeSorted());
         Assert.assertTrue("Funds list cannot be sorted.", new TargetingPage(driver).fundsCanBeSorted());
         Assert.assertTrue("Contacts list cannot be sorted.", new TargetingPage(driver).contactsCanBeSorted());
     }

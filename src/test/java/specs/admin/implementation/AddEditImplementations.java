@@ -29,7 +29,7 @@ public class AddEditImplementations extends AdminAbstractSpec {
 
         ImplementationPage implementationPage = new ImplementationPage(driver).addNewImplementation(alias, sourceUrl);
 
-        Assert.assertThat("New implementation not shown in list", implementationPage.getImplementationList(), containsString(alias));
+        Assert.assertThat("Known issue - ADMIN-418 - New implementation not shown in list", implementationPage.getImplementationList(), containsString(alias));
     }
 
     @Test
