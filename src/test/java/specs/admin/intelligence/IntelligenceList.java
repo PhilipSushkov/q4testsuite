@@ -1,11 +1,9 @@
 package specs.admin.intelligence;
 
-import com.thoughtworks.selenium.DefaultSelenium;
 import org.joda.time.DateTime;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.openqa.selenium.server.SeleniumServer;
 import pageobjects.admin.intelligencePage.IntelligencePage;
 import pageobjects.admin.intelligencePage.WTSReportDetailsPage;
 import pageobjects.admin.loginPage.AdminLoginPage;

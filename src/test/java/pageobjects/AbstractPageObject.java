@@ -101,6 +101,7 @@ public class AbstractPageObject implements PageObject {
 
     public String getPageTitle() {
         waitForLoadingScreen();
+        pause(500L);
         return findElement(pageTitle).getText();
     }
 

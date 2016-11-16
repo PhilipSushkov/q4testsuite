@@ -290,7 +290,7 @@ public class SecurityOverviewPage extends WatchlistPage {
 
     public String getStockQuote() {
         pause(4000L);
-        return findElement(stockQuote).getText();
+        return findElement(stockQuote).getText().replaceAll("[^0-9.]+", "");
     }
 
     public String getChangeIconColor() {
@@ -576,6 +576,6 @@ public class SecurityOverviewPage extends WatchlistPage {
 
     // Gets the stock price from the security details page
     public float getStockPrice() {
-        return Float.parseFloat(findElement(stockQuote).getText());
+        return Float.parseFloat(findElement(stockQuote).getText().replaceAll("[^0-9.]+", ""));
     }
 }
