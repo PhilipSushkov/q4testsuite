@@ -31,6 +31,7 @@ public class TargetingList extends AbstractSpec {
 
     Date current = new Date();
 
+    // This will fail because of current bug DESKTOP-6898
     @Test
     /**Combination of TestRail test cases C2352, C2285, C2286, and C2345.
      * Will create a new search with specified filters, save it, view it, verify
