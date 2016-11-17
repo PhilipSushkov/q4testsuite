@@ -164,4 +164,18 @@ public class IntelligenceList extends AdminAbstractSpec {
         // checking that report can be downloaded
         Assert.assertTrue("Download button is not present.", wtsReportDetailsPage.downloadButtonIsPresent());
     }
+
+    @Test
+    public void canProduceValidWeeklyTradeSummaryReport(){
+        String[] symbols = {"FCEL", "WPRT", "BLDP", "HYGS", "AMSC", "FSLR", "CLNE", "PLUG"};
+        String[] companies = {"FuelCell Energy, Inc.", "Westport Fuel Systems, Inc.",  "Ballard Power Systems, Inc.", "Hydrogenics Corp.",
+                "American Superconductor Corp.", "First Solar, Inc.", "Clean Energy Fuels Corp.", "Plug Power, Inc."};
+        String reportTitle = "FuelCell Energy, Inc. | FCEL | XNAS\n" +
+                "Weekly Trade Summary";
+        IntelligencePage intelligencePage = new IntelligencePage(driver).createWeeklyTradeSummary(symbols[0]);
+        Assert.assertThat("Expected stock symbol doesn't match with first listed report", intelligencePage.getNewReport(), containsString(symbols[0]));
+        WTSReportDetailsPage wtsReportDetailsPage = intelligencePage.selectNewReport();
+        Assert.assertThat("Report title does not match expected", wtsReportDetailsPage.getReportHeader(), containsString(reportTitle));
+        Assert.assertTrue("Report contains invalid data.", wtsReportDetailsPage.reportDataIsValid(symbols, companies));
+    }
 }
