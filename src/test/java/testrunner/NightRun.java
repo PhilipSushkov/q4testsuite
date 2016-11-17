@@ -14,7 +14,7 @@ import specs.user.dashboard.DashboardLogActivity;
 import specs.user.dashboard.DashboardSearch;
 import specs.user.login.ForgotPassword;
 import specs.user.login.UserLogin;
-import specs.user.reportBuilder.CreateContactTearSheet;
+import specs.user.reportBuilder.CreateBriefingBook;
 import specs.user.sideNavBar.TabNavigationExpanded;
 import specs.user.targeting.TargetingList;
 import specs.user.team.Q4TeamPage;
@@ -32,7 +32,7 @@ import specs.user.watchlist.EditWatchlist;
         DashboardSearch.class,
         ForgotPassword.class,
         UserLogin.class,
-        CreateContactTearSheet.class,
+        CreateBriefingBook.class,
         TabNavigationExpanded.class,
         EditWatchlist.class,
         Q4TeamPage.class,
