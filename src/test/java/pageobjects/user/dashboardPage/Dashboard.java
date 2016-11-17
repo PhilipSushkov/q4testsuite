@@ -115,6 +115,7 @@ public class Dashboard extends AbstractPageObject {
     }
 
     public LogActivityModal logNote() {
+        waitForLoadingScreen();
         wait.until(ExpectedConditions.elementToBeClickable(logNoteIcon));
         findElement(logNoteIcon).click();
 
