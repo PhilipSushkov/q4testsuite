@@ -2,6 +2,7 @@ package specs.user.research;
 
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import pageobjects.user.contactPage.ContactPage;
 import pageobjects.user.institutionPage.InstitutionPage;
@@ -58,5 +59,21 @@ public class ResearchList extends AbstractSpec {
         researchPage.selectAnalystFromResearchList();
 
         Assert.assertThat("Analysts name was not visible", contactPage.getPageTitle(), containsString(analystName));
+    }
+
+    @Test
+    public void canSortResearchByHeadline() {
+        Assert.assertTrue("'All' Targets list cannot be sorted.", new ResearchPage(driver).sortByHeadline());
+    }
+
+    @Test
+    public void canSortResearchByDate() {
+        Assert.assertTrue("'All' Targets list cannot be sorted.", new ResearchPage(driver).sortByDate());
+    }
+
+    @Ignore
+    @Test
+    public void canSortResearchByFirm() {
+        Assert.assertTrue("'All' Targets list cannot be sorted.", new ResearchPage(driver).sortByFirm());
     }
 }

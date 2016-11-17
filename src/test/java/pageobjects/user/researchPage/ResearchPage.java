@@ -17,6 +17,15 @@ public class ResearchPage extends AbstractPageObject {
     private final By firmName = By.cssSelector(".institution");
     private final By analystName = By.cssSelector("div.contact:nth-child(1) > a:nth-child(1) > span:nth-child(2)");
     private final By multipleAnalystDropdown = By.cssSelector(".multiple");
+    private final By researchHeadlineColumnHeader = By.cssSelector(".research-list .list-header .x-button.headline, .research-list .list-item .column.headline");
+    private final By researchHeadline = By.cssSelector(".list-item .column.headline");
+    private final By researchDateColumnHeader = By.cssSelector(".research-list .list-header .x-button:first-child, .research-list .list-item .column:first-child");
+    private final By researchDate = By.cssSelector(".research-list .list-item .column:first-child");
+    private final By researchFirmColumnHeader = By.cssSelector("");
+    private final By researchFirm = By.cssSelector("");
+
+
+    //x-container x-unsized x-size-monitored x-paint-monitored list-header
 
     public ResearchPage(WebDriver driver) {
         super(driver);
@@ -65,4 +74,62 @@ public class ResearchPage extends AbstractPageObject {
 
         return new ContactPage(getDriver());
     }
+
+    public boolean sortByHeadline() {
+        waitForLoadingScreen();
+        // sorting by headline ascending
+        findVisibleElement(researchHeadlineColumnHeader).click();
+        pause(300);
+        if (!elementsAreAlphaUpSorted(findVisibleElements(researchHeadline))) {
+            System.out.println("SORT ERROR: Names are not in ascending order.");
+            return false;
+        }
+        // sorting by headline ascending
+        findVisibleElement(researchHeadlineColumnHeader).click();
+        pause(300);
+        if (!elementsAreAlphaDownSorted(findVisibleElements(researchHeadline))) {
+            System.out.println("SORT ERROR: Names are not in ascending order.");
+            return false;
+        }
+        return true;
+    }
+
+    public boolean sortByDate() {
+        waitForLoadingScreen();
+        // sorting by headline ascending
+        findVisibleElement(researchDateColumnHeader).click();
+        pause(300);
+        if (!elementsAreDateUpSorted(findVisibleElements(researchDate))) {
+            System.out.println("SORT ERROR: Names are not in ascending order.");
+            return false;
+        }
+        // sorting by headline ascending
+        findVisibleElement(researchDateColumnHeader).click();
+        pause(300);
+        if (!elementsAreDateDownSorted(findVisibleElements(researchDate))) {
+            System.out.println("SORT ERROR: Names are not in ascending order.");
+            return false;
+        }
+        return true;
+    }
+
+    public boolean sortByFirm() {
+        waitForLoadingScreen();
+        // sorting by headline ascending
+        findElement(researchFirmColumnHeader).click();
+        pause(300);
+        if (!elementsAreAlphaUpSorted(findVisibleElements(researchFirm))) {
+            System.out.println("SORT ERROR: Names are not in ascending order.");
+            return false;
+        }
+        // sorting by headline ascending
+        findVisibleElement(researchFirmColumnHeader).click();
+        pause(300);
+        if (!elementsAreAlphaDownSorted(findVisibleElements(researchFirm))) {
+            System.out.println("SORT ERROR: Names are not in ascending order.");
+            return false;
+        }
+        return true;
+    }
 }
+
