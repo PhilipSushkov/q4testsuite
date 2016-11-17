@@ -63,17 +63,17 @@ public class ResearchList extends AbstractSpec {
 
     @Test
     public void canSortResearchByHeadline() {
-        Assert.assertTrue("'All' Targets list cannot be sorted.", new ResearchPage(driver).sortByHeadline());
+        Assert.assertTrue("Research Reports cannot be sorted by headline.", new ResearchPage(driver).sortByHeadline());
     }
 
     @Test
     public void canSortResearchByDate() {
-        Assert.assertTrue("'All' Targets list cannot be sorted.", new ResearchPage(driver).sortByDate());
+        Assert.assertTrue("Research Reports cannot be sorted by date.", new ResearchPage(driver).sortByDate());
     }
 
     @Ignore
     @Test
     public void canSortResearchByFirm() {
-        Assert.assertTrue("'All' Targets list cannot be sorted.", new ResearchPage(driver).sortByFirm());
+        Assert.assertTrue("Research Reports cannot be sorted by firm.", new ResearchPage(driver).sortByFirm());
     }
 }
