@@ -2,6 +2,7 @@ package specs.user.targeting;
 
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import pageobjects.user.contactPage.ContactDetailsPage;
 import pageobjects.user.institutionPage.InstitutionPage;
@@ -150,7 +151,7 @@ public class TargetingList extends AbstractSpec {
         // performing a filterless institution search and verifying sorting
         new TargetingPage(driver).newSearch().blankSearch();
         Assert.assertEquals("Incorrect number of initial results displayed", 20, new NewSearchPage(driver).numResultsDisplayed());
-        Assert.assertTrue("Initial sorting failed.", new NewSearchPage(driver).resultsCanBeSorted());
+        Assert.assertTrue("Known Issue - DESKTOP-6736 - Initial sorting failed.", new NewSearchPage(driver).resultsCanBeSorted());
         // loop 1 time (can increase if desired): clicking show more and then verifying sorting again
         for (int i=1; i<=1; i++){
             new NewSearchPage(driver).showMoreResults();
@@ -253,6 +254,7 @@ public class TargetingList extends AbstractSpec {
         Assert.assertTrue("Contacts list cannot be sorted.", new TargetingPage(driver).contactsCanBeSorted());
     }
 
+    @Ignore
     @Test
     /* This test requires the presence of a saved search titled "testing updated date - DO NOT REMOVE".
     *  If this search does not exist, was not created on 11/14/16, or is not one of the first 10 entries
