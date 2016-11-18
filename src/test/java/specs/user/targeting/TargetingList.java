@@ -254,11 +254,9 @@ public class TargetingList extends AbstractSpec {
         Assert.assertTrue("Contacts list cannot be sorted.", new TargetingPage(driver).contactsCanBeSorted());
     }
 
-    @Ignore
     @Test
     /* This test requires the presence of a saved search titled "testing updated date - DO NOT REMOVE".
-    *  If this search does not exist, was not created on 11/14/16, or is not one of the first 10 entries
-    *  on the list, the test will fail.*/
+    *  If this search does not exist or was not created on 11/14/16, the test will fail.*/
     public void canEditSearchAndSeeUpdatedDate(){
         SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yy");
         int searchNameIndex = new TargetingPage(driver).findSearchNameIndex("testing updated date - DO NOT REMOVE");

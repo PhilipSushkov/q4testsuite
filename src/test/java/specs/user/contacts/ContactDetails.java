@@ -56,8 +56,8 @@ public class ContactDetails extends AbstractSpec {
         if(hourMins.substring(4,6).equals("pm")) //getting the time in hours and minutes or HHmm format
         {
             NumberFormat formatter = new DecimalFormat("00");
-            hour = Integer.parseInt(hourMins.substring(0,2)) + 12; //to 24 hour system
-            mins = Integer.parseInt(hourMins.substring(3,5));
+            hour = Integer.parseInt(hourMins.substring(0,hourMins.indexOf(':'))) + 12; //to 24 hour system
+            mins = Integer.parseInt(hourMins.substring(hourMins.indexOf(':')+1,hourMins.indexOf(':')+3));
             String newHour = formatter.format(hour); //This to make the ints 2 decimal places (so '0' added when < 10)
             String newMins = formatter.format(mins);
             hourMins = (newHour + newMins).replace(":",""); //Make it so that int is always 2 digits.

@@ -28,6 +28,7 @@ public class TargetingPage extends AbstractPageObject {
     private final By searchesColumnHeader = By.cssSelector(".x-grid-header-container-inner .x-grid-column");
     private final By searchCreatedDate = By.cssSelector(".x-grid-row .x-grid-cell:nth-child(2)");
     private final By searchUpdatedDate = By.cssSelector(".x-grid-row .x-grid-cell:nth-child(3)");
+    private final By showMoreButton = By.cssSelector(".load-more .x-button");
 
     private final By showTargets = By.cssSelector(".x-tabbar-inner div:last-child");
     private final By showInstitutions = By.xpath("//div[contains(@class,'range-tabs-inner')]/div[span/text()='Institutions']");
@@ -55,9 +56,23 @@ public class TargetingPage extends AbstractPageObject {
 
     }
 
+    private void showMoreSavedSearches(){
+        int numSearches = findElements(searchNameSelectors).size();
+        findVisibleElement(showMoreButton).click();
+        for (int i=0; i<100; i++){
+            if (findElements(searchNameSelectors).size()>numSearches){
+                return;
+            }
+            pause(100);
+        }
+    }
+
     public int findSearchNameIndex(String searchName){
         waitForElement(showSearches);
         pause(2000);
+        while (findVisibleElements(showMoreButton).size()>0){
+            showMoreSavedSearches();
+        }
         List<WebElement> searchNames = findVisibleElements(searchNameSelectors);
 
         for (int i=0; i<searchNames.size(); i++){
@@ -79,8 +94,7 @@ public class TargetingPage extends AbstractPageObject {
         waitForLoadingScreen();
         waitForElement(editButton);
         findVisibleElement(editButton).click();
-        waitForElementToAppear(redButton);
-        List<WebElement> redButtons = findElements(redButton);
+        List<WebElement> redButtons = findVisibleElements(redButton);
         redButtons.get(index).click();
         waitForElementToAppear(cancelDelete);
         findElement(cancelDelete).click();
