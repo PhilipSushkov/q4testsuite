@@ -2,6 +2,7 @@ package pageobjects.admin.intelligencePage;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.interactions.Actions;
 import pageobjects.AbstractPageObject;
 import yahoofinance.Stock;
 import yahoofinance.YahooFinance;
@@ -47,6 +48,21 @@ public class WTSReportDetailsPage extends AbstractPageObject {
     private final By indicesChangeP = By.cssSelector("q4-table-indices td:nth-child(4)");
     private final By indicesQTDChange = By.cssSelector("q4-table-indices td:nth-child(5)");
     private final By indicesYTDChange = By.cssSelector("q4-table-indices td:nth-child(6)");
+
+    // Q4 projected volatility table
+
+    // daily performance chart
+    private final By dailyPerformanceHoverText = By.cssSelector("q4-chart-daily-changes .highcharts-tooltip text");
+    private final By dailyPerformanceStockBars = By.cssSelector("q4-chart-daily-changes .highcharts-series-0 rect");
+    private final By dailyPerformancePeerBars = By.cssSelector("q4-chart-daily-changes .highcharts-series-1 rect");
+    private final By dailyPerformanceSP500Bars = By.cssSelector("q4-chart-daily-changes .highcharts-series-2 rect");
+
+    // YTD change chart
+    private final By ytdChangeBars = By.cssSelector("q4-chart-ytd-change .highcharts-point");
+    private final By ytdChangeAxisText = By.cssSelector("q4-chart-ytd-change .highcharts-xaxis-labels tspan");
+    private final By ytdChangeHoverText = By.cssSelector("q4-chart-ytd-change .highcharts-tooltip text");
+
+    Actions actions = new Actions(driver);
 
     public WTSReportDetailsPage(WebDriver driver) {
         super(driver);
@@ -214,6 +230,33 @@ public class WTSReportDetailsPage extends AbstractPageObject {
             indicesExpectedYearToDateChange[index] = 100 * (indicesExpectedClose[index] - indicesLastYearClose[index]) / indicesLastYearClose[index];
         }
 
+        // determining and calculating "Daily Performance" values (using data from Yahoo)
+        double[] stockDailyPerformance = new double[5];
+        double[] peerDailyPerformance = new double[5];
+        double[] sp500DailyPerformance = new double[5];
+        List<HistoricalQuote> sp500LastWeek;
+        try {
+            sp500LastWeek = YahooFinance.get("^GSPC").getHistory(GregorianCalendar.from(lastFriday.minusDays(10/*7*/)), GregorianCalendar.from(lastFriday), Interval.DAILY);
+        }catch (IOException e){
+            System.out.println("Unable to retrieve S&P 500 quotes from Yahoo Finance.");
+            return false;
+        }
+        for (int day=0, chartDay=4; day<5; day++, chartDay--){
+            double stockClose = companyStocksLast13Weeks.get(0).get(day).getClose().doubleValue();
+            double stockOpen = companyStocksLast13Weeks.get(0).get(day).getOpen().doubleValue();
+            stockDailyPerformance[chartDay] = 100 * (stockClose - stockOpen) / stockOpen;
+            peerDailyPerformance[chartDay] = 0;
+            for (int stock=1; stock<symbols.length; stock++){
+                double peerClose = companyStocksLast13Weeks.get(stock).get(day).getClose().doubleValue();
+                double peerOpen = companyStocksLast13Weeks.get(stock).get(day).getOpen().doubleValue();
+                peerDailyPerformance[chartDay] += 100 * (peerClose - peerOpen) / peerOpen;
+            }
+            peerDailyPerformance[chartDay] /= symbols.length-1;
+            double sp500Close = sp500LastWeek.get(day).getClose().doubleValue();
+            double sp500Open = sp500LastWeek.get(day).getOpen().doubleValue();
+            sp500DailyPerformance[chartDay] = 100 * (sp500Close - sp500Open) / sp500Open;
+        }
+
 
         // verifying that "Stock Trade Summary" values are correct
         for (int stock=0; stock<symbols.length; stock++){
@@ -300,6 +343,84 @@ public class WTSReportDetailsPage extends AbstractPageObject {
             if (Math.abs(Double.parseDouble(findElements(indicesYTDChange).get(index).getText()) - indicesExpectedYearToDateChange[index]) > 0.25){
                 System.out.println("Index "+indices[index]+"'s YTD change is inaccurate.\n\tExpected: "+indicesExpectedYearToDateChange[index]+"\n\tDisplayed: "+findElements(indicesYTDChange).get(index).getText());
                 allValid = false;
+            }
+        }
+
+
+        // verifying that "Daily Performance" values are correct
+        for (int chartDay=0; chartDay<5; chartDay++){
+            // checking for stock
+            actions.clickAndHold(findVisibleElements(dailyPerformanceStockBars).get(chartDay)).perform();
+            String hoverText = findElement(dailyPerformanceHoverText).getText().trim();
+            if (!hoverText.startsWith(symbols[0])){
+                System.out.println("Daily Performance: Hover text for blue bar on day "+(chartDay+1)+" does not start with desired symbol "+symbols[0]+"\n\tDisplayed hover text: "+hoverText);
+                allValid = false;
+            }
+            if (Math.abs(Double.parseDouble(hoverText.substring(hoverText.indexOf(':')+2, hoverText.indexOf('%'))) - stockDailyPerformance[chartDay]) > 0.002){
+                System.out.println("Known issue - ADMIN-433 - Stock's daily performance for day "+(chartDay+1)+" is inaccurate.\n\tExpected: "+stockDailyPerformance[chartDay]+"%\n\tDisplayed hover text: "+hoverText);
+                allValid = false;
+            }
+            // checking for peer average
+            actions.clickAndHold(findVisibleElements(dailyPerformancePeerBars).get(chartDay)).perform();
+            hoverText = findElement(dailyPerformanceHoverText).getText().trim();
+            if (!hoverText.startsWith("Peer Avg:")){
+                System.out.println("Daily Performance: Hover text for yellow bar on day "+(chartDay+1)+" does not start with 'Peer Avg:'\n\tDisplayed hover text: "+hoverText);
+                allValid = false;
+            }
+            if (Math.abs(Double.parseDouble(hoverText.substring(hoverText.indexOf(':')+2, hoverText.indexOf('%'))) - peerDailyPerformance[chartDay]) > 0.002){
+                System.out.println("Known issue - ADMIN-433 - Peer average daily performance for day "+(chartDay+1)+" is inaccurate.\n\tExpected: "+peerDailyPerformance[chartDay]+"%\n\tDisplayed hover text: "+hoverText);
+                allValid = false;
+            }
+            // checking for S&P 500
+            actions.clickAndHold(findVisibleElements(dailyPerformanceSP500Bars).get(chartDay)).perform();
+            hoverText = findElement(dailyPerformanceHoverText).getText().trim();
+            if (!hoverText.startsWith("S&P 500:")){
+                System.out.println("Daily Performance: Hover text for red bar on day "+(chartDay+1)+" does not start with 'S&P 500:'\n\tDisplayed hover text: "+hoverText);
+                allValid = false;
+            }
+            if (Math.abs(Double.parseDouble(hoverText.substring(hoverText.indexOf(':')+2, hoverText.indexOf('%'))) - sp500DailyPerformance[chartDay]) > 0.002){
+                System.out.println("Known issue - ADMIN-433 - S&P 500 daily performance for day "+(chartDay+1)+" is inaccurate.\n\tExpected: "+sp500DailyPerformance[chartDay]+"%\n\tDisplayed hover text: "+hoverText);
+                allValid = false;
+            }
+        }
+
+
+        // verifying that "YTD Change" values are correct
+        for (int bar=0; bar<symbols.length+1; bar++){
+            actions.clickAndHold(findVisibleElements(ytdChangeBars).get(bar)).perform();
+            String hoverText = findElement(ytdChangeHoverText).getText().trim();
+            // checking the peer average bar
+            if (findElement(ytdChangeAxisText).getText().contains("Peer")){
+                if (Math.abs(Double.parseDouble(hoverText.substring(hoverText.indexOf(':')+2, hoverText.indexOf('%'))) - expectedYearToDateChangeAverage) > 0.2){
+                    allValid = false;
+                    if (Math.abs(Double.parseDouble(hoverText.substring(hoverText.indexOf(':')+2, hoverText.indexOf('%')))
+                            - Double.parseDouble(findElements(ytdChange).get(symbols.length).getText())) > 0.2){
+                        System.out.println("YTD Change graph: Peer average bar is inaccurate.\n\tExpected: "+expectedYearToDateChangeAverage
+                                +"%\n\tValue on STS table: "+findElements(ytdChange).get(symbols.length).getText()+"\n\tDisplayed hover text: "+hoverText);
+                    }
+                    else {
+                        System.out.println("YTD Change graph: Peer average bar is inaccurate due to carryover from inaccurate value (see Stock Trade Summary table).");
+                    }
+                }
+            }
+            // checking the other bars
+            else {
+                for (int stock=0; stock<symbols.length; stock++){
+                    if (findElements(ytdChangeAxisText).get(bar).getText().contains(symbols[stock])){
+                        if (Math.abs(Double.parseDouble(hoverText.substring(hoverText.indexOf(':')+2, hoverText.indexOf('%'))) - expectedYearToDateChange[stock]) > 0.2){
+                            allValid = false;
+                            if (Math.abs(Double.parseDouble(hoverText.substring(hoverText.indexOf(':')+2, hoverText.indexOf('%')))
+                                    - Double.parseDouble(findElements(ytdChange).get(stock).getText())) > 0.2){
+                                System.out.println("YTD Change graph: "+symbols[stock]+" bar is inaccurate.\n\tExpected: "+expectedYearToDateChange[stock]
+                                        +"%\n\tValue on STS table: "+findElements(ytdChange).get(stock).getText()+"\n\tDisplayed hover text: "+hoverText);
+                            }
+                            else {
+                                System.out.println("YTD Change graph: "+symbols[stock]+" bar is inaccurate due to carryover from inaccurate value (see Stock Trade Summary table).");
+                            }
+                        }
+                        break;
+                    }
+                }
             }
         }
 
