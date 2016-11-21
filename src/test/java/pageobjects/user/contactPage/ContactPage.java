@@ -17,7 +17,7 @@ public class ContactPage extends AbstractPageObject {
     }
 
     public String getContacts() {
-        pause(500L);
+        waitForLoadingScreen();
         return findElement(contactList).getText();
     }
 
