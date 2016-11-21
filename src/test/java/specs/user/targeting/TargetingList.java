@@ -151,7 +151,7 @@ public class TargetingList extends AbstractSpec {
         // performing a filterless institution search and verifying sorting
         new TargetingPage(driver).newSearch().blankSearch();
         Assert.assertEquals("Incorrect number of initial results displayed", 20, new NewSearchPage(driver).numResultsDisplayed());
-        Assert.assertTrue("Known Issue - DESKTOP-6736 - Initial sorting failed.", new NewSearchPage(driver).resultsCanBeSorted());
+        Assert.assertTrue("Fixed Issue - DESKTOP-6736 - Initial sorting failed.", new NewSearchPage(driver).resultsCanBeSorted());
         // loop 1 time (can increase if desired): clicking show more and then verifying sorting again
         for (int i=1; i<=1; i++){
             new NewSearchPage(driver).showMoreResults();
