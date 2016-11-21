@@ -6,6 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.support.ui.Wait;
 import pageobjects.user.activityPage.ActivityPage;
+import pageobjects.user.activityPage.ColumnType;
 import pageobjects.user.activityPage.FilterType;
 import pageobjects.user.loginPage.LoginPage;
 import specs.AbstractSpec;
@@ -33,7 +34,7 @@ public class FilterActivity extends AbstractSpec {
 
 
     @Test
-    public void filterActiviesByNote(){
+    public void filterActivitiesByNote(){
         FilterType note = FilterType.NOTE;
         ActivityPage activityPage = new ActivityPage(driver);
         activityPage.clickFiltersButton().clickFilterCheckbox(note).clickSearch();
@@ -42,7 +43,7 @@ public class FilterActivity extends AbstractSpec {
 
 
     @Test
-    public void filterActiviesByMeeting(){
+    public void filterActivitiesByMeeting(){
         FilterType meeting = FilterType.MEETING;
         ActivityPage activityPage = new ActivityPage(driver);
         activityPage.clickFiltersButton().clickFilterCheckbox(meeting).clickSearch();
@@ -50,10 +51,35 @@ public class FilterActivity extends AbstractSpec {
     }
 
     @Test
-    public void filterActiviesByPhone(){
+    public void filterActivitiesByPhone(){
         FilterType phone = FilterType.PHONE;
         ActivityPage activityPage = new ActivityPage(driver);
         activityPage.clickFiltersButton().clickFilterCheckbox(phone).clickSearch();
         Assert.assertTrue("Filter not applied correctly for phone",activityPage.isFilteredCorrectly(phone));
     }
+
+    @Test
+    public void sortActivitiesByType(){
+        ColumnType type = ColumnType.TYPE;
+        ActivityPage activityPage = new ActivityPage(driver);
+       activityPage.clickColumnHeader(type);
+        Assert.assertTrue("Type not sorted correctly",activityPage.isColumnSorted(type));
+    }
+
+    @Test
+    public void sortActivitiesByTitle(){
+        ColumnType title = ColumnType.TITLE;
+        ActivityPage activityPage = new ActivityPage(driver);
+        activityPage.clickColumnHeader(title);
+        Assert.assertTrue("Type not sorted correctly",activityPage.isColumnSorted(title));
+    }
+
+    @Test
+    public void sortActivitiesByDate(){
+        ColumnType date = ColumnType.DATE;
+        ActivityPage activityPage = new ActivityPage(driver);
+        activityPage.clickColumnHeader(date);
+        Assert.assertTrue("Type not sorted correctly",activityPage.isColumnSorted(date));
+    }
+
 }
