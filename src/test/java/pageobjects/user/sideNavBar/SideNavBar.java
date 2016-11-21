@@ -11,7 +11,7 @@ import pageobjects.user.contactPage.ContactPage;
 import pageobjects.user.dashboardPage.Dashboard;
 import pageobjects.user.eventsTranscriptsPage.EventsTranscriptsPage;
 import pageobjects.user.myQ4TeamPage.MyQ4TeamPage;
-import pageobjects.user.reportBuilder.ReportBuilderPage;
+import pageobjects.user.briefingBooks.BriefingBookList;
 import pageobjects.user.researchPage.ResearchPage;
 import pageobjects.user.securityPage.SecurityEstimatesPage;
 import pageobjects.user.securityPage.SecurityOverviewPage;
@@ -92,12 +92,12 @@ public class SideNavBar extends AbstractPageObject{
         return new EventsTranscriptsPage(getDriver());
     }
 
-    public ReportBuilderPage selectReportBuilderFromSideNav() {
+    public BriefingBookList selectBriefingBookFromSideNav() {
         pause(2000L);
         waitForElementToAppear(reportsSideNav);
         findElement(reportsSideNav).click();
 
-        return new ReportBuilderPage(getDriver());
+        return new BriefingBookList(getDriver());
     }
 
     public SecurityOwnershipPage selectOwnershipFromSideNav() {

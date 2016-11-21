@@ -9,7 +9,7 @@ import pageobjects.user.contactPage.ContactDetailsPage;
 import pageobjects.user.fundPage.FundPage;
 import pageobjects.user.institutionPage.InstitutionPage;
 import pageobjects.user.logActivity.LogActivityModal;
-import pageobjects.user.reportBuilder.BuildReportModal;
+import pageobjects.user.briefingBooks.CreateBriefingBookModal;
 
 public class Dashboard extends AbstractPageObject {
 
@@ -107,11 +107,11 @@ public class Dashboard extends AbstractPageObject {
         return new FundPage(getDriver());
     }
 
-    public BuildReportModal selectBuildReport() {
+    public CreateBriefingBookModal selectCreateBriefingBook() {
         wait.until(ExpectedConditions.elementToBeClickable(buildReportDashboardButton));
         findElement(buildReportDashboardButton).click();
 
-        return new BuildReportModal(getDriver());
+        return new CreateBriefingBookModal(getDriver());
     }
 
     public LogActivityModal logNote() {

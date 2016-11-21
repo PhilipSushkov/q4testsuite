@@ -11,7 +11,7 @@ import pageobjects.user.dashboardPage.Dashboard;
 import pageobjects.user.eventsTranscriptsPage.EventsTranscriptsPage;
 import pageobjects.user.loginPage.LoginPage;
 import pageobjects.user.myQ4TeamPage.MyQ4TeamPage;
-import pageobjects.user.reportBuilder.ReportBuilderPage;
+import pageobjects.user.briefingBooks.BriefingBookList;
 import pageobjects.user.securityPage.SecurityEstimatesPage;
 import pageobjects.user.securityPage.SecurityOverviewPage;
 import pageobjects.user.securityPage.SecurityOwnershipPage;
@@ -87,12 +87,12 @@ public class TabNavigationExpanded extends AbstractSpec {
 
     @Test
     public void canNavigateToReportBuilder() {
-        String pageTitle = "Reports";
-        ReportBuilderPage reportBuilderPage = new ReportBuilderPage(driver);
+        String pageTitle = "Briefing Books";
+        BriefingBookList briefingBookList = new BriefingBookList(driver);
         new Dashboard(driver).accessSideNav()
-                .selectReportBuilderFromSideNav();
+                .selectBriefingBookFromSideNav();
 
-        Assert.assertThat("User was not taken to report builder page", reportBuilderPage.getPageTitle(), containsString(pageTitle));
+        Assert.assertThat("User was not taken to Briefing Books page", briefingBookList.getPageTitle(), containsString(pageTitle));
     }
 
     @Test

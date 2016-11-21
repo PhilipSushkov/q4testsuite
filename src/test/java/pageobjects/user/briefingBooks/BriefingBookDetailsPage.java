@@ -1,4 +1,4 @@
-package pageobjects.user.reportBuilder;
+package pageobjects.user.briefingBooks;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
@@ -9,7 +9,7 @@ import pageobjects.AbstractPageObject;
 /**
  * Created by patrickp on 2016-09-13.
  */
-public class ReportDetailsPage extends AbstractPageObject{
+public class BriefingBookDetailsPage extends AbstractPageObject{
     private final By generateButton = By.xpath("//*[contains(text(), 'Generate')]");
     private final By editButton = By.xpath("//*[contains(text(), 'Edit')]");
     private final By deleteButton = By.cssSelector(".report-edit-footer .delete-action .delete-button");
@@ -21,24 +21,24 @@ public class ReportDetailsPage extends AbstractPageObject{
     private final By reportContent = By.cssSelector(".report-edit-page");
     private final By saveButton = By.cssSelector(".q4-hero-banner .action-button + .action-button");
 
-    public ReportDetailsPage(WebDriver driver) {
+    public BriefingBookDetailsPage(WebDriver driver) {
         super(driver);
     }
-    public ReportDetailsPage generateTearSheet() {
+    public BriefingBookDetailsPage generateTearSheet() {
         wait.until(ExpectedConditions.elementToBeClickable(generateButton)).click();
         pause(500L);
 
         return this;
     }
 
-    public ReportDetailsPage editTearSheet() {
+    public BriefingBookDetailsPage editTearSheet() {
         wait.until(ExpectedConditions.elementToBeClickable(editButton));
         findElement(editButton).click();
 
         return this;
     }
 
-    public ReportDetailsPage deleteTearSheet() {
+    public BriefingBookDetailsPage deleteTearSheet() {
         wait.until(ExpectedConditions.elementToBeClickable(deleteButton));
         findElement(deleteButton).click();
         wait.until(ExpectedConditions.elementToBeClickable(deleteConfirmation));
@@ -49,7 +49,7 @@ public class ReportDetailsPage extends AbstractPageObject{
         return this;
     }
 
-    public ReportDetailsPage addMoreTags(String newTag) {
+    public BriefingBookDetailsPage addMoreTags(String newTag) {
         findElement(addMoreButton).click();
         findElement(tagInputField).sendKeys(newTag);
         findElement(tagInputField).sendKeys(Keys.RETURN);
@@ -63,7 +63,7 @@ public class ReportDetailsPage extends AbstractPageObject{
         return findElement(reportContent).getText();
     }
 
-    public ReportDetailsPage saveChanges() {
+    public BriefingBookDetailsPage saveChanges() {
         pause(500L);
         wait.until(ExpectedConditions.elementToBeClickable(saveButton));
         findElement(saveButton).click();

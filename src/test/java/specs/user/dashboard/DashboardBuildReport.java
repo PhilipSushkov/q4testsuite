@@ -20,17 +20,17 @@ public class DashboardBuildReport extends AbstractSpec {
     }
 
     @Test
-    public void canCancelBuildReport() {
-        new Dashboard(driver).selectBuildReport()
-                .cancelBuildReportModal();
+    public void canCancelCreateBriefingBook() {
+        new Dashboard(driver).selectCreateBriefingBook()
+                .cancelCreateBriefingBookModal();
 
         Assert.assertEquals("Report modal is still visible", 0, driver.findElements(By.cssSelector(".report-create .cancel-button")).size());
     }
 
     @Test
-    public void canDismissBuildReportModal() {
-        new Dashboard(driver).selectBuildReport()
-                .dismissBuildReportModal();
+    public void canDismissCreateBriefingBookModal() {
+        new Dashboard(driver).selectCreateBriefingBook()
+                .dismissCreateBriefingBookModal();
 
         Assert.assertEquals("Report modal is still visible", 0, driver.findElements(By.cssSelector(".report-create .cancel-button")).size());
     }
