@@ -71,6 +71,7 @@ public class ResearchPage extends AbstractPageObject {
 
     public ContactPage selectAnalystFromResearchList() {
         findElement(analystName).click();
+        pause(1000L);
 
         return new ContactPage(getDriver());
     }
