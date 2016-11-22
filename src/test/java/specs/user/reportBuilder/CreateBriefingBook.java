@@ -92,4 +92,18 @@ public class CreateBriefingBook extends AbstractSpec {
 
         Assert.assertThat("Contact is not listed in the briefing book", briefingBookDetailsPage.getEntityList(), containsString(contact));
     }
+
+    @Test
+    public void canSearchForBriefingBook(){
+        String briefingBookName = "Search Test - DO NOT DELETE"; // should be one exact match
+        String additionalSearchTerm = "test"; // should be several partial matches
+        String randomSearchTerm = "asdsfgdhfasdfb"; // should be no matches
+        BriefingBookList briefingBookList = new BriefingBookList(driver).searchFor(briefingBookName);
+        Assert.assertThat("Search for known briefing book fails", briefingBookList.getBriefingBookList(), containsString(briefingBookName));
+        briefingBookList.searchFor(additionalSearchTerm);
+        Assert.assertTrue("Search results are not present.", briefingBookList.briefingBooksAreDisplayed());
+        Assert.assertTrue("Search results are invalid.", briefingBookList.allTitlesContain(additionalSearchTerm));
+        briefingBookList.searchFor(randomSearchTerm);
+        Assert.assertFalse("Results appear for invalid search.", briefingBookList.briefingBooksAreDisplayed());
+    }
 }
