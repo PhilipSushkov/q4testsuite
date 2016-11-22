@@ -68,4 +68,16 @@ public class CreateBriefingBook extends AbstractSpec {
 
         Assert.assertThat("Fund is not listed in the briefing book", briefingBookDetailsPage.getEntityList(), containsString(fund));
     }
+
+    @Test
+    public void canAddContactToBriefingBook(){
+        String briefingBookName = "New Briefing Book" + RandomStringUtils.randomAlphanumeric(6);
+        String contact = "Samuel Stursberg";
+        BriefingBookDetailsPage briefingBookDetailsPage = new BriefingBookList(driver).addNewBriefingBook()
+                .saveBriefingBook(briefingBookName)
+                .viewNewBriefingBook()
+                .addContact(contact);
+
+        Assert.assertThat("Contact is not listed in the briefing book", briefingBookDetailsPage.getEntityList(), containsString(contact));
+    }
 }
