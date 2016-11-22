@@ -38,9 +38,21 @@ public class CreateBriefingBook extends AbstractSpec {
     public void canDeleteBriefingBookFromDetailsPage() {
         String briefingBookName = "New Briefing Book" + RandomStringUtils.randomAlphanumeric(6);
         BriefingBookList briefingBookList = new BriefingBookList(driver).addNewBriefingBook()
-                .saveBriefingBook(briefingBookName)
-                .viewNewBriefingBook()
+                .saveBriefingBook(briefingBookName);
+        Assert.assertThat("New briefing book was not created", briefingBookList.getBriefingBookList(), containsString(briefingBookName));
+        briefingBookList.viewNewBriefingBook()
                 .deleteBriefingBookFromDetailsPage();
+
+        Assert.assertThat("Briefing book still appears in the list", briefingBookList.getBriefingBookList(), not(containsString(briefingBookName)));
+    }
+
+    @Test
+    public void canDeleteBriefingBookFromMainPage(){
+        String briefingBookName = "New Briefing Book" + RandomStringUtils.randomAlphanumeric(6);
+        BriefingBookList briefingBookList = new BriefingBookList(driver).addNewBriefingBook()
+                .saveBriefingBook(briefingBookName);
+        Assert.assertThat("New briefing book was not created", briefingBookList.getBriefingBookList(), containsString(briefingBookName));
+        briefingBookList.deleteNewBriefingBook();
 
         Assert.assertThat("Briefing book still appears in the list", briefingBookList.getBriefingBookList(), not(containsString(briefingBookName)));
     }
