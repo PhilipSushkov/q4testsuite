@@ -4,6 +4,7 @@ import org.apache.commons.lang.RandomStringUtils;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.internal.runners.statements.Fail;
 import org.openqa.selenium.support.ui.Wait;
 import pageobjects.user.activityPage.ActivityPage;
 import pageobjects.user.activityPage.ColumnType;
@@ -56,6 +57,20 @@ public class FilterActivity extends AbstractSpec {
         ActivityPage activityPage = new ActivityPage(driver);
         activityPage.clickFiltersButton().clickFilterCheckbox(phone).clickSearch();
         Assert.assertTrue("Filter not applied correctly for phone",activityPage.isFilteredCorrectly(phone));
+    }
+
+    @Test
+    public void resetFilters(){
+        FilterType meeting = FilterType.MEETING;
+        ActivityPage activityPage = new ActivityPage(driver);
+        activityPage.clickFiltersButton().clickFilterCheckbox(meeting).clickSearch();
+        if(activityPage.isFilteredCorrectly(meeting)){
+           activityPage.clickFiltersButton().clickResetFiltersButton();
+            Assert.assertFalse("Filters were not reset", activityPage.isFilteredCorrectly(meeting));
+        }
+        else{
+            Assert.fail("Filters aren't being applied correctly");
+        }
     }
 
     @Test

@@ -30,7 +30,7 @@ public class ActivityPage extends AbstractPageObject {
     private final By meetingCount = By.xpath("(//*[@class=\"counter\"])[4]");
     private final By filtersButton = By.xpath("//div[contains(@class,'rectangular')]//span[contains(text(),'Filters')]");
     private final By searchButton = By.cssSelector(".note-manager-filters .form-button.yellow");
-
+    private final By resetButton = By.cssSelector(".reset-button");
 
     //This is actually the text beside the checkbox. Clicking the checkbox is proving to be difficult
     private final By noteFilterCheckbox = By.xpath("//div[contains(@class,'note-manager-filters-checkbox')]//span[contains(text(),'Note')]");
@@ -95,6 +95,13 @@ public class ActivityPage extends AbstractPageObject {
         wait.until(ExpectedConditions.elementToBeClickable(filtersButton));
         findElement(filtersButton).click();
         wait.until(ExpectedConditions.elementToBeClickable(searchButton));
+        return this;
+    }
+
+    public ActivityPage clickResetFiltersButton(){
+        wait.until(ExpectedConditions.elementToBeClickable(resetButton));
+        findElement(resetButton).click();
+        waitForLoadingScreen();
         return this;
     }
 
