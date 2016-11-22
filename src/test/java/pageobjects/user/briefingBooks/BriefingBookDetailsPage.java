@@ -9,7 +9,7 @@ import pageobjects.AbstractPageObject;
  * Created by patrickp on 2016-09-13.
  */
 public class BriefingBookDetailsPage extends AbstractPageObject{
-    private final By deleteButton = By.cssSelector(".x-button-icon x-shown q4i-trashbin-4pt");
+    private final By deleteButton = By.cssSelector(".q4-hero-banner .x-iconalign-left");
     private final By deleteConfirmation = By.xpath("//*[contains(text(), 'Yes')]");
     private final By saveButton = By.cssSelector(".q4-hero-banner .action-button + .action-button");
 
@@ -18,7 +18,8 @@ public class BriefingBookDetailsPage extends AbstractPageObject{
     }
 
     public BriefingBookList deleteBriefingBookFromDetailsPage() {
-        findElement(deleteButton).click();
+        pause(2000);
+        findVisibleElement(deleteButton).click();
         wait.until(ExpectedConditions.elementToBeClickable(deleteConfirmation));
         findElement(deleteConfirmation).click();
 

@@ -33,7 +33,6 @@ public class CreateBriefingBook extends AbstractSpec {
         Assert.assertThat("New briefing book was not created", briefingBookList.getBriefingBookList(), containsString(briefingBookName));
     }
 
-    @Ignore
     @Test
     public void canDeleteBriefingBookFromDetailsPage() {
         String briefingBookName = "New Briefing Book" + RandomStringUtils.randomAlphanumeric(6);
