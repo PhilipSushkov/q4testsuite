@@ -9,6 +9,7 @@ import pageobjects.admin.companyPage.CompanyPage;
 import pageobjects.admin.implementationPage.ImplementationPage;
 import pageobjects.admin.intelligencePage.IntelligencePage;
 import pageobjects.admin.profilesPage.ProfilesList;
+import pageobjects.admin.usersPage.UsersPage;
 import pageobjects.user.logActivity.LogActivityModal;
 import pageobjects.user.sideNavBar.SideNavBar;
 
@@ -46,6 +47,7 @@ public class AbstractPageObject implements PageObject {
     private final By implementationPage = By.cssSelector("body > q4-app > div > q4-navbar > nav > div > ul > li:nth-child(5) > a > i");
     private final By rolesPage = By.cssSelector("body > q4-app > div > q4-navbar > nav > div > ul > li:nth-child(6) > a > i");
     private final By reportHeader = By.cssSelector(".page-header .page-title .details");
+    private final By usersPage = By.cssSelector("body > q4-app > div > q4-navbar > nav > div > ul > li:nth-child(6) > a > i");
 
 
     public AbstractPageObject(WebDriver driver) {
@@ -307,6 +309,13 @@ public class AbstractPageObject implements PageObject {
         findElement(intelligencePage).click();
 
         return new IntelligencePage(getDriver());
+    }
+
+    public UsersPage navigateToUsersPage(){
+        waitForLoadingScreen();
+        findElement(usersPage).click();
+
+        return new UsersPage(getDriver());
     }
 
     public String getReportHeader() {
