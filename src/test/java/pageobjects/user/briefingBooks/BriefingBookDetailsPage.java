@@ -2,6 +2,7 @@ package pageobjects.user.briefingBooks;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageobjects.AbstractPageObject;
 
@@ -11,8 +12,9 @@ import pageobjects.AbstractPageObject;
 public class BriefingBookDetailsPage extends AbstractPageObject{
     private final By deleteButton = By.cssSelector(".q4-hero-banner .x-iconalign-left");
     private final By deleteConfirmation = By.xpath("//*[contains(text(), 'Yes')]");
-    private final By saveButton = By.cssSelector(".q4-hero-banner .action-button + .action-button");
-    private final By addButton = By.cssSelector(".bulk-toolbar .x-button-no-icon");
+    private final By saveButton = By.cssSelector(".bulk-toolbar .x-button-no-icon:nth-child(3)");
+    private final By addButton = By.cssSelector(".bulk-toolbar .x-button-no-icon.add");
+    private final By editButton = By.cssSelector(".bulk-toolbar .x-button-no-icon:not(.add)");
     private final By entityTypeToggle = By.className("x-toggle");
     private final By institutionOption = By.className("q4i-institution-2pt");
     private final By fundOption = By.className("q4i-fund-2pt");
@@ -21,6 +23,11 @@ public class BriefingBookDetailsPage extends AbstractPageObject{
     private final By entityResults = By.className("result-item");
     private final By saveEntityButton = By.cssSelector(".form-button.yellow");
     private final By entityList = By.className("briefing-book-detail-list");
+    private final By topOfEntityList = By.className("bulk-toolbar");
+    private final By entityName = By.cssSelector(".x-list-item .name");
+    private final By entityDragHandle = By.className("x-list-sortablehandle");
+
+    Actions actions = new Actions(driver);
 
     public BriefingBookDetailsPage(WebDriver driver) {
         super(driver);
@@ -33,14 +40,6 @@ public class BriefingBookDetailsPage extends AbstractPageObject{
         findElement(deleteConfirmation).click();
 
         return new BriefingBookList(getDriver());
-    }
-
-    public BriefingBookDetailsPage saveChanges() {
-        pause(500L);
-        wait.until(ExpectedConditions.elementToBeClickable(saveButton));
-        findElement(saveButton).click();
-
-        return this;
     }
 
     public BriefingBookDetailsPage addInstitution(String name){
@@ -87,5 +86,18 @@ public class BriefingBookDetailsPage extends AbstractPageObject{
 
     public String getEntityList(){
         return findElement(entityList).getText();
+    }
+
+    public String getEntity(int index){
+        waitForLoadingScreen();
+        return findElements(entityName).get(index).getText();
+    }
+
+    public void reorderEntityToBeginning(int originIndex){
+        waitForLoadingScreen();
+        findVisibleElement(editButton).click();
+        actions.dragAndDrop(findElements(entityDragHandle).get(originIndex), findElement(topOfEntityList)).perform();
+        findElement(saveButton).click();
+        driver.navigate().refresh();
     }
 }

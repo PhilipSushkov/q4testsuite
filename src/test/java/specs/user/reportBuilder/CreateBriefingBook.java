@@ -106,4 +106,19 @@ public class CreateBriefingBook extends AbstractSpec {
         briefingBookList.searchFor(randomSearchTerm);
         Assert.assertFalse("Results appear for invalid search.", briefingBookList.briefingBooksAreDisplayed());
     }
+
+    @Test
+    public void canReorderTearSheets(){
+        String briefingBookName = "New Briefing Book" + RandomStringUtils.randomAlphanumeric(6);
+        String[] institutions = {"Fidelity Capital Investors, Inc.", "AU & Associates LLC", "Suez Ventures", "HSBC Guyerzeller Bank AG"};
+        BriefingBookDetailsPage briefingBookDetailsPage = new BriefingBookList(driver).addNewBriefingBook()
+                .saveBriefingBook(briefingBookName)
+                .viewNewBriefingBook();
+        for (int i=0; i<institutions.length; i++){
+            briefingBookDetailsPage.addInstitution(institutions[i]);
+        }
+        String lastEntity = briefingBookDetailsPage.getEntity(3);
+        briefingBookDetailsPage.reorderEntityToBeginning(3);
+        Assert.assertEquals("Reordered entity is not first", lastEntity, briefingBookDetailsPage.getEntity(0));
+    }
 }
