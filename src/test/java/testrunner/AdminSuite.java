@@ -9,6 +9,7 @@ import specs.admin.intelligence.IntelligenceList;
 import specs.admin.intelligence.WTSReportDetails;
 import specs.admin.loginPage.AdminLogin;
 import specs.admin.profiles.EditProfilesList;
+import specs.admin.users.UserRoles;
 
 /**
  * Created by patrickp on 2016-09-20.
@@ -21,7 +22,8 @@ import specs.admin.profiles.EditProfilesList;
         EditProfilesList.class,
         AddEditImplementations.class,
         IntelligenceList.class,
-        WTSReportDetails.class
+        WTSReportDetails.class,
+        UserRoles.class
 })
 
 public class AdminSuite {
