@@ -13,9 +13,12 @@ import pageobjects.admin.usersPage.UsersPage;
 import pageobjects.user.logActivity.LogActivityModal;
 import pageobjects.user.sideNavBar.SideNavBar;
 
+import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class AbstractPageObject implements PageObject {
 
@@ -174,6 +177,9 @@ public class AbstractPageObject implements PageObject {
         if (text.equals("-")){
             return 0;
         }
+        else if (text.contains(",")){
+            return Double.parseDouble(text.replace(",",""));
+        }
         else {
             return Double.parseDouble(text);
         }
@@ -268,6 +274,54 @@ public class AbstractPageObject implements PageObject {
             }
         }
         return sortedWell;
+    }
+
+    public boolean elementsAreAllNegative(List<WebElement> elements){
+        boolean allNegative = true;
+        for (WebElement element : elements){
+            try {
+                if (NumberFormat.getNumberInstance(Locale.US).parse(element.getText()).intValue() >= 0){
+                    System.out.println("Non-negative number: "+element.getText());
+                    allNegative = false;
+                }
+            }catch (ParseException e){
+                System.out.println("Error parsing number: "+element.getText());
+                allNegative = false;
+            }
+        }
+        return allNegative;
+    }
+
+    public boolean elementsAreAllPositive(List<WebElement> elements){
+        boolean allPositive = true;
+        for (WebElement element : elements){
+            try {
+                if (NumberFormat.getNumberInstance(Locale.US).parse(element.getText()).intValue() <= 0){
+                    System.out.println("Non-positive number: "+element.getText());
+                    allPositive = false;
+                }
+            }catch (ParseException e){
+                System.out.println("Error parsing number: "+element.getText());
+                allPositive = false;
+            }
+        }
+        return allPositive;
+    }
+
+    public boolean elementsDoNotContainDuplicates(List<WebElement> elements){
+        List<String> names = new ArrayList<>();
+        names.add(elements.get(0).getText());
+        for (int i=1; i<elements.size(); i++){
+            String newName = elements.get(i).getText();
+            for (String name : names){
+                if (name.equalsIgnoreCase(newName)){
+                    System.out.println("DUPLICATE ELEMENT: "+name);
+                    return false;
+                }
+            }
+            names.add(newName);
+        }
+        return true;
     }
 
     // ADMIN METHODS \\

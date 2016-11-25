@@ -2,6 +2,7 @@ package pageobjects.user.securityPage;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageobjects.AbstractPageObject;
 
 import java.time.DayOfWeek;
@@ -16,10 +17,14 @@ public class SecurityOwnershipPage extends AbstractPageObject {
     private final By tabTitle = By.cssSelector(".company-header .menu-button .x-button-label");
     private final By dateOption = By.cssSelector(".company-ownership-inner .range-tabs-inner .x-button-no-icon");
     private final By asOfDate = By.cssSelector(".company-ownership-inner .disclaimer span");
+    private final By topBuyersNumbers = By.cssSelector(".top-buyers-list .inst-value:not(:empty)");
+    private final By topSellersNumbers = By.cssSelector(".top-sellers-list .inst-value:not(:empty)");
+    private final By topBuyersAndSellers = By.cssSelector(".list-item .inst-name");
+    private final By lastTopSeller = By.cssSelector(".company-ownership-inner > div > div > div:not(.x-hidden-display) .top-sellers-list .x-dataview-item:nth-child(5) .list-item");
 
-    DateTimeFormatter shortDate = DateTimeFormatter.ofPattern("MM/dd/yy");
-    DateTimeFormatter longDate = DateTimeFormatter.ofPattern("MMMM dd, yyyy");
-    LocalDate today = LocalDate.now();
+    private final DateTimeFormatter shortDate = DateTimeFormatter.ofPattern("MM/dd/yy");
+    private final DateTimeFormatter longDate = DateTimeFormatter.ofPattern("MMMM dd, yyyy");
+    private final LocalDate today = LocalDate.now();
 
     public SecurityOwnershipPage(WebDriver driver) {
         super(driver);
@@ -34,6 +39,8 @@ public class SecurityOwnershipPage extends AbstractPageObject {
     public SecurityOwnershipPage selectDate(int index){
         waitForElement(dateOption);
         findElements(dateOption).get(index).click();
+        pause(500);
+        wait.until(ExpectedConditions.elementToBeClickable(lastTopSeller));
         return this;
     }
 
@@ -124,5 +131,30 @@ public class SecurityOwnershipPage extends AbstractPageObject {
         }
 
         return true;
+    }
+
+    public boolean topBuyersListIsPositive(){
+        waitForElement(topBuyersNumbers);
+        return elementsAreAllPositive(findVisibleElements(topBuyersNumbers));
+    }
+
+    public boolean topSellersListIsNegative(){
+        waitForElement(topSellersNumbers);
+        return elementsAreAllNegative(findVisibleElements(topSellersNumbers));
+    }
+
+    public boolean topBuyersListIsDescending(){
+        waitForElement(topBuyersNumbers);
+        return elementsAreNumDownSorted(findVisibleElements(topBuyersNumbers));
+    }
+
+    public boolean topSellersListIsAscending(){
+        waitForElement(topSellersNumbers);
+        return elementsAreNumUpSorted(findVisibleElements(topSellersNumbers));
+    }
+
+    public boolean topBuyersAndSellersAreUnique(){
+        waitForElement(topBuyersAndSellers);
+        return elementsDoNotContainDuplicates(findVisibleElements(topBuyersAndSellers));
     }
 }
