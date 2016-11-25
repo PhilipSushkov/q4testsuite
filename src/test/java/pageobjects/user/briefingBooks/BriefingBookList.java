@@ -3,8 +3,10 @@ package pageobjects.user.briefingBooks;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageobjects.AbstractPageObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -21,14 +23,73 @@ public class BriefingBookList extends AbstractPageObject {
     private final By confirmDeleteButton = By.className("x-button-action");
     private final By searchBox = By.cssSelector(".briefing-book-toolbar [type=search]");
     private final By briefingBookTitle = By.cssSelector(".briefing-book-item .row div:nth-child(2)");
+    private final By generalBriefingBookItem = By.xpath("//div[contains(@class,'briefing-book-item')]");
+    private final By titleHeader = By.xpath("//div[contains(@class,'column') and contains(@class,'x-button-no-icon')][.//span[contains(text(),'Title')]]");
+    private final By authorHeader = By.xpath("//div[contains(@class,'column') and contains(@class,'x-button-no-icon')][.//span[contains(text(),'Author')]]");
+    private final By createdHeader = By.xpath("//div[contains(@class,'column') and contains(@class,'x-button-no-icon')][.//span[contains(text(),'Created')]]");
+    private final By updatedHeader = By.xpath("//div[contains(@class,'column') and contains(@class,'x-button-no-icon')][.//span[contains(text(),'Last Update')]]");
 
     public BriefingBookList(WebDriver driver) {
         super(driver);
     }
 
-    public String getBriefingBookList() {
+    private ArrayList<WebElement> getBriefingBookListItems() {
+        waitForLoadingScreen();
+        ArrayList<WebElement> briefingBooks = new ArrayList<>(findElements(generalBriefingBookItem));
+        return briefingBooks;
+    }
+
+    private boolean isSortedByAlpha(BriefingBookColumnType type){
+        ArrayList<WebElement> items = getBriefingBookListItems();
+        ArrayList<WebElement> strings = new ArrayList<>();
+        String searchString;
+
+        if(type==BriefingBookColumnType.AUTHOR){
+                searchString=".//div[contains(@class,'medium') and contains(@class, 'column')]";
+        }
+        else{
+            searchString=".//div[contains(@class,'flex') and contains(@class, 'column')]";
+        }
+
+        for(WebElement item : items){
+            strings.add(item.findElement(By.xpath(searchString)));
+            System.out.print(item.findElement(By.xpath(searchString)).getText()+"\n");
+        }
+        return elementsAreAlphaUpSorted(strings);
+    }
+
+    private boolean isSortedByDate(BriefingBookColumnType type){
+        ArrayList<WebElement> items = getBriefingBookListItems();
+        ArrayList<WebElement> strings = new ArrayList<>();
+        String searchString;
+
+        if(type==BriefingBookColumnType.CREATED){
+            searchString=".//div[contains(@class,'small') and contains(@class, 'column')][position()=1]";
+        }
+        else{
+            searchString=".//div[contains(@class,'small') and contains(@class, 'column')][last()]";
+        }
+        for(WebElement item : items){
+            strings.add(item.findElement(By.xpath(searchString)));
+            System.out.print(item.findElement(By.xpath(searchString)).getText()+"\n");
+        }
+        return elementsAreDateUpSorted(strings);
+    }
+
+    public boolean isSortedBy(BriefingBookColumnType type){
+        switch(type){
+            case TITLE : case AUTHOR:
+                return isSortedByAlpha(type);
+            case LAST_UPDATED: case CREATED:
+                return isSortedByDate(type);
+        }
+        return false;
+    }
+
+    public String getBriefingBookList(){
         waitForLoadingScreen();
         return findElement(reportList).getText();
+
     }
 
     public CreateBriefingBookModal addNewBriefingBook() {
@@ -81,5 +142,24 @@ public class BriefingBookList extends AbstractPageObject {
             }
         }
         return true;
+    }
+
+    public void clickHeader(BriefingBookColumnType column){
+        waitForLoadingScreen();
+        switch(column){
+            case TITLE:
+                findElement(titleHeader).click();
+                break;
+            case AUTHOR:
+                findElement(authorHeader).click();
+                break;
+            case CREATED:
+                findElement(createdHeader).click();
+                break;
+            case LAST_UPDATED:
+                findElement(updatedHeader).click();
+                break;
+        }
+
     }
 }

@@ -2,19 +2,23 @@ package pageobjects.user.briefingBooks;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageobjects.AbstractPageObject;
+
+import java.util.ArrayList;
 
 /**
  * Created by patrickp on 2016-09-13.
  */
-public class BriefingBookDetailsPage extends AbstractPageObject{
-    private final By deleteButton = By.cssSelector(".q4-hero-banner .x-iconalign-left");
+public class BriefingBookDetailsPage extends AbstractPageObject {
+    private final By deleteButton = By.xpath("//*[@id=\"ext-button-33\"]");
+    private final By heroDeleteButton = By.xpath("//div[contains(@class,'action-button')][.//span[contains(@class,'q4i-trashbin-4pt')]]");
     private final By deleteConfirmation = By.xpath("//*[contains(text(), 'Yes')]");
-    private final By saveButton = By.cssSelector(".bulk-toolbar .x-button-no-icon:nth-child(3)");
-    private final By addButton = By.cssSelector(".bulk-toolbar .x-button-no-icon.add");
-    private final By editButton = By.cssSelector(".bulk-toolbar .x-button-no-icon:not(.add)");
+    private final By saveButton = By.xpath("//div[contains(@class,'x-button-no-icon') and ./span[contains(text(),'Save')]]");
+    private final By addButton = By.xpath("//div[contains(@class,'x-button-no-icon') and ./span[contains(text(),'Add')]]");
     private final By entityTypeToggle = By.className("x-toggle");
     private final By institutionOption = By.className("q4i-institution-2pt");
     private final By fundOption = By.className("q4i-fund-2pt");
@@ -23,9 +27,13 @@ public class BriefingBookDetailsPage extends AbstractPageObject{
     private final By entityResults = By.className("result-item");
     private final By saveEntityButton = By.cssSelector(".form-button.yellow");
     private final By entityList = By.className("briefing-book-detail-list");
+    private final By editButton = By.xpath("//div[contains(@class,'x-button-no-icon') and ./span[contains(text(),'Edit')]]");
+    private final By cancelButton = By.xpath("//div[contains(@class,'x-button-no-icon') and ./span[contains(text(),'Cancel')]]");
+    private final By generalEntity = By.xpath("//div[contains(@class,'x-list-item')]");
+    private final By deleteConfirmationPopUp = By.className("x-floating");
+    private final By entityDragHandle = By.className("x-list-sortablehandle");
     private final By topOfEntityList = By.className("bulk-toolbar");
     private final By entityName = By.cssSelector(".x-list-item .name");
-    private final By entityDragHandle = By.className("x-list-sortablehandle");
 
     Actions actions = new Actions(driver);
 
@@ -35,14 +43,21 @@ public class BriefingBookDetailsPage extends AbstractPageObject{
 
     public BriefingBookList deleteBriefingBookFromDetailsPage() {
         pause(2000);
-        findVisibleElement(deleteButton).click();
+        findVisibleElement(heroDeleteButton).click();
         wait.until(ExpectedConditions.elementToBeClickable(deleteConfirmation));
         findElement(deleteConfirmation).click();
-
         return new BriefingBookList(getDriver());
     }
 
-    public BriefingBookDetailsPage addInstitution(String name){
+    public BriefingBookDetailsPage saveChanges() {
+        pause(500L);
+        wait.until(ExpectedConditions.elementToBeClickable(saveButton));
+        findElement(saveButton).click();
+
+        return this;
+    }
+
+    public BriefingBookDetailsPage addInstitution(String name) {
         waitForLoadingScreen();
         findElement(addButton).click();
         pause(500);
@@ -56,7 +71,7 @@ public class BriefingBookDetailsPage extends AbstractPageObject{
         return this;
     }
 
-    public BriefingBookDetailsPage addFund(String name){
+    public BriefingBookDetailsPage addFund(String name) {
         waitForLoadingScreen();
         findElement(addButton).click();
         pause(500);
@@ -70,7 +85,7 @@ public class BriefingBookDetailsPage extends AbstractPageObject{
         return this;
     }
 
-    public BriefingBookDetailsPage addContact(String name){
+    public BriefingBookDetailsPage addContact(String name) {
         waitForLoadingScreen();
         findElement(addButton).click();
         pause(500);
@@ -84,7 +99,96 @@ public class BriefingBookDetailsPage extends AbstractPageObject{
         return this;
     }
 
+    public BriefingBookDetailsPage clickEdit() {
+        waitForLoadingScreen();
+        wait.until(ExpectedConditions.elementToBeClickable(editButton));
+        findElement(editButton);
+        return this;
+    }
+
+    public BriefingBookDetailsPage clickCancel() {
+        waitForLoadingScreen();
+        wait.until(ExpectedConditions.elementToBeClickable(cancelButton));
+        findElement(editButton);
+        return this;
+    }
+
+    public BriefingBookDetailsPage clickSave() {
+        waitForLoadingScreen();
+        wait.until(ExpectedConditions.elementToBeClickable(saveButton));
+        findElement(editButton);
+        return this;
+    }
+
+
+    public BriefingBookDetailsPage deleteEntity(String name){
+            findElement(editButton).click();
+            startDeleteForEntry(name);
+            confirmDelete();
+            return this;
+    }
+
+
+    public WebElement returnEntity(String name){
+        ArrayList<WebElement> entities = new ArrayList<>();
+        try {
+           entities = returnTableEntities();
+        }
+        catch (Exception e) {
+            System.out.print("Entity not present");
+        }
+            for (WebElement entity : entities) {
+                if(entity.isDisplayed()) {
+                    if (entity.findElement(By.className("name")).getText().equals(name)) {
+                        return entity;
+                    }
+                }
+            }
+            return null;
+    }
+
+    public boolean doesEntityExist(String name){
+        if(returnEntity(name)==null){
+            return false;
+        }
+        else{
+            return true;
+        }
+    }
+
+    public BriefingBookDetailsPage startDeleteForEntry(String name){
+            WebElement entityToDelete = null;
+            entityToDelete=returnEntity(name);
+            if(entityToDelete!=null){
+                entityToDelete.findElement(By.xpath(".//div[contains(@class,'checkmark') and contains(@class,'checkbox')]")).click();
+                pause(1000);
+                findElement(deleteButton).click();
+            }
+            return this;
+    }
+
+    private BriefingBookDetailsPage cancelDelete(){
+        wait.until(ExpectedConditions.visibilityOfElementLocated(deleteConfirmationPopUp));
+        findElement(deleteConfirmationPopUp).findElement(By.xpath("//div[contains(@class,'x-button-no-icon') and ./span [contains(text(),'No')]]")).click();
+        waitForLoadingScreen();
+        return this;
+    }
+
+    private BriefingBookDetailsPage confirmDelete(){
+        wait.until(ExpectedConditions.visibilityOfElementLocated(deleteConfirmationPopUp));
+        findElement(deleteConfirmationPopUp).findElement(By.xpath("//div[contains(@class,'x-button-no-icon') and ./span [contains(text(),'Yes')]]")).click();
+        waitForLoadingScreen();
+        return this;
+    }
+
+    private ArrayList<WebElement> returnTableEntities() {
+        waitForLoadingScreen();
+        ArrayList<WebElement> entities = new ArrayList<>(findElements(generalEntity));
+        return entities;
+        }
+
     public String getEntityList(){
+        waitForLoadingScreen();
         return findElement(entityList).getText();
     }
 
@@ -97,7 +201,9 @@ public class BriefingBookDetailsPage extends AbstractPageObject{
         waitForLoadingScreen();
         findVisibleElement(editButton).click();
         actions.dragAndDrop(findElements(entityDragHandle).get(originIndex), findElement(topOfEntityList)).perform();
-        findElement(saveButton).click();
+        saveChanges();
+        waitForLoadingScreen();
         driver.navigate().refresh();
     }
+
 }
