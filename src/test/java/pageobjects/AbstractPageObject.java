@@ -11,10 +11,12 @@ import pageobjects.admin.intelligencePage.IntelligencePage;
 import pageobjects.admin.profilesPage.ProfilesList;
 import pageobjects.admin.usersPage.UsersPage;
 import pageobjects.user.logActivity.LogActivityModal;
+import pageobjects.user.loginPage.LoginPage;
 import pageobjects.user.sideNavBar.SideNavBar;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 public class AbstractPageObject implements PageObject {
@@ -48,6 +50,16 @@ public class AbstractPageObject implements PageObject {
     private final By rolesPage = By.cssSelector("body > q4-app > div > q4-navbar > nav > div > ul > li:nth-child(6) > a > i");
     private final By reportHeader = By.cssSelector(".page-header .page-title .details");
     private final By usersPage = By.cssSelector("body > q4-app > div > q4-navbar > nav > div > ul > li:nth-child(6) > a > i");
+    private final By profileIcon = By.xpath("//div[contains(@class,'x-docked-right') and contains(concat(' ',@class,' '), 'profile') and contains(@class,'x-paint-monitored')][.//div[contains(@class,'avatar')]]");
+    //div[contains(@class,'x-docked-right') and contains(concat(' ',@class,' '), 'profile')][.//div[contains(@class,'avatar')]]
+    //*[@id="ext-element-259"]/div/div
+    //private final By profileIcon = By.xpath("//*[@id=\"ext-container-15\"]");
+    private final By feedback = By.xpath("//div[@class='profile-menu-item']/span[contains(text(),'Leave Feedback')]");
+    private final By password = By.xpath("//div[@class='profile-menu-item']/span[contains(text(),'Change Password')]");
+    private final By logout = By.xpath("//div[@class='profile-menu-item']/span[contains(text(),'Logout')]");
+            //div[@class='profile-menu-item']/span[contains(text(),'Logout')]");
+    private final By confirmLogout = By.xpath("//div[contains(@class,'x-button-action') and ./span[contains(text(),'Yes')]]");
+
 
 
     public AbstractPageObject(WebDriver driver) {
@@ -322,4 +334,17 @@ public class AbstractPageObject implements PageObject {
         waitForLoadingScreen();
         return findElement(reportHeader).getText();
     }
+
+    public LoginPage logout (){
+        waitForElement(profileIcon);
+        ArrayList<WebElement> testing = new ArrayList<>(findElements(profileIcon));
+        findElement(profileIcon).click();
+        findElement(logout).click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(confirmLogout));
+        findElement(confirmLogout).click();
+        waitForLoadingScreen();
+        return new LoginPage(getDriver());
+    }
+
+
 }
