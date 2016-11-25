@@ -22,7 +22,7 @@ public class HomePage extends AbstractPageObject {
     }
 
     public String getErrorMessage() {
-        pause(1000L);
+        pause(2000L);
         wait.until(ExpectedConditions.presenceOfElementLocated(errorMessage));
         return findElement(errorMessage).getText();
     }
