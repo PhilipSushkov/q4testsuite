@@ -149,8 +149,9 @@
                 <version>2.19.1</version>
                 <configuration>
                     <redirectTestOutputToFile>false</redirectTestOutputToFile>
-                    <useUnlimitedThreads>false</useUnlimitedThreads>
+                    <forkCount>2</forkCount>
                     <threadCount>5</threadCount>
+                    <reuseForks>true</reuseForks>
                     <parallel>classes</parallel>
                     <includes>
                         <include>specs/**/*.java</include>
