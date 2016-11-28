@@ -150,7 +150,7 @@
                 <configuration>
                     <redirectTestOutputToFile>false</redirectTestOutputToFile>
                     <useUnlimitedThreads>false</useUnlimitedThreads>
-                    <threadCount>10</threadCount>
+                    <threadCount>5</threadCount>
                     <parallel>classes</parallel>
                     <includes>
                         <include>specs/**/*.java</include>
