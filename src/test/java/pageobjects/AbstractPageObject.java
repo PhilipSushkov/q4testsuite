@@ -53,13 +53,9 @@ public class AbstractPageObject implements PageObject {
     private final By reportHeader = By.cssSelector(".page-header .page-title .details");
     private final By usersPage = By.cssSelector("body > q4-app > div > q4-navbar > nav > div > ul > li:nth-child(6) > a > i");
     private final By profileIcon = By.xpath("//div[contains(@class,'x-docked-right') and contains(concat(' ',@class,' '), 'profile') and contains(@class,'x-paint-monitored')][.//div[contains(@class,'avatar')]]");
-    //div[contains(@class,'x-docked-right') and contains(concat(' ',@class,' '), 'profile')][.//div[contains(@class,'avatar')]]
-    //*[@id="ext-element-259"]/div/div
-    //private final By profileIcon = By.xpath("//*[@id=\"ext-container-15\"]");
     private final By feedback = By.xpath("//div[@class='profile-menu-item']/span[contains(text(),'Leave Feedback')]");
     private final By password = By.xpath("//div[@class='profile-menu-item']/span[contains(text(),'Change Password')]");
     private final By logout = By.xpath("//div[@class='profile-menu-item']/span[contains(text(),'Logout')]");
-            //div[@class='profile-menu-item']/span[contains(text(),'Logout')]");
     private final By confirmLogout = By.xpath("//div[contains(@class,'x-button-action') and ./span[contains(text(),'Yes')]]");
 
 

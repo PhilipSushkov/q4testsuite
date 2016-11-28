@@ -1,6 +1,7 @@
 package specs.admin.companies;
 
 import org.apache.commons.lang.RandomStringUtils;
+import org.hamcrest.core.StringContains;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -8,7 +9,6 @@ import pageobjects.admin.companyPage.CompanyDetailsPage;
 import pageobjects.admin.companyPage.CompanyPage;
 import pageobjects.admin.loginPage.AdminLoginPage;
 import specs.AdminAbstractSpec;
-
 import static org.hamcrest.CoreMatchers.containsString;
 
 /**

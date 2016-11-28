@@ -5,6 +5,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
+import pageobjects.user.briefingBooks.BriefingBookColumnType;
 import pageobjects.user.briefingBooks.BriefingBookDetailsPage;
 import pageobjects.user.briefingBooks.BriefingBookList;
 import pageobjects.user.loginPage.LoginPage;
@@ -120,5 +121,37 @@ public class CreateBriefingBook extends AbstractSpec {
         String lastEntity = briefingBookDetailsPage.getEntity(3);
         briefingBookDetailsPage.reorderEntityToBeginning(3);
         Assert.assertEquals("Reordered entity is not first", lastEntity, briefingBookDetailsPage.getEntity(0));
+    }
+
+    @Test
+    public void briefingBooksSortedByTitle(){
+        BriefingBookList list = new BriefingBookList(driver);
+        list.clickHeader(BriefingBookColumnType.TITLE);
+        Assert.assertTrue("Titles are not sorted alphabetically",list.isSortedBy(BriefingBookColumnType.TITLE));
+
+    }
+
+    @Test
+    public void briefingBooksSortedByAuthor(){
+        BriefingBookList list = new BriefingBookList(driver);
+        list.clickHeader(BriefingBookColumnType.AUTHOR);
+        Assert.assertTrue("Authors are not sorted alphabetically",list.isSortedBy(BriefingBookColumnType.AUTHOR));
+
+    }
+
+    @Test
+    public void briefingBooksSortedByCreated(){
+        BriefingBookList list = new BriefingBookList(driver);
+        list.clickHeader(BriefingBookColumnType.CREATED);
+        Assert.assertTrue("Created dates not sorted correctly",list.isSortedBy(BriefingBookColumnType.CREATED));
+
+    }
+
+    @Test
+    public void briefingBooksSortedByLastUpdated(){
+        BriefingBookList list = new BriefingBookList(driver);
+        list.clickHeader(BriefingBookColumnType.LAST_UPDATED);
+        Assert.assertTrue("Last Updated not sorted correctly",list.isSortedBy(BriefingBookColumnType.LAST_UPDATED));
+
     }
 }
