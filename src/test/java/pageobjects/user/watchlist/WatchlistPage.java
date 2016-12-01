@@ -18,7 +18,7 @@ public class WatchlistPage extends AbstractPageObject{
     private final By watchlistDeleteButton = By.cssSelector(".watch-list.done-mode .delete-btn");
     private final By deleteButton = By.cssSelector(".watch-list .watchlist-action-toolbar .x-button.delete");
     private final By firstCompanyInList = By.cssSelector(".watch-list .watchlist-row");
-    private final By doneButton = By.cssSelector(".toolbar-panel.banner-toolbar .docked");
+    private final By doneButton = By.cssSelector(".toolbar-panel .toolbar-button");
 
     public WatchlistPage(WebDriver driver) {
         super(driver);
