@@ -77,11 +77,13 @@ public class Overview extends AbstractSpec {
             Assert.assertTrue(false);
         }
 
-        //12 - 14 chars, depending if negative or positive.
-        // -0.80 (-1.16%) /2 = 7  -> "("
-        // -0.80 (1.16%) /2 = 6  -> " "
-        // 0.80 (-1.16%) /2 = 6 -> "("
-        // 0.80 (1.16%)  /2 = 6 -> "("
+        /*
+                    12 - 14 chars, depending if negative or positive.
+                    -0.80 (-1.16%) /2 = 7  -> "("
+                    -0.80 (1.16%) /2 = 6  -> " "
+                    0.80 (-1.16%) /2 = 6 -> "("
+                    0.80 (1.16%)  /2 = 6 -> "("
+        */
 
         Double.parseDouble(firstChange);
         double firstChangeNumber = Double.parseDouble(firstChange.replaceAll("[()%]", ""));
@@ -279,7 +281,6 @@ public class Overview extends AbstractSpec {
         }
     }
 
-
     @Test
     public void compareNewsNumToActual() {
         SecurityOverviewPage securityOverviewPage = new SecurityOverviewPage(driver);
@@ -288,7 +289,7 @@ public class Overview extends AbstractSpec {
         securityOverviewPage.clickRecentNewsButton();
         int actualNewsNum = securityOverviewPage.getNumNewsResultsDisplayed();
 
-        Assert.assertEquals("Know issue - DESKTOP-6882 - Number shown in recent news button does not correspond with actual results"
+        Assert.assertEquals("Number shown in recent news button does not correspond with actual results"
                 ,newsButtonNum,actualNewsNum);
     }
 

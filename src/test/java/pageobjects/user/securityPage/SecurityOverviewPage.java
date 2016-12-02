@@ -58,7 +58,7 @@ public class SecurityOverviewPage extends WatchlistPage {
     private final By recentEstimatesResults = By.cssSelector(".company-header-latest-estimates .latest-estimate-item");
     private final By recentEventsResults = By.cssSelector(".company-header-latest-events .latest-events-item");
     private final By recentTranscriptsResults = By.cssSelector(".company-header-latest-transcripts .latest-transcripts-item");
-    private final By recentNewsResults = By.cssSelector(".company-header-latest-news .news-item");
+    private final By recentNewsResults = By.cssSelector(".company-header-latest-news .news-item .news-date"); //n
 
     private final By recentEstimatesModal = By.cssSelector(".company-header-latest-estimates h2");
     private final By recentEventsModal = By.cssSelector(".company-header-latest-events h2");
@@ -311,7 +311,6 @@ public class SecurityOverviewPage extends WatchlistPage {
 
     public String getAvgVolume() {
         pause(500L);
-        ;
         return findElement(avgVolume).getText();
     }
 
@@ -329,8 +328,18 @@ public class SecurityOverviewPage extends WatchlistPage {
         return findElement(recentNewsBtn).getText();
     }
 
-    public int getNumNewsResultsDisplayed() {
-        return findElements(recentNewsResults).size();
+    public int getNumNewsResultsDisplayed() { //Issue spans here. Get news text and do a regex, checking it has the text "hour" within it
+        int num = 0;
+
+        for (int x = 0; x < findElements(recentNewsResults).size(); x++)
+        {
+            if (findElements(recentNewsResults).get(x).getText().replaceAll("[0-9 ]", "").replace("ago", "").equals("hours"))
+            {
+                num++;
+            }
+        }
+
+        return num;
     }
 
     public String getRecentEventsButtonNumber() {
