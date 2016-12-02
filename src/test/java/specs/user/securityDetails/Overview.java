@@ -64,19 +64,16 @@ public class Overview extends AbstractSpec {
         String secondChange = "";
 
         //See the chart below the if statements to understand the logic a bit better.
-        if (stockChange.length() == 13 && stockChange.substring(0, 1).equals("-")) //The -> " " one
-        {
+        if (stockChange.length() == 13 && stockChange.substring(0, 1).equals("-")) { //The -> " " one
             firstChange = stockChange.substring(0, 5);
             secondChange = stockChange.substring(6, 14);
-        } else if (12 <= stockChange.length() && stockChange.length() <= 14) //The -> "(" ones
-        {
+        }
+        else if (12 <= stockChange.length() && stockChange.length() <= 14) { //The -> "(" ones
             firstChange = stockChange.substring(0, stockChange.length() / 2 - 2);
             secondChange = stockChange.substring(stockChange.length() / 2 - 1, stockChange.length());
-        } else if (stockChange.length() < 12 || 14 < stockChange.length()) //All other invalid cases
-        {
+        } else if (stockChange.length() < 12 || 14 < stockChange.length()) { //All other invalid cases
             Assert.assertTrue(false);
         }
-
         /*
                     12 - 14 chars, depending if negative or positive.
                     -0.80 (-1.16%) /2 = 7  -> "("
@@ -88,8 +85,7 @@ public class Overview extends AbstractSpec {
         Double.parseDouble(firstChange);
         double firstChangeNumber = Double.parseDouble(firstChange.replaceAll("[()%]", ""));
         double secondChangeNumber = Double.parseDouble(secondChange.replaceAll("[()%]", ""));
-
-        //replace the chars within [ ]
+        //^^replace the chars within [ ]
 
         //All tests regarding format
         Assert.assertEquals(secondChange.substring(0, 1), "(");
@@ -154,8 +150,6 @@ public class Overview extends AbstractSpec {
 
         Assert.assertFalse("Dropdown menu modal did not close", securityOverviewPage.dropdownMenuExists());
         Assert.assertTrue(securityOverviewPage.overviewPageExists());
-
-
     }
 
     @Test
@@ -207,16 +201,15 @@ public class Overview extends AbstractSpec {
     public void estimatesButtonWorks(){
         SecurityOverviewPage securityOverviewPage = new SecurityOverviewPage(driver);
 
-        if(Integer.parseInt((securityOverviewPage.getRecentEstimatesButtonNumber())) == 0)
-        {
+        if(Integer.parseInt((securityOverviewPage.getRecentEstimatesButtonNumber())) == 0) {
             securityOverviewPage.clickRecentEstimatesButton();
             Assert.assertTrue("Clicking the Recent Estimates Button failed to open the modal."
                     , securityOverviewPage.recentEstimatesModalExists());
             securityOverviewPage.clickCoordinate(By.className("company-name"), 99, 223);
             Assert.assertFalse("Recent Estimates modal failed to close."
                     , securityOverviewPage.recentEstimatesModalExists());
-        }else
-        {
+        }
+        else {
             securityOverviewPage.clickRecentEstimatesButton();
             Assert.assertTrue("Clicking the Recent Estimates Button failed to open the modal."
                     , securityOverviewPage.recentEstimatesModalExists());
@@ -245,11 +238,10 @@ public class Overview extends AbstractSpec {
     public void eventsButtonWorks(){
         SecurityOverviewPage securityOverviewPage = new SecurityOverviewPage(driver);
 
-        if(Integer.parseInt(securityOverviewPage.getRecentEventsButtonNumber()) == 0)
-        {
+        if(Integer.parseInt(securityOverviewPage.getRecentEventsButtonNumber()) == 0) {
 
-        }else
-        {
+        }
+        else {
 
         }
     }
@@ -272,11 +264,10 @@ public class Overview extends AbstractSpec {
     public void transcriptsButtonWorks() {
         SecurityOverviewPage securityOverviewPage = new SecurityOverviewPage(driver);
 
-        if(Integer.parseInt(securityOverviewPage.getRecentTranscriptsButtonNumber()) == 0)
-        {
+        if(Integer.parseInt(securityOverviewPage.getRecentTranscriptsButtonNumber()) == 0) {
 
-        }else
-        {
+        }
+        else {
 
         }
     }
@@ -298,16 +289,15 @@ public class Overview extends AbstractSpec {
     public void newsButtonWorks(){
         SecurityOverviewPage securityOverviewPage = new SecurityOverviewPage(driver);
 
-        if(Integer.parseInt(securityOverviewPage.getRecentNewsButtonNumber()) == 0)
-        {
+        if(Integer.parseInt(securityOverviewPage.getRecentNewsButtonNumber()) == 0) {
             securityOverviewPage.clickRecentNewsButton();
             Assert.assertTrue("Clicking the Recent News Button failed to open the modal."
                     , securityOverviewPage.recentNewsModalExists());
             securityOverviewPage.clickCoordinate(By.className("company-name"), 99, 223);
             Assert.assertFalse("Recent News modal failed to close."
                     , securityOverviewPage.recentNewsModalExists());
-        }else
-        {
+        }
+        else {
             securityOverviewPage.clickRecentNewsButton();
             Assert.assertTrue("Clicking the Recent News Button failed to open the modal."
                     , securityOverviewPage.recentNewsModalExists());
@@ -324,8 +314,7 @@ public class Overview extends AbstractSpec {
     }
 
     @After
-    public void disableDriver()
-    {
+    public void disableDriver() {
         driver.close();
         driver.quit();
     }

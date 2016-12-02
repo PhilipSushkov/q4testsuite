@@ -2,7 +2,6 @@ package pageobjects.user.securityPage;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.interactions.Actions;
 import pageobjects.user.watchlist.WatchlistPage;
 
 /**
@@ -10,8 +9,8 @@ import pageobjects.user.watchlist.WatchlistPage;
  */
 public class SecurityOverviewPage extends WatchlistPage {
 
-
-    private final By overviewModal = By.cssSelector(".company-page .company-slide-inner");  //Create an interface including these things for overview page
+    //Create an interface including these things for overview page
+    private final By overviewModal = By.cssSelector(".company-page .company-slide-inner");
     private final By ownershipModal = By.cssSelector(".company-ownership .company-ownership-inner");
     private final By estimatesModal = By.cssSelector(".company-page .company-slide-inner");
     /**
@@ -65,7 +64,8 @@ public class SecurityOverviewPage extends WatchlistPage {
     private final By recentTranscriptsModal = By.cssSelector(".company-header-latest-transcripts h2");
     private final By recentNewsModal = By.cssSelector(".company-header-latest-news h2");
 
-    private final By eventsResultslModal = By.cssSelector(".event-detail .header"); //The modal that appears once you click on a result
+    private final By eventsResultslModal = By.cssSelector(".event-detail .header");
+    //^^^The modal that appears once you click on a result^^^
     private final By transcriptsResultsModal = By.cssSelector("");
     private final By newsResultsModal = By.cssSelector(".modal.company-news .modal-news-header h1");
 
@@ -144,7 +144,9 @@ public class SecurityOverviewPage extends WatchlistPage {
 
     //buttons\\
 
-    private final By ownershipBtn = By.cssSelector(".overview-quality-rating"); //This is the Ownership Quality Rating modal, excluding EPS/SALES
+    private final By ownershipBtn = By.cssSelector(".overview-quality-rating");
+    //^^This is the Ownership Quality Rating modal, excluding EPS/SALES
+
     //private final By epsBtn = //EPS value to be found here
     //private final By salesBtn = //The Sales value to be found here.
 
@@ -165,15 +167,18 @@ public class SecurityOverviewPage extends WatchlistPage {
 
     //sentiment\\
 
-    private final By sentimentValue = By.xpath("//*[contains(@class, 'peer-piechart')]"); //Click on value for redirection
+    private final By sentimentValue = By.xpath("//*[contains(@class, 'peer-piechart')]");
+    //^^^Click on value for redirection
 
     //volatility\\
 
-    private final By volatilityValue = By.xpath("//*[contains(@class, 'volatility-chart')]"); //Click on value for redirection
+    private final By volatilityValue = By.xpath("//*[contains(@class, 'volatility-chart')]");
+    //^^^Click on value for redirection
 
     //activism\\
 
-    private final By activismValue = By.xpath("//*[contains(@class,'activism-chart')]"); //Click on value for redirection
+    private final By activismValue = By.xpath("//*[contains(@class,'activism-chart')]");
+    //^^^Click on value for redirection
 
 
     /**       EVENTS & TRANSCRIPTS       */ //NO TEST CASES YET!!!
@@ -200,10 +205,8 @@ public class SecurityOverviewPage extends WatchlistPage {
     //Regarding the dropdown menus to check if a certain part of a site exists, just use the URL? Will figure this out
     //at a later date. This applies to other applications as well.
     //Include whole modal elements for the tests that check if a modal closed successfully
-    //Tests for color detection will be figured out during the time and as such, no elements have been identified (color)
 
 
-    Actions execute = new Actions(driver);
 
     public SecurityOverviewPage(WebDriver driver) {
         super(driver);
@@ -215,62 +218,53 @@ public class SecurityOverviewPage extends WatchlistPage {
      */
 
 
-    public  boolean dropdownMenuExists()
-    {
+    public  boolean dropdownMenuExists() {
         pause(500L);
         return doesElementExist(dropdownModal);
     }
 
-
-    public boolean overviewPageExists()
-    {
+    public boolean overviewPageExists() {
         pause(500L);
         return doesElementExist(overviewModal);
 
     }
 
-    public boolean ownershipPageExists()
-    {
+    public boolean ownershipPageExists() {
         pause(500L);
         return doesElementExist(ownershipModal);
     }
 
-    public boolean estimatesPageExists()
-    {
+    public boolean estimatesPageExists() {
         pause(500L);
         return doesElementExist(estimatesModal);
     }
 
-    public boolean recentEstimatesModalExists()
-    {
+    public boolean recentEstimatesModalExists() {
         pause(500L);
         return doesElementExist(recentEstimatesModal);
     }
 
-    public boolean recentNewsModalExists()
-    {
+    public boolean recentNewsModalExists() {
         pause(500L);
         return doesElementExist(recentNewsModal);
     }
 
-    public boolean recentNewsResultsModalExists()
-    {
+    public boolean recentNewsResultsModalExists() {
         pause(500L);
         return doesElementExist(newsResultsModal);
 
     }
 
-    public boolean recentEventsModalExists()
-    {
+    public boolean recentEventsModalExists() {
         pause(500L);
         return doesElementExist(recentEventsModal);
     }
 
-    public boolean recentEventsResultsModalExists()
-    {
+    public boolean recentEventsResultsModalExists() {
         pause(500L);
         return doesElementExist(eventsResultslModal);
     }
+
     /**
      * GETTERS:
      */
@@ -314,7 +308,7 @@ public class SecurityOverviewPage extends WatchlistPage {
         return findElement(avgVolume).getText();
     }
 
-    public String getRecentEstimatesButtonNumber() { //Think of a better name...
+    public String getRecentEstimatesButtonNumber() {
         waitForLoadingScreen();
         return findElement(recentEstimatesBtn).getText();
     }
@@ -333,7 +327,8 @@ public class SecurityOverviewPage extends WatchlistPage {
 
         for (int x = 0; x < findElements(recentNewsResults).size(); x++)
         {
-            if (findElements(recentNewsResults).get(x).getText().replaceAll("[0-9 ]", "").replace("ago", "").equals("hours"))
+            if (findElements(recentNewsResults).get(x).getText().replaceAll("[0-9 s]", "").replace("ago", "")
+                    .replace("an","").equals("hour"))
             {
                 num++;
             }
@@ -485,15 +480,13 @@ public class SecurityOverviewPage extends WatchlistPage {
      */
 
     //RECALL, ALL TESTS ARE BASED ON OVERVIEW PAGE, SO JUST CHECKS IF A BUTTON TAKES YOU TO RIGHT PAGE BUT NO MORE.
-    public SecurityOverviewPage clickDropdownLeftArrowOverview()  //when testing, do this first to make sure you are still in same page
-    {
+    public SecurityOverviewPage clickDropdownLeftArrowOverview() {
         findElement(dropdownLeftArrow).click();
         return this;
     }
 
 
-    public SecurityOwnershipPage clickDropdownRightArrowOverview()     //Other versions of this on other pages
-    {
+    public SecurityOwnershipPage clickDropdownRightArrowOverview() { //Other versions of this on other pages
         findElement(dropdownRightArrow).click();
         return new SecurityOwnershipPage(getDriver());
     }
@@ -527,58 +520,59 @@ public class SecurityOverviewPage extends WatchlistPage {
          return new SentimentPage(getDriver());
     }
 
-     public VolatilityPage clickDropdownVolatility() {
+    public VolatilityPage clickDropdownVolatility() {
 
           findElement(dropdownVolatility).click();
           return new VolatilityPage(getDriver());
      }
-     public ActivismPage clickDropdownActivism() {
+
+    public ActivismPage clickDropdownActivism() {
 
           findElement(dropdownActivism).click();
           return new ActivismPage(getDriver());
      }
 
-     public RelativePerformacePage clickDropdownPerformance() {
+    public RelativePerformacePage clickDropdownPerformance() {
 
           findElement(dropdownPerformance).click();
           return new RelativePerformacePage(getDriver());
      }
 
-     public SecurityEstimatesPage clickDropdownEstimates() {
+    public SecurityEstimatesPage clickDropdownEstimates() {
 
           findElement(dropdownEstimates).click();
           return new SecurityEstimatesPage(getDriver());
      }
 
-     public void clickRecentEstimatesButton(){
+    public void clickRecentEstimatesButton(){
          findElement(recentEstimatesBtn).click();
      }
 
-     public void clickRecentNewsButton(){
+    public void clickRecentNewsButton(){
          
          findElement(recentNewsBtn).click();
      }
 
-     public void clickRecentTranscriptsButton(){
+    public void clickRecentTranscriptsButton(){
          
          findElement(recentTranscriptsBtn).click();
      }
 
-     public void clickRecentEventsButton(){
+    public void clickRecentEventsButton(){
          
          findElement(recentEventsBtn).click();
      }
 
-     public void clickRecentEstimatesResult(){
+    public void clickRecentEstimatesResult(){
          findElement(recentEstimatesResults).click();
      }
 
-     public void clickRecentNewsResult()
+    public void clickRecentNewsResult()
      {
          findElement(recentNewsModal).click();
      }
 
-     public void clickRecentEventsResult()
+    public void clickRecentEventsResult()
      {
          findElement(recentEventsResults).click();
      }
