@@ -53,16 +53,14 @@ public class ContactDetails extends AbstractSpec {
         String hourMins = postedDate.substring(10,18).replaceAll(" ","");
         Integer hour, mins;
 
-        if(hourMins.substring(4,6).equals("pm")) //getting the time in hours and minutes or HHmm format
-        {
+        if(hourMins.substring(4,6).equals("pm")) {
             NumberFormat formatter = new DecimalFormat("00");
             hour = Integer.parseInt(hourMins.substring(0,hourMins.indexOf(':'))) + 12; //to 24 hour system
             mins = Integer.parseInt(hourMins.substring(hourMins.indexOf(':')+1,hourMins.indexOf(':')+3));
             String newHour = formatter.format(hour); //This to make the ints 2 decimal places (so '0' added when < 10)
             String newMins = formatter.format(mins);
             hourMins = (newHour + newMins).replace(":",""); //Make it so that int is always 2 digits.
-        } else
-        {
+        } else {
             hourMins = hourMins.replace("am","").replace(":","");
         }
 
@@ -73,6 +71,10 @@ public class ContactDetails extends AbstractSpec {
 
         if(Math.abs(Integer.parseInt(hourMins) - Integer.parseInt(timeStamp.substring(0,4))) <= 1) {
             hourMins = timeStamp.substring(0,4); //When there is a minute difference (few seconds)
+        }
+        if(dateDay.substring(0,1).equals(" ")) {
+            String dateDayNum = dateDay.substring(1,2);
+            dateDay = "0" + dateDayNum; //add a 0 when day < 10
         }
 
         String activityDate = (hourMins + "_" + dateDay + "_" + dateMonth + "_" + dateYear);

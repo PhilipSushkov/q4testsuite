@@ -2,7 +2,6 @@ package specs.user.targeting;
 
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import pageobjects.user.contactPage.ContactDetailsPage;
 import pageobjects.user.institutionPage.InstitutionPage;
@@ -155,7 +154,7 @@ public class TargetingList extends AbstractSpec {
         // loop 1 time (can increase if desired): clicking show more and then verifying sorting again
         for (int i=1; i<=1; i++){
             new NewSearchPage(driver).showMoreResults();
-            Assert.assertEquals("Incorrect number of results displayed upon iteration "+i, 20*(i+1), new NewSearchPage(driver).numResultsDisplayed());
+            Assert.assertEquals("KNOWN ISSUE - DESKTOP-7179: Incorrect number of results displayed upon iteration "+i, 20*(i+1), new NewSearchPage(driver).numResultsDisplayed());
             Assert.assertTrue("Sorting failed upon iteration "+i, new NewSearchPage(driver).resultsCanBeSorted());
         }
     }
