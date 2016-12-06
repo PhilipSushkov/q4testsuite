@@ -113,8 +113,7 @@ public class Overview extends AbstractSpec {
         int volumeSize = volume.length();
         int avgVolumeSize = avgVolume.length();
 
-        for (Double x = new Double(0); x < volumeSize; x++) //Checks if there is a comma for every 3 numbers for Volume
-        {
+        for (Double x = new Double(0); x < volumeSize; x++) { //Checks if there is a comma for every 3 numbers for Volume
             if (x%4 == 0 && x != 0) { //Checking the double is a whole number
                 Assert.assertEquals(volume.substring(volumeSize - x.intValue(), volumeSize - (x.intValue() - 1)), ",");
             }
@@ -123,8 +122,7 @@ public class Overview extends AbstractSpec {
             }
         }
 
-        for (Double x = new Double(0); x < avgVolumeSize; x++) //Same as above for avg Volume
-        {
+        for (Double x = new Double(0); x < avgVolumeSize; x++) { //Same as above for avg Volume
             if (x%4 == 0 && x != 0) { //Checking the double is a whole number
                 Assert.assertEquals(avgVolume.substring(avgVolumeSize - x.intValue()
                         ,avgVolumeSize - (x.intValue() - 1)), ",");
@@ -234,7 +232,7 @@ public class Overview extends AbstractSpec {
     }
 
     @Ignore
-    @Test
+    @Test //Waiting to find one that has events before writing
     public void eventsButtonWorks(){
         SecurityOverviewPage securityOverviewPage = new SecurityOverviewPage(driver);
 
@@ -246,7 +244,6 @@ public class Overview extends AbstractSpec {
         }
     }
 
-    @Ignore
     @Test
     public void compareTranscriptsNumToActual() {
         SecurityOverviewPage securityOverviewPage = new SecurityOverviewPage(driver);
@@ -259,17 +256,38 @@ public class Overview extends AbstractSpec {
                 ,transcriptsButtonNum,actualTranscriptsNum);
     }
 
-    @Ignore//Currently cannot find any page with this available, so can't find modals yet
     @Test
     public void transcriptsButtonWorks() {
         SecurityOverviewPage securityOverviewPage = new SecurityOverviewPage(driver);
 
-        if(Integer.parseInt(securityOverviewPage.getRecentTranscriptsButtonNumber()) == 0) {
-
+        if(Integer.parseInt((securityOverviewPage.getRecentTranscriptsButtonNumber())) == 0) {
+            securityOverviewPage.clickRecentTranscriptsButton();
+            Assert.assertTrue("Clicking the Recent Transcripts Button failed to open the modal."
+                    , securityOverviewPage.recentTranscriptsModalExists());
+            securityOverviewPage.clickCoordinate(By.className("company-name"), 99, 223);
+            Assert.assertFalse("Recent Transcripts modal failed to close."
+                    , securityOverviewPage.recentTranscriptsModalExists());
         }
         else {
+            securityOverviewPage.clickRecentTranscriptsButton();
+            Assert.assertTrue("Clicking the Recent Transcripts Button failed to open the modal."
+                    , securityOverviewPage.recentTranscriptsModalExists());
+            securityOverviewPage.clickRecentTranscriptsResults();
+            Assert.assertTrue("Clicking on a recent transcript fails to open the modal for it."
+                    , securityOverviewPage.recentTranscriptsResultsModalExists());
+            securityOverviewPage.clickTrancsriptsResultsXBtn();
 
+            Assert.assertTrue("Clicking the 'X' in the result modal did not close it."
+                    , securityOverviewPage.recentTranscriptsModalExists());
+            securityOverviewPage.clickCoordinate(By.className("company-name"), 99, 223);
+            Assert.assertTrue("Recent Transcripts modal failed to close."
+                    , !securityOverviewPage.recentTranscriptsModalExists());
         }
+    }
+
+    @Ignore
+    @Test //To come up with test plan before writing
+    public void transcriptsDataOpensNewTab(){
     }
 
     @Test
@@ -284,39 +302,28 @@ public class Overview extends AbstractSpec {
                 ,newsButtonNum,actualNewsNum);
     }
 
-    @Ignore //SideNavIssues perhaps? Test again
     @Test
     public void newsButtonWorks(){
         SecurityOverviewPage securityOverviewPage = new SecurityOverviewPage(driver);
+        securityOverviewPage.clickRecentNewsButton();
+        Assert.assertTrue("Clicking the Recent News Button failed to open the modal."
+                , securityOverviewPage.recentNewsModalExists());
+        securityOverviewPage.clickRecentNewsResult();
 
-        if(Integer.parseInt(securityOverviewPage.getRecentNewsButtonNumber()) == 0) {
-            securityOverviewPage.clickRecentNewsButton();
-            Assert.assertTrue("Clicking the Recent News Button failed to open the modal."
-                    , securityOverviewPage.recentNewsModalExists());
-            securityOverviewPage.clickCoordinate(By.className("company-name"), 99, 223);
-            Assert.assertFalse("Recent News modal failed to close."
-                    , securityOverviewPage.recentNewsModalExists());
-        }
-        else {
-            securityOverviewPage.clickRecentNewsButton();
-            Assert.assertTrue("Clicking the Recent News Button failed to open the modal."
-                    , securityOverviewPage.recentNewsModalExists());
-            securityOverviewPage.clickRecentNewsResult();
-            Assert.assertTrue("Clicking on a Recent News Result fails to open the results' modal", securityOverviewPage
-                    .recentNewsResultsModalExists());
-            securityOverviewPage.clickCoordinate(By.className("company-name"), 99, 223);
-            Assert.assertFalse("Recent News Result modal failed to close."
-                    , securityOverviewPage.recentNewsResultsModalExists());
-            securityOverviewPage.clickCoordinate(By.className("company-name"), 99, 223);
-            Assert.assertFalse("Recent News modal failed to close."
-                    , securityOverviewPage.recentNewsModalExists());
-        }
+        Assert.assertTrue("Clicking on a Recent News Result fails to open the results' modal", securityOverviewPage
+                .recentNewsResultsModalExists(true));
+        securityOverviewPage.clickCoordinate(By.className("company-name"), 99, 223);
+        Assert.assertFalse("Recent News Result modal failed to close."
+                , securityOverviewPage.recentNewsResultsModalExists(false));
+        securityOverviewPage.clickCoordinate(By.className("company-name"), 99, 223);
+        Assert.assertFalse("Recent News modal failed to close."
+                , securityOverviewPage.recentNewsModalExists());
     }
-
+/*
     @After
     public void disableDriver() {
         driver.close();
         driver.quit();
     }
-
+*/
 }

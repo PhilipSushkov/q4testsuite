@@ -141,15 +141,18 @@ public class AbstractPageObject implements PageObject {
     //Any element on the page can be used, the method adjusts for each.
     public void clickCoordinate(By anyElement,int coordX,int coordY)
     {
-        //Moves the mouse to an offset from the top-left corner of the companyName element.
-        //Get chrome extension Mouse XY to find coordinates of a web-page
-        //The companyName element has coordinates of about (80, 100) when in 100% zoom
-        //The coordinates are heavily dependent on the size of the browser screen(window)/resolution.
+        /*
+        Moves the mouse to an offset from the top-left corner of the companyName element, then click it.
+        Get chrome extension Mouse XY to find coordinates of a web-page
+        The companyName element has coordinates of about (80, 100) when in 100% zoom
+        The coordinates are heavily dependent on the size of the browser screen(window)/resolution.
+        This function allows you to pick a coordinate, and it clicks on said chosen coordinate
+        */
+        Actions execute = new Actions(driver);
         WebElement offsetElement = findElement(anyElement);
         Point coordinate = offsetElement.getLocation();
         coordX -= coordinate.getX();
         coordY -= coordinate.getY();
-        Actions execute = new Actions(driver);
         execute.moveToElement(offsetElement, coordX, coordY).click().perform();
     }
 

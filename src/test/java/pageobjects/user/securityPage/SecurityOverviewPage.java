@@ -13,9 +13,9 @@ public class SecurityOverviewPage extends WatchlistPage {
     private final By overviewModal = By.cssSelector(".company-page .company-slide-inner");
     private final By ownershipModal = By.cssSelector(".company-ownership .company-ownership-inner");
     private final By estimatesModal = By.cssSelector(".company-page .company-slide-inner");
-    /**
-     * HEADER
-     */
+
+
+                            /**        HEADER       */
 
 
     //data\\
@@ -66,8 +66,9 @@ public class SecurityOverviewPage extends WatchlistPage {
 
     private final By eventsResultslModal = By.cssSelector(".event-detail .header");
     //^^^The modal that appears once you click on a result^^^
-    private final By transcriptsResultsModal = By.cssSelector("");
-    private final By newsResultsModal = By.cssSelector(".modal.company-news .modal-news-header h1");
+    private final By transcriptsResultsModal = By.cssSelector(".event-list-item .details .title");
+    private final By transciptsResultsExitBtn = By.cssSelector(".x-button .x-button-icon");
+    private final By newsResultsModal = By.cssSelector(".modal.company-news .story");
 
     //three_point_button\\ -> to add stuff for modals that appear when clicking button
 
@@ -84,9 +85,7 @@ public class SecurityOverviewPage extends WatchlistPage {
     private final By removeTagBtn = By.className("delete");
 
 
-    /**
-     * CHARTS
-     */
+                                    /**     CHARTS      */
 
     //buttons\\
 
@@ -122,9 +121,8 @@ public class SecurityOverviewPage extends WatchlistPage {
     private final By currencyType = By.xpath("//*[@class=\"value\"][10]");
 
 
-    /**
-     * QUALITY RATING
-     */
+                                /**     QUALITY RATING       */
+
 
     private final By qualityRatingValue = By.cssSelector(".overview-quality-rating .qr-value .x-innerhtml:not(:empty)");
 
@@ -151,9 +149,8 @@ public class SecurityOverviewPage extends WatchlistPage {
     //private final By salesBtn = //The Sales value to be found here.
 
 
-    /**
-     * MINI CHARTS
-     */
+                                    /**     MINI CHARTS      */
+
 
     //expected_trading_range\\
 
@@ -181,7 +178,7 @@ public class SecurityOverviewPage extends WatchlistPage {
     //^^^Click on value for redirection
 
 
-    /**       EVENTS & TRANSCRIPTS       */ //NO TEST CASES YET!!!
+                                 /**       EVENTS & TRANSCRIPTS       */ //NO TEST CASES YET!!!
 
 
     //private final By allBtn
@@ -194,11 +191,12 @@ public class SecurityOverviewPage extends WatchlistPage {
     //private final By events_TranscriptsBtn
     //private final By newsBtn
 
-    /**       NEWS      */ //NO TEST CASES YET!!!
 
-    /**
-     * WATCHLIST BAR
-     */ //WILL DO LATER
+                                            /**       NEWS      */ //NO TEST CASES YET!!!
+
+
+                                    /**      WATCHLIST BAR       */ //WILL DO LATER
+
 
     //private final By readMore
 
@@ -213,9 +211,7 @@ public class SecurityOverviewPage extends WatchlistPage {
     }
 
 
-    /**
-     *  EXISTS      //Create abstract class that contains all these.
-     */
+                                     /**         EXISTS         */ //Create abstract class that contains all these.
 
 
     public  boolean dropdownMenuExists() {
@@ -244,15 +240,27 @@ public class SecurityOverviewPage extends WatchlistPage {
         return doesElementExist(recentEstimatesModal);
     }
 
+    public boolean recentTranscriptsModalExists() {
+        pause(500L);
+        return doesElementExist(recentTranscriptsModal);
+    }
+
+    public boolean recentTranscriptsResultsModalExists() {
+        pause(500L);
+        return findVisibleElement(transcriptsResultsModal).isDisplayed();
+    }
+
     public boolean recentNewsModalExists() {
         pause(500L);
         return doesElementExist(recentNewsModal);
     }
 
-    public boolean recentNewsResultsModalExists() {
+    public boolean recentNewsResultsModalExists(boolean active) {
         pause(500L);
-        return doesElementExist(newsResultsModal);
-
+        if (active) {
+            return findVisibleElement(newsResultsModal).isDisplayed();
+        }
+        return !findVisibleElement(recentNewsResults).isDisplayed();
     }
 
     public boolean recentEventsModalExists() {
@@ -265,11 +273,12 @@ public class SecurityOverviewPage extends WatchlistPage {
         return doesElementExist(eventsResultslModal);
     }
 
-    /**
-     * GETTERS:
-     */
+
+                                                 /**          GETTERS:         */
+
 
     //HEADER\\
+
     public String getCompanyName() {
         return findElement(companyName).getText().replaceAll("\\p{P}", "");
     }
@@ -324,16 +333,12 @@ public class SecurityOverviewPage extends WatchlistPage {
 
     public int getNumNewsResultsDisplayed() { //Issue spans here. Get news text and do a regex, checking it has the text "hour" within it
         int num = 0;
-
-        for (int x = 0; x < findElements(recentNewsResults).size(); x++)
-        {
+        for (int x = 0; x < findElements(recentNewsResults).size(); x++) {
             if (findElements(recentNewsResults).get(x).getText().replaceAll("[0-9 s]", "").replace("ago", "")
-                    .replace("an","").equals("hour"))
-            {
+                    .replace("an","").equals("hour")) {
                 num++;
             }
         }
-
         return num;
     }
 
@@ -471,20 +476,20 @@ public class SecurityOverviewPage extends WatchlistPage {
         return findElement(activismValue).getText().replaceAll("\\p{P}", "");
     }
 
+    // Gets the stock price from the security details page
+    public float getStockPrice() {
+        return Float.parseFloat(findElement(stockQuote).getText().replaceAll("[^0-9.]+", ""));
+    }
 
-    /** A click used to exit a modal via inputing a web pages coordinates via offset of existing element.
-     * This is used as modals may block/hide elements when they are up, so a reliable method is required to click.*/
 
-    /**
-     * CLICKERS
-     */
+                                             /**            CLICKERS            */
+
 
     //RECALL, ALL TESTS ARE BASED ON OVERVIEW PAGE, SO JUST CHECKS IF A BUTTON TAKES YOU TO RIGHT PAGE BUT NO MORE.
     public SecurityOverviewPage clickDropdownLeftArrowOverview() {
         findElement(dropdownLeftArrow).click();
         return this;
     }
-
 
     public SecurityOwnershipPage clickDropdownRightArrowOverview() { //Other versions of this on other pages
         findElement(dropdownRightArrow).click();
@@ -567,9 +572,9 @@ public class SecurityOverviewPage extends WatchlistPage {
          findElement(recentEstimatesResults).click();
      }
 
-    public void clickRecentNewsResult()
-     {
-         findElement(recentNewsModal).click();
+    public void clickRecentNewsResult() {
+         pause(500L);
+         findElement(recentNewsResults).click();
      }
 
     public void clickRecentEventsResult()
@@ -577,8 +582,13 @@ public class SecurityOverviewPage extends WatchlistPage {
          findElement(recentEventsResults).click();
      }
 
-    // Gets the stock price from the security details page
-    public float getStockPrice() {
-        return Float.parseFloat(findElement(stockQuote).getText().replaceAll("[^0-9.]+", ""));
+    public void clickRecentTranscriptsResults(){
+        findElement(recentTranscriptsResults).click();
+     }
+
+    public void clickTrancsriptsResultsXBtn(){
+        findElement(transciptsResultsExitBtn).click();
     }
+
+
 }
