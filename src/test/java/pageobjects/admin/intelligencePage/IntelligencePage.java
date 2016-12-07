@@ -31,6 +31,7 @@ public class IntelligencePage extends AbstractPageObject {
     private final By reportTypeFilterDropdown = By.className("ui-dropdown");
     private final By reportTypeFilterOptions = By.className("ui-dropdown-item");
     private final By reportType = By.className("type");
+    private final By companyAndReportCulumnHeader = By.cssSelector("body > q4-app > div > div > q4-report > p-datatable > div > div > table > thead > tr > th:nth-child(1)");
 
 
     public IntelligencePage(WebDriver driver) {
@@ -158,5 +159,11 @@ public class IntelligencePage extends AbstractPageObject {
             }
         }
         return true;
+    }
+
+    public IntelligencePage sortByCompanyReportType() {
+        findElement(companyAndReportCulumnHeader).click();
+
+        return this;
     }
 }
