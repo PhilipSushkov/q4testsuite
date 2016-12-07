@@ -67,7 +67,8 @@ public class AdminAbstractSpec {
                 break;
             case DEVELOPADMIN:
             case STAGINGADMIN:
-                setupWebDriver();
+                //setupWebDriver();
+                setupLocalDriver();
                 break;
         }
     }

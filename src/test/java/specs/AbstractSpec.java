@@ -67,7 +67,8 @@ public abstract class AbstractSpec {
             case STAGING:
             case BETA:
             case PRODUCTION:
-                setupWebDriver();
+                //setupWebDriver();
+                setupLocalDriver();
                 break;
         }
     }
