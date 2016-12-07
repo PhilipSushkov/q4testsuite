@@ -33,5 +33,5 @@ import specs.user.watchlist.EditWatchlist;
         ResearchList.class*/
 })
 
-public class DesktopSuiteTwo {
+public class NightRun {
 }
