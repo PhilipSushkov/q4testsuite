@@ -39,15 +39,6 @@ public class EditBriefingBook extends AbstractSpec {
     }
 
 
-    @AfterClass
-    public static void tearDown(){
-        AbstractPageObject page = new AbstractPageObject(driver);
-        page.logout();
-        new LoginPage(driver).loginUser()
-                .accessSideNav()
-                .selectBriefingBookFromSideNav().deleteNewBriefingBook();
-    }
-
     @Test
     public void canDeleteFundInBriefingBook(){
         BriefingBookList briefingBookList = new BriefingBookList(driver);

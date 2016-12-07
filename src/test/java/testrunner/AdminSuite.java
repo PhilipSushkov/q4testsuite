@@ -1,9 +1,7 @@
 package testrunner;
 
 import org.junit.runner.RunWith;
-import org.junit.runners.ParentRunner;
 import org.junit.runners.Suite;
-import org.junit.runners.model.FrameworkMethod;
 import specs.admin.companies.CompaniesList;
 import specs.admin.companies.CompanyDetails;
 import specs.admin.implementation.AddEditImplementations;
