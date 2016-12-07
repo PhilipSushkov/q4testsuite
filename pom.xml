@@ -148,6 +148,10 @@
                     <redirectTestOutputToFile>false</redirectTestOutputToFile>
                     <useUnlimitedThreads>false</useUnlimitedThreads>
                     <threadCount>1</threadCount>
+
+                    <parallel>classes</parallel>
+                    <threadCount>3</threadCount>
+
                     <includes>
                         <include>specs/**/*.java</include>
                     </includes>
