@@ -24,20 +24,19 @@ public abstract class AbstractSpec {
 // IMPORTANT:
 // Determines which environment the test suite will run on but can be overridden by command line
 //------------------------------------------------------------------------------
-    private static final EnvironmentType DEFAULT_ENVIRONMENT = EnvironmentType.LOCAL;
+    private  final EnvironmentType DEFAULT_ENVIRONMENT = EnvironmentType.LOCAL;
 //------------------------------------------------------------------------------
 
-    private static final EnvironmentType activeEnvironment = setupEnvironment();
+    private final EnvironmentType activeEnvironment = setupEnvironment();
 
-    private static final String BROWSER_STACK_URL = "http://jencampbell2:6jEURzbszfaWhLJc7XWx@hub.browserstack.com/wd/hub";
-    private static final String BUILD_ID = RandomStringUtils.randomAlphanumeric(6);
-    public static final long DEFAULT_TIMEOUT = 10L;
-
-    private static URL desktopUrl;
-    private static BrowserStackCapability browser;
-    protected static WebDriver driver;
-    private static boolean setupIsDone = false;
-    private static final Logger LOG = Logger.getLogger(AbstractSpec.class.getName());
+    private final String BROWSER_STACK_URL = "http://jencampbell2:6jEURzbszfaWhLJc7XWx@hub.browserstack.com/wd/hub";
+    private final String BUILD_ID = RandomStringUtils.randomAlphanumeric(6);
+    public final long DEFAULT_TIMEOUT = 10L;
+    private  URL desktopUrl;
+    private  BrowserStackCapability browser;
+    protected  WebDriver driver;
+    private boolean setupIsDone = false;
+    private final Logger LOG = Logger.getLogger(AbstractSpec.class.getName());
 
     @Rule
     public TestName testName = new TestName();
@@ -79,7 +78,6 @@ public abstract class AbstractSpec {
         driver.manage().timeouts().implicitlyWait(DEFAULT_TIMEOUT, TimeUnit.SECONDS);
         driver.manage().window().setSize(new Dimension(1400, 1400));
         driver.get(desktopUrl.toString());
-
     }
 
     private void setupWebDriver() throws Exception {
@@ -99,24 +97,22 @@ public abstract class AbstractSpec {
         driver.manage().window().setSize(new Dimension(1400, 1400));
 
         driver.get(desktopUrl.toString());
-
     }
 
     @After
     public void teardownWebDriver() throws Exception {
         String testMethodName = testName.getMethodName();
 
-        if (getActiveEnvironment() != EnvironmentType.LOCAL) {
+        //if (getActiveEnvironment() != EnvironmentType.LOCAL) {
             driver.quit();
             System.out.println(testMethodName + " - " + "complete");
-        }
     }
 
-    public static EnvironmentType getActiveEnvironment() {
+    public EnvironmentType getActiveEnvironment() {
         return activeEnvironment;
     }
 
-    private static EnvironmentType setupEnvironment () {
+    private EnvironmentType setupEnvironment () {
         String overrideEnvironment = System.getProperty("q4inc.specs");
         if (overrideEnvironment != null) {
             return EnvironmentType.valueOf(overrideEnvironment);
