@@ -20,6 +20,7 @@ import specs.admin.users.UserRoles;
 @Suite.SuiteClasses({
         AdminLogin.class,
         CompaniesList.class,
+        CompanyDetails.class,
         EditProfilesList.class,
         AddEditImplementations.class,
         IntelligenceList.class,
