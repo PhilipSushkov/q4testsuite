@@ -20,32 +20,16 @@ import specs.user.targeting.TargetingList;
 import specs.user.team.Q4TeamPage;
 import specs.user.watchlist.EditWatchlist;
 
+/**
+ * Created by noelc on 2016-12-07.
+ */
+
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
-        SuiteA.class,
-        SuiteB.class,
-        SuiteC.class,
-        SuiteD.class,
-        SuiteE.class
-       /* LogActivity.class,
-        FilterActivity.class,
-        SearchForActivity.class,
-        ContactList.class,
         ContactDetails.class,
         DashboardBuildReport.class,
         DashboardLinks.class,
         DashboardLogActivity.class,
-        DashboardSearch.class,
-        ForgotPassword.class,
-        UserLogin.class,
-        TabNavigationExpanded.class,
-        EditWatchlist.class,
-        Q4TeamPage.class,
-        TargetingList.class,
-        Overview.class,
-        ResearchList.class*/
 })
-
-
-public class NightRun {
+public class SuiteB {
 }
