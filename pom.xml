@@ -117,9 +117,6 @@
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-surefire-plugin</artifactId>
                         <configuration>
-                            <parallel>all</parallel>
-                            <useUnlimitedThreads>true</useUnlimitedThreads>
-                            <useSystemClassLoader>false</useSystemClassLoader>
                             <systemProperties>
                                 <property>
                                     <name>webdriver.chrome.driver</name>
@@ -148,11 +145,9 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.19.1</version>
                 <configuration>
-                    <redirectTestOutputToFile>false</redirectTestOutputToFile>
-                    <forkCount>2</forkCount>
-                    <threadCount>5</threadCount>
-                    <reuseForks>true</reuseForks>
                     <parallel>classes</parallel>
+                    <threadCount>3</threadCount>
+                    <forkCount>10</forkCount>
                     <includes>
                         <include>specs/**/*.java</include>
                     </includes>
