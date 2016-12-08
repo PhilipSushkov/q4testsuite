@@ -146,12 +146,10 @@
                 <version>2.19.1</version>
                 <configuration>
                     <redirectTestOutputToFile>false</redirectTestOutputToFile>
-                    <useUnlimitedThreads>false</useUnlimitedThreads>
-                    <threadCount>1</threadCount>
-
-                    <parallel>suites</parallel>
-                    <threadCount>3</threadCount>
-
+                    <useUnlimitedThreads>true</useUnlimitedThreads>
+                    <perCoreThreadCount>false</perCoreThreadCount>
+                    <threadCountMethods>5</threadCountMethods>
+                    <parallel>all</parallel>
                     <includes>
                         <include>specs/**/*.java</include>
                     </includes>
