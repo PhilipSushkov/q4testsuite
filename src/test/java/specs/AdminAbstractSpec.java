@@ -33,7 +33,7 @@ public class AdminAbstractSpec {
 
     private final String BROWSER_STACK_URL = "http://jencampbell2:6jEURzbszfaWhLJc7XWx@hub.browserstack.com/wd/hub";
     private final String BUILD_ID = RandomStringUtils.randomAlphanumeric(6);
-    public final long DEFAULT_TIMEOUT = 1L;
+    public final long DEFAULT_TIMEOUT = 4L;
 
     private  URL desktopUrl;
     private  BrowserStackCapability browser;

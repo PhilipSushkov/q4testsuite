@@ -104,9 +104,10 @@ public abstract class AbstractSpec {
     public void teardownWebDriver() throws Exception {
         String testMethodName = testName.getMethodName();
 
-        //if (getActiveEnvironment() != EnvironmentType.LOCAL) {
+        if (getActiveEnvironment() != EnvironmentType.LOCAL) {
             driver.quit();
             System.out.println(testMethodName + " - " + "complete");
+        }
     }
 
     public EnvironmentType getActiveEnvironment() {
