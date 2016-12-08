@@ -20,10 +20,12 @@ public class AdminLoginPage extends AbstractPageObject {
     }
 
     public AdminLoginPage customLoginAdmin(String email, String password) {
-        findElement(loginButton).click();
-        findElement(googleLoginButton).click();
+        pause(5000L);
         // Store the current window handle
         String winHandleBefore = driver.getWindowHandle();
+
+        findElement(loginButton).click();
+        findElement(googleLoginButton).click();
 
         // Perform the click operation that opens new window
 
@@ -46,6 +48,7 @@ public class AdminLoginPage extends AbstractPageObject {
     }
 
     public AdminLoginPage loginAdmin() {
+        pause(5000L);
         // Store the current window handle
         String winHandleBefore = driver.getWindowHandle();
 
