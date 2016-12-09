@@ -4,13 +4,11 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.io.FileHandler;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageobjects.AbstractPageObject;
 import pageobjects.user.logActivity.LogActivityModal;
 import pageobjects.user.noteDetailsPage.NoteDetailsPage;
 
-import javax.xml.ws.WebEndpoint;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,15 +26,12 @@ public class ActivityPage extends AbstractPageObject {
     private final By callCount = By.xpath("(//*[@class=\"counter\"])[2]");
     private final By emailCount = By.xpath("(//*[@class=\"counter\"])[3]");
     private final By meetingCount = By.xpath("(//*[@class=\"counter\"])[4]");
-    private final By filtersButton = By.xpath("//div[contains(@class,'rectangular')]//span[contains(text(),'Filters')]");
-    private final By searchButton = By.cssSelector(".note-manager-filters .form-button.yellow");
-    private final By resetButton = By.cssSelector(".reset-button");
 
     //This is actually the text beside the checkbox. Clicking the checkbox is proving to be difficult
-    private final By noteFilterCheckbox = By.xpath("//div[contains(@class,'note-manager-filters-checkbox')]//span[contains(text(),'Note')]");
-    private final By phoneFilterCheckbox = By.xpath("//div[contains(@class,'note-manager-filters-checkbox')]//span[contains(text(),'Phone')]");
-    private final By emailFilterCheckbox = By.xpath("//div[contains(@class,'note-manager-filters-checkbox')]//span[contains(text(),'Email')]");
-    private final By meetingFilterCheckbox = By.xpath("//div[contains(@class,'note-manager-filters-checkbox')]//span[contains(text(),'Meeting')]");
+    private final By noteFilterCheckbox = By.xpath("//div[contains(@class,'x-container range-tabs dark-tabs x-stretched')]//span[contains(text(),'Notes')]");
+    private final By phoneFilterCheckbox = By.xpath("//div[contains(@class,'x-container range-tabs dark-tabs x-stretched')]//span[contains(text(),'Calls')]");
+    private final By emailFilterCheckbox = By.xpath("//div[contains(@class,'x-container range-tabs dark-tabs x-stretched')]//span[contains(text(),'Emails')]");
+    private final By meetingFilterCheckbox = By.xpath("//div[contains(@class,'x-container range-tabs dark-tabs x-stretched')]//span[contains(text(),'Meetings')]");
     private final By activityDataTable = By.cssSelector(".x-dataview-container");
 
 
@@ -87,21 +82,6 @@ public class ActivityPage extends AbstractPageObject {
         findElement(activitySearchField).sendKeys(Keys.RETURN);
         waitForLoadingScreen();
 
-        return this;
-    }
-
-    public ActivityPage clickFiltersButton(){
-        waitForLoadingScreen();
-        wait.until(ExpectedConditions.elementToBeClickable(filtersButton));
-        findElement(filtersButton).click();
-        wait.until(ExpectedConditions.elementToBeClickable(searchButton));
-        return this;
-    }
-
-    public ActivityPage clickResetFiltersButton(){
-        wait.until(ExpectedConditions.elementToBeClickable(resetButton));
-        findElement(resetButton).click();
-        waitForLoadingScreen();
         return this;
     }
 
@@ -173,15 +153,9 @@ public class ActivityPage extends AbstractPageObject {
         By selector = getFilterSelector(filter);
         wait.until(ExpectedConditions.elementToBeClickable(selector));
         findElement(selector).click();
-        return this;
-
-    }
-
-    public ActivityPage clickSearch(){
-        wait.until(ExpectedConditions.elementToBeClickable(searchButton));
-        findElement(searchButton).click();
         waitForLoadingScreen();
         return this;
+
     }
 
     public boolean isFilteredCorrectly(FilterType filter){

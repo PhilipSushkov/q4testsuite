@@ -1,11 +1,8 @@
 package specs.user.activity;
 
-import org.apache.commons.lang.RandomStringUtils;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.internal.runners.statements.Fail;
-import org.openqa.selenium.support.ui.Wait;
 import pageobjects.user.activityPage.ActivityPage;
 import pageobjects.user.activityPage.ColumnType;
 import pageobjects.user.activityPage.FilterType;
@@ -24,77 +21,52 @@ public class FilterActivity extends AbstractSpec {
                 .selectActivityPageFromSideNav();
     }
 
-
     @Test
     public void filterActivitiesByEmail(){
         FilterType email = FilterType.EMAIL;
-        ActivityPage activityPage = new ActivityPage(driver);
-        activityPage.clickFiltersButton().clickFilterCheckbox(email).clickSearch();
+        ActivityPage activityPage = new ActivityPage(driver).clickFilterCheckbox(email);
         Assert.assertTrue("Filter not applied correctly for emails",activityPage.isFilteredCorrectly(email));
     }
-
 
     @Test
     public void filterActivitiesByNote(){
         FilterType note = FilterType.NOTE;
-        ActivityPage activityPage = new ActivityPage(driver);
-        activityPage.clickFiltersButton().clickFilterCheckbox(note).clickSearch();
+        ActivityPage activityPage = new ActivityPage(driver).clickFilterCheckbox(note);
         Assert.assertTrue("Filter not applied correctly for notes",activityPage.isFilteredCorrectly(note));
     }
-
 
     @Test
     public void filterActivitiesByMeeting(){
         FilterType meeting = FilterType.MEETING;
-        ActivityPage activityPage = new ActivityPage(driver);
-        activityPage.clickFiltersButton().clickFilterCheckbox(meeting).clickSearch();
+        ActivityPage activityPage = new ActivityPage(driver).clickFilterCheckbox(meeting) ;
         Assert.assertTrue("Filter not applied correctly for meetingss",activityPage.isFilteredCorrectly(meeting));
     }
 
     @Test
     public void filterActivitiesByPhone(){
         FilterType phone = FilterType.PHONE;
-        ActivityPage activityPage = new ActivityPage(driver);
-        activityPage.clickFiltersButton().clickFilterCheckbox(phone).clickSearch();
+        ActivityPage activityPage = new ActivityPage(driver).clickFilterCheckbox(phone);
         Assert.assertTrue("Filter not applied correctly for phone",activityPage.isFilteredCorrectly(phone));
-    }
-
-    @Test
-    public void resetFilters(){
-        FilterType meeting = FilterType.MEETING;
-        ActivityPage activityPage = new ActivityPage(driver);
-        activityPage.clickFiltersButton().clickFilterCheckbox(meeting).clickSearch();
-        if(activityPage.isFilteredCorrectly(meeting)){
-           activityPage.clickFiltersButton().clickResetFiltersButton();
-            Assert.assertFalse("Filters were not reset", activityPage.isFilteredCorrectly(meeting));
-        }
-        else{
-            Assert.fail("Filters aren't being applied correctly");
-        }
     }
 
     @Test
     public void sortActivitiesByType(){
         ColumnType type = ColumnType.TYPE;
-        ActivityPage activityPage = new ActivityPage(driver);
-       activityPage.clickColumnHeader(type);
+        ActivityPage activityPage = new ActivityPage(driver).clickColumnHeader(type);
         Assert.assertTrue("Type not sorted correctly",activityPage.isColumnSorted(type));
     }
 
     @Test
     public void sortActivitiesByTitle(){
         ColumnType title = ColumnType.TITLE;
-        ActivityPage activityPage = new ActivityPage(driver);
-        activityPage.clickColumnHeader(title);
+        ActivityPage activityPage = new ActivityPage(driver).clickColumnHeader(title);
         Assert.assertTrue("Type not sorted correctly",activityPage.isColumnSorted(title));
     }
 
     @Test
     public void sortActivitiesByDate(){
         ColumnType date = ColumnType.DATE;
-        ActivityPage activityPage = new ActivityPage(driver);
-        activityPage.clickColumnHeader(date);
+        ActivityPage activityPage = new ActivityPage(driver).clickColumnHeader(date);
         Assert.assertTrue("Type not sorted correctly",activityPage.isColumnSorted(date));
     }
-
 }
