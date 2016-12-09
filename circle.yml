@@ -5,25 +5,16 @@ machine:
 # Only runs a full test suite on CircleCI when build parameters are passed in.
 # otherwise only runs compile on a git push
 
-dependencies:
-  pre:
-      - curl -s https://raw.githubusercontent.com/chronogolf/circleci-google-chrome/master/use_chrome_stable_version.sh | bash
+test:
   post:
       - mkdir -p $CIRCLE_TEST_REPORTS/junit/
       - find . -type f -regex ".*/target/surefire-reports/.*xml" -exec cp {} $CIRCLE_TEST_REPORTS/junit/ \;
-      # install chromedriver
-      - wget https://chromedriver.storage.googleapis.com/2.24/chromedriver_linux64.zip
-      - unzip chromedriver_linux64.zip
-      # run chromedriver
-      - ./chromedriver --url-base=wd/hub --port=9515  --verbose --log-path=$CIRCLE_ARTIFACTS/chromedriver.log:
-            background: true
 
-test:
   override:
-      - ? |
-          if [ -n "${TEST_ENV}" ]; then
-            mvn -Dsurefire.rerunFailingTestsCount=1 test -fae -D q4inc.specs=${TEST_ENV} -Dtest=${SUITE_NAME}
-          else
-            mvn compile
-          fi
-        : timeout: 1500
+    - ? |
+        if [ -n "${TEST_ENV}" ]; then
+          mvn -Dsurefire.rerunFailingTestsCount=1 test -fae -D q4inc.specs=${TEST_ENV} -Dtest=${SUITE_NAME}
+        else
+          mvn compile
+        fi
+      : timeout: 1500
