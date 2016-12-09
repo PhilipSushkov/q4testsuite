@@ -148,7 +148,7 @@
                     <redirectTestOutputToFile>false</redirectTestOutputToFile>
                     <useUnlimitedThreads>true</useUnlimitedThreads>
                     <perCoreThreadCount>false</perCoreThreadCount>
-                    <threadCountMethods>5</threadCountMethods>
+                    <threadCountMethods>10</threadCountMethods>
                     <parallel>all</parallel>
                     <includes>
                         <include>specs/**/*.java</include>
