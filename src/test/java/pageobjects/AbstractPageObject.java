@@ -4,6 +4,8 @@ import org.apache.commons.collections4.Predicate;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.FluentWait;
+import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import pageobjects.admin.companyPage.CompanyPage;
 import pageobjects.admin.implementationPage.ImplementationPage;
@@ -20,6 +22,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 public class AbstractPageObject implements PageObject {
 
@@ -398,5 +401,16 @@ public class AbstractPageObject implements PageObject {
         return new LoginPage(getDriver());
     }
 
+    public boolean windowDidLoad (String title) {
+        for (int i = 0; i < 10; i++) {
+            for (String winHandle : driver.getWindowHandles()) {
 
+                if (driver.switchTo().window(winHandle).getTitle().equals(title)) {
+                    return true;
+                }
+            }
+            pause(1000L);
+        }
+        return false;
+    }
 }
