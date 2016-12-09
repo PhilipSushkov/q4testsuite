@@ -16,8 +16,8 @@ dependencies:
       - ./chromedriver --url-base=wd/hub --port=9515  --verbose --log-path=$CIRCLE_ARTIFACTS/chromedriver.log:
             background: true
 
-  test:
-    override:
+test:
+  override:
       - ? |
           if [ -n "${TEST_ENV}" ]; then
             mvn -Dsurefire.rerunFailingTestsCount=1 test -fae -D q4inc.specs=${TEST_ENV} -Dtest=${SUITE_NAME}
