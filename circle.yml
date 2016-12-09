@@ -7,10 +7,10 @@ machine:
 
 test:
   post:
-    - chromedriver23:
-            background: true
       - mkdir -p $CIRCLE_TEST_REPORTS/junit/
       - find . -type f -regex ".*/target/surefire-reports/.*xml" -exec cp {} $CIRCLE_TEST_REPORTS/junit/ \;
+      - chromedriver23:
+                  background: true
   override:
     - ? |
         if [ -n "${TEST_ENV}" ]; then
