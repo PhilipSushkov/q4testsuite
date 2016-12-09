@@ -30,6 +30,7 @@ public class AdminLoginPage extends AbstractPageObject {
         // Perform the click operation that opens new window
 
         // Switch to new window opened
+        windowDidLoad("Sign in - Google Accounts");
         for(String winHandle : driver.getWindowHandles()){
             driver.switchTo().window(winHandle);
         }
