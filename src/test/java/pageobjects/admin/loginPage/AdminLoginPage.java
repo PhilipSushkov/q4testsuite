@@ -41,18 +41,20 @@ public class AdminLoginPage extends AbstractPageObject {
         findElement(enterPassword).sendKeys(password);
         findElement(submit).click();
         pause(2000L);
-
+        String mainWindowTitle = "";
         // Switch back to original browser (first window)
+        windowDidLoad(mainWindowTitle);
         driver.switchTo().window(winHandleBefore);
 
         return this;
     }
 
     public AdminLoginPage loginAdmin() {
+        String mainWindowTitle = "";
         pause(5000L);
         // Store the current window handle
         String winHandleBefore = driver.getWindowHandle();
-
+        mainWindowTitle=driver.getTitle();
         // Perform the click operation that opens new window
         findElement(loginButton).click();
         findElement(googleLoginButton).click();
@@ -71,6 +73,7 @@ public class AdminLoginPage extends AbstractPageObject {
         pause(2000L);
 
         // Switch back to original browser (first window)
+        windowDidLoad(mainWindowTitle);
         driver.switchTo().window(winHandleBefore);
 
         return this;
