@@ -167,15 +167,13 @@ public class IntelligenceList extends AdminAbstractSpec {
 
     @Test
     public void canProduceValidWeeklyTradeSummaryReport(){
-        String[] symbols = {"FCEL", "WPRT", "BLDP", "HYGS", "AMSC", "FSLR", "CLNE", "PLUG"};
-        String[] companies = {"FuelCell Energy, Inc.", "Westport Fuel Systems, Inc.",  "Ballard Power Systems, Inc.", "Hydrogenics Corp.",
-                "American Superconductor Corp.", "First Solar, Inc.", "Clean Energy Fuels Corp.", "Plug Power, Inc."};
-        String reportTitle = "FuelCell Energy, Inc. | FCEL | XNAS\n" +
+        String[] symbols = {"JLL", "CIGI", "MMI", "CBG"};
+        String reportTitle = "Jones Lang LaSalle, Inc. | JLL | XNYS\n" +
                 "Weekly Trade Summary";
         IntelligencePage intelligencePage = new IntelligencePage(driver).createWeeklyTradeSummary(symbols[0]);
         Assert.assertThat("Expected stock symbol doesn't match with first listed report", intelligencePage.getNewReport(), containsString(symbols[0]));
         WTSReportDetailsPage wtsReportDetailsPage = intelligencePage.selectNewReport();
         Assert.assertThat("Report title does not match expected", wtsReportDetailsPage.getReportHeader(), containsString(reportTitle));
-        Assert.assertTrue("KNOWN ISSUE - ADMIN (433, 440, 399): Report contains invalid data.", wtsReportDetailsPage.reportDataIsValid(symbols, companies));
+        Assert.assertTrue("KNOWN ISSUE - ADMIN (440, 399): Report contains invalid data.", wtsReportDetailsPage.reportDataIsValid(symbols));
     }
 }
