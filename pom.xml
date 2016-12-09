@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
-
+    <properties>
+        <threads>5</threads>
+    </properties>
     <modelVersion>4.0.0</modelVersion>
     <groupId>q4webdriver</groupId>
     <artifactId>q4webdriver</artifactId>
@@ -148,7 +150,7 @@
                     <redirectTestOutputToFile>false</redirectTestOutputToFile>
                     <useUnlimitedThreads>true</useUnlimitedThreads>
                     <perCoreThreadCount>false</perCoreThreadCount>
-                    <threadCountMethods>7</threadCountMethods>
+                    <threadCountMethods>${threads}</threadCountMethods>
                     <parallel>all</parallel>
                     <includes>
                         <include>specs/**/*.java</include>
