@@ -57,6 +57,7 @@ public class AdminLoginPage extends AbstractPageObject {
         findElement(googleLoginButton).click();
 
         // Switch to new window opened
+        windowDidLoad("Sign in - Google Accounts");
         for(String winHandle : driver.getWindowHandles()){
             driver.switchTo().window(winHandle);
         }
@@ -73,4 +74,5 @@ public class AdminLoginPage extends AbstractPageObject {
 
         return this;
     }
+
 }
