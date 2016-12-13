@@ -26,20 +26,20 @@ public class AdminAbstractSpec {
     // IMPORTANT:
 // Determines which environment the test suite will run on but can be overridden by command line
 //------------------------------------------------------------------------------
-    private  final EnvironmentType DEFAULT_ENVIRONMENT = EnvironmentType.LOCALADMIN;
+    private static final EnvironmentType DEFAULT_ENVIRONMENT = EnvironmentType.LOCALADMIN;
 //------------------------------------------------------------------------------
 
-    private final EnvironmentType activeEnvironment = setupEnvironment();
+    private static final EnvironmentType activeEnvironment = setupEnvironment();
 
-    private final String BROWSER_STACK_URL = "http://jencampbell2:6jEURzbszfaWhLJc7XWx@hub.browserstack.com/wd/hub";
-    private final String BUILD_ID = RandomStringUtils.randomAlphanumeric(6);
-    public final long DEFAULT_TIMEOUT = 4L;
+    private static final String BROWSER_STACK_URL = "http://jencampbell2:6jEURzbszfaWhLJc7XWx@hub.browserstack.com/wd/hub";
+    private static final String BUILD_ID = RandomStringUtils.randomAlphanumeric(6);
+    public static final long DEFAULT_TIMEOUT = 1L;
 
-    private  URL desktopUrl;
-    private  BrowserStackCapability browser;
-    protected  WebDriver driver;
-    private boolean setupIsDone = false;
-    private final Logger LOG = Logger.getLogger(AbstractSpec.class.getName());
+    private static URL desktopUrl;
+    private static BrowserStackCapability browser;
+    protected static WebDriver driver;
+    private static boolean setupIsDone = false;
+    private static final Logger LOG = Logger.getLogger(AbstractSpec.class.getName());
 
     @Rule
     public TestName testName = new TestName();
@@ -68,7 +68,6 @@ public class AdminAbstractSpec {
             case DEVELOPADMIN:
             case STAGINGADMIN:
                 setupWebDriver();
-              //  setupLocalDriver();
                 break;
         }
     }
@@ -112,11 +111,11 @@ public class AdminAbstractSpec {
         }
     }
 
-    public EnvironmentType getActiveEnvironment() {
+    public static EnvironmentType getActiveEnvironment() {
         return activeEnvironment;
     }
 
-    private EnvironmentType setupEnvironment () {
+    private static EnvironmentType setupEnvironment () {
         String overrideEnvironment = System.getProperty("q4inc.specs");
         if (overrideEnvironment != null) {
             return EnvironmentType.valueOf(overrideEnvironment);
