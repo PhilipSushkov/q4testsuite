@@ -53,4 +53,11 @@ public class Ownership extends AbstractSpec {
         Assert.assertTrue("Sorting the holders table does not work after showing more holders.", securityOwnershipPage.canSortHoldersTable());
     }
 
+    @Test
+    public void holderTableColouringIsCorrect(){
+        // Checks that all values in the 1Q CHG and MKT VAL CHG columns are green if positive, red if negative, or dark grey if zero
+        Assert.assertTrue("One or more change values in the Holders table is not coloured correctly",
+                new SecurityOwnershipPage(driver).holderTableChangeValueColouringIsCorrect());
+    }
+
 }

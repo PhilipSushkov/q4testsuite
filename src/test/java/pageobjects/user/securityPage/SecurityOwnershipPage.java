@@ -2,6 +2,7 @@ package pageobjects.user.securityPage;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageobjects.AbstractPageObject;
 
@@ -9,6 +10,7 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAdjusters;
+import java.util.List;
 
 /**
  * Created by patrickp on 2016-08-24.
@@ -37,9 +39,9 @@ public class SecurityOwnershipPage extends AbstractPageObject {
     private final By holderTableHeaderQR = By.cssSelector(".x-grid-column:nth-child(13)");
     private final By holderTableName = By.cssSelector(".x-grid-row:not([style*='-10000px']) .x-grid-cell:first-child");
     private final By holderTablePOS = By.cssSelector(".x-grid-row:not([style*='-10000px']) .x-grid-cell:nth-child(2)");
-    private final By holderTable1QChg = By.cssSelector(".x-grid-row:not([style*='-10000px']) .x-grid-cell:nth-child(3)");
+    private final By holderTable1QChg = By.cssSelector(".x-grid-row:not([style*='-10000px']) .x-grid-cell:nth-child(3) span");
     private final By holderTableMktVal = By.cssSelector(".x-grid-row:not([style*='-10000px']) .x-grid-cell:nth-child(4)");
-    private final By holderTableMktValChg = By.cssSelector(".x-grid-row:not([style*='-10000px']) .x-grid-cell:nth-child(5)");
+    private final By holderTableMktValChg = By.cssSelector(".x-grid-row:not([style*='-10000px']) .x-grid-cell:nth-child(5) span");
     private final By holderTablePercOS = By.cssSelector(".x-grid-row:not([style*='-10000px']) .x-grid-cell:nth-child(6)");
     private final By holderTablePercPort = By.cssSelector(".x-grid-row:not([style*='-10000px']) .x-grid-cell:nth-child(7)");
     private final By holderTableStyle = By.cssSelector(".x-grid-row:not([style*='-10000px']) .x-grid-cell:nth-child(8)");
@@ -399,5 +401,34 @@ public class SecurityOwnershipPage extends AbstractPageObject {
         }
 
         return isSorted;
+    }
+
+    public boolean holderTableChangeValueColouringIsCorrect(){
+        boolean correct = true;
+        List<WebElement> values = findVisibleElements(holderTable1QChg);
+        values.addAll(findVisibleElements(holderTableMktValChg));
+
+        for (WebElement value : values){
+            if (Double.parseDouble(value.getText().replace(",", "")) > 0){
+                if (!value.getCssValue("color").equals("rgba(26, 188, 156, 1)")){
+                    System.out.println("Positive change value of "+value.getText()+" is not green.\n\tExpected: rgba(26, 188, 156, 1)\n\tActual: "+value.getCssValue("color"));
+                    correct = false;
+                }
+            }
+            else if (Double.parseDouble(value.getText().replace(",", "")) < 0){
+                if (!value.getCssValue("color").equals("rgba(236, 106, 76, 1)")){
+                    System.out.println("Negative change value of "+value.getText()+" is not red.\n\tExpected: rgba(236, 106, 76, 1)\n\tActual: "+value.getCssValue("color"));
+                    correct = false;
+                }
+            }
+            else {
+                if (!value.getCssValue("color").equals("rgba(84, 91, 98, 1)")){
+                    System.out.println("Zero change value of "+value.getText()+" is not dark grey.\n\tExpected: rgba(84, 91, 98, 1)\n\tActual: "+value.getCssValue("color"));
+                    correct = false;
+                }
+            }
+        }
+
+        return correct;
     }
 }
