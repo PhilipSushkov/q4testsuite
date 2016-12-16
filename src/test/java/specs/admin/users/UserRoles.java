@@ -45,8 +45,8 @@ public class UserRoles extends AdminAbstractSpec{
     @Test
     public void filterUserByDeveloperRole(){
         UsersPage userPage = new UsersPage(driver);
-        userPage.clickUserRoleFilter().clickRoleInFilter(UserRole.DEVELOPER);
-        Assert.assertTrue("Users were not filtered by the developer role",userPage.areUsersFilteredByRole(UserRole.DEVELOPER));
+        userPage.clickUserRoleFilter().clickRoleInFilter(UserRole.DEVOPS);
+        Assert.assertTrue("Users were not filtered by the developer role",userPage.areUsersFilteredByRole(UserRole.DEVOPS));
     }
 
     @Test

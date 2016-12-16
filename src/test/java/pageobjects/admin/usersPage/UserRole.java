@@ -7,7 +7,7 @@ public enum UserRole {
     ALL("All"),
     ADMIN("Admin"),
     USER("User"),
-    DEVELOPER("Developer"),
+    DEVOPS("DevOps"),
     INTELLIGENCE_ANALYST("Intelligence Analyst"),
     CUSTOMER_SUCCESS_MANAGER("Customer Success Manager"),
     IMPLEMENTATION_MANAGER("Implementation Manager"),
