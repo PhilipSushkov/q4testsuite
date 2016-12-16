@@ -116,6 +116,7 @@ public class DashboardLogActivity extends AbstractSpec {
                 .postActivity()
                 .accessSideNav()
                 .selectActivityPageFromSideNav()
+                .searchForNote(comment)
                 .selectFirstNoteInList();
 
         Assert.assertThat("Note does not contain expected text", noteDetailsPage.getNoteBody(), containsString(note));
