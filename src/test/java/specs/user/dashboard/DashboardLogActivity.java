@@ -160,8 +160,9 @@ public class DashboardLogActivity extends AbstractSpec {
                 .postActivity()
                 .accessSideNav()
                 .selectActivityPageFromSideNav()
+                .searchForNote(comment)
                 .selectFirstNoteInList();
-
+//search comment and then search contacts
         Assert.assertThat("Note does not contain expected text", noteDetailsPage.getNoteBody(), containsString(note));
         Assert.assertThat("Note does not contain expected comment text", noteDetailsPage.getCommentText(), containsString(comment));
         Assert.assertThat("Note does not contain expected linked contact", noteDetailsPage.getLinkedToText(), containsString(contact));
