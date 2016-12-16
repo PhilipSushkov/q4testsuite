@@ -3,6 +3,7 @@ package pageobjects.user.targeting;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageobjects.AbstractPageObject;
 
 import java.util.List;
@@ -36,6 +37,7 @@ public class EditSearchPage extends AbstractPageObject {
 
     private final By deleteSearchButton = By.cssSelector(".action-button.x-iconalign-center");
     private final By saveSearchButton = By.xpath("//div[span/text()='Save Search']");
+    private final By saveConfirmation = By.xpath ("//div[contains(@class,'x-button-action')]");
 
 
     public EditSearchPage(WebDriver driver) {
@@ -53,6 +55,8 @@ public class EditSearchPage extends AbstractPageObject {
     public void resaveSearch(){
         waitForElementToAppear(saveSearchButton);
         findVisibleElement(saveSearchButton).click();
+        wait.until(ExpectedConditions.elementToBeClickable(saveConfirmation));
+        findElement(saveConfirmation).click();
     }
 
     public boolean verifyFilters(String[] filters){
