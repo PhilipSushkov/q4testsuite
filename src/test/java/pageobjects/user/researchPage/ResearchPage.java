@@ -16,7 +16,7 @@ public class ResearchPage extends AbstractPageObject {
     private final By numberOfDocuments = By.cssSelector(".count");
     private final By firmName = By.cssSelector(".institution");
     private final By analystName = By.cssSelector("div.contact:nth-child(1) > a:nth-child(1) > span:nth-child(2)");
-    private final By multipleAnalystDropdown = By.cssSelector(".multiple");
+    private final By multipleAnalystDropdown = By.xpath("//div[contains(@class,'multiple') and contains(@class,'contacts')]");
     private final By researchHeadlineColumnHeader = By.cssSelector(".research-list .list-header .x-button.headline, .research-list .list-item .column.headline");
     private final By researchHeadline = By.cssSelector(".list-item .column.headline");
     private final By researchDateColumnHeader = By.cssSelector(".research-list .list-header .x-button:first-child, .research-list .list-item .column:first-child");
