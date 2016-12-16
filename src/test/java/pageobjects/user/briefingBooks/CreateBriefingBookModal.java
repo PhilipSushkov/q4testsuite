@@ -11,7 +11,7 @@ import pageobjects.user.dashboardPage.Dashboard;
  */
 public class CreateBriefingBookModal extends AbstractPageObject {
 
-    private final By cancelBriefingButton = By.cssSelector(".q4-form .form-button.no-background");
+    private final By cancelBriefingButton = By.xpath("//div[contains(@class,'cancel-btn')]");
     private final By closeBriefingBookIcon = By.cssSelector(".q4-modal .close");
     private final By nameField = By.name("title");
     private final By saveButton = By.cssSelector(".q4-form .form-button.yellow");
