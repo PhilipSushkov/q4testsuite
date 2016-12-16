@@ -21,7 +21,7 @@ public class LogActivityModal extends AbstractPageObject {
     private final By linkDropdown = By.cssSelector(".note-link-field .toggle-field .x-toggle.x-toggle-off");
     private final By keywordField = By.cssSelector(".note-link-field .search-field.x-field .x-form-field");
     private final By institutionSearchResult = By.cssSelector(".link-field-result .result-item");
-    private final By fundIcon = By.xpath("//div[contains(@class,'new-note-inner')]//div[contains(@class,'x-field-radio') and .//span[contains(text(),'CFund')]]");
+    private final By fundIcon = By.xpath("//div[contains(@class,'new-note-inner')]//div[contains(@class,'x-field-radio') and .//span[contains(text(),'Fund')]]");
     private final By contactIcon = By.xpath("//div[contains(@class,'new-note-inner')]//div[contains(@class,'x-field-radio') and .//span[contains(text(),'Contact')]]");
     private final By phoneTab = By.id("ext-radiofield-2");
     private final By emailTab = By.id("ext-radiofield-3");
