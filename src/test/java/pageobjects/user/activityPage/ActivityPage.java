@@ -79,7 +79,7 @@ public class ActivityPage extends AbstractPageObject {
         wait.until(ExpectedConditions.elementToBeClickable(activitySearchField));
         findElement(activitySearchField).click();
         findElement(activitySearchField).sendKeys(note);
-        findElement(activitySearchField).sendKeys(Keys.RETURN);
+        //findElement(activitySearchField).sendKeys(Keys.RETURN);
         waitForLoadingScreen();
 
         return this;
