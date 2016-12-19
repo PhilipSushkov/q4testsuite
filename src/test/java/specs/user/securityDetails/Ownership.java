@@ -3,9 +3,12 @@ package specs.user.securityDetails;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import pageobjects.user.dashboardPage.Dashboard;
+import pageobjects.user.institutionPage.InstitutionPage;
 import pageobjects.user.loginPage.LoginPage;
 import pageobjects.user.securityPage.SecurityOwnershipPage;
 import specs.AbstractSpec;
+import static org.hamcrest.CoreMatchers.containsString;
 
 /**
  * Created by kelvint on 11/2/16.
@@ -58,6 +61,35 @@ public class Ownership extends AbstractSpec {
         // Checks that all values in the 1Q CHG and MKT VAL CHG columns are green if positive, red if negative, or dark grey if zero
         Assert.assertTrue("One or more change values in the Holders table is not coloured correctly",
                 new SecurityOwnershipPage(driver).holderTableChangeValueColouringIsCorrect());
+    }
+
+    @Test
+    public void canSeeActivistHolders(){
+        SecurityOwnershipPage securityOwnershipPage = new SecurityOwnershipPage(driver);
+        //store holders
+        String[] holders = securityOwnershipPage.getHolderNames();
+        //select activist filter and check that all have red flag
+        securityOwnershipPage.showOnlyActivists();
+        Assert.assertEquals("Known issue - DESKTOP-7285 - Not all filtered entries have activist icon", securityOwnershipPage.getNumOfHoldersDisplayed(), securityOwnershipPage.getNumOfActivistsDisplayed());
+        //unselect activist filter
+        securityOwnershipPage.doNotShowOnlyActivists();
+        //check that original list is displayed
+        Assert.assertArrayEquals("Original list is not displayed after reverting activist filter", holders, securityOwnershipPage.getHolderNames());
+        //MAYBE: click on each one and verify that activist icon appears on institution page
+    }
+
+    @Test
+    public void allFilteredActivistsAreActivists(){
+        SecurityOwnershipPage securityOwnershipPage = new SecurityOwnershipPage(driver);
+        // store list of filtered holders
+        String[] institutions = securityOwnershipPage.showOnlyActivists().getHolderNames();
+        // for each holder, go to institution page and check that activist icon appears
+        for (int i=0; i<institutions.length; i++){
+            InstitutionPage institutionPage = securityOwnershipPage.goToInstitutionalHolder(i);
+            Assert.assertThat("ERROR: incorrect institution page opened", institutionPage.getInstitutionName(), containsString(institutions[i]));
+            Assert.assertTrue("Known issue - DESKTOP-7281 - Institution "+institutions[i]+" is not an activist.", institutionPage.isActivist());
+            institutionPage.accessSideNavFromPage().selectOwnershipFromSideNav().showOnlyActivists();
+        }
     }
 
 }

@@ -1,10 +1,12 @@
 package pageobjects.user.securityPage;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageobjects.AbstractPageObject;
+import pageobjects.user.institutionPage.InstitutionPage;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -25,6 +27,9 @@ public class SecurityOwnershipPage extends AbstractPageObject {
     private final By lastTopSeller = By.cssSelector(".company-ownership-inner > div > div > div:not(.x-hidden-display) .top-sellers-list .x-dataview-item:nth-child(5) .list-item");
 
     // holders table
+    private final By activistFilter = By.cssSelector(".ownership-report-top-holders .toggle-button");
+    private final By activistFilterOn = By.cssSelector(".ownership-report-top-holders .toggle-button .x-toggle-on");
+    private final By activistFilterOff = By.cssSelector(".ownership-report-top-holders .toggle-button .x-toggle-off");
     private final By holderTableHeaderName = By.cssSelector(".x-grid-column:first-child");
     private final By holderTableHeaderPOS = By.cssSelector(".x-grid-column:nth-child(2)");
     private final By holderTableHeader1QChg = By.cssSelector(".x-grid-column:nth-child(3)");
@@ -50,6 +55,7 @@ public class SecurityOwnershipPage extends AbstractPageObject {
     private final By holderTableAsOf = By.cssSelector(".x-grid-row:not([style*='-10000px']) .x-grid-cell:nth-child(11)");
     private final By holderTableQR = By.cssSelector(".x-grid-row:not([style*='-10000px']) .x-grid-cell:nth-child(13)");
     private final By showMoreButton = By.className("q4i-arrow-down-2pt");
+    private final By activistIcon = By.cssSelector(".icon.activists");
 
     private final DateTimeFormatter shortDate = DateTimeFormatter.ofPattern("MM/dd/yy");
     private final DateTimeFormatter longDate = DateTimeFormatter.ofPattern("MMMM dd, yyyy");
@@ -430,5 +436,66 @@ public class SecurityOwnershipPage extends AbstractPageObject {
         }
 
         return correct;
+    }
+
+    public String[] getHolderNames(){
+        waitForElement(holderTableName);
+        List<WebElement> elements = findVisibleElements(holderTableName);
+        String[] names = new String[elements.size()];
+        for (int i=0; i<elements.size(); i++){
+            names[i] = elements.get(i).getText();
+        }
+        return names;
+    }
+
+    public InstitutionPage goToInstitutionalHolder(int index){
+        waitForElement(holderTableName);
+        findVisibleElements(holderTableName).get(index).click();
+        return new InstitutionPage(driver);
+    }
+
+    public SecurityOwnershipPage showOnlyActivists(){
+        waitForElement(activistFilter);
+        if (doesElementExist(activistFilterOff)){
+            int numHolders = getNumOfHoldersDisplayed();
+            findElement(activistFilter).click();
+            for (int i=0; i<50; i++){
+                if (getNumOfHoldersDisplayed() != numHolders){
+                    return this;
+                }
+                pause(100);
+            }
+        }
+        return this;
+    }
+
+    public SecurityOwnershipPage doNotShowOnlyActivists(){
+        waitForElement(activistFilter);
+        if (doesElementExist(activistFilterOn)){
+            int numHolders = getNumOfHoldersDisplayed();
+            findElement(activistFilter).click();
+            for (int i=0; i<50; i++){
+                if (getNumOfHoldersDisplayed() != numHolders){
+                    return this;
+                }
+                pause(100);
+            }
+        }
+        return this;
+    }
+
+    public int getNumOfActivistsDisplayed(){
+        waitForElement(activistIcon);
+        List<WebElement> icons = findVisibleElements(activistIcon);
+        int numIcons = 0;
+        for (WebElement icon : icons){
+            try {
+                wait.until(ExpectedConditions.elementToBeClickable(icon));
+                numIcons++;
+            }catch (TimeoutException e){
+                System.out.println("Activist icon is not clickable.");
+            }
+        }
+        return numIcons;
     }
 }
