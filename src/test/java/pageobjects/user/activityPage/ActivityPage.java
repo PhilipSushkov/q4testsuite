@@ -28,10 +28,10 @@ public class ActivityPage extends AbstractPageObject {
     private final By meetingCount = By.xpath("(//*[@class=\"counter\"])[4]");
 
     //This is actually the text beside the checkbox. Clicking the checkbox is proving to be difficult
-    private final By noteFilterCheckbox = By.xpath("//div[contains(@class,'x-container range-tabs dark-tabs x-stretched')]//span[contains(text(),'Notes')]");
-    private final By phoneFilterCheckbox = By.xpath("//div[contains(@class,'x-container range-tabs dark-tabs x-stretched')]//span[contains(text(),'Calls')]");
-    private final By emailFilterCheckbox = By.xpath("//div[contains(@class,'x-container range-tabs dark-tabs x-stretched')]//span[contains(text(),'Emails')]");
-    private final By meetingFilterCheckbox = By.xpath("//div[contains(@class,'x-container range-tabs dark-tabs x-stretched')]//span[contains(text(),'Meetings')]");
+    private final By noteFilterCheckbox = By.xpath("//div[contains(@class,'x-button') and .//span[contains(text(),'Notes')]]");
+    private final By phoneFilterCheckbox = By.xpath("//div[contains(@class,'x-button') and .//span[contains(text(),'Calls')]]");
+    private final By emailFilterCheckbox = By.xpath("//div[contains(@class,'x-button') and .//span[contains(text(),'Emails')]]");
+    private final By meetingFilterCheckbox = By.xpath("//div[contains(@class,'x-button') and .//span[contains(text(),'Meetings')]]");
     private final By activityDataTable = By.cssSelector(".x-dataview-container");
 
 
@@ -151,7 +151,8 @@ public class ActivityPage extends AbstractPageObject {
 
     public ActivityPage clickFilterCheckbox(FilterType filter){
         By selector = getFilterSelector(filter);
-        wait.until(ExpectedConditions.elementToBeClickable(selector));
+        waitForLoadingScreen();
+        wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(selector));
         findElement(selector).click();
         waitForLoadingScreen();
         return this;
