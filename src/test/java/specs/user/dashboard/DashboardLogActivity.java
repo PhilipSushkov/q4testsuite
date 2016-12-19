@@ -34,7 +34,8 @@ public class DashboardLogActivity extends AbstractSpec {
                 .enterNoteDetails(comment, note, tag)
                 .postActivity()
                 .accessSideNav()
-                .selectActivityPageFromSideNav();
+                .selectActivityPageFromSideNav()
+                .searchForNote(comment);
 
         Assert.assertThat("Note does not contain the expected comment text", activityPage.getNewNote(), containsString(comment));
         Assert.assertThat("Note does not contain the expected tag", activityPage.getNewNote(), containsString(tag));
@@ -52,7 +53,8 @@ public class DashboardLogActivity extends AbstractSpec {
                 .enterPhoneNoteDetails(comment, name, note, tag)
                 .postActivity()
                 .accessSideNav()
-                .selectActivityPageFromSideNav();
+                .selectActivityPageFromSideNav()
+                .searchForNote(comment);
 
         Assert.assertThat("Note does not contain the expected comment text", activityPage.getNewNote(), containsString(comment));
         Assert.assertThat("Note does not contain the expected tag", activityPage.getNewNote(), containsString(tag));
@@ -69,7 +71,8 @@ public class DashboardLogActivity extends AbstractSpec {
                 .enterEmailNoteDetails(comment, note, tag)
                 .postActivity()
                 .accessSideNav()
-                .selectActivityPageFromSideNav();
+                .selectActivityPageFromSideNav()
+                .searchForNote(comment);
 
         Assert.assertThat("Note does not contain the expected comment text", activityPage.getNewNote(), containsString(comment));
         Assert.assertThat("Note does not contain the expected tag", activityPage.getNewNote(), containsString(tag));
@@ -87,7 +90,8 @@ public class DashboardLogActivity extends AbstractSpec {
                 .enterMeetingDetails(comment, name, note, tag)
                 .postActivity()
                 .accessSideNav()
-                .selectActivityPageFromSideNav();
+                .selectActivityPageFromSideNav()
+                .searchForNote(comment);
 
         Assert.assertThat("Note does not contain the expected comment text", activityPage.getNewNote(), containsString(comment));
         Assert.assertThat("Note does not contain the expected tag", activityPage.getNewNote(), containsString(tag));
