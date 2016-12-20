@@ -11,6 +11,7 @@ import pageobjects.user.noteDetailsPage.NoteDetailsPage;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Filter;
 
 /**
  * Created by philipsushkov on 2016-08-07.
@@ -32,6 +33,7 @@ public class ActivityPage extends AbstractPageObject {
     private final By phoneFilterCheckbox = By.xpath("//div[contains(@class,'x-button') and .//span[contains(text(),'Calls')]]");
     private final By emailFilterCheckbox = By.xpath("//div[contains(@class,'x-button') and .//span[contains(text(),'Emails')]]");
     private final By meetingFilterCheckbox = By.xpath("//div[contains(@class,'x-button') and .//span[contains(text(),'Meetings')]]");
+    private final By roadshowFilterCheckbox = By.xpath("//div[contains(@class,'x-button') and .//span[contains(text(),'Roadshows')]]");
     private final By activityDataTable = By.cssSelector(".x-dataview-container");
 
 
@@ -130,6 +132,9 @@ public class ActivityPage extends AbstractPageObject {
             case MEETING:
                 selector = meetingFilterCheckbox;
                 break;
+            case ROADHSHOW:
+                selector = roadshowFilterCheckbox;
+                break;
         }
         return selector;
     }
@@ -198,6 +203,7 @@ public class ActivityPage extends AbstractPageObject {
         FilterType note = FilterType.NOTE;
         FilterType meeting = FilterType.MEETING;
         FilterType phone = FilterType.PHONE;
+        FilterType roadshow = FilterType.ROADHSHOW;
         FilterType savedIcon = null;
         FilterType currentIcon= FilterType.PHONE;
 
@@ -223,6 +229,9 @@ public class ActivityPage extends AbstractPageObject {
                                     case PHONE:
                                         phone.setChecked(true);
                                         break;
+                                    case ROADHSHOW:
+                                        roadshow.setChecked(true);
+                                        break;
                                 }
                                 savedIcon = email;
                             }
@@ -243,6 +252,9 @@ public class ActivityPage extends AbstractPageObject {
                                         break;
                                     case PHONE:
                                         phone.setChecked(true);
+                                        break;
+                                    case ROADHSHOW:
+                                        roadshow.setChecked(true);
                                         break;
                                 }
                                 savedIcon = note;
@@ -265,6 +277,9 @@ public class ActivityPage extends AbstractPageObject {
                                     case PHONE:
                                         phone.setChecked(true);
                                         break;
+                                    case ROADHSHOW:
+                                        roadshow.setChecked(true);
+                                        break;
                                 }
                                 savedIcon = meeting;
                             }
@@ -286,8 +301,34 @@ public class ActivityPage extends AbstractPageObject {
                                     case PHONE:
                                         phone.setChecked(true);
                                         break;
+                                    case ROADHSHOW:
+                                        roadshow.setChecked(true);
+                                        break;
                                 }
                                 savedIcon = phone;
+                            }
+                        case ROADHSHOW:
+                            if (roadshow.isChecked()) {
+                                return false;
+                            } else {
+                                switch(savedIcon){
+                                    case EMAIL:
+                                        email.setChecked(true);
+                                        break;
+                                    case NOTE:
+                                        note.setChecked(true);
+                                        break;
+                                    case MEETING:
+                                        meeting.setChecked(true);
+                                        break;
+                                    case PHONE:
+                                        phone.setChecked(true);
+                                        break;
+                                    case ROADHSHOW:
+                                        roadshow.setChecked(true);
+                                        break;
+                                }
+                                savedIcon = roadshow;
                             }
                     }
                 }
@@ -300,7 +341,9 @@ public class ActivityPage extends AbstractPageObject {
                     savedIcon = FilterType.NOTE;
                 } else if (i.findElement(By.xpath(".//i")).getAttribute("class").equals(meeting.iconClass())){
                     savedIcon = FilterType.MEETING;
-                }else{
+                } else if(i.findElement(By.xpath(".//i")).getAttribute("class").equals(roadshow.iconClass())) {
+                    savedIcon = FilterType.ROADHSHOW;
+                }else {
                     savedIcon = FilterType.PHONE;
                 }
             }
