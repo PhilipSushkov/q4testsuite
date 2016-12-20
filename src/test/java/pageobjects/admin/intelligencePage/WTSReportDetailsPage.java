@@ -113,9 +113,18 @@ public class WTSReportDetailsPage extends AbstractPageObject {
         return doesElementExist(downloadButton) && findElement(downloadButton).isDisplayed();
     }
 
+    /*
+    This method verifies:
+    - all “Stock Trade Summary” data
+    - “Indices” data for Dow Jones, Nasdaq, S&P 500, and 10 Year Yield
+    - values displayed when hovering over the bars of the “Daily Performance” chart
+    - values displayed when hovering over the bars of the “YTD Change” chart
+    Explanations on how values are supposed to be calculated: https://q4websystems.atlassian.net/wiki/display/PM/Intelligence+Reports
+    First value in parameter String[] symbols should be the symbol of the company, followed by the symbols of each peer in the order presented on the report.
+     */
     public boolean reportDataIsValid(String[] symbols){
         boolean allValid = true;
-        ZonedDateTime lastFriday = ZonedDateTime.now().with(TemporalAdjusters.previous(DayOfWeek.FRIDAY));
+        ZonedDateTime lastFriday = ZonedDateTime.now().with(TemporalAdjusters.previous(DayOfWeek.FRIDAY)); //most-recent date that report should be based off of (may be incorrect if last friday is not a trading day)
         ZonedDateTime thirteenWeeksEarlier = lastFriday.minusDays(95);
         ZonedDateTime endOfLastQuarter;
         ZonedDateTime endOfLastYear = lastFriday.minusYears(1).with(TemporalAdjusters.lastDayOfYear());
@@ -127,7 +136,7 @@ public class WTSReportDetailsPage extends AbstractPageObject {
         }
 
         // determining and calculating "Stock Trade Summary" values (using data from Yahoo)
-        List<List<HistoricalQuote>> companyStocksLast13Weeks = new ArrayList<>();
+        List<List<HistoricalQuote>> companyStocksLast13Weeks = new ArrayList<>(); //first index is for each symbol, second index is for each day of data gathered (starting from most recent)
         List<List<HistoricalQuote>> companyStocksEndOfLastQuarter = new ArrayList<>();
         List<List<HistoricalQuote>> companyStocksEndOfLastYear = new ArrayList<>();
         double[] expectedClose = new double[symbols.length];
@@ -152,6 +161,7 @@ public class WTSReportDetailsPage extends AbstractPageObject {
             expectedVolume[stock] = 0;
             expectedVolumeWeekAverage[stock] = 0;
         }
+        //fetching stock data from Yahoo
         try {
             for (int stock=0; stock<symbols.length; stock++){
                 companyStocksLast13Weeks.add(YahooFinance.get(symbols[stock]).getHistory(GregorianCalendar.from(thirteenWeeksEarlier), GregorianCalendar.from(lastFriday), Interval.DAILY));
@@ -162,7 +172,9 @@ public class WTSReportDetailsPage extends AbstractPageObject {
             System.out.println("Unable to retrieve historical stock quotes from Yahoo Finance.");
             return false;
         }
+        //calculating values for each stock
         for (int stock=0; stock<symbols.length; stock++){
+            // calculating high price, low price, and volume for the week
             for (int day=0; day<5; day++){
                 if (companyStocksLast13Weeks.get(stock).get(day).getHigh().doubleValue() > expectedHigh[stock]){
                     expectedHigh[stock] = companyStocksLast13Weeks.get(stock).get(day).getHigh().doubleValue();
@@ -172,20 +184,23 @@ public class WTSReportDetailsPage extends AbstractPageObject {
                 }
                 expectedVolume[stock] += companyStocksLast13Weeks.get(stock).get(day).getVolume();
             }
-            expectedClose[stock] = companyStocksLast13Weeks.get(stock).get(0).getClose().doubleValue();
-            previousClose[stock] = companyStocksLast13Weeks.get(stock).get(5).getClose().doubleValue();
+            expectedClose[stock] = companyStocksLast13Weeks.get(stock).get(0).getClose().doubleValue(); //last friday's closing price
+            previousClose[stock] = companyStocksLast13Weeks.get(stock).get(5).getClose().doubleValue(); //friday before's closing price
             expectedWeekChange[stock] = expectedClose[stock] - previousClose[stock];
             expectedWeekChangeP[stock] = 100 * expectedWeekChange[stock] / previousClose[stock];
+            // calculating average weekly volume over the last 13 weeks
             for (int day=5; day<companyStocksLast13Weeks.get(stock).size(); day++){
                 expectedVolumeWeekAverage[stock] += companyStocksLast13Weeks.get(stock).get(day).getVolume();
             }
             expectedVolumeWeekAverage[stock] /= 13;
             expectedVolumeVariance[stock] = 100 * (expectedVolume[stock] - expectedVolumeWeekAverage[stock]) / expectedVolumeWeekAverage[stock];
+            // determining end-of-quarter and end-of-year prices
             lastQuarterClose[stock] = companyStocksEndOfLastQuarter.get(stock).get(0).getClose().doubleValue();
             lastYearClose[stock] = companyStocksEndOfLastYear.get(stock).get(0).getClose().doubleValue();
             expectedQuarterToDateChange[stock] = 100 * (expectedClose[stock] - lastQuarterClose[stock]) / lastQuarterClose[stock];
             expectedYearToDateChange[stock] = 100 * (expectedClose[stock] - lastYearClose[stock]) / lastYearClose[stock];
         }
+        // calculating peer average values
         for (int stock=1; stock<symbols.length; stock++){
             expectedWeekChangePAverage += expectedWeekChangeP[stock];
             expectedQuarterToDateChangeAverage += expectedQuarterToDateChange[stock];
@@ -197,8 +212,8 @@ public class WTSReportDetailsPage extends AbstractPageObject {
 
 
         // determining and calculating "Indices" values (using data from Yahoo)
-        String[] indices = {"^DJI", "^IXIC", "^GSPC", "^TNX"/*, "GC=F", "CL=F"*/};
-        List<List<HistoricalQuote>> indicesLastWeek = new ArrayList<>();
+        String[] indices = {"^DJI", "^IXIC", "^GSPC", "^TNX"/*, "GC=F", "CL=F"*/};//could not find symbols in Yahoo for gold and oil that could provide historical data
+        List<List<HistoricalQuote>> indicesLastWeek = new ArrayList<>();//first index is for each index symbol, second index is for each day of data gathered (starting from most recent)
         List<List<HistoricalQuote>> indicesEndOfLastQuarter = new ArrayList<>();
         List<List<HistoricalQuote>> indicesEndOfLastYear = new ArrayList<>();
         double[] indicesExpectedClose = new double[indices.length];
@@ -209,6 +224,7 @@ public class WTSReportDetailsPage extends AbstractPageObject {
         double[] indicesLastYearClose = new double[indices.length];
         double[] indicesExpectedQuarterToDateChange = new double[indices.length];
         double[] indicesExpectedYearToDateChange = new double[indices.length];
+        //fetching index data from Yahoo
         try {
             for (int index=0; index<indices.length; index++){
                 indicesLastWeek.add(YahooFinance.get(indices[index]).getHistory(GregorianCalendar.from(lastFriday.minusDays(10/*7*/)), GregorianCalendar.from(lastFriday), Interval.DAILY));
@@ -219,9 +235,10 @@ public class WTSReportDetailsPage extends AbstractPageObject {
             System.out.println("Unable to retrieve indices quotes from Yahoo Finance.");
             return false;
         }
+        //calculating values for each index
         for (int index=0; index<indices.length; index++){
-            indicesExpectedClose[index] = indicesLastWeek.get(index).get(0).getClose().doubleValue();
-            indicesPreviousClose[index] = indicesLastWeek.get(index).get(5).getClose().doubleValue();
+            indicesExpectedClose[index] = indicesLastWeek.get(index).get(0).getClose().doubleValue();//last friday's closing price
+            indicesPreviousClose[index] = indicesLastWeek.get(index).get(5).getClose().doubleValue();//friday before's closing price
             indicesExpectedWeekChange[index] = indicesExpectedClose[index] - indicesPreviousClose[index];
             indicesExpectedWeekChangeP[index] = 100 * indicesExpectedWeekChange[index] / indicesPreviousClose[index];
             indicesLastQuarterClose[index] = indicesEndOfLastQuarter.get(index).get(0).getClose().doubleValue();
@@ -235,16 +252,19 @@ public class WTSReportDetailsPage extends AbstractPageObject {
         double[] peerDailyPerformance = new double[5];
         double[] sp500DailyPerformance = new double[5];
         List<HistoricalQuote> sp500LastWeek;
+        //fetching S&P 500 data from Yahoo
         try {
             sp500LastWeek = YahooFinance.get("^GSPC").getHistory(GregorianCalendar.from(lastFriday.minusDays(10/*7*/)), GregorianCalendar.from(lastFriday), Interval.DAILY);
         }catch (IOException e){
             System.out.println("Unable to retrieve S&P 500 quotes from Yahoo Finance.");
             return false;
         }
-        for (int day=0, chartDay=4; day<5; day++, chartDay--){
+        // calculating daily performance for each day
+        for (int day=0, chartDay=4; day<5; day++, chartDay--){ //stock data starts from most recent day, chart goes from Monday to Friday
             double stockClose = companyStocksLast13Weeks.get(0).get(day).getClose().doubleValue();
-            double previousStockClose = companyStocksLast13Weeks.get(0).get(day+1).getClose().doubleValue();
+            double previousStockClose = companyStocksLast13Weeks.get(0).get(day+1).getClose().doubleValue();//closing price of day before
             stockDailyPerformance[chartDay] = 100 * (stockClose - previousStockClose) / previousStockClose;
+            //calculating peer average
             peerDailyPerformance[chartDay] = 0;
             for (int stock=1; stock<symbols.length; stock++){
                 double peerClose = companyStocksLast13Weeks.get(stock).get(day).getClose().doubleValue();
@@ -260,7 +280,7 @@ public class WTSReportDetailsPage extends AbstractPageObject {
 
         // verifying that "Stock Trade Summary" values are correct
         for (int stock=0; stock<symbols.length; stock++){
-            if (Math.abs(Double.parseDouble(findElements(weekClose).get(stock).getText()) - expectedClose[stock]) > 0.02){
+            if (Math.abs(Double.parseDouble(findElements(weekClose).get(stock).getText()) - expectedClose[stock]) > 0.02){ // checks if calculated value is within 0.02 of displayed
                 System.out.println(symbols[stock]+"'s week close is inaccurate.\n\tExpected: "+expectedClose[stock]+"\n\tDisplayed: "+findElements(weekClose).get(stock).getText());
                 allValid = false;
             }
@@ -289,6 +309,7 @@ public class WTSReportDetailsPage extends AbstractPageObject {
                 allValid = false;
             }
             if (Math.abs(Double.parseDouble(findElements(volumeVariance).get(stock).getText()) - expectedVolumeVariance[stock]) > 0.02){
+                // when displayed value is wrong, determine if calculation using displayed values gives same result (meaning that only those other displayed values are wrong)
                 if (100*(Double.parseDouble(findElements(weekVolume).get(stock).getText()) - Double.parseDouble(findElements(averageWeekVolume).get(stock).getText()))
                         /Double.parseDouble(findElements(averageWeekVolume).get(stock).getText()) - Double.parseDouble(findElements(volumeVariance).get(stock).getText()) < 0.02){
                     System.out.println(symbols[stock]+"'s volume variance is inaccurate due to carryover from inaccurate week volume or/and average weekly volume.");
@@ -347,17 +368,17 @@ public class WTSReportDetailsPage extends AbstractPageObject {
         }
 
 
-        // verifying that "Daily Performance" values are correct
+        // verifying that "Daily Performance" values are correct (by hovering over each of the bars)
         for (int chartDay=0; chartDay<5; chartDay++){
             // checking for stock
-            actions.clickAndHold(findVisibleElements(dailyPerformanceStockBars).get(chartDay)).perform();
+            actions.clickAndHold(findVisibleElements(dailyPerformanceStockBars).get(chartDay)).perform();// clickAndHold needed to keep cursor there while getText() runs
             String hoverText = findElement(dailyPerformanceHoverText).getText().trim();
             if (!hoverText.startsWith(symbols[0])){
                 System.out.println("Daily Performance: Hover text for blue bar on day "+(chartDay+1)+" does not start with desired symbol "+symbols[0]+"\n\tDisplayed hover text: "+hoverText);
                 allValid = false;
             }
             if (Math.abs(Double.parseDouble(hoverText.substring(hoverText.indexOf(':')+2, hoverText.indexOf('%'))) - stockDailyPerformance[chartDay]) > 0.002){
-                System.out.println("Known issue - ADMIN-433 - Stock's daily performance for day "+(chartDay+1)+" is inaccurate.\n\tExpected: "+stockDailyPerformance[chartDay]+"%\n\tDisplayed hover text: "+hoverText);
+                System.out.println("Stock's daily performance for day "+(chartDay+1)+" is inaccurate.\n\tExpected: "+stockDailyPerformance[chartDay]+"%\n\tDisplayed hover text: "+hoverText);
                 allValid = false;
             }
             // checking for peer average
@@ -368,7 +389,7 @@ public class WTSReportDetailsPage extends AbstractPageObject {
                 allValid = false;
             }
             if (Math.abs(Double.parseDouble(hoverText.substring(hoverText.indexOf(':')+2, hoverText.indexOf('%'))) - peerDailyPerformance[chartDay]) > 0.002){
-                System.out.println("Known issue - ADMIN-433 - Peer average daily performance for day "+(chartDay+1)+" is inaccurate.\n\tExpected: "+peerDailyPerformance[chartDay]+"%\n\tDisplayed hover text: "+hoverText);
+                System.out.println("Peer average daily performance for day "+(chartDay+1)+" is inaccurate.\n\tExpected: "+peerDailyPerformance[chartDay]+"%\n\tDisplayed hover text: "+hoverText);
                 allValid = false;
             }
             // checking for S&P 500
@@ -379,7 +400,7 @@ public class WTSReportDetailsPage extends AbstractPageObject {
                 allValid = false;
             }
             if (Math.abs(Double.parseDouble(hoverText.substring(hoverText.indexOf(':')+2, hoverText.indexOf('%'))) - sp500DailyPerformance[chartDay]) > 0.002){
-                System.out.println("Known issue - ADMIN-433 - S&P 500 daily performance for day "+(chartDay+1)+" is inaccurate.\n\tExpected: "+sp500DailyPerformance[chartDay]+"%\n\tDisplayed hover text: "+hoverText);
+                System.out.println("S&P 500 daily performance for day "+(chartDay+1)+" is inaccurate.\n\tExpected: "+sp500DailyPerformance[chartDay]+"%\n\tDisplayed hover text: "+hoverText);
                 allValid = false;
             }
         }
@@ -387,12 +408,13 @@ public class WTSReportDetailsPage extends AbstractPageObject {
 
         // verifying that "YTD Change" values are correct
         for (int bar=0; bar<symbols.length+1; bar++){
-            actions.clickAndHold(findVisibleElements(ytdChangeBars).get(bar)).perform();
+            actions.clickAndHold(findVisibleElements(ytdChangeBars).get(bar)).perform();// clickAndHold needed to keep cursor there while getText() runs
             String hoverText = findElement(ytdChangeHoverText).getText().trim();
             // checking the peer average bar
             if (findElement(ytdChangeAxisText).getText().contains("Peer")){
                 if (Math.abs(Double.parseDouble(hoverText.substring(hoverText.indexOf(':')+2, hoverText.indexOf('%'))) - expectedYearToDateChangeAverage) > 0.2){
                     allValid = false;
+                    // when displayed value is wrong, determine if value is different from that displayed on Stock Trade Summary table (meaning that the graph is wrong)
                     if (Math.abs(Double.parseDouble(hoverText.substring(hoverText.indexOf(':')+2, hoverText.indexOf('%')))
                             - Double.parseDouble(findElements(ytdChange).get(symbols.length).getText())) > 0.2){
                         System.out.println("YTD Change graph: Peer average bar is inaccurate.\n\tExpected: "+expectedYearToDateChangeAverage
@@ -406,9 +428,10 @@ public class WTSReportDetailsPage extends AbstractPageObject {
             // checking the other bars
             else {
                 for (int stock=0; stock<symbols.length; stock++){
-                    if (findElements(ytdChangeAxisText).get(bar).getText().contains(symbols[stock])){
+                    if (findElements(ytdChangeAxisText).get(bar).getText().contains(symbols[stock])){ //matches each bar with its stock
                         if (Math.abs(Double.parseDouble(hoverText.substring(hoverText.indexOf(':')+2, hoverText.indexOf('%'))) - expectedYearToDateChange[stock]) > 0.2){
                             allValid = false;
+                            // when displayed value is wrong, determine if value is different from that displayed on Stock Trade Summary table (meaning that the graph is wrong)
                             if (Math.abs(Double.parseDouble(hoverText.substring(hoverText.indexOf(':')+2, hoverText.indexOf('%')))
                                     - Double.parseDouble(findElements(ytdChange).get(stock).getText())) > 0.2){
                                 System.out.println("YTD Change graph: "+symbols[stock]+" bar is inaccurate.\n\tExpected: "+expectedYearToDateChange[stock]
@@ -425,6 +448,6 @@ public class WTSReportDetailsPage extends AbstractPageObject {
         }
 
 
-        return allValid;
+        return allValid; // will be false if there were any inaccurate values (this way a full list of errors can be generated instead of stopping after one)
     }
 }

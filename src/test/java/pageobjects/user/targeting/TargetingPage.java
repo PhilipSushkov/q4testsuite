@@ -67,6 +67,7 @@ public class TargetingPage extends AbstractPageObject {
         }
     }
 
+    // returns the position (starting from 0) that the search name appears; returns -1 if not displayed
     public int findSearchNameIndex(String searchName){
         waitForElement(showSearches);
         pause(2000);
@@ -83,10 +84,9 @@ public class TargetingPage extends AbstractPageObject {
         return -1;
     }
 
+    // parameter index is the position (starting from 0) that the search name appears
     public EditSearchPage editSearch(int index){
-        List<WebElement> searchNameDivs = findVisibleElements(searchNameDivSelectors);
-        searchNameDivs.get(index).click();
-
+        findVisibleElements(searchNameDivSelectors).get(index).click();
         return new EditSearchPage(getDriver());
     }
 
@@ -177,44 +177,32 @@ public class TargetingPage extends AbstractPageObject {
         return true;
     }
 
+    // returns the position (starting from 0) that the institution appears; returns -1 if not displayed
     public int findInstitutionIndex(String name){
         waitForElement(showTargets);
         findVisibleElement(showTargets).click();
         pause(2000);
         findVisibleElement(showInstitutions).click();
         pause(2000);
-        List<WebElement> institutionNames = findElements(entityName);
-        int startIndex = 0;
+        List<WebElement> institutionNames = findVisibleElements(entityName);
         for (int i=0; i<institutionNames.size(); i++){
-            if (institutionNames.get(i).isDisplayed()){
-                startIndex = i;
-                break;
-            }
-        }
-        for (int i=0; i+startIndex<institutionNames.size(); i++){
-            if (institutionNames.get(i+startIndex).getText().contains(name)){
+            if (institutionNames.get(i).getText().contains(name)){
                 return i;
             }
         }
         return -1;
     }
 
+    // returns the position (starting from 0) that the contact appears; returns -1 if not displayed
     public int findContactIndex(String name){
         waitForElement(showTargets);
         findVisibleElement(showTargets).click();
         pause(2000);
         findVisibleElement(showContacts).click();
         pause(3000);
-        List<WebElement> contactNames = findElements(entityName);
-        int startIndex = 0;
+        List<WebElement> contactNames = findVisibleElements(entityName);
         for (int i=0; i<contactNames.size(); i++){
-            if (contactNames.get(i).isDisplayed()){
-                startIndex = i;
-                break;
-            }
-        }
-        for (int i=0; i+startIndex<contactNames.size(); i++){
-            if (contactNames.get(i+startIndex).getText().contains(name)){
+            if (contactNames.get(i).getText().contains(name)){
                 return i;
             }
         }
@@ -222,27 +210,11 @@ public class TargetingPage extends AbstractPageObject {
     }
 
     public void untargetInstitution(int index){
-        List<WebElement> targetButtons = findElements(entityTargetButton);
-        int startIndex = 0;
-        for (int i=0; i<targetButtons.size(); i++){
-            if (targetButtons.get(i).isDisplayed()){
-                startIndex = i;
-                break;
-            }
-        }
-        targetButtons.get(index+startIndex).click();
+        findVisibleElements(entityTargetButton).get(index).click();
     }
 
     public void untargetContact(int index){
-        List<WebElement> targetButtons = findElements(entityTargetButton);
-        int startIndex = 0;
-        for (int i=0; i<targetButtons.size(); i++){
-            if (targetButtons.get(i).isDisplayed()){
-                startIndex = i;
-                break;
-            }
-        }
-        targetButtons.get(index+startIndex).click();
+        findVisibleElements(entityTargetButton).get(index).click();
     }
 
     public String getFirstInstitution(){
@@ -251,13 +223,7 @@ public class TargetingPage extends AbstractPageObject {
         wait.until(ExpectedConditions.elementToBeClickable(showInstitutions));
         findElement(showInstitutions).click();
         pause(2000);
-        List<WebElement> firstEntityName = findElements(firstEntityNameSelector);
-        for (int i=0; i<firstEntityName.size(); i++){
-            if (firstEntityName.get(i).isDisplayed()){
-                return firstEntityName.get(i).getText();
-            }
-        }
-        return "";
+        return findVisibleElement(firstEntityNameSelector).getText();
     }
 
     public String getFirstFund(){
@@ -266,13 +232,7 @@ public class TargetingPage extends AbstractPageObject {
         wait.until(ExpectedConditions.elementToBeClickable(showFunds));
         findElement(showFunds).click();
         pause(2000);
-        List<WebElement> firstEntityName = findElements(firstEntityNameSelector);
-        for (int i=0; i<firstEntityName.size(); i++){
-            if (firstEntityName.get(i).isDisplayed()){
-                return firstEntityName.get(i).getText();
-            }
-        }
-        return "";
+        return findVisibleElement(firstEntityNameSelector).getText();
     }
 
     public String getFirstContact(){
@@ -281,45 +241,21 @@ public class TargetingPage extends AbstractPageObject {
         wait.until(ExpectedConditions.elementToBeClickable(showContacts));
         findElement(showContacts).click();
         pause(2000);
-        List<WebElement> firstEntityName = findElements(firstEntityNameSelector);
-        for (int i=0; i<firstEntityName.size(); i++){
-            if (firstEntityName.get(i).isDisplayed()){
-                return firstEntityName.get(i).getText();
-            }
-        }
-        return "";
+        return findVisibleElement(firstEntityNameSelector).getText();
     }
 
     public InstitutionPage openFirstInstitution(){
-        List<WebElement> firstEntity = findElements(firstEntitySelector);
-        for (int i=0; i<firstEntity.size(); i++){
-            if (firstEntity.get(i).isDisplayed()){
-                firstEntity.get(i).click();
-                break;
-            }
-        }
+        findVisibleElement(firstEntitySelector).click();
         return new InstitutionPage(getDriver());
     }
 
     public FundPage openFirstFund(){
-        List<WebElement> firstEntity = findElements(firstEntitySelector);
-        for (int i=0; i<firstEntity.size(); i++){
-            if (firstEntity.get(i).isDisplayed()){
-                firstEntity.get(i).click();
-                break;
-            }
-        }
+        findVisibleElement(firstEntitySelector).click();
         return new FundPage(getDriver());
     }
 
     public ContactDetailsPage openFirstContact(){
-        List<WebElement> firstEntity = findElements(firstEntitySelector);
-        for (int i=0; i<firstEntity.size(); i++){
-            if (firstEntity.get(i).isDisplayed()){
-                firstEntity.get(i).click();
-                break;
-            }
-        }
+        findVisibleElement(firstEntitySelector).click();
         return new ContactDetailsPage(getDriver());
     }
 

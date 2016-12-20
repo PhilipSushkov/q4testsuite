@@ -425,7 +425,7 @@ public class NewSearchPage extends AbstractPageObject{
     public void showMoreResults(){
         int numResults = numResultsDisplayed();
         findVisibleElement(showMoreButton).click();
-        for (int i=0; i<100; i++){
+        for (int i=0; i<100; i++){ // waiting up to 10 seconds for the number of displayed results to increase
             if (numResultsDisplayed()>numResults){
                 return;
             }
@@ -435,13 +435,7 @@ public class NewSearchPage extends AbstractPageObject{
     }
 
     public boolean showMoreAppears(){
-        List<WebElement> showMoreButtons = findElements(showMoreButton);
-        for (int i=0; i<showMoreButtons.size(); i++){
-            if (showMoreButtons.get(i).isDisplayed()){
-                return true;
-            }
-        }
-        return false;
+        return findVisibleElements(showMoreButton).size() > 0;
     }
 
     /** Returns the number in the circle for the first result with "Multiple" locations. */
@@ -463,19 +457,19 @@ public class NewSearchPage extends AbstractPageObject{
     }
 
     public void closeLocationPopup(){
-        actions.moveToElement(findElement(locationPopup), -1, -1).click().build().perform();
+        actions.moveToElement(findElement(locationPopup), -1, -1).click().build().perform(); //clicking outside of popup
         waitForElementToDissapear(locationPopup);
     }
 
     public boolean filtersAreaIsCollapsed(){
         String filterAreaHeightCSS = findElement(filtersArea).getCssValue("height");
-        int filterAreaHeight = Integer.parseInt(filterAreaHeightCSS.substring(0,filterAreaHeightCSS.indexOf('p')));
+        int filterAreaHeight = Integer.parseInt(filterAreaHeightCSS.substring(0,filterAreaHeightCSS.indexOf('p'))); //trims "px" and parses to int
         System.out.println("Filter area has height of "+filterAreaHeight);
-        return filterAreaHeight<600;
+        return filterAreaHeight<600; //filter area is considered collapsed if it's height is less than 600px
     }
 
     public void clickInFiltersArea(){
-        actions.moveToElement(findElement(locationFilter), 1, 1).click().build().perform();
+        actions.moveToElement(findElement(locationFilter), 1, 1).click().build().perform(); //clicks just inside the top left corner of filter area
         pause(1000);
     }
 

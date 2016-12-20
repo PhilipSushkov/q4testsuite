@@ -20,12 +20,6 @@ public class FundPage extends Page {
 
     public String getFundName() {
         waitForElementToAppear(fundIcon);
-        List<WebElement> fundNames = findElements(fundName);
-        for (int i=0; i<fundNames.size(); i++){
-            if (fundNames.get(i).isDisplayed()){
-                return fundNames.get(i).getText();
-            }
-        }
-        return findElement(fundName).getText();
+        return findVisibleElement(fundName).getText();
     }
 }

@@ -95,15 +95,19 @@ public class CreateBriefingBook extends AbstractSpec {
     }
 
     @Test
+    // This test relies on the existence of a briefing book called "Search Test - DO NOT DELETE" in order to pass
     public void canSearchForBriefingBook(){
         String briefingBookName = "Search Test - DO NOT DELETE"; // should be one exact match
         String additionalSearchTerm = "test"; // should be several partial matches
         String randomSearchTerm = "asdsfgdhfasdfb"; // should be no matches
+        // performing search for which there should be one result and checking that result contains search term
         BriefingBookList briefingBookList = new BriefingBookList(driver).searchFor(briefingBookName);
         Assert.assertThat("Search for known briefing book fails", briefingBookList.getBriefingBookList(), containsString(briefingBookName));
+        // performing search for which there should be several results and checking that all results contain search term
         briefingBookList.searchFor(additionalSearchTerm);
         Assert.assertTrue("Search results are not present.", briefingBookList.briefingBooksAreDisplayed());
         Assert.assertTrue("Search results are invalid.", briefingBookList.allTitlesContain(additionalSearchTerm));
+        // performing search for which there should be no results
         briefingBookList.searchFor(randomSearchTerm);
         Assert.assertFalse("Results appear for invalid search.", briefingBookList.briefingBooksAreDisplayed());
     }
@@ -112,12 +116,15 @@ public class CreateBriefingBook extends AbstractSpec {
     public void canReorderTearSheets(){
         String briefingBookName = "New Briefing Book" + RandomStringUtils.randomAlphanumeric(6);
         String[] institutions = {"Fidelity Capital Investors, Inc.", "AU & Associates LLC", "Suez Ventures", "HSBC Guyerzeller Bank AG"};
+        // creating and opening blank briefing book
         BriefingBookDetailsPage briefingBookDetailsPage = new BriefingBookList(driver).addNewBriefingBook()
                 .saveBriefingBook(briefingBookName)
                 .viewNewBriefingBook();
+        // adding institutions to briefing book
         for (int i=0; i<institutions.length; i++){
             briefingBookDetailsPage.addInstitution(institutions[i]);
         }
+        // clicking edit, dragging last item to top of list, clicking save, refreshing page, and checking that it is now the first item
         String lastEntity = briefingBookDetailsPage.getEntity(3);
         briefingBookDetailsPage.reorderEntityToBeginning(3);
         Assert.assertEquals("Reordered entity is not first", lastEntity, briefingBookDetailsPage.getEntity(0));

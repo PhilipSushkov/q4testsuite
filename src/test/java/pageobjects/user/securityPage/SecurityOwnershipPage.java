@@ -14,9 +14,6 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAdjusters;
 import java.util.List;
 
-/**
- * Created by patrickp on 2016-08-24.
- */
 public class SecurityOwnershipPage extends AbstractPageObject {
     private final By tabTitle = By.cssSelector(".company-header .menu-button .x-button-label");
     private final By dateOption = By.cssSelector(".company-ownership-inner .range-tabs-inner .x-button-no-icon");
@@ -71,6 +68,10 @@ public class SecurityOwnershipPage extends AbstractPageObject {
         return findElement(tabTitle).getText();
     }
 
+    //// UNLESS OTHERWISE INDICATED, ALL METHODS ON THIS PAGE ARE DESIGNED TO OCCUR WHEN THE SURVEILLANCE TAB IS SELECTED. \\\\
+    //      (They may or may not work while one of the date options is selected.)
+
+    // index goes from 0 to 4, with 0 being end of last quarter
     public SecurityOwnershipPage selectDate(int index){
         waitForElement(dateOption);
         findElements(dateOption).get(index).click();
@@ -79,6 +80,7 @@ public class SecurityOwnershipPage extends AbstractPageObject {
         return this;
     }
 
+    // checks that the date tabs indicate the end dates of the last four quarters
     public boolean dateOptionsAreValid(){
         waitForElement(dateOption);
         LocalDate endOfLastQuarter;
@@ -113,6 +115,7 @@ public class SecurityOwnershipPage extends AbstractPageObject {
         return true;
     }
 
+    // checks that the "As of" text is correct when each date option is selected
     public boolean asOfDateIsValid(){
         waitForElement(asOfDate);
         LocalDate lastFriday = today.with(TemporalAdjusters.previous(DayOfWeek.FRIDAY));
@@ -125,11 +128,14 @@ public class SecurityOwnershipPage extends AbstractPageObject {
         }
         LocalDate startOfQuarter = endOfQuarter.minusMonths(2).with(TemporalAdjusters.firstDayOfMonth());
 
+        // with Surveillance tab selected, as of date should be last friday
         if (!LocalDate.parse(findElement(asOfDate).getText(), longDate).equals(lastFriday)){
             System.out.println("As of date while in surveillance mode is incorrect.\n\tExpected: "+lastFriday.format(longDate)
                     +"\n\tDisplayed: "+findElement(asOfDate).getText());
             return false;
         }
+
+        // select first date tab and check that as of date is start - end of last quarter
         selectDate(0);
         pause(500);
         if (!findElement(asOfDate).getText().equalsIgnoreCase(startOfQuarter.format(longDate)+" - "+endOfQuarter.format(longDate))){
@@ -137,6 +143,8 @@ public class SecurityOwnershipPage extends AbstractPageObject {
                     +"\n\tDisplayed: "+findElement(asOfDate).getText());
             return false;
         }
+
+        // select second date tab and check that as of date is start - end of quarter before that
         selectDate(1);
         pause(500);
         endOfQuarter = endOfQuarter.minusMonths(3).with(TemporalAdjusters.lastDayOfMonth());
@@ -146,6 +154,8 @@ public class SecurityOwnershipPage extends AbstractPageObject {
                     +"\n\tDisplayed: "+findElement(asOfDate).getText());
             return false;
         }
+
+        // select third date tab and check that as of date is start - end of quarter before that
         selectDate(2);
         pause(500);
         endOfQuarter = endOfQuarter.minusMonths(3).with(TemporalAdjusters.lastDayOfMonth());
@@ -155,6 +165,8 @@ public class SecurityOwnershipPage extends AbstractPageObject {
                     +"\n\tDisplayed: "+findElement(asOfDate).getText());
             return false;
         }
+
+        // select fourth date tab and check that as of date is start - end of quarter before that
         selectDate(3);
         pause(500);
         endOfQuarter = endOfQuarter.minusMonths(3).with(TemporalAdjusters.lastDayOfMonth());
@@ -168,26 +180,31 @@ public class SecurityOwnershipPage extends AbstractPageObject {
         return true;
     }
 
+    // checks that entries on top buyers list have positive change numbers
     public boolean topBuyersListIsPositive(){
         waitForElement(topBuyersNumbers);
         return elementsAreAllPositive(findVisibleElements(topBuyersNumbers));
     }
 
+    // checks that entries on top sellers list have negative change numbers
     public boolean topSellersListIsNegative(){
         waitForElement(topSellersNumbers);
         return elementsAreAllNegative(findVisibleElements(topSellersNumbers));
     }
 
+    // checks that entries on top buyers list have change numbers in descending order
     public boolean topBuyersListIsDescending(){
         waitForElement(topBuyersNumbers);
         return elementsAreNumDownSorted(findVisibleElements(topBuyersNumbers));
     }
 
+    // checks that entries on top sellers list have change numbers in ascending order
     public boolean topSellersListIsAscending(){
         waitForElement(topSellersNumbers);
         return elementsAreNumUpSorted(findVisibleElements(topSellersNumbers));
     }
 
+    // checks that no institution appears in both the top buyers and the top sellers list (or appears twice in either list)
     public boolean topBuyersAndSellersAreUnique(){
         waitForElement(topBuyersAndSellers);
         return elementsDoNotContainDuplicates(findVisibleElements(topBuyersAndSellers));
@@ -409,6 +426,7 @@ public class SecurityOwnershipPage extends AbstractPageObject {
         return isSorted;
     }
 
+    // Checks that all values in the 1Q CHG and MKT VAL CHG columns are green if positive, red if negative, or dark grey if zero
     public boolean holderTableChangeValueColouringIsCorrect(){
         boolean correct = true;
         List<WebElement> values = findVisibleElements(holderTable1QChg);
@@ -456,10 +474,10 @@ public class SecurityOwnershipPage extends AbstractPageObject {
 
     public SecurityOwnershipPage showOnlyActivists(){
         waitForElement(activistFilter);
-        if (doesElementExist(activistFilterOff)){
+        if (doesElementExist(activistFilterOff)){ //does nothing if filter is already selected
             int numHolders = getNumOfHoldersDisplayed();
             findElement(activistFilter).click();
-            for (int i=0; i<50; i++){
+            for (int i=0; i<50; i++){ //waits up to 5 seconds for the number of holders displayed to change
                 if (getNumOfHoldersDisplayed() != numHolders){
                     return this;
                 }
@@ -471,10 +489,10 @@ public class SecurityOwnershipPage extends AbstractPageObject {
 
     public SecurityOwnershipPage doNotShowOnlyActivists(){
         waitForElement(activistFilter);
-        if (doesElementExist(activistFilterOn)){
+        if (doesElementExist(activistFilterOn)){ //does nothing if filter is not selected
             int numHolders = getNumOfHoldersDisplayed();
             findElement(activistFilter).click();
-            for (int i=0; i<50; i++){
+            for (int i=0; i<50; i++){ //waits up to 5 seconds for the number of holders displayed to change
                 if (getNumOfHoldersDisplayed() != numHolders){
                     return this;
                 }
@@ -488,11 +506,11 @@ public class SecurityOwnershipPage extends AbstractPageObject {
         waitForElement(activistIcon);
         List<WebElement> icons = findVisibleElements(activistIcon);
         int numIcons = 0;
-        for (WebElement icon : icons){
+        for (WebElement icon : icons){ //only counts icons if they aren't obstructed from view
             try {
                 wait.until(ExpectedConditions.elementToBeClickable(icon));
                 numIcons++;
-            }catch (TimeoutException e){
+            }catch (TimeoutException e){ //will go here if not clickable (because there are fully obstructed)
                 System.out.println("Activist icon is not clickable.");
             }
         }

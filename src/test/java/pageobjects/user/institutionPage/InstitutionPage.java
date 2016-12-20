@@ -25,13 +25,7 @@ public class InstitutionPage extends Page {
 
     public String getInstitutionName() {
         waitForLoadingScreen();
-        List<WebElement> institutionNames = findElements(institutionName);
-        for (int i=0; i<institutionNames.size(); i++){
-            if (institutionNames.get(i).isDisplayed()){
-                return institutionNames.get(i).getText();
-            }
-        }
-        return findElement(institutionName).getText();
+        return findVisibleElement(institutionName).getText();
     }
 
     public String getURL(){

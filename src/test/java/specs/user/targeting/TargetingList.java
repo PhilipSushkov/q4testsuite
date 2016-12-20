@@ -32,7 +32,7 @@ public class TargetingList extends AbstractSpec {
     Date current = new Date();
 
     @Test
-    /**Combination of TestRail test cases C2352, C2285, C2286, and C2345.
+    /* Combination of TestRail test cases C2352, C2285, C2286, and C2345.
      * Will create a new search with specified filters, save it, view it, verify
      * filters are correct, then delete it using button on filter page. */
     public void canAddViewAndDeleteASavedSearch() {
@@ -54,11 +54,11 @@ public class TargetingList extends AbstractSpec {
                 "yes" // Logged Activity
         };
 
-        // creating a new search and saving it
+        // creating a new search with filters and saving it
         new TargetingPage(driver).newSearch().createNewSearch(searchName, filters);
 
         // verifying that search name is listed
-        int searchNameIndex = new TargetingPage(driver).findSearchNameIndex(searchName);
+        int searchNameIndex = new TargetingPage(driver).findSearchNameIndex(searchName); //will be -1 if not listed
         Assert.assertNotEquals("Search name not found in saved searches list", -1, searchNameIndex);
 
         // opening search and verifying that filters are correct
@@ -69,12 +69,12 @@ public class TargetingList extends AbstractSpec {
         new EditSearchPage(driver).deleteSearch();
 
         // verifying that search is gone
-        searchNameIndex = new TargetingPage(driver).findSearchNameIndex(searchName);
+        searchNameIndex = new TargetingPage(driver).findSearchNameIndex(searchName); //will be -1 if not listed
         Assert.assertEquals("Search has not been deleted", -1, searchNameIndex);
     }
 
     @Test
-    /**Based on TestRail test case C2291.
+    /* Based on TestRail test case C2291.
      * Can navigate to a targeted institution. */
     public void canAccessATargetedInstitution() {
         String firstInstitution = new TargetingPage(driver).getFirstInstitution();
@@ -84,7 +84,7 @@ public class TargetingList extends AbstractSpec {
     }
 
     @Test
-    /**Based on TestRail test case C2292.
+    /* Based on TestRail test case C2292.
      * Can navigate to a targeted fund. */
     public void canAccessATargetedFund() {
         String firstFund = new TargetingPage(driver).getFirstFund();
@@ -94,7 +94,7 @@ public class TargetingList extends AbstractSpec {
     }
 
     @Test
-    /**Based on TestRail test case C2293.
+    /* Based on TestRail test case C2293.
      * Can navigate to a targeted contact. */
     public void canAccessATargetedContact() {
         String firstContact = new TargetingPage(driver).getFirstContact();
@@ -114,13 +114,15 @@ public class TargetingList extends AbstractSpec {
         Assert.assertTrue("'Saved Target' icon does not appear on institution page.", new InstitutionPage(driver).isSavedTarget());
 
         // going to targets list and checking that institution appears
-        int targetedInstitutionIndex = new InstitutionPage(driver).accessSideNavFromPage().selectTargetingFromSideNav().findInstitutionIndex(targetedInstitution);
+        int targetedInstitutionIndex = new InstitutionPage(driver).accessSideNavFromPage().selectTargetingFromSideNav().findInstitutionIndex(targetedInstitution); //will be -1 if not listed
         Assert.assertNotEquals("Institution not found in targets list", -1, targetedInstitutionIndex);
 
         // removing the target and checking that the target no longer appears
         new TargetingPage(driver).untargetInstitution(targetedInstitutionIndex);
         Assert.assertFalse("'Saved Target' icon still appears on institution page.", new TargetingPage(driver).goToInstitutionURL(institutionPageURL).isSavedTarget());
-        targetedInstitutionIndex = new InstitutionPage(driver).accessSideNavFromPage().selectTargetingFromSideNav().findInstitutionIndex(targetedInstitution);
+
+        // going to institution page and checking that institution no longer appears
+        targetedInstitutionIndex = new InstitutionPage(driver).accessSideNavFromPage().selectTargetingFromSideNav().findInstitutionIndex(targetedInstitution); //will be -1 if not listed
         Assert.assertEquals("Institution has not been removed from targets list", -1, targetedInstitutionIndex);
     }
 
@@ -165,15 +167,17 @@ public class TargetingList extends AbstractSpec {
         new TargetingPage(driver).newSearch().performBasicLocationSearch("Toronto, ON");
         // obtaining number of results (as displayed on top of results)
         int numResultsExpected = new NewSearchPage(driver).numResultsClaimed();
-        int expectedExpansions = numResultsExpected/20;
-        if (numResultsExpected%20==0) expectedExpansions--;
+        int expectedExpansions = numResultsExpected/20; // how many clicks of "Show more" should it take to show all the results
+        if (numResultsExpected%20==0){
+            expectedExpansions--;
+        }
         // repeat until end of results should be reached: click show more and check right amount of results are displayed
         Assert.assertEquals("Incorrect number of initial results displayed", 20, new NewSearchPage(driver).numResultsDisplayed());
         for (int i=1; i<expectedExpansions; i++){
             new NewSearchPage(driver).showMoreResults();
             Assert.assertEquals("Incorrect number of results displayed upon iteration "+i, 20*(i+1), new NewSearchPage(driver).numResultsDisplayed());
         }
-        new NewSearchPage(driver).showMoreResults();
+        new NewSearchPage(driver).showMoreResults(); // after this click all results should be displayed
         System.out.println("Finished clicking 'Show more' after "+expectedExpansions+" iterations.");
         // check that "Show more" is no longer present and that right number of results are displayed
         Assert.assertFalse("Show more button still appears.", new NewSearchPage(driver).showMoreAppears());
@@ -184,7 +188,7 @@ public class TargetingList extends AbstractSpec {
     public void canOpenAndCloseLocationPopup(){
         // performing a filterless institution search and opening first "Multiple" location indicator
         new TargetingPage(driver).newSearch().blankSearch();
-        int numLocations = new NewSearchPage(driver).numLocationsFirst();
+        int numLocations = new NewSearchPage(driver).numLocationsFirst(); //number indicated in the first multiple locations circle
         new NewSearchPage(driver).openFirstLocationPopup();
         // verifying that the indicator is open and displaying right number of addresses
         Assert.assertTrue("Location popup is not open.", new NewSearchPage(driver).locationPopupIsOpen());
@@ -205,20 +209,20 @@ public class TargetingList extends AbstractSpec {
         // creating a new search and saving it
         new TargetingPage(driver).newSearch().createNewSearch(searchName, filters);
         // verifying that search name is listed
-        int searchNameIndex = new TargetingPage(driver).findSearchNameIndex(searchName);
+        int searchNameIndex = new TargetingPage(driver).findSearchNameIndex(searchName);//will be -1 if not listed
         Assert.assertNotEquals("Search name not found in saved searches list", -1, searchNameIndex);
         // starting then aborting a delete and verifying that the search is still there
         new TargetingPage(driver).deleteSearchAbort(searchNameIndex);
-        searchNameIndex = new TargetingPage(driver).findSearchNameIndex(searchName);
+        searchNameIndex = new TargetingPage(driver).findSearchNameIndex(searchName);//will be -1 if not listed
         Assert.assertNotEquals("Search name not found despite aborted delete", -1, searchNameIndex);
         // actually deleting the search and verifying that it is gone
         new TargetingPage(driver).deleteSearch(searchNameIndex);
-        searchNameIndex = new TargetingPage(driver).findSearchNameIndex(searchName);
+        searchNameIndex = new TargetingPage(driver).findSearchNameIndex(searchName);//will be -1 if not listed
         Assert.assertEquals("Search has not been deleted", -1, searchNameIndex);
     }
 
     @Test
-    /** Based on TestRail test case C2348. */
+    /* Based on TestRail test case C2348. */
     public void canExpandAndCollapseFiltersArea(){
         // performing a filterless institution search and verifying that the filters area is collapsed and yellow arrow points down
         new TargetingPage(driver).newSearch().blankSearch();
@@ -245,7 +249,6 @@ public class TargetingList extends AbstractSpec {
     }
 
     @Test
-    // This test will fail until bug DESKTOP-6903 is fixed.
     public void canSortTargetsList(){
         Assert.assertTrue("'All' Targets list cannot be sorted.", new TargetingPage(driver).allTargetsCanBeSorted());
         Assert.assertTrue("Known issue - DESKTOP-6903 - Institutions list cannot be sorted.", new TargetingPage(driver).institutionsCanBeSorted());
@@ -257,14 +260,20 @@ public class TargetingList extends AbstractSpec {
     /* This test requires the presence of a saved search titled "testing updated date - DO NOT REMOVE".
     *  If this search does not exist or was not created on 11/14/16, the test will fail.*/
     public void canEditSearchAndSeeUpdatedDate(){
+        String expectedSearchName = "testing updated date - DO NOT REMOVE";
+        String expectedCreatedDate = "11/14/16";
         SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yy");
-        int searchNameIndex = new TargetingPage(driver).findSearchNameIndex("testing updated date - DO NOT REMOVE");
+        // checking that required search is present and that created date is correct
+        int searchNameIndex = new TargetingPage(driver).findSearchNameIndex(expectedSearchName);
         Assert.assertNotEquals("Before editing: the required search cannot be found", -1, searchNameIndex);
-        Assert.assertEquals("Before editing: created date is incorrect", "11/14/16", new TargetingPage(driver).getCreatedDate(searchNameIndex));
+        Assert.assertEquals("Before editing: created date is incorrect", expectedCreatedDate, new TargetingPage(driver).getCreatedDate(searchNameIndex));
+        // opening and resaving search (this should change the last updated date)
         new TargetingPage(driver).editSearch(searchNameIndex).resaveSearch();
-        searchNameIndex = new EditSearchPage(driver).accessSideNavFromPage().selectTargetingFromSideNav().findSearchNameIndex("testing updated date - DO NOT REMOVE");
+        // checking that search is still listed with correct created date
+        searchNameIndex = new EditSearchPage(driver).accessSideNavFromPage().selectTargetingFromSideNav().findSearchNameIndex(expectedSearchName);
         Assert.assertNotEquals("After editing: the required search cannot be found", -1, searchNameIndex);
-        Assert.assertEquals("After editing: created date is incorrect", "11/14/16", new TargetingPage(driver).getCreatedDate(searchNameIndex));
+        Assert.assertEquals("After editing: created date is incorrect", expectedCreatedDate, new TargetingPage(driver).getCreatedDate(searchNameIndex));
+        // checking that last updated date is today
         Assert.assertEquals("After editing: last updated date is not today", dateFormat.format(current), new TargetingPage(driver).getUpdatedDate(searchNameIndex));
     }
 }

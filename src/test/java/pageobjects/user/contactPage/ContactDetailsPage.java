@@ -55,13 +55,7 @@ public class ContactDetailsPage extends Page {
 
     public String getContactName() {
         waitForElementToAppear(contactIcon);
-        List<WebElement> contactNames = findElements(contactName);
-        for (int i=0; i<contactNames.size(); i++){
-            if (contactNames.get(i).isDisplayed()){
-                return contactNames.get(i).getText();
-            }
-        }
-        return findElement(contactName).getText();
+        return findVisibleElement(contactName).getText();
     }
 
     public ContactDetailsPage addToContacts() {
