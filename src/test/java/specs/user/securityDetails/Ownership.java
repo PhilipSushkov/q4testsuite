@@ -94,4 +94,20 @@ public class Ownership extends AbstractSpec {
         }
     }
 
+    @Test
+    public void canFilterHoldersByType(){
+        SecurityOwnershipPage securityOwnershipPage = new SecurityOwnershipPage(driver);
+        // selecting first date tab
+        securityOwnershipPage.selectDate(0);
+        // select institution filter and check that all entries shown are institutions
+        securityOwnershipPage.showOnlyInstitutions();
+        Assert.assertEquals("Not all filtered entries are institutions", securityOwnershipPage.getNumOfHoldersDisplayed(), securityOwnershipPage.getNumOfInstitutionsDisplayed());
+        // select insiders filter and check that all entries shown are insiders
+        securityOwnershipPage.showOnlyInsiders();
+        Assert.assertEquals("Not all filtered entries are insiders", securityOwnershipPage.getNumOfHoldersDisplayed(), securityOwnershipPage.getNumOfInsidersDisplayed());
+        // select funds filter and check that all entries shown are funds
+        securityOwnershipPage.showOnlyFunds();
+        Assert.assertEquals("Not all filtered entries are funds", securityOwnershipPage.getNumOfHoldersDisplayed(), securityOwnershipPage.getNumOfFundsDisplayed());
+    }
+
 }

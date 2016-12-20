@@ -27,6 +27,9 @@ public class SecurityOwnershipPage extends AbstractPageObject {
     private final By activistFilter = By.cssSelector(".ownership-report-top-holders .toggle-button");
     private final By activistFilterOn = By.cssSelector(".ownership-report-top-holders .toggle-button .x-toggle-on");
     private final By activistFilterOff = By.cssSelector(".ownership-report-top-holders .toggle-button .x-toggle-off");
+    private final By institutionsFilter = By.cssSelector("span.q4i-institution-2pt");
+    private final By insidersFilter = By.cssSelector("span.q4i-insider-2pt");
+    private final By fundsFilter = By.cssSelector("span.q4i-fund-2pt");
     private final By holderTableHeaderName = By.cssSelector(".x-grid-column:first-child");
     private final By holderTableHeaderPOS = By.cssSelector(".x-grid-column:nth-child(2)");
     private final By holderTableHeader1QChg = By.cssSelector(".x-grid-column:nth-child(3)");
@@ -39,6 +42,7 @@ public class SecurityOwnershipPage extends AbstractPageObject {
     private final By holderTableHeaderAUM = By.cssSelector(".x-grid-column:nth-child(10)");
     private final By holderTableHeaderAsOf = By.cssSelector(".x-grid-column:nth-child(11)");
     private final By holderTableHeaderQR = By.cssSelector(".x-grid-column:nth-child(13)");
+    private final By holderTableRow = By.cssSelector(".x-grid-row:not([style*='-10000px'])");
     private final By holderTableName = By.cssSelector(".x-grid-row:not([style*='-10000px']) .x-grid-cell:first-child");
     private final By holderTablePOS = By.cssSelector(".x-grid-row:not([style*='-10000px']) .x-grid-cell:nth-child(2)");
     private final By holderTable1QChg = By.cssSelector(".x-grid-row:not([style*='-10000px']) .x-grid-cell:nth-child(3) span");
@@ -53,6 +57,7 @@ public class SecurityOwnershipPage extends AbstractPageObject {
     private final By holderTableQR = By.cssSelector(".x-grid-row:not([style*='-10000px']) .x-grid-cell:nth-child(13)");
     private final By showMoreButton = By.className("q4i-arrow-down-2pt");
     private final By activistIcon = By.cssSelector(".icon.activists");
+    private final By institutionIcon = By.cssSelector("i.q4i-institution-2pt");
 
     private final DateTimeFormatter shortDate = DateTimeFormatter.ofPattern("MM/dd/yy");
     private final DateTimeFormatter longDate = DateTimeFormatter.ofPattern("MMMM dd, yyyy");
@@ -516,4 +521,68 @@ public class SecurityOwnershipPage extends AbstractPageObject {
         }
         return numIcons;
     }
+
+    // this method is to be used while one of the date tabs is selected
+    public SecurityOwnershipPage showOnlyInstitutions(){
+        waitForElement(institutionsFilter);
+        findVisibleElement(institutionsFilter).click();
+        pause(5000);
+        return this;
+    }
+
+    // this method is to be used while one of the date tabs is selected
+    public SecurityOwnershipPage showOnlyInsiders(){
+        waitForElement(insidersFilter);
+        findVisibleElement(insidersFilter).click();
+        pause(5000);
+        return this;
+    }
+
+    // this method is to be used while one of the date tabs is selected
+    public SecurityOwnershipPage showOnlyFunds(){
+        waitForElement(fundsFilter);
+        findVisibleElement(fundsFilter).click();
+        pause(5000);
+        return this;
+    }
+
+    // this method is to be used while one of the date tabs is selected
+    // institutions have a red institution icon
+    public int getNumOfInstitutionsDisplayed(){
+        waitForElement(institutionIcon);
+        return findVisibleElements(institutionIcon).size();
+    }
+
+    // this method is to be used while one of the date tabs is selected
+    // insiders have no QR scores and no institution icons
+    public int getNumOfInsidersDisplayed(){
+        int numInsiders = 0;
+        waitForElement(holderTableRow);
+        List<WebElement> rows = findVisibleElements(holderTableRow);
+        for (WebElement row : rows){
+            if (doesElementExist(By.cssSelector("#"+row.getAttribute("id")+" .rating.no-value"))){ //checks whether there's no QR score within that row
+                if (doesElementExist(By.xpath("//div[@id='"+row.getAttribute("id")+"']/div[1]/div[1][not(div)]"))){ //checks whether there's no institution icon within that row
+                    numInsiders++;
+                }
+            }
+        }
+        return numInsiders;
+    }
+
+    // this method is to be used while one of the date tabs is selected
+    // funds have QR scores but no institution icons
+    public int getNumOfFundsDisplayed(){
+        int numFunds = 0;
+        waitForElement(holderTableRow);
+        List<WebElement> rows = findVisibleElements(holderTableRow);
+        for (WebElement row : rows){
+            if (!findVisibleElement(By.cssSelector("#"+row.getAttribute("id")+" .rating")).getAttribute("class").contains("no-value")){ //checks whether there's a QR score within that row
+                if (doesElementExist(By.xpath("//div[@id='"+row.getAttribute("id")+"']/div[1]/div[1][not(div)]"))){ //checks whether there's no institution icon within that row
+                    numFunds++;
+                }
+            }
+        }
+        return numFunds;
+    }
+
 }
