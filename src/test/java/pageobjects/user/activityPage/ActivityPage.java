@@ -33,7 +33,7 @@ public class ActivityPage extends AbstractPageObject {
     private final By phoneFilterCheckbox = By.xpath("//div[contains(@class,'x-button') and .//span[contains(text(),'Calls')]]");
     private final By emailFilterCheckbox = By.xpath("//div[contains(@class,'x-button') and .//span[contains(text(),'Emails')]]");
     private final By meetingFilterCheckbox = By.xpath("//div[contains(@class,'x-button') and .//span[contains(text(),'Meetings')]]");
-    private final By roadshowFilterCheckbox = By.xpath("//div[contains(@class,'x-button') and .//span[contains(text(),'Roadshow')]]");
+    private final By roadshowFilterCheckbox = By.xpath("//div[contains(@class,'x-button') and .//span[contains(text(),'Roadshows')]]");
     private final By activityDataTable = By.cssSelector(".x-dataview-container");
 
 
