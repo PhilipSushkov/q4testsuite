@@ -43,6 +43,13 @@ public class FilterActivity extends AbstractSpec {
     }
 
     @Test
+    public void filterActivitiesByRoadshow(){
+        FilterType roadshow = FilterType.ROADHSHOW;
+        ActivityPage activityPage = new ActivityPage(driver).clickFilterCheckbox(roadshow) ;
+        Assert.assertTrue("Filter not applied correctly for meetingss",activityPage.isFilteredCorrectly(roadshow));
+    }
+
+    @Test
     public void filterActivitiesByPhone(){
         FilterType phone = FilterType.PHONE;
         ActivityPage activityPage = new ActivityPage(driver).clickFilterCheckbox(phone);
