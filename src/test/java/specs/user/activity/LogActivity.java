@@ -23,6 +23,23 @@ public class LogActivity extends AbstractSpec {
     }
 
     @Test
+    public void createNoteWith$Symbole(){
+        String comment = "This is a test comment with $" + RandomStringUtils.randomAlphanumeric(6);
+        String note = "This is a test note with $" + RandomStringUtils.randomAlphanumeric(6);
+        String tag = "TestTag" + RandomStringUtils.randomAlphanumeric(6);
+
+        ActivityPage activityPage = new ActivityPage(driver);
+        new ActivityPage(driver).logNote()
+
+                .enterNoteDetails(comment, note, tag)
+                .postActivity();
+
+        // Make sure the new comment appears on page
+        Assert.assertThat("Note text does not match expected", activityPage.getNewNote(), containsString(comment));
+    }
+
+
+    @Test
     public void canLogNoteFromActivityPage() {
         String comment = "This is a test comment" + RandomStringUtils.randomAlphanumeric(6);
         String note = "This is a test note" + RandomStringUtils.randomAlphanumeric(6);
