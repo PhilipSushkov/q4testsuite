@@ -69,7 +69,7 @@ public class Ownership extends AbstractSpec {
     @Test
     public void canSeeActivistHolders(){
         SecurityOwnershipPage securityOwnershipPage = new SecurityOwnershipPage(driver);
-        //store holders
+        //store current holders list
         String[] holders = securityOwnershipPage.getHolderNames();
         //select activist filter and check that all have red flag
         securityOwnershipPage.showOnlyActivists();
@@ -99,6 +99,8 @@ public class Ownership extends AbstractSpec {
         SecurityOwnershipPage securityOwnershipPage = new SecurityOwnershipPage(driver);
         // selecting first date tab
         securityOwnershipPage.selectDate(0);
+        // store original holders list
+        String[] holders = securityOwnershipPage.getHolderNames();
         // select institution filter and check that all entries shown are institutions
         securityOwnershipPage.showOnlyInstitutions();
         Assert.assertEquals("Not all filtered entries are institutions", securityOwnershipPage.getNumOfHoldersDisplayed(), securityOwnershipPage.getNumOfInstitutionsDisplayed());
@@ -108,6 +110,27 @@ public class Ownership extends AbstractSpec {
         // select funds filter and check that all entries shown are funds
         securityOwnershipPage.showOnlyFunds();
         Assert.assertEquals("Not all filtered entries are funds", securityOwnershipPage.getNumOfHoldersDisplayed(), securityOwnershipPage.getNumOfFundsDisplayed());
+        // select all option and check that original list is displayed
+        securityOwnershipPage.showAllTypes();
+        Assert.assertArrayEquals("Original list is not displayed after selecting All types filter", holders, securityOwnershipPage.getHolderNames());
+    }
+
+    @Test
+    public void canSeeFilterHoldersByBuyersAndSellers(){
+        SecurityOwnershipPage securityOwnershipPage = new SecurityOwnershipPage(driver);
+        // storing current holders list
+        String[] holders = securityOwnershipPage.getHolderNames();
+        // selecting buyers filter and checking at least one holder is displayed and that all entries have positive 1W value
+        securityOwnershipPage.showOnlyBuyers();
+        Assert.assertNotEquals("Known issue - DESKTOP-7309 - No holders displayed after using Buyers filter", 0, securityOwnershipPage.getNumOfHoldersDisplayedAlternate());
+        Assert.assertEquals("Not all filtered entries are buyers", securityOwnershipPage.getNumOfHoldersDisplayedAlternate(), securityOwnershipPage.getNumofBuyersDisplayed());
+        // selecting sellers filter and checking checking at least one holder is displayed and that all entries have negative 1W value
+        securityOwnershipPage.showOnlySellers();
+        Assert.assertNotEquals("Known issue - DESKTOP-7309 - No holders displayed after using Sellers filter", 0, securityOwnershipPage.getNumOfHoldersDisplayedAlternate());
+        Assert.assertEquals("Not all filtered entries are sellers", securityOwnershipPage.getNumOfHoldersDisplayedAlternate(), securityOwnershipPage.getNumofSellersDisplayed());
+        // selecting "All" option and checking that original list is displayed
+        securityOwnershipPage.showBuyersAndSellers();
+        Assert.assertArrayEquals("Original list is not displayed after selecting All filter", holders, securityOwnershipPage.getHolderNames());
     }
 
 }

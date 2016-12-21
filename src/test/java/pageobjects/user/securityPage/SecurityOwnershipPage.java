@@ -27,9 +27,13 @@ public class SecurityOwnershipPage extends AbstractPageObject {
     private final By activistFilter = By.cssSelector(".ownership-report-top-holders .toggle-button");
     private final By activistFilterOn = By.cssSelector(".ownership-report-top-holders .toggle-button .x-toggle-on");
     private final By activistFilterOff = By.cssSelector(".ownership-report-top-holders .toggle-button .x-toggle-off");
+    private final By allTypesFilter = By.cssSelector("span.q4i-list-2pt");
     private final By institutionsFilter = By.cssSelector("span.q4i-institution-2pt");
     private final By insidersFilter = By.cssSelector("span.q4i-insider-2pt");
     private final By fundsFilter = By.cssSelector("span.q4i-fund-2pt");
+    private final By allBuyersSellersFilter = By.cssSelector(".ownership-report-main-content .range-tabs .x-button:first-child");
+    private final By buyersFilter = By.cssSelector(".ownership-report-main-content .range-tabs .x-button:nth-child(2)");
+    private final By sellersFilter = By.cssSelector(".ownership-report-main-content .range-tabs .x-button:nth-child(3)");
     private final By holderTableHeaderName = By.cssSelector(".x-grid-column:first-child");
     private final By holderTableHeaderPOS = By.cssSelector(".x-grid-column:nth-child(2)");
     private final By holderTableHeader1QChg = By.cssSelector(".x-grid-column:nth-child(3)");
@@ -43,6 +47,7 @@ public class SecurityOwnershipPage extends AbstractPageObject {
     private final By holderTableHeaderAsOf = By.cssSelector(".x-grid-column:nth-child(11)");
     private final By holderTableHeaderQR = By.cssSelector(".x-grid-column:nth-child(13)");
     private final By holderTableRow = By.cssSelector(".x-grid-row:not([style*='-10000px'])");
+    private final By alternateHolderTableRow = By.cssSelector(".top-holders-list-institutions .x-dataview-item"); // exists instead of above when using Buyers or Sellers filter
     private final By holderTableName = By.cssSelector(".x-grid-row:not([style*='-10000px']) .x-grid-cell:first-child");
     private final By holderTablePOS = By.cssSelector(".x-grid-row:not([style*='-10000px']) .x-grid-cell:nth-child(2)");
     private final By holderTable1QChg = By.cssSelector(".x-grid-row:not([style*='-10000px']) .x-grid-cell:nth-child(3) span");
@@ -55,6 +60,7 @@ public class SecurityOwnershipPage extends AbstractPageObject {
     private final By holderTableAUM = By.cssSelector(".x-grid-row:not([style*='-10000px']) .x-grid-cell:nth-child(10)");
     private final By holderTableAsOf = By.cssSelector(".x-grid-row:not([style*='-10000px']) .x-grid-cell:nth-child(11)");
     private final By holderTableQR = By.cssSelector(".x-grid-row:not([style*='-10000px']) .x-grid-cell:nth-child(13)");
+    private final By holderTable1W = By.cssSelector(".x-dataview-item .view-list-item:nth-child(4)"); // only exists when using Buyers or Sellers filter
     private final By showMoreButton = By.className("q4i-arrow-down-2pt");
     private final By activistIcon = By.cssSelector(".icon.activists");
     private final By institutionIcon = By.cssSelector("i.q4i-institution-2pt");
@@ -215,9 +221,23 @@ public class SecurityOwnershipPage extends AbstractPageObject {
         return elementsDoNotContainDuplicates(findVisibleElements(topBuyersAndSellers));
     }
 
+    // this method does not work when Buyers or Sellers filter is selected
     public int getNumOfHoldersDisplayed(){
         waitForElement(holderTableName);
         return findVisibleElements(holderTableName).size();
+    }
+
+    // use this method when Buyers or Sellers filter is selected
+    public int getNumOfHoldersDisplayedAlternate(){
+        try {
+            waitForElement(alternateHolderTableRow);
+        }catch (TimeoutException e){ //will timeout if no entries are displayed or if buyers/sellers filter is not actually selected
+            if (doesElementExist(holderTableName)){ //in case these entries become formatted like how the holders table is otherwise
+                return findVisibleElements(holderTableName).size();
+            }
+            return 0;
+        }
+        return findVisibleElements(alternateHolderTableRow).size();
     }
 
     public SecurityOwnershipPage showMoreHolders(){
@@ -523,6 +543,14 @@ public class SecurityOwnershipPage extends AbstractPageObject {
     }
 
     // this method is to be used while one of the date tabs is selected
+    public SecurityOwnershipPage showAllTypes(){
+        waitForElement(allTypesFilter);
+        findVisibleElement(allTypesFilter).click();
+        pause(5000);
+        return this;
+    }
+
+    // this method is to be used while one of the date tabs is selected
     public SecurityOwnershipPage showOnlyInstitutions(){
         waitForElement(institutionsFilter);
         findVisibleElement(institutionsFilter).click();
@@ -583,6 +611,51 @@ public class SecurityOwnershipPage extends AbstractPageObject {
             }
         }
         return numFunds;
+    }
+
+    public SecurityOwnershipPage showOnlyBuyers(){
+        waitForElement(buyersFilter);
+        findVisibleElement(buyersFilter).click();
+        pause(5000);
+        return this;
+    }
+
+    public SecurityOwnershipPage showOnlySellers(){
+        waitForElement(sellersFilter);
+        findVisibleElement(sellersFilter).click();
+        pause(5000);
+        return this;
+    }
+
+    public SecurityOwnershipPage showBuyersAndSellers(){
+        waitForElement(allBuyersSellersFilter);
+        findVisibleElement(allBuyersSellersFilter).click();
+        pause(5000);
+        return this;
+    }
+
+    public int getNumofBuyersDisplayed(){
+        int numBuyers = 0;
+        waitForElement(holderTable1W);
+        List<WebElement> values = findVisibleElements(holderTable1W);
+        for (WebElement value : values){
+            if (Integer.parseInt(value.getText().replace(",","")) > 0){
+                numBuyers++;
+            }
+        }
+        return numBuyers;
+    }
+
+    public int getNumofSellersDisplayed(){
+        int numSellers = 0;
+        waitForElement(holderTable1W);
+        List<WebElement> values = findVisibleElements(holderTable1W);
+        for (WebElement value : values){
+            if (Integer.parseInt(value.getText().replace(",","")) < 0){
+                numSellers++;
+            }
+        }
+        return numSellers;
     }
 
 }
