@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageobjects.AbstractPageObject;
 import pageobjects.user.institutionPage.InstitutionPage;
@@ -76,6 +77,11 @@ public class SecurityOwnershipPage extends AbstractPageObject {
     private final By turnoverBarsYellow = By.cssSelector(".turnover + .ownership-report-institutional-charts rect[fill='#f1af0f']");
     private final By institutionalPercentages = By.cssSelector(".highcharts-data-labels g");
 
+    // trend analysis section
+    private final By trendAnalysisChartBody = By.cssSelector(".area-chart .highcharts-series path:first-child");
+    private final By trendAnalysisHoverText = By.cssSelector(".ownership-report-trend-analysis-content .highcharts-tooltip");
+
+    Actions actions = new Actions(driver);
     private final DateTimeFormatter shortDate = DateTimeFormatter.ofPattern("MM/dd/yy");
     private final DateTimeFormatter longDate = DateTimeFormatter.ofPattern("MMMM dd, yyyy");
     private final LocalDate today = LocalDate.now();
@@ -729,6 +735,27 @@ public class SecurityOwnershipPage extends AbstractPageObject {
     public boolean institutionalBarsHaveValidNumbers(){
         waitForElement(institutionalPercentages);
         return elementsAreAllPercentages(findVisibleElements(institutionalPercentages));
+    }
+
+    //// TREND ANALYSIS METHODS \\\\
+
+    // Checks whether hovering over the charts causes hovertext to appear
+    public boolean canHoverOverTrendAnalysisCharts(){
+        boolean canHover = true;
+        waitForElement(trendAnalysisHoverText);
+        List<WebElement> charts = findVisibleElements(trendAnalysisChartBody);
+        List<WebElement> hovertexts = findElements(trendAnalysisHoverText);
+
+        for(int i=0; i<charts.size(); i++){
+            actions.clickAndHold(charts.get(i)).perform(); //clickAndHold needed so that cursor is still there when getAttribute is run
+            pause(500);
+            if (!hovertexts.get(i).getAttribute("opacity").equals("1")){ // when hovertext is not visible, opacity attribute is either zero or non-existent
+                System.out.println("Trend Analysis chart (index "+i+") does have visible hovertext when hovering.");
+                canHover = false;
+            }
+        }
+
+        return canHover;
     }
 
 }

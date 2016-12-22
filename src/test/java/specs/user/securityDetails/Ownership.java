@@ -143,4 +143,11 @@ public class Ownership extends AbstractSpec {
         Assert.assertTrue("One or more bars does not have a value between 0 and 100.", securityOwnershipPage.institutionalBarsHaveValidNumbers());
     }
 
+    @Test
+    public void trendAnalysisChartsWork(){
+        SecurityOwnershipPage securityOwnershipPage = new SecurityOwnershipPage(driver);
+        // checking that hovertext appear when hovering cursor over each of the 4 charts
+        Assert.assertTrue("Hovering does not work on one or more of the Trend Analysis Charts.", securityOwnershipPage.canHoverOverTrendAnalysisCharts());
+    }
+
 }
