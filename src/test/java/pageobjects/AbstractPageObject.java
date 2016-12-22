@@ -321,6 +321,24 @@ public class AbstractPageObject implements PageObject {
         return allPositive;
     }
 
+    // checks whether the elements are a number (which may include a % sign) between 0 and 100 (inclusive)
+    public boolean elementsAreAllPercentages(List<WebElement> elements){
+        boolean allPercent = true;
+        for (WebElement element : elements){
+            try {
+                double value = Double.parseDouble(element.getText().replace("%",""));
+                if (value < 0 || value > 100){
+                    System.out.println("Number not between 0 and 100: "+element.getText());
+                    allPercent = false;
+                }
+            }catch (NumberFormatException e){
+                System.out.println("Error parsing number: "+element.getText());
+                allPercent = false;
+            }
+        }
+        return allPercent;
+    }
+
     public boolean elementsDoNotContainDuplicates(List<WebElement> elements){
         List<String> names = new ArrayList<>();
         names.add(elements.get(0).getText());

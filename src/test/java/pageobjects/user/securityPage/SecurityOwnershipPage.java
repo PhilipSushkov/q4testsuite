@@ -65,6 +65,17 @@ public class SecurityOwnershipPage extends AbstractPageObject {
     private final By activistIcon = By.cssSelector(".icon.activists");
     private final By institutionIcon = By.cssSelector("i.q4i-institution-2pt");
 
+    // institutional ownership section
+    private final By styleBarsBlue = By.cssSelector(".style + .ownership-report-institutional-charts rect[fill='#297ac5']");
+    private final By styleBarsRed = By.cssSelector(".style + .ownership-report-institutional-charts rect[fill='#ec6a4c']");
+    private final By styleBarsOrange = By.cssSelector(".style + .ownership-report-institutional-charts rect[fill='#fc7e26']");
+    private final By styleBarsYellow = By.cssSelector(".style + .ownership-report-institutional-charts rect[fill='#f1af0f']");
+    private final By turnoverBarsBlue = By.cssSelector(".turnover + .ownership-report-institutional-charts rect[fill='#297ac5']");
+    private final By turnoverBarsRed = By.cssSelector(".turnover + .ownership-report-institutional-charts rect[fill='#ec6a4c']");
+    private final By turnoverBarsOrange = By.cssSelector(".turnover + .ownership-report-institutional-charts rect[fill='#fc7e26']");
+    private final By turnoverBarsYellow = By.cssSelector(".turnover + .ownership-report-institutional-charts rect[fill='#f1af0f']");
+    private final By institutionalPercentages = By.cssSelector(".highcharts-data-labels g");
+
     private final DateTimeFormatter shortDate = DateTimeFormatter.ofPattern("MM/dd/yy");
     private final DateTimeFormatter longDate = DateTimeFormatter.ofPattern("MMMM dd, yyyy");
     private final LocalDate today = LocalDate.now();
@@ -220,6 +231,8 @@ public class SecurityOwnershipPage extends AbstractPageObject {
         waitForElement(topBuyersAndSellers);
         return elementsDoNotContainDuplicates(findVisibleElements(topBuyersAndSellers));
     }
+
+    //// HOLDERS TABLE METHODS \\\\
 
     // this method does not work when Buyers or Sellers filter is selected
     public int getNumOfHoldersDisplayed(){
@@ -656,6 +669,66 @@ public class SecurityOwnershipPage extends AbstractPageObject {
             }
         }
         return numSellers;
+    }
+
+    //// INSTITUTIONAL OWNERSHIP METHODS \\\\
+    
+    // checks that the correct number of style bars of each colour are present
+    public boolean styleBarsNumsAreCorrect(){
+        boolean correct = true;
+        int numStyles = 7; //number of styles (including "Other") that should be displayed
+        waitForElement(styleBarsYellow);
+
+        if (findVisibleElements(styleBarsBlue).size() != numStyles){
+            System.out.println("Incorrect number of blue style bars displayed.\n\tExpected: "+numStyles+"\n\tActual: "+findVisibleElements(styleBarsBlue).size());
+            correct = false;
+        }
+        if (findVisibleElements(styleBarsRed).size() != numStyles){
+            System.out.println("Incorrect number of red style bars displayed.\n\tExpected: "+numStyles+"\n\tActual: "+findVisibleElements(styleBarsRed).size());
+            correct = false;
+        }
+        if (findVisibleElements(styleBarsOrange).size() != numStyles){
+            System.out.println("Incorrect number of orange style bars displayed.\n\tExpected: "+numStyles+"\n\tActual: "+findVisibleElements(styleBarsOrange).size());
+            correct = false;
+        }
+        if (findVisibleElements(styleBarsYellow).size() != numStyles){
+            System.out.println("Incorrect number of yellow style bars displayed.\n\tExpected: "+numStyles+"\n\tActual: "+findVisibleElements(styleBarsBlue).size());
+            correct = false;
+        }
+
+        return correct;
+    }
+
+    // checks that the correct number of turnover bars of each colour are present
+    public boolean turnoverBarsNumsAreCorrect(){
+        boolean correct = true;
+        int numTurnover = 5; //number of turnover types that should be displayed
+        waitForElement(turnoverBarsYellow);
+
+        if (findVisibleElements(turnoverBarsBlue).size() != numTurnover){
+            System.out.println("Incorrect number of blue turnover bars displayed.\n\tExpected: "+numTurnover+"\n\tActual: "+findVisibleElements(turnoverBarsBlue).size());
+            correct = false;
+        }
+        if (findVisibleElements(turnoverBarsRed).size() != numTurnover){
+            System.out.println("Incorrect number of red turnover bars displayed.\n\tExpected: "+numTurnover+"\n\tActual: "+findVisibleElements(turnoverBarsRed).size());
+            correct = false;
+        }
+        if (findVisibleElements(turnoverBarsOrange).size() != numTurnover){
+            System.out.println("Incorrect number of orange turnover bars displayed.\n\tExpected: "+numTurnover+"\n\tActual: "+findVisibleElements(turnoverBarsOrange).size());
+            correct = false;
+        }
+        if (findVisibleElements(turnoverBarsYellow).size() != numTurnover){
+            System.out.println("Incorrect number of yellow turnover bars displayed.\n\tExpected: "+numTurnover+"\n\tActual: "+findVisibleElements(turnoverBarsBlue).size());
+            correct = false;
+        }
+
+        return correct;
+    }
+
+    // checks that all bars have values between 0 and 100 displayed above them
+    public boolean institutionalBarsHaveValidNumbers(){
+        waitForElement(institutionalPercentages);
+        return elementsAreAllPercentages(findVisibleElements(institutionalPercentages));
     }
 
 }

@@ -133,4 +133,14 @@ public class Ownership extends AbstractSpec {
         Assert.assertArrayEquals("Original list is not displayed after selecting All filter", holders, securityOwnershipPage.getHolderNames());
     }
 
+    @Test
+    public void checkInstitutionalOwnershipCharts(){
+        SecurityOwnershipPage securityOwnershipPage = new SecurityOwnershipPage(driver);
+        // checking that each color has 7 style bars and 5 turnover bars
+        Assert.assertTrue("Incorrect number of style bars in one or more colours are displayed.", securityOwnershipPage.styleBarsNumsAreCorrect());
+        Assert.assertTrue("Incorrect number of turnover bars in one or more colours are displayed.", securityOwnershipPage.turnoverBarsNumsAreCorrect());
+        // checking that all bars have values between 0 and 100
+        Assert.assertTrue("One or more bars does not have a value between 0 and 100.", securityOwnershipPage.institutionalBarsHaveValidNumbers());
+    }
+
 }
