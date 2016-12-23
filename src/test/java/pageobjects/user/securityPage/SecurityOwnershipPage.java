@@ -81,6 +81,17 @@ public class SecurityOwnershipPage extends AbstractPageObject {
     private final By trendAnalysisChartBody = By.cssSelector(".area-chart .highcharts-series path:first-child");
     private final By trendAnalysisHoverText = By.cssSelector(".ownership-report-trend-analysis-content .highcharts-tooltip");
 
+    // institutional holder analysis section
+    private final By holderBreakdownValues = By.cssSelector(".analysis-breakdown-list .value");
+    private final By holderTypeValues = By.cssSelector(".analysis-investor-type-list .value");
+    private final By holderTypeOther = By.cssSelector(".analysis-investor-type-list .other");
+    private final By holderStyleValues = By.cssSelector(".analysis-pie-bundles .q4-pie-bundle:nth-child(1) text");
+    private final By holderStyleOther = By.cssSelector(".analysis-pie-bundles .q4-pie-bundle:nth-child(1) .other");
+    private final By holderTurnoverValues = By.cssSelector(".analysis-pie-bundles .q4-pie-bundle:nth-child(2) text");
+    private final By holderTurnoverOther = By.cssSelector(".analysis-pie-bundles .q4-pie-bundle:nth-child(2) .other");
+    private final By holderOtherDropdown = By.className("q4-list-modal-inner");
+    private final By holderOtherValues = By.cssSelector(".q4-list-modal-inner .value"); //values contained within whatever other dropdown is open (returns no elements when closed)
+
     Actions actions = new Actions(driver);
     private final DateTimeFormatter shortDate = DateTimeFormatter.ofPattern("MM/dd/yy");
     private final DateTimeFormatter longDate = DateTimeFormatter.ofPattern("MMMM dd, yyyy");
@@ -756,6 +767,102 @@ public class SecurityOwnershipPage extends AbstractPageObject {
         }
 
         return canHover;
+    }
+
+    //// INSTITUTIONAL HOLDER ANALYSIS METHODS \\\\
+    // these methods are to be used while one of the date tabs is selected
+
+    public int getNumOfHolderBreakdownValues(){
+        waitForElement(holderBreakdownValues);
+        return findVisibleElements(holderBreakdownValues).size();
+    }
+
+    // checks that breakdown values are between 0 and 100 (inclusive)
+    public boolean holderBreakdownValuesAreValid(){
+        waitForElement(holderBreakdownValues);
+        return elementsAreAllPercentages(findVisibleElements(holderBreakdownValues));
+    }
+
+    public int getNumofHolderTypeValues(){
+        waitForElement(holderTypeValues);
+        return findVisibleElements(holderTypeValues).size();
+    }
+
+    // checks that all type values are between 0 and 100 (inclusive)
+    public boolean holderTypeValuesAreValid(){
+        waitForElement(holderTypeValues);
+        return elementsAreAllPercentages(findVisibleElements(holderTypeValues));
+    }
+
+    // clicks on the "Other" option under "Investor Type", causing the dropdown to open
+    public SecurityOwnershipPage openOtherHolderTypes(){
+        waitForElement(holderTypeOther);
+        findVisibleElement(holderTypeOther).click();
+        waitForElement(holderOtherDropdown);
+        return this;
+    }
+
+    public int getNumofHolderStyleValues(){
+        waitForElement(holderStyleValues);
+        return findVisibleElements(holderStyleValues).size();
+    }
+
+    // checks that all style values are between 0 and 100 (inclusive)
+    public boolean holderStyleValuesAreValid(){
+        waitForElement(holderStyleValues);
+        return elementsAreAllPercentages(findVisibleElements(holderStyleValues));
+    }
+
+    // clicks on the "Other" option under "Holding Style", causing the dropdown to open
+    public SecurityOwnershipPage openOtherHolderStyles(){
+        waitForElement(holderStyleOther);
+        findVisibleElement(holderStyleOther).click();
+        waitForElement(holderOtherDropdown);
+        return this;
+    }
+
+    public int getNumofHolderTurnoverValues(){
+        waitForElement(holderTurnoverValues);
+        return findVisibleElements(holderTurnoverValues).size();
+    }
+
+    // checks that all turnover values are between 0 and 100 (inclusive)
+    public boolean holderTurnoverValuesAreValid(){
+        waitForElement(holderTurnoverValues);
+        return elementsAreAllPercentages(findVisibleElements(holderTurnoverValues));
+    }
+
+    // clicks on the "Other" option under "Turnover", causing the dropdown to open
+    public SecurityOwnershipPage openOtherHolderTurnovers(){
+        waitForElement(holderTurnoverOther);
+        findVisibleElement(holderTurnoverOther).click();
+        waitForElement(holderOtherDropdown);
+        return this;
+    }
+
+    // checks that there are at least two values in the other dropdown
+    public boolean otherHolderValuesArePresent(){
+        waitForElement(holderOtherValues);
+        return findVisibleElements(holderOtherValues).size() > 1;
+    }
+
+    // checks that all of the values in the other dropdown are between 0 and 100 (inclusive)
+    public boolean otherHolderValuesAreValid(){
+        waitForElement(holderOtherValues);
+        return elementsAreAllPercentages(findVisibleElements(holderOtherValues));
+    }
+
+    // closes the other dropdown by clicking outside it
+    public SecurityOwnershipPage closeOtherHolderDropdown(){
+        waitForElement(holderOtherDropdown);
+        actions.moveToElement(findElement(holderOtherDropdown), -10, -10).click().perform();
+        pause(3000);
+        return this;
+    }
+
+    // checks that the other dropdown has been closed
+    public boolean otherHolderDropdownIsClosed(){
+        return !doesElementExist(holderOtherDropdown);
     }
 
 }

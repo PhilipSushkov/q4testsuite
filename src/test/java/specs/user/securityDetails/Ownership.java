@@ -150,4 +150,72 @@ public class Ownership extends AbstractSpec {
         Assert.assertTrue("Hovering does not work on one or more of the Trend Analysis Charts.", securityOwnershipPage.canHoverOverTrendAnalysisCharts());
     }
 
+    @Test
+    public void checkHolderBreakdownPie(){
+        SecurityOwnershipPage securityOwnershipPage = new SecurityOwnershipPage(driver);
+        // selecting first date tab
+        securityOwnershipPage.selectDate(0);
+        // checking that there are the correct number of breakdown values
+        Assert.assertEquals("The number of Holder Analysis Breakdown values is incorrect", 4, securityOwnershipPage.getNumOfHolderBreakdownValues());
+        // checking that all breakdown values are between 0 and 100
+        Assert.assertTrue("One or more Holder Analysis Breakdown values are not between 0 and 100.", securityOwnershipPage.holderBreakdownValuesAreValid());
+    }
+
+    @Test
+    public void checkHolderTypePie(){
+        SecurityOwnershipPage securityOwnershipPage = new SecurityOwnershipPage(driver);
+        // selecting first date tab
+        securityOwnershipPage.selectDate(0);
+        // checking that there are the correct number of type values
+        Assert.assertEquals("The number of Holder Analysis Type values (including the 'Other' value) is incorrect", 4, securityOwnershipPage.getNumofHolderTypeValues());
+        // checking that all type values are between 0 and 100
+        Assert.assertTrue("One or more Holder Analysis Type values are not between 0 and 100.", securityOwnershipPage.holderTypeValuesAreValid());
+        // opening the type "Other" dropdown and checking that at least two values are present
+        securityOwnershipPage.openOtherHolderTypes();
+        Assert.assertTrue("Less than two values are displayed in the other Holder Analysis Type dropdown.", securityOwnershipPage.otherHolderValuesArePresent());
+        // checking that the other type values are all between 0 and 100
+        Assert.assertTrue("One or more Holder Analysis other type values are not between 0 and 100.", securityOwnershipPage.otherHolderValuesAreValid());
+        // closing the other dropdown and checking that it is closed
+        securityOwnershipPage.closeOtherHolderDropdown();
+        Assert.assertTrue("Other Holder Analysis Type dropdown has not been closed.", securityOwnershipPage.otherHolderDropdownIsClosed());
+    }
+
+    @Test
+    public void checkHolderStylePies(){
+        SecurityOwnershipPage securityOwnershipPage = new SecurityOwnershipPage(driver);
+        // selecting first date tab
+        securityOwnershipPage.selectDate(0);
+        // checking that there are the correct number of style values
+        Assert.assertEquals("The number of Holder Analysis Style values (including the 'Other' value) is incorrect", 4, securityOwnershipPage.getNumofHolderStyleValues());
+        // checking that all style values are between 0 and 100
+        Assert.assertTrue("One or more Holder Analysis Style values are not between 0 and 100.", securityOwnershipPage.holderStyleValuesAreValid());
+        // opening the style "Other" dropdown and checking that at least two values are present
+        securityOwnershipPage.openOtherHolderStyles();
+        Assert.assertTrue("Less than two values are displayed in the other Holder Analysis Style dropdown.", securityOwnershipPage.otherHolderValuesArePresent());
+        // checking that the other style values are all between 0 and 100
+        Assert.assertTrue("One or more Holder Analysis other style values are not between 0 and 100.", securityOwnershipPage.otherHolderValuesAreValid());
+        // closing the other dropdown and checking that it is closed
+        securityOwnershipPage.closeOtherHolderDropdown();
+        Assert.assertTrue("Other Holder Analysis Style dropdown has not been closed.", securityOwnershipPage.otherHolderDropdownIsClosed());
+    }
+
+    @Test
+    public void checkHolderTurnoverPies(){
+        SecurityOwnershipPage securityOwnershipPage = new SecurityOwnershipPage(driver);
+        // selecting first date tab
+        securityOwnershipPage.selectDate(0);
+        // checking that there are the correct number of turnover values
+        Assert.assertEquals("The number of Holder Analysis Turnover values (including the 'Other' value) is incorrect", 4, securityOwnershipPage.getNumofHolderTurnoverValues());
+        // checking that all turnover values are between 0 and 100
+        Assert.assertTrue("One or more Holder Analysis Turnover values are not between 0 and 100.", securityOwnershipPage.holderTurnoverValuesAreValid());
+        // opening the turnover "Other" dropdown and checking that at least two values are present
+        securityOwnershipPage.openOtherHolderTurnovers();
+        Assert.assertTrue("Less than two values are displayed in the other Holder Analysis Turnover dropdown.", securityOwnershipPage.otherHolderValuesArePresent());
+        // checking that the other turnover values are all between 0 and 100
+        Assert.assertTrue("One or more Holder Analysis other turnover values are not between 0 and 100.", securityOwnershipPage.otherHolderValuesAreValid());
+        // closing the other dropdown and checking that it is closed
+        securityOwnershipPage.closeOtherHolderDropdown();
+        Assert.assertTrue("Other Holder Analysis Style dropdown has not been closed.", securityOwnershipPage.otherHolderDropdownIsClosed());
+    }
+
 }
