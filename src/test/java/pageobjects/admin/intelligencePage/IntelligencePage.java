@@ -26,7 +26,7 @@ public class IntelligencePage extends AbstractPageObject {
     private final By pendingFilter = By.xpath("//button[contains(text(),'Pending')]");
     private final By readyFilter = By.xpath("//button[contains(text(),'Ready')]");
     private final By approvedFilter = By.xpath("//button[contains(text(),'Approved')]");
-    private final By readyToPublishFilter = By.xpath("//button[contains(text(),'Ready to publish')]");
+    private final By readyToPublishFilter = By.xpath("//button[contains(text(),'Ready To Publish')]");
     private final By reportStatus = By.cssSelector("td:nth-child(3)");
     private final By reportTypeFilterDropdown = By.className("ui-dropdown");
     private final By reportTypeFilterOptions = By.className("ui-dropdown-item");
