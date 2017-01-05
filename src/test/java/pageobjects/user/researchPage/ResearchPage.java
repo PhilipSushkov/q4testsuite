@@ -11,7 +11,7 @@ import pageobjects.user.institutionPage.InstitutionPage;
  * Created by patrickp on 2016-11-09.
  */
 public class ResearchPage extends AbstractPageObject {
-    private final By researchSearchField = By.cssSelector(".toolbar-panel .search .x-field-input .x-input-el");
+    private final By researchSearchField = By.name("contactsFilterSearch");
     private final By researchSearchResults = By.cssSelector(".active");
     private final By numberOfDocuments = By.cssSelector(".count");
     private final By firmName = By.cssSelector(".institution");
