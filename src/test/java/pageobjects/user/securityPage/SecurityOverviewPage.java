@@ -51,7 +51,7 @@ public class SecurityOverviewPage extends WatchlistPage {
 
     private final By recentEstimatesBtn = By.cssSelector(".company-header .header-notifications-tab .x-button:first-child");
     private final By recentEventsBtn = By.cssSelector(".company-header .header-notifications-tab .x-button + .x-button");
-    private final By recentTranscriptsBtn = By.xpath("(//div[@class='x-innerhtml'])[24]");
+    private final By recentTranscriptsBtn = By.xpath("(//div[@class='x-innerhtml'])[25]");
     private final By recentNewsBtn = By.cssSelector(".company-header .header-notifications-tab .x-button:last-child");
 
     private final By recentEstimatesResults = By.cssSelector(".company-header-latest-estimates .latest-estimate-item");

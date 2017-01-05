@@ -33,6 +33,7 @@ public class ResearchPage extends AbstractPageObject {
 
     public ResearchPage searchForDocument(String documentName) {
         waitForLoadingScreen();
+        findElement(researchSearchField).click();
         findElement(researchSearchField).sendKeys(documentName);
         findElement(researchSearchField).sendKeys(Keys.ENTER);
         waitForLoadingScreen();
