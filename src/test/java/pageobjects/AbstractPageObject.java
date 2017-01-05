@@ -4,8 +4,6 @@ import org.apache.commons.collections4.Predicate;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.FluentWait;
-import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import pageobjects.admin.companyPage.CompanyPage;
 import pageobjects.admin.implementationPage.ImplementationPage;
@@ -22,7 +20,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.concurrent.TimeUnit;
 
 public class AbstractPageObject implements PageObject {
 
@@ -47,14 +44,12 @@ public class AbstractPageObject implements PageObject {
     // Admin page elements
     private final By adminPageTitle = By.cssSelector(".page-header .page-title .details h2");
     private final By loading = By.className("outer-spinner-container");
-    private final By homePage = By.cssSelector("body > q4-app > div > q4-navbar > nav > div > ul > li:nth-child(1) > a > i");
     private final By companyPage = By.cssSelector("body > q4-app > div > q4-navbar > nav > div > ul > li:nth-child(2) > a > i");
     private final By profilesPage = By.cssSelector("body > q4-app > div > q4-navbar > nav > div > ul > li:nth-child(3) > a > i");
     private final By intelligencePage = By.cssSelector("body > q4-app > div > q4-navbar > nav > div > ul > li:nth-child(4) > a > i");
-    private final By implementationPage = By.cssSelector("body > q4-app > div > q4-navbar > nav > div > ul > li:nth-child(5) > a > i");
-    private final By rolesPage = By.cssSelector("body > q4-app > div > q4-navbar > nav > div > ul > li:nth-child(6) > a > i");
+    private final By implementationPage = By.cssSelector("body > q4-app > div > q4-navbar > nav > div > ul > li:nth-child(6) > a > i");
     private final By reportHeader = By.cssSelector(".page-header .page-title .details");
-    private final By usersPage = By.cssSelector("body > q4-app > div > q4-navbar > nav > div > ul > li:nth-child(6) > a > i");
+    private final By usersPage = By.cssSelector("body > q4-app > div > q4-navbar > nav > div > ul > li:nth-child(7) > a > i");
     private final By profileIcon = By.xpath("//div[contains(@class,'x-docked-right') and contains(concat(' ',@class,' '), 'profile') and contains(@class,'x-paint-monitored')][.//div[contains(@class,'avatar')]]");
     private final By feedback = By.xpath("//div[@class='profile-menu-item']/span[contains(text(),'Leave Feedback')]");
     private final By password = By.xpath("//div[@class='profile-menu-item']/span[contains(text(),'Change Password')]");
