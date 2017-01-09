@@ -8,6 +8,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import pageobjects.admin.companyPage.CompanyPage;
 import pageobjects.admin.implementationPage.ImplementationPage;
 import pageobjects.admin.intelligencePage.IntelligencePage;
+import pageobjects.admin.morningCoffeePage.MorningCoffeePage;
 import pageobjects.admin.profilesPage.ProfilesList;
 import pageobjects.admin.usersPage.UsersPage;
 import pageobjects.user.logActivity.LogActivityModal;
@@ -48,6 +49,7 @@ public class AbstractPageObject implements PageObject {
     private final By profilesPage = By.cssSelector("body > q4-app > div > q4-navbar > nav > div > ul > li:nth-child(3) > a > i");
     private final By intelligencePage = By.cssSelector("body > q4-app > div > q4-navbar > nav > div > ul > li:nth-child(4) > a > i");
     private final By implementationPage = By.cssSelector("body > q4-app > div > q4-navbar > nav > div > ul > li:nth-child(6) > a > i");
+    private final By morningCoffeePage = By.cssSelector("a[href='#/morning-coffee']");
     private final By reportHeader = By.cssSelector(".page-header .page-title .details");
     private final By usersPage = By.cssSelector("body > q4-app > div > q4-navbar > nav > div > ul > li:nth-child(7) > a > i");
     private final By profileIcon = By.xpath("//div[contains(@class,'x-docked-right') and contains(concat(' ',@class,' '), 'profile') and contains(@class,'x-paint-monitored')][.//div[contains(@class,'avatar')]]");
@@ -382,6 +384,13 @@ public class AbstractPageObject implements PageObject {
         findElement(implementationPage).click();
 
         return new ImplementationPage(getDriver());
+    }
+
+    public MorningCoffeePage navigateToMorningCoffeePage() {
+        waitForLoadingScreen();
+        findElement(morningCoffeePage).click();
+        waitForLoadingScreen();
+        return new MorningCoffeePage(getDriver());
     }
 
     public IntelligencePage navigateToIntelligencePage() {
