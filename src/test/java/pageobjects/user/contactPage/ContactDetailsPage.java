@@ -174,7 +174,7 @@ public class ContactDetailsPage extends Page {
     }
 
     public boolean isSavedTarget(){
-        waitForElement(contactDropDown);
+        waitForLoadingScreen();
         List<WebElement> targetIcons = findElements(targetIcon);
         for (int i=0; i<targetIcons.size(); i++){
             if (targetIcons.get(i).isDisplayed()){
@@ -185,11 +185,26 @@ public class ContactDetailsPage extends Page {
     }
 
     public void markAsTarget(){
-        waitForElementToAppear(contactDropDown);
-        findElement(contactDropDown).click();
-        waitForElementToAppear(markTarget);
-        findElement(markTarget).click();
-        waitForElementToDissapear(markTarget);
+        if (isSavedTarget()) {
+                waitForLoadingScreen();
+                findElement(contactDropDown).click();
+                findElement(removeTarget).click();
+                pause(2000L);
+                driver.navigate().refresh();
+                waitForLoadingScreen();
+                findElement(contactDropDown).click();
+                waitForElementToAppear(markTarget);
+                findElement(markTarget).click();
+                waitForElementToDissapear(markTarget);
+            }
+            else
+            {
+                waitForElementToAppear(contactDropDown);
+                findElement(contactDropDown).click();
+                waitForElementToAppear(markTarget);
+                findElement(markTarget).click();
+                waitForElementToDissapear(markTarget);
+        }
     }
 
     public void removeFromTargets(){
