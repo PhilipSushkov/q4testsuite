@@ -17,7 +17,7 @@ import static org.hamcrest.CoreMatchers.not;
  * Created by patrickp on 2016-08-25.
  */
 public class ContactList extends AbstractSpec {
-
+//testing
     @Before
     public void setUp() {
         new LoginPage(driver).loginUser();
