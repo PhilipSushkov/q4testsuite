@@ -280,6 +280,7 @@ public class SecurityOverviewPage extends WatchlistPage {
     //HEADER\\
 
     public String getCompanyName() {
+        waitForLoadingScreen();
         return findElement(companyName).getText().replaceAll("\\p{P}", "");
     }
 
