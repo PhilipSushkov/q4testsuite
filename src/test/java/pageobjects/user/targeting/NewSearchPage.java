@@ -45,7 +45,7 @@ public class NewSearchPage extends AbstractPageObject{
 
     private final By showMoreButton = By.cssSelector(".load-more .x-button");
     private final By nameColumnHeader = By.cssSelector(".list-header .column.name");
-    private final By locationColumnHeader = By.cssSelector(".list-header .column.location");
+    private final By locationColumnHeader = By.cssSelector(".list-header .column.locations");
     private final By PPColumnHeader = By.cssSelector(".list-header .column.purchase-power");
     private final By AUMColumnHeader = By.cssSelector(".list-header .column.aum");
     private final By turnoverColumnHeader = By.cssSelector(".list-header .column.turnover");
@@ -309,7 +309,7 @@ public class NewSearchPage extends AbstractPageObject{
     public boolean resultsCanBeSorted(){
         // sorting by name ascending
         findElement(nameColumnHeader).click();
-        pause(300);
+        pause(500);
         if (!elementsAreAlphaUpSorted(findElements(resultName))){
             System.out.println("SORT ERROR: Names are not in ascending order.");
             return false;
@@ -317,7 +317,7 @@ public class NewSearchPage extends AbstractPageObject{
 
         // sorting by name descending
         findElement(nameColumnHeader).click();
-        pause(300);
+        pause(500);
         if (!elementsAreAlphaDownSorted(findElements(resultName))){
             System.out.println("SORT ERROR: Names are not in descending order.");
             return false;
@@ -325,7 +325,7 @@ public class NewSearchPage extends AbstractPageObject{
 
         // sorting by location ascending
         findElement(locationColumnHeader).click();
-        pause(300);
+        pause(500);
         if (!elementsAreAlphaUpSorted(findElements(resultLocation))){
             System.out.println("SORT ERROR: Locations are not in ascending order.");
             return false;

@@ -19,6 +19,7 @@ public class WatchlistPage extends AbstractPageObject{
     private final By deleteButton = By.cssSelector(".watch-list .watchlist-action-toolbar .x-button.delete");
     private final By firstCompanyInList = By.cssSelector(".watch-list .watchlist-row");
     private final By doneButton = By.cssSelector(".toolbar-panel .toolbar-button");
+    private final By firstCompanyNameInList = By.cssSelector(".watch-list .watchlist-row h5");
 
     public WatchlistPage(WebDriver driver) {
         super(driver);
@@ -30,7 +31,7 @@ public class WatchlistPage extends AbstractPageObject{
         findElement(securitySearchField).click();
         findElement(securitySearchField).sendKeys(security);
         wait.until(ExpectedConditions.elementToBeClickable(searchResult));
-        findElement(searchResult).click();
+        retryClick(searchResult);
         pause(500L);
 
         // Page refresh to make sure changes have been saved
@@ -47,6 +48,7 @@ public class WatchlistPage extends AbstractPageObject{
 
     // Checks to see if the watchlist is empty
     public boolean watchlistHadSecurities() {
+        waitForLoadingScreen();
         if (findElements(firstCompanyInList).size() != 0) {
 
             return true;
@@ -76,6 +78,12 @@ public class WatchlistPage extends AbstractPageObject{
         return findElement(firstCompanyInList).getText().replaceAll("\\p{P}", "");
     }
 
+    public String getFirstCompanyName() {
+        waitForLoadingScreen();
+        waitForElementToAppear(firstCompanyNameInList);
+        return findElement(firstCompanyNameInList).getText().replaceAll("\\p{P}", "");
+    }
+
     public SecurityOverviewPage clickOnFirstWatchlistCompany() {
         findElement(firstCompanyInList).click();
 
@@ -90,6 +98,33 @@ public class WatchlistPage extends AbstractPageObject{
         else
         {
             addSecurityToWatchlist("VRX");
+        }
+        return this;
+    }
+
+    // Checks to see if a specific security exists in the watchlist. If it doesn't exist, it adds it.
+    public WatchlistPage securityIsVisible(String security) {
+        waitForLoadingScreen();
+        String actual = getFirstCompanyName();
+
+        if (actual.equals(security)) {
+            removeSecurityFromWatchlist();
+            driver.navigate().refresh();
+            addSecurityToWatchlist(security);
+        } else {
+            addSecurityToWatchlist(security);
+        }
+        return this;
+    }
+
+    // If the watchlist is empty, this adds a company so it can later be removed
+    public WatchlistPage addCompanyIfWatchlistEmpty(String ticker) {
+        if (watchlistHadSecurities()) {
+            wait.until(ExpectedConditions.elementToBeClickable(firstCompanyInList));
+        }
+        else
+        {
+            addSecurityToWatchlist(ticker);
         }
         return this;
     }
