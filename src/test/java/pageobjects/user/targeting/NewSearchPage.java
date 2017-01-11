@@ -310,7 +310,7 @@ public class NewSearchPage extends AbstractPageObject{
         // sorting by name ascending
         findElement(nameColumnHeader).click();
         pause(500);
-        if (!elementsAreAlphaUpSorted(findElements(resultName))){
+        if (!elementsAreAlphaUpSortedIgnoreCase(findElements(resultName))){
             System.out.println("SORT ERROR: Names are not in ascending order.");
             return false;
         }
@@ -318,7 +318,7 @@ public class NewSearchPage extends AbstractPageObject{
         // sorting by name descending
         findElement(nameColumnHeader).click();
         pause(500);
-        if (!elementsAreAlphaDownSorted(findElements(resultName))){
+        if (!elementsAreAlphaDownSortedIgnoreCase(findElements(resultName))){
             System.out.println("SORT ERROR: Names are not in descending order.");
             return false;
         }
