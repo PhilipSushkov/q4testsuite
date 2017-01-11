@@ -28,7 +28,7 @@ public class SecurityOwnershipPage extends AbstractPageObject {
     private final By activistFilter = By.cssSelector(".ownership-report-top-holders .toggle-button");
     private final By activistFilterOn = By.cssSelector(".ownership-report-top-holders .toggle-button .x-toggle-on");
     private final By activistFilterOff = By.cssSelector(".ownership-report-top-holders .toggle-button .x-toggle-off");
-    private final By allTypesFilter = By.cssSelector("span.q4i-list-2pt");
+    private final By allTypesFilter = By.xpath("//div[contains(@class,'company-ownership-main-content')]//div[contains(@class,'x-button') and .//span[contains(text(),'All')]]");
     private final By institutionsFilter = By.cssSelector("span.q4i-institution-2pt");
     private final By insidersFilter = By.cssSelector("span.q4i-insider-2pt");
     private final By fundsFilter = By.cssSelector("span.q4i-fund-2pt");
