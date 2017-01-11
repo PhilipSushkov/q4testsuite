@@ -20,6 +20,7 @@ public enum FilterType {
         this.checked= checked;
     }
 
+
     public String iconClass(){
         return this.iconClass;
     }
