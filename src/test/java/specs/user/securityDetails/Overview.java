@@ -298,7 +298,7 @@ public class Overview extends AbstractSpec {
         securityOverviewPage.clickRecentNewsButton();
         int actualNewsNum = securityOverviewPage.getNumNewsResultsDisplayed();
 
-        Assert.assertEquals("Number shown in recent news button does not correspond with actual results"
+        Assert.assertEquals("Known Issue DESKTOP-7375 - Number shown in recent news button does not correspond with actual results"
                 ,newsButtonNum,actualNewsNum);
     }
 
