@@ -15,6 +15,7 @@ import specs.user.login.ForgotPassword;
 import specs.user.login.UserLogin;
 import specs.user.research.ResearchList;
 import specs.user.securityDetails.Overview;
+import specs.user.securityDetails.Ownership;
 import specs.user.sideNavBar.TabNavigationExpanded;
 import specs.user.targeting.TargetingList;
 import specs.user.team.Q4TeamPage;
@@ -38,7 +39,8 @@ import specs.user.watchlist.EditWatchlist;
         Q4TeamPage.class,
         SearchForActivity.class,
         TargetingList.class,
-        ResearchList.class
+        ResearchList.class,
+        Ownership.class
 })
 
 public class NightRun {
