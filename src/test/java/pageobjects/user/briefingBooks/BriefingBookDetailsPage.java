@@ -20,9 +20,9 @@ public class BriefingBookDetailsPage extends AbstractPageObject {
     private final By saveButton = By.xpath("//div[contains(@class,'x-button-no-icon') and ./span[contains(text(),'Save')]]");
     private final By addButton = By.xpath("//div[contains(@class,'x-button-no-icon') and ./span[contains(text(),'Add')]]");
     private final By entityTypeToggle = By.className("x-toggle");
-    private final By institutionOption = By.className("q4i-institution-2pt");
-    private final By fundOption = By.className("q4i-fund-2pt");
-    private final By contactOption = By.className("q4i-contact-2pt");
+    private final By institutionOption = By.className("institution");
+    private final By fundOption = By.className("fund");
+    private final By contactOption = By.className("contact");
     private final By entitySearchBox = By.cssSelector(".note-link-field .x-input-search");
     private final By entityResults = By.className("result-item");
     private final By saveEntityButton = By.cssSelector(".form-button.yellow");
