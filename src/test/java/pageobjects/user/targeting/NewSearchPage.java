@@ -59,7 +59,7 @@ public class NewSearchPage extends AbstractPageObject{
     private final By resultStyle = By.cssSelector(".row .style");
     private final By resultQRValue = By.cssSelector(".row .qr-value");
 
-    private final By numLocations = By.className("location-count");
+    private final By numLocations = By.className("location-counter");
     private final By locationPopup = By.className("target-search-result-locations-modal");
     private final By address = By.className("address");
 

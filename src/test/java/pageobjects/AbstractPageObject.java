@@ -105,6 +105,7 @@ public class AbstractPageObject implements PageObject {
 
     //use from other pages
     public SideNavBar accessSideNavFromPage() {
+        waitForLoadingScreen();
         findElement(hamburgerIcon).click();
         return new SideNavBar(getDriver());
     }

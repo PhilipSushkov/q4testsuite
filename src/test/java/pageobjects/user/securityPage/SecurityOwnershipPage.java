@@ -102,8 +102,7 @@ public class SecurityOwnershipPage extends AbstractPageObject {
     }
 
     public String getOwnershipTabTitle() {
-        pause(2000L);
-        waitForElementToAppear(tabTitle);
+        waitForLoadingScreen();
         return findElement(tabTitle).getText();
     }
 
