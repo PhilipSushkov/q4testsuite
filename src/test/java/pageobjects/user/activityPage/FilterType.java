@@ -21,6 +21,7 @@ public enum FilterType {
     }
 
 
+
     public String iconClass(){
         return this.iconClass;
     }
