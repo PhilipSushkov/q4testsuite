@@ -14,7 +14,7 @@ import java.util.ArrayList;
  * Created by patrickp on 2016-09-13.
  */
 public class BriefingBookDetailsPage extends AbstractPageObject {
-    private final By deleteButton = By.xpath("//*[@id=\"ext-button-33\"]");
+    private final By deleteButton = By.xpath("//span[contains(text(),'Name')]//following::span[contains(@class,'q4i-trashbin-4pt')]");
     private final By heroDeleteButton = By.xpath("//div[contains(@class,'action-button')][.//span[contains(@class,'q4i-trashbin-4pt')]]");
     private final By deleteConfirmation = By.xpath("//*[contains(text(), 'Yes')]");
     private final By saveButton = By.xpath("//div[contains(@class,'x-button-no-icon') and ./span[contains(text(),'Save')]]");
