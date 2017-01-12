@@ -3,11 +3,11 @@ package specs.user.securityDetails;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import pageobjects.user.dashboardPage.Dashboard;
 import pageobjects.user.institutionPage.InstitutionPage;
 import pageobjects.user.loginPage.LoginPage;
 import pageobjects.user.securityPage.SecurityOwnershipPage;
 import specs.AbstractSpec;
+
 import static org.hamcrest.CoreMatchers.containsString;
 
 public class Ownership extends AbstractSpec {
@@ -216,6 +216,14 @@ public class Ownership extends AbstractSpec {
         // closing the other dropdown and checking that it is closed
         securityOwnershipPage.closeOtherHolderDropdown();
         Assert.assertTrue("Other Holder Analysis Style dropdown has not been closed.", securityOwnershipPage.otherHolderDropdownIsClosed());
+    }
+
+    @Test
+    public void canSearchForHolders() {
+        String holder = "Chevy Chase";
+        SecurityOwnershipPage securityOwnershipPage = new SecurityOwnershipPage(driver).selectDate(0)
+                .viewHistoricalHolders()
+                .searchForHoldings(holder);
     }
 
 }
