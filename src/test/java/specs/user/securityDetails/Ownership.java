@@ -224,6 +224,8 @@ public class Ownership extends AbstractSpec {
         SecurityOwnershipPage securityOwnershipPage = new SecurityOwnershipPage(driver).selectDate(0)
                 .viewHistoricalHolders()
                 .searchForHoldings(holder);
+
+        Assert.assertThat(securityOwnershipPage.getHolderSearchResults(), containsString(holder));
     }
 
 }
