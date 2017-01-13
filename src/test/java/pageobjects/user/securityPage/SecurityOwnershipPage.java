@@ -96,14 +96,16 @@ public class SecurityOwnershipPage extends AbstractPageObject {
     private final DateTimeFormatter shortDate = DateTimeFormatter.ofPattern("MM/dd/yy");
     private final DateTimeFormatter longDate = DateTimeFormatter.ofPattern("MMMM dd, yyyy");
     private final LocalDate today = LocalDate.now();
+    private final By historicalTab = By.cssSelector("#ext-tab-9");
+    private final By holdingsSearchField = By.cssSelector(".ownership-top-holders.q4-tab .search-field .x-field-input .x-input-el");
+    private final By holderSearchResult = By.cssSelector("#ext-top-holders-historical-institutions-1");
 
     public SecurityOwnershipPage(WebDriver driver) {
         super(driver);
     }
 
     public String getOwnershipTabTitle() {
-        pause(2000L);
-        waitForElementToAppear(tabTitle);
+        waitForLoadingScreen();
         return findElement(tabTitle).getText();
     }
 
@@ -865,4 +867,21 @@ public class SecurityOwnershipPage extends AbstractPageObject {
         return !doesElementExist(holderOtherDropdown);
     }
 
+    public SecurityOwnershipPage viewHistoricalHolders() {
+        waitForLoadingScreen();
+        findElement(historicalTab).click();
+
+        return this;
+    }
+
+    public SecurityOwnershipPage searchForHoldings(String searchTerm) {
+        findElement(holdingsSearchField).sendKeys(searchTerm);
+
+        return this;
+    }
+
+    public String getHolderSearchResults() {
+        waitForElementToAppear(holderSearchResult);
+        return findElement(holderSearchResult).getText();
+    }
 }

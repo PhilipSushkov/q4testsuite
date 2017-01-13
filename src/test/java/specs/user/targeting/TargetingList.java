@@ -63,7 +63,7 @@ public class TargetingList extends AbstractSpec {
 
         // opening search and verifying that filters are correct
         boolean filtersMatch = new TargetingPage(driver).editSearch(searchNameIndex).verifyFilters(filters);
-        Assert.assertTrue("Known issue - DESKTOP-6898 - Filters do not match.", filtersMatch);
+        Assert.assertTrue("Known issue - DESKTOP-7376 - Filters do not match.", filtersMatch);
 
         // deleting search using button on filter page
         new EditSearchPage(driver).deleteSearch();
@@ -199,7 +199,7 @@ public class TargetingList extends AbstractSpec {
         Assert.assertFalse("Location popup is not closed.", new NewSearchPage(driver).locationPopupIsOpen());
     }
 
-    @Test
+   /* @Test
     public void canAddAndDeleteSearchFromList(){
         String searchName = current.toString()+"_v2";
         String[] filters = {
@@ -219,7 +219,50 @@ public class TargetingList extends AbstractSpec {
         new TargetingPage(driver).deleteSearch(searchNameIndex);
         searchNameIndex = new TargetingPage(driver).findSearchNameIndex(searchName);//will be -1 if not listed
         Assert.assertEquals("Search has not been deleted", -1, searchNameIndex);
-    }
+    }*/
+   @Test
+   public void canAddSearchFromList(){
+       String searchName = current.toString()+"_added";
+       String[] filters = {
+               "New York, NY", "Institution", "3", "97", "1", "8", "30", "960", "Low",
+               "Investment Adviser", "Growth", "Owns Only Me", "Underweight", "Net Buyer", "Net Buyer", "yes", "yes"
+       };
+       new TargetingPage(driver).newSearch().createNewSearch(searchName, filters);
+       int searchNameIndex = new TargetingPage(driver).findSearchNameIndex(searchName);//will be -1 if not listed
+       Assert.assertNotEquals("Search name not found in saved searches list", -1, searchNameIndex);
+       new TargetingPage(driver).deleteSearch(searchNameIndex);
+   }
+
+
+   @Test
+   public void canAbortSearchDelete(){
+       String searchName = current.toString()+"_abortDelete";
+       String[] filters = {
+               "New York, NY", "Institution", "3", "97", "1", "8", "30", "960", "Low",
+               "Investment Adviser", "Growth", "Owns Only Me", "Underweight", "Net Buyer", "Net Buyer", "yes", "yes"
+       };
+       new TargetingPage(driver).newSearch().createNewSearch(searchName, filters);
+       int searchNameIndex = new TargetingPage(driver).findSearchNameIndex(searchName);
+       new TargetingPage(driver).deleteSearchAbort(searchNameIndex);
+       searchNameIndex = new TargetingPage(driver).findSearchNameIndex(searchName);//will be -1 if not listed
+       Assert.assertNotEquals("Search name not found despite aborted delete", -1, searchNameIndex);
+       new TargetingPage(driver).deleteSearch(searchNameIndex);
+   }
+
+   @Test
+   public void canDeleteSavedSearch(){
+       String searchName = current.toString()+"_Delete";
+       String[] filters = {
+               "New York, NY", "Institution", "3", "97", "1", "8", "30", "960", "Low",
+               "Investment Adviser", "Growth", "Owns Only Me", "Underweight", "Net Buyer", "Net Buyer", "yes", "yes"
+       };
+       new TargetingPage(driver).newSearch().createNewSearch(searchName, filters);
+       int searchNameIndex = new TargetingPage(driver).findSearchNameIndex(searchName);
+       new TargetingPage(driver).deleteSearch(searchNameIndex);
+       searchNameIndex = new TargetingPage(driver).findSearchNameIndex(searchName);
+       Assert.assertEquals("Search has not been deleted", -1, searchNameIndex);
+
+   }
 
     @Test
     /* Based on TestRail test case C2348. */

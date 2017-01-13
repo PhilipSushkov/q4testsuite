@@ -41,9 +41,9 @@ public class AdminLoginPage extends AbstractPageObject {
         findElement(enterPassword).sendKeys(password);
         findElement(submit).click();
         pause(2000L);
-        String mainWindowTitle = "";
+        //String mainWindowTitle = "";
         // Switch back to original browser (first window)
-        windowDidLoad(mainWindowTitle);
+        //windowDidLoad(mainWindowTitle);
         driver.switchTo().window(winHandleBefore);
 
         return this;

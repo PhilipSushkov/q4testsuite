@@ -6,7 +6,6 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageobjects.AbstractPageObject;
 import pageobjects.user.activityPage.ActivityPage;
 import pageobjects.user.advancedSearchResultsPage.AdvancedSearchResults;
-import pageobjects.user.checklistPage.ChecklistPage;
 import pageobjects.user.contactPage.ContactPage;
 import pageobjects.user.dashboardPage.Dashboard;
 import pageobjects.user.eventsTranscriptsPage.EventsTranscriptsPage;
@@ -146,14 +145,6 @@ public class SideNavBar extends AbstractPageObject{
         findElement(supportTicketsSideNav).click();
 
         return new SupportTicketsPage(getDriver());
-    }
-
-    public ChecklistPage selectChecklistFromSideNav() {
-        pause(2000L);
-        waitForElementToAppear(checklistSideNav);
-        findElement(checklistSideNav).click();
-
-        return new ChecklistPage(getDriver());
     }
 
     public SecurityOverviewPage selectSecurityFromSideNav() {

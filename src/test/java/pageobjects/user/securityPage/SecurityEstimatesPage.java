@@ -16,8 +16,8 @@ public class SecurityEstimatesPage extends AbstractPageObject{
     }
 
     public String getEstimatesTabTitle() {
-        pause(2000L);
-        waitForElementToAppear(tabTitle);
+
+        waitForLoadingScreen();
         return findElement(tabTitle).getText();
     }
 }

@@ -5,13 +5,12 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import pageobjects.user.activityPage.ActivityPage;
-import pageobjects.user.checklistPage.ChecklistPage;
+import pageobjects.user.briefingBooks.BriefingBookList;
 import pageobjects.user.contactPage.ContactPage;
 import pageobjects.user.dashboardPage.Dashboard;
 import pageobjects.user.eventsTranscriptsPage.EventsTranscriptsPage;
 import pageobjects.user.loginPage.LoginPage;
 import pageobjects.user.myQ4TeamPage.MyQ4TeamPage;
-import pageobjects.user.briefingBooks.BriefingBookList;
 import pageobjects.user.securityPage.SecurityEstimatesPage;
 import pageobjects.user.securityPage.SecurityOverviewPage;
 import pageobjects.user.securityPage.SecurityOwnershipPage;
@@ -175,15 +174,5 @@ public class TabNavigationExpanded extends AbstractSpec {
                 .selectSupportTicketsFromSideNav();
 
         Assert.assertThat("User was not taken to support tickets page", supportTicketsPage.getOtherPageTitle(), containsString(pageTitle));
-    }
-
-    @Test
-    public void canNavigateToChecklist() {
-        String pageTitle = "Checklist";
-        ChecklistPage checklistPage = new ChecklistPage(driver);
-        new Dashboard(driver).accessSideNav()
-                .selectChecklistFromSideNav();
-
-        Assert.assertThat("User was not taken to checklist page", checklistPage.getOtherPageTitle(), containsString(pageTitle));
     }
 }
