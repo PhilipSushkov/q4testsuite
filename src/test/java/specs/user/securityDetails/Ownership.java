@@ -219,7 +219,8 @@ public class Ownership extends AbstractSpec {
     }
 
     @Test
-    public void canSearchForHolders() {
+    public void canSearchForHistoricalInstitutions() {
+        // Search for specific historical owners on the Institutions tab of the Historical table
         String holder = "Chevy Chase";
         SecurityOwnershipPage securityOwnershipPage = new SecurityOwnershipPage(driver).selectDate(0)
                 .viewHistoricalHolders()
@@ -227,5 +228,4 @@ public class Ownership extends AbstractSpec {
 
         Assert.assertThat(securityOwnershipPage.getHolderSearchResults(), containsString(holder));
     }
-
 }
