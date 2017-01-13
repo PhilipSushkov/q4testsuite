@@ -53,7 +53,7 @@ public class Ownership extends AbstractSpec {
         SecurityOwnershipPage securityOwnershipPage = new SecurityOwnershipPage(driver);
         // checking that 10 holders are initially shown and that the table can be sorted
         Assert.assertEquals("Initial number of holders displayed is incorrect", 10, securityOwnershipPage.getNumOfHoldersDisplayed());
-        Assert.assertTrue("Sorting the holders table does not work.", securityOwnershipPage.canSortHoldersTable());
+        Assert.assertTrue("Sorting the holders table does not work.(If failures for sort are AUM or Turnover related, known issue.", securityOwnershipPage.canSortHoldersTable());
         // clicking show more and checking that 20 holders are now shown and that the table can still be sorted
         Assert.assertEquals("Number of holders displayed after clicking 'Show more' is incorrect", 20, securityOwnershipPage.showMoreHolders().getNumOfHoldersDisplayed());
         Assert.assertTrue("Sorting the holders table does not work after showing more holders.", securityOwnershipPage.canSortHoldersTable());
