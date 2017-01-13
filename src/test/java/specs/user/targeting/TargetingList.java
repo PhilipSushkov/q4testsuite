@@ -230,6 +230,7 @@ public class TargetingList extends AbstractSpec {
        new TargetingPage(driver).newSearch().createNewSearch(searchName, filters);
        int searchNameIndex = new TargetingPage(driver).findSearchNameIndex(searchName);//will be -1 if not listed
        Assert.assertNotEquals("Search name not found in saved searches list", -1, searchNameIndex);
+       new TargetingPage(driver).deleteSearch(searchNameIndex);
    }
 
 
@@ -245,6 +246,7 @@ public class TargetingList extends AbstractSpec {
        new TargetingPage(driver).deleteSearchAbort(searchNameIndex);
        searchNameIndex = new TargetingPage(driver).findSearchNameIndex(searchName);//will be -1 if not listed
        Assert.assertNotEquals("Search name not found despite aborted delete", -1, searchNameIndex);
+       new TargetingPage(driver).deleteSearch(searchNameIndex);
    }
 
    @Test
