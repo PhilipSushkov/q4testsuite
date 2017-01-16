@@ -29,7 +29,7 @@ public class morningCoffeeReport extends AdminAbstractSpec {
         Date currentDate = new Date();
        MorningCoffeePage morningCoffeePage =  new MorningCoffeePage(driver);
        morningCoffeePage.clickAddReport().inputCompanySymbol(symbol).clickCreateReport();
-        Assert.assertTrue("Record not found",morningCoffeePage.findRecentReport(symbol,currentDate)); //current Date is used to check that is the report from today, no other way to identify a unique report.
+        Assert.assertTrue("Record not found",morningCoffeePage.recentReportExists(symbol,currentDate)); //current Date is used to check that is the report from today, no other way to identify a unique report.
 
     }
 
@@ -39,7 +39,25 @@ public class morningCoffeeReport extends AdminAbstractSpec {
         Date currentDate = new Date();
         MorningCoffeePage morningCoffeePage =  new MorningCoffeePage(driver);
         morningCoffeePage.clickAddReport().inputCompanySymbol(symbol).clickCancelReport();
-        Assert.assertFalse("Record not found",morningCoffeePage.findRecentReport(symbol,currentDate));
+        Assert.assertFalse("Record not found",morningCoffeePage.recentReportExists(symbol,currentDate));
     }
+
+    @Test
+    public void canPreviewNewlyCreatedReport(){
+        String symbol ="NFLX";
+        Date currentDate = new Date();
+        MorningCoffeePage morningCoffeePage =  new MorningCoffeePage(driver);
+        morningCoffeePage.clickAddReport().inputCompanySymbol(symbol).clickCreateReport().clickRecentReport(symbol, currentDate);
+    }
+
+    @Test
+    public void ownerCanBeSortedAscending(){
+        MorningCoffeePage morningCoffeePage = new MorningCoffeePage(driver);
+       Assert.assertTrue("Not sorted", morningCoffeePage.clickOwnerHeader().isOwnerSorted());
+    }
+
+
+
+
 
 }
