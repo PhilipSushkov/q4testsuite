@@ -3,11 +3,11 @@ package specs.user.securityDetails;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import pageobjects.user.dashboardPage.Dashboard;
 import pageobjects.user.institutionPage.InstitutionPage;
 import pageobjects.user.loginPage.LoginPage;
 import pageobjects.user.securityPage.SecurityOwnershipPage;
 import specs.AbstractSpec;
+
 import static org.hamcrest.CoreMatchers.containsString;
 
 public class Ownership extends AbstractSpec {
@@ -53,7 +53,7 @@ public class Ownership extends AbstractSpec {
         SecurityOwnershipPage securityOwnershipPage = new SecurityOwnershipPage(driver);
         // checking that 10 holders are initially shown and that the table can be sorted
         Assert.assertEquals("Initial number of holders displayed is incorrect", 10, securityOwnershipPage.getNumOfHoldersDisplayed());
-        Assert.assertTrue("Sorting the holders table does not work.", securityOwnershipPage.canSortHoldersTable());
+        Assert.assertTrue("Sorting the holders table does not work.(If failures for sort are AUM or Turnover related, known issue.", securityOwnershipPage.canSortHoldersTable());
         // clicking show more and checking that 20 holders are now shown and that the table can still be sorted
         Assert.assertEquals("Number of holders displayed after clicking 'Show more' is incorrect", 20, securityOwnershipPage.showMoreHolders().getNumOfHoldersDisplayed());
         Assert.assertTrue("Sorting the holders table does not work after showing more holders.", securityOwnershipPage.canSortHoldersTable());
@@ -218,4 +218,14 @@ public class Ownership extends AbstractSpec {
         Assert.assertTrue("Other Holder Analysis Style dropdown has not been closed.", securityOwnershipPage.otherHolderDropdownIsClosed());
     }
 
+    @Test
+    public void canSearchForHistoricalInstitutions() {
+        // Search for specific historical owners on the Institutions tab of the Historical table
+        String holder = "Chevy Chase";
+        SecurityOwnershipPage securityOwnershipPage = new SecurityOwnershipPage(driver).selectDate(0)
+                .viewHistoricalHolders()
+                .searchForHoldings(holder);
+
+        Assert.assertThat(securityOwnershipPage.getHolderSearchResults(), containsString(holder));
+    }
 }

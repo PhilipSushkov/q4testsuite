@@ -369,7 +369,8 @@ public class WTSReportDetailsPage extends AbstractPageObject {
 
 
         // verifying that "Daily Performance" values are correct (by hovering over each of the bars)
-        for (int chartDay=0; chartDay<5; chartDay++){
+        int numDays= findVisibleElements(dailyPerformanceStockBars).size();
+        for (int chartDay=0; chartDay<numDays; chartDay++){
             // checking for stock
             actions.clickAndHold(findVisibleElements(dailyPerformanceStockBars).get(chartDay)).perform();// clickAndHold needed to keep cursor there while getText() runs
             String hoverText = findElement(dailyPerformanceHoverText).getText().trim();

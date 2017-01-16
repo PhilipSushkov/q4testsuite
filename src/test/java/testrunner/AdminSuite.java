@@ -9,6 +9,7 @@ import specs.admin.intelligence.IntelligenceList;
 import specs.admin.intelligence.WTSReportDetails;
 import specs.admin.loginPage.AdminLogin;
 import specs.admin.profiles.EditProfilesList;
+import specs.admin.profiles.EnableDisableSubscriptions;
 import specs.admin.users.UserRoles;
 
 /**
@@ -23,7 +24,8 @@ import specs.admin.users.UserRoles;
         AddEditImplementations.class,
         IntelligenceList.class,
         WTSReportDetails.class,
-        UserRoles.class
+        UserRoles.class,
+        EnableDisableSubscriptions.class
 })
 
 public class AdminSuite {

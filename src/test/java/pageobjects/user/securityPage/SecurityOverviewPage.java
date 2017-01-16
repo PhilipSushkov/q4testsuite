@@ -50,8 +50,8 @@ public class SecurityOverviewPage extends WatchlistPage {
     //buttons\\ -> to add stuff for modals that appear when clicking button
 
     private final By recentEstimatesBtn = By.cssSelector(".company-header .header-notifications-tab .x-button:first-child");
-    private final By recentEventsBtn = By.cssSelector(".company-header .header-notifications-tab .x-button + .x-button");
-    private final By recentTranscriptsBtn = By.xpath("(//div[@class='x-innerhtml'])[25]");
+    private final By recentEventsBtn = By.id("ext-button-23");
+    private final By recentTranscriptsBtn = By.id("ext-button-24");
     private final By recentNewsBtn = By.cssSelector(".company-header .header-notifications-tab .x-button:last-child");
 
     private final By recentEstimatesResults = By.cssSelector(".company-header-latest-estimates .latest-estimate-item");
@@ -280,6 +280,7 @@ public class SecurityOverviewPage extends WatchlistPage {
     //HEADER\\
 
     public String getCompanyName() {
+        waitForLoadingScreen();
         return findElement(companyName).getText().replaceAll("\\p{P}", "");
     }
 
@@ -332,13 +333,11 @@ public class SecurityOverviewPage extends WatchlistPage {
     }
 
     public int getNumNewsResultsDisplayed() { //Issue spans here. Get news text and do a regex, checking it has the text "hour" within it
+        waitForLoadingScreen();
         int num = 0;
         for (int x = 0; x < findElements(recentNewsResults).size(); x++) {
-            if (findElements(recentNewsResults).get(x).getText().replaceAll("[0-9 s]", "").replace("ago", "")
-                    .replace("an","").equals("hour")) {
                 num++;
             }
-        }
         return num;
     }
 

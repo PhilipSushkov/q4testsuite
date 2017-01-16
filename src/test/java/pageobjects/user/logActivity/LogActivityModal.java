@@ -34,6 +34,7 @@ public class LogActivityModal extends AbstractPageObject {
     // TODO Remove pauses from these tests and replace with something that won't break when things are running slowly
 
     public LogActivityModal enterNoteDetails(String comment, String note, String tag) {
+        waitForLoadingScreen();
         wait.until(ExpectedConditions.elementToBeClickable(commentField));
         retryClick(findElement(commentField));
         findElement(commentField).sendKeys(comment);
@@ -55,7 +56,7 @@ public class LogActivityModal extends AbstractPageObject {
         findElement(typeNoteField).sendKeys(note);
         findElement(tagField).sendKeys(tag);
         findElement(tagField).sendKeys(Keys.RETURN);
-        pause(2000L);
+        pause(1500L);
 
         return this;
     }

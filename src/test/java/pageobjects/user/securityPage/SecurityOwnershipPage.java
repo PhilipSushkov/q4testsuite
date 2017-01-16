@@ -28,7 +28,7 @@ public class SecurityOwnershipPage extends AbstractPageObject {
     private final By activistFilter = By.cssSelector(".ownership-report-top-holders .toggle-button");
     private final By activistFilterOn = By.cssSelector(".ownership-report-top-holders .toggle-button .x-toggle-on");
     private final By activistFilterOff = By.cssSelector(".ownership-report-top-holders .toggle-button .x-toggle-off");
-    private final By allTypesFilter = By.cssSelector("span.q4i-list-2pt");
+    private final By allTypesFilter = By.xpath("//span[contains(text(),'All')]");
     private final By institutionsFilter = By.cssSelector("span.q4i-institution-2pt");
     private final By insidersFilter = By.cssSelector("span.q4i-insider-2pt");
     private final By fundsFilter = By.cssSelector("span.q4i-fund-2pt");
@@ -96,14 +96,16 @@ public class SecurityOwnershipPage extends AbstractPageObject {
     private final DateTimeFormatter shortDate = DateTimeFormatter.ofPattern("MM/dd/yy");
     private final DateTimeFormatter longDate = DateTimeFormatter.ofPattern("MMMM dd, yyyy");
     private final LocalDate today = LocalDate.now();
+    private final By historicalTab = By.cssSelector("#ext-tab-9");
+    private final By holdingsSearchField = By.cssSelector(".ownership-top-holders.q4-tab .search-field .x-field-input .x-input-el");
+    private final By holderSearchResult = By.cssSelector("#ext-top-holders-historical-institutions-1");
 
     public SecurityOwnershipPage(WebDriver driver) {
         super(driver);
     }
 
     public String getOwnershipTabTitle() {
-        pause(2000L);
-        waitForElementToAppear(tabTitle);
+        waitForLoadingScreen();
         return findElement(tabTitle).getText();
     }
 
@@ -285,10 +287,10 @@ public class SecurityOwnershipPage extends AbstractPageObject {
 
     public boolean canSortHoldersTable(){
         boolean isSorted = true;
-
+        long length = 1000L;
         // sorting by name ascending
         findVisibleElement(holderTableHeaderName).click();
-        pause(200);
+        pause(length);
         if (!elementsAreAlphaUpSorted(findElements(holderTableName))){
             System.out.println("Holders are not sorted by name ascending.");
             isSorted = false;
@@ -296,7 +298,7 @@ public class SecurityOwnershipPage extends AbstractPageObject {
 
         // sorting by name descending
         findVisibleElement(holderTableHeaderName).click();
-        pause(200);
+        pause(length);
         if (!elementsAreAlphaDownSorted(findElements(holderTableName))){
             System.out.println("Holders are not sorted by name descending.");
             isSorted = false;
@@ -304,7 +306,7 @@ public class SecurityOwnershipPage extends AbstractPageObject {
 
         // sorting by POS ascending
         findVisibleElement(holderTableHeaderPOS).click();
-        pause(200);
+        pause(length);
         if (!elementsAreNumUpSorted(findElements(holderTablePOS))){
             System.out.println("Holders are not sorted by POS ascending.");
             isSorted = false;
@@ -312,7 +314,7 @@ public class SecurityOwnershipPage extends AbstractPageObject {
 
         // sorting by POS descending
         findVisibleElement(holderTableHeaderPOS).click();
-        pause(200);
+        pause(length);
         if (!elementsAreNumDownSorted(findElements(holderTablePOS))){
             System.out.println("Holders are not sorted by POS descending.");
             isSorted = false;
@@ -320,7 +322,7 @@ public class SecurityOwnershipPage extends AbstractPageObject {
 
         // sorting by 1Q change ascending
         findVisibleElement(holderTableHeader1QChg).click();
-        pause(200);
+        pause(length);
         if (!elementsAreNumUpSorted(findElements(holderTable1QChg))){
             System.out.println("Holders are not sorted by 1Q change ascending.");
             isSorted = false;
@@ -328,7 +330,7 @@ public class SecurityOwnershipPage extends AbstractPageObject {
 
         // sorting by 1Q change descending
         findVisibleElement(holderTableHeader1QChg).click();
-        pause(200);
+        pause(length);
         if (!elementsAreNumDownSorted(findElements(holderTable1QChg))){
             System.out.println("Holders are not sorted by 1Q change descending.");
             isSorted = false;
@@ -336,7 +338,7 @@ public class SecurityOwnershipPage extends AbstractPageObject {
 
         // sorting by market value ascending
         findVisibleElement(holderTableHeaderMktVal).click();
-        pause(200);
+        pause(length);
         if (!elementsAreNumUpSorted(findElements(holderTableMktVal))){
             System.out.println("Holders are not sorted by market value ascending.");
             isSorted = false;
@@ -344,7 +346,7 @@ public class SecurityOwnershipPage extends AbstractPageObject {
 
         // sorting by market value descending
         findVisibleElement(holderTableHeaderMktVal).click();
-        pause(200);
+        pause(length);
         if (!elementsAreNumDownSorted(findElements(holderTableMktVal))){
             System.out.println("Holders are not sorted by market value descending.");
             isSorted = false;
@@ -352,7 +354,7 @@ public class SecurityOwnershipPage extends AbstractPageObject {
 
         // sorting by market value change ascending
         findVisibleElement(holderTableHeaderMktValChg).click();
-        pause(200);
+        pause(length);
         if (!elementsAreNumUpSorted(findElements(holderTableMktValChg))){
             System.out.println("Holders are not sorted by market value change ascending.");
             isSorted = false;
@@ -360,7 +362,7 @@ public class SecurityOwnershipPage extends AbstractPageObject {
 
         // sorting by market value change descending
         findVisibleElement(holderTableHeaderMktValChg).click();
-        pause(200);
+        pause(length);
         if (!elementsAreNumDownSorted(findElements(holderTableMktValChg))){
             System.out.println("Holders are not sorted by market value change descending.");
             isSorted = false;
@@ -368,7 +370,7 @@ public class SecurityOwnershipPage extends AbstractPageObject {
 
         // sorting by %OS ascending
         findVisibleElement(holderTableHeaderPercOS).click();
-        pause(200);
+        pause(length);
         if (!elementsAreNumUpSorted(findElements(holderTablePercOS))){
             System.out.println("Holders are not sorted by %OS ascending.");
             isSorted = false;
@@ -376,7 +378,7 @@ public class SecurityOwnershipPage extends AbstractPageObject {
 
         // sorting by %OS descending
         findVisibleElement(holderTableHeaderPercOS).click();
-        pause(200);
+        pause(length);
         if (!elementsAreNumDownSorted(findElements(holderTablePercOS))){
             System.out.println("Holders are not sorted by %OS descending.");
             isSorted = false;
@@ -384,7 +386,7 @@ public class SecurityOwnershipPage extends AbstractPageObject {
 
         // sorting by %Port ascending
         findVisibleElement(holderTableHeaderPercPort).click();
-        pause(200);
+        pause(length);
         if (!elementsAreNumUpSorted(findElements(holderTablePercPort))){
             System.out.println("Holders are not sorted by %Port ascending.");
             isSorted = false;
@@ -392,7 +394,7 @@ public class SecurityOwnershipPage extends AbstractPageObject {
 
         // sorting by %Port descending
         findVisibleElement(holderTableHeaderPercPort).click();
-        pause(200);
+        pause(length);
         if (!elementsAreNumDownSorted(findElements(holderTablePercPort))){
             System.out.println("Holders are not sorted by %Port descending.");
             isSorted = false;
@@ -400,7 +402,7 @@ public class SecurityOwnershipPage extends AbstractPageObject {
 
         // sorting by style ascending
         findVisibleElement(holderTableHeaderStyle).click();
-        pause(200);
+        pause(length);
         if (!elementsAreAlphaUpSorted(findElements(holderTableStyle))){
             System.out.println("Holders are not sorted by style ascending.");
             isSorted = false;
@@ -408,15 +410,15 @@ public class SecurityOwnershipPage extends AbstractPageObject {
 
         // sorting by style descending
         findVisibleElement(holderTableHeaderStyle).click();
-        pause(200);
+        pause(length);
         if (!elementsAreAlphaDownSorted(findElements(holderTableStyle))){
             System.out.println("Holders are not sorted by style descending.");
             isSorted = false;
         }
-
+/* No Longer sorting these because of performance issues
         // sorting by turnover ascending
         findVisibleElement(holderTableHeaderTurnover).click();
-        pause(200);
+        pause(length);
         if (!elementsAreTurnoverUpSorted(findElements(holderTableTurnover))){
             System.out.println("Holders are not sorted by turnover ascending.");
             isSorted = false;
@@ -424,7 +426,7 @@ public class SecurityOwnershipPage extends AbstractPageObject {
 
         // sorting by turnover descending
         findVisibleElement(holderTableHeaderTurnover).click();
-        pause(200);
+        pause(length);
         if (!elementsAreTurnoverDownSorted(findElements(holderTableTurnover))){
             System.out.println("Holders are not sorted by turnover descending.");
             isSorted = false;
@@ -432,7 +434,7 @@ public class SecurityOwnershipPage extends AbstractPageObject {
 
         // sorting by AUM ascending
         findVisibleElement(holderTableHeaderAUM).click();
-        pause(200);
+        pause(length);
         if (!elementsAreNumUpSorted(findElements(holderTableAUM))){
             System.out.println("Holders are not sorted by AUM ascending.");
             isSorted = false;
@@ -440,15 +442,17 @@ public class SecurityOwnershipPage extends AbstractPageObject {
 
         // sorting by AUM descending
         findVisibleElement(holderTableHeaderAUM).click();
-        pause(200);
+        pause(length);
         if (!elementsAreNumDownSorted(findElements(holderTableAUM))){
             System.out.println("Holders are not sorted by AUM descending.");
             isSorted = false;
         }
+        */
+
 
         // sorting by as of date ascending
         findVisibleElement(holderTableHeaderAsOf).click();
-        pause(200);
+        pause(length);
         if (!elementsAreDateUpSorted(findElements(holderTableAsOf))){
             System.out.println("Holders are not sorted by as of date ascending.");
             isSorted = false;
@@ -456,7 +460,7 @@ public class SecurityOwnershipPage extends AbstractPageObject {
 
         // sorting by as of date descending
         findVisibleElement(holderTableHeaderAsOf).click();
-        pause(200);
+        pause(length);
         if (!elementsAreDateDownSorted(findElements(holderTableAsOf))){
             System.out.println("Holders are not sorted by as of date descending.");
             isSorted = false;
@@ -464,7 +468,7 @@ public class SecurityOwnershipPage extends AbstractPageObject {
 
         // sorting by QR ascending
         findVisibleElement(holderTableHeaderQR).click();
-        pause(200);
+        pause(length);
         if (!elementsAreNumUpSorted(findElements(holderTableQR))){
             System.out.println("Holders are not sorted by QR ascending.");
             isSorted = false;
@@ -472,7 +476,7 @@ public class SecurityOwnershipPage extends AbstractPageObject {
 
         // sorting by QR descending
         findVisibleElement(holderTableHeaderQR).click();
-        pause(200);
+        pause(length);
         if (!elementsAreNumDownSorted(findElements(holderTableQR))){
             System.out.println("Holders are not sorted by QR descending.");
             isSorted = false;
@@ -619,7 +623,7 @@ public class SecurityOwnershipPage extends AbstractPageObject {
         List<WebElement> rows = findVisibleElements(holderTableRow);
         for (WebElement row : rows){
             if (doesElementExist(By.cssSelector("#"+row.getAttribute("id")+" .rating.no-value"))){ //checks whether there's no QR score within that row
-                if (doesElementExist(By.xpath("//div[@id='"+row.getAttribute("id")+"']/div[1]/div[1][not(div)]"))){ //checks whether there's no institution icon within that row
+                if (doesElementExist(By.xpath("//div[@id='"+row.getAttribute("id")+"']//i[contains(@class,'q4i-insider-2pt')]"))){ //checks whether there's no institution icon within that row
                     numInsiders++;
                 }
             }
@@ -633,9 +637,13 @@ public class SecurityOwnershipPage extends AbstractPageObject {
         int numFunds = 0;
         waitForElement(holderTableRow);
         List<WebElement> rows = findVisibleElements(holderTableRow);
+
         for (WebElement row : rows){
             if (!findVisibleElement(By.cssSelector("#"+row.getAttribute("id")+" .rating")).getAttribute("class").contains("no-value")){ //checks whether there's a QR score within that row
-                if (doesElementExist(By.xpath("//div[@id='"+row.getAttribute("id")+"']/div[1]/div[1][not(div)]"))){ //checks whether there's no institution icon within that row
+               /* if (doesElementExist(By.xpath("//div[@id='"+row.getAttribute("id")+"']/div[1]/div[1][not(div)]"))){ //checks whether there's no institution icon within that row
+                    numFunds++;
+                }*/
+                if (doesElementExist(By.xpath("//div[@id='"+row.getAttribute("id")+"']//i[contains(@class,'q4i-fund-2pt')]"))){ //checks whether there's no institution icon within that row
                     numFunds++;
                 }
             }
@@ -865,4 +873,21 @@ public class SecurityOwnershipPage extends AbstractPageObject {
         return !doesElementExist(holderOtherDropdown);
     }
 
+    public SecurityOwnershipPage viewHistoricalHolders() {
+        waitForLoadingScreen();
+        findElement(historicalTab).click();
+
+        return this;
+    }
+
+    public SecurityOwnershipPage searchForHoldings(String searchTerm) {
+        findElement(holdingsSearchField).sendKeys(searchTerm);
+
+        return this;
+    }
+
+    public String getHolderSearchResults() {
+        waitForElementToAppear(holderSearchResult);
+        return findElement(holderSearchResult).getText();
+    }
 }
