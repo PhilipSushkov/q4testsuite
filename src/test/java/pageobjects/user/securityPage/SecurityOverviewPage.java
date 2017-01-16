@@ -333,13 +333,11 @@ public class SecurityOverviewPage extends WatchlistPage {
     }
 
     public int getNumNewsResultsDisplayed() { //Issue spans here. Get news text and do a regex, checking it has the text "hour" within it
+        waitForLoadingScreen();
         int num = 0;
         for (int x = 0; x < findElements(recentNewsResults).size(); x++) {
-            if (findElements(recentNewsResults).get(x).getText().replaceAll("[0-9 s]", "").replace("ago", "")
-                    .replace("an","").equals("hour")) {
                 num++;
             }
-        }
         return num;
     }
 
