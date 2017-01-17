@@ -99,6 +99,14 @@ public class SecurityOwnershipPage extends AbstractPageObject {
     private final By historicalTab = By.cssSelector("#ext-tab-9");
     private final By holdingsSearchField = By.cssSelector(".ownership-top-holders.q4-tab .search-field .x-field-input .x-input-el");
     private final By holderSearchResult = By.cssSelector("#ext-top-holders-historical-institutions-1");
+    private final By holderSearchResulttwo = By.cssSelector(".top-holders-list.fund .details .holder-info");
+    private final By FundsETFsTab = By.cssSelector("#ext-tab-8");
+    private final By InstitutionTab = By.cssSelector("#ext-tab-2");
+    private  final By InstitutionSearchResult = By.cssSelector(".top-holders-list.institution .details .holder-info .name");
+    private final By InsidersTab = By.cssSelector("#ext-tab-7");
+    private final By InsiderSearchResult = By.cssSelector(".top-holders-list.insider .details .holder-info .name");
+    private final By DefaultInsiderResult = By.cssSelector("#ext-element-1965");
+    private final By DefaultHolderResult = By.cssSelector("#ext-element-5048");
 
     public SecurityOwnershipPage(WebDriver driver) {
         super(driver);
@@ -883,5 +891,54 @@ public class SecurityOwnershipPage extends AbstractPageObject {
     public String getHolderSearchResults() {
         waitForElementToAppear(holderSearchResult);
         return findElement(holderSearchResult).getText();
+    }
+
+    public SecurityOwnershipPage searchForFundsETFs(String searchTerm) {
+        findElement(holdingsSearchField).sendKeys(searchTerm);
+
+        return this;
+    }
+
+    public SecurityOwnershipPage selectFundsETFstab() {
+        waitForLoadingScreen();
+        findElement(FundsETFsTab).click();
+
+        return this;
+    }
+
+    public String getHolderSearchResultstwo() {
+        // Needed to wait for search to finish and results to be updated with the only match before getting the top result
+        // InsiderSearchResult represents a generic CSS selector and would
+        // select the first item of the table before the search since something always appears
+        waitForElementToDissapear(DefaultHolderResult);
+        waitForElementToAppear(holderSearchResulttwo);
+        return findElement(holderSearchResulttwo).getText();
+    }
+
+    public SecurityOwnershipPage viewInstitutiontab() {
+        waitForLoadingScreen();
+        findElement(InstitutionTab).click();
+
+        return this;
+    }
+
+    public String getInstitutionSearchResults() {
+        waitForElementToAppear(InstitutionSearchResult);
+        return findElement(InstitutionSearchResult).getText();
+    }
+
+    public void selectInsiderstab() {
+        waitForLoadingScreen();
+        findElement(InsidersTab).click();
+
+    }
+
+    public String getInsiderSearchResults() {
+        // Needed to wait for search to finish and results to be updated with the only match before getting the top result
+        // InsiderSearchResult represents a generic CSS selector and would
+        // select the first item of the table before the search since something always appears
+        waitForElementToDissapear(DefaultInsiderResult);
+        waitForElementToAppear(InsiderSearchResult);
+        return findElement(InsiderSearchResult).getText();
     }
 }
