@@ -77,7 +77,7 @@ public abstract class AbstractSpec {
 
         driver = new ChromeDriver();
         driver.manage().timeouts().implicitlyWait(DEFAULT_TIMEOUT, TimeUnit.SECONDS);
-        driver.manage().window().setSize(new Dimension(1400, 1400));
+        driver.manage().window().setSize(new Dimension(1400, 900));
         driver.get(desktopUrl.toString());
     }
 

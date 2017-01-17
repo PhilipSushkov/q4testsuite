@@ -308,6 +308,38 @@ public class AbstractPageObject implements PageObject {
         return sortedWell;
     }
 
+    public boolean elementsAreDateUpSorted(List<WebElement> elements, SimpleDateFormat dateFormat){
+        boolean sortedWell = true;
+        for (int i=0; i<elements.size()-1; i++){
+            try {
+                if(dateFormat.parse(elements.get(i+1).getText()).before(dateFormat.parse(elements.get(i).getText()))){
+                    System.out.println("MIS-SORT: Ascending: Date "+elements.get(i+1).getText()+" should not be after "+elements.get(i).getText());
+                    sortedWell = false;
+                }
+            }catch (ParseException e){
+                System.out.println("Error parsing date: "+elements.get(i+1).getText());
+                return false;
+            }
+        }
+        return sortedWell;
+    }
+
+    public boolean elementsAreDateDownSorted(List<WebElement> elements, SimpleDateFormat dateFormat){
+        boolean sortedWell= true;
+        for (int i=0; i<elements.size()-1; i++){
+            try {
+                if(dateFormat.parse(elements.get(i+1).getText()).after(dateFormat.parse(elements.get(i).getText()))){
+                    System.out.println("MIS-SORT: Descending: Date "+elements.get(i+1).getText()+" should not be after "+elements.get(i).getText());
+                    sortedWell = false;
+                }
+            }catch (ParseException e){
+                System.out.println("Error parsing date: "+elements.get(i+1).getText());
+                return false;
+            }
+        }
+        return sortedWell;
+    }
+
     public boolean elementsAreAllNegative(List<WebElement> elements){
         boolean allNegative = true;
         for (WebElement element : elements){

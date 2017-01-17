@@ -25,23 +25,35 @@ public class MorningCoffeePage extends AbstractPageObject {
     private final By commentaryTab = By.xpath("//span[contains(text(),'Commentary')]");
     private final By reportsTab = By.xpath("//span[contains(text(),'Commentary')]");
     private final By addReportButton = By.xpath("//div[contains(@class,'banner')]//button[contains(@class, 'add')]");
-    private final By addMarketCommentary = By.xpath("//div[contains(@class,'section-header') and .//h2[contains(text(),'Markets')]]//button[contains(@class, 'add') and contains(@class,'square-button')]");
-    private final By addSectorCommentary = By.xpath("//div[contains(@class,'section-header') and .//h2[contains(text(),'Sectors')]]//button[contains(@class, 'add') and contains(@class,'square-button')]");
+
     private final By companySymbolTextField =By.xpath("//q4-morning-coffee-create//input");
     private final By reportCreationCancelButton = By.xpath("//q4-morning-coffee-create//button[contains(text(),'Cancel')]");
     private final By reportCreationCreateButton = By.xpath("//q4-morning-coffee-create//button[contains(text(),'Create')]");
     private final By ownerColumn = By.xpath("//th[contains(@class,'ui-sortable-column') and span[contains(text(),'Owner')]]");
+    private final By dateColumn = By.xpath("//th[contains(@class,'ui-sortable-column') and span[contains(text(),'Date')]]");
     private final By reportTableRows = By.xpath("//tr[contains(@class, 'ui-datatable')]");
     private ArrayList<WebElement> tableRowsReports = new ArrayList<>();
     private String username="QA Test";
 
+
+    //COMMENTARY TAB SELECTORS
+    private final By addMarketCommentary = By.xpath("//div[contains(@class,'section-header') and .//h2[contains(text(),'Markets')]]//button[contains(@class, 'add') and contains(@class,'square-button')]");
+    private final By addSectorCommentary = By.xpath("//div[contains(@class,'section-header') and .//h2[contains(text(),'Sectors')]]//button[contains(@class, 'add') and contains(@class,'square-button')]");
+    private final By categoryDropdown = By.xpath("//p-dropdown[1]//label"); //not the best selector
+    private final By sectorDropdown = By.xpath("//p-dropdown[2]//label");
+    private final By createCommentaryBox = By.className("ql-editor");
+    private final By saveCommentaryButton = By.xpath("//q4-morning-coffee-commentary-create//button[contains(text(),'Save')]");
+    private final By cancelCommentaryButton = By.xpath("//q4-morning-coffee-commentary-create//button[contains(text(),'Cancel')]");
+    private final By marketTable = By.xpath("//p-datatable[1]//tbody");
+    private final By sectorTable = By.xpath("//p-datatable[2]//tbody");
+    private ArrayList<WebElement> marketRowData = new ArrayList<>();
+    private ArrayList<WebElement> sectorRowData = new ArrayList<>();
+
+
     public MorningCoffeePage(WebDriver driver){super(driver);}
 
-    public MorningCoffeePage clickAddReport(){
-        findElement(addReportButton).click();
-        wait.until(ExpectedConditions.visibilityOfElementLocated(companySymbolTextField));
-        return this;
-    }
+
+
 
     public MorningCoffeePage inputCompanySymbol(String symbol){
         findElement(companySymbolTextField).click();
@@ -106,7 +118,22 @@ public class MorningCoffeePage extends AbstractPageObject {
         return this;
     }
 
-    public boolean isOwnerSorted(){
+    public MorningCoffeePage clickDateHeader(){
+        wait.until(ExpectedConditions.elementToBeClickable(dateColumn));
+        findElement(dateColumn).click();
+        waitForLoadingScreen();
+        return this;
+    }
+
+    public boolean isOwnerSortedAscending(){
+        return isOwnerSorted(true);
+    }
+
+    public boolean isOwnerSortedDescending(){
+        return isOwnerSorted(false);
+    }
+
+    private boolean isOwnerSorted(boolean ascendingSort){
         WebElement ownerHeader = findElement(ownerColumn);
 
          tableRowsReports = new ArrayList<>(readTableRows());
@@ -116,16 +143,99 @@ public class MorningCoffeePage extends AbstractPageObject {
              ownerNames.add(row.findElement(By.xpath(".//td[2]")));
         }
 
+        if(ascendingSort)
+            return elementsAreAlphaUpSorted(ownerNames);
+        else
+            return elementsAreAlphaDownSorted(ownerNames);
+        }
 
-        if(ownerHeader.findElement(By.className("fa-sort-asc"))!=null){
-            return elementsAreAlphaUpSorted(ownerNames);
+    public boolean isDateSortedAscending(){
+      return isDateSorted(true);
+    }
+
+    public boolean isDateSortedDescending(){
+        return isDateSorted(false);
+    }
+
+    private boolean isDateSorted(boolean ascendingSort){
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy");
+        WebElement dateheader = findElement(dateColumn);
+        tableRowsReports = new ArrayList<>(readTableRows());
+        ArrayList<WebElement> ownerNames= new ArrayList<>();
+
+        for (WebElement row : tableRowsReports){
+            ownerNames.add(row.findElement(By.xpath(".//td[6]")));
         }
-        else if (ownerHeader.findElement(By.className("fa-sort-asc"))!=null){
-            return elementsAreAlphaUpSorted(ownerNames);
-        }
-        else{
-         return false;
-        }
+        if(ascendingSort)
+            return elementsAreDateUpSorted(ownerNames,dateFormat);
+        else
+            return elementsAreDateDownSorted(ownerNames,dateFormat);
+
+    }
+
+    // COMMENTARY TAB
+    public  MorningCoffeePage clickCommentaryTab(){
+        wait.until(ExpectedConditions.elementToBeClickable(commentaryTab));
+        findElement(commentaryTab).click();
+        waitForLoadingScreen();
+        return this;
+    }
+
+    public MorningCoffeePage clickAddMarketCommentary(){
+        findElement(addMarketCommentary).click();
+        return this;
+    }
+
+    public MorningCoffeePage clickAddSectorCommentary(){
+        findElement(addSectorCommentary).click();
+        return this;
+    }
+    public MorningCoffeePage clickAddReport(){
+        findElement(addReportButton).click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(companySymbolTextField));
+        return this;
+    }
+
+    public MorningCoffeePage selectCatergory(Category category){
+        findElement(categoryDropdown).click();
+        findElement(By.className("ui-dropdown-item")).findElement(By.xpath("//span[contains(text(),'"+category.getCategory()+"')]")).click();
+        return this;
+    }
+    public MorningCoffeePage selectSector(Sector sector){
+        findElement(sectorDropdown).click();
+        findElement(By.className("ui-dropdown-item")).findElement(By.xpath("//span[contains(text(),'"+sector.getSector()+"')]")).click();
+        return this;
+    }
+
+    public MorningCoffeePage enterInitialCommentary(String commentary){
+        findElement(createCommentaryBox).sendKeys(commentary);
+        return this;
+    }
+
+    public MorningCoffeePage saveInitialCommentary(){
+        wait.until(ExpectedConditions.elementToBeClickable(saveCommentaryButton));
+        findElement(saveCommentaryButton).click();
+        return this;
+    }
+
+    public MorningCoffeePage cancelInitialCommentary(){
+        wait.until(ExpectedConditions.elementToBeClickable(cancelCommentaryButton));
+        findElement(cancelCommentaryButton).click();
+        return this;
+    }
+
+    private List<WebElement> retrieveMarketRowData(){
+       List<WebElement> rowContents = new ArrayList<>(findElement(marketTable).findElements(By.xpath("//tr[contains(@class,'ui-datatable')]")));
+
+       for(WebElement row : rowContents){
+           System.out.print(row.getText()+"\n");
+
+       }
+       return rowContents;
+    }
+
+    public void print(){
+        retrieveMarketRowData();
     }
 
 }
