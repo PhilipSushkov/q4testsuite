@@ -2,7 +2,7 @@ machine:
   java:
     version: oraclejdk8
   environment:
-        _JAVA_OPTIONS: "-Xms512m -Xmx1024m"
+        _JAVA_OPTIONS: "-Xms512m -Xmx2500m"
 
 # Only runs a full test suite on CircleCI when build parameters are passed in.
 # otherwise only runs compile on a git push
