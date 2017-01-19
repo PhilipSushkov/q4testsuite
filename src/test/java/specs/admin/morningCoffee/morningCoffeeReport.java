@@ -62,8 +62,9 @@ public class morningCoffeeReport extends AdminAbstractSpec {
 
         MorningCoffeePage morningCoffeePage = new MorningCoffeePage(driver);
        dateOfDeletedReport= morningCoffeePage.recentReportDate(symbol);
+        morningCoffeePage.clickRecentReport(symbol).confirmDelete();
       System.out.print(morningCoffeePage.confirmReportDelete(symbol,dateOfDeletedReport));
-       //morningCoffeePage.clickRecentReport(symbol).confirmDelete().confirmReportDelete(symbol,dateOfDeletedReport);
+       //).confirmReportDelete(symbol,dateOfDeletedReport);
     }
 
 

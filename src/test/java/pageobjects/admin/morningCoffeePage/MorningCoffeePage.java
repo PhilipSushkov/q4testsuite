@@ -100,7 +100,7 @@ public class MorningCoffeePage extends AbstractPageObject {
     }
 
     public Date recentReportDate(String symbol){
-        DateFormat dateFormat = new SimpleDateFormat("MMM d, yyyy hh:mm:ss");
+        DateFormat dateFormat = new SimpleDateFormat("MMM d, yyyy, hh:mm:ss a");
         Date reportDate =new Date();
         WebElement report = findReport(symbol);
         try {
@@ -127,10 +127,10 @@ public class MorningCoffeePage extends AbstractPageObject {
     }
 
     public boolean confirmReportDelete(String symbol,Date dateOfReport){
-        DateFormat dateFormat = new SimpleDateFormat("MMM d, yyyy hh:mm:ss");
+        DateFormat dateFormat = new SimpleDateFormat("MMM d, yyyy, h:mm:ss a");
         System.out.print(dateFormat.format(dateOfReport)+ " recent report");
         try {
-            if(findReportWithDate(symbol,dateOfReport)!=null){
+            if(findReportWithDate(symbol,dateOfReport)==null){
                 return true;
             }
             else{
@@ -145,7 +145,7 @@ public class MorningCoffeePage extends AbstractPageObject {
 
     private WebElement findReportWithDate(String symbol, Date currentDate){
         tableRowsReports = new ArrayList<>(readTableRows());
-        DateFormat dateFormat = new SimpleDateFormat("MMM d, yyyy hh:mm:ss");
+        DateFormat dateFormat = new SimpleDateFormat("MMM d, yyyy, hh:mm:ss a");
         if(tableRowsReports!=null){
             for(WebElement row : tableRowsReports) {
                 if (row.getText().contains(symbol) && row.getText().contains(username) && row.getText().contains(dateFormat.format(currentDate))){
