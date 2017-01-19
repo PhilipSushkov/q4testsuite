@@ -107,6 +107,7 @@ public class AbstractPageObject implements PageObject {
 
     //use from other pages
     public SideNavBar accessSideNavFromPage() {
+        waitForLoadingScreen();
         findElement(hamburgerIcon).click();
         return new SideNavBar(getDriver());
     }
@@ -165,6 +166,27 @@ public class AbstractPageObject implements PageObject {
         for (int i=0; i<elements.size()-1; i++){
             if (elements.get(i+1).getText().compareTo/*IgnoreCase*/(elements.get(i).getText()) < 0){
                 System.out.println("MIS-SORT: Ascending: '"+elements.get(i+1).getText()+"' should not be after '"+elements.get(i).getText()+"'");
+                sortedWell = false;
+            }
+        }
+        return sortedWell;
+    }
+
+    public boolean elementsAreAlphaUpSortedIgnoreCase(List<WebElement> elements){
+        boolean sortedWell = true;
+        for (int i=0; i<elements.size()-1; i++){
+            if (elements.get(i+1).getText().compareToIgnoreCase(elements.get(i).getText()) < 0){
+                System.out.println("MIS-SORT: Ascending: '"+elements.get(i+1).getText()+"' should not be after '"+elements.get(i).getText()+"'");
+                sortedWell = false;
+            }
+        }
+        return sortedWell;
+    }
+    public boolean elementsAreAlphaDownSortedIgnoreCase(List<WebElement> elements){
+        boolean sortedWell = true;
+        for (int i=0; i<elements.size()-1; i++){
+            if (elements.get(i+1).getText().compareToIgnoreCase(elements.get(i).getText()) > 0){
+                System.out.println("MIS-SORT: Descending: '"+elements.get(i+1).getText()+"' should not be after '"+elements.get(i).getText()+"'");
                 sortedWell = false;
             }
         }
@@ -272,6 +294,38 @@ public class AbstractPageObject implements PageObject {
     public boolean elementsAreDateDownSorted(List<WebElement> elements){
         SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yy");
         boolean sortedWell = true;
+        for (int i=0; i<elements.size()-1; i++){
+            try {
+                if(dateFormat.parse(elements.get(i+1).getText()).after(dateFormat.parse(elements.get(i).getText()))){
+                    System.out.println("MIS-SORT: Descending: Date "+elements.get(i+1).getText()+" should not be after "+elements.get(i).getText());
+                    sortedWell = false;
+                }
+            }catch (ParseException e){
+                System.out.println("Error parsing date: "+elements.get(i+1).getText());
+                return false;
+            }
+        }
+        return sortedWell;
+    }
+
+    public boolean elementsAreDateUpSorted(List<WebElement> elements, SimpleDateFormat dateFormat){
+        boolean sortedWell = true;
+        for (int i=0; i<elements.size()-1; i++){
+            try {
+                if(dateFormat.parse(elements.get(i+1).getText()).before(dateFormat.parse(elements.get(i).getText()))){
+                    System.out.println("MIS-SORT: Ascending: Date "+elements.get(i+1).getText()+" should not be after "+elements.get(i).getText());
+                    sortedWell = false;
+                }
+            }catch (ParseException e){
+                System.out.println("Error parsing date: "+elements.get(i+1).getText());
+                return false;
+            }
+        }
+        return sortedWell;
+    }
+
+    public boolean elementsAreDateDownSorted(List<WebElement> elements, SimpleDateFormat dateFormat){
+        boolean sortedWell= true;
         for (int i=0; i<elements.size()-1; i++){
             try {
                 if(dateFormat.parse(elements.get(i+1).getText()).after(dateFormat.parse(elements.get(i).getText()))){
