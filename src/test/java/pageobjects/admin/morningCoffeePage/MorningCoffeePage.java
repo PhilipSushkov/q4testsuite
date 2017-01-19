@@ -8,6 +8,7 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import pageobjects.AbstractPageObject;
+import sun.jvm.hotspot.debugger.cdbg.Sym;
 import sun.jvm.hotspot.oops.Mark;
 
 import java.lang.reflect.Array;
@@ -34,7 +35,7 @@ public class MorningCoffeePage extends AbstractPageObject {
     private final By dateColumn = By.xpath("//th[contains(@class,'ui-sortable-column') and span[contains(text(),'Date')]]");
     private final By reportTableRows = By.xpath("//tr[contains(@class, 'ui-datatable')]");
     private ArrayList<WebElement> tableRowsReports = new ArrayList<>();
-    private String username="QA Test";
+    private String username="Noel Chin";
 
 
     //COMMENTARY TAB SELECTORS
@@ -89,8 +90,8 @@ public class MorningCoffeePage extends AbstractPageObject {
         return rowContents;
     }
 
-    public boolean recentReportExists(String symbol, Date currentDate){
-        if(findReport(symbol,currentDate)!=null) {
+    public boolean recentReportExists(String symbol){
+        if(findReport(symbol)!=null) {
             return true;
         }
         else
@@ -98,11 +99,26 @@ public class MorningCoffeePage extends AbstractPageObject {
 
     }
 
+    public Date recentReportDate(String symbol){
+        DateFormat dateFormat = new SimpleDateFormat("MMM d, yyyy hh:mm:ss");
+        Date reportDate =new Date();
+        WebElement report = findReport(symbol);
+        try {
+            System.out.print(report.findElement(By.xpath(".//td[6]")).getText()+" pre delete\n");
+            reportDate = dateFormat.parse(report.findElement(By.xpath(".//td[6]")).getText());
+            System.out.print(dateFormat.format(reportDate)+ " what it comes back as");
+        }
+        catch(Exception e){
+            reportDate = null;
+        }
+        return reportDate;
+    }
+
+
+
     public MorningCoffeePreview clickRecentReport(String symbol) {
         Date currentDate = new Date();
-         WebElement report = findReport(symbol,currentDate);
-         recentReportCompany = report.findElement(By.xpath(".//td[1]")).getText();
-         recentReportDate = report.findElement(By.xpath(".//td[6]")).getText();
+         WebElement report = findReport(symbol);
         wait.until(ExpectedConditions.textToBePresentInElement(report,"Ready"));
         pause(500L);
         report.click();
@@ -110,11 +126,11 @@ public class MorningCoffeePage extends AbstractPageObject {
         return new MorningCoffeePreview(driver);
     }
 
-    public boolean confirmRecentReportDelete(){
-        DateFormat dateFormat = new SimpleDateFormat("MMM DD, YYYY");
+    public boolean confirmReportDelete(String symbol,Date dateOfReport){
+        DateFormat dateFormat = new SimpleDateFormat("MMM d, yyyy hh:mm:ss");
+        System.out.print(dateFormat.format(dateOfReport)+ " recent report");
         try {
-            Date reportDate = dateFormat.parse(recentReportDate);
-            if(findReport(recentReportCompany,reportDate)!=null){
+            if(findReportWithDate(symbol,dateOfReport)!=null){
                 return true;
             }
             else{
@@ -127,13 +143,24 @@ public class MorningCoffeePage extends AbstractPageObject {
 
     }
 
-    private WebElement findReport(String symbol, Date currentDate){
+    private WebElement findReportWithDate(String symbol, Date currentDate){
         tableRowsReports = new ArrayList<>(readTableRows());
-        DateFormat dateFormat = new SimpleDateFormat("MMM DD, YYYY");
-        System.out.print(dateFormat.format(currentDate).toString());
+        DateFormat dateFormat = new SimpleDateFormat("MMM d, yyyy hh:mm:ss");
         if(tableRowsReports!=null){
             for(WebElement row : tableRowsReports) {
-                if (row.getText().contains(symbol) && row.getText().contains(username)){
+                if (row.getText().contains(symbol) && row.getText().contains(username) && row.getText().contains(dateFormat.format(currentDate))){
+                    return row;
+                }
+            }
+        }
+        return null;
+    }
+
+    private WebElement findReport(String symbol){
+        tableRowsReports = new ArrayList<>(readTableRows());
+        if(tableRowsReports!=null){
+            for(WebElement row : tableRowsReports) {
+                if (row.getText().contains(symbol) && row.findElement(By.xpath(".//td[2]")).getText().contains(username)){
                     return row;
                 }
             }
@@ -188,7 +215,7 @@ public class MorningCoffeePage extends AbstractPageObject {
     }
 
     private boolean isDateSorted(boolean ascendingSort){
-        SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MMM d, yyyy, hh:mm:ss");
         WebElement dateheader = findElement(dateColumn);
         tableRowsReports = new ArrayList<>(readTableRows());
         ArrayList<WebElement> ownerNames= new ArrayList<>();
@@ -336,6 +363,7 @@ public class MorningCoffeePage extends AbstractPageObject {
 
     public void print(){
        System.out.print(returnSectorElement(Sector.ENERGY).getText());
+
     }
 
 }

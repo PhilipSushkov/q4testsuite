@@ -18,8 +18,8 @@ public class MorningCoffeePreview extends AbstractPageObject{
    private final By cancelDelete = By.xpath("//q4-delete-confirm//button[contains(text(),'Cancel')]");
    private final By confirmDelete = By.xpath("//q4-delete-confirm//button[contains(text(),'Confirm')]");
    private final By marketCommentaryText = By.xpath("//div[contains(@class,'col-1') and .//span[contains(text(),'Market Commentary')]]//div[contains(@class,'ql-editor')]");
-    private final By SectorCommentaryText = By.xpath("//div[contains(@class,'col-1') and .//span[contains(text(),'Sector Commentary')]]//div[contains(@class,'ql-editor')]");
-    private final By CompanyCommentaryText = By.xpath("//div[contains(@class,'col-1') and .//span[contains(text(),'Company Commentary')]]//div[contains(@class,'ql-editor')]");
+    private final By sectorCommentaryText = By.xpath("//div[contains(@class,'col-1') and .//span[contains(text(),'Sector Commentary')]]//div[contains(@class,'ql-editor')]");
+    private final By companyCommentaryText = By.xpath("//div[contains(@class,'col-1') and .//span[contains(text(),'Company Commentary')]]//div[contains(@class,'ql-editor')]");
 
 
     public MorningCoffeePreview(WebDriver driver){
@@ -69,7 +69,7 @@ public class MorningCoffeePreview extends AbstractPageObject{
     }
 
     public void typeStuffs(){
-        findElement(marketCommentaryText).sendKeys("THIS WORKS!");
+        findElement(companyCommentaryText).sendKeys("THIS WORKS!");
     }
     public MorningCoffeePage confirmDelete(){
         clickDeleteIcon();

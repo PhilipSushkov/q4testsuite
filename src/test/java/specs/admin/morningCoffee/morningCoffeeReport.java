@@ -11,6 +11,8 @@ import pageobjects.admin.morningCoffeePage.MorningCoffeePage;
 import pageobjects.admin.morningCoffeePage.Sector;
 import specs.AdminAbstractSpec;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -31,7 +33,7 @@ public class morningCoffeeReport extends AdminAbstractSpec {
         Date currentDate = new Date();
        MorningCoffeePage morningCoffeePage =  new MorningCoffeePage(driver);
        morningCoffeePage.clickAddReport().inputCompanySymbol(symbol).clickCreateReport();
-        Assert.assertTrue("Record not found",morningCoffeePage.recentReportExists(symbol,currentDate)); //current Date is used to check that is the report from today, no other way to identify a unique report.
+        Assert.assertTrue("Record not found",morningCoffeePage.recentReportExists(symbol)); //current Date is used to check that is the report from today, no other way to identify a unique report.
 
     }
 
@@ -41,7 +43,7 @@ public class morningCoffeeReport extends AdminAbstractSpec {
         Date currentDate = new Date();
         MorningCoffeePage morningCoffeePage =  new MorningCoffeePage(driver);
         morningCoffeePage.clickAddReport().inputCompanySymbol(symbol).clickCancelReport();
-        Assert.assertFalse("Record not found",morningCoffeePage.recentReportExists(symbol,currentDate));
+        Assert.assertFalse("Record not found",morningCoffeePage.recentReportExists(symbol));
     }
 
     @Test
@@ -53,8 +55,15 @@ public class morningCoffeeReport extends AdminAbstractSpec {
 
     @Test
     public void ownerCanBeSortedAscending() {
+        String symbol ="YUM";
+        DateFormat dateFormat = new SimpleDateFormat("MMM d, yyyy hh:mm:ss");
+        Date dateOfDeletedReport = new Date();
+        dateFormat.format(dateOfDeletedReport);
+
         MorningCoffeePage morningCoffeePage = new MorningCoffeePage(driver);
-       morningCoffeePage.clickRecentReport("AAPL").typeStuffs();
+       dateOfDeletedReport= morningCoffeePage.recentReportDate(symbol);
+      System.out.print(morningCoffeePage.confirmReportDelete(symbol,dateOfDeletedReport));
+       //morningCoffeePage.clickRecentReport(symbol).confirmDelete().confirmReportDelete(symbol,dateOfDeletedReport);
     }
 
 
