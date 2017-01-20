@@ -24,14 +24,14 @@ public abstract class AbstractSpec {
 // IMPORTANT:
 // Determines which environment the test suite will run on but can be overridden by command line
 //------------------------------------------------------------------------------
-    private  final EnvironmentType DEFAULT_ENVIRONMENT = EnvironmentType.DEVELOP;
+    private  final EnvironmentType DEFAULT_ENVIRONMENT = EnvironmentType.LOCAL;
 //------------------------------------------------------------------------------
 
     private final EnvironmentType activeEnvironment = setupEnvironment();
 
     private final String BROWSER_STACK_URL = "http://jencampbell2:6jEURzbszfaWhLJc7XWx@hub.browserstack.com/wd/hub";
     private final String BUILD_ID = RandomStringUtils.randomAlphanumeric(6);
-    public final long DEFAULT_TIMEOUT = 6L;
+    public final long DEFAULT_TIMEOUT = 10L;
     private  URL desktopUrl;
     private  BrowserStackCapability browser;
     protected  WebDriver driver;
