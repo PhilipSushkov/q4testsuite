@@ -30,9 +30,7 @@ import specs.user.watchlist.EditWatchlist;
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
 
-        TabNavigationExpanded.class,
-        EditWatchlist.class,
-        Q4TeamPage.class
+        TargetingList.class
 })
 
 
