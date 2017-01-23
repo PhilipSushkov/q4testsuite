@@ -103,7 +103,8 @@ public class TargetingList extends AbstractSpec {
         Assert.assertTrue("Empty fund name listed.",!firstContact.isEmpty());
         Assert.assertThat("Fund page title doesn't match.", contactPageTitle, containsString(firstContact.substring(0, firstContact.indexOf("\n"))));
     }
-    @Ignore
+
+
     @Test
     public void canTargetAndRemoveAInstitution() {
         // performing a filterless institution search and targeting a random untargeted result
