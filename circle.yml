@@ -17,4 +17,4 @@ test:
         else
           mvn compile
         fi
-      : timeout: 1500
+      : timeout: 2500
