@@ -30,9 +30,9 @@ import specs.user.watchlist.EditWatchlist;
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
 
-        ContactList.class,
-        DashboardSearch.class,
-        Overview.class
+        TabNavigationExpanded.class,
+        EditWatchlist.class,
+        Q4TeamPage.class
 })
 
 
