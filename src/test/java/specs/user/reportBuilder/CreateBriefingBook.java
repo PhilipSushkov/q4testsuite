@@ -3,7 +3,6 @@ package specs.user.reportBuilder;
 import org.apache.commons.lang.RandomStringUtils;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import pageobjects.user.briefingBooks.BriefingBookColumnType;
 import pageobjects.user.briefingBooks.BriefingBookDetailsPage;
@@ -112,7 +111,6 @@ public class CreateBriefingBook extends AbstractSpec {
         Assert.assertFalse("Results appear for invalid search.", briefingBookList.briefingBooksAreDisplayed());
     }
 
-    @Ignore
     @Test
     public void canReorderTearSheets(){
         String briefingBookName = "New Briefing Book" + RandomStringUtils.randomAlphanumeric(6);
