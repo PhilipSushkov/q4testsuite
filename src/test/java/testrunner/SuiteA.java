@@ -29,16 +29,18 @@ import specs.user.watchlist.EditWatchlist;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
-        ContactList.class,
+        Ownership.class
+})
+
+
+public class SuiteA {
+
+    /*     ContactList.class,
         DashboardSearch.class,
         Overview.class,
         TabNavigationExpanded.class,
         EditWatchlist.class,
         Q4TeamPage.class,
         TargetingList.class,
-        Ownership.class
-})
-
-
-public class SuiteA {
+        Ownership.class*/
 }
