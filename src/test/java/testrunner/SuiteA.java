@@ -31,8 +31,6 @@ import specs.user.watchlist.EditWatchlist;
 @Suite.SuiteClasses({
         ContactList.class,
         DashboardSearch.class,
-        ForgotPassword.class,
-        UserLogin.class,
         Overview.class,
         TabNavigationExpanded.class,
         EditWatchlist.class,
