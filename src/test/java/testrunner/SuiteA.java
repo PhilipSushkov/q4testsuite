@@ -29,7 +29,10 @@ import specs.user.watchlist.EditWatchlist;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
-        Ownership.class
+
+        ContactList.class,
+        DashboardSearch.class,
+        Overview.class
 })
 
 
