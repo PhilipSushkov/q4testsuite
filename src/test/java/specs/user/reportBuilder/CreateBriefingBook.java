@@ -112,6 +112,7 @@ public class CreateBriefingBook extends AbstractSpec {
         Assert.assertFalse("Results appear for invalid search.", briefingBookList.briefingBooksAreDisplayed());
     }
 
+    @Ignore
     @Test
     public void canReorderTearSheets(){
         String briefingBookName = "New Briefing Book" + RandomStringUtils.randomAlphanumeric(6);
