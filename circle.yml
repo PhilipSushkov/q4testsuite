@@ -3,6 +3,7 @@ machine:
     version: oraclejdk8
   environment:
         _JAVA_OPTIONS: "-Xms512m -Xmx1024m"
+        DBUS_SESSION_BUS_ADDRESS: /dev/null
 
 # Only runs a full test suite on CircleCI when build parameters are passed in.
 # otherwise only runs compile on a git push

@@ -2,6 +2,7 @@ package specs.user.targeting;
 
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import pageobjects.user.contactPage.ContactDetailsPage;
 import pageobjects.user.institutionPage.InstitutionPage;
@@ -102,7 +103,7 @@ public class TargetingList extends AbstractSpec {
         Assert.assertTrue("Empty fund name listed.",!firstContact.isEmpty());
         Assert.assertThat("Fund page title doesn't match.", contactPageTitle, containsString(firstContact.substring(0, firstContact.indexOf("\n"))));
     }
-
+    @Ignore
     @Test
     public void canTargetAndRemoveAInstitution() {
         // performing a filterless institution search and targeting a random untargeted result
