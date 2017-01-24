@@ -41,7 +41,7 @@ public class EditWatchlist extends AbstractSpec {
         String companyName = new WatchlistPage(driver).getFirstCompanyInList();
         System.out.println(new WatchlistPage(driver).getFirstCompanyInList());
 
-        watchlistPage.removeSecurityFromWatchlist();
+        watchlistPage.removeSecurityFromWatchlist(companyName);
 
         // Compare stored string to first company in list. They shouldn't match
         System.out.println(new WatchlistPage(driver).getWatchlistSecurities());
