@@ -77,4 +77,15 @@ public class AdminLoginPage extends AbstractPageObject {
         return this;
     }
 
+    public boolean onLoginPage(){
+        waitForLoadingScreen();
+        try{
+            findElement(loginButton);
+            return true;
+        }
+        catch(Exception e){
+            return false;
+        }
+    }
+
 }
