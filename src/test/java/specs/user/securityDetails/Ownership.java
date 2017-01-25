@@ -226,6 +226,29 @@ public class Ownership extends AbstractSpec {
                 .viewHistoricalHolders()
                 .searchForHoldings(holder);
 
-        Assert.assertThat(securityOwnershipPage.getHolderSearchResults(), containsString(holder));
+        Assert.assertThat(securityOwnershipPage.getHistoricalInstitutionsHolderSearchResults(), containsString(holder));
+    }
+
+    @Test
+    public void canSearchForHistoricalFunds(){
+        //Search for specific historical owners on the Funds and ETF's tab of the Historical table
+        String holder = "Pacific Select Fund";
+        SecurityOwnershipPage securityOwnershipPage = new SecurityOwnershipPage(driver).selectDate(0)
+                .viewHistoricalHolders()
+                .showOnlyFunds()
+                .searchForHoldings(holder);
+        Assert.assertThat(securityOwnershipPage.getHistoricalFundsHolderSearchResults(), containsString(holder));
+    }
+
+    @Test
+    public void canSearchForCurrentInsiders(){
+        //Search for specific current insiders on the Insiders tab of the Current Holders table
+        String holder = "Jonathan Golden";
+        SecurityOwnershipPage securityOwnershipPage = new SecurityOwnershipPage(driver).selectDate(0)
+                .viewCurrentHolders()
+                .showOnlyInsiders()
+                .searchForHoldings(holder);
+
+        Assert.assertThat(securityOwnershipPage.getCurrentInsidersHolderSearchResults(), containsString(holder));
     }
 }
