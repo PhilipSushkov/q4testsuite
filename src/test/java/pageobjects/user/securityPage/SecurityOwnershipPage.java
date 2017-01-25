@@ -97,8 +97,13 @@ public class SecurityOwnershipPage extends AbstractPageObject {
     private final DateTimeFormatter longDate = DateTimeFormatter.ofPattern("MMMM dd, yyyy");
     private final LocalDate today = LocalDate.now();
     private final By historicalTab = By.cssSelector("#ext-tab-9");
+    private final By currentTab = By.cssSelector("#ext-tab-5");
     private final By holdingsSearchField = By.cssSelector(".ownership-top-holders.q4-tab .search-field .x-field-input .x-input-el");
-    private final By holderSearchResult = By.cssSelector("#ext-top-holders-historical-institutions-1");
+
+    //different types of Holder Searches
+    private final By historicalInstitutionsHolderSearchResult = By.cssSelector("#ext-top-holders-historical-institutions-1");
+    private final By currentInsidersHolderSearchResult = By.cssSelector("#ext-ownership-top-holders-current-1");
+    private final By historicalFundsHolderSearchResults = By.cssSelector("#ext-top-holders-historical-fund-1");
 
     public SecurityOwnershipPage(WebDriver driver) {
         super(driver);
@@ -882,14 +887,33 @@ public class SecurityOwnershipPage extends AbstractPageObject {
         return this;
     }
 
+    public SecurityOwnershipPage viewCurrentHolders(){
+        waitForLoadingScreen();
+        findElement(currentTab).click();
+
+        return this;
+    }
+
     public SecurityOwnershipPage searchForHoldings(String searchTerm) {
         findElement(holdingsSearchField).sendKeys(searchTerm);
 
         return this;
     }
 
-    public String getHolderSearchResults() {
-        waitForElementToAppear(holderSearchResult);
-        return findElement(holderSearchResult).getText();
+    //different types of Holder Searches
+    public String getHistoricalInstitutionsHolderSearchResults() {
+        waitForElementToAppear(historicalInstitutionsHolderSearchResult);
+        return findElement(historicalInstitutionsHolderSearchResult).getText();
     }
+
+    public String getCurrentInsidersHolderSearchResults() {
+        waitForElementToAppear(currentInsidersHolderSearchResult);
+        return findElement(currentInsidersHolderSearchResult).getText();
+    }
+
+    public String getHistoricalFundsHolderSearchResults(){
+        waitForElementToAppear(historicalFundsHolderSearchResults);
+        return findElement(historicalFundsHolderSearchResults).getText();
+    }
+
 }
