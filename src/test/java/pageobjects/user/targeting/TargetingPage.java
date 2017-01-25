@@ -129,6 +129,7 @@ public class TargetingPage extends AbstractPageObject {
         // sorting by name ascending
         findElements(searchesColumnHeader).get(0).click();
         pause(300);
+        waitForLoadingScreen();
         if (!elementsAreAlphaUpSorted(findElements(searchNameSelectors).subList(0,10))){
             System.out.println("SORT ERROR: Names are not in ascending order.");
             return false;
@@ -137,6 +138,7 @@ public class TargetingPage extends AbstractPageObject {
         // sorting by name descending
         findElements(searchesColumnHeader).get(0).click();
         pause(300);
+        waitForLoadingScreen();
         if (!elementsAreAlphaDownSorted(findElements(searchNameSelectors).subList(0,10))){
             System.out.println("SORT ERROR: Names are not in descending order.");
             return false;
@@ -145,6 +147,7 @@ public class TargetingPage extends AbstractPageObject {
         // sorting by created date ascending
         findElements(searchesColumnHeader).get(1).click();
         pause(300);
+        waitForLoadingScreen();
         if (!elementsAreDateUpSorted(findElements(searchCreatedDate).subList(0,10))){
             System.out.println("SORT ERROR: Created dates are not in ascending order.");
             return false;
@@ -153,6 +156,7 @@ public class TargetingPage extends AbstractPageObject {
         // sorting by created date descending
         findElements(searchesColumnHeader).get(1).click();
         pause(300);
+        waitForLoadingScreen();
         if (!elementsAreDateDownSorted(findElements(searchCreatedDate).subList(0,10))){
             System.out.println("SORT ERROR: Created dates are not in descending order.");
             return false;
@@ -161,6 +165,7 @@ public class TargetingPage extends AbstractPageObject {
         // sorting by last updated date ascending
         findElements(searchesColumnHeader).get(2).click();
         pause(300);
+        waitForLoadingScreen();
         if (!elementsAreDateUpSorted(findElements(searchUpdatedDate).subList(0,10))){
             System.out.println("SORT ERROR: Last updated dates are not in ascending order.");
             return false;
@@ -169,6 +174,7 @@ public class TargetingPage extends AbstractPageObject {
         // sorting by last updated date descending
         findElements(searchesColumnHeader).get(2).click();
         pause(300);
+        waitForLoadingScreen();
         if (!elementsAreDateDownSorted(findElements(searchUpdatedDate).subList(0,10))){
             System.out.println("SORT ERROR: Last updated dates are not in descending order.");
             return false;
