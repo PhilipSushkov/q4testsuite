@@ -3,6 +3,7 @@ package pageobjects.admin.intelligencePage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageobjects.AbstractPageObject;
 
 import java.util.List;
@@ -86,6 +87,7 @@ public class IntelligencePage extends AbstractPageObject {
 
     public WTSReportDetailsPage selectNewReport() {
         waitForLoadingScreen();
+        wait.until(ExpectedConditions.textToBePresentInElementLocated(firstReportInList,"Ready"));
         findElement(firstReportInList).click();
 
         return new WTSReportDetailsPage(getDriver());
