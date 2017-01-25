@@ -103,7 +103,7 @@ public class TargetingPage extends AbstractPageObject {
     }
 
     public void deleteSearch(int index){
-        waitForElement(editButton);
+        waitForLoadingScreen();
         findVisibleElement(editButton).click();
         waitForElementToAppear(redButton);
         List<WebElement> redButtons = findElements(redButton);
