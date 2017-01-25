@@ -53,16 +53,19 @@ public class SecurityOverviewPage extends WatchlistPage {
     private final By recentEventsBtn = By.id("ext-button-23");
     private final By recentTranscriptsBtn = By.id("ext-button-24");
     private final By recentNewsBtn = By.cssSelector(".company-header .header-notifications-tab .x-button:last-child");
+    private final By recentResearchBtn = By.xpath("//div[contains(@class, 'research-buttonresearch-button')]");
 
     private final By recentEstimatesResults = By.cssSelector(".company-header-latest-estimates .latest-estimate-item");
     private final By recentEventsResults = By.cssSelector(".company-header-latest-events .latest-events-item");
     private final By recentTranscriptsResults = By.cssSelector(".company-header-latest-transcripts .latest-transcripts-item");
     private final By recentNewsResults = By.cssSelector(".company-header-latest-news .news-item .news-date"); //n
+    private final By recentResearchResults = By.cssSelector(".company-header-latest-research .latest-research-item");
 
     private final By recentEstimatesModal = By.cssSelector(".company-header-latest-estimates h2");
     private final By recentEventsModal = By.cssSelector(".company-header-latest-events h2");
     private final By recentTranscriptsModal = By.cssSelector(".company-header-latest-transcripts h2");
     private final By recentNewsModal = By.cssSelector(".company-header-latest-news h2");
+    private final By recentResearchModal = By.xpath("//div[contains(@class, 'latest-research-item')]");
 
     private final By eventsResultslModal = By.cssSelector(".event-detail .header");
     //^^^The modal that appears once you click on a result^^^
@@ -273,8 +276,17 @@ public class SecurityOverviewPage extends WatchlistPage {
         return doesElementExist(eventsResultslModal);
     }
 
+    public boolean recentResearchModalExists(){
+        pause(500L);
+        return doesElementExist(recentResearchModal);
+    }
 
-                                                 /**          GETTERS:         */
+    //Research doesn't need a results modal because it starts a download, not a new page
+
+
+
+
+    /**          GETTERS:         */
 
 
     //HEADER\\
@@ -357,6 +369,17 @@ public class SecurityOverviewPage extends WatchlistPage {
 
     public int getNumTranscriptsResultsDisplayed() {
         return findElements(recentTranscriptsResults).size();
+    }
+
+    public String getRecentResearchButtonNumber(){
+        waitForLoadingScreen();
+        return findElement(recentResearchBtn).getText();
+    }
+
+    public int getNumResearchResultsDisplayed(){
+        waitForLoadingScreen();
+        return findElements(recentResearchResults).size();
+
     }
 
     //CHARTS\\
@@ -567,6 +590,17 @@ public class SecurityOverviewPage extends WatchlistPage {
          findElement(recentEventsBtn).click();
      }
 
+    public void clickRecentResearchButton(){
+
+        findElement(recentResearchBtn).click();
+    }
+
+
+    //
+    //Results - I.e. the pop up
+    //
+
+
     public void clickRecentEstimatesResult(){
          findElement(recentEstimatesResults).click();
      }
@@ -588,6 +622,5 @@ public class SecurityOverviewPage extends WatchlistPage {
     public void clickTrancsriptsResultsXBtn(){
         findElement(transciptsResultsExitBtn).click();
     }
-
 
 }
