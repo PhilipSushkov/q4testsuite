@@ -543,6 +543,7 @@ public class SecurityOwnershipPage extends AbstractPageObject {
                 pause(100);
             }
         }
+        waitForLoadingScreen();
         return this;
     }
 
@@ -761,6 +762,7 @@ public class SecurityOwnershipPage extends AbstractPageObject {
     // Checks whether hovering over the charts causes hovertext to appear
     public boolean canHoverOverTrendAnalysisCharts(){
         boolean canHover = true;
+        waitForLoadingScreen();
         waitForElement(trendAnalysisHoverText);
         List<WebElement> charts = findVisibleElements(trendAnalysisChartBody);
         List<WebElement> hovertexts = findElements(trendAnalysisHoverText);
