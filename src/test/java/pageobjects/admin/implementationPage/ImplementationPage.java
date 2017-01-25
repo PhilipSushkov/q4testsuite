@@ -14,7 +14,7 @@ public class ImplementationPage extends AbstractPageObject {
     private final By sourceField = By.name("sourceURL");
     private final By saveButton = By.cssSelector("body > q4-app > div > div > q4-implementation > div.modal > p-dialog > div > div.ui-dialog-content.ui-widget-content > q4-implementation-create > div > button.button.button-yellow");
     private final By implementationList = By.cssSelector(".ui-datatable table");
-    private final By firstImplementation = By.cssSelector("body > q4-app > div > div > q4-implementation > p-datatable > div > div > table > tbody > tr:nth-child(1) > td:nth-child(3) > span > div > button");
+    private final By firstImplementationEditButton = By.cssSelector(".q4-list .action-buttons .edit");
     private final By errorMessage = By.cssSelector("body > q4-app > div > div > q4-implementation > div.modal > p-dialog > div > div.ui-dialog-content.ui-widget-content > q4-implementation-create > div.error");
     private final By cancelButton = By.cssSelector("body > q4-app > div > div > q4-implementation > div.modal > p-dialog > div > div.ui-dialog-content.ui-widget-content > q4-implementation-create > div > button.button.button-no-background");
 
@@ -39,7 +39,7 @@ public class ImplementationPage extends AbstractPageObject {
 
     public ImplementationPage selectFirstImplementation() {
         waitForLoadingScreen();
-        findElement(firstImplementation).click();
+        findElement(firstImplementationEditButton).click();
 
         return this;
     }
