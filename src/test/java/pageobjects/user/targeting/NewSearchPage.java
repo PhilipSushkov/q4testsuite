@@ -236,7 +236,7 @@ public class NewSearchPage extends AbstractPageObject{
         waitForElement(searchButton);
         findElement(searchButton).click();
         waitForElement(saveTargetButton);
-
+         waitForLoadingScreen();
         // randomly selecting entry in result (among first 20) that is not already targeted
         int index = random.nextInt(20);
         List<WebElement> saveTargetButtons = findElements(saveTargetButton);
