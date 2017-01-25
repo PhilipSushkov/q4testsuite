@@ -55,6 +55,7 @@ public class AdminLoginPage extends AbstractPageObject {
 
         // Perform the click operation that opens new window
         findElement(loginButton).click();
+        waitForElementToAppear(googleLoginButton);
         findElement(googleLoginButton).click();
 
         // Switch to new window opened
