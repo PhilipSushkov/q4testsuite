@@ -86,6 +86,7 @@ public class TargetingPage extends AbstractPageObject {
     }
 
     public WebElement returnSearch(String searchName){
+        waitForLoadingScreen();
         waitForElement(showSearches);
         while (findVisibleElements(showMoreButton).size()>0){
             showMoreSavedSearches();
@@ -116,7 +117,7 @@ public class TargetingPage extends AbstractPageObject {
         findVisibleElements(searchNameDivSelectors).get(index).click();
         return new EditSearchPage(getDriver());
     }
-    
+
 
     public TargetingPage deleteSearch(WebElement search){
         waitForLoadingScreen();
