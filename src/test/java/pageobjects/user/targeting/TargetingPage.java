@@ -18,7 +18,8 @@ public class TargetingPage extends AbstractPageObject {
 
     private final By newSearchButton = By.cssSelector(".q4-hero-banner .x-dock .action-button");
     private final By showSearches = By.cssSelector(".x-tabbar-inner div:first-child");
-    private final By searchNameSelectors = By.cssSelector(".x-grid-row .x-grid-cell:first-child .x-grid-cell-inner");
+   private final By searchNameSelectors = By.cssSelector(".x-grid-row .x-grid-cell:first-child .x-grid-cell-inner");
+    private final By searchTableRow = By.xpath(("//div[contains(@class,'x-grid-row') and contains(@class,'x-list-item')]"));
     private final By searchNameDivSelectors = By.cssSelector(".x-grid-row");
     private final By editButton = By.cssSelector(".edit .x-button-label");
     private final By redButton = By.cssSelector(".delete-button .q4i-minus-4pt");
@@ -84,34 +85,49 @@ public class TargetingPage extends AbstractPageObject {
         return -1;
     }
 
+    public WebElement returnSearch(String searchName){
+        waitForElement(showSearches);
+        while (findVisibleElements(showMoreButton).size()>0){
+            showMoreSavedSearches();
+        }
+        List<WebElement> searchNames = findVisibleElements(searchTableRow);
+
+        for(WebElement row: searchNames){
+            if(row.getText().contains(searchName)){
+                return row;
+            }
+        }
+        return null;
+    }
+
+    public TargetingPage deleteSearchAbort(WebElement search){
+        waitForLoadingScreen();
+        waitForElement(editButton);
+        findVisibleElement(editButton).click();
+        search.findElement(redButton).click();
+        waitForElementToAppear(cancelDelete);
+        findElement(cancelDelete).click();
+        waitForElementToAppear(doneButton);
+        findElement(doneButton).click();
+        return this;
+    }
     // parameter index is the position (starting from 0) that the search name appears
     public EditSearchPage editSearch(int index){
         findVisibleElements(searchNameDivSelectors).get(index).click();
         return new EditSearchPage(getDriver());
     }
+    
 
-    public void deleteSearchAbort(int index){
+    public TargetingPage deleteSearch(WebElement search){
         waitForLoadingScreen();
         waitForElement(editButton);
         findVisibleElement(editButton).click();
-        List<WebElement> redButtons = findVisibleElements(redButton);
-        redButtons.get(index).click();
-        waitForElementToAppear(cancelDelete);
-        findElement(cancelDelete).click();
-        waitForElementToDissapear(cancelDelete);
-        findElement(doneButton).click();
-    }
-
-    public void deleteSearch(int index){
-        waitForLoadingScreen();
-        findVisibleElement(editButton).click();
-        waitForElementToAppear(redButton);
-        List<WebElement> redButtons = findElements(redButton);
-        redButtons.get(index).click();
+        search.findElement(redButton).click();
         waitForElementToAppear(confirmDelete);
         findElement(confirmDelete).click();
-        waitForElementToDissapear(confirmDelete);
+        waitForElementToAppear(doneButton);
         findElement(doneButton).click();
+        return this;
     }
 
     public String getCreatedDate(int index){
@@ -130,7 +146,7 @@ public class TargetingPage extends AbstractPageObject {
         findElements(searchesColumnHeader).get(0).click();
         pause(300);
         waitForLoadingScreen();
-        if (!elementsAreAlphaUpSorted(findElements(searchNameSelectors).subList(0,10))){
+        if (!elementsAreAlphaUpSortedIgnoreCase(findElements(searchNameSelectors).subList(0,10))){
             System.out.println("SORT ERROR: Names are not in ascending order.");
             return false;
         }
@@ -139,7 +155,7 @@ public class TargetingPage extends AbstractPageObject {
         findElements(searchesColumnHeader).get(0).click();
         pause(300);
         waitForLoadingScreen();
-        if (!elementsAreAlphaDownSorted(findElements(searchNameSelectors).subList(0,10))){
+        if (!elementsAreAlphaDownSortedIgnoreCase(findElements(searchNameSelectors).subList(0,10))){
             System.out.println("SORT ERROR: Names are not in descending order.");
             return false;
         }
