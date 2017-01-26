@@ -896,7 +896,7 @@ public class SecurityOwnershipPage extends AbstractPageObject {
 
     public SecurityOwnershipPage searchForHoldings(String searchTerm) {
         findElement(holdingsSearchField).sendKeys(searchTerm);
-
+        waitForLoadingScreen();
         return this;
     }
 
