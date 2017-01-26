@@ -76,6 +76,20 @@ public class NewSearchPage extends AbstractPageObject{
     }
 
 
+    public TargetingPage createBlankSearch(String searchName){
+        waitForElement(saveSearchButton);
+        findElement(saveSearchButton).click();
+        waitForElement(searchNameField);
+        findElement(searchNameField).sendKeys(searchName);
+        findElement(saveButton).click();
+        return new TargetingPage(getDriver());
+    }
+
+    public void blankSearch(){
+        waitForElement(searchButton);
+        findElement(searchButton).click();
+        waitForElement(saveTargetButton);
+    }
 
     public TargetingPage createNewSearch(String searchName, String[] filters){
         waitForElement(locationFilter);
@@ -288,11 +302,7 @@ public class NewSearchPage extends AbstractPageObject{
         return new ContactDetailsPage(getDriver());
     }
 
-    public void blankSearch(){
-        waitForElement(searchButton);
-        findElement(searchButton).click();
-        waitForElement(saveTargetButton);
-    }
+
 
     /** Returns number of results currently displayed on the page. */
     public int numResultsDisplayed(){

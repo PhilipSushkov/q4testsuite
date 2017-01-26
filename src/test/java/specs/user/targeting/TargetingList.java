@@ -4,6 +4,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.openqa.selenium.WebElement;
 import pageobjects.user.contactPage.ContactDetailsPage;
 import pageobjects.user.institutionPage.InstitutionPage;
 import pageobjects.user.loginPage.LoginPage;
@@ -224,46 +225,36 @@ public class TargetingList extends AbstractSpec {
     }*/
    @Test
    public void canAddSearchFromList(){
+       WebElement search;
        String searchName = current.toString()+"_added";
-       String[] filters = {
-               "New York, NY", "Institution", "3", "97", "1", "8", "30", "960", "Low",
-               "Investment Adviser", "Growth", "Owns Only Me", "Underweight", "Net Buyer", "Net Buyer", "yes", "yes"
-       };
-       new TargetingPage(driver).newSearch().createNewSearch(searchName, filters);
-       int searchNameIndex = new TargetingPage(driver).findSearchNameIndex(searchName);//will be -1 if not listed
-       Assert.assertNotEquals("Search name not found in saved searches list", -1, searchNameIndex);
-       searchNameIndex = new TargetingPage(driver).findSearchNameIndex(searchName);
-       new TargetingPage(driver).deleteSearch(searchNameIndex);
+       TargetingPage targetingPage = new TargetingPage(driver).newSearch().createBlankSearch(searchName);
+       search = targetingPage.returnSearch(searchName);
+       Assert.assertTrue("Search name not found in saved searches list",  search!=null);
+       targetingPage.deleteSearch(search);
    }
 
 
    @Test
    public void canAbortSearchDelete(){
+       WebElement search;
        String searchName = current.toString()+"_abortDelete";
-       String[] filters = {
-               "New York, NY", "Institution", "3", "97", "1", "8", "30", "960", "Low",
-               "Investment Adviser", "Growth", "Owns Only Me", "Underweight", "Net Buyer", "Net Buyer", "yes", "yes"
-       };
-       new TargetingPage(driver).newSearch().createNewSearch(searchName, filters);
-       int searchNameIndex = new TargetingPage(driver).findSearchNameIndex(searchName);
-       new TargetingPage(driver).deleteSearchAbort(searchNameIndex);
-       searchNameIndex = new TargetingPage(driver).findSearchNameIndex(searchName);//will be -1 if not listed
-       Assert.assertNotEquals("Search name not found despite aborted delete", -1, searchNameIndex);
-       new TargetingPage(driver).deleteSearch(searchNameIndex);
+       TargetingPage targetingPage = new TargetingPage(driver).newSearch().createBlankSearch(searchName);
+       search = targetingPage.returnSearch(searchName);
+       targetingPage = targetingPage.deleteSearchAbort(search);
+       search = targetingPage.returnSearch(searchName);
+       Assert.assertTrue("Search name not found despite aborted delete", search!=null);
+       targetingPage.deleteSearch(search);
    }
 
    @Test
    public void canDeleteSavedSearch(){
+       WebElement search;
        String searchName = current.toString()+"_Delete";
-       String[] filters = {
-               "New York, NY", "Institution", "3", "97", "1", "8", "30", "960", "Low",
-               "Investment Adviser", "Growth", "Owns Only Me", "Underweight", "Net Buyer", "Net Buyer", "yes", "yes"
-       };
-       new TargetingPage(driver).newSearch().createNewSearch(searchName, filters);
-       int searchNameIndex = new TargetingPage(driver).findSearchNameIndex(searchName);
-       new TargetingPage(driver).deleteSearch(searchNameIndex);
-       searchNameIndex = new TargetingPage(driver).findSearchNameIndex(searchName);
-       Assert.assertEquals("Search has not been deleted", -1, searchNameIndex);
+       TargetingPage targetingPage = new TargetingPage(driver).newSearch().createBlankSearch(searchName);
+       search = targetingPage.returnSearch(searchName);
+       targetingPage =targetingPage.deleteSearch(search);
+       search = targetingPage.returnSearch(searchName);
+       Assert.assertTrue("Search has not been deleted", search==null);
 
    }
 
@@ -307,7 +298,7 @@ public class TargetingList extends AbstractSpec {
     *  If this search does not exist or was not created on 11/14/16, the test will fail.*/
     public void canEditSearchAndSeeUpdatedDate(){
         String expectedSearchName = "testing updated date - DO NOT REMOVE";
-        String expectedCreatedDate = "11/14/16";
+        String expectedCreatedDate = "01/26/17";
         SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yy");
         // checking that required search is present and that created date is correct
         int searchNameIndex = new TargetingPage(driver).findSearchNameIndex(expectedSearchName);
