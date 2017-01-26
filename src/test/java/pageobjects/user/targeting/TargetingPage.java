@@ -91,6 +91,7 @@ public class TargetingPage extends AbstractPageObject {
         while (findVisibleElements(showMoreButton).size()>0){
             showMoreSavedSearches();
         }
+        waitForLoadingScreen();
         List<WebElement> searchNames = findVisibleElements(searchTableRow);
 
         for(WebElement row: searchNames){
