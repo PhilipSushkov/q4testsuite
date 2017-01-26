@@ -116,19 +116,7 @@ public class TargetingPage extends AbstractPageObject {
         findVisibleElements(searchNameDivSelectors).get(index).click();
         return new EditSearchPage(getDriver());
     }
-
-    /*
-    public void deleteSearchAbort(int index){
-        waitForLoadingScreen();
-        waitForElement(editButton);
-        findVisibleElement(editButton).click();
-        List<WebElement> redButtons = findVisibleElements(redButton);
-        redButtons.get(index).click();
-        waitForElementToAppear(cancelDelete);
-        findElement(cancelDelete).click();
-        waitForElementToDissapear(cancelDelete);
-        findElement(doneButton).click();
-    }*/
+    
 
     public TargetingPage deleteSearch(WebElement search){
         waitForLoadingScreen();
@@ -142,19 +130,6 @@ public class TargetingPage extends AbstractPageObject {
         return this;
     }
 
-/*
-    public void deleteSearch(int index){
-        waitForLoadingScreen();
-        findVisibleElement(editButton).click();
-        waitForElementToAppear(redButton);
-        List<WebElement> redButtons = findElements(redButton);
-        redButtons.get(index).click();
-        waitForElementToAppear(confirmDelete);
-        findElement(confirmDelete).click();
-        waitForElementToDissapear(confirmDelete);
-        findElement(doneButton).click();
-    }
-*/
     public String getCreatedDate(int index){
         return findVisibleElements(searchCreatedDate).get(index).getText();
     }
