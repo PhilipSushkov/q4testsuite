@@ -41,6 +41,7 @@ public class Dashboard extends AbstractPageObject {
     private final By logPhoneIcon = By.id("ext-button-11");
     private final By logEmailIcon = By.id("ext-button-12");
     private final By logMeetingIcon = By.id("ext-button-13");
+    private final By logRoadshowIcon = By.id("ext-button-14");
 
     public Dashboard(WebDriver driver) {
         super(driver);
@@ -149,6 +150,13 @@ public class Dashboard extends AbstractPageObject {
     public LogActivityModal logMeetingNote() {
         wait.until(ExpectedConditions.elementToBeClickable(logMeetingIcon));
         findElement(logMeetingIcon).click();
+
+        return new LogActivityModal(getDriver());
+    }
+
+    public LogActivityModal logRoadshowNote() {
+        wait.until(ExpectedConditions.elementToBeClickable(logRoadshowIcon));
+        findElement(logRoadshowIcon).click();
 
         return new LogActivityModal(getDriver());
     }
