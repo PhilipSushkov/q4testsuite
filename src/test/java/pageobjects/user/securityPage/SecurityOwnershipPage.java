@@ -37,7 +37,7 @@ public class SecurityOwnershipPage extends AbstractPageObject {
     private final By sellersFilter = By.cssSelector(".ownership-report-main-content .range-tabs .x-button:nth-child(3)");
     private final By holderTableHeaderName = By.cssSelector(".x-grid-column:first-child");
     private final By holderTableHeaderPOS = By.cssSelector(".x-grid-column:nth-child(2)");
-    private final By holderTableHeader1QChg = By.cssSelector(".x-grid-column:nth-child(3)");
+    private final By holderTableHeader1QChg = By.xpath("//*[@id=\"ext-column-87\"]");
     private final By holderTableHeaderMktVal = By.cssSelector(".x-grid-column:nth-child(4)");
     private final By holderTableHeaderMktValChg = By.cssSelector(".x-grid-column:nth-child(5)");
     private final By holderTableHeaderPercOS = By.cssSelector(".x-grid-column:nth-child(6)");
@@ -46,7 +46,7 @@ public class SecurityOwnershipPage extends AbstractPageObject {
     private final By holderTableHeaderTurnover = By.cssSelector(".x-grid-column:nth-child(9)");
     private final By holderTableHeaderAUM = By.cssSelector(".x-grid-column:nth-child(10)");
     private final By holderTableHeaderAsOf = By.cssSelector(".x-grid-column:nth-child(11)");
-    private final By holderTableHeaderQR = By.cssSelector(".x-grid-column:nth-child(13)");
+    private final By holderTableHeaderQR = By.cssSelector(".x-grid-column:nth-child(12)");
     private final By holderTableRow = By.cssSelector(".x-grid-row:not([style*='-10000px'])");
     private final By alternateHolderTableRow = By.cssSelector(".top-holders-list-institutions .x-dataview-item"); // exists instead of above when using Buyers or Sellers filter
     private final By holderTableName = By.cssSelector(".x-grid-row:not([style*='-10000px']) .x-grid-cell:first-child");
@@ -118,6 +118,11 @@ public class SecurityOwnershipPage extends AbstractPageObject {
     //      (They may or may not work while one of the date options is selected.)
 
     // index goes from 0 to 4, with 0 being end of last quarter
+    public void clickLocation(By selector){
+        Actions builder =  new Actions(driver);
+        builder.moveToElement(findVisibleElement(selector)).click().build().perform();
+    }
+
     public SecurityOwnershipPage selectDate(int index){
         waitForElement(dateOption);
         findElements(dateOption).get(index).click();
@@ -318,8 +323,8 @@ public class SecurityOwnershipPage extends AbstractPageObject {
     public boolean canSortByPOS(){
         waitForLoadingScreen();
         boolean isSorted = true;
-
-        findVisibleElement(holderTableHeaderPOS).click();
+        clickLocation(holderTableHeaderPOS);
+        //findVisibleElement(holderTableHeaderPOS).click();
         waitForLoadingScreen();
         if (!elementsAreNumUpSorted(findElements(holderTablePOS))){
             System.out.println("Holders are not sorted by POS ascending.");
@@ -340,8 +345,7 @@ public class SecurityOwnershipPage extends AbstractPageObject {
     public boolean canSortBy1Q(){
         waitForLoadingScreen();
         boolean isSorted =true;
-        wait.until(ExpectedConditions.elementToBeClickable(holderTableHeader1QChg));
-        findVisibleElement(holderTableHeader1QChg).click();
+        clickLocation(holderTableHeader1QChg);
         waitForLoadingScreen();
         if (!elementsAreNumUpSorted(findElements(holderTable1QChg))){
             System.out.println("Holders are not sorted by 1Q change ascending.");
@@ -349,7 +353,7 @@ public class SecurityOwnershipPage extends AbstractPageObject {
         }
 
         // sorting by 1Q change descending
-        findVisibleElement(holderTableHeader1QChg).click();
+        clickLocation(holderTableHeader1QChg);
         waitForLoadingScreen();
         if (!elementsAreNumDownSorted(findElements(holderTable1QChg))){
             System.out.println("Holders are not sorted by 1Q change descending.");
