@@ -57,7 +57,7 @@ public class SecurityOverviewPage extends WatchlistPage {
     private final By recentEstimatesResults = By.cssSelector(".company-header-latest-estimates .latest-estimate-item");
     private final By recentEventsResults = By.className("latest-events-item");
     private final By recentTranscriptsResults = By.cssSelector(".company-header-latest-transcripts .latest-transcripts-item");
-    private final By recentNewsResults = By.className("news-item");
+    private final By recentNewsResults = By.cssSelector(".company-header-latest-news .news-item");
 
     private final By recentEstimatesModal = By.cssSelector(".company-header-latest-estimates h2");
     private final By recentEventsModal = By.cssSelector(".company-header-latest-events h2");
