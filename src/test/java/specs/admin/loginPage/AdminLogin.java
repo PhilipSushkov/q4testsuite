@@ -15,7 +15,7 @@ public class AdminLogin extends AdminAbstractSpec {
     //
     @Test
     public void adminCanLogin() {
-        String pageTitle = "Unable to access your account?";
+        String pageTitle = "Home";
         HomePage homePage = new HomePage(driver);
         new AdminLoginPage(driver).customLoginAdmin("test@q4websystems.com", "testing!");
 
