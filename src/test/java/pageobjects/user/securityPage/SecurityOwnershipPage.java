@@ -102,7 +102,7 @@ public class SecurityOwnershipPage extends AbstractPageObject {
     private final By holderSearchResulttwo = By.cssSelector(".top-holders-list.fund .details .holder-info");
     private final By FundsETFsTab = By.cssSelector("#ext-tab-8");
     private final By InstitutionTab = By.cssSelector("#ext-tab-2");
-    private  final By InstitutionSearchResult = By.cssSelector(".top-holders-list.institution .details .holder-info .name");
+    private final By InstitutionSearchResult = By.cssSelector(".top-holders-list.institution .details .holder-info .name");
     private final By InsidersTab = By.cssSelector("#ext-tab-7");
     private final By InsiderSearchResult = By.cssSelector(".top-holders-list.insider .details .holder-info .name");
     private final By DefaultInsiderResult = By.cssSelector("#ext-element-1965");
@@ -878,12 +878,16 @@ public class SecurityOwnershipPage extends AbstractPageObject {
     public SecurityOwnershipPage viewHistoricalHolders() {
         waitForLoadingScreen();
         findElement(historicalTab).click();
+        waitForLoadingScreen();
 
         return this;
     }
 
     public SecurityOwnershipPage searchForHoldings(String searchTerm) {
         findElement(holdingsSearchField).sendKeys(searchTerm);
+        waitForLoadingScreen();
+        // Added pause to account for the situation where the test will take the original top value of the table and won't wait for the results to be updated by the search.
+        pause(3000);
 
         return this;
     }
@@ -907,10 +911,6 @@ public class SecurityOwnershipPage extends AbstractPageObject {
     }
 
     public String getHolderSearchResultstwo() {
-        // Needed to wait for search to finish and results to be updated with the only match before getting the top result
-        // InsiderSearchResult represents a generic CSS selector and would
-        // select the first item of the table before the search since something always appears
-        waitForElementToDissapear(DefaultHolderResult);
         waitForElementToAppear(holderSearchResulttwo);
         return findElement(holderSearchResulttwo).getText();
     }
@@ -934,10 +934,6 @@ public class SecurityOwnershipPage extends AbstractPageObject {
     }
 
     public String getInsiderSearchResults() {
-        // Needed to wait for search to finish and results to be updated with the only match before getting the top result
-        // InsiderSearchResult represents a generic CSS selector and would
-        // select the first item of the table before the search since something always appears
-        waitForElementToDissapear(DefaultInsiderResult);
         waitForElementToAppear(InsiderSearchResult);
         return findElement(InsiderSearchResult).getText();
     }
