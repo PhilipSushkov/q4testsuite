@@ -280,7 +280,6 @@ public class Ownership extends AbstractSpec {
                 .viewHistoricalHolders()
                 .searchForHoldings(holder);
 
-<<<<<<< HEAD
         Assert.assertThat(securityOwnershipPage.getHistoricalInstitutionsHolderSearchResults(), containsString(holder));
     }
 
@@ -305,10 +304,8 @@ public class Ownership extends AbstractSpec {
                 .searchForHoldings(holder);
 
         Assert.assertThat(securityOwnershipPage.getCurrentInsidersHolderSearchResults(), containsString(holder));
-=======
 
         Assert.assertThat(securityOwnershipPage.getHolderSearchResults(), containsString(holder));
->>>>>>> q4testsuite-eason
     }
 
     @Test
