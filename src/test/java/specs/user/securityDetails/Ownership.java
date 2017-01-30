@@ -347,6 +347,4 @@ public class Ownership extends AbstractSpec {
         Assert.assertThat(securityOwnershipPage.getInsiderSearchResults(), containsString(holder));
 
     }
-
-
 }
