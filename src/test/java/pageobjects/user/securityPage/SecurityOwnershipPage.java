@@ -860,6 +860,7 @@ public class SecurityOwnershipPage extends AbstractPageObject {
     public boolean otherHolderValuesAreValid(){
         waitForElement(holderOtherValues);
         return elementsAreAllPercentages(findVisibleElements(holderOtherValues));
+
     }
 
     // closes the other dropdown by clicking outside it
@@ -888,7 +889,6 @@ public class SecurityOwnershipPage extends AbstractPageObject {
         waitForLoadingScreen();
         // Added pause to account for the situation where the test will take the original top value of the table and won't wait for the results to be updated by the search.
         pause(3000);
-
         return this;
     }
 
@@ -899,7 +899,8 @@ public class SecurityOwnershipPage extends AbstractPageObject {
 
     public SecurityOwnershipPage searchForFundsETFs(String searchTerm) {
         findElement(holdingsSearchField).sendKeys(searchTerm);
-
+        // Added pause to account for the situation where the test will take the original top value of the table and won't wait for the results to be updated by the search.
+        pause(3000);
         return this;
     }
 

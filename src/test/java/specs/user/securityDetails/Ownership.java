@@ -242,6 +242,8 @@ public class Ownership extends AbstractSpec {
         Assert.assertThat(securityOwnershipPage.getHolderSearchResultstwo(), containsString(holder));
     }
 
+
+
     @Test
     public void canSearchForCurrentInstitutions() {
         // Search for specific current owners on the Institutions tab of the current table
