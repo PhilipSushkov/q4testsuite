@@ -3,6 +3,7 @@ package pageobjects.admin.intelligencePage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageobjects.AbstractPageObject;
 
 import java.util.List;
@@ -12,7 +13,7 @@ import java.util.List;
  */
 public class IntelligencePage extends AbstractPageObject {
     private final By newReportButton = By.cssSelector(".page-header .action-buttons .add");
-    private final By companySymbolField = By.cssSelector(".undefined");
+    private final By companySymbolField = By.cssSelector("body > q4-app > div > div > q4-report > p-dialog > div > div.ui-dialog-content.ui-widget-content > q4-report-create > p-autocomplete > span > input");
     private final By createReportButton = By.cssSelector("button.button.button-yellow");
     private final By newReportInList = By.cssSelector("body > q4-app > div > div > q4-report > p-datatable > div > div > table > tbody > tr:nth-child(1)");
     private final By reportDropdown = By.cssSelector(".modal .ui-dialog .ui-dialog-content .ui-dropdown .ui-inputtext");
@@ -43,7 +44,8 @@ public class IntelligencePage extends AbstractPageObject {
         findElement(newReportButton).click();
         findElement(reportDropdown).click();
         findElement(weeklyTradeSummary).click();
-        pause(500L);
+        pause(1000L);
+        retryClick(companySymbolField);
         findElement(companySymbolField).sendKeys(symbol);
         findElement(searchResult).click();
         findElement(createReportButton).click();
@@ -85,6 +87,7 @@ public class IntelligencePage extends AbstractPageObject {
 
     public WTSReportDetailsPage selectNewReport() {
         waitForLoadingScreen();
+        wait.until(ExpectedConditions.textToBePresentInElementLocated(firstReportInList,"Ready"));
         findElement(firstReportInList).click();
 
         return new WTSReportDetailsPage(getDriver());

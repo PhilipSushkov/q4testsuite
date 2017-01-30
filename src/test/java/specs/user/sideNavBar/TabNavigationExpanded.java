@@ -50,7 +50,7 @@ public class TabNavigationExpanded extends AbstractSpec {
         new Dashboard(driver).accessSideNav()
                 .selectWatchListFromSideNav();
 
-        Assert.assertThat("User was not taken to watchlist", finish.getPageTitle(), containsString(pageTitle));
+        Assert.assertThat("User was not taken to watchlist", finish.getWatchListPageTitle(), containsString(pageTitle));
     }
 
     @Test

@@ -50,14 +50,15 @@ public class SecurityOverviewPage extends WatchlistPage {
     //buttons\\ -> to add stuff for modals that appear when clicking button
 
     private final By recentEstimatesBtn = By.cssSelector(".company-header .header-notifications-tab .x-button:first-child");
-    private final By recentEventsBtn = By.id("ext-button-23");
-    private final By recentTranscriptsBtn = By.id("ext-button-24");
+    private final By recentEventsBtn = By.xpath("//div[span[contains(@class,'q4i-events-transcripts-2pt')]]");
+    private final By recentTranscriptsBtn = By.xpath("//div[span[contains(@class,'q4i-transcripts-2pt')]]");
     private final By recentNewsBtn = By.cssSelector(".company-header .header-notifications-tab .x-button:last-child");
 
     private final By recentEstimatesResults = By.cssSelector(".company-header-latest-estimates .latest-estimate-item");
-    private final By recentEventsResults = By.cssSelector(".company-header-latest-events .latest-events-item");
+    private final By recentEventsResults = By.xpath("//div[contains(@class,'latest-events-item')]");
     private final By recentTranscriptsResults = By.cssSelector(".company-header-latest-transcripts .latest-transcripts-item");
-    private final By recentNewsResults = By.cssSelector(".company-header-latest-news .news-item .news-date"); //n
+
+    private final By recentNewsResults = By.cssSelector(".company-header-latest-news .news-item");
 
     private final By recentEstimatesModal = By.cssSelector(".company-header-latest-estimates h2");
     private final By recentEventsModal = By.cssSelector(".company-header-latest-events h2");
@@ -333,13 +334,11 @@ public class SecurityOverviewPage extends WatchlistPage {
     }
 
     public int getNumNewsResultsDisplayed() { //Issue spans here. Get news text and do a regex, checking it has the text "hour" within it
+        waitForLoadingScreen();
         int num = 0;
         for (int x = 0; x < findElements(recentNewsResults).size(); x++) {
-            if (findElements(recentNewsResults).get(x).getText().replaceAll("[0-9 s]", "").replace("ago", "")
-                    .replace("an","").equals("hour")) {
                 num++;
             }
-        }
         return num;
     }
 

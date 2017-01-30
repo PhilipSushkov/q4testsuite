@@ -9,7 +9,7 @@ import pageobjects.AbstractPageObject;
  */
 public class AdminLoginPage extends AbstractPageObject {
     private final By loginButton = By.cssSelector("#login-page > div > button.login-button");
-    private final By googleLoginButton = By.cssSelector("#a0-onestep > div.a0-mode-container > div > form > div.a0-body-content > div.a0-collapse-social > div.a0-iconlist > div > span");
+    private final By googleLoginButton = By.className("auth0-lock-social-button-text");
     private final By enterEmail = By.id("Email");
     private final By enterPassword = By.id("Passwd");
     private final By submit = By.id("signIn");
@@ -55,6 +55,7 @@ public class AdminLoginPage extends AbstractPageObject {
 
         // Perform the click operation that opens new window
         findElement(loginButton).click();
+        waitForElementToAppear(googleLoginButton);
         findElement(googleLoginButton).click();
 
         // Switch to new window opened
@@ -74,6 +75,17 @@ public class AdminLoginPage extends AbstractPageObject {
         driver.switchTo().window(winHandleBefore);
 
         return this;
+    }
+
+    public boolean onLoginPage(){
+        waitForLoadingScreen();
+        try{
+            findElement(loginButton);
+            return true;
+        }
+        catch(Exception e){
+            return false;
+        }
     }
 
 }

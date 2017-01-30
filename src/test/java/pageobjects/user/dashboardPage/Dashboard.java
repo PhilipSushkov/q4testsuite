@@ -2,6 +2,7 @@ package pageobjects.user.dashboardPage;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageobjects.AbstractPageObject;
 import pageobjects.user.securityPage.SecurityOverviewPage;
@@ -11,13 +12,15 @@ import pageobjects.user.institutionPage.InstitutionPage;
 import pageobjects.user.logActivity.LogActivityModal;
 import pageobjects.user.briefingBooks.CreateBriefingBookModal;
 
+import java.util.ArrayList;
+
 public class Dashboard extends AbstractPageObject {
 
     // Search field on dashboardPage
     private final By searchField = By.name("search");
     private final By firstCompanyInList = By.cssSelector("span:nth-child(1)");
     private final By clearSearchButton = By.cssSelector(".home-search .x-field-input .x-clear-icon");
-    private final By institutionResult = By.id("ext-simplelistitem-7");
+    private final By institutionResult = By.xpath("//div[contains(@class,'x-list-item')]");
     private final By contactResult = By.id("ext-simplelistitem-11");
     private final By fundResult = By.id("ext-simplelistitem-3");
 
@@ -86,9 +89,16 @@ public class Dashboard extends AbstractPageObject {
         return new SecurityOverviewPage(getDriver());
     }
 
-    public InstitutionPage selectInstitutionFromSearchResults() {
-        wait.until(ExpectedConditions.elementToBeClickable(institutionResult));
-        findElement(institutionResult).click();
+    public InstitutionPage selectInstitutionFromSearchResults(String institution) {
+        waitForElementToAppear(institutionResult);
+        ArrayList<WebElement> searchResults = new ArrayList<>(findElements(institutionResult));
+
+        for(WebElement row: searchResults){
+            if(row.getText().contains(institution)){
+                row.click();
+                break;
+            }
+        }
 
         return new InstitutionPage(getDriver());
     }
