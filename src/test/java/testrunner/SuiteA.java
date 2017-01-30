@@ -30,7 +30,7 @@ import specs.user.watchlist.EditWatchlist;
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
 
-        TargetingList.class
+        Ownership.class
 })
 
 
