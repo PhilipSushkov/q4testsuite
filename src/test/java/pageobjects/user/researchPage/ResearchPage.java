@@ -21,8 +21,8 @@ public class ResearchPage extends AbstractPageObject {
     private final By researchHeadline = By.cssSelector(".list-item .column.headline");
     private final By researchDateColumnHeader = By.cssSelector(".research-list .list-header .x-button:first-child, .research-list .list-item .column:first-child");
     private final By researchDate = By.cssSelector(".research-list .list-item .column:first-child");
-    private final By researchFirmColumnHeader = By.cssSelector(".research-list .list-header .x-button.wide");
-    private final By researchFirm = By.xpath("//div[contains(@class, 'institution q4i-institution-2pt')]");
+    private final By researchFirmColumnHeader = By.cssSelector("");
+    private final By researchFirm = By.cssSelector("");
 
 
     //x-container x-unsized x-size-monitored x-paint-monitored list-header

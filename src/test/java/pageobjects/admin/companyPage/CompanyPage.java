@@ -14,7 +14,7 @@ public class CompanyPage extends AbstractPageObject {
     private final By companyField = By.cssSelector(".modal .ui-dialog .ui-dialog-content .ui-autocomplete.auto-complete-search .ui-inputtext");
     private final By saveButton = By.cssSelector(".button-yellow");
     private final By cancelButton = By.cssSelector(".button-no-background");
-    private final By firstCompany = By.cssSelector(".q4-list .ui-datatable tr.ui-widget-content td");
+    private final By firstCompany = By.cssSelector("tr:first-child td:first-child span div");
     private final By companyName = By.cssSelector("body > q4-app > div > div > q4-organization > p-datatable > div > div > table > tbody > tr:nth-child(1) > td:nth-child(2)");
     private final By searchField = By.cssSelector(".search.dark .search-input");
     private final By companyList = By.cssSelector(".ui-datatable table");

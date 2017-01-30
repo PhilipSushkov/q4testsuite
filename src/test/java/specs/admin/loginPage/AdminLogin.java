@@ -15,7 +15,7 @@ public class AdminLogin extends AdminAbstractSpec {
     //
     @Test
     public void adminCanLogin() {
-        String pageTitle = "Home";
+        String pageTitle = "Unable to access your account?";
         HomePage homePage = new HomePage(driver);
         new AdminLoginPage(driver).customLoginAdmin("test@q4websystems.com", "testing!");
 
@@ -25,9 +25,10 @@ public class AdminLogin extends AdminAbstractSpec {
     @Test
     public void unknownUserCannotLogin() {
         String error = "Access denied.";
-        AdminLoginPage adminPage = new AdminLoginPage(driver).customLoginAdmin("qfourtester@gmail.com", "testing!");
+        HomePage homePage = new HomePage(driver);
+        new AdminLoginPage(driver).customLoginAdmin("qfourtester@gmail.com", "testing!");
 
-        Assert.assertTrue("Incorrectly able to login", adminPage.onLoginPage());
+        Assert.assertThat("Login error message not visible after entering incorrect username and password", homePage.getErrorMessage(), containsString(error));
     }
 }
 

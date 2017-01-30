@@ -40,7 +40,6 @@ public class AbstractPageObject implements PageObject {
 
     private final By pageTitle = By.cssSelector(".q4-hero-banner .page-title");
     private final By otherPageTitle = By.cssSelector(".q4-hero-banner .page-title h1");
-    private final By watchListPageTitle = By.cssSelector(".watchlist-manager-page .page-header");
 
     // Admin page elements
     private final By adminPageTitle = By.cssSelector(".page-header .page-title .details h2");
@@ -61,7 +60,7 @@ public class AbstractPageObject implements PageObject {
 
     public AbstractPageObject(WebDriver driver) {
         this.driver = driver;
-        this.wait = new WebDriverWait(driver, 10L);
+        this.wait = new WebDriverWait(driver, 5L);
     }
 
     @Override
@@ -121,12 +120,6 @@ public class AbstractPageObject implements PageObject {
     public String getOtherPageTitle() {
         waitForLoadingScreen();
         return findElement(otherPageTitle).getText();
-    }
-
-    // Watchlist page header is also different :|
-    public String getWatchListPageTitle() {
-        waitForLoadingScreen();
-        return findElement(watchListPageTitle).getText();
     }
 
     public LogActivityModal pageRefresh() {

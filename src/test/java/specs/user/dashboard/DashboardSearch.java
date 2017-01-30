@@ -57,7 +57,7 @@ public class DashboardSearch extends AbstractSpec{
         String institutionName = "JPMorgan Investment Management, Inc.";
         InstitutionPage finish = new InstitutionPage(driver);
         new Dashboard(driver).searchFor(institutionName)
-                .selectInstitutionFromSearchResults(institutionName);
+                .selectInstitutionFromSearchResults();
 
         Assert.assertThat("Expected institution name is not shown in search results", finish.getInstitutionName(), containsString(institutionName));
     }

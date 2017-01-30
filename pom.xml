@@ -12,7 +12,7 @@
         <repository>
             <id>central</id>
             <name>Maven Central Repository</name>
-            <url>http://central.maven.org/maven2/</url>
+            <url>http://repo1.maven.org/maven2</url>
         </repository>
     </repositories>
 
@@ -20,7 +20,7 @@
         <pluginRepository>
             <id>central</id>
             <name>Maven Plugin Repository</name>
-            <url>http://central.maven.org/maven2/</url>
+            <url>http://repo1.maven.org/maven2</url>
             <layout>default</layout>
             <snapshots>
                 <enabled>false</enabled>
@@ -30,7 +30,6 @@
             </releases>
         </pluginRepository>
     </pluginRepositories>
-
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
@@ -151,8 +150,8 @@
                     <redirectTestOutputToFile>false</redirectTestOutputToFile>
                     <useUnlimitedThreads>true</useUnlimitedThreads>
                     <perCoreThreadCount>false</perCoreThreadCount>
-                    <threadCountClasses>${threads}</threadCountClasses>
-                    <parallel>classes</parallel>
+                    <threadCountMethods>${threads}</threadCountMethods>
+                    <parallel>all</parallel>
                     <includes>
                         <include>specs/**/*.java</include>
                     </includes>
