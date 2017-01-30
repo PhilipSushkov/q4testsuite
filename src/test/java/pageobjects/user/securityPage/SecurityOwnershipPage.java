@@ -401,15 +401,6 @@ public class SecurityOwnershipPage extends AbstractPageObject {
             System.out.println("Holders are not sorted by market value change descending.");
             isSorted = false;
         }
-
-        // sorting by %OS ascending
-        findVisibleElement(holderTableHeaderPercOS).click();
-        waitForLoadingScreen();
-        if (!elementsAreNumUpSorted(findElements(holderTablePercOS))){
-            System.out.println("Holders are not sorted by %OS ascending.");
-            isSorted = false;
-        }
-
         return isSorted;
     }
 
@@ -438,7 +429,7 @@ public class SecurityOwnershipPage extends AbstractPageObject {
     public boolean canSortByPort(){
         waitForLoadingScreen();
         boolean isSorted=true;
-        findVisibleElement(holderTableHeaderPercPort).click();
+        clickLocation(holderTableHeaderPercPort);
         waitForLoadingScreen();
         if (!elementsAreNumUpSorted(findElements(holderTablePercPort))){
             System.out.println("Holders are not sorted by %Port ascending.");
@@ -446,7 +437,7 @@ public class SecurityOwnershipPage extends AbstractPageObject {
         }
 
         // sorting by %Port descending
-        findVisibleElement(holderTableHeaderPercPort).click();
+        clickLocation(holderTableHeaderPercPort);
         waitForLoadingScreen();
         if (!elementsAreNumDownSorted(findElements(holderTablePercPort))){
             System.out.println("Holders are not sorted by %Port descending.");
