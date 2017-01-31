@@ -60,7 +60,7 @@ public class SecurityOwnershipPage extends AbstractPageObject {
     private final By holderTableTurnover = By.cssSelector(".x-grid-row:not([style*='-10000px']) .x-grid-cell:nth-child(9)");
     private final By holderTableAUM = By.cssSelector(".x-grid-row:not([style*='-10000px']) .x-grid-cell:nth-child(10)");
     private final By holderTableAsOf = By.cssSelector(".x-grid-row:not([style*='-10000px']) .x-grid-cell:nth-child(11)");
-    private final By holderTableQR = By.cssSelector(".x-grid-row:not([style*='-10000px']) .x-grid-cell:nth-child(13)");
+    private final By holderTableQR = By.cssSelector(".x-grid-row:not([style*='-10000px']) .x-grid-cell:nth-child(12)");
     private final By holderTable1W = By.cssSelector(".x-dataview-item .view-list-item:nth-child(4)"); // only exists when using Buyers or Sellers filter
     private final By showMoreButton = By.className("q4i-arrow-down-2pt");
     private final By activistIcon = By.cssSelector(".icon.activists");
@@ -496,9 +496,9 @@ public class SecurityOwnershipPage extends AbstractPageObject {
         return isSorted;
     }
 
-    public boolean  canSortByQR() {
+    public boolean canSortByQR() {
+        boolean isSorted = true;// sorting by QR ascending
         waitForLoadingScreen();
-        boolean isSorted=true;// sorting by QR ascending
         findVisibleElement(holderTableHeaderQR).click();
         waitForLoadingScreen();
         if (!elementsAreNumUpSorted(findElements(holderTableQR))) {
@@ -513,8 +513,9 @@ public class SecurityOwnershipPage extends AbstractPageObject {
             System.out.println("Holders are not sorted by QR descending.");
             isSorted = false;
         }
-        return true;
+        return isSorted;
     }
+
     public boolean canSortHoldersTable(){
         boolean isSorted = true;
         long length = 1000L;
