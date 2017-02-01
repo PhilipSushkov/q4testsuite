@@ -25,6 +25,11 @@ public class ContactPage extends AbstractPageObject {
     private final By phoneSort = By.xpath("//div[contains(@class,'x-button') and contains(@class,'phone')]");
     private final By emailSort = By.xpath("//div[contains(@class,'x-button') and contains(@class,'email')]");
 
+    private final By contactDelete = By.xpath("//div[contains(@class,'checkbox-mask')]");
+    private final By deleteButton = By.cssSelector(".x-button-icon.q4i-trashbin-4pt");
+    private final By confirmDeletion = By.xpath("//span[contains(text(),'Yes')]");
+    private final By refusedDeletion = By.xpath("//span[contains(text(),'No')]");
+
     public ContactPage(WebDriver driver) {
         super(driver);
     }
@@ -55,10 +60,20 @@ public class ContactPage extends AbstractPageObject {
         return new ContactDetailsPage(getDriver());
     }
 
+
+    public void deleteFromList(){
+        findElement(contactDelete).click();
+        findElement(deleteButton).click();
+        waitForLoadingScreen();
+        findElement(confirmDeletion).click();
+
+    }
+
     public ContactPage searchForContact(String name) {
         findElement(searchField).click();
         findElement(searchField).sendKeys(name);
         findElement(searchField).sendKeys(Keys.ENTER);
+        waitForLoadingScreen();
 
         return this;
     }
