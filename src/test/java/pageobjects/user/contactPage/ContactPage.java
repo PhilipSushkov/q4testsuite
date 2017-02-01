@@ -23,7 +23,6 @@ public class ContactPage extends AbstractPageObject {
     private final By nameSort = By.xpath("//div[contains(@class,'x-button') and contains(@class,'name')]");
     private final By locationSort = By.xpath("//div[contains(@class,'x-button') and contains(@class,'location')]");
     private final By phoneSort = By.xpath("//div[contains(@class,'x-button') and contains(@class,'phone')]");
-    private final By emailSort = By.xpath("//div[contains(@class,'x-button') and contains(@class,'email')]");
 
     private final By contactDelete = By.xpath("//div[contains(@class,'checkbox-mask')]");
     private final By deleteButton = By.cssSelector(".x-button-icon.q4i-trashbin-4pt");
@@ -166,7 +165,6 @@ public class ContactPage extends AbstractPageObject {
                 selector = phoneSort;
                 break;
             case EMAIL:
-                selector = emailSort;
                 break;
         }
         return selector;
