@@ -57,7 +57,7 @@ public class Dashboard extends AbstractPageObject {
 
     public SecurityOverviewPage selectCompanyFromSearch() {
         waitForElementToAppear(firstCompanyInList);
-        findElement(firstCompanyInList).click();
+        retryClick(firstCompanyInList);
 
         return new SecurityOverviewPage(getDriver());
     }
