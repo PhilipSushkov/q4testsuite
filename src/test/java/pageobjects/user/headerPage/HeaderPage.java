@@ -18,9 +18,9 @@ public class HeaderPage extends AbstractPageObject{
     private final By profileButton = By.xpath("//div[contains(@class,'profile-inner-content')]");
 
     //When Profile is open, these buttons appear
-    private final By leaveFeedbackButton = By.xpath("");
-    private final By changePasswordButton = By.xpath("");
-    private final By logoutButton = By.xpath("");
+    private final By leaveFeedbackButton = By.xpath("//span[contains(@class,'item') and contains(text(),'Feedback')]");
+    private final By changePasswordButton = By.xpath("//span[contains(@class,'item') and contains(text(),'Password')]");
+    private final By logoutButton = By.xpath("//span[contains(@class,'item') and contains(text(),'Logout')]");
 
     //
 
