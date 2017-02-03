@@ -6,6 +6,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 import pageobjects.admin.loginPage.AdminLoginPage;
 import pageobjects.admin.usersPage.UserRole;
+import pageobjects.admin.usersPage.UserRoleDetails;
 import pageobjects.admin.usersPage.UsersPage;
 import specs.AdminAbstractSpec;
 
@@ -20,60 +21,48 @@ public class UserRoles extends AdminAbstractSpec{
     }
 
 
-    @Test @Ignore
-    public void filterAllUsers(){
-        UsersPage userPage = new UsersPage(driver);
-        userPage.clickUserRoleFilter().clickRoleInFilter(UserRole.ALL);
-        userPage.areUsersFilteredByRole(UserRole.ALL);
 
-    }
 
     @Test
     public void filterUsersByAdminRole(){
         UsersPage userPage = new UsersPage(driver);
-        userPage.clickUserRoleFilter().clickRoleInFilter(UserRole.ADMIN);
-        Assert.assertTrue("Users were not filtered by the Admin role",userPage.areUsersFilteredByRole(UserRole.ADMIN));
+        UserRoleDetails userDetails= userPage.clickUserRoleFilter().clickRoleInFilter(UserRole.ADMIN).clickFirstUserFromResults();
+        Assert.assertTrue("Users were not filtered by the Admin role",userDetails.isRoleEnabled(UserRole.ADMIN));
     }
 
-    @Test
-    public void filterUsersByUserRole(){
-        UsersPage userPage = new UsersPage(driver);
-        userPage.clickUserRoleFilter().clickRoleInFilter(UserRole.USER);
-        Assert.assertTrue("Users were not filtered by the user role",userPage.areUsersFilteredByRole(UserRole.USER));
-    }
 
     @Test
     public void filterUserByDeveloperRole(){
         UsersPage userPage = new UsersPage(driver);
-        userPage.clickUserRoleFilter().clickRoleInFilter(UserRole.DEVOPS);
-        Assert.assertTrue("Users were not filtered by the developer role",userPage.areUsersFilteredByRole(UserRole.DEVOPS));
+        UserRoleDetails userDetails= userPage.clickUserRoleFilter().clickRoleInFilter(UserRole.DEVOPS).clickFirstUserFromResults();
+        Assert.assertTrue("Users were not filtered by the Admin role",userDetails.isRoleEnabled(UserRole.DEVOPS));
     }
 
     @Test
     public void filterUserByIntelligenceRole(){
         UsersPage userPage = new UsersPage(driver);
-        userPage.clickUserRoleFilter().clickRoleInFilter(UserRole.INTELLIGENCE_ANALYST);
-        Assert.assertTrue("Users were not filtered by the Intelligence role",userPage.areUsersFilteredByRole(UserRole.INTELLIGENCE_ANALYST));
+        UserRoleDetails userDetails= userPage.clickUserRoleFilter().clickRoleInFilter(UserRole.INTELLIGENCE_ANALYST).clickFirstUserFromResults();
+        Assert.assertTrue("Users were not filtered by the Admin role",userDetails.isRoleEnabled(UserRole.INTELLIGENCE_ANALYST));
     }
 
     @Test
     public void filterUserByImplementationRole(){
         UsersPage userPage = new UsersPage(driver);
-        userPage.clickUserRoleFilter().clickRoleInFilter(UserRole.IMPLEMENTATION_MANAGER);
-        Assert.assertTrue("Users were not filtered by the Implementation role",userPage.areUsersFilteredByRole(UserRole.IMPLEMENTATION_MANAGER));
+        UserRoleDetails userDetails= userPage.clickUserRoleFilter().clickRoleInFilter(UserRole.IMPLEMENTATION_MANAGER).clickFirstUserFromResults();
+        Assert.assertTrue("Users were not filtered by the Admin role",userDetails.isRoleEnabled(UserRole.IMPLEMENTATION_MANAGER));
     }
 
     @Test
     public void filterUserByCustomerSuccessRole(){
         UsersPage userPage = new UsersPage(driver);
-        userPage.clickUserRoleFilter().clickRoleInFilter(UserRole.CUSTOMER_SUCCESS_MANAGER);
-        Assert.assertTrue("Users were not filtered by the Customer Success role",userPage.areUsersFilteredByRole(UserRole.CUSTOMER_SUCCESS_MANAGER));
+        UserRoleDetails userDetails= userPage.clickUserRoleFilter().clickRoleInFilter(UserRole.CUSTOMER_SUCCESS_MANAGER).clickFirstUserFromResults();
+        Assert.assertTrue("Users were not filtered by the Admin role",userDetails.isRoleEnabled(UserRole.CUSTOMER_SUCCESS_MANAGER));
     }
 
     @Test
     public void filterUserBySalesManagerRole(){
         UsersPage userPage = new UsersPage(driver);
-        userPage.clickUserRoleFilter().clickRoleInFilter(UserRole.SALES_MANAGER);
-        Assert.assertTrue("Users were not filtered by the Sales Manager role",userPage.areUsersFilteredByRole(UserRole.SALES_MANAGER));
+        UserRoleDetails userDetails= userPage.clickUserRoleFilter().clickRoleInFilter(UserRole.SALES_MANAGER).clickFirstUserFromResults();
+        Assert.assertTrue("Users were not filtered by the Admin role",userDetails.isRoleEnabled(UserRole.SALES_MANAGER));
     }
 }
