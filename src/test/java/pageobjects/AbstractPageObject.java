@@ -47,15 +47,22 @@ public class AbstractPageObject implements PageObject {
     private final By loading = By.className("outer-spinner-container");
     private final By companyPage = By.cssSelector("body > q4-app > div > q4-navbar > nav > div > ul > li:nth-child(2) > a > i");
     private final By profilesPage = By.cssSelector("body > q4-app > div > q4-navbar > nav > div > ul > li:nth-child(3) > a > i");
-    private final By intelligencePage = By.cssSelector("body > q4-app > div > q4-navbar > nav > div > ul > li:nth-child(4) > a > i");
-    private final By implementationPage = By.cssSelector("body > q4-app > div > q4-navbar > nav > div > ul > li:nth-child(6) > a > i");
+    private final By intelligencePage = By.cssSelector("body > q4-app > div > q4-navbar > nav > div > ul > li:nth-child(3) > a > i");
+    private final By implementationPage = By.cssSelector("body > q4-app > div > q4-navbar > nav > div > ul > li:nth-child(3) > a > i");
     private final By reportHeader = By.cssSelector(".page-header .page-title .details");
-    private final By usersPage = By.cssSelector("body > q4-app > div > q4-navbar > nav > div > ul > li:nth-child(7) > a > i");
+    private final By usersPage = By.cssSelector("body > q4-app > div > q4-navbar > nav > div > ul > li:nth-child(5) > a > i");
     private final By profileIcon = By.xpath("//div[contains(@class,'x-docked-right') and contains(concat(' ',@class,' '), 'profile') and contains(@class,'x-paint-monitored')][.//div[contains(@class,'avatar')]]");
     private final By feedback = By.xpath("//div[@class='profile-menu-item']/span[contains(text(),'Leave Feedback')]");
     private final By password = By.xpath("//div[@class='profile-menu-item']/span[contains(text(),'Change Password')]");
     private final By logout = By.xpath("//div[@class='profile-menu-item']/span[contains(text(),'Logout')]");
     private final By confirmLogout = By.xpath("//div[contains(@class,'x-button-action') and ./span[contains(text(),'Yes')]]");
+    private final By productDropDown = By.xpath("//p-dropdown");
+    private final By desktopSelect = By.xpath("//p-dropdown//span[contains(text(),'Desktop')]");
+    private final By webSelect = By.xpath("//p-dropdown//span[contains(text(),'Web')]");
+    private final By surveillanceSelect = By.xpath("//p-dropdown//span[contains(text(),'Surveillance')]");
+    private final String DESKTOP = "Desktop";
+    private final String WEB ="Web";
+    private final String SURVEILLANCE = "Surveillance";
 
 
 
@@ -389,6 +396,7 @@ public class AbstractPageObject implements PageObject {
 
     public CompanyPage navigateToCompanyPage() {
         waitForLoadingScreen();
+        selectProduct(DESKTOP);
         findElement(companyPage).click();
 
         return new CompanyPage(getDriver());
@@ -400,6 +408,7 @@ public class AbstractPageObject implements PageObject {
 
     public ProfilesList navigateToProfilesPage() {
         waitForLoadingScreen();
+        selectProduct(DESKTOP);
         findElement(profilesPage).click();
         waitForLoadingScreen();
 
@@ -408,6 +417,7 @@ public class AbstractPageObject implements PageObject {
 
     public ImplementationPage navigateToImplementationPage() {
         waitForLoadingScreen();
+        selectProduct(WEB);
         findElement(implementationPage).click();
 
         return new ImplementationPage(getDriver());
@@ -415,6 +425,7 @@ public class AbstractPageObject implements PageObject {
 
     public IntelligencePage navigateToIntelligencePage() {
         waitForLoadingScreen();
+        selectProduct(SURVEILLANCE);
         findElement(intelligencePage).click();
 
         return new IntelligencePage(getDriver());
@@ -422,6 +433,7 @@ public class AbstractPageObject implements PageObject {
 
     public UsersPage navigateToUsersPage(){
         waitForLoadingScreen();
+        selectProduct(DESKTOP);
         findElement(usersPage).click();
 
         return new UsersPage(getDriver());
@@ -454,5 +466,23 @@ public class AbstractPageObject implements PageObject {
             pause(1000L);
         }
         return false;
+    }
+
+
+    public void selectProduct(String product){
+        waitForElementToAppear(productDropDown);
+        findElement(productDropDown).click();
+        if(product.equals(DESKTOP)){
+            waitForElementToAppear(desktopSelect);
+            findElement(desktopSelect).click();
+        }
+        else if (product.equals(WEB)){
+            waitForElement(webSelect);
+            findElement(webSelect).click();
+        }
+        else {
+            waitForElement(surveillanceSelect);
+            findElement(surveillanceSelect).click();
+        }
     }
 }

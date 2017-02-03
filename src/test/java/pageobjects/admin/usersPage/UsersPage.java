@@ -17,8 +17,8 @@ public class UsersPage extends AbstractPageObject {
         super(driver);
     }
 
-    private final By userRoleFilter = By.className("ui-dropdown-trigger");
-    private final By userRoleFilterList=By.xpath("//div[contains(@class,'ui-dropdown-panel')]//ul[contains(@class,'ui-dropdown-items')]");
+    private final By userRoleFilter = By.xpath("//nav[contains(@class,'dropdown-menu') and .//div[contains(text(),'Roles')]]//label[contains(@class,'ui-dropdown-label')]");
+    private final By userRoleFilterList=By.xpath("//nav[contains(@class,'dropdown-menu') and .//div[contains(text(),'Roles')]]//div[contains(@class,'ui-dropdown-panel')]");
     private final By tableData=By.xpath("//tbody/tr/td[not(contains(@class,'dropdown-overflow'))]");
 
     private ArrayList<WebElement> getUsers (){
@@ -37,7 +37,7 @@ public class UsersPage extends AbstractPageObject {
     public UsersPage clickRoleInFilter (UserRole role){
         wait.until(ExpectedConditions.visibilityOfElementLocated(userRoleFilterList));
         WebElement roleList=findElement(userRoleFilterList);
-        roleList.findElement(By.xpath("./li[span[contains(text(),'"+role.getRole()+"')]]")).click();
+        roleList.findElement(By.xpath(".//li[span[contains(text(),'"+role.getRole()+"')]]")).click();
         waitForLoadingScreen();
         return this;
     }
