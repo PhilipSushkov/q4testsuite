@@ -23,7 +23,7 @@ public class DashboardSearch extends AbstractSpec{
 
     @Test
     public void canSearchForCompany() {
-        String companyName = "Tesla Motors Inc";
+        String companyName = "Tesla Inc";
         SecurityOverviewPage finish = new SecurityOverviewPage(driver);
         new Dashboard(driver).searchFor(companyName)
                 .selectCompanyFromSearch();
