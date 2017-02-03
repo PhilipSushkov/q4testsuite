@@ -184,7 +184,7 @@ public class SecurityOwnershipPage extends AbstractPageObject {
             endOfQuarter = today.withMonth((today.getMonthValue()-1)/3*3).with(TemporalAdjusters.lastDayOfMonth());
         }
         else {
-            endOfQuarter = today.minusYears(1).with(TemporalAdjusters.lastDayOfYear());;
+            endOfQuarter = today.minusYears(1).with(TemporalAdjusters.lastDayOfYear());
         }
         LocalDate startOfQuarter = endOfQuarter.minusMonths(2).with(TemporalAdjusters.firstDayOfMonth());
 
