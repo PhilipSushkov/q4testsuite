@@ -62,4 +62,11 @@ public class UsersPage extends AbstractPageObject {
         }
         return true;
     }
+
+    public UserRoleDetails clickFirstUserFromResults(){
+        findElement(By.xpath("//tbody/tr[1]")).click();
+        waitForLoadingScreen();
+        return new UserRoleDetails(driver);
+    }
+
 }
