@@ -2,33 +2,30 @@ package pageobjects.user.headerPage;
 
 import org.openqa.selenium.*;
 import pageobjects.AbstractPageObject;
+import pageobjects.PageObject;
 import pageobjects.user.securityPage.SecurityOverviewPage;
 
 /**
  * Created by sarahr on 2/1/2017.
  */
-public class HeaderPage extends AbstractPageObject{
+public interface HeaderPage extends PageObject{
 
     //selectors
 
     //Header buttons
-    private final By searchBar = By.cssSelector("#ext-element-208");
-    private final By securityButton = By.xpath("//div[contains(@class,'company-details')]");
-    private final By chatButton = By.xpath("//div[contains(@class,'chat-button')]");
-    private final By profileButton = By.xpath("//div[contains(@class,'profile-inner-content')]");
+    By searchBar = By.xpath("//div[contains(@class,'global-header')]//input[contains(@type,'search')]");
+    By securityButton = By.xpath("//div[contains(@class,'global-header')]//div[contains(@class,'profile-company')]");
+    By chatButton = By.xpath("//div[contains(@class,'chat-button')]");
+    By profileButton = By.xpath("//div[contains(@class,'profile') and contains(@class,'x-paint-monitored')]");
 
-    //When Profile is open, these buttons appear
-    private final By leaveFeedbackButton = By.xpath("//span[contains(@class,'item') and contains(text(),'Feedback')]");
-    private final By changePasswordButton = By.xpath("//span[contains(@class,'item') and contains(text(),'Password')]");
-    private final By logoutButton = By.xpath("//span[contains(@class,'item') and contains(text(),'Logout')]");
+    //When Profile is open, these appear
+    By leaveFeedbackButton = By.xpath("//span[contains(@class,'item') and contains(text(),'Feedback')]");
+    By changePasswordButton = By.xpath("//span[contains(@class,'item') and contains(text(),'Password')]");
+    By logoutButton = By.xpath("//span[contains(@class,'item') and contains(text(),'Logout')]");
 
     //
 
-    public HeaderPage(WebDriver driver) {
-        super(driver);
-    }
-
-    public HeaderPage headerSearch(String searchTerm){
+    default HeaderPage headerSearch(String searchTerm){
         findElement(searchBar).click();
         findElement(searchBar).clear();
         findElement(searchBar).sendKeys(searchTerm);
@@ -36,30 +33,29 @@ public class HeaderPage extends AbstractPageObject{
         return this;
     }
 
-    public SecurityOverviewPage securityButton(){
+    default SecurityOverviewPage securityButton(){
         findElement(securityButton).click();
 
         return new SecurityOverviewPage(getDriver());
     }
 
     //this opens the chat, but where should all the chat info go?
-    public void openChat(){
+    default void openChat(){
         findElement(chatButton).click();
     }
 
-
     //is this in the abstract? - Need to look into that
-    public void openProfile(){
+    default void openProfile(){
         findElement(profileButton).click();
     }
 
     //in profile
 
-    public void leaveFeedback(){
+    default void leaveFeedback(){
         findElement(leaveFeedbackButton).click();
     }
 
-    public void changePassword(){
+    default void changePassword(){
         findElement(changePasswordButton).click();
     }
 
