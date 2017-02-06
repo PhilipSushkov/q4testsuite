@@ -19,7 +19,7 @@ public class WatchlistPage extends AbstractPageObject{
     private final By editWatchlistButton = By.cssSelector(".toolbar-panel .toolbar-button");
     private final By securitySearchField = By.xpath("//input[contains(@placeholder,'Add a security')]");
     private final By searchResult = By.cssSelector(".watchlist-search-results .x-list-item .icon.q4i-add-4pt");
-    private final By watchlist = By.cssSelector(".watchlist-list");
+    private final By watchlist = By.xpath("//div[contains(@class,'watchlist-list')]");
     private final By watchlistDeleteButton = By.xpath("//span[contains(@class,'q4i-trashbin-4pt')]");
     private final By firstCompanyInList = By.cssSelector(".watchlist-list .watchlist-row");
     private final By firstCompanyNameInList = By.cssSelector(".watchlist-list .watchlist-row h5");
@@ -40,7 +40,7 @@ public class WatchlistPage extends AbstractPageObject{
         findElement(securitySearchField).sendKeys(security);
         wait.until(ExpectedConditions.elementToBeClickable(searchResult));
         retryClick(searchResult);
-        pause(500L);
+        pause(1000L);
 
 
         return this;
@@ -49,7 +49,7 @@ public class WatchlistPage extends AbstractPageObject{
 
     public String getWatchlistSecurities() {
         waitForLoadingScreen();
-        waitForElementToAppear(watchlist);
+        waitForElement(watchlist);
         return findElement(watchlist).getText().replaceAll("\\p{P}", "");
     }
 
@@ -75,6 +75,7 @@ public class WatchlistPage extends AbstractPageObject{
             findElement(watchlistDeleteButton).click();
             pause(500L);
             wait.until(ExpectedConditions.elementToBeClickable(confirmDelete));
+            pause(500L);
             findElement(confirmDelete).click();
         return this;
     }
@@ -94,7 +95,8 @@ public class WatchlistPage extends AbstractPageObject{
 
     public SecurityOverviewPage clickOnFirstWatchlistCompany() {
         findElement(firstCompanyInList).click();
-
+        waitForLoadingScreen();
+        pause(1000L);
         return new SecurityOverviewPage(getDriver());
     }
 
