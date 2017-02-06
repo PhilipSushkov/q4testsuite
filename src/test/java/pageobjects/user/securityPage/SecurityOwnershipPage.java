@@ -25,9 +25,9 @@ public class SecurityOwnershipPage extends AbstractPageObject {
     private final By lastTopSeller = By.cssSelector(".company-ownership-inner > div > div > div:not(.x-hidden-display) .top-sellers-list .x-dataview-item:nth-child(5) .list-item");
 
     // holders table
-    private final By activistFilter = By.cssSelector(".ownership-report-top-holders .toggle-button");
-    private final By activistFilterOn = By.cssSelector(".ownership-report-top-holders .toggle-button .x-toggle-on");
-    private final By activistFilterOff = By.cssSelector(".ownership-report-top-holders .toggle-button .x-toggle-off");
+    private final By activistFilter = By.cssSelector(".ownership-report-holders .toggle-button");
+    private final By activistFilterOn = By.cssSelector(".ownership-report-holders .toggle-button .x-toggle-on");
+    private final By activistFilterOff = By.cssSelector(".ownership-report-holders .toggle-button .x-toggle-off");
     private final By allTypesFilter = By.xpath("//span[contains(text(),'All')]");
     private final By institutionsFilter = By.cssSelector("span.q4i-institution-2pt");
     private final By insidersFilter = By.cssSelector("span.q4i-insider-2pt");
