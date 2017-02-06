@@ -3,6 +3,7 @@ package pageobjects.user.securityPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import pageobjects.user.watchlist.WatchlistPage;
+import specs.user.securityDetails.Overview;
 
 /**
  * Created by patrickp on 2016-08-04.
@@ -21,7 +22,7 @@ public class SecurityOverviewPage extends WatchlistPage {
     //data\\
 
     private final By companyName = By.className("company-name");
-    private final By companyTicker = By.className("company-symbol");
+    private final By companyTicker = By.xpath("//div[contains(@class,'x-innerhtml')]/div[contains(@class,'company-symbol')]");
     private final By industry_Exchange = By.className("exchange");
     private final By stockQuote = By.className("stock-price");
     private final By changeIcon = By.className("change-icon");
@@ -73,9 +74,9 @@ public class SecurityOverviewPage extends WatchlistPage {
 
     //three_point_button\\ -> to add stuff for modals that appear when clicking button
 
-    private final By threePointBtn = By.className("x-button-icon x-shown q4i-utility-4pt");
+    private final By threePointBtn = By.xpath("//span[contains(@class,'q4i-utility-4pt')]");
 
-    private final By watchlistBtn = By.className("x-unsized x-button x-text-align-left x-iconalign-left");
+    private final By watchlistBtn = By.xpath("//span[contains(text(),'Watchlist')]");
     private final By logActivityBtn = By.xpath("//*[@class=\"x-unsized x-button x-iconalign-left x-text-align-left\"][1]");
     private final By suggestEditBtn = By.xpath("//*[@class=\"x-unsized x-button x-iconalign-left x-text-align-left\"][2]");
 
@@ -588,6 +589,15 @@ public class SecurityOverviewPage extends WatchlistPage {
 
     public void clickTrancsriptsResultsXBtn(){
         findElement(transciptsResultsExitBtn).click();
+    }
+
+    public SecurityOverviewPage clickThreePointBtn(){
+        findElement(threePointBtn).click();
+        return new SecurityOverviewPage(getDriver());
+    }
+    public SecurityOverviewPage clickWatchlistBtn(){
+        findElement(watchlistBtn).click();
+        return new SecurityOverviewPage(getDriver());
     }
 
 
