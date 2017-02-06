@@ -23,6 +23,9 @@ public interface HeaderPage extends PageObject{
     By changePasswordButton = By.xpath("//span[contains(@class,'item') and contains(text(),'Password')]");
     By logoutButton = By.xpath("//span[contains(@class,'item') and contains(text(),'Logout')]");
 
+    By logoutConfirmation = By.xpath("//div[contains(@class,'x-msgbox')]//span[contains(text(),'Yes')]");
+    By logoutRejection = By.xpath("//div[contains(@class,'x-msgbox')]//span[contains(text(),'No')]");
+
     //
 
     default HeaderPage headerSearch(String searchTerm){
@@ -59,7 +62,10 @@ public interface HeaderPage extends PageObject{
         findElement(changePasswordButton).click();
     }
 
-    //logout is already in the abstract? Along with something called reportHeader? Not sure.
+    default void logoutFromPage(){
+        findElement(logoutButton).click();
+        findElement(logoutConfirmation).click();
+    }
 
 
 
