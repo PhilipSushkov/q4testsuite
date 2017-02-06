@@ -29,7 +29,7 @@ public class IntelligencePage extends AbstractPageObject {
     private final By approvedFilter = By.xpath("//button[contains(text(),'Approved')]");
     private final By readyToPublishFilter = By.xpath("//button[contains(text(),'Ready To Publish')]");
     private final By reportStatus = By.cssSelector("td:nth-child(3)");
-    private final By reportTypeFilterDropdown = By.className("ui-dropdown");
+    private final By reportTypeFilterDropdown = By.xpath("//nav[div[contains(text(),'Type')]]//p-dropdown");
     private final By reportTypeFilterOptions = By.className("ui-dropdown-item");
     private final By reportType = By.className("type");
     private final By companyAndReportCulumnHeader = By.cssSelector("body > q4-app > div > div > q4-report > p-datatable > div > div > table > thead > tr > th:nth-child(1)");

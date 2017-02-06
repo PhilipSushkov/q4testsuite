@@ -19,11 +19,14 @@ public class EnableDisableSubscriptions extends AdminAbstractSpec {
                 .navigateToProfilesPage();
     }
 
+    //This still needs an assert
     @Test
     public void canDisableEstimates() {
         new ProfilesList(driver).searchForProfile("Patrick")
                 .selectFirstProfileInList()
                 .disableEstimates()
+
+                .enableResearch()
                 .enabledExpectedRanges()
                 .enableSentiment()
                 .enabledVolatility()
@@ -33,7 +36,7 @@ public class EnableDisableSubscriptions extends AdminAbstractSpec {
                 .enabledWebsite()
                 .enabledTradingAnalytics()
                 .enableRelativePerformance()
-                .enableSurveillange();
+                .enableSurveillance();
 
         driver.navigate().to("https://develop.q4desktop.com");
 

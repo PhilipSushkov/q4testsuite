@@ -1,12 +1,16 @@
 package specs.user.watchlist;
 
+import org.aspectj.lang.annotation.AfterReturning;
+import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import pageobjects.user.securityPage.SecurityOverviewPage;
 import pageobjects.user.loginPage.LoginPage;
+import pageobjects.user.securityPage.SecurityOwnershipPage;
 import pageobjects.user.watchlist.WatchlistPage;
 import specs.AbstractSpec;
+import specs.user.securityDetails.Overview;
 
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.is;
@@ -26,26 +30,15 @@ public class EditWatchlist extends AbstractSpec {
     }
 
     @Test
-    public void canAddCompanyToWatchlist() {
-        String security = "Apple Inc";
-        WatchlistPage watchlist = new WatchlistPage(driver).addCompanyIfWatchlistEmpty(security)
-                .securityIsVisible(security);
+    public void canAddAndRemoveFromWatchlist(){
+        String security = "Agilent Technologies Inc";
+        WatchlistPage watchlist = new WatchlistPage(driver)
+                .addSecurityToWatchlist(security);
+        Assert.assertThat("Company was not successfully added to the watchlist", watchlist.getFirstCompanyInList(), containsString(security));
 
-        Assert.assertThat("Company was not successfully added to watchlist", watchlist.getFirstCompanyInList(), containsString(security));
-    }
+        watchlist.removeSecurityFromWatchlist(security);
+        Assert.assertThat("Removed company is still visible in watchlist", watchlist.getWatchlistSecurities(), is(not(security)));
 
-    @Test
-    public void canRemoveCompanyFromWatchlist() {
-        WatchlistPage watchlistPage = new WatchlistPage(driver).checkForExistingSecurities();
-        // Get first company from list and store as a string
-        String companyName = new WatchlistPage(driver).getFirstCompanyInList();
-        System.out.println(new WatchlistPage(driver).getFirstCompanyInList());
-
-        watchlistPage.removeSecurityFromWatchlist(companyName);
-
-        // Compare stored string to first company in list. They shouldn't match
-        System.out.println(new WatchlistPage(driver).getWatchlistSecurities());
-        Assert.assertThat("Removed company is still visible in watchlist", watchlistPage.getWatchlistSecurities(), is(not(companyName)));
     }
 
     @Test
@@ -58,5 +51,23 @@ public class EditWatchlist extends AbstractSpec {
         SecurityOverviewPage securityOverviewPage = new SecurityOverviewPage(driver).clickOnFirstWatchlistCompany();
 
         Assert.assertThat("Company name not visible", companyName, containsString(securityOverviewPage.getCompanyName()));
+    }
+
+    @Test
+    public void canRemoveFromDetailsPage(){
+        WatchlistPage watchlist = new WatchlistPage(driver).checkForExistingSecurities();
+        String companyName = watchlist.getFirstCompanyName();
+
+        SecurityOverviewPage overview = new SecurityOverviewPage(driver)
+                .clickOnFirstWatchlistCompany()
+                .clickThreePointBtn()
+                .clickWatchlistBtn();
+
+        //go back to the page and check if it's there
+        watchlist.accessSideNavFromPage()
+                 .selectWatchListFromSideNav();
+
+        Assert.assertThat("Removed company is still visible in watchlist", watchlist.getWatchlistSecurities(), is(not(companyName)));
+
     }
 }

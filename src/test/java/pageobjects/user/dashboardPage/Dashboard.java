@@ -29,7 +29,8 @@ public class Dashboard extends AbstractPageObject {
 
     // Big and small share price shown on dashboardPage
     private final By bigSharePrice = By.id("ext-home-stock-1");
-    private final By smallSharePrice = By.cssSelector(".company-details");
+    private final By smallSharePrice = By.cssSelector(".company-symbol");
+    private final By alternateTickers = By.className("company-menu-item");
 
     // Build report icon
 
@@ -57,7 +58,7 @@ public class Dashboard extends AbstractPageObject {
 
     public SecurityOverviewPage selectCompanyFromSearch() {
         waitForElementToAppear(firstCompanyInList);
-        findElement(firstCompanyInList).click();
+        retryClick(firstCompanyInList);
 
         return new SecurityOverviewPage(getDriver());
     }
@@ -82,11 +83,32 @@ public class Dashboard extends AbstractPageObject {
         return new SecurityOverviewPage(getDriver());
     }
 
-    public SecurityOverviewPage clickSmallSharePrice() {
+    public Dashboard clickSmallSharePrice() {
         wait.until(ExpectedConditions.elementToBeClickable(smallSharePrice));
         findElement(smallSharePrice).click();
 
-        return new SecurityOverviewPage(getDriver());
+        return this;
+    }
+
+    private String getSymbol(){
+        String[] completeText;
+        WebElement element = findElement(smallSharePrice);
+        completeText=element.getText().split("\\|");
+
+        return completeText[0];
+    }
+
+    public boolean checkAlternateSymbols(){
+        String mainSymbol = getSymbol();
+        ArrayList<WebElement> alternateTickerElements =new ArrayList<>(findElements(alternateTickers));
+
+        for(WebElement element : alternateTickerElements){
+            if(!element.getText().contains(mainSymbol)){
+                return false;
+            }
+        }
+
+        return true;
     }
 
     public InstitutionPage selectInstitutionFromSearchResults(String institution) {

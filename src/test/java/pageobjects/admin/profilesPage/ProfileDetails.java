@@ -13,17 +13,19 @@ public class ProfileDetails extends AbstractPageObject{
     private final By firstNameField = By.name("firstName");
     private final By saveButton = By.cssSelector("q4-profile-edit > form > div > button.button.button-yellow");
     private final By loadingSpinner = By.className("outer-spinner-container");
-    private final By estimatesToggle = By.xpath("/html/body/q4-app/div/div/q2-profile-details/q4-subscription/q4-subscription-services/p-datatable/div/div/table/tbody/tr[1]/td[2]/span/p-inputswitch");
-    private final By expectedRangesToggle = By.xpath("/html/body/q4-app/div/div/q2-profile-details/q4-subscription/q4-subscription-services/p-datatable/div/div/table/tbody/tr[2]/td[2]/span/p-inputswitch");
-    private final By sentimentToggle = By.xpath("/html/body/q4-app/div/div/q2-profile-details/q4-subscription/q4-subscription-services/p-datatable/div/div/table/tbody/tr[3]/td[2]/span/p-inputswitch");
-    private final By volatilityToggle = By.xpath("/html/body/q4-app/div/div/q2-profile-details/q4-subscription/q4-subscription-services/p-datatable/div/div/table/tbody/tr[4]/td[2]/span/p-inputswitch");
-    private final By activismToggle = By.xpath("/html/body/q4-app/div/div/q2-profile-details/q4-subscription/q4-subscription-services/p-datatable/div/div/table/tbody/tr[5]/td[2]/span/p-inputswitch");
-    private final By eventsToggle = By.xpath("/html/body/q4-app/div/div/q2-profile-details/q4-subscription/q4-subscription-services/p-datatable/div/div/table/tbody/tr[6]/td[2]/span/p-inputswitch");
-    private final By webcastToggle = By.xpath("/html/body/q4-app/div/div/q2-profile-details/q4-subscription/q4-subscription-services/p-datatable/div/div/table/tbody/tr[7]/td[2]/span/p-inputswitch");
-    private final By websiteToggle = By.xpath("/html/body/q4-app/div/div/q2-profile-details/q4-subscription/q4-subscription-services/p-datatable/div/div/table/tbody/tr[8]/td[2]/span/p-inputswitch");
-    private final By tradingAnalyticsToggle = By.xpath("/html/body/q4-app/div/div/q2-profile-details/q4-subscription/q4-subscription-services/p-datatable/div/div/table/tbody/tr[9]/td[2]/span/p-inputswitch");
-    private final By relativePerformaceToggle = By.xpath("/html/body/q4-app/div/div/q2-profile-details/q4-subscription/q4-subscription-services/p-datatable/div/div/table/tbody/tr[10]/td[2]/span/p-inputswitch");
-    private final By surveillanceToggle = By.xpath("/html/body/q4-app/div/div/q2-profile-details/q4-subscription/q4-subscription-services/p-datatable/div/div/table/tbody/tr[11]/td[2]/span/p-inputswitch");
+    private final By researchToggle = By.xpath("//tr[contains(@class,'ui-widget-content') and .//span[contains(text(),'Research')]]//p-inputswitch[contains(@styleclass,'q4-toggle-button')]");
+    private final By estimatesToggle = By.xpath("//tr[contains(@class,'ui-widget-content') and .//span[contains(text(),'Estimates')]]//p-inputswitch[contains(@styleclass,'q4-toggle-button')]");
+    private final By expectedRangesToggle = By.xpath("//tr[contains(@class,'ui-widget-content') and .//span[contains(text(),'Expected Ranges')]]//p-inputswitch[contains(@styleclass,'q4-toggle-button')]");
+    private final By sentimentToggle = By.xpath("//tr[contains(@class,'ui-widget-content') and .//span[contains(text(),'Sentiment')]]//p-inputswitch[contains(@styleclass,'q4-toggle-button')]");
+    private final By volatilityToggle = By.xpath("//tr[contains(@class,'ui-widget-content') and .//span[contains(text(),'Volatility')]]//p-inputswitch[contains(@styleclass,'q4-toggle-button')]");
+    private final By activismToggle = By.xpath("//tr[contains(@class,'ui-widget-content') and .//span[contains(text(),'Activism')]]//p-inputswitch[contains(@styleclass,'q4-toggle-button')]");
+    private final By eventsToggle = By.xpath("//tr[contains(@class,'ui-widget-content') and .//span[contains(text(),'Events')]]//p-inputswitch[contains(@styleclass,'q4-toggle-button')]");
+    private final By webcastToggle = By.xpath("//tr[contains(@class,'ui-widget-content') and .//span[contains(text(),'Webcast')]]//p-inputswitch[contains(@styleclass,'q4-toggle-button')]");
+    private final By websiteToggle = By.xpath("//tr[contains(@class,'ui-widget-content') and .//span[contains(text(),'Website')]]//p-inputswitch[contains(@styleclass,'q4-toggle-button')]");
+    private final By tradingAnalyticsToggle = By.xpath("//tr[contains(@class,'ui-widget-content') and .//span[contains(text(),'Trading Analytics')]]//p-inputswitch[contains(@styleclass,'q4-toggle-button')]");
+    private final By relativePerformaceToggle = By.xpath("//tr[contains(@class,'ui-widget-content') and .//span[contains(text(),'Relative Performance')]]//p-inputswitch[contains(@styleclass,'q4-toggle-button')]");
+    private final By surveillanceToggle = By.xpath("//tr[contains(@class,'ui-widget-content') and .//span[contains(text(),'Surveillance')]]//p-inputswitch[contains(@styleclass,'q4-toggle-button')]");
+
 
     public ProfileDetails(WebDriver driver) {
         super(driver);
@@ -44,6 +46,16 @@ public class ProfileDetails extends AbstractPageObject{
     public ProfileDetails disableEstimates() {
         toggleOff(estimatesToggle);
 
+        return this;
+    }
+
+    public ProfileDetails enableResearch(){
+        toggleOn(researchToggle);
+        return this;
+    }
+
+    public ProfileDetails enabledEstimates(){
+        toggleOn(estimatesToggle);
         return this;
     }
 
@@ -101,9 +113,8 @@ public class ProfileDetails extends AbstractPageObject{
         return this;
     }
 
-    public ProfileDetails enableSurveillange() {
+    public ProfileDetails enableSurveillance() {
         toggleOn(surveillanceToggle);
-
         return this;
     }
 }

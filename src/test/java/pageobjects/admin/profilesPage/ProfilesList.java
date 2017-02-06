@@ -26,8 +26,7 @@ public class ProfilesList extends AbstractPageObject {
     private final By firstSearchResult = By.cssSelector("body > q4-app > div > div > q4-profile > p-dialog > div > div.ui-dialog-content.ui-widget-content > q4-profile-create > form > p-autocomplete > span > div > ul > li");
 
     // Profile List
-    private final By firstProfileInList = By.cssSelector(".ui-datatable tbody");
-
+    private final By firstProfileInList = By.xpath("//tr[1]/td[1]");
     public ProfilesList(WebDriver driver) {
         super(driver);
     }
