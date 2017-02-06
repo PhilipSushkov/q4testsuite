@@ -49,7 +49,7 @@ public class WatchlistPage extends AbstractPageObject{
 
     public String getWatchlistSecurities() {
         waitForLoadingScreen();
-        pause(500L);
+        waitForElement(watchlist);
         return findElement(watchlist).getText().replaceAll("\\p{P}", "");
     }
 
