@@ -218,7 +218,7 @@ public class AbstractPageObject implements HeaderPage{
     }
 
     /** Used for numerical values displayed on page. Treats '-' as having value of zero. */
-    private double getNumFromText(String text){
+    public double getNumFromText(String text){
         if (text.equals("-")){
             return 0;
         }
