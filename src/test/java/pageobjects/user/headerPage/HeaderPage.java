@@ -19,6 +19,7 @@ public interface HeaderPage extends PageObject{
     By profileButton = By.xpath("//div[contains(@class,'profile') and contains(@class,'x-paint-monitored')]");
 
     //When Profile is open, these appear
+    By releaseNotesButton = By.xpath("//span[contains(@class,'item') and contains(text(),'Release Notes')]");
     By leaveFeedbackButton = By.xpath("//span[contains(@class,'item') and contains(text(),'Feedback')]");
     By changePasswordButton = By.xpath("//span[contains(@class,'item') and contains(text(),'Password')]");
     By logoutButton = By.xpath("//span[contains(@class,'item') and contains(text(),'Logout')]");
