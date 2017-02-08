@@ -10,7 +10,7 @@ import pageobjects.admin.implementationPage.ImplementationPage;
 import pageobjects.admin.intelligencePage.IntelligencePage;
 import pageobjects.admin.profilesPage.ProfilesList;
 import pageobjects.admin.usersPage.UsersPage;
-import pageobjects.user.headerPage.HeaderPage;
+import pageobjects.user.HeaderPage;
 import pageobjects.user.logActivity.LogActivityModal;
 import pageobjects.user.loginPage.LoginPage;
 import pageobjects.user.sideNavBar.SideNavBar;

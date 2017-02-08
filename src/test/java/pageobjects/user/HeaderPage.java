@@ -1,7 +1,6 @@
-package pageobjects.user.headerPage;
+package pageobjects.user;
 
 import org.openqa.selenium.*;
-import pageobjects.AbstractPageObject;
 import pageobjects.PageObject;
 import pageobjects.user.securityPage.SecurityOverviewPage;
 
@@ -27,7 +26,13 @@ public interface HeaderPage extends PageObject{
     By logoutConfirmation = By.xpath("//div[contains(@class,'x-msgbox')]//span[contains(text(),'Yes')]");
     By logoutRejection = By.xpath("//div[contains(@class,'x-msgbox')]//span[contains(text(),'No')]");
 
-    //
+    //Search results
+    By securityResult = By.xpath("//div[contains(@class,'list-header') and contains(@class,'security')]/../../following-sibling::div[1]");
+    By institutionResult = By.xpath("//div[contains(@class,'list-header') and contains(@class,'institution')]/../../following-sibling::div[1]");
+    By contactResult = By.xpath("//div[contains(@class,'list-header') and contains(@class,'contact')]/../../following-sibling::div[1]");
+    By fundResult = By.xpath("//div[contains(@class,'list-header') and contains(@class,'fund')]/../../following-sibling::div[1]");
+
+
 
     default HeaderPage headerSearch(String searchTerm){
         findElement(searchBar).click();
@@ -37,7 +42,48 @@ public interface HeaderPage extends PageObject{
         return this;
     }
 
-    default SecurityOverviewPage securityButton(){
+    default HeaderPage contactSearch(String searchTerm){
+        findElement(searchBar).click();
+        findElement(searchBar).clear();
+        findElement(searchBar).sendKeys(searchTerm);
+
+        findElement(contactResult).click();
+
+        return this;
+    }
+
+    default HeaderPage securitySearch(String searchTerm){
+        findElement(searchBar).click();
+        findElement(searchBar).clear();
+        findElement(searchBar).sendKeys(searchTerm);
+
+        findElement(securityResult).click();
+
+        return this;
+    }
+
+    default HeaderPage institutionSearch(String searchTerm){
+        findElement(searchBar).click();
+        findElement(searchBar).clear();
+        findElement(searchBar).sendKeys(searchTerm);
+
+        findElement(institutionResult).click();
+
+        return this;
+    }
+
+    default HeaderPage fundSearch(String searchTerm){
+        findElement(searchBar).click();
+        findElement(searchBar).clear();
+        findElement(searchBar).sendKeys(searchTerm);
+
+        findElement(fundResult).click();
+
+        return this;
+    }
+
+
+    default SecurityOverviewPage smallstockQuote(){
         findElement(securityButton).click();
 
         return new SecurityOverviewPage(getDriver());
@@ -53,21 +99,26 @@ public interface HeaderPage extends PageObject{
         findElement(profileButton).click();
     }
 
+
     //in profile
+    default void clickReleaseNotes(){
+        findElement(releaseNotesButton).click();
+    }
 
     default void leaveFeedback(){
         findElement(leaveFeedbackButton).click();
+        //this could be difficult for nightly runs
     }
 
     default void changePassword(){
         findElement(changePasswordButton).click();
+        //this could be difficult for nightly runs
     }
 
     default void logoutFromPage(){
         findElement(logoutButton).click();
+        waitForElementToAppear(logoutConfirmation);
         findElement(logoutConfirmation).click();
     }
-
-
 
 }
