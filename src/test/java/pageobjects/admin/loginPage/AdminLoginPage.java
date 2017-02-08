@@ -80,7 +80,7 @@ public class AdminLoginPage extends AbstractPageObject {
     public boolean onLoginPage(){
         waitForLoadingScreen();
         try{
-            findElement(loginButton);
+            waitForElement(loginButton);
             return true;
         }
         catch(Exception e){
