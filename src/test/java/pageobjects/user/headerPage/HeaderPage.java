@@ -1,4 +1,4 @@
-package pageobjects.user;
+package pageobjects.user.headerPage;
 
 import org.openqa.selenium.*;
 import pageobjects.PageObject;
