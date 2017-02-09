@@ -23,8 +23,18 @@ public interface HeaderPage extends PageObject{
     By changePasswordButton = By.xpath("//span[contains(@class,'item') and contains(text(),'Password')]");
     By logoutButton = By.xpath("//span[contains(@class,'item') and contains(text(),'Logout')]");
 
+    //logout buttons
     By logoutConfirmation = By.xpath("//div[contains(@class,'x-msgbox')]//span[contains(text(),'Yes')]");
     By logoutRejection = By.xpath("//div[contains(@class,'x-msgbox')]//span[contains(text(),'No')]");
+
+    //feedback buttons
+    By postFeedbackButton = By.xpath("//div[contains(@class,'submit-button')]");
+    By cancelFeedback = By.xpath("//div[contains(@class,'cancel-button')]");
+    By emptyMessageField = By.xpath("//div[contains(@class,'x-msgbox')]/div[contains(text(),'Message is empty')]");
+    By msgboxOKBtn = By.xpath("//div[contains(@class,'x-msgbox')]//span[contains(text(),'OK')]");
+    By sucessfulSubmittionField = By.xpath("//div[contains(text(),'Thank you')]");
+
+
 
     //Search results
     By securityResult = By.xpath("//div[contains(@class,'list-header') and contains(@class,'security')]/../../following-sibling::div[1]");
@@ -105,9 +115,9 @@ public interface HeaderPage extends PageObject{
         findElement(releaseNotesButton).click();
     }
 
-    default void leaveFeedback(){
+    default void leaveBlankFeedback(){
         findElement(leaveFeedbackButton).click();
-        //this could be difficult for nightly runs
+        findElement(postFeedbackButton).click();
     }
 
     default void changePassword(){
