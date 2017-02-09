@@ -9,7 +9,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
  */
 public class CompanyDetailsPage extends CompanyPage {
 
-    private final By addButton = By.cssSelector(".button.button-blue");
+    private final By addButton = By.cssSelector(".square-button.add");
     private final By companySearchField = By.cssSelector(".modal .ui-dialog .ui-dialog-content .ui-autocomplete.auto-complete-search .ui-inputtext");
     private final By saveButton = By.xpath("/html/body/q4-app/div/div/q4-organization-details/q4-organization-peers/p-dialog[1]/div/div[2]/q4-peer-create/div/button[2]");
     private final By companyNameSaveButton = By.xpath("/html/body/q4-app/div/div/q4-organization-details/p-dialog[2]/div/div[2]/q4-organization-details-edit/div/button");

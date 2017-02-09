@@ -70,7 +70,6 @@ public class ResearchList extends AbstractSpec {
         Assert.assertTrue("Research Reports cannot be sorted by date.", new ResearchPage(driver).sortByDate());
     }
 
-    @Ignore
     @Test
     public void canSortResearchByFirm() {
         Assert.assertTrue("Research Reports cannot be sorted by firm.", new ResearchPage(driver).sortByFirm());

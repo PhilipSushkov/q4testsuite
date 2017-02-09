@@ -59,11 +59,24 @@ public class ContactDetailsPage extends Page {
     }
 
     public ContactDetailsPage addToContacts() {
+
         pause(500L);
         wait.until(ExpectedConditions.elementToBeClickable(contactDropDown));
         findElement(contactDropDown).click();
-        wait.until(ExpectedConditions.elementToBeClickable(addOption));
-        findElement(addOption).click();
+
+        try {
+            wait.until(ExpectedConditions.elementToBeClickable(addOption));
+            findElement(addOption).click();
+        }
+        catch (Exception e){
+            wait.until(ExpectedConditions.elementToBeClickable(removeFromContacts));
+            findElement(removeFromContacts).click();
+            wait.until(ExpectedConditions.elementToBeClickable(contactDropDown));
+            findElement(contactDropDown).click();
+            wait.until(ExpectedConditions.elementToBeClickable(addOption));
+            findElement(addOption).click();
+
+        }
         pause(500L);
 
         return this;

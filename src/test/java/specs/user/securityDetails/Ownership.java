@@ -49,14 +49,66 @@ public class Ownership extends AbstractSpec {
     }
 
     @Test
-    public void canSortAndShowMoreHolders(){
+    public void canShowMoreHolders(){
         SecurityOwnershipPage securityOwnershipPage = new SecurityOwnershipPage(driver);
         // checking that 10 holders are initially shown and that the table can be sorted
-        Assert.assertEquals("Initial number of holders displayed is incorrect", 10, securityOwnershipPage.getNumOfHoldersDisplayed());
-        Assert.assertTrue("Sorting the holders table does not work.(If failures for sort are AUM or Turnover related, known issue.", securityOwnershipPage.canSortHoldersTable());
-        // clicking show more and checking that 20 holders are now shown and that the table can still be sorted
+        Assert.assertEquals("Initial number of holders displayed is incorrect", 10, securityOwnershipPage.getNumOfHoldersDisplayed());// clicking show more and checking that 20 holders are now shown and that the table can still be sorted
         Assert.assertEquals("Number of holders displayed after clicking 'Show more' is incorrect", 20, securityOwnershipPage.showMoreHolders().getNumOfHoldersDisplayed());
-        Assert.assertTrue("Sorting the holders table does not work after showing more holders.", securityOwnershipPage.canSortHoldersTable());
+    }
+
+    @Test
+    public void canSortHoldersByName(){
+        SecurityOwnershipPage securityOwnershipPage = new SecurityOwnershipPage(driver);
+        Assert.assertTrue("Holders incorrectly sorted by Name",securityOwnershipPage.canSortByName());
+    }
+
+    @Test
+    public void canSortHoldersByPOS(){
+        SecurityOwnershipPage securityOwnershipPage = new SecurityOwnershipPage(driver);
+        Assert.assertTrue("Holders incorrectly sorted by POS",securityOwnershipPage.canSortByPOS());
+    }
+
+    @Test
+    public void canSortHoldersBy1QCHG(){
+        SecurityOwnershipPage securityOwnershipPage = new SecurityOwnershipPage(driver);
+        Assert.assertTrue("Holders incorrectly sorted by 1Q Change",securityOwnershipPage.canSortBy1Q());
+    }
+
+    @Test
+    public void canSortHoldersByMarketValue(){
+        SecurityOwnershipPage securityOwnershipPage = new SecurityOwnershipPage(driver);
+        Assert.assertTrue("Holders incorrectly sorted by Market Value",securityOwnershipPage.canSortByMarketValue());
+    }
+
+    @Test
+    public void canSortHoldersByMarketValueChange(){
+        SecurityOwnershipPage securityOwnershipPage = new SecurityOwnershipPage(driver);
+        Assert.assertTrue("Holders incorrectly sorted by Change in Market Value",securityOwnershipPage.canSortByMarketValueChange());
+    }
+
+    @Test
+    public void canSortHoldersByOS(){
+        SecurityOwnershipPage securityOwnershipPage = new SecurityOwnershipPage(driver);
+        Assert.assertTrue("Holders incorrectly sorted by %OS",securityOwnershipPage.canSortByOS());
+    }
+
+    @Test
+    public void canSortHoldersByPort(){
+        SecurityOwnershipPage securityOwnershipPage = new SecurityOwnershipPage(driver);
+        Assert.assertTrue("Holders incorrectly sorted by Port",securityOwnershipPage.canSortByPort());
+    }
+
+
+    @Test
+    public void canSortHoldersByStyle(){
+        SecurityOwnershipPage securityOwnershipPage = new SecurityOwnershipPage(driver);
+        Assert.assertTrue("Holders incorrectly sorted by Style",securityOwnershipPage.canSortByStyle());
+    }
+
+    @Test
+    public void canSortHoldersByQR(){
+        SecurityOwnershipPage securityOwnershipPage = new SecurityOwnershipPage(driver);
+        Assert.assertTrue("Holders incorrectly sorted by Quality Rating",securityOwnershipPage.canSortByQR());
     }
 
     @Test
@@ -65,6 +117,8 @@ public class Ownership extends AbstractSpec {
         Assert.assertTrue("One or more change values in the Holders table is not coloured correctly",
                 new SecurityOwnershipPage(driver).holderTableChangeValueColouringIsCorrect());
     }
+
+
 
     @Test
     public void canSeeActivistHolders(){
@@ -226,6 +280,71 @@ public class Ownership extends AbstractSpec {
                 .viewHistoricalHolders()
                 .searchForHoldings(holder);
 
-        Assert.assertThat(securityOwnershipPage.getHolderSearchResults(), containsString(holder));
+        Assert.assertThat(securityOwnershipPage.getHistoricalInstitutionsHolderSearchResults(), containsString(holder));
+    }
+
+    @Test
+    public void canSearchForHistoricalFunds(){
+        //Search for specific historical owners on the Funds and ETF's tab of the Historical table
+        String holder = "Pacific Select Fund";
+        SecurityOwnershipPage securityOwnershipPage = new SecurityOwnershipPage(driver).selectDate(0)
+                .viewHistoricalHolders()
+                .showOnlyFunds()
+                .searchForHoldings(holder);
+        Assert.assertThat(securityOwnershipPage.getHistoricalFundsHolderSearchResults(), containsString(holder));
+    }
+
+    @Test
+    public void canSearchForCurrentInsiders(){
+        //Search for specific current insiders on the Insiders tab of the Current Holders table
+        String holder = "Jonathan Golden";
+        SecurityOwnershipPage securityOwnershipPage = new SecurityOwnershipPage(driver).selectDate(0)
+                .viewCurrentHolders()
+                .showOnlyInsiders()
+                .searchForHoldings(holder);
+
+        Assert.assertThat(securityOwnershipPage.getCurrentInsidersHolderSearchResults(), containsString(holder));
+
+        Assert.assertThat(securityOwnershipPage.getInsiderSearchResults(), containsString(holder));
+    }
+
+    @Test
+    public void canSearchForHistoricalFundsETFs() {
+        // Search for funds and ETFs under the Funds and ETFs tab of the Historical table
+        String holder = "Omikron 7";
+        SecurityOwnershipPage securityOwnershipPage = new SecurityOwnershipPage(driver).selectDate(0)
+                .viewHistoricalHolders()
+                .selectFundsETFstab()
+                .searchForFundsETFs(holder);
+
+        Assert.assertThat(securityOwnershipPage.getHolderSearchResultstwo(), containsString(holder));
+    }
+
+
+
+    @Test
+    public void canSearchForCurrentInstitutions() {
+        // Search for specific current owners on the Institutions tab of the current table
+        String holder = "Parnassus Investments";
+        SecurityOwnershipPage securityOwnershipPage = new SecurityOwnershipPage(driver).selectDate(0)
+                .viewInstitutiontab()
+                .searchForHoldings(holder);
+
+        Assert.assertThat(securityOwnershipPage.getInstitutionSearchResults(), containsString(holder));
+
+
+    }
+
+    @Test
+    public void canSearchForHistoricalInsiders() {
+        // Search for specific insiders on the insiders tab of the historical section of the Holder's table
+        String holder = "Nelson Peltz";
+        SecurityOwnershipPage securityOwnershipPage = new SecurityOwnershipPage(driver).selectDate(0);
+        securityOwnershipPage.viewHistoricalHolders();
+        securityOwnershipPage.selectInsiderstab();
+        securityOwnershipPage.searchForHoldings(holder);
+
+        Assert.assertThat(securityOwnershipPage.getInsiderSearchResults(), containsString(holder));
+
     }
 }
