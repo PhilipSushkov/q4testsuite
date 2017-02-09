@@ -98,6 +98,25 @@ public class DashboardLogActivity extends AbstractSpec {
     }
 
     @Test
+    public void canLogRoadshowFromDashboard() {
+        String comment = "This is a meeting comment" + RandomStringUtils.randomAlphanumeric(6);
+        String name = "Joe" + RandomStringUtils.randomAlphanumeric(5);
+        String note = "This is a meeting note" + RandomStringUtils.randomAlphanumeric(6);
+        String tag = "MeetingTag" + RandomStringUtils.randomAlphanumeric(3);
+
+        ActivityPage activityPage = new ActivityPage(driver);
+        new Dashboard(driver).logRoadshowNote()
+                .enterMeetingDetails(comment, name, note, tag)
+                .postActivity()
+                .accessSideNav()
+                .selectActivityPageFromSideNav()
+                .searchForNote(comment);
+
+        Assert.assertThat("Note does not contain the expected comment text", activityPage.getNewNote(), containsString(comment));
+        Assert.assertThat("Note does not contain the expected tag", activityPage.getNewNote(), containsString(tag));
+    }
+
+    @Test
     public void canCancelActivity() {
         new Dashboard(driver).logNote()
                 .cancelNote();

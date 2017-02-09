@@ -37,7 +37,7 @@ public class EditSearchPage extends AbstractPageObject {
 
     private final By deleteSearchButton = By.cssSelector(".action-button.x-iconalign-center");
     private final By saveSearchButton = By.xpath("//div[span/text()='Save Search']");
-    private final By saveConfirmation = By.xpath ("//div[contains(@class,'x-button-action')]");
+    private final By saveConfirmation = By.cssSelector (".targeting-update-search.q4-form .form-button");
 
 
     public EditSearchPage(WebDriver driver) {

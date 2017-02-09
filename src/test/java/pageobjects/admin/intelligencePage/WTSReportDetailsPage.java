@@ -2,6 +2,7 @@ package pageobjects.admin.intelligencePage;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import pageobjects.AbstractPageObject;
 import yahoofinance.Stock;
@@ -345,23 +346,23 @@ public class WTSReportDetailsPage extends AbstractPageObject {
 
         // verifying that "Indices" values are correct
         for (int index = 0; index<indices.length; index++){
-            if (Math.abs(Double.parseDouble(findElements(indicesClose).get(index).getText().replace(",","")) - indicesExpectedClose[index]) > 5){
+            if ( getNumFromText(findElements(indicesClose).get(index).getText()) - indicesExpectedClose[index]> 5){
                 System.out.println("Index "+indices[index]+"'s week close is inaccurate.\n\tExpected: "+indicesExpectedClose[index]+"\n\tDisplayed: "+findElements(indicesClose).get(index).getText());
                 allValid = false;
             }
-            if (Math.abs(Double.parseDouble(findElements(indicesChange).get(index).getText().replace(",","")) - indicesExpectedWeekChange[index]) > 5){
+            if (getNumFromText(findElements(indicesChange).get(index).getText()) - indicesExpectedWeekChange[index] > 5){
                 System.out.println("Index "+indices[index]+"'s week change is inaccurate.\n\tExpected: "+indicesExpectedWeekChange[index]+"\n\tDisplayed: "+findElements(indicesChange).get(index).getText());
                 allValid = false;
             }
-            if (Math.abs(Double.parseDouble(findElements(indicesChangeP).get(index).getText()) - indicesExpectedWeekChangeP[index]) > 0.25){
+            if (getNumFromText(findElements(indicesChangeP).get(index).getText()) - indicesExpectedWeekChangeP[index] > 0.25){
                 System.out.println("Index "+indices[index]+"'s week change % is inaccurate.\n\tExpected: "+indicesExpectedWeekChangeP[index]+"\n\tDisplayed: "+findElements(indicesChangeP).get(index).getText());
                 allValid = false;
             }
-            if (Math.abs(Double.parseDouble(findElements(indicesQTDChange).get(index).getText()) - indicesExpectedQuarterToDateChange[index]) > 0.25){
+            if (getNumFromText(findElements(indicesQTDChange).get(index).getText()) - indicesExpectedQuarterToDateChange[index] > 0.25){
                 System.out.println("Index "+indices[index]+"'s QTD change is inaccurate.\n\tExpected: "+indicesExpectedQuarterToDateChange[index]+"\n\tDisplayed: "+findElements(indicesQTDChange).get(index).getText());
                 allValid = false;
             }
-            if (Math.abs(Double.parseDouble(findElements(indicesYTDChange).get(index).getText()) - indicesExpectedYearToDateChange[index]) > 0.25){
+            if (getNumFromText(findElements(indicesYTDChange).get(index).getText()) - indicesExpectedYearToDateChange[index] > 0.25){
                 System.out.println("Index "+indices[index]+"'s YTD change is inaccurate.\n\tExpected: "+indicesExpectedYearToDateChange[index]+"\n\tDisplayed: "+findElements(indicesYTDChange).get(index).getText());
                 allValid = false;
             }
@@ -369,7 +370,8 @@ public class WTSReportDetailsPage extends AbstractPageObject {
 
 
         // verifying that "Daily Performance" values are correct (by hovering over each of the bars)
-        for (int chartDay=0; chartDay<5; chartDay++){
+        int numDays= findVisibleElements(dailyPerformanceStockBars).size();
+        for (int chartDay=0; chartDay<numDays; chartDay++){
             // checking for stock
             actions.clickAndHold(findVisibleElements(dailyPerformanceStockBars).get(chartDay)).perform();// clickAndHold needed to keep cursor there while getText() runs
             String hoverText = findElement(dailyPerformanceHoverText).getText().trim();
@@ -405,10 +407,11 @@ public class WTSReportDetailsPage extends AbstractPageObject {
             }
         }
 
-
+        ArrayList<WebElement> testArray = new ArrayList<>(findVisibleElements(ytdChangeBars));
         // verifying that "YTD Change" values are correct
         for (int bar=0; bar<symbols.length+1; bar++){
-            actions.clickAndHold(findVisibleElements(ytdChangeBars).get(bar)).perform();// clickAndHold needed to keep cursor there while getText() runs
+
+            actions.clickAndHold(findElements(ytdChangeBars).get(bar)).perform();// clickAndHold needed to keep cursor there while getText() runs
             String hoverText = findElement(ytdChangeHoverText).getText().trim();
             // checking the peer average bar
             if (findElement(ytdChangeAxisText).getText().contains("Peer")){
@@ -446,7 +449,6 @@ public class WTSReportDetailsPage extends AbstractPageObject {
                 }
             }
         }
-
 
         return allValid; // will be false if there were any inaccurate values (this way a full list of errors can be generated instead of stopping after one)
     }

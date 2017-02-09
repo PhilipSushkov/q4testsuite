@@ -103,6 +103,7 @@ public class SideNavBar extends AbstractPageObject{
         pause(2000L);
         waitForElementToAppear(ownershipSideNav);
         findElement(ownershipSideNav).click();
+        waitForLoadingScreen();
 
         return new SecurityOwnershipPage(getDriver());
     }

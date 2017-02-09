@@ -3,6 +3,7 @@ package pageobjects.user.securityPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import pageobjects.user.watchlist.WatchlistPage;
+import specs.user.securityDetails.Overview;
 
 /**
  * Created by patrickp on 2016-08-04.
@@ -21,7 +22,7 @@ public class SecurityOverviewPage extends WatchlistPage {
     //data\\
 
     private final By companyName = By.className("company-name");
-    private final By companyTicker = By.className("company-symbol");
+    private final By companyTicker = By.xpath("//div[contains(@class,'x-innerhtml')]/div[contains(@class,'company-symbol')]");
     private final By industry_Exchange = By.className("exchange");
     private final By stockQuote = By.className("stock-price");
     private final By changeIcon = By.className("change-icon");
@@ -50,19 +51,21 @@ public class SecurityOverviewPage extends WatchlistPage {
     //buttons\\ -> to add stuff for modals that appear when clicking button
 
     private final By recentEstimatesBtn = By.cssSelector(".company-header .header-notifications-tab .x-button:first-child");
-    private final By recentEventsBtn = By.id("ext-button-23");
-    private final By recentTranscriptsBtn = By.id("ext-button-24");
+    private final By recentEventsBtn = By.xpath("//div[span[contains(@class,'q4i-events-transcripts-2pt')]]");
+    private final By recentTranscriptsBtn = By.xpath("//div[span[contains(@class,'q4i-transcripts-2pt')]]");
     private final By recentNewsBtn = By.cssSelector(".company-header .header-notifications-tab .x-button:last-child");
+    private final By recentResearchBtn = By.xpath("//div[contains(@class, 'research-buttonresearch-button')]");
 
     private final By recentEstimatesResults = By.cssSelector(".company-header-latest-estimates .latest-estimate-item");
-    private final By recentEventsResults = By.cssSelector(".company-header-latest-events .latest-events-item");
+    private final By recentEventsResults = By.xpath("//div[contains(@class,'latest-events-item')]");
     private final By recentTranscriptsResults = By.cssSelector(".company-header-latest-transcripts .latest-transcripts-item");
     private final By recentNewsResults = By.cssSelector(".company-header-latest-news .news-item .news-date"); //n
-
+    private final By recentResearchResults = By.cssSelector(".company-header-latest-research .latest-research-item");
     private final By recentEstimatesModal = By.cssSelector(".company-header-latest-estimates h2");
     private final By recentEventsModal = By.cssSelector(".company-header-latest-events h2");
     private final By recentTranscriptsModal = By.cssSelector(".company-header-latest-transcripts h2");
     private final By recentNewsModal = By.cssSelector(".company-header-latest-news h2");
+    private final By recentResearchModal = By.xpath("//div[contains(@class, 'latest-research-item')]");
 
     private final By eventsResultslModal = By.cssSelector(".event-detail .header");
     //^^^The modal that appears once you click on a result^^^
@@ -72,9 +75,9 @@ public class SecurityOverviewPage extends WatchlistPage {
 
     //three_point_button\\ -> to add stuff for modals that appear when clicking button
 
-    private final By threePointBtn = By.className("x-button-icon x-shown q4i-utility-4pt");
+    private final By threePointBtn = By.xpath("//span[contains(@class,'q4i-utility-4pt')]");
 
-    private final By watchlistBtn = By.className("x-unsized x-button x-text-align-left x-iconalign-left");
+    private final By watchlistBtn = By.xpath("//span[contains(text(),'Watchlist')]");
     private final By logActivityBtn = By.xpath("//*[@class=\"x-unsized x-button x-iconalign-left x-text-align-left\"][1]");
     private final By suggestEditBtn = By.xpath("//*[@class=\"x-unsized x-button x-iconalign-left x-text-align-left\"][2]");
 
@@ -273,8 +276,17 @@ public class SecurityOverviewPage extends WatchlistPage {
         return doesElementExist(eventsResultslModal);
     }
 
+    public boolean recentResearchModalExists(){
+        pause(500L);
+        return doesElementExist(recentResearchModal);
+    }
 
-                                                 /**          GETTERS:         */
+    //Research doesn't need a results modal because it starts a download, not a new page
+
+
+
+
+    /**          GETTERS:         */
 
 
     //HEADER\\
@@ -333,13 +345,11 @@ public class SecurityOverviewPage extends WatchlistPage {
     }
 
     public int getNumNewsResultsDisplayed() { //Issue spans here. Get news text and do a regex, checking it has the text "hour" within it
+        waitForLoadingScreen();
         int num = 0;
         for (int x = 0; x < findElements(recentNewsResults).size(); x++) {
-            if (findElements(recentNewsResults).get(x).getText().replaceAll("[0-9 s]", "").replace("ago", "")
-                    .replace("an","").equals("hour")) {
                 num++;
             }
-        }
         return num;
     }
 
@@ -359,6 +369,17 @@ public class SecurityOverviewPage extends WatchlistPage {
 
     public int getNumTranscriptsResultsDisplayed() {
         return findElements(recentTranscriptsResults).size();
+    }
+
+    public String getRecentResearchButtonNumber(){
+        waitForLoadingScreen();
+        return findElement(recentResearchBtn).getText();
+    }
+
+    public int getNumResearchResultsDisplayed(){
+        waitForLoadingScreen();
+        return findElements(recentResearchResults).size();
+
     }
 
     //CHARTS\\
@@ -569,6 +590,17 @@ public class SecurityOverviewPage extends WatchlistPage {
          findElement(recentEventsBtn).click();
      }
 
+    public void clickRecentResearchButton(){
+
+        findElement(recentResearchBtn).click();
+    }
+
+
+    //
+    //Results - I.e. the pop up
+    //
+
+
     public void clickRecentEstimatesResult(){
          findElement(recentEstimatesResults).click();
      }
@@ -591,5 +623,12 @@ public class SecurityOverviewPage extends WatchlistPage {
         findElement(transciptsResultsExitBtn).click();
     }
 
-
+    public SecurityOverviewPage clickThreePointBtn(){
+        findElement(threePointBtn).click();
+        return new SecurityOverviewPage(getDriver());
+    }
+    public SecurityOverviewPage clickWatchlistBtn(){
+        findElement(watchlistBtn).click();
+        return new SecurityOverviewPage(getDriver());
+    }
 }
