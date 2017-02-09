@@ -279,7 +279,8 @@ public class Ownership extends AbstractSpec {
         SecurityOwnershipPage securityOwnershipPage = new SecurityOwnershipPage(driver).selectDate(0)
                 .viewHistoricalHolders()
                 .searchForHoldings(holder);
-
+      
+        Assert.assertThat(securityOwnershipPage.getHolderSearchResults(), containsString(holder));
         Assert.assertThat(securityOwnershipPage.getHistoricalInstitutionsHolderSearchResults(), containsString(holder));
     }
 
@@ -331,8 +332,41 @@ public class Ownership extends AbstractSpec {
                 .searchForHoldings(holder);
 
         Assert.assertThat(securityOwnershipPage.getInstitutionSearchResults(), containsString(holder));
+    }
 
+    @Test
+    public void canSearchForHistoricalInsiders() {
+        // Search for specific insiders on the insiders tab of the historical section of the Holder's table
+        String holder = "Nelson Peltz";
+        SecurityOwnershipPage securityOwnershipPage = new SecurityOwnershipPage(driver).selectDate(0);
+        securityOwnershipPage.viewHistoricalHolders();
+        securityOwnershipPage.selectInsiderstab();
+        securityOwnershipPage.searchForHoldings(holder);
 
+        Assert.assertThat(securityOwnershipPage.getInsiderSearchResults(), containsString(holder));
+    }
+
+    @Test
+    public void canSearchForHistoricalFundsETFs() {
+        // Search for funds and ETFs under the Funds and ETFs tab of the Historical table
+        String holder = "Omikron 7";
+        SecurityOwnershipPage securityOwnershipPage = new SecurityOwnershipPage(driver).selectDate(0)
+                .viewHistoricalHolders()
+                .selectFundsETFstab()
+                .searchForFundsETFs(holder);
+
+        Assert.assertThat(securityOwnershipPage.getHolderSearchResultstwo(), containsString(holder));
+    }
+
+    @Test
+    public void canSearchForCurrentInstitutions() {
+        // Search for specific current owners on the Institutions tab of the current table
+        String holder = "Parnassus Investments";
+        SecurityOwnershipPage securityOwnershipPage = new SecurityOwnershipPage(driver).selectDate(0)
+                .viewInstitutiontab()
+                .searchForHoldings(holder);
+
+        Assert.assertThat(securityOwnershipPage.getInstitutionSearchResults(), containsString(holder));
     }
 
     @Test
@@ -347,4 +381,5 @@ public class Ownership extends AbstractSpec {
         Assert.assertThat(securityOwnershipPage.getInsiderSearchResults(), containsString(holder));
 
     }
+
 }

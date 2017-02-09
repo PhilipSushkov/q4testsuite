@@ -1125,7 +1125,6 @@ public class SecurityOwnershipPage extends AbstractPageObject {
     public SecurityOwnershipPage searchForHoldings(String searchTerm) {
         findElement(holdingsSearchField).sendKeys(searchTerm);
         waitForLoadingScreen();
-
         // Added pause to account for the situation where the test will take the original top value of the table and won't wait for the results to be updated by the search.
         pause(3000);
         return this;
@@ -1192,5 +1191,47 @@ public class SecurityOwnershipPage extends AbstractPageObject {
     public String getHolderSearchResults() {
         waitForElementToAppear(holderSearchResult);
         return findElement(holderSearchResult).getText();
+    }
+
+    public SecurityOwnershipPage searchForFundsETFs(String searchTerm) {
+        findElement(holdingsSearchField).sendKeys(searchTerm);
+        // Added pause to account for the situation where the test will take the original top value of the table and won't wait for the results to be updated by the search.
+        pause(3000);
+        return this;
+    }
+
+    public SecurityOwnershipPage selectFundsETFstab() {
+        waitForLoadingScreen();
+        findElement(FundsETFsTab).click();
+
+        return this;
+    }
+
+    public String getHolderSearchResultstwo() {
+        waitForElementToAppear(holderSearchResulttwo);
+        return findElement(holderSearchResulttwo).getText();
+    }
+
+    public SecurityOwnershipPage viewInstitutiontab() {
+        waitForLoadingScreen();
+        findElement(InstitutionTab).click();
+
+        return this;
+    }
+
+    public String getInstitutionSearchResults() {
+        waitForElementToAppear(InstitutionSearchResult);
+        return findElement(InstitutionSearchResult).getText();
+    }
+
+    public void selectInsiderstab() {
+        waitForLoadingScreen();
+        findElement(InsidersTab).click();
+
+    }
+
+    public String getInsiderSearchResults() {
+        waitForElementToAppear(InsiderSearchResult);
+        return findElement(InsiderSearchResult).getText();
     }
 }
