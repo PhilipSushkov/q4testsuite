@@ -9,7 +9,7 @@ import pageobjects.user.securityPage.SecurityOverviewPage;
 import pageobjects.user.contactPage.ContactDetailsPage;
 import pageobjects.user.fundPage.FundPage;
 import pageobjects.user.institutionPage.InstitutionPage;
-import pageobjects.user.logActivity.LogActivityModal;
+import pageobjects.user.logActivityModal.LogActivityModal;
 import pageobjects.user.briefingBooks.CreateBriefingBookModal;
 
 import java.util.ArrayList;

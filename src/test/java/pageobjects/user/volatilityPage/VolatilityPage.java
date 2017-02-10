@@ -1,4 +1,4 @@
-package pageobjects.user.securityPage;
+package pageobjects.user.volatilityPage;
 
 import org.openqa.selenium.WebDriver;
 import pageobjects.AbstractPageObject;

@@ -5,7 +5,7 @@ import org.junit.Test;
 import pageobjects.admin.loginPage.AdminLoginPage;
 import pageobjects.admin.profilesPage.ProfilesList;
 import pageobjects.user.loginPage.LoginPage;
-import pageobjects.user.securityPage.SecurityEstimatesPage;
+import pageobjects.user.estimatesPage.SecurityEstimatesPage;
 import specs.AdminAbstractSpec;
 
 /**

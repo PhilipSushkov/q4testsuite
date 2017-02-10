@@ -17,7 +17,7 @@ import specs.user.reportBuilder.CreateBriefingBook;
 import specs.user.reportBuilder.EditBriefingBook;
 import specs.user.research.ResearchList;
 import specs.user.securityDetails.Overview;
-import specs.user.securityDetails.Ownership;
+import specs.user.ownership.Ownership;
 import specs.user.sideNavBar.TabNavigationExpanded;
 import specs.user.targeting.TargetingList;
 import specs.user.team.Q4TeamPage;
