@@ -279,7 +279,8 @@ public class Ownership extends AbstractSpec {
         SecurityOwnershipPage securityOwnershipPage = new SecurityOwnershipPage(driver).selectDate(0)
                 .viewHistoricalHolders()
                 .searchForHoldings(holder);
-
+      
+        Assert.assertThat(securityOwnershipPage.getHolderSearchResults(), containsString(holder));
         Assert.assertThat(securityOwnershipPage.getHistoricalInstitutionsHolderSearchResults(), containsString(holder));
     }
 
@@ -331,8 +332,6 @@ public class Ownership extends AbstractSpec {
                 .searchForHoldings(holder);
 
         Assert.assertThat(securityOwnershipPage.getInstitutionSearchResults(), containsString(holder));
-
-
     }
 
     @Test
@@ -345,6 +344,6 @@ public class Ownership extends AbstractSpec {
         securityOwnershipPage.searchForHoldings(holder);
 
         Assert.assertThat(securityOwnershipPage.getInsiderSearchResults(), containsString(holder));
-
     }
+
 }
