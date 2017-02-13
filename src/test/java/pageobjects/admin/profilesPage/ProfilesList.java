@@ -64,6 +64,7 @@ public class ProfilesList extends AbstractPageObject {
 
     public ProfileDetails selectFirstProfileInList() {
         waitForLoadingScreen();
+        waitForElementToAppear(firstProfileInList);
         findElement(firstProfileInList).click();
 
         return new ProfileDetails(getDriver());
