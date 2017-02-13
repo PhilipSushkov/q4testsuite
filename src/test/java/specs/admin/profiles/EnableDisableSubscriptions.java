@@ -1,7 +1,6 @@
 package specs.admin.profiles;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 import pageobjects.admin.loginPage.AdminLoginPage;
 import pageobjects.admin.profilesPage.ProfilesList;
 import pageobjects.user.loginPage.LoginPage;
@@ -22,7 +21,7 @@ public class EnableDisableSubscriptions extends AdminAbstractSpec {
     //This still needs an assert
     @Test
     public void canDisableEstimates() {
-        new ProfilesList(driver).searchForProfile("Patrick")
+        new ProfilesList(driver).searchForProfile("patrickp@q4inc.com")
                 .selectFirstProfileInList()
                 .disableEstimates()
 
@@ -43,5 +42,6 @@ public class EnableDisableSubscriptions extends AdminAbstractSpec {
         SecurityEstimatesPage loginPage = new LoginPage(driver).customLoginUser("patrickp@q4inc.com", "patrick!")
                 .accessSideNav()
                 .selectEstimatesFromSideNav();
+        Assert.assertTrue("No option to subscribe is available", loginPage.userIsNotSubscribed());
     }
 }

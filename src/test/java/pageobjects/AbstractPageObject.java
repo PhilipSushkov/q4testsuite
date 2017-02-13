@@ -35,6 +35,8 @@ public class AbstractPageObject implements HeaderPage{
         }
     };
 
+    private final By notSubscribed = By.xpath("//h1[contains(text(),'Interested?')]");
+
     // Side hamburger menu icon
     private final By sideNavIcon = By.cssSelector(".page-home .menu-btn"); //use for dashboard
     private final By hamburgerIcon = By.cssSelector(".navigation-toggler .x-button-icon"); //use for other pages
@@ -485,5 +487,21 @@ public class AbstractPageObject implements HeaderPage{
             waitForElement(surveillanceSelect);
             findElement(surveillanceSelect).click();
         }
+    }
+
+    public boolean userIsNotSubscribed(){
+
+        try{
+            if(getDriver().findElement(notSubscribed).isDisplayed()){
+                return true;
+            }
+        }
+
+        catch(Exception e){
+            return false;
+        }
+
+
+        return false;
     }
 }
