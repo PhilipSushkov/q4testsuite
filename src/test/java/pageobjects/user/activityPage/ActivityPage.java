@@ -1,17 +1,15 @@
 package pageobjects.user.activityPage;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageobjects.AbstractPageObject;
-import pageobjects.user.logActivity.LogActivityModal;
+import pageobjects.user.logActivityModal.LogActivityModal;
 import pageobjects.user.noteDetailsPage.NoteDetailsPage;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Filter;
 
 /**
  * Created by philipsushkov on 2016-08-07.

@@ -1,4 +1,4 @@
-package pageobjects.user.securityPage;
+package pageobjects.user.sentimentPage;
 
 import org.openqa.selenium.WebDriver;
 import pageobjects.AbstractPageObject;
@@ -6,12 +6,11 @@ import pageobjects.AbstractPageObject;
 /**
  * Created by kelvint on 11/1/16.
  */
-public class TradingRangePage extends AbstractPageObject {
+public class SentimentPage extends AbstractPageObject {
 
-    public TradingRangePage(WebDriver driver) {
+    public SentimentPage(WebDriver driver) {
         super(driver);
     }
-
 
 
 }

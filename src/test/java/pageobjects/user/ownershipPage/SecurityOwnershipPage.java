@@ -1,4 +1,4 @@
-package pageobjects.user.securityPage;
+package pageobjects.user.ownershipPage;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;

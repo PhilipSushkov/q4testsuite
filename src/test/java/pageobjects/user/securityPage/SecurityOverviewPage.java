@@ -2,8 +2,14 @@ package pageobjects.user.securityPage;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import pageobjects.user.activismPage.ActivismPage;
+import pageobjects.user.estimatesPage.SecurityEstimatesPage;
+import pageobjects.user.ownershipPage.SecurityOwnershipPage;
+import pageobjects.user.relativePerformancePage.RelativePerformacePage;
+import pageobjects.user.sentimentPage.SentimentPage;
+import pageobjects.user.tradingRangePage.TradingRangePage;
+import pageobjects.user.volatilityPage.VolatilityPage;
 import pageobjects.user.watchlist.WatchlistPage;
-import specs.user.securityDetails.Overview;
 
 /**
  * Created by patrickp on 2016-08-04.

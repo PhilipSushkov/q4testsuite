@@ -1,16 +1,12 @@
 package specs.user.watchlist;
 
-import org.aspectj.lang.annotation.AfterReturning;
-import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import pageobjects.user.securityPage.SecurityOverviewPage;
 import pageobjects.user.loginPage.LoginPage;
-import pageobjects.user.securityPage.SecurityOwnershipPage;
 import pageobjects.user.watchlist.WatchlistPage;
 import specs.AbstractSpec;
-import specs.user.securityDetails.Overview;
 
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.is;

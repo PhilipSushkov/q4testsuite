@@ -8,7 +8,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageobjects.Page;
 import pageobjects.user.advancedSearchResultsPage.AdvancedSearchResults;
 import pageobjects.user.institutionPage.InstitutionPage;
-import pageobjects.user.logActivity.LogActivityModal;
+import pageobjects.user.logActivityModal.LogActivityModal;
 
 import java.util.List;
 
