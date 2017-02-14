@@ -39,9 +39,13 @@ public interface HeaderPage extends PageObject{
     By changePassField = By.xpath("//form[contains(@class,'settings-change-password')]");
 
     //change password error messages
-    //These selectors are for the hidden fields,
-    //So if you're looking for one of these fields, you search if they're NOT there, with these selectors.
-    By noCurrentPassHidden = By.xpath("//div[contains(@class,'x-hidden-display')]//div[contains(text(),'You must enter in your current password')]");
+    By noCurrentPassMsg = By.xpath("//div[contains(@class,'x-msgbox-text')]//div[contains(text(),'You must enter in you current password')]");
+    By noNewPassMsg = By.xpath("//div[contains(@class,'x-msgbox-text')]//div[contains(text(),'You must enter in your new password')]");
+    By notSecurePassMsg = By.xpath("//div[contains(@class,'x-msgbox-text')]//div[contains(text(),'Password must contain')]");
+    By noConfirmationPassMsg = By.xpath("//div[contains(@class,'x-msgbox-text')]//div[contains(text(),'password do not match')]");
+    By wrongOldPassMsg = By.xpath("//div[contains(@class,'x-msgbox-text')]//div[contains(text(),'Old password is incorrect')]");
+    By samePassAsBeforeMsg = By.xpath("//div[contains(@class,'x-msgbox-text')]//div[contains(text(),'should not match the current password')]");
+
 
     //feedback buttons
     By postFeedbackButton = By.xpath("//div[contains(@class,'submit-button')]");
@@ -192,8 +196,31 @@ public interface HeaderPage extends PageObject{
         findElement(postChangePassBtn).click();
 
         try{
-            if(getDriver().findElement(noCurrentPassHidden).isDisplayed()){
+            if(getDriver().findElement(noCurrentPassMsg).isDisplayed()){
                 return true;
+            }
+            else{
+                return false;
+            }
+        }
+
+        catch(Exception e){
+            return false;
+        }
+    }
+
+    default boolean noNewPassword(String currentPass){
+        findElement(changePasswordButton).click();
+        findElement(currentPassField).sendKeys(currentPass);
+
+        findElement(postChangePassBtn).click();
+
+        try{
+            if(getDriver().findElement(noNewPassMsg).isDisplayed()){
+                return true;
+            }
+            else{
+                return false;
             }
         }
 
@@ -201,8 +228,99 @@ public interface HeaderPage extends PageObject{
             return false;
         }
 
-        return false;
     }
+
+    default boolean notSecurePass(String currentPass, String newPass){
+        findElement(changePasswordButton).click();
+        findElement(currentPassField).sendKeys(currentPass);
+        findElement(newPassField).sendKeys(newPass);
+
+        findElement(postChangePassBtn).click();
+
+        try{
+            if(getDriver().findElement(notSecurePassMsg).isDisplayed()){
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+
+        catch(Exception e){
+            return false;
+        }
+
+    }
+
+    default boolean noConfirmationPass(String currentPass, String newPass){
+        findElement(changePasswordButton).click();
+        findElement(currentPassField).sendKeys(currentPass);
+        findElement(newPassField).sendKeys(newPass);
+
+        findElement(postChangePassBtn).click();
+
+        try{
+            if(getDriver().findElement(noConfirmationPassMsg).isDisplayed()){
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+
+        catch(Exception e){
+            return false;
+        }
+
+    }
+
+    default boolean wrongOldPass(String currentPass, String newPass){
+        findElement(changePasswordButton).click();
+        findElement(currentPassField).sendKeys(currentPass);
+        findElement(newPassField).sendKeys(newPass);
+        findElement(confirmNewPassField).sendKeys(newPass);
+
+        findElement(postChangePassBtn).click();
+
+        try{
+            if(getDriver().findElement(wrongOldPassMsg).isDisplayed()){
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+
+        catch(Exception e){
+            return false;
+        }
+
+    }
+
+    default boolean samePassAsBefore(String password){
+        findElement(changePasswordButton).click();
+        findElement(currentPassField).sendKeys(password);
+        findElement(newPassField).sendKeys(password);
+        findElement(confirmNewPassField).sendKeys(password);
+
+        findElement(postChangePassBtn).click();
+
+        try{
+            if(getDriver().findElement(samePassAsBeforeMsg).isDisplayed()){
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+
+        catch(Exception e){
+            return false;
+        }
+
+    }
+
+
 
     default void logoutFromPage(){
         findElement(logoutButton).click();
@@ -214,15 +332,20 @@ public interface HeaderPage extends PageObject{
         findElement(logoutButton).click();
         waitForElementToAppear(logoutRejection);
         findElement(logoutRejection).click();
+        pause(500L);
         try{
-            if(getDriver().findElement(logoutOptionsField).isDisplayed())
+            if(getDriver().findElement(logoutOptionsField).isDisplayed()) {
                 return false;
+            }
+            else{
+                return true;
+            }
         }
 
         catch(Exception e ){
+            System.out.println(e);
             return true;
         }
-        return false;
     }
 
 }
