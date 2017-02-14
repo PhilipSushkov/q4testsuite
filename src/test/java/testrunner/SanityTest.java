@@ -2,7 +2,7 @@ package testrunner;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
-import specs.user.reportBuilder.CreateBriefingBook;
+import specs.user.briefingBooks.CreateBriefingBook;
 
 /**
  * Created by patrickp on 2016-08-08.

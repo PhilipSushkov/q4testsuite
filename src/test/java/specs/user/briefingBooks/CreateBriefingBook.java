@@ -1,4 +1,4 @@
-package specs.user.reportBuilder;
+package specs.user.briefingBooks;
 
 import org.apache.commons.lang.RandomStringUtils;
 import org.junit.Assert;
