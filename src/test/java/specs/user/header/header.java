@@ -1,12 +1,10 @@
 package specs.user.header;
 
-import com.applitools.shaded.eyessdk.fasterxml.jackson.annotation.JsonTypeInfo;
 import org.junit.*;
 import org.openqa.selenium.By;
 import pageobjects.user.loginPage.LoginPage;
 import pageobjects.user.securityPage.SecurityOverviewPage;
 import specs.AbstractSpec;
-import java.security.acl.Owner;
 
 /**
  * Created by sarahr on 2/9/2017.
@@ -22,6 +20,19 @@ public class header extends AbstractSpec{
                 .accessSideNav()
                 .selectSecurityFromSideNav();
     }
+
+    //in chat
+    @Test
+    public void canClearMessage(){
+        SecurityOverviewPage securityOverviewPage = new SecurityOverviewPage(driver);
+        securityOverviewPage.openChat();
+
+        String message = "This is  QA test!";
+
+        Assert.assertTrue("The message did not clear", securityOverviewPage.clearChat(message));
+
+    }
+
 
     @Test
     public void canViewReleaseNotes(){

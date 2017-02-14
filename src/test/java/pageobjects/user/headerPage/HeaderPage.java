@@ -2,9 +2,8 @@ package pageobjects.user.headerPage;
 
 import org.openqa.selenium.*;
 import pageobjects.PageObject;
+import pageobjects.user.dashboardPage.Dashboard;
 import pageobjects.user.securityPage.SecurityOverviewPage;
-
-import java.rmi.server.ExportException;
 
 /**
  * Created by sarahr on 2/1/2017.
@@ -18,6 +17,11 @@ public interface HeaderPage extends PageObject{
     By securityButton = By.xpath("//div[contains(@class,'global-header')]//div[contains(@class,'profile-company')]");
     By chatButton = By.xpath("//div[contains(@class,'chat-button')]");
     By profileButton = By.xpath("//div[contains(@class,'profile') and contains(@class,'x-paint-monitored')]");
+
+    //chat buttons
+    By chatMessageField = By.xpath("//textarea[contains(@name,'message')]");
+    By clearChatBtn = By.xpath("//form//div[contains(@class,'clear')]//span[contains(text(),'Clear')]");
+    By emptyMessageField = By.xpath("//form[contains(@class,'chat-form')]//div[contains(@class,'x-empty')]");
 
     //When Profile is open, these appear
     By releaseNotesButton = By.xpath("//span[contains(@class,'item') and contains(text(),'Release Notes')]");
@@ -39,7 +43,7 @@ public interface HeaderPage extends PageObject{
     By changePassField = By.xpath("//form[contains(@class,'settings-change-password')]");
 
     //change password error messages
-    By noCurrentPassMsg = By.xpath("//div[contains(@class,'x-msgbox-text')]//div[contains(text(),'You must enter in you current password')]");
+    By noCurrentPassMsg = By.xpath("//div[contains(@class,'x-msgbox-text')]//div[contains(text(),'You must enter in your current password')]");
     By noNewPassMsg = By.xpath("//div[contains(@class,'x-msgbox-text')]//div[contains(text(),'You must enter in your new password')]");
     By notSecurePassMsg = By.xpath("//div[contains(@class,'x-msgbox-text')]//div[contains(text(),'Password must contain')]");
     By noConfirmationPassMsg = By.xpath("//div[contains(@class,'x-msgbox-text')]//div[contains(text(),'password do not match')]");
@@ -64,13 +68,14 @@ public interface HeaderPage extends PageObject{
 
 
 
-    default HeaderPage headerSearch(String searchTerm){
-        findElement(searchBar).click();
-        findElement(searchBar).clear();
-        findElement(searchBar).sendKeys(searchTerm);
 
-        return this;
-    }
+    /*
+    This search method needs some work
+    We need to decide how we want to search things
+
+    Right now, you can search and click ~first~ fund, contact, etc. in the list
+     */
+
 
     default HeaderPage contactSearch(String searchTerm){
         findElement(searchBar).click();
@@ -112,6 +117,9 @@ public interface HeaderPage extends PageObject{
         return this;
     }
 
+    /////
+    /////
+
 
     default SecurityOverviewPage smallstockQuote(){
         findElement(securityButton).click();
@@ -124,7 +132,26 @@ public interface HeaderPage extends PageObject{
         findElement(chatButton).click();
     }
 
-    //is this in the abstract? - Need to look into that
+    default boolean clearChat(String message){
+
+        findElement(chatMessageField).sendKeys(message);
+        findElement(clearChatBtn).click();
+
+        try{
+            if(getDriver().findElement(emptyMessageField).isDisplayed()){
+                return true;
+            }
+            else{
+                return false;
+            }
+
+        }
+        catch(Exception e){
+            return false;
+        }
+
+    }
+
     default void openProfile(){
         findElement(profileButton).click();
     }
@@ -143,7 +170,7 @@ public interface HeaderPage extends PageObject{
 
 
         if(getDriver().findElement(msgboxOKBtn).isDisplayed()){
-            findElement(msgboxOKBtn).click();
+            //findElement(msgboxOKBtn).click();
             return true;
         }
 
@@ -160,14 +187,15 @@ public interface HeaderPage extends PageObject{
             if (getDriver().findElement(feedbackMsgField).isDisplayed()) {
                 return false;
             }
+            else{
+                return true;
+            }
         }
 
         catch(Exception e){
             return true;
 
         }
-        return false;
-
     }
 
     default boolean cancelChangePassword(){
@@ -178,13 +206,15 @@ public interface HeaderPage extends PageObject{
             if(getDriver().findElement(changePassField).isDisplayed()){
                 return false;
             }
+            else{
+                return true;
+            }
         }
 
         catch(Exception e){
             return true;
         }
 
-        return false;
 
     }
 
@@ -332,8 +362,9 @@ public interface HeaderPage extends PageObject{
         findElement(logoutButton).click();
         waitForElementToAppear(logoutRejection);
         findElement(logoutRejection).click();
-        pause(500L);
         try{
+            waitForElementToDissapear(logoutOptionsField);
+
             if(getDriver().findElement(logoutOptionsField).isDisplayed()) {
                 return false;
             }
