@@ -3,6 +3,7 @@ package specs.user.contacts;
 import org.apache.commons.lang.RandomStringUtils;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import pageobjects.user.advancedSearchResultsPage.AdvancedSearchResults;
 import pageobjects.user.contactPage.ContactDetailsPage;
@@ -129,4 +130,14 @@ public class ContactDetails extends AbstractSpec {
         Assert.assertFalse("'Saved Target' icon still appears.", new ContactDetailsPage(driver).isSavedTarget());
     }
 
+    // TODO this is currently broken. Remove ignore after this has been fixed on develop
+    @Ignore
+    @Test
+    public void canAddContactToBriefingBook() {
+        String title = "Contact Details Ttitle" + RandomStringUtils.randomAlphanumeric(6);
+        ContactDetailsPage contactDetails = new ContactDetailsPage(driver).accessContactDropdown()
+                .generateTearSheet(title);
+
+        Assert.assertFalse("Modal not dismissed", new ContactDetailsPage(driver).modalIsDismissed());
+    }
 }

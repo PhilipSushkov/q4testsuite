@@ -42,6 +42,7 @@ public class ContactDetailsPage extends Page {
     private final By markTarget = By.xpath("//*[contains(text(), 'Mark as Target')]");
     private final By removeTarget = By.xpath("//*[contains(text(), 'Remove from Targets')]");
     private final By postedDate = By.cssSelector(".entity-note-list .details .create-date");
+    private final By generateButton = By.cssSelector(".q4-modal.briefing-book-generate.q4-form .action-buttons .form-button.yellow");
 
     public ContactDetailsPage(WebDriver driver) {
         super(driver);
@@ -226,5 +227,25 @@ public class ContactDetailsPage extends Page {
         waitForElementToAppear(removeTarget);
         findElement(removeTarget).click();
         waitForElementToDissapear(removeTarget);
+    }
+
+    public ContactDetailsPage generateTearSheet(String title) {
+        waitForLoadingScreen();
+        findElement(createTearSheet).click();
+        pause(1000L);
+        findElement(generateButton).click();
+
+        return this;
+    }
+
+    public boolean modalIsDismissed() {
+        waitForLoadingScreen();
+        List<WebElement> generate = findElements(generateButton);
+        for (int i=0; i<generate.size(); i++){
+            if (generate.get(i).isDisplayed()){
+                return true;
+            }
+        }
+        return false;
     }
 }
