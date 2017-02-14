@@ -22,6 +22,7 @@ import specs.user.sideNavBar.TabNavigationExpanded;
 import specs.user.targeting.TargetingList;
 import specs.user.team.Q4TeamPage;
 import specs.user.watchlist.EditWatchlist;
+import specs.user.header.header;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
@@ -44,7 +45,8 @@ import specs.user.watchlist.EditWatchlist;
         ResearchList.class,
         Ownership.class,
         CreateBriefingBook.class,
-        EditBriefingBook.class
+        EditBriefingBook.class,
+        header.class
 })
 
 public class NightRun {
