@@ -872,14 +872,10 @@ public class SecurityOwnershipPage extends AbstractPageObject {
         List<WebElement> rows = findVisibleElements(holderTableRow);
 
         for (WebElement row : rows){
-            if (!findVisibleElement(By.cssSelector("#"+row.getAttribute("id")+" .rating")).getAttribute("class").contains("no-value")){ //checks whether there's a QR score within that row
-               /* if (doesElementExist(By.xpath("//div[@id='"+row.getAttribute("id")+"']/div[1]/div[1][not(div)]"))){ //checks whether there's no institution icon within that row
-                    numFunds++;
-                }*/
-                if (doesElementExist(By.xpath("//div[@id='"+row.getAttribute("id")+"']//i[contains(@class,'q4i-fund-2pt')]"))){ //checks whether there's no institution icon within that row
-                    numFunds++;
-                }
+            if (doesElementExist(By.xpath("//div[@id='"+row.getAttribute("id")+"']//i[contains(@class,'q4i-fund-2pt')]"))){ //checks whether there's no institution icon within that row
+                numFunds++;
             }
+
         }
         return numFunds;
     }
