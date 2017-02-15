@@ -11,7 +11,6 @@ import specs.AbstractSpec;
  */
 public class header extends AbstractSpec{
 
-    //no need for a before
     String releaseNotes = "https://develop.q4desktop.com/#release-note";
 
     @Before

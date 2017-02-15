@@ -66,6 +66,7 @@ public interface HeaderPage extends PageObject{
     By contactResult = By.xpath("//div[contains(@class,'list-header') and contains(@class,'contact')]/../../following-sibling::div[1]");
     By fundResult = By.xpath("//div[contains(@class,'list-header') and contains(@class,'fund')]/../../following-sibling::div[1]");
 
+    By releaseNotesPageHeader = By.xpath("//h1[contains(text(),'Release Notes')]");
 
 
 
@@ -160,6 +161,12 @@ public interface HeaderPage extends PageObject{
     //in profile
     default void clickReleaseNotes(){
         findElement(releaseNotesButton).click();
+        try{
+            waitForElement(releaseNotesPageHeader);
+        }
+        catch(Exception e){
+
+        }
     }
 
     default boolean leaveBlankFeedback(){
@@ -225,7 +232,9 @@ public interface HeaderPage extends PageObject{
 
         findElement(postChangePassBtn).click();
 
+
         try{
+            waitForElementToAppear(noCurrentPassMsg);
             if(getDriver().findElement(noCurrentPassMsg).isDisplayed()){
                 return true;
             }
@@ -246,6 +255,7 @@ public interface HeaderPage extends PageObject{
         findElement(postChangePassBtn).click();
 
         try{
+            waitForElementToAppear(noNewPassMsg);
             if(getDriver().findElement(noNewPassMsg).isDisplayed()){
                 return true;
             }
@@ -268,6 +278,7 @@ public interface HeaderPage extends PageObject{
         findElement(postChangePassBtn).click();
 
         try{
+            waitForElementToAppear(notSecurePassMsg);
             if(getDriver().findElement(notSecurePassMsg).isDisplayed()){
                 return true;
             }
@@ -290,6 +301,7 @@ public interface HeaderPage extends PageObject{
         findElement(postChangePassBtn).click();
 
         try{
+            waitForElementToAppear(noConfirmationPassMsg);
             if(getDriver().findElement(noConfirmationPassMsg).isDisplayed()){
                 return true;
             }
@@ -313,6 +325,7 @@ public interface HeaderPage extends PageObject{
         findElement(postChangePassBtn).click();
 
         try{
+            waitForElementToAppear(wrongOldPassMsg);
             if(getDriver().findElement(wrongOldPassMsg).isDisplayed()){
                 return true;
             }
@@ -336,6 +349,7 @@ public interface HeaderPage extends PageObject{
         findElement(postChangePassBtn).click();
 
         try{
+            waitForElementToAppear(samePassAsBeforeMsg);
             if(getDriver().findElement(samePassAsBeforeMsg).isDisplayed()){
                 return true;
             }
