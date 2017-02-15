@@ -152,7 +152,7 @@ public class Ownership extends AbstractSpec {
     public void canFilterHoldersByType(){
         SecurityOwnershipPage securityOwnershipPage = new SecurityOwnershipPage(driver);
         // selecting first date tab
-        securityOwnershipPage.selectDate(0);
+        securityOwnershipPage.selectThirteenF();
         // store original holders list
         String[] holders = securityOwnershipPage.getHolderNames();
         // select institution filter and check that all entries shown are institutions
@@ -208,7 +208,7 @@ public class Ownership extends AbstractSpec {
     public void checkHolderBreakdownPie(){
         SecurityOwnershipPage securityOwnershipPage = new SecurityOwnershipPage(driver);
         // selecting first date tab
-        securityOwnershipPage.selectDate(0);
+        securityOwnershipPage.selectThirteenF();
         // checking that there are the correct number of breakdown values
         Assert.assertEquals("The number of Holder Analysis Breakdown values is incorrect", 4, securityOwnershipPage.getNumOfHolderBreakdownValues());
         // checking that all breakdown values are between 0 and 100
@@ -219,7 +219,7 @@ public class Ownership extends AbstractSpec {
     public void checkHolderTypePie(){
         SecurityOwnershipPage securityOwnershipPage = new SecurityOwnershipPage(driver);
         // selecting first date tab
-        securityOwnershipPage.selectDate(0);
+        securityOwnershipPage.selectThirteenF();
         // checking that there are the correct number of type values
         Assert.assertEquals("The number of Holder Analysis Type values (including the 'Other' value) is incorrect", 4, securityOwnershipPage.getNumofHolderTypeValues());
         // checking that all type values are between 0 and 100
@@ -238,7 +238,7 @@ public class Ownership extends AbstractSpec {
     public void checkHolderStylePies(){
         SecurityOwnershipPage securityOwnershipPage = new SecurityOwnershipPage(driver);
         // selecting first date tab
-        securityOwnershipPage.selectDate(0);
+        securityOwnershipPage.selectThirteenF();
         // checking that there are the correct number of style values
         Assert.assertEquals("The number of Holder Analysis Style values (including the 'Other' value) is incorrect", 4, securityOwnershipPage.getNumofHolderStyleValues());
         // checking that all style values are between 0 and 100
@@ -257,7 +257,7 @@ public class Ownership extends AbstractSpec {
     public void checkHolderTurnoverPies(){
         SecurityOwnershipPage securityOwnershipPage = new SecurityOwnershipPage(driver);
         // selecting first date tab
-        securityOwnershipPage.selectDate(0);
+        securityOwnershipPage.selectThirteenF();
         // checking that there are the correct number of turnover values
         Assert.assertEquals("The number of Holder Analysis Turnover values (including the 'Other' value) is incorrect", 4, securityOwnershipPage.getNumofHolderTurnoverValues());
         // checking that all turnover values are between 0 and 100
@@ -276,7 +276,7 @@ public class Ownership extends AbstractSpec {
     public void canSearchForHistoricalInstitutions() {
         // Search for specific historical owners on the Institutions tab of the Historical table
         String holder = "Chevy Chase";
-        SecurityOwnershipPage securityOwnershipPage = new SecurityOwnershipPage(driver).selectDate(0)
+        SecurityOwnershipPage securityOwnershipPage = new SecurityOwnershipPage(driver).selectThirteenF()
                 .viewHistoricalHolders()
                 .searchForHoldings(holder);
       
@@ -288,7 +288,7 @@ public class Ownership extends AbstractSpec {
     public void canSearchForHistoricalFunds(){
         //Search for specific historical owners on the Funds and ETF's tab of the Historical table
         String holder = "Pacific Select Fund";
-        SecurityOwnershipPage securityOwnershipPage = new SecurityOwnershipPage(driver).selectDate(0)
+        SecurityOwnershipPage securityOwnershipPage = new SecurityOwnershipPage(driver).selectThirteenF()
                 .viewHistoricalHolders()
                 .showOnlyFunds()
                 .searchForHoldings(holder);
@@ -299,7 +299,7 @@ public class Ownership extends AbstractSpec {
     public void canSearchForCurrentInsiders(){
         //Search for specific current insiders on the Insiders tab of the Current Holders table
         String holder = "Jonathan Golden";
-        SecurityOwnershipPage securityOwnershipPage = new SecurityOwnershipPage(driver).selectDate(0)
+        SecurityOwnershipPage securityOwnershipPage = new SecurityOwnershipPage(driver).selectThirteenF()
                 .viewCurrentHolders()
                 .showOnlyInsiders()
                 .searchForHoldings(holder);
@@ -313,7 +313,7 @@ public class Ownership extends AbstractSpec {
     public void canSearchForHistoricalFundsETFs() {
         // Search for funds and ETFs under the Funds and ETFs tab of the Historical table
         String holder = "Omikron 7";
-        SecurityOwnershipPage securityOwnershipPage = new SecurityOwnershipPage(driver).selectDate(0)
+        SecurityOwnershipPage securityOwnershipPage = new SecurityOwnershipPage(driver).selectThirteenF()
                 .viewHistoricalHolders()
                 .selectFundsETFstab()
                 .searchForFundsETFs(holder);
@@ -327,7 +327,7 @@ public class Ownership extends AbstractSpec {
     public void canSearchForCurrentInstitutions() {
         // Search for specific current owners on the Institutions tab of the current table
         String holder = "Parnassus Investments";
-        SecurityOwnershipPage securityOwnershipPage = new SecurityOwnershipPage(driver).selectDate(0)
+        SecurityOwnershipPage securityOwnershipPage = new SecurityOwnershipPage(driver).selectThirteenF()
                 .viewInstitutiontab()
                 .searchForHoldings(holder);
 
@@ -338,7 +338,7 @@ public class Ownership extends AbstractSpec {
     public void canSearchForHistoricalInsiders() {
         // Search for specific insiders on the insiders tab of the historical section of the Holder's table
         String holder = "Nelson Peltz";
-        SecurityOwnershipPage securityOwnershipPage = new SecurityOwnershipPage(driver).selectDate(0);
+        SecurityOwnershipPage securityOwnershipPage = new SecurityOwnershipPage(driver).selectThirteenF();
         securityOwnershipPage.viewHistoricalHolders();
         securityOwnershipPage.selectInsiderstab();
         securityOwnershipPage.searchForHoldings(holder);

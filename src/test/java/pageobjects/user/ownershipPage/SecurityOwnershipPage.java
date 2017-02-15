@@ -113,6 +113,7 @@ public class SecurityOwnershipPage extends AbstractPageObject {
     private final By InsiderSearchResult = By.cssSelector(".top-holders-list.insider .details .holder-info .name");
     private final By DefaultInsiderResult = By.cssSelector("#ext-element-1965");
     private final By DefaultHolderResult = By.cssSelector("#ext-element-5048");
+    private final By thirteenFButton = By.xpath("//span[contains(text(),'13F')]");
 
     public SecurityOwnershipPage(WebDriver driver) {
         super(driver);
@@ -1109,6 +1110,7 @@ public class SecurityOwnershipPage extends AbstractPageObject {
 
     public SecurityOwnershipPage viewHistoricalHolders() {
         waitForLoadingScreen();
+        findElement(thirteenFButton).click();
         findElement(historicalTab).click();
         waitForLoadingScreen();
 
@@ -1117,6 +1119,7 @@ public class SecurityOwnershipPage extends AbstractPageObject {
 
     public SecurityOwnershipPage viewCurrentHolders(){
         waitForLoadingScreen();
+        findElement(thirteenFButton).click();
         findElement(currentTab).click();
 
         return this;
@@ -1161,6 +1164,7 @@ public class SecurityOwnershipPage extends AbstractPageObject {
 
     public void selectInsiderstab() {
         waitForLoadingScreen();
+        findElement(thirteenFButton).click();
         findElement(InsidersTab).click();
 
     }
@@ -1189,7 +1193,15 @@ public class SecurityOwnershipPage extends AbstractPageObject {
 
     public SecurityOwnershipPage viewInstitutiontab() {
         waitForLoadingScreen();
+        findElement(thirteenFButton).click();
         findElement(InstitutionTab).click();
+
+        return this;
+    }
+
+    public SecurityOwnershipPage selectThirteenF() {
+        waitForLoadingScreen();
+        findElement(thirteenFButton).click();
 
         return this;
     }
