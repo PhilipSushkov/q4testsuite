@@ -29,6 +29,8 @@ public class DashboardLinks extends AbstractSpec {
         Assert.assertEquals("Company name is not visible, or doesn't match expected", companyName, finish.getCompanyName());
     }
 
+    // TODO this has been removed. Not sure if we plan on bringing this functionality back
+    @Ignore
     @Test
     public void canNavigateToMyCompanySmallSharePrice() {
         String companyName = "Sysco Corp";
