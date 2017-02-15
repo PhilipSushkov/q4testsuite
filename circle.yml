@@ -21,11 +21,12 @@ test:
       - find . -type f -regex ".*/target/surefire-reports/.*xml" -exec cp {} $CIRCLE_TEST_REPORTS/junit/ \;
 
   override:
+      - ? |
+          if [ -n "${TEST_ENV}" ]; then
+            mvn -Dsurefire.rerunFailingTestsCount=1 test -fae -D q4inc.specs=${TEST_ENV} -Dtest=${SUITE_NAME} -Dthreads=${THREADS}
+          else
+            mvn compile
+          fi
+        : timeout: 2500
+
       - google-chrome --version
-    - ? |
-        if [ -n "${TEST_ENV}" ]; then
-          mvn -Dsurefire.rerunFailingTestsCount=1 test -fae -D q4inc.specs=${TEST_ENV} -Dtest=${SUITE_NAME} -Dthreads=${THREADS}
-        else
-          mvn compile
-        fi
-      : timeout: 2500
