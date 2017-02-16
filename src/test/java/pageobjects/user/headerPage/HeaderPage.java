@@ -52,8 +52,8 @@ public interface HeaderPage extends PageObject{
 
 
     //feedback buttons
-    By postFeedbackButton = By.xpath("//div[contains(@class,'submit-button')]");
-    By cancelFeedback = By.xpath("//div[contains(@class,'cancel-button')]");
+    By postFeedbackButton = By.xpath("//span[contains(@class,'x-button-label') and contains(text(),'Post')]");
+    By cancelFeedback = By.xpath("//span[contains(@class,'x-button-label') and contains(text(),'Cancel')]");
     By emptyFieldMessage = By.xpath("//div[contains(@class,'x-msgbox')]/div[contains(text(),'Message is empty')]");
     By msgboxOKBtn = By.xpath("//div[contains(@class,'x-msgbox')]//span[contains(text(),'OK')]");
     By sucessfulSubmittionField = By.xpath("//div[contains(text(),'Thank you')]");
