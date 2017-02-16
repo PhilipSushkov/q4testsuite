@@ -17,7 +17,7 @@ public class CompanyPage extends AbstractPageObject {
     private final By firstCompany = By.cssSelector(".q4-list .ui-datatable tr.ui-widget-content td");
     private final By companyName = By.cssSelector("body > q4-app > div > div > q4-organization > p-datatable > div > div > table > tbody > tr:nth-child(1) > td:nth-child(2)");
     private final By searchField = By.cssSelector(".search.dark .search-input");
-    private final By companyList = By.cssSelector(".ui-datatable table");
+    private final By companyList = By.cssSelector(".ui-datatable-data");
     private final By companyHeaderName = By.cssSelector(".page-header .page-title .details h2");
     private final By peerList = By.cssSelector(".ui-datatable table");
     private final By deletePeerButton = By.cssSelector("body > q4-app > div > div > q4-organization-details > q4-organization-peers > p-datatable > div > div > table > tbody > tr.ui-widget-content.ui-datatable-even > td.action-buttons > span > button.square-button.button-no-background.remove");
