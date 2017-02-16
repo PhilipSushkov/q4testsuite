@@ -272,6 +272,8 @@ public class Ownership extends AbstractSpec {
         Assert.assertTrue("Other Holder Analysis Style dropdown has not been closed.", securityOwnershipPage.otherHolderDropdownIsClosed());
     }
 
+    //Historical Holder Filters
+
     @Test
     public void canSearchForHistoricalInstitutions() {
         // Search for specific historical owners on the Institutions tab of the Historical table
@@ -282,6 +284,18 @@ public class Ownership extends AbstractSpec {
       
         Assert.assertThat(securityOwnershipPage.getHolderSearchResults(), containsString(holder));
         Assert.assertThat(securityOwnershipPage.getHistoricalInstitutionsHolderSearchResults(), containsString(holder));
+    }
+
+    @Test
+    public void canSearchForHistoricalInsiders() {
+        // Search for specific insiders on the insiders tab of the historical section of the Holder's table
+        String holder = "Nelson Peltz";
+        SecurityOwnershipPage securityOwnershipPage = new SecurityOwnershipPage(driver).selectThirteenF();
+        securityOwnershipPage.viewHistoricalHolders();
+        securityOwnershipPage.selectInsiderstab();
+        securityOwnershipPage.searchForHoldings(holder);
+
+        Assert.assertThat(securityOwnershipPage.getInsiderSearchResults(), containsString(holder));
     }
 
     @Test
@@ -296,20 +310,6 @@ public class Ownership extends AbstractSpec {
     }
 
     @Test
-    public void canSearchForCurrentInsiders(){
-        //Search for specific current insiders on the Insiders tab of the Current Holders table
-        String holder = "Jonathan Golden";
-        SecurityOwnershipPage securityOwnershipPage = new SecurityOwnershipPage(driver).selectThirteenF()
-                .viewCurrentHolders()
-                .showOnlyInsiders()
-                .searchForHoldings(holder);
-
-        Assert.assertThat(securityOwnershipPage.getCurrentInsidersHolderSearchResults(), containsString(holder));
-
-        Assert.assertThat(securityOwnershipPage.getInsiderSearchResults(), containsString(holder));
-    }
-
-    @Test
     public void canSearchForHistoricalFundsETFs() {
         // Search for funds and ETFs under the Funds and ETFs tab of the Historical table
         String holder = "Omikron 7";
@@ -321,7 +321,7 @@ public class Ownership extends AbstractSpec {
         Assert.assertThat(securityOwnershipPage.getHolderSearchResultstwo(), containsString(holder));
     }
 
-
+    //Current Holder filters
 
     @Test
     public void canSearchForCurrentInstitutions() {
@@ -335,13 +335,15 @@ public class Ownership extends AbstractSpec {
     }
 
     @Test
-    public void canSearchForHistoricalInsiders() {
-        // Search for specific insiders on the insiders tab of the historical section of the Holder's table
-        String holder = "Nelson Peltz";
-        SecurityOwnershipPage securityOwnershipPage = new SecurityOwnershipPage(driver).selectThirteenF();
-        securityOwnershipPage.viewHistoricalHolders();
-        securityOwnershipPage.selectInsiderstab();
-        securityOwnershipPage.searchForHoldings(holder);
+    public void canSearchForCurrentInsiders(){
+        //Search for specific current insiders on the Insiders tab of the Current Holders table
+        String holder = "Jonathan Golden";
+        SecurityOwnershipPage securityOwnershipPage = new SecurityOwnershipPage(driver).selectThirteenF()
+                .viewCurrentHolders()
+                .showOnlyInsiders()
+                .searchForHoldings(holder);
+
+        Assert.assertThat(securityOwnershipPage.getCurrentInsidersHolderSearchResults(), containsString(holder));
 
         Assert.assertThat(securityOwnershipPage.getInsiderSearchResults(), containsString(holder));
     }
