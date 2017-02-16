@@ -85,9 +85,9 @@ public class SecurityOwnershipPage extends AbstractPageObject {
     private final By holderBreakdownValues = By.cssSelector(".analysis-breakdown-list .value");
     private final By holderTypeValues = By.cssSelector(".analysis-investor-type-list .value");
     private final By holderTypeOther = By.cssSelector(".analysis-investor-type-list .other");
-    private final By holderStyleValues = By.cssSelector(".analysis-pie-bundles .q4-pie-bundle:nth-child(1) text");
+    private final By holderStyleValues = By.cssSelector(".analysis-pie-bundles .q4-pie-bundle:nth-child(1) .q4-pie-bundle-item .chart text");
     private final By holderStyleOther = By.cssSelector(".analysis-pie-bundles .q4-pie-bundle:nth-child(1) .other");
-    private final By holderTurnoverValues = By.cssSelector(".analysis-pie-bundles .q4-pie-bundle:nth-child(2) text");
+    private final By holderTurnoverValues = By.cssSelector(".analysis-pie-bundles .q4-pie-bundle:nth-child(2) .q4-pie-bundle-item .chart text");
     private final By holderTurnoverOther = By.cssSelector(".analysis-pie-bundles .q4-pie-bundle:nth-child(2) .other");
     private final By holderOtherDropdown = By.className("q4-list-modal-inner");
     private final By holderOtherValues = By.cssSelector(".q4-list-modal-inner .value"); //values contained within whatever other dropdown is open (returns no elements when closed)
@@ -1041,12 +1041,14 @@ public class SecurityOwnershipPage extends AbstractPageObject {
     }
 
     public int getNumofHolderStyleValues(){
+        waitForLoadingScreen();
         waitForElement(holderStyleValues);
         return findVisibleElements(holderStyleValues).size();
     }
 
     // checks that all style values are between 0 and 100 (inclusive)
     public boolean holderStyleValuesAreValid(){
+        waitForLoadingScreen();
         waitForElement(holderStyleValues);
         return elementsAreAllPercentages(findVisibleElements(holderStyleValues));
     }
@@ -1060,12 +1062,14 @@ public class SecurityOwnershipPage extends AbstractPageObject {
     }
 
     public int getNumofHolderTurnoverValues(){
+        waitForLoadingScreen();
         waitForElement(holderTurnoverValues);
         return findVisibleElements(holderTurnoverValues).size();
     }
 
     // checks that all turnover values are between 0 and 100 (inclusive)
     public boolean holderTurnoverValuesAreValid(){
+        waitForLoadingScreen();
         waitForElement(holderTurnoverValues);
         return elementsAreAllPercentages(findVisibleElements(holderTurnoverValues));
     }
