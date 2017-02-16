@@ -748,7 +748,7 @@ public class SecurityOwnershipPage extends AbstractPageObject {
     }
 
     public String[] getHolderNames(){
-        waitForElement(holderTableName);
+        waitForElementToAppear(holderTableName);
         List<WebElement> elements = findVisibleElements(holderTableName);
         String[] names = new String[elements.size()];
         for (int i=0; i<elements.size(); i++){
