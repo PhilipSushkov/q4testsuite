@@ -4,7 +4,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageobjects.AbstractPageObject;
 
@@ -47,14 +46,6 @@ public class BriefingBookDetailsPage extends AbstractPageObject {
         wait.until(ExpectedConditions.elementToBeClickable(deleteConfirmation));
         findElement(deleteConfirmation).click();
         return new BriefingBookList(getDriver());
-    }
-
-    public BriefingBookDetailsPage saveChanges() {
-        pause(500L);
-        wait.until(ExpectedConditions.elementToBeClickable(saveButton));
-        findElement(saveButton).click();
-
-        return this;
     }
 
     public BriefingBookDetailsPage addInstitution(String name) {
@@ -199,9 +190,7 @@ public class BriefingBookDetailsPage extends AbstractPageObject {
 
     public void reorderEntityToBeginning(int originIndex){
         waitForLoadingScreen();
-        findVisibleElement(editButton).click();
         actions.dragAndDrop(findElements(entityDragHandle).get(originIndex), findElement(topOfEntityList)).perform();
-        saveChanges();
         waitForLoadingScreen();
         driver.navigate().refresh();
     }
