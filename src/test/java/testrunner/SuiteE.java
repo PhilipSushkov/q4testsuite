@@ -6,11 +6,11 @@ package testrunner;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
-import specs.user.ownership.Ownership;
+import specs.user.targeting.TargetingList;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
-        Ownership.class
+        TargetingList.class
 })
 public class SuiteE {
 }
