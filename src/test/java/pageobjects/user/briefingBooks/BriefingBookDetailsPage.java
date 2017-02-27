@@ -113,7 +113,6 @@ public class BriefingBookDetailsPage extends AbstractPageObject {
 
 
     public BriefingBookDetailsPage deleteEntity(String name){
-            findElement(editButton).click();
             startDeleteForEntry(name);
             confirmDelete();
             return this;
