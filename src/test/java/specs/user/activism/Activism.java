@@ -1,6 +1,9 @@
 package specs.user.activism;
 
+import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Test;
+import pageobjects.user.activismPage.ActivismPage;
 import pageobjects.user.loginPage.LoginPage;
 import specs.AbstractSpec;
 
@@ -13,7 +16,14 @@ public class Activism extends AbstractSpec {
     public void setUp() {
         new LoginPage(driver).loginUser()
                 .accessSideNav()
-                .selectSecurityFromSideNav();
+                .selectSecurityFromSideNav()
+                .navigateToActivismPage();
     }
 
+    @Test
+    public void checkForActivismNLG() {
+        ActivismPage activismPage = new ActivismPage(driver);
+
+        Assert.assertTrue("NLG is not present on page", activismPage.verifyTextIsPresent());
+    }
 }

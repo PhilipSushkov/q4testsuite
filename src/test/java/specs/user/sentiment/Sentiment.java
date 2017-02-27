@@ -1,7 +1,10 @@
 package specs.user.sentiment;
 
+import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Test;
 import pageobjects.user.loginPage.LoginPage;
+import pageobjects.user.sentimentPage.SentimentPage;
 import specs.AbstractSpec;
 
 /**
@@ -13,7 +16,14 @@ public class Sentiment extends AbstractSpec {
     public void setUp() {
         new LoginPage(driver).loginUser()
                 .accessSideNav()
-                .selectSecurityFromSideNav();
+                .selectSecurityFromSideNav()
+                .navigateToSentimentPage();
     }
 
+    @Test
+    public void checkForSentimentNLG() {
+        SentimentPage sentimentPage = new SentimentPage(driver);
+
+        Assert.assertTrue("NLG is not present on page", sentimentPage.verifyTextIsPresent());
+    }
 }

@@ -637,4 +637,34 @@ public class SecurityOverviewPage extends WatchlistPage {
         findElement(watchlistBtn).click();
         return new SecurityOverviewPage(getDriver());
     }
+
+    public SentimentPage navigateToSentimentPage() {
+        findElement(dropdownRightArrow).click();
+        findElement(dropdownRightArrow).click();
+        findElement(dropdownRightArrow).click();
+        waitForLoadingScreen();
+
+        return new SentimentPage(driver);
+    }
+
+    public VolatilityPage navigateToVolatilityPage() {
+        findElement(dropdownRightArrow).click();
+        findElement(dropdownRightArrow).click();
+        findElement(dropdownRightArrow).click();
+        findElement(dropdownRightArrow).click();
+        waitForLoadingScreen();
+
+        return new VolatilityPage(driver);
+    }
+
+    public ActivismPage navigateToActivismPage() {
+        findElement(dropdownRightArrow).click();
+        findElement(dropdownRightArrow).click();
+        findElement(dropdownRightArrow).click();
+        findElement(dropdownRightArrow).click();
+        findElement(dropdownRightArrow).click();
+        waitForLoadingScreen();
+
+        return new ActivismPage(driver);
+    }
 }
