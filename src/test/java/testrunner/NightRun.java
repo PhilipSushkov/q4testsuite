@@ -2,6 +2,7 @@ package testrunner;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
+import specs.user.activism.Activism;
 import specs.user.activity.FilterActivity;
 import specs.user.activity.LogActivity;
 import specs.user.activity.SearchForActivity;
@@ -19,8 +20,10 @@ import specs.user.login.UserLogin;
 import specs.user.ownership.Ownership;
 import specs.user.research.ResearchList;
 import specs.user.securityDetails.Overview;
+import specs.user.sentiment.Sentiment;
 import specs.user.sideNavBar.TabNavigationExpanded;
 import specs.user.team.Q4TeamPage;
+import specs.user.volatility.Volatility;
 import specs.user.watchlist.EditWatchlist;
 
 @RunWith(Suite.class)
@@ -45,7 +48,10 @@ import specs.user.watchlist.EditWatchlist;
         Ownership.class,
         CreateBriefingBook.class,
         EditBriefingBook.class,
-        header.class
+        header.class,
+        Activism.class,
+        Sentiment.class,
+        Volatility.class
 })
 
 public class NightRun {
