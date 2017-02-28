@@ -11,8 +11,6 @@ import specs.AbstractSpec;
  */
 public class header extends AbstractSpec{
 
-    String releaseNotes = "https://develop.q4desktop.com/#release-note";
-
     @Before
     public void setUp() {
         new LoginPage(driver).loginUser()
@@ -35,6 +33,8 @@ public class header extends AbstractSpec{
 
     @Test
     public void canViewReleaseNotes(){
+        String releaseNotes = driver.getCurrentUrl().replace("/#company/XNYS%3ASYY", "/#release-note");
+
         SecurityOverviewPage securityOverviewPage = new SecurityOverviewPage(driver);
         securityOverviewPage.openProfile();
         securityOverviewPage.clickReleaseNotes();
