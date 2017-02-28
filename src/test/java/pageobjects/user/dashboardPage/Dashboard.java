@@ -34,7 +34,7 @@ public class Dashboard extends AbstractPageObject {
 
     // Build report icon
 
-    private final By buildReportDashboardButton = By.id("ext-button-14");
+    private final By buildReportDashboardButton = By.id("ext-button-15");
 
     // Log Note icon (unique selectors for dashboard)
 
