@@ -240,6 +240,7 @@ public class TargetingList extends AbstractSpec {
        WebElement search;
        String searchName = current.toString()+"_abortDelete";
        TargetingPage targetingPage = new TargetingPage(driver).newSearch().createBlankSearch(searchName);
+       targetingPage.searchForSearch(searchName);
        search = targetingPage.returnSearch(searchName);
        targetingPage = targetingPage.deleteSearchAbort(search);
        search = targetingPage.returnSearch(searchName);

@@ -82,6 +82,7 @@ public class NewSearchPage extends AbstractPageObject{
         waitForElement(searchNameField);
         findElement(searchNameField).sendKeys(searchName);
         findElement(saveButton).click();
+        waitForLoadingScreen();
         return new TargetingPage(getDriver());
     }
 
