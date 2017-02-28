@@ -3,13 +3,12 @@ package pageobjects.user.watchlist;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.remote.server.handler.FindElements;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageobjects.AbstractPageObject;
 import pageobjects.user.securityPage.SecurityOverviewPage;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by patrickp on 2016-08-05.
@@ -26,6 +25,7 @@ public class WatchlistPage extends AbstractPageObject{
     private final By addSecurityButton = By.cssSelector(".watchlist-new-item .header-button [class*=\" q4i-\"]");
     private final By confirmDelete = By.xpath("//div[contains(@class,'x-msgbox')]//div[span[contains(text(),'Yes')]]");
     private final By cancelDelete =By.xpath("//div[contains(@class,'x-msgbox')]//div[span[contains(text(),'No')]]");
+    private final By watchlistSearchField = By.cssSelector(".watchlist-manager-page .search-field .x-field-input .x-input-el");
 
     public WatchlistPage(WebDriver driver) {
         super(driver);
@@ -88,9 +88,14 @@ public class WatchlistPage extends AbstractPageObject{
     }
 
     public String getFirstCompanyName() {
-        waitForLoadingScreen();
-        waitForElementToAppear(firstCompanyNameInList);
-        return findElement(firstCompanyNameInList).getText().replaceAll("\\p{P}", "");
+        int index = 0;
+        WebElement baseTable = driver.findElement(By.id("ext-watchlist-1"));
+        List<WebElement> tableRows = baseTable.findElements(By.cssSelector(".watchlist-list .watchlist-row h5"));
+        return tableRows.get(index).getText();
+
+//        waitForLoadingScreen();
+//        waitForElementToAppear(firstCompanyNameInList);
+//        return findElement(firstCompanyNameInList).getText().replaceAll("\\p{P}", "");
     }
 
     public SecurityOverviewPage clickOnFirstWatchlistCompany() {
@@ -137,5 +142,15 @@ public class WatchlistPage extends AbstractPageObject{
         }
         return this;
     }
- }
+
+    public WatchlistPage searchForEntity(String companyName) {
+        findElement(watchlistSearchField).sendKeys(companyName);
+
+        return this;
+    }
+
+    public String getAllCompanyNames() {
+        return findElement(firstCompanyNameInList).getText();
+    }
+}
 

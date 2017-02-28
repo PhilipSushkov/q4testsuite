@@ -54,8 +54,7 @@ public class EditWatchlist extends AbstractSpec {
         WatchlistPage watchlist = new WatchlistPage(driver).checkForExistingSecurities();
         String companyName = watchlist.getFirstCompanyName();
 
-        SecurityOverviewPage overview = new SecurityOverviewPage(driver)
-                .clickOnFirstWatchlistCompany()
+        new SecurityOverviewPage(driver).clickOnFirstWatchlistCompany()
                 .clickThreePointBtn()
                 .clickWatchlistBtn();
 
@@ -64,6 +63,16 @@ public class EditWatchlist extends AbstractSpec {
                  .selectWatchListFromSideNav();
 
         Assert.assertThat("Removed company is still visible in watchlist", watchlist.getWatchlistSecurities(), is(not(companyName)));
+    }
+
+    @Test
+    public void canSearchForCompanyOnWatchlist() {
+        WatchlistPage watchlist = new WatchlistPage(driver).checkForExistingSecurities();
+        String companyName = watchlist.getFirstCompanyName();
+
+        new WatchlistPage(driver).searchForEntity(companyName);
+
+        Assert.assertEquals("Search returned incorrect results", watchlist.getAllCompanyNames(), companyName);
 
     }
 }
