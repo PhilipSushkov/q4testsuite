@@ -8,7 +8,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageobjects.Page;
 import pageobjects.user.advancedSearchResultsPage.AdvancedSearchResults;
 import pageobjects.user.institutionPage.InstitutionPage;
-import pageobjects.user.logActivity.LogActivityModal;
+import pageobjects.user.logActivityModal.LogActivityModal;
 
 import java.util.List;
 
@@ -42,6 +42,7 @@ public class ContactDetailsPage extends Page {
     private final By markTarget = By.xpath("//*[contains(text(), 'Mark as Target')]");
     private final By removeTarget = By.xpath("//*[contains(text(), 'Remove from Targets')]");
     private final By postedDate = By.cssSelector(".entity-note-list .details .create-date");
+    private final By generateButton = By.cssSelector(".q4-modal.briefing-book-generate.q4-form .action-buttons .form-button.yellow");
 
     public ContactDetailsPage(WebDriver driver) {
         super(driver);
@@ -59,11 +60,24 @@ public class ContactDetailsPage extends Page {
     }
 
     public ContactDetailsPage addToContacts() {
+
         pause(500L);
         wait.until(ExpectedConditions.elementToBeClickable(contactDropDown));
         findElement(contactDropDown).click();
-        wait.until(ExpectedConditions.elementToBeClickable(addOption));
-        findElement(addOption).click();
+
+        try {
+            wait.until(ExpectedConditions.elementToBeClickable(addOption));
+            findElement(addOption).click();
+        }
+        catch (Exception e){
+            wait.until(ExpectedConditions.elementToBeClickable(removeFromContacts));
+            findElement(removeFromContacts).click();
+            wait.until(ExpectedConditions.elementToBeClickable(contactDropDown));
+            findElement(contactDropDown).click();
+            wait.until(ExpectedConditions.elementToBeClickable(addOption));
+            findElement(addOption).click();
+
+        }
         pause(500L);
 
         return this;
@@ -174,7 +188,7 @@ public class ContactDetailsPage extends Page {
     }
 
     public boolean isSavedTarget(){
-        waitForElement(contactDropDown);
+        waitForLoadingScreen();
         List<WebElement> targetIcons = findElements(targetIcon);
         for (int i=0; i<targetIcons.size(); i++){
             if (targetIcons.get(i).isDisplayed()){
@@ -185,11 +199,26 @@ public class ContactDetailsPage extends Page {
     }
 
     public void markAsTarget(){
-        waitForElementToAppear(contactDropDown);
-        findElement(contactDropDown).click();
-        waitForElementToAppear(markTarget);
-        findElement(markTarget).click();
-        waitForElementToDissapear(markTarget);
+        if (isSavedTarget()) {
+                waitForLoadingScreen();
+                findElement(contactDropDown).click();
+                findElement(removeTarget).click();
+                pause(2000L);
+                driver.navigate().refresh();
+                waitForLoadingScreen();
+                findElement(contactDropDown).click();
+                waitForElementToAppear(markTarget);
+                findElement(markTarget).click();
+                waitForElementToDissapear(markTarget);
+            }
+            else
+            {
+                waitForElementToAppear(contactDropDown);
+                findElement(contactDropDown).click();
+                waitForElementToAppear(markTarget);
+                findElement(markTarget).click();
+                waitForElementToDissapear(markTarget);
+        }
     }
 
     public void removeFromTargets(){
@@ -198,5 +227,25 @@ public class ContactDetailsPage extends Page {
         waitForElementToAppear(removeTarget);
         findElement(removeTarget).click();
         waitForElementToDissapear(removeTarget);
+    }
+
+    public ContactDetailsPage generateTearSheet(String title) {
+        waitForLoadingScreen();
+        findElement(createTearSheet).click();
+        pause(1000L);
+        findElement(generateButton).click();
+
+        return this;
+    }
+
+    public boolean modalIsDismissed() {
+        waitForLoadingScreen();
+        List<WebElement> generate = findElements(generateButton);
+        for (int i=0; i<generate.size(); i++){
+            if (generate.get(i).isDisplayed()){
+                return true;
+            }
+        }
+        return false;
     }
 }

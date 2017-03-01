@@ -1,8 +1,10 @@
 package pageobjects.user.targeting;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Point;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageobjects.AbstractPageObject;
 import pageobjects.user.contactPage.ContactDetailsPage;
@@ -18,17 +20,21 @@ public class TargetingPage extends AbstractPageObject {
 
     private final By newSearchButton = By.cssSelector(".q4-hero-banner .x-dock .action-button");
     private final By showSearches = By.cssSelector(".x-tabbar-inner div:first-child");
-    private final By searchNameSelectors = By.cssSelector(".x-grid-row .x-grid-cell:first-child .x-grid-cell-inner");
+   private final By searchNameSelectors = By.cssSelector(".x-grid-row .x-grid-cell:first-child .x-grid-cell-inner");
+    private final By searchTableRow = By.xpath("//div[contains(@class,'x-dataview-item')]");
     private final By searchNameDivSelectors = By.cssSelector(".x-grid-row");
     private final By editButton = By.cssSelector(".edit .x-button-label");
-    private final By redButton = By.cssSelector(".delete-button .q4i-minus-4pt");
-    private final By cancelDelete = By.cssSelector(".targeting-action-toolbar .x-button:first-child");
-    private final By confirmDelete = By.cssSelector(".targeting-action-toolbar .x-button.delete");
+    private final By checkbox = By.cssSelector(".checkbox-mask");
+    private final By trashIcon = By.xpath("//div[not(contains(@class,'disabled')) and ./span[contains(@class,'q4i-trashbin-4pt')]]");
+    //private final By trashIcon = By.cssSelector(".q4i-trashbin-4pt");
+    private final By cancelDelete = By.xpath("//div[contains(@class,'x-msgbox')]//div[./span[contains(text(),'No')]]");
+    private final By confirmDelete = By.xpath("//div[contains(@class,'x-msgbox')]//div[./span[contains(text(),'Yes')]]");
     private final By doneButton = By.cssSelector(".done .x-button-label");
     private final By searchesColumnHeader = By.cssSelector(".x-grid-header-container-inner .x-grid-column");
     private final By searchCreatedDate = By.cssSelector(".x-grid-row .x-grid-cell:nth-child(2)");
     private final By searchUpdatedDate = By.cssSelector(".x-grid-row .x-grid-cell:nth-child(3)");
     private final By showMoreButton = By.cssSelector(".load-more .x-button");
+    private final By searchInput = By.xpath("//*[contains(@class,'toolbar-panel')]//input");
 
     private final By showTargets = By.cssSelector(".x-tabbar-inner div:last-child");
     private final By showInstitutions = By.xpath("//div[contains(@class,'range-tabs-inner')]/div[span/text()='Institutions']");
@@ -57,14 +63,15 @@ public class TargetingPage extends AbstractPageObject {
     }
 
     private void showMoreSavedSearches(){
-        int numSearches = findElements(searchNameSelectors).size();
+       // int numSearches = findElements(searchNameSelectors).size();
         findVisibleElement(showMoreButton).click();
-        for (int i=0; i<100; i++){
+        waitForLoadingScreen();
+       /* for (int i=0; i<100; i++){
             if (findElements(searchNameSelectors).size()>numSearches){
                 return;
             }
             pause(100);
-        }
+        }*/
     }
 
     // returns the position (starting from 0) that the search name appears; returns -1 if not displayed
@@ -84,34 +91,56 @@ public class TargetingPage extends AbstractPageObject {
         return -1;
     }
 
+    public TargetingPage searchForSearch(String searchName){
+        findVisibleElement(searchInput).sendKeys(searchName);
+        waitForLoadingScreen();
+        return this;
+    }
+
+    public WebElement returnSearch(String searchName){
+        waitForElement(showSearches);
+        while (findVisibleElements(showMoreButton).size()>0){
+            showMoreSavedSearches();
+        }
+        List<WebElement> searchNames = findVisibleElements(searchTableRow);
+
+        for(WebElement row: searchNames){
+            if(row.getText().contains(searchName)){
+                return row;
+            }
+        }
+        return null;
+    }
+
+    public TargetingPage deleteSearchAbort(WebElement search){
+        waitForLoadingScreen();
+        search.findElement(checkbox).click();
+        findElement(trashIcon).click();
+        waitForElementToAppear(cancelDelete);
+        findElement(cancelDelete).click();
+        return this;
+    }
     // parameter index is the position (starting from 0) that the search name appears
     public EditSearchPage editSearch(int index){
         findVisibleElements(searchNameDivSelectors).get(index).click();
         return new EditSearchPage(getDriver());
     }
 
-    public void deleteSearchAbort(int index){
-        waitForLoadingScreen();
-        waitForElement(editButton);
-        findVisibleElement(editButton).click();
-        List<WebElement> redButtons = findVisibleElements(redButton);
-        redButtons.get(index).click();
-        waitForElementToAppear(cancelDelete);
-        findElement(cancelDelete).click();
-        waitForElementToDissapear(cancelDelete);
-        findElement(doneButton).click();
-    }
 
-    public void deleteSearch(int index){
-        waitForElement(editButton);
-        findVisibleElement(editButton).click();
-        waitForElementToAppear(redButton);
-        List<WebElement> redButtons = findElements(redButton);
-        redButtons.get(index).click();
+    public TargetingPage deleteSearch(WebElement search){
+        waitForLoadingScreen();
+
+        try{
+             search.findElement(By.xpath(".//div[contains(@class,' selected')]"));
+            }
+        catch(Exception e) {
+            search.findElement(checkbox).click();
+        }
+        findElement(trashIcon).click();
         waitForElementToAppear(confirmDelete);
         findElement(confirmDelete).click();
-        waitForElementToDissapear(confirmDelete);
-        findElement(doneButton).click();
+        waitForLoadingScreen();
+        return this;
     }
 
     public String getCreatedDate(int index){
@@ -129,7 +158,8 @@ public class TargetingPage extends AbstractPageObject {
         // sorting by name ascending
         findElements(searchesColumnHeader).get(0).click();
         pause(300);
-        if (!elementsAreAlphaUpSorted(findElements(searchNameSelectors).subList(0,10))){
+        waitForLoadingScreen();
+        if (!elementsAreAlphaUpSortedIgnoreCase(findElements(searchNameSelectors).subList(0,10))){
             System.out.println("SORT ERROR: Names are not in ascending order.");
             return false;
         }
@@ -137,7 +167,8 @@ public class TargetingPage extends AbstractPageObject {
         // sorting by name descending
         findElements(searchesColumnHeader).get(0).click();
         pause(300);
-        if (!elementsAreAlphaDownSorted(findElements(searchNameSelectors).subList(0,10))){
+        waitForLoadingScreen();
+        if (!elementsAreAlphaDownSortedIgnoreCase(findElements(searchNameSelectors).subList(0,10))){
             System.out.println("SORT ERROR: Names are not in descending order.");
             return false;
         }
@@ -145,6 +176,7 @@ public class TargetingPage extends AbstractPageObject {
         // sorting by created date ascending
         findElements(searchesColumnHeader).get(1).click();
         pause(300);
+        waitForLoadingScreen();
         if (!elementsAreDateUpSorted(findElements(searchCreatedDate).subList(0,10))){
             System.out.println("SORT ERROR: Created dates are not in ascending order.");
             return false;
@@ -153,6 +185,7 @@ public class TargetingPage extends AbstractPageObject {
         // sorting by created date descending
         findElements(searchesColumnHeader).get(1).click();
         pause(300);
+        waitForLoadingScreen();
         if (!elementsAreDateDownSorted(findElements(searchCreatedDate).subList(0,10))){
             System.out.println("SORT ERROR: Created dates are not in descending order.");
             return false;
@@ -161,6 +194,7 @@ public class TargetingPage extends AbstractPageObject {
         // sorting by last updated date ascending
         findElements(searchesColumnHeader).get(2).click();
         pause(300);
+        waitForLoadingScreen();
         if (!elementsAreDateUpSorted(findElements(searchUpdatedDate).subList(0,10))){
             System.out.println("SORT ERROR: Last updated dates are not in ascending order.");
             return false;
@@ -169,6 +203,7 @@ public class TargetingPage extends AbstractPageObject {
         // sorting by last updated date descending
         findElements(searchesColumnHeader).get(2).click();
         pause(300);
+        waitForLoadingScreen();
         if (!elementsAreDateDownSorted(findElements(searchUpdatedDate).subList(0,10))){
             System.out.println("SORT ERROR: Last updated dates are not in descending order.");
             return false;

@@ -2,6 +2,7 @@ package specs.user.dashboard;
 
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import pageobjects.user.dashboardPage.Dashboard;
 import pageobjects.user.loginPage.LoginPage;
@@ -28,12 +29,13 @@ public class DashboardLinks extends AbstractSpec {
         Assert.assertEquals("Company name is not visible, or doesn't match expected", companyName, finish.getCompanyName());
     }
 
+    // TODO this has been removed. Not sure if we plan on bringing this functionality back
+    @Ignore
     @Test
     public void canNavigateToMyCompanySmallSharePrice() {
         String companyName = "Sysco Corp";
-        SecurityOverviewPage finish = new SecurityOverviewPage(driver);
-        new Dashboard(driver).clickSmallSharePrice();
+        Dashboard finish = new Dashboard(driver).clickSmallSharePrice();
 
-        Assert.assertEquals("Company name is not visible, or doesn't match expected", companyName, finish.getCompanyName());
+      Assert.assertTrue("Company name is not visible, or doesn't match expected", finish.checkAlternateSymbols());
     }
 }

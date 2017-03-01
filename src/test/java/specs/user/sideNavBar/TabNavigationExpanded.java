@@ -2,19 +2,17 @@ package specs.user.sideNavBar;
 
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import pageobjects.user.activityPage.ActivityPage;
-import pageobjects.user.checklistPage.ChecklistPage;
+import pageobjects.user.briefingBooks.BriefingBookList;
 import pageobjects.user.contactPage.ContactPage;
 import pageobjects.user.dashboardPage.Dashboard;
+import pageobjects.user.estimatesPage.SecurityEstimatesPage;
 import pageobjects.user.eventsTranscriptsPage.EventsTranscriptsPage;
 import pageobjects.user.loginPage.LoginPage;
 import pageobjects.user.myQ4TeamPage.MyQ4TeamPage;
-import pageobjects.user.briefingBooks.BriefingBookList;
-import pageobjects.user.securityPage.SecurityEstimatesPage;
+import pageobjects.user.ownershipPage.SecurityOwnershipPage;
 import pageobjects.user.securityPage.SecurityOverviewPage;
-import pageobjects.user.securityPage.SecurityOwnershipPage;
 import pageobjects.user.supportTicketsPage.SupportTicketsPage;
 import pageobjects.user.targeting.TargetingPage;
 import pageobjects.user.watchlist.WatchlistPage;
@@ -51,7 +49,7 @@ public class TabNavigationExpanded extends AbstractSpec {
         new Dashboard(driver).accessSideNav()
                 .selectWatchListFromSideNav();
 
-        Assert.assertThat("User was not taken to watchlist", finish.getPageTitle(), containsString(pageTitle));
+        Assert.assertThat("User was not taken to watchlist", finish.getWatchListPageTitle(), containsString(pageTitle));
     }
 
     @Test
@@ -135,8 +133,6 @@ public class TabNavigationExpanded extends AbstractSpec {
         Assert.assertThat("User was not taken to estimates page", securityEstimatesPage.getEstimatesTabTitle(), containsString(tabTitle));
     }
 
-    // TODO getPageTitle will not retrieve text for some reason. Ignoring until I can make this work.
-    @Ignore
     @Test
     public void canNavigateToWebAnalytics() {
         String pageTitle = "Web Analytics";
@@ -175,15 +171,5 @@ public class TabNavigationExpanded extends AbstractSpec {
                 .selectSupportTicketsFromSideNav();
 
         Assert.assertThat("User was not taken to support tickets page", supportTicketsPage.getOtherPageTitle(), containsString(pageTitle));
-    }
-
-    @Test
-    public void canNavigateToChecklist() {
-        String pageTitle = "Checklist";
-        ChecklistPage checklistPage = new ChecklistPage(driver);
-        new Dashboard(driver).accessSideNav()
-                .selectChecklistFromSideNav();
-
-        Assert.assertThat("User was not taken to checklist page", checklistPage.getOtherPageTitle(), containsString(pageTitle));
     }
 }

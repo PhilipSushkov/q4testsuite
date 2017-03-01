@@ -45,7 +45,7 @@ public class NewSearchPage extends AbstractPageObject{
 
     private final By showMoreButton = By.cssSelector(".load-more .x-button");
     private final By nameColumnHeader = By.cssSelector(".list-header .column.name");
-    private final By locationColumnHeader = By.cssSelector(".list-header .column.location");
+    private final By locationColumnHeader = By.cssSelector(".list-header .column.locations");
     private final By PPColumnHeader = By.cssSelector(".list-header .column.purchase-power");
     private final By AUMColumnHeader = By.cssSelector(".list-header .column.aum");
     private final By turnoverColumnHeader = By.cssSelector(".list-header .column.turnover");
@@ -59,7 +59,7 @@ public class NewSearchPage extends AbstractPageObject{
     private final By resultStyle = By.cssSelector(".row .style");
     private final By resultQRValue = By.cssSelector(".row .qr-value");
 
-    private final By numLocations = By.className("location-count");
+    private final By numLocations = By.className("location-counter");
     private final By locationPopup = By.className("target-search-result-locations-modal");
     private final By address = By.className("address");
 
@@ -76,6 +76,21 @@ public class NewSearchPage extends AbstractPageObject{
     }
 
 
+    public TargetingPage createBlankSearch(String searchName){
+        waitForElement(saveSearchButton);
+        findElement(saveSearchButton).click();
+        waitForElement(searchNameField);
+        findElement(searchNameField).sendKeys(searchName);
+        findElement(saveButton).click();
+        waitForLoadingScreen();
+        return new TargetingPage(getDriver());
+    }
+
+    public void blankSearch(){
+        waitForElement(searchButton);
+        findElement(searchButton).click();
+        waitForElement(saveTargetButton);
+    }
 
     public TargetingPage createNewSearch(String searchName, String[] filters){
         waitForElement(locationFilter);
@@ -236,7 +251,7 @@ public class NewSearchPage extends AbstractPageObject{
         waitForElement(searchButton);
         findElement(searchButton).click();
         waitForElement(saveTargetButton);
-
+         waitForLoadingScreen();
         // randomly selecting entry in result (among first 20) that is not already targeted
         int index = random.nextInt(20);
         List<WebElement> saveTargetButtons = findElements(saveTargetButton);
@@ -288,11 +303,7 @@ public class NewSearchPage extends AbstractPageObject{
         return new ContactDetailsPage(getDriver());
     }
 
-    public void blankSearch(){
-        waitForElement(searchButton);
-        findElement(searchButton).click();
-        waitForElement(saveTargetButton);
-    }
+
 
     /** Returns number of results currently displayed on the page. */
     public int numResultsDisplayed(){
@@ -309,23 +320,23 @@ public class NewSearchPage extends AbstractPageObject{
     public boolean resultsCanBeSorted(){
         // sorting by name ascending
         findElement(nameColumnHeader).click();
-        pause(300);
-        if (!elementsAreAlphaUpSorted(findElements(resultName))){
+        pause(500);
+        if (!elementsAreAlphaUpSortedIgnoreCase(findElements(resultName))){
             System.out.println("SORT ERROR: Names are not in ascending order.");
             return false;
         }
 
         // sorting by name descending
         findElement(nameColumnHeader).click();
-        pause(300);
-        if (!elementsAreAlphaDownSorted(findElements(resultName))){
+        pause(500);
+        if (!elementsAreAlphaDownSortedIgnoreCase(findElements(resultName))){
             System.out.println("SORT ERROR: Names are not in descending order.");
             return false;
         }
 
         // sorting by location ascending
         findElement(locationColumnHeader).click();
-        pause(300);
+        pause(500);
         if (!elementsAreAlphaUpSorted(findElements(resultLocation))){
             System.out.println("SORT ERROR: Locations are not in ascending order.");
             return false;

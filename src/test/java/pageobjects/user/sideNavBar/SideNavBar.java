@@ -6,16 +6,15 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageobjects.AbstractPageObject;
 import pageobjects.user.activityPage.ActivityPage;
 import pageobjects.user.advancedSearchResultsPage.AdvancedSearchResults;
-import pageobjects.user.checklistPage.ChecklistPage;
 import pageobjects.user.contactPage.ContactPage;
 import pageobjects.user.dashboardPage.Dashboard;
 import pageobjects.user.eventsTranscriptsPage.EventsTranscriptsPage;
 import pageobjects.user.myQ4TeamPage.MyQ4TeamPage;
 import pageobjects.user.briefingBooks.BriefingBookList;
 import pageobjects.user.researchPage.ResearchPage;
-import pageobjects.user.securityPage.SecurityEstimatesPage;
+import pageobjects.user.estimatesPage.SecurityEstimatesPage;
 import pageobjects.user.securityPage.SecurityOverviewPage;
-import pageobjects.user.securityPage.SecurityOwnershipPage;
+import pageobjects.user.ownershipPage.SecurityOwnershipPage;
 import pageobjects.user.supportTicketsPage.SupportTicketsPage;
 import pageobjects.user.targeting.TargetingPage;
 import pageobjects.user.watchlist.WatchlistPage;
@@ -104,6 +103,7 @@ public class SideNavBar extends AbstractPageObject{
         pause(2000L);
         waitForElementToAppear(ownershipSideNav);
         findElement(ownershipSideNav).click();
+        waitForLoadingScreen();
 
         return new SecurityOwnershipPage(getDriver());
     }
@@ -146,14 +146,6 @@ public class SideNavBar extends AbstractPageObject{
         findElement(supportTicketsSideNav).click();
 
         return new SupportTicketsPage(getDriver());
-    }
-
-    public ChecklistPage selectChecklistFromSideNav() {
-        pause(2000L);
-        waitForElementToAppear(checklistSideNav);
-        findElement(checklistSideNav).click();
-
-        return new ChecklistPage(getDriver());
     }
 
     public SecurityOverviewPage selectSecurityFromSideNav() {

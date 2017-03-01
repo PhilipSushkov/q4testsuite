@@ -2,7 +2,9 @@ package specs.user.targeting;
 
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
+import org.openqa.selenium.WebElement;
 import pageobjects.user.contactPage.ContactDetailsPage;
 import pageobjects.user.institutionPage.InstitutionPage;
 import pageobjects.user.loginPage.LoginPage;
@@ -63,7 +65,7 @@ public class TargetingList extends AbstractSpec {
 
         // opening search and verifying that filters are correct
         boolean filtersMatch = new TargetingPage(driver).editSearch(searchNameIndex).verifyFilters(filters);
-        Assert.assertTrue("Known issue - DESKTOP-6898 - Filters do not match.", filtersMatch);
+        Assert.assertTrue("Known issue - DESKTOP-7376 - Filters do not match.", filtersMatch);
 
         // deleting search using button on filter page
         new EditSearchPage(driver).deleteSearch();
@@ -102,6 +104,7 @@ public class TargetingList extends AbstractSpec {
         Assert.assertTrue("Empty fund name listed.",!firstContact.isEmpty());
         Assert.assertThat("Fund page title doesn't match.", contactPageTitle, containsString(firstContact.substring(0, firstContact.indexOf("\n"))));
     }
+
 
     @Test
     public void canTargetAndRemoveAInstitution() {
@@ -199,7 +202,7 @@ public class TargetingList extends AbstractSpec {
         Assert.assertFalse("Location popup is not closed.", new NewSearchPage(driver).locationPopupIsOpen());
     }
 
-    @Test
+   /* @Test
     public void canAddAndDeleteSearchFromList(){
         String searchName = current.toString()+"_v2";
         String[] filters = {
@@ -219,7 +222,42 @@ public class TargetingList extends AbstractSpec {
         new TargetingPage(driver).deleteSearch(searchNameIndex);
         searchNameIndex = new TargetingPage(driver).findSearchNameIndex(searchName);//will be -1 if not listed
         Assert.assertEquals("Search has not been deleted", -1, searchNameIndex);
-    }
+    }*/
+   @Test
+   public void canAddSearchFromList(){
+       WebElement search;
+       String searchName = current.toString()+"_added";
+       TargetingPage targetingPage = new TargetingPage(driver).newSearch().createBlankSearch(searchName);
+       search = targetingPage.returnSearch(searchName);
+       Assert.assertTrue("Search name not found in saved searches list",  search!=null);
+       targetingPage.deleteSearch(search);
+   }
+
+   @Test
+   public void canAbortSearchDelete(){
+       WebElement search;
+       String searchName = current.toString()+"_abortDelete";
+       TargetingPage targetingPage = new TargetingPage(driver).newSearch().createBlankSearch(searchName);
+       targetingPage.searchForSearch(searchName);
+       search = targetingPage.returnSearch(searchName);
+       targetingPage = targetingPage.deleteSearchAbort(search);
+       search = targetingPage.returnSearch(searchName);
+       Assert.assertTrue("Search name not found despite aborted delete", search!=null);
+       targetingPage.deleteSearch(search);
+   }
+
+   @Test
+   public void canDeleteSavedSearch(){
+       WebElement search;
+       String searchName = current.toString()+"_Delete";
+       TargetingPage targetingPage = new TargetingPage(driver).newSearch().createBlankSearch(searchName);
+       targetingPage.searchForSearch(searchName);
+       search = targetingPage.returnSearch(searchName);
+       targetingPage =targetingPage.deleteSearch(search);
+       search = targetingPage.returnSearch(searchName);
+       Assert.assertTrue("Search has not been deleted", search==null);
+
+   }
 
     @Test
     /* Based on TestRail test case C2348. */
@@ -261,7 +299,7 @@ public class TargetingList extends AbstractSpec {
     *  If this search does not exist or was not created on 11/14/16, the test will fail.*/
     public void canEditSearchAndSeeUpdatedDate(){
         String expectedSearchName = "testing updated date - DO NOT REMOVE";
-        String expectedCreatedDate = "11/14/16";
+        String expectedCreatedDate = "01/26/17";
         SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yy");
         // checking that required search is present and that created date is correct
         int searchNameIndex = new TargetingPage(driver).findSearchNameIndex(expectedSearchName);

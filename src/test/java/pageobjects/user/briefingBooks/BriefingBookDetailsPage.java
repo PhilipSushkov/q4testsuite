@@ -4,7 +4,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageobjects.AbstractPageObject;
 
@@ -14,15 +13,15 @@ import java.util.ArrayList;
  * Created by patrickp on 2016-09-13.
  */
 public class BriefingBookDetailsPage extends AbstractPageObject {
-    private final By deleteButton = By.xpath("//*[@id=\"ext-button-33\"]");
+    private final By deleteButton = By.xpath("//span[contains(text(),'Name')]//following::span[contains(@class,'q4i-trashbin-4pt')]");
     private final By heroDeleteButton = By.xpath("//div[contains(@class,'action-button')][.//span[contains(@class,'q4i-trashbin-4pt')]]");
     private final By deleteConfirmation = By.xpath("//*[contains(text(), 'Yes')]");
     private final By saveButton = By.xpath("//div[contains(@class,'x-button-no-icon') and ./span[contains(text(),'Save')]]");
     private final By addButton = By.xpath("//div[contains(@class,'x-button-no-icon') and ./span[contains(text(),'Add')]]");
     private final By entityTypeToggle = By.className("x-toggle");
-    private final By institutionOption = By.className("q4i-institution-2pt");
-    private final By fundOption = By.className("q4i-fund-2pt");
-    private final By contactOption = By.className("q4i-contact-2pt");
+    private final By institutionOption = By.className("institution");
+    private final By fundOption = By.className("fund");
+    private final By contactOption = By.className("contact");
     private final By entitySearchBox = By.cssSelector(".note-link-field .x-input-search");
     private final By entityResults = By.className("result-item");
     private final By saveEntityButton = By.cssSelector(".form-button.yellow");
@@ -47,14 +46,6 @@ public class BriefingBookDetailsPage extends AbstractPageObject {
         wait.until(ExpectedConditions.elementToBeClickable(deleteConfirmation));
         findElement(deleteConfirmation).click();
         return new BriefingBookList(getDriver());
-    }
-
-    public BriefingBookDetailsPage saveChanges() {
-        pause(500L);
-        wait.until(ExpectedConditions.elementToBeClickable(saveButton));
-        findElement(saveButton).click();
-
-        return this;
     }
 
     public BriefingBookDetailsPage addInstitution(String name) {
@@ -122,7 +113,6 @@ public class BriefingBookDetailsPage extends AbstractPageObject {
 
 
     public BriefingBookDetailsPage deleteEntity(String name){
-            findElement(editButton).click();
             startDeleteForEntry(name);
             confirmDelete();
             return this;
@@ -199,9 +189,7 @@ public class BriefingBookDetailsPage extends AbstractPageObject {
 
     public void reorderEntityToBeginning(int originIndex){
         waitForLoadingScreen();
-        findVisibleElement(editButton).click();
         actions.dragAndDrop(findElements(entityDragHandle).get(originIndex), findElement(topOfEntityList)).perform();
-        saveChanges();
         waitForLoadingScreen();
         driver.navigate().refresh();
     }
