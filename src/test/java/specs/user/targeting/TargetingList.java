@@ -233,13 +233,12 @@ public class TargetingList extends AbstractSpec {
        targetingPage.deleteSearch(search);
    }
 
-   // TODO new changes have broken this flow. Ignoring so the rest of the suite runs
-   @Ignore
    @Test
    public void canAbortSearchDelete(){
        WebElement search;
        String searchName = current.toString()+"_abortDelete";
        TargetingPage targetingPage = new TargetingPage(driver).newSearch().createBlankSearch(searchName);
+       targetingPage.searchForSearch(searchName);
        search = targetingPage.returnSearch(searchName);
        targetingPage = targetingPage.deleteSearchAbort(search);
        search = targetingPage.returnSearch(searchName);
@@ -247,13 +246,12 @@ public class TargetingList extends AbstractSpec {
        targetingPage.deleteSearch(search);
    }
 
-   // TODO new changes have broken this flow. Ignoring so the rest of the suite runs
-   @Ignore
    @Test
    public void canDeleteSavedSearch(){
        WebElement search;
        String searchName = current.toString()+"_Delete";
        TargetingPage targetingPage = new TargetingPage(driver).newSearch().createBlankSearch(searchName);
+       targetingPage.searchForSearch(searchName);
        search = targetingPage.returnSearch(searchName);
        targetingPage =targetingPage.deleteSearch(search);
        search = targetingPage.returnSearch(searchName);

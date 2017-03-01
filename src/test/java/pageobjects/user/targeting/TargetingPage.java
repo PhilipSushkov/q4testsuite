@@ -1,8 +1,10 @@
 package pageobjects.user.targeting;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Point;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageobjects.AbstractPageObject;
 import pageobjects.user.contactPage.ContactDetailsPage;
@@ -19,17 +21,20 @@ public class TargetingPage extends AbstractPageObject {
     private final By newSearchButton = By.cssSelector(".q4-hero-banner .x-dock .action-button");
     private final By showSearches = By.cssSelector(".x-tabbar-inner div:first-child");
    private final By searchNameSelectors = By.cssSelector(".x-grid-row .x-grid-cell:first-child .x-grid-cell-inner");
-    private final By searchTableRow = By.xpath(("//div[contains(@class,'x-grid-row') and contains(@class,'x-list-item')]"));
+    private final By searchTableRow = By.xpath("//div[contains(@class,'x-dataview-item')]");
     private final By searchNameDivSelectors = By.cssSelector(".x-grid-row");
     private final By editButton = By.cssSelector(".edit .x-button-label");
-    private final By redButton = By.cssSelector(".delete-button .q4i-minus-4pt");
-    private final By cancelDelete = By.cssSelector(".targeting-action-toolbar .x-button:first-child");
-    private final By confirmDelete = By.cssSelector(".targeting-action-toolbar .x-button.delete");
+    private final By checkbox = By.cssSelector(".checkbox-mask");
+    private final By trashIcon = By.xpath("//div[not(contains(@class,'disabled')) and ./span[contains(@class,'q4i-trashbin-4pt')]]");
+    //private final By trashIcon = By.cssSelector(".q4i-trashbin-4pt");
+    private final By cancelDelete = By.xpath("//div[contains(@class,'x-msgbox')]//div[./span[contains(text(),'No')]]");
+    private final By confirmDelete = By.xpath("//div[contains(@class,'x-msgbox')]//div[./span[contains(text(),'Yes')]]");
     private final By doneButton = By.cssSelector(".done .x-button-label");
     private final By searchesColumnHeader = By.cssSelector(".x-grid-header-container-inner .x-grid-column");
     private final By searchCreatedDate = By.cssSelector(".x-grid-row .x-grid-cell:nth-child(2)");
     private final By searchUpdatedDate = By.cssSelector(".x-grid-row .x-grid-cell:nth-child(3)");
     private final By showMoreButton = By.cssSelector(".load-more .x-button");
+    private final By searchInput = By.xpath("//*[contains(@class,'toolbar-panel')]//input");
 
     private final By showTargets = By.cssSelector(".x-tabbar-inner div:last-child");
     private final By showInstitutions = By.xpath("//div[contains(@class,'range-tabs-inner')]/div[span/text()='Institutions']");
@@ -58,14 +63,15 @@ public class TargetingPage extends AbstractPageObject {
     }
 
     private void showMoreSavedSearches(){
-        int numSearches = findElements(searchNameSelectors).size();
+       // int numSearches = findElements(searchNameSelectors).size();
         findVisibleElement(showMoreButton).click();
-        for (int i=0; i<100; i++){
+        waitForLoadingScreen();
+       /* for (int i=0; i<100; i++){
             if (findElements(searchNameSelectors).size()>numSearches){
                 return;
             }
             pause(100);
-        }
+        }*/
     }
 
     // returns the position (starting from 0) that the search name appears; returns -1 if not displayed
@@ -85,13 +91,17 @@ public class TargetingPage extends AbstractPageObject {
         return -1;
     }
 
-    public WebElement returnSearch(String searchName){
+    public TargetingPage searchForSearch(String searchName){
+        findVisibleElement(searchInput).sendKeys(searchName);
         waitForLoadingScreen();
+        return this;
+    }
+
+    public WebElement returnSearch(String searchName){
         waitForElement(showSearches);
         while (findVisibleElements(showMoreButton).size()>0){
             showMoreSavedSearches();
         }
-        waitForLoadingScreen();
         List<WebElement> searchNames = findVisibleElements(searchTableRow);
 
         for(WebElement row: searchNames){
@@ -104,13 +114,10 @@ public class TargetingPage extends AbstractPageObject {
 
     public TargetingPage deleteSearchAbort(WebElement search){
         waitForLoadingScreen();
-        waitForElement(editButton);
-        findVisibleElement(editButton).click();
-        search.findElement(redButton).click();
+        search.findElement(checkbox).click();
+        findElement(trashIcon).click();
         waitForElementToAppear(cancelDelete);
         findElement(cancelDelete).click();
-        waitForElementToAppear(doneButton);
-        findElement(doneButton).click();
         return this;
     }
     // parameter index is the position (starting from 0) that the search name appears
@@ -122,13 +129,17 @@ public class TargetingPage extends AbstractPageObject {
 
     public TargetingPage deleteSearch(WebElement search){
         waitForLoadingScreen();
-        waitForElement(editButton);
-        findVisibleElement(editButton).click();
-        search.findElement(redButton).click();
+
+        try{
+             search.findElement(By.xpath(".//div[contains(@class,' selected')]"));
+            }
+        catch(Exception e) {
+            search.findElement(checkbox).click();
+        }
+        findElement(trashIcon).click();
         waitForElementToAppear(confirmDelete);
         findElement(confirmDelete).click();
-        waitForElementToAppear(doneButton);
-        findElement(doneButton).click();
+        waitForLoadingScreen();
         return this;
     }
 
