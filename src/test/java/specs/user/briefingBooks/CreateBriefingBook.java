@@ -97,17 +97,18 @@ public class CreateBriefingBook extends AbstractSpec {
     // This test relies on the existence of a briefing book called "Search Test - DO NOT DELETE" in order to pass
     public void canSearchForBriefingBook(){
         String briefingBookName = "Search Test - DO NOT DELETE"; // should be one exact match
-        String additionalSearchTerm = "test"; // should be several partial matches
-        String randomSearchTerm = "asdsfgdhfasdfb"; // should be no matches
         // performing search for which there should be one result and checking that result contains search term
         BriefingBookList briefingBookList = new BriefingBookList(driver).searchFor(briefingBookName);
         Assert.assertThat("Search for known briefing book fails", briefingBookList.getBriefingBookList(), containsString(briefingBookName));
-        // performing search for which there should be several results and checking that all results contain search term
-        briefingBookList.searchFor(additionalSearchTerm);
-        Assert.assertTrue("Search results are not present.", briefingBookList.briefingBooksAreDisplayed());
-        Assert.assertTrue("Search results are invalid.", briefingBookList.allTitlesContain(additionalSearchTerm));
+    }
+
+    @Test
+    // This test relies on the existence of a briefing book called "Search Test - DO NOT DELETE" in order to pass
+    public void searchingForUnknownKeywordReturnsNoResults(){
+        String randomSearchTerm = "asdsfgdhfasdfb"; // should be no matches
+
         // performing search for which there should be no results
-        briefingBookList.searchFor(randomSearchTerm);
+        BriefingBookList briefingBookList = new BriefingBookList(driver).searchFor(randomSearchTerm);
         Assert.assertFalse("Results appear for invalid search.", briefingBookList.briefingBooksAreDisplayed());
     }
 
