@@ -2,6 +2,7 @@ package testrunner;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
+import specs.admin.morningCoffee.morningCoffeeReport;
 import specs.user.activism.Activism;
 import specs.user.activity.FilterActivity;
 import specs.user.activity.LogActivity;
@@ -22,6 +23,7 @@ import specs.user.research.ResearchList;
 import specs.user.securityDetails.Overview;
 import specs.user.sentiment.Sentiment;
 import specs.user.sideNavBar.TabNavigationExpanded;
+import specs.user.targeting.TargetingList;
 import specs.user.team.Q4TeamPage;
 import specs.user.volatility.Volatility;
 import specs.user.watchlist.EditWatchlist;
@@ -43,7 +45,8 @@ import specs.user.watchlist.EditWatchlist;
         EditWatchlist.class,
         Q4TeamPage.class,
         SearchForActivity.class,
-        //TargetingList.class,
+        TargetingList.class,
+        morningCoffeeReport.class,
         ResearchList.class,
         Ownership.class,
         CreateBriefingBook.class,
