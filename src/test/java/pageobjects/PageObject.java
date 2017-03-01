@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import org.apache.commons.collections.ArrayStack;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.Predicate;
 import org.openqa.selenium.By;
@@ -58,30 +56,13 @@ public interface PageObject {
         retryClick(By.className("select2-result"));
     }
 
-  /* default WebElement findElement(By selector) {
+    default WebElement findElement(By selector) {
         try {
             return getDriver().findElement(selector);
         } catch (NoSuchElementException e) {
             throw new ElementNotFoundException("Could not find element " + selector, e);
         }
-    }*/
-
-
-    default WebElement findElement(By selector) {
-        try {
-            ArrayList<WebElement> elements = new ArrayList<>(findElements(selector));
-            for (WebElement element:elements){
-                if(element.isDisplayed()){
-                    return element;
-                }
-            }
-            return null;
-        }catch (NoSuchElementException e) {
-            throw new ElementNotFoundException("Could not find element " + selector, e);
-        }
-
     }
-
 
     default boolean doesElementExist(By selector) {
         try {
