@@ -2,9 +2,13 @@ package pageobjects.user.watchlist;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageobjects.AbstractPageObject;
 import pageobjects.user.securityPage.SecurityOverviewPage;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by patrickp on 2016-08-05.
@@ -12,14 +16,16 @@ import pageobjects.user.securityPage.SecurityOverviewPage;
 public class WatchlistPage extends AbstractPageObject{
 
     private final By editWatchlistButton = By.cssSelector(".toolbar-panel .toolbar-button");
-    private final By securitySearchField = By.cssSelector(".toolbar-panel .search .x-field-input .x-input-el");
+    private final By securitySearchField = By.xpath("//input[contains(@placeholder,'Add a security')]");
     private final By searchResult = By.cssSelector(".watchlist-search-results .x-list-item .icon.q4i-add-4pt");
-    private final By watchlist = By.cssSelector(".watch-list");
-    private final By watchlistDeleteButton = By.cssSelector(".watch-list.done-mode .delete-btn");
-    private final By deleteButton = By.cssSelector(".watch-list .watchlist-action-toolbar .x-button.delete");
-    private final By firstCompanyInList = By.cssSelector(".watch-list .watchlist-row");
-    private final By doneButton = By.cssSelector(".toolbar-panel .toolbar-button");
-    private final By firstCompanyNameInList = By.cssSelector(".watch-list .watchlist-row h5");
+    private final By watchlist = By.xpath("//div[contains(@class,'watchlist-list')]");
+    private final By watchlistDeleteButton = By.xpath("//span[contains(@class,'q4i-trashbin-4pt')]");
+    private final By firstCompanyInList = By.cssSelector(".watchlist-list .watchlist-row");
+    private final By firstCompanyNameInList = By.cssSelector(".watchlist-list .watchlist-row h5");
+    private final By addSecurityButton = By.cssSelector(".watchlist-new-item .header-button [class*=\" q4i-\"]");
+    private final By confirmDelete = By.xpath("//div[contains(@class,'x-msgbox')]//div[span[contains(text(),'Yes')]]");
+    private final By cancelDelete =By.xpath("//div[contains(@class,'x-msgbox')]//div[span[contains(text(),'No')]]");
+    private final By watchlistSearchField = By.cssSelector(".watchlist-manager-page .search-field .x-field-input .x-input-el");
 
     public WatchlistPage(WebDriver driver) {
         super(driver);
@@ -27,22 +33,23 @@ public class WatchlistPage extends AbstractPageObject{
 
     public WatchlistPage addSecurityToWatchlist(String security) {
         waitForLoadingScreen();
+        wait.until(ExpectedConditions.elementToBeClickable(addSecurityButton));
+        findElement(addSecurityButton).click();
+        pause(1000L);
         wait.until(ExpectedConditions.elementToBeClickable(securitySearchField));
-        findElement(securitySearchField).click();
         findElement(securitySearchField).sendKeys(security);
         wait.until(ExpectedConditions.elementToBeClickable(searchResult));
         retryClick(searchResult);
-        pause(500L);
+        pause(1000L);
 
-        // Page refresh to make sure changes have been saved
-        driver.navigate().refresh();
 
         return this;
     }
 
+
     public String getWatchlistSecurities() {
         waitForLoadingScreen();
-        waitForElementToAppear(watchlist);
+        waitForElement(watchlist);
         return findElement(watchlist).getText().replaceAll("\\p{P}", "");
     }
 
@@ -56,21 +63,23 @@ public class WatchlistPage extends AbstractPageObject{
         return false;
     }
 
-    public WatchlistPage removeSecurityFromWatchlist() {
-            // Removes first company from watchlist
-            wait.until(ExpectedConditions.elementToBeClickable(editWatchlistButton));
-            findElement(editWatchlistButton).click();
-            pause(1000L);
+    public WatchlistPage removeSecurityFromWatchlist(String security) {
+
+         ArrayList<WebElement> securitiesList = new ArrayList<WebElement>(findElements(By.xpath("//div[contains(@class,'x-dataview-item')]")));
+
+        for (WebElement row :securitiesList){
+            if(row.getText().replaceAll("\\p{P}", "").contains(security)){
+                row.findElement(By.cssSelector(".column.bulk")).click();
+            }
+        }
             findElement(watchlistDeleteButton).click();
             pause(500L);
-            wait.until(ExpectedConditions.elementToBeClickable(deleteButton));
-            findElement(deleteButton).click();
-            wait.until(ExpectedConditions.elementToBeClickable(doneButton));
-            findElement(doneButton).click();
-            driver.navigate().refresh();
-
+            wait.until(ExpectedConditions.elementToBeClickable(confirmDelete));
+            pause(500L);
+            findElement(confirmDelete).click();
         return this;
     }
+
 
     public String getFirstCompanyInList() {
         waitForLoadingScreen();
@@ -79,14 +88,20 @@ public class WatchlistPage extends AbstractPageObject{
     }
 
     public String getFirstCompanyName() {
-        waitForLoadingScreen();
-        waitForElementToAppear(firstCompanyNameInList);
-        return findElement(firstCompanyNameInList).getText().replaceAll("\\p{P}", "");
+        int index = 0;
+        WebElement baseTable = driver.findElement(By.id("ext-watchlist-1"));
+        List<WebElement> tableRows = baseTable.findElements(By.cssSelector(".watchlist-list .watchlist-row h5"));
+        return tableRows.get(index).getText();
+
+//        waitForLoadingScreen();
+//        waitForElementToAppear(firstCompanyNameInList);
+//        return findElement(firstCompanyNameInList).getText().replaceAll("\\p{P}", "");
     }
 
     public SecurityOverviewPage clickOnFirstWatchlistCompany() {
         findElement(firstCompanyInList).click();
-
+        waitForLoadingScreen();
+        pause(1000L);
         return new SecurityOverviewPage(getDriver());
     }
 
@@ -108,8 +123,7 @@ public class WatchlistPage extends AbstractPageObject{
         String actual = getFirstCompanyName();
 
         if (actual.equals(security)) {
-            removeSecurityFromWatchlist();
-            driver.navigate().refresh();
+            removeSecurityFromWatchlist(actual);
             addSecurityToWatchlist(security);
         } else {
             addSecurityToWatchlist(security);
@@ -128,5 +142,15 @@ public class WatchlistPage extends AbstractPageObject{
         }
         return this;
     }
- }
+
+    public WatchlistPage searchForEntity(String companyName) {
+        findElement(watchlistSearchField).sendKeys(companyName);
+
+        return this;
+    }
+
+    public String getAllCompanyNames() {
+        return findElement(firstCompanyNameInList).getText();
+    }
+}
 

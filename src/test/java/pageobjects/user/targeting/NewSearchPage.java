@@ -76,6 +76,21 @@ public class NewSearchPage extends AbstractPageObject{
     }
 
 
+    public TargetingPage createBlankSearch(String searchName){
+        waitForElement(saveSearchButton);
+        findElement(saveSearchButton).click();
+        waitForElement(searchNameField);
+        findElement(searchNameField).sendKeys(searchName);
+        findElement(saveButton).click();
+        waitForLoadingScreen();
+        return new TargetingPage(getDriver());
+    }
+
+    public void blankSearch(){
+        waitForElement(searchButton);
+        findElement(searchButton).click();
+        waitForElement(saveTargetButton);
+    }
 
     public TargetingPage createNewSearch(String searchName, String[] filters){
         waitForElement(locationFilter);
@@ -236,7 +251,7 @@ public class NewSearchPage extends AbstractPageObject{
         waitForElement(searchButton);
         findElement(searchButton).click();
         waitForElement(saveTargetButton);
-
+         waitForLoadingScreen();
         // randomly selecting entry in result (among first 20) that is not already targeted
         int index = random.nextInt(20);
         List<WebElement> saveTargetButtons = findElements(saveTargetButton);
@@ -288,11 +303,7 @@ public class NewSearchPage extends AbstractPageObject{
         return new ContactDetailsPage(getDriver());
     }
 
-    public void blankSearch(){
-        waitForElement(searchButton);
-        findElement(searchButton).click();
-        waitForElement(saveTargetButton);
-    }
+
 
     /** Returns number of results currently displayed on the page. */
     public int numResultsDisplayed(){

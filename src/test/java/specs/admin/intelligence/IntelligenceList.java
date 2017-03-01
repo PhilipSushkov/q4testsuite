@@ -116,12 +116,7 @@ public class IntelligenceList extends AdminAbstractSpec {
 
     @Test
     public void canSeeOnlyReadyReports(){
-        Assert.assertTrue("One or more displayed reports are not of status 'Ready'.", new IntelligencePage(driver).showReadyReports().allReportsHaveStatus("Ready"));
-    }
-
-    @Test
-    public void canSeeOnlyApprovedReports(){
-        Assert.assertTrue("One or more displayed reports are not of status 'Approved'.", new IntelligencePage(driver).showApprovedReports().allReportsHaveStatus("Approved"));
+        Assert.assertTrue("One or more displayed reports are not of status 'Ready To Approve'.", new IntelligencePage(driver).showReadyReports().allReportsHaveStatus("Ready To Approve"));
     }
 
     @Test

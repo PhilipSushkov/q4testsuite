@@ -24,7 +24,7 @@ public class MorningCoffeePage extends AbstractPageObject {
 
     private final By commentaryTab = By.xpath("//span[contains(text(),'Commentary')]");
     private final By reportsTab = By.xpath("//span[contains(text(),'Commentary')]");
-    private final By addReportButton = By.xpath("//div[contains(@class,'banner')]//button[contains(@class, 'add')]");
+    private final By addReportButton = By.xpath("//div[contains(@class,'action-buttons')]//button");
 
     private final By companySymbolTextField =By.xpath("//q4-morning-coffee-create//input");
     private final By reportCreationCancelButton = By.xpath("//q4-morning-coffee-create//button[contains(text(),'Cancel')]");
@@ -99,7 +99,7 @@ public class MorningCoffeePage extends AbstractPageObject {
 
     private WebElement findReport(String symbol, Date currentDate){
         tableRowsReports = new ArrayList<>(readTableRows());
-        DateFormat dateFormat = new SimpleDateFormat("MMM DD, YYYY");
+        DateFormat dateFormat = new SimpleDateFormat("MMM d, YYYY");
         System.out.print(dateFormat.format(currentDate).toString());
         if(tableRowsReports!=null){
             for(WebElement row : tableRowsReports) {
@@ -113,7 +113,7 @@ public class MorningCoffeePage extends AbstractPageObject {
 
     public MorningCoffeePage clickOwnerHeader(){
         wait.until(ExpectedConditions.elementToBeClickable(ownerColumn));
-        findElement(ownerColumn).click();
+        clickElementLocation(ownerColumn);
         waitForLoadingScreen();
         return this;
     }
@@ -158,7 +158,7 @@ public class MorningCoffeePage extends AbstractPageObject {
     }
 
     private boolean isDateSorted(boolean ascendingSort){
-        SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MMM d, yyyy");
         WebElement dateheader = findElement(dateColumn);
         tableRowsReports = new ArrayList<>(readTableRows());
         ArrayList<WebElement> ownerNames= new ArrayList<>();

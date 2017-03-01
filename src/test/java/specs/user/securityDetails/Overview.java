@@ -319,11 +319,35 @@ public class Overview extends AbstractSpec {
         Assert.assertFalse("Recent News modal failed to close."
                 , securityOverviewPage.recentNewsModalExists());
     }
-/*
-    @After
-    public void disableDriver() {
-        driver.close();
-        driver.quit();
+
+    @Test
+    public void compareResearchNumToActual() {
+        SecurityOverviewPage securityOverviewPage = new SecurityOverviewPage(driver);
+
+        int researchButtonNum = Integer.parseInt(securityOverviewPage.getRecentResearchButtonNumber());
+        securityOverviewPage.clickRecentResearchButton();
+        int actualResearchNum = securityOverviewPage.getNumResearchResultsDisplayed();
+
+        Assert.assertEquals("Number shown in recent Research button does not correspond with actual results"
+                ,researchButtonNum,actualResearchNum);
     }
-*/
+
+    @Test
+    public void researchButtonWorks(){
+        SecurityOverviewPage securityOverviewPage = new SecurityOverviewPage(driver);
+
+        securityOverviewPage.clickRecentResearchButton();
+        Assert.assertTrue("Clicking the Recent Research Button failed to open the modal."
+                , securityOverviewPage.recentResearchModalExists());
+
+
+        if(Integer.parseInt((securityOverviewPage.getRecentResearchButtonNumber())) != 0){
+            //Need a way to test whether or not the download started
+        }
+
+        securityOverviewPage.clickCoordinate(By.className("company-name"), 99, 223);
+        Assert.assertFalse("Recent Research modal failed to close."
+                , securityOverviewPage.recentResearchModalExists());
+    }
+
 }
