@@ -26,7 +26,7 @@ public class MorningCoffeePage extends AbstractPageObject {
 
     private final By commentaryTab = By.xpath("//span[contains(text(),'Commentary')]");
     private final By reportsTab = By.xpath("//span[contains(text(),'Commentary')]");
-    private final By addReportButton = By.xpath("//div[contains(@class,'banner')]//button[contains(@class, 'add')]");
+    private final By addReportButton = By.xpath("//div[contains(@class,'action-buttons')]//button");
 
     private final By companySymbolTextField =By.xpath("//q4-morning-coffee-create//input");
     private final By reportCreationCancelButton = By.xpath("//q4-morning-coffee-create//button[contains(text(),'Cancel')]");
@@ -35,7 +35,7 @@ public class MorningCoffeePage extends AbstractPageObject {
     private final By dateColumn = By.xpath("//th[contains(@class,'ui-sortable-column') and span[contains(text(),'Date')]]");
     private final By reportTableRows = By.xpath("//tr[contains(@class, 'ui-datatable')]");
     private ArrayList<WebElement> tableRowsReports = new ArrayList<>();
-    private String username="Noel Chin";
+    private String username="QA Test";
 
 
     //COMMENTARY TAB SELECTORS
@@ -90,8 +90,8 @@ public class MorningCoffeePage extends AbstractPageObject {
         return rowContents;
     }
 
-    public boolean recentReportExists(String symbol){
-        if(findReport(symbol)!=null) {
+    public boolean recentReportExists(String symbol,Date date){
+        if(findReport(symbol,date)!=null) {
             return true;
         }
         else
@@ -99,10 +99,10 @@ public class MorningCoffeePage extends AbstractPageObject {
 
     }
 
-    public Date recentReportDate(String symbol){
+    public Date recentReportDate(String symbol,Date date){
         DateFormat dateFormat = new SimpleDateFormat("MMM d, yyyy, hh:mm:ss a");
         Date reportDate =new Date();
-        WebElement report = findReport(symbol);
+        WebElement report = findReport(symbol,date);
         try {
             System.out.print(report.findElement(By.xpath(".//td[6]")).getText()+" pre delete\n");
             reportDate = dateFormat.parse(report.findElement(By.xpath(".//td[6]")).getText());
@@ -116,9 +116,8 @@ public class MorningCoffeePage extends AbstractPageObject {
 
 
 
-    public MorningCoffeePreview clickRecentReport(String symbol) {
-        Date currentDate = new Date();
-         WebElement report = findReport(symbol);
+    public MorningCoffeePreview clickRecentReport(String symbol,Date date) {
+         WebElement report = findReport(symbol,date);
         wait.until(ExpectedConditions.textToBePresentInElement(report,"Ready"));
         pause(500L);
         report.click();
@@ -156,11 +155,13 @@ public class MorningCoffeePage extends AbstractPageObject {
         return null;
     }
 
-    private WebElement findReport(String symbol){
+    private WebElement findReport(String symbol, Date currentDate){
         tableRowsReports = new ArrayList<>(readTableRows());
+        DateFormat dateFormat = new SimpleDateFormat("MMM d, YYYY");
+        System.out.print(dateFormat.format(currentDate).toString());
         if(tableRowsReports!=null){
             for(WebElement row : tableRowsReports) {
-                if (row.getText().contains(symbol) && row.findElement(By.xpath(".//td[2]")).getText().contains(username)){
+                if (row.getText().contains(symbol) && row.getText().contains(username) &&  row.getText().contains(dateFormat.format(currentDate).toString())){
                     return row;
                 }
             }
