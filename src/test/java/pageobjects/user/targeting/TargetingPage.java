@@ -92,7 +92,7 @@ public class TargetingPage extends AbstractPageObject {
     }
 
     public TargetingPage searchForSearch(String searchName){
-        findElement(searchInput).sendKeys(searchName);
+        findVisibleElement(searchInput).sendKeys(searchName);
         waitForLoadingScreen();
         return this;
     }
