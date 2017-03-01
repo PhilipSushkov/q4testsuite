@@ -9,7 +9,7 @@ import pageobjects.AbstractPageObject;
  */
 public class VolatilityPage extends AbstractPageObject {
 
-    private final By nlg = By.id("ext-templates-natural-indicators-language-3");
+    private final By nlg = By.cssSelector(".x-landscape .company-page .company-slide .natural-lang");
 
     public VolatilityPage(WebDriver driver) {
         super(driver);
@@ -18,7 +18,7 @@ public class VolatilityPage extends AbstractPageObject {
 
     public String getNlgText() {
         waitForLoadingScreen();
-        return findElement(nlg).getText();
+        return findVisibleElement(nlg).getText();
     }
 
     public boolean verifyTextIsPresent() {

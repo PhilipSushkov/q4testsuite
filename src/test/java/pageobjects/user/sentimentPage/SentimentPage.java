@@ -9,7 +9,7 @@ import pageobjects.AbstractPageObject;
  */
 public class SentimentPage extends AbstractPageObject {
 
-    private final By nlg = By.id("ext-templates-natural-indicators-language-2");
+    private final By nlg = By.cssSelector(".x-landscape .company-page .company-slide .natural-lang");
 
     public SentimentPage(WebDriver driver) {
         super(driver);
@@ -18,7 +18,7 @@ public class SentimentPage extends AbstractPageObject {
 
     public String getNlgText() {
         waitForLoadingScreen();
-        return findElement(nlg).getText();
+        return findVisibleElement(nlg).getText();
     }
 
     public boolean verifyTextIsPresent() {
