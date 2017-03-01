@@ -3,16 +3,13 @@ package specs.admin.morningCoffee;
 import org.joda.time.DateTime;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 import pageobjects.admin.loginPage.AdminLoginPage;
-import pageobjects.admin.morningCoffeePage.Market;
 import pageobjects.admin.morningCoffeePage.MorningCoffeePage;
-import pageobjects.admin.morningCoffeePage.Sector;
 import specs.AdminAbstractSpec;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -33,7 +30,7 @@ public class morningCoffeeReport extends AdminAbstractSpec {
         Date currentDate = new Date();
        MorningCoffeePage morningCoffeePage =  new MorningCoffeePage(driver);
        morningCoffeePage.clickAddReport().inputCompanySymbol(symbol).clickCreateReport();
-        Assert.assertTrue("Record not found",morningCoffeePage.recentReportExists(symbol)); //current Date is used to check that is the report from today, no other way to identify a unique report.
+        Assert.assertTrue("Record not found",morningCoffeePage.recentReportExists(symbol,currentDate)); //current Date is used to check that is the report from today, no other way to identify a unique report.
 
     }
 
@@ -43,30 +40,23 @@ public class morningCoffeeReport extends AdminAbstractSpec {
         Date currentDate = new Date();
         MorningCoffeePage morningCoffeePage =  new MorningCoffeePage(driver);
         morningCoffeePage.clickAddReport().inputCompanySymbol(symbol).clickCancelReport();
-        Assert.assertFalse("Record not found",morningCoffeePage.recentReportExists(symbol));
+        Assert.assertFalse("Record was found",morningCoffeePage.recentReportExists(symbol,currentDate));
     }
 
+    @Ignore
     @Test
     public void canPreviewNewlyCreatedReport(){
-        String symbol ="NFLX";
+        String symbol ="YUM";
+        Date currentDate = new Date();
         MorningCoffeePage morningCoffeePage =  new MorningCoffeePage(driver);
-        morningCoffeePage.clickAddReport().inputCompanySymbol(symbol).clickCreateReport().clickRecentReport(symbol);
+        morningCoffeePage.clickAddReport().inputCompanySymbol(symbol).clickCreateReport().clickRecentReport(symbol, currentDate);
     }
 
     @Test
-    public void ownerCanBeSortedAscending() {
-        String symbol ="YUM";
-        DateFormat dateFormat = new SimpleDateFormat("MMM d, yyyy hh:mm:ss");
-        Date dateOfDeletedReport = new Date();
-        dateFormat.format(dateOfDeletedReport);
-
+    public void ownerCanBeSortedAscending(){
         MorningCoffeePage morningCoffeePage = new MorningCoffeePage(driver);
-       dateOfDeletedReport= morningCoffeePage.recentReportDate(symbol);
-        morningCoffeePage.clickRecentReport(symbol).confirmDelete();
-      System.out.print(morningCoffeePage.confirmReportDelete(symbol,dateOfDeletedReport));
-       //).confirmReportDelete(symbol,dateOfDeletedReport);
+       Assert.assertTrue("Not sorted", morningCoffeePage.clickOwnerHeader().isOwnerSortedAscending());
     }
-
 
 
 
