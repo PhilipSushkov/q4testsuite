@@ -3,6 +3,7 @@ package specs.admin.morningCoffee;
 import org.joda.time.DateTime;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 import pageobjects.admin.loginPage.AdminLoginPage;
@@ -42,9 +43,10 @@ public class morningCoffeeReport extends AdminAbstractSpec {
         Assert.assertFalse("Record not found",morningCoffeePage.recentReportExists(symbol,currentDate));
     }
 
+    @Ignore
     @Test
     public void canPreviewNewlyCreatedReport(){
-        String symbol ="NFLX";
+        String symbol ="YUM";
         Date currentDate = new Date();
         MorningCoffeePage morningCoffeePage =  new MorningCoffeePage(driver);
         morningCoffeePage.clickAddReport().inputCompanySymbol(symbol).clickCreateReport().clickRecentReport(symbol, currentDate);
@@ -53,7 +55,7 @@ public class morningCoffeeReport extends AdminAbstractSpec {
     @Test
     public void ownerCanBeSortedAscending(){
         MorningCoffeePage morningCoffeePage = new MorningCoffeePage(driver);
-       Assert.assertTrue("Not sorted", morningCoffeePage.clickOwnerHeader().isOwnerSorted());
+       Assert.assertTrue("Not sorted", morningCoffeePage.clickOwnerHeader().isOwnerSortedAscending());
     }
 
 
