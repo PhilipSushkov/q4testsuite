@@ -2,7 +2,6 @@ package testrunner;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
-import specs.admin.morningCoffee.morningCoffeeReport;
 import specs.user.activism.Activism;
 import specs.user.activity.FilterActivity;
 import specs.user.activity.LogActivity;
@@ -46,7 +45,6 @@ import specs.user.watchlist.EditWatchlist;
         Q4TeamPage.class,
         SearchForActivity.class,
         TargetingList.class,
-        morningCoffeeReport.class,
         ResearchList.class,
         Ownership.class,
         CreateBriefingBook.class,
