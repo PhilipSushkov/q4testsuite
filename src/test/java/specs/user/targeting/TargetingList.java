@@ -2,7 +2,6 @@ package specs.user.targeting;
 
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.openqa.selenium.WebElement;
 import pageobjects.user.contactPage.ContactDetailsPage;
@@ -16,7 +15,6 @@ import specs.AbstractSpec;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import static org.hamcrest.CoreMatchers.containsString;
 
 
 /**
