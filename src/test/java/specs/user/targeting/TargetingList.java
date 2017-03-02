@@ -102,7 +102,7 @@ public class TargetingList extends AbstractSpec {
         String firstContact = new TargetingPage(driver).getFirstContact();
         String contactPageTitle = new TargetingPage(driver).openFirstContact().getContactName();
         Assert.assertTrue("Empty fund name listed.",!firstContact.isEmpty());
-        Assert.assertThat("Fund page title doesn't match.", contactPageTitle, containsString(firstContact.substring(0, firstContact.indexOf("\n"))));
+        Assert.assertTrue("Contact doesn't match.", contactPageTitle.contains(firstContact));
     }
 
 
