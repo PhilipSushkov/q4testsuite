@@ -43,8 +43,8 @@ public class TargetingPage extends AbstractPageObject {
     private final By showInstitutions = By.xpath("//div[contains(@class,'range-tabs-inner')]/div[span/text()='Institutions']");
     private final By showFunds = By.xpath("//div[contains(@class,'range-tabs-inner')]/div[span/text()='Funds']");
     private final By showContacts = By.xpath("//div[contains(@class,'range-tabs-inner')]/div[span/text()='Contacts']");
-    private final By firstEntitySelector = By.cssSelector(".targeting-landing-list .x-dataview-item:first-child  .name a");
-    private final By firstEntityNameSelector = By.cssSelector(".targeting-landing-list .x-dataview-item:first-child  .name");
+    private final By firstEntitySelector = By.cssSelector(".targeting-landing-list .x-dataview-item:first-child");
+    private final By firstEntityNameSelector = By.cssSelector(".targeting-landing-list .x-dataview-item:first-child .name");
     //private final By firstEntityNameSelector = By.cssSelector(".targeting-grid-item-first.x-has-height div:first-child .x-grid-cell-inner");
     private final By entityName = By.cssSelector(".targeting-landing-list .x-dataview-item .name");
     private final By entityTargetButton = By.className("target");
@@ -284,6 +284,7 @@ public class TargetingPage extends AbstractPageObject {
     }
 
     public InstitutionPage openFirstInstitution(){
+
         findVisibleElement(firstEntitySelector).click();
         return new InstitutionPage(getDriver());
     }
