@@ -8,6 +8,7 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import pageobjects.AbstractPageObject;
+import sun.jvm.hotspot.oops.Mark;
 
 
 import java.lang.reflect.Array;
@@ -38,9 +39,9 @@ public class MorningCoffeePage extends AbstractPageObject {
 
 
     //COMMENTARY TAB SELECTORS
-    private final By addMarketCommentary = By.xpath("//div[contains(@class,'section-header') and .//h2[contains(text(),'Markets')]]//button[contains(@class, 'add') and contains(@class,'square-button')]");
-    private final By addSectorCommentary = By.xpath("//div[contains(@class,'section-header') and .//h2[contains(text(),'Sectors')]]//button[contains(@class, 'add') and contains(@class,'square-button')]");
-    private final By categoryDropdown = By.xpath("//p-dropdown[1]//label"); //not the best selector
+    private final By marketSegment = By.xpath("//button[contains(text(),'Market')]");
+    private final By sectorSegment = By.xpath("//button[contains(text(),'Sector')]");
+    private final By categoryDropdown = By.xpath("//q4-morning-coffee-commentary-create/p-dropdown[1]/div"); //not the best selector
     private final By sectorDropdown = By.xpath("//p-dropdown[2]//label");
     private final By createCommentaryBox = By.className("ql-editor");
     private final By saveCommentaryButton = By.xpath("//q4-morning-coffee-commentary-create//button[contains(text(),'Save')]");
@@ -238,15 +239,41 @@ public class MorningCoffeePage extends AbstractPageObject {
         return this;
     }
 
-    public MorningCoffeePage clickAddMarketCommentary(){
-        findElement(addMarketCommentary).click();
+    public MorningCoffeePage clickMarketSegment(){
+        findElement(marketSegment).click();
         return this;
     }
 
-    public MorningCoffeePage clickAddSectorCommentary(){
-        findElement(addSectorCommentary).click();
+    public MorningCoffeePage clickSectorSegment(){
+        findElement(sectorSegment).click();
         return this;
     }
+
+    public MorningCoffeePage clickAddCommentarty(){
+        wait.until(ExpectedConditions.presenceOfElementLocated(addReportButton));
+        findVisibleElement(addReportButton).click();
+        waitForLoadingScreen();
+        return this;
+    }
+
+    public MorningCoffeePage createCommentary(Enum<?> commentaryType, String commentary){
+        clickAddCommentarty();
+
+        if(commentaryType.getClass().equals(Sector.class)){
+            selectCatergory(Category.SECTOR);
+            selectSector((Sector)commentaryType);
+            enterInitialCommentary(commentary);
+            findElement(saveCommentaryButton).click();
+        }
+        else{
+           selectCatergory(Category.MARKET);
+            selectMarket((Market)commentaryType);
+            enterInitialCommentary(commentary);
+            findElement(saveCommentaryButton).click();
+        }
+    return this;
+    }
+
     public MorningCoffeePage clickAddReport(){
         findElement(addReportButton).click();
         wait.until(ExpectedConditions.visibilityOfElementLocated(companySymbolTextField));
@@ -255,12 +282,19 @@ public class MorningCoffeePage extends AbstractPageObject {
 
     public MorningCoffeePage selectCatergory(Category category){
         findElement(categoryDropdown).click();
-        findElement(By.className("ui-dropdown-item")).findElement(By.xpath("//span[contains(text(),'"+category.getCategory()+"')]")).click();
+        findVisibleElement(By.className("ui-dropdown-item")).findElement(By.xpath("//span[contains(text(),'"+category.getCategory()+"')]")).click();
         return this;
     }
     public MorningCoffeePage selectSector(Sector sector){
         findElement(sectorDropdown).click();
-        findElement(By.className("ui-dropdown-item")).findElement(By.xpath("//span[contains(text(),'"+sector.getSector()+"')]")).click();
+        waitForLoadingScreen();
+        clickElementLocation(By.xpath("//li[contains(@class,'ui-dropdown-item')][./span[contains(text(),'"+sector.getSector()+"')]]"));
+        return this;
+    }
+    public MorningCoffeePage selectMarket(Market market){
+        findElement(sectorDropdown).click();
+        waitForLoadingScreen();
+        clickElementLocation(By.xpath("//li[contains(@class,'ui-dropdown-item')][./span[contains(text(),'"+market.getMarket()+"')]]"));
         return this;
     }
 

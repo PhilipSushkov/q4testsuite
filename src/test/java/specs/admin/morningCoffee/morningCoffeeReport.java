@@ -7,7 +7,9 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 import pageobjects.admin.loginPage.AdminLoginPage;
+import pageobjects.admin.morningCoffeePage.Market;
 import pageobjects.admin.morningCoffeePage.MorningCoffeePage;
+import pageobjects.admin.morningCoffeePage.Sector;
 import specs.AdminAbstractSpec;
 
 import java.util.Date;
@@ -57,8 +59,20 @@ public class morningCoffeeReport extends AdminAbstractSpec {
        Assert.assertTrue("Not sorted", morningCoffeePage.clickOwnerHeader().isOwnerSortedAscending());
     }
 
+    @Ignore
+    @Test
+    public void addMarketCommentary(){
+        MorningCoffeePage morningCoffeePage = new MorningCoffeePage(driver);
+        morningCoffeePage.clickCommentaryTab().clickMarketSegment().createCommentary(Market.CANADA,"Canada commentary added via automation");
 
+    }
+    @Ignore
+    @Test
+    public void addSectorCommentary(){
+        MorningCoffeePage morningCoffeePage = new MorningCoffeePage(driver);
+        morningCoffeePage.clickCommentaryTab().clickSectorSegment().createCommentary(Sector.ENERGY,"Energy commentary added via automation");
 
+    }
 
 
 }
