@@ -2,7 +2,6 @@ package specs.user.targeting;
 
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.openqa.selenium.WebElement;
 import pageobjects.user.contactPage.ContactDetailsPage;
@@ -16,7 +15,6 @@ import specs.AbstractSpec;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import static org.hamcrest.CoreMatchers.containsString;
 
 
 /**
@@ -101,8 +99,10 @@ public class TargetingList extends AbstractSpec {
     public void canAccessATargetedContact() {
         String firstContact = new TargetingPage(driver).getFirstContact();
         String contactPageTitle = new TargetingPage(driver).openFirstContact().getContactName();
+        System.out.print(firstContact+"\n");
+        System.out.print(contactPageTitle+"\n");
         Assert.assertTrue("Empty fund name listed.",!firstContact.isEmpty());
-        Assert.assertThat("Fund page title doesn't match.", contactPageTitle, containsString(firstContact.substring(0, firstContact.indexOf("\n"))));
+        Assert.assertTrue("Contact doesn't match.", contactPageTitle.contains(firstContact.substring(0,firstContact.indexOf("\n"))));
     }
 
 
@@ -282,8 +282,18 @@ public class TargetingList extends AbstractSpec {
     }
 
     @Test
-    public void canSortSearchesList(){
-        Assert.assertTrue("Saved searches list cannot be sorted.", new TargetingPage(driver).searchesCanBeSorted());
+    public void canSortSearchesByName(){
+        Assert.assertTrue("Saved searches list cannot be sorted.", new TargetingPage(driver).searchesCanBeSortedByName());
+    }
+
+    @Test
+    public void canSortSearchesByDate(){
+        Assert.assertTrue("Saved searches list cannot be sorted.", new TargetingPage(driver).searchesCanBeSortedByDate());
+    }
+
+    @Test
+    public void canSortSearchesByUpdatedDate(){
+        Assert.assertTrue("Saved searches list cannot be sorted.", new TargetingPage(driver).searchesCanBeSortedByUpdatedDate());
     }
 
     @Test
