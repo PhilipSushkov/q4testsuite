@@ -43,7 +43,6 @@ public class morningCoffeeReport extends AdminAbstractSpec {
         Assert.assertFalse("Record was found",morningCoffeePage.recentReportExists(symbol,currentDate));
     }
 
-    @Ignore
     @Test
     public void canPreviewNewlyCreatedReport(){
         String symbol ="YUM";
