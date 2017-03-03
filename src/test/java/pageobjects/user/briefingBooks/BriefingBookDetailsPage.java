@@ -34,7 +34,7 @@ public class BriefingBookDetailsPage extends AbstractPageObject {
     private final By topOfEntityList = By.className("bulk-action-toolbar");
     private final By entityName = By.cssSelector(".x-list-item .name");
 
-    
+
     Actions actions = new Actions(driver);
 
     public BriefingBookDetailsPage(WebDriver driver) {

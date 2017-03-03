@@ -25,7 +25,8 @@ public class WatchlistPage extends AbstractPageObject{
     private final By addSecurityButton = By.cssSelector(".watchlist-new-item .header-button [class*=\" q4i-\"]");
     private final By confirmDelete = By.xpath("//div[contains(@class,'x-msgbox')]//div[span[contains(text(),'Yes')]]");
     private final By cancelDelete =By.xpath("//div[contains(@class,'x-msgbox')]//div[span[contains(text(),'No')]]");
-    private final By watchlistSearchField = By.cssSelector(".watchlist-manager-page .search-field .x-field-input .x-input-el");
+    private final By watchlistSearchField = By.cssSelector(".toolbar-panel .search .x-field-input .x-input-el");
+
 
     public WatchlistPage(WebDriver driver) {
         super(driver);
