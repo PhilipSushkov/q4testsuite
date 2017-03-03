@@ -155,15 +155,15 @@ public class TargetingPage extends AbstractPageObject {
         return findVisibleElements(searchUpdatedDate).get(index).getText();
     }
 
-    public boolean searchesCanBeSorted(){
+    public boolean searchesCanBeSortedByName() {
         waitForElementToAppear(searchesColumnHeader);
         pause(2000);
 
         // sorting by name ascending
-        findVisibleElements(searchesColumnHeader).get(0).click();
+        findVisibleElement(nameColumnSearches).click();
         pause(300);
         waitForLoadingScreen();
-        if (!elementsAreAlphaUpSortedIgnoreCase(findElements(searchNameSelectors))){
+        if (!elementsAreAlphaUpSortedIgnoreCase(findElements(searchNameSelectors))) {
             System.out.println("SORT ERROR: Names are not in ascending order.");
             return false;
         }
@@ -172,32 +172,42 @@ public class TargetingPage extends AbstractPageObject {
         findVisibleElement(nameColumnSearches).click();
         pause(300);
         waitForLoadingScreen();
-        if (!elementsAreAlphaDownSortedIgnoreCase(findElements(searchNameSelectors))){
+        if (!elementsAreAlphaDownSortedIgnoreCase(findElements(searchNameSelectors))) {
             System.out.println("SORT ERROR: Names are not in descending order.");
             return false;
         }
+        return true;
+    }
 
-        // sorting by created date ascending
-        findVisibleElement(nameColumnSearches).click();
-        pause(300);
-        waitForLoadingScreen();
-        if (!elementsAreDateUpSorted(findElements(searchCreatedDate))){
-            System.out.println("SORT ERROR: Created dates are not in ascending order.");
-            return false;
-        }
 
+    public boolean searchesCanBeSortedByDate() {
+        waitForElementToAppear(searchesColumnHeader);
+        pause(2000);
         // sorting by created date descending
         findVisibleElement(createdColumnSearches).click();
         pause(300);
         waitForLoadingScreen();
-        if (!elementsAreDateDownSorted(findElements(searchCreatedDate))){
+        if (!elementsAreDateDownSorted(findElements(searchCreatedDate))) {
             System.out.println("SORT ERROR: Created dates are not in descending order.");
             return false;
         }
 
+        // sorting by created date ascending
+        findVisibleElement(createdColumnSearches).click();
+        pause(300);
+        waitForLoadingScreen();
+        if (!elementsAreDateUpSorted(findElements(searchCreatedDate))) {
+            System.out.println("SORT ERROR: Created dates are not in ascending order.");
+            return false;
+        }
+        return true;
+    }
+
+    public boolean searchesCanBeSortedByUpdatedDate() {
+        waitForElementToAppear(searchesColumnHeader);
+        pause(2000);
         // sorting by last updated date ascending
         findVisibleElement(updatedColumnSearches).click();
-        pause(300);
         waitForLoadingScreen();
         if (!elementsAreDateUpSorted(findElements(searchUpdatedDate))){
             System.out.println("SORT ERROR: Last updated dates are not in ascending order.");
