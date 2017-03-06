@@ -9,7 +9,7 @@ import pageobjects.user.securityPage.SecurityOverviewPage;
 import pageobjects.user.contactPage.ContactDetailsPage;
 import pageobjects.user.fundPage.FundPage;
 import pageobjects.user.institutionPage.InstitutionPage;
-import pageobjects.user.logActivity.LogActivityModal;
+import pageobjects.user.logActivityModal.LogActivityModal;
 import pageobjects.user.briefingBooks.CreateBriefingBookModal;
 
 import java.util.ArrayList;
@@ -34,7 +34,7 @@ public class Dashboard extends AbstractPageObject {
 
     // Build report icon
 
-    private final By buildReportDashboardButton = By.id("ext-button-14");
+    private final By buildReportDashboardButton = By.id("ext-button-15");
 
     // Log Note icon (unique selectors for dashboard)
 

@@ -2,6 +2,8 @@ package pageobjects.admin.loginPage;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import pageobjects.AbstractPageObject;
 
 /**
@@ -79,8 +81,9 @@ public class AdminLoginPage extends AbstractPageObject {
 
     public boolean onLoginPage(){
         waitForLoadingScreen();
+        WebDriverWait longWait = new WebDriverWait(driver,15);
         try{
-            waitForElement(loginButton);
+            longWait.until(ExpectedConditions.elementToBeClickable(loginButton));
             return true;
         }
         catch(Exception e){

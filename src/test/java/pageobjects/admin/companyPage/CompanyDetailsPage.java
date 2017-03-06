@@ -17,7 +17,7 @@ public class CompanyDetailsPage extends CompanyPage {
     private final By searchResult = By.cssSelector("body > q4-app > div > div > q4-organization-details > q4-organization-peers > p-dialog:nth-child(3) > div > div.ui-dialog-content.ui-widget-content > q4-peer-create > p-autocomplete > span > div");
 
     private final By editCompanyButton = By.xpath("/html/body/q4-app/div/div/q4-organization-details/header/div/div[2]/button[1]");
-    private final By companyNameField = By.cssSelector(".organization-details-edit .ui-inputtext");
+    private final By companyNameField = By.xpath("//p-dialog[contains(@header,'Edit Company Name')]//input[contains(@placeholder,'Name')]");
     private final By companyEditField = By.name("company_name");
 
     public CompanyDetailsPage(WebDriver driver) {

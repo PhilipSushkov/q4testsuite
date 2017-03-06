@@ -47,10 +47,15 @@ public class ContactPage extends AbstractPageObject {
     }
 
     public void loadAllContacts(){
-            while(findElement(showMoreLink).isDisplayed()) {
+        try {
+            while (findElement(showMoreLink).isDisplayed()) {
                 findElement(showMoreLink).click();
                 waitForLoadingScreen();
             }
+        }
+        catch(Exception e){
+
+        }
     }
 
     public ContactDetailsPage viewContactDetails() {

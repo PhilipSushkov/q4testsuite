@@ -1,4 +1,4 @@
-package pageobjects.user.logActivity;
+package pageobjects.user.logActivityModal;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;

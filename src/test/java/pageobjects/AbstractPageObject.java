@@ -8,10 +8,11 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import pageobjects.admin.companyPage.CompanyPage;
 import pageobjects.admin.implementationPage.ImplementationPage;
 import pageobjects.admin.intelligencePage.IntelligencePage;
+import pageobjects.admin.morningCoffeePage.MorningCoffeePage;
 import pageobjects.admin.profilesPage.ProfilesList;
 import pageobjects.admin.usersPage.UsersPage;
 import pageobjects.user.headerPage.HeaderPage;
-import pageobjects.user.logActivity.LogActivityModal;
+import pageobjects.user.logActivityModal.LogActivityModal;
 import pageobjects.user.loginPage.LoginPage;
 import pageobjects.user.sideNavBar.SideNavBar;
 
@@ -35,13 +36,15 @@ public class AbstractPageObject implements HeaderPage{
         }
     };
 
+    private final By notSubscribed = By.xpath("//h1[contains(text(),'Interested?')]");
+
     // Side hamburger menu icon
     private final By sideNavIcon = By.cssSelector(".page-home .menu-btn"); //use for dashboard
     private final By hamburgerIcon = By.cssSelector(".navigation-toggler .x-button-icon"); //use for other pages
 
     private final By pageTitle = By.cssSelector(".q4-hero-banner .page-title");
     private final By otherPageTitle = By.cssSelector(".q4-hero-banner .page-title h1");
-    private final By watchListPageTitle = By.cssSelector(".watchlist-manager-page .page-header");
+    private final By watchListPageTitle = By.cssSelector(".watchlist-manager-page .page-title");
 
     // Admin page elements
     private final By adminPageTitle = By.cssSelector(".page-header .page-title .details h2");
@@ -50,8 +53,9 @@ public class AbstractPageObject implements HeaderPage{
     private final By profilesPage = By.cssSelector("body > q4-app > div > q4-navbar > nav > div > ul > li:nth-child(3) > a > i");
     private final By intelligencePage = By.cssSelector("body > q4-app > div > q4-navbar > nav > div > ul > li:nth-child(3) > a > i");
     private final By implementationPage = By.cssSelector("body > q4-app > div > q4-navbar > nav > div > ul > li:nth-child(3) > a > i");
+    private final By morningCoffeePage = By.partialLinkText("Morning Coffee");
     private final By reportHeader = By.cssSelector(".page-header .page-title .details");
-    private final By usersPage = By.cssSelector("body > q4-app > div > q4-navbar > nav > div > ul > li:nth-child(5) > a > i");
+    private final By usersPage = By.cssSelector("body > q4-app > div > q4-navbar > nav > div > ul > li:nth-child(6) > a > i");
     private final By profileIcon = By.xpath("//div[contains(@class,'x-docked-right') and contains(concat(' ',@class,' '), 'profile') and contains(@class,'x-paint-monitored')][.//div[contains(@class,'avatar')]]");
     private final By feedback = By.xpath("//div[@class='profile-menu-item']/span[contains(text(),'Leave Feedback')]");
     private final By password = By.xpath("//div[@class='profile-menu-item']/span[contains(text(),'Change Password')]");
@@ -134,7 +138,8 @@ public class AbstractPageObject implements HeaderPage{
     // Watchlist page header is also different :|
     public String getWatchListPageTitle() {
         waitForLoadingScreen();
-        return findElement(watchListPageTitle).getText();
+        return findElement(otherPageTitle).getText();
+
     }
 
     public LogActivityModal pageRefresh() {
@@ -163,11 +168,25 @@ public class AbstractPageObject implements HeaderPage{
         This function allows you to pick a coordinate, and it clicks on said chosen coordinate
         */
         Actions execute = new Actions(driver);
-        WebElement offsetElement = findElement(anyElement);
+        WebElement offsetElement = findVisibleElement(anyElement);
         Point coordinate = offsetElement.getLocation();
         coordX -= coordinate.getX();
         coordY -= coordinate.getY();
         execute.moveToElement(offsetElement, coordX, coordY).click().perform();
+    }
+
+    public void clickElementLocation(By anyElement)
+    {
+        /*
+        Moves the mouse to an offset from the top-left corner of the companyName element, then click it.
+        Get chrome extension Mouse XY to find coordinates of a web-page
+        The companyName element has coordinates of about (80, 100) when in 100% zoom
+        The coordinates are heavily dependent on the size of the browser screen(window)/resolution.
+        This function allows you to pick a coordinate, and it clicks on said chosen coordinate
+        */
+
+        Actions execute = new Actions(driver);
+        execute.moveToElement(findElement(anyElement)).click().perform();
     }
 
     public void waitForLoadingScreen() {
@@ -321,6 +340,38 @@ public class AbstractPageObject implements HeaderPage{
         return sortedWell;
     }
 
+    public boolean elementsAreDateUpSorted(List<WebElement> elements, SimpleDateFormat dateFormat){
+        boolean sortedWell = true;
+        for (int i=0; i<elements.size()-1; i++){
+            try {
+                if(dateFormat.parse(elements.get(i+1).getText()).before(dateFormat.parse(elements.get(i).getText()))){
+                    System.out.println("MIS-SORT: Ascending: Date "+elements.get(i+1).getText()+" should not be after "+elements.get(i).getText());
+                    sortedWell = false;
+                }
+            }catch (ParseException e){
+                System.out.println("Error parsing date: "+elements.get(i+1).getText());
+                return false;
+            }
+        }
+        return sortedWell;
+    }
+
+    public boolean elementsAreDateDownSorted(List<WebElement> elements,SimpleDateFormat dateFormat){
+        boolean sortedWell = true;
+        for (int i=0; i<elements.size()-1; i++){
+            try {
+                if(dateFormat.parse(elements.get(i+1).getText()).after(dateFormat.parse(elements.get(i).getText()))){
+                    System.out.println("MIS-SORT: Descending: Date "+elements.get(i+1).getText()+" should not be after "+elements.get(i).getText());
+                    sortedWell = false;
+                }
+            }catch (ParseException e){
+                System.out.println("Error parsing date: "+elements.get(i+1).getText());
+                return false;
+            }
+        }
+        return sortedWell;
+    }
+
     public boolean elementsAreAllNegative(List<WebElement> elements){
         boolean allNegative = true;
         for (WebElement element : elements){
@@ -399,7 +450,6 @@ public class AbstractPageObject implements HeaderPage{
         waitForLoadingScreen();
         selectProduct(DESKTOP);
         findElement(companyPage).click();
-
         return new CompanyPage(getDriver());
     }
 
@@ -422,6 +472,14 @@ public class AbstractPageObject implements HeaderPage{
         findElement(implementationPage).click();
 
         return new ImplementationPage(getDriver());
+    }
+
+    public MorningCoffeePage navigateToMorningCoffeePage(){
+        waitForLoadingScreen();
+        selectProduct(SURVEILLANCE);
+        findElement(morningCoffeePage).click();
+        waitForLoadingScreen();
+        return new MorningCoffeePage(getDriver());
     }
 
     public IntelligencePage navigateToIntelligencePage() {
@@ -485,5 +543,21 @@ public class AbstractPageObject implements HeaderPage{
             waitForElement(surveillanceSelect);
             findElement(surveillanceSelect).click();
         }
+    }
+
+    public boolean userIsNotSubscribed(){
+
+        try{
+            if(getDriver().findElement(notSubscribed).isDisplayed()){
+                return true;
+            }
+        }
+
+        catch(Exception e){
+            return false;
+        }
+
+
+        return false;
     }
 }

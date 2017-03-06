@@ -1,4 +1,4 @@
-package pageobjects.user.securityPage;
+package pageobjects.user.ownershipPage;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;
@@ -85,9 +85,9 @@ public class SecurityOwnershipPage extends AbstractPageObject {
     private final By holderBreakdownValues = By.cssSelector(".analysis-breakdown-list .value");
     private final By holderTypeValues = By.cssSelector(".analysis-investor-type-list .value");
     private final By holderTypeOther = By.cssSelector(".analysis-investor-type-list .other");
-    private final By holderStyleValues = By.cssSelector(".analysis-pie-bundles .q4-pie-bundle:nth-child(1) text");
+    private final By holderStyleValues = By.cssSelector(".analysis-pie-bundles .q4-pie-bundle:nth-child(1) .q4-pie-bundle-item .chart text");
     private final By holderStyleOther = By.cssSelector(".analysis-pie-bundles .q4-pie-bundle:nth-child(1) .other");
-    private final By holderTurnoverValues = By.cssSelector(".analysis-pie-bundles .q4-pie-bundle:nth-child(2) text");
+    private final By holderTurnoverValues = By.cssSelector(".analysis-pie-bundles .q4-pie-bundle:nth-child(2) .q4-pie-bundle-item .chart text");
     private final By holderTurnoverOther = By.cssSelector(".analysis-pie-bundles .q4-pie-bundle:nth-child(2) .other");
     private final By holderOtherDropdown = By.className("q4-list-modal-inner");
     private final By holderOtherValues = By.cssSelector(".q4-list-modal-inner .value"); //values contained within whatever other dropdown is open (returns no elements when closed)
@@ -113,6 +113,7 @@ public class SecurityOwnershipPage extends AbstractPageObject {
     private final By InsiderSearchResult = By.cssSelector(".top-holders-list.insider .details .holder-info .name");
     private final By DefaultInsiderResult = By.cssSelector("#ext-element-1965");
     private final By DefaultHolderResult = By.cssSelector("#ext-element-5048");
+    private final By thirteenFButton = By.xpath("//span[contains(text(),'13F')]");
 
     public SecurityOwnershipPage(WebDriver driver) {
         super(driver);
@@ -747,7 +748,7 @@ public class SecurityOwnershipPage extends AbstractPageObject {
     }
 
     public String[] getHolderNames(){
-        waitForElement(holderTableName);
+        waitForElementToAppear(holderTableName);
         List<WebElement> elements = findVisibleElements(holderTableName);
         String[] names = new String[elements.size()];
         for (int i=0; i<elements.size(); i++){
@@ -871,14 +872,10 @@ public class SecurityOwnershipPage extends AbstractPageObject {
         List<WebElement> rows = findVisibleElements(holderTableRow);
 
         for (WebElement row : rows){
-            if (!findVisibleElement(By.cssSelector("#"+row.getAttribute("id")+" .rating")).getAttribute("class").contains("no-value")){ //checks whether there's a QR score within that row
-               /* if (doesElementExist(By.xpath("//div[@id='"+row.getAttribute("id")+"']/div[1]/div[1][not(div)]"))){ //checks whether there's no institution icon within that row
-                    numFunds++;
-                }*/
-                if (doesElementExist(By.xpath("//div[@id='"+row.getAttribute("id")+"']//i[contains(@class,'q4i-fund-2pt')]"))){ //checks whether there's no institution icon within that row
-                    numFunds++;
-                }
+            if (doesElementExist(By.xpath("//div[@id='"+row.getAttribute("id")+"']//i[contains(@class,'q4i-fund-2pt')]"))){ //checks whether there's no institution icon within that row
+                numFunds++;
             }
+
         }
         return numFunds;
     }
@@ -1044,12 +1041,14 @@ public class SecurityOwnershipPage extends AbstractPageObject {
     }
 
     public int getNumofHolderStyleValues(){
+        waitForLoadingScreen();
         waitForElement(holderStyleValues);
         return findVisibleElements(holderStyleValues).size();
     }
 
     // checks that all style values are between 0 and 100 (inclusive)
     public boolean holderStyleValuesAreValid(){
+        waitForLoadingScreen();
         waitForElement(holderStyleValues);
         return elementsAreAllPercentages(findVisibleElements(holderStyleValues));
     }
@@ -1063,12 +1062,14 @@ public class SecurityOwnershipPage extends AbstractPageObject {
     }
 
     public int getNumofHolderTurnoverValues(){
+        waitForLoadingScreen();
         waitForElement(holderTurnoverValues);
         return findVisibleElements(holderTurnoverValues).size();
     }
 
     // checks that all turnover values are between 0 and 100 (inclusive)
     public boolean holderTurnoverValuesAreValid(){
+        waitForLoadingScreen();
         waitForElement(holderTurnoverValues);
         return elementsAreAllPercentages(findVisibleElements(holderTurnoverValues));
     }
@@ -1109,6 +1110,7 @@ public class SecurityOwnershipPage extends AbstractPageObject {
 
     public SecurityOwnershipPage viewHistoricalHolders() {
         waitForLoadingScreen();
+        findElement(thirteenFButton).click();
         findElement(historicalTab).click();
         waitForLoadingScreen();
 
@@ -1117,6 +1119,7 @@ public class SecurityOwnershipPage extends AbstractPageObject {
 
     public SecurityOwnershipPage viewCurrentHolders(){
         waitForLoadingScreen();
+        findElement(thirteenFButton).click();
         findElement(currentTab).click();
 
         return this;
@@ -1153,24 +1156,6 @@ public class SecurityOwnershipPage extends AbstractPageObject {
         return this;
     }
 
-    public SecurityOwnershipPage selectFundsETFstab() {
-        waitForLoadingScreen();
-        findElement(FundsETFsTab).click();
-
-        return this;
-    }
-
-    public String getHolderSearchResultstwo() {
-        waitForElementToAppear(holderSearchResulttwo);
-        return findElement(holderSearchResulttwo).getText();
-    }
-
-    public SecurityOwnershipPage viewInstitutiontab() {
-        waitForLoadingScreen();
-        findElement(InstitutionTab).click();
-
-        return this;
-    }
 
     public String getInstitutionSearchResults() {
         waitForElementToAppear(InstitutionSearchResult);
@@ -1179,6 +1164,7 @@ public class SecurityOwnershipPage extends AbstractPageObject {
 
     public void selectInsiderstab() {
         waitForLoadingScreen();
+        findElement(thirteenFButton).click();
         findElement(InsidersTab).click();
 
     }
@@ -1193,13 +1179,6 @@ public class SecurityOwnershipPage extends AbstractPageObject {
         return findElement(holderSearchResult).getText();
     }
 
-    public SecurityOwnershipPage searchForFundsETFs(String searchTerm) {
-        findElement(holdingsSearchField).sendKeys(searchTerm);
-        // Added pause to account for the situation where the test will take the original top value of the table and won't wait for the results to be updated by the search.
-        pause(3000);
-        return this;
-    }
-
     public SecurityOwnershipPage selectFundsETFstab() {
         waitForLoadingScreen();
         findElement(FundsETFsTab).click();
@@ -1214,24 +1193,16 @@ public class SecurityOwnershipPage extends AbstractPageObject {
 
     public SecurityOwnershipPage viewInstitutiontab() {
         waitForLoadingScreen();
+        findElement(thirteenFButton).click();
         findElement(InstitutionTab).click();
 
         return this;
     }
 
-    public String getInstitutionSearchResults() {
-        waitForElementToAppear(InstitutionSearchResult);
-        return findElement(InstitutionSearchResult).getText();
-    }
-
-    public void selectInsiderstab() {
+    public SecurityOwnershipPage selectThirteenF() {
         waitForLoadingScreen();
-        findElement(InsidersTab).click();
+        findElement(thirteenFButton).click();
 
-    }
-
-    public String getInsiderSearchResults() {
-        waitForElementToAppear(InsiderSearchResult);
-        return findElement(InsiderSearchResult).getText();
+        return this;
     }
 }

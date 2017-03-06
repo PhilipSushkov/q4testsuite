@@ -67,13 +67,13 @@ public class FilterActivity extends AbstractSpec {
     public void sortActivitiesByTitle(){
         ColumnType title = ColumnType.TITLE;
         ActivityPage activityPage = new ActivityPage(driver).clickColumnHeader(title);
-        Assert.assertTrue("Type not sorted correctly",activityPage.isColumnSorted(title));
+        Assert.assertTrue("Title not sorted correctly",activityPage.isColumnSorted(title));
     }
 
     @Test
     public void sortActivitiesByDate(){
         ColumnType date = ColumnType.DATE;
         ActivityPage activityPage = new ActivityPage(driver).clickColumnHeader(date);
-        Assert.assertTrue("Type not sorted correctly",activityPage.isColumnSorted(date));
+        Assert.assertTrue("Date not sorted correctly",activityPage.isColumnSorted(date));
     }
 }

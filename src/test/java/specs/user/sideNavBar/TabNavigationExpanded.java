@@ -2,19 +2,17 @@ package specs.user.sideNavBar;
 
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import pageobjects.user.activityPage.ActivityPage;
 import pageobjects.user.briefingBooks.BriefingBookList;
 import pageobjects.user.contactPage.ContactPage;
 import pageobjects.user.dashboardPage.Dashboard;
+import pageobjects.user.estimatesPage.SecurityEstimatesPage;
 import pageobjects.user.eventsTranscriptsPage.EventsTranscriptsPage;
 import pageobjects.user.loginPage.LoginPage;
 import pageobjects.user.myQ4TeamPage.MyQ4TeamPage;
-import pageobjects.user.securityPage.SecurityEstimatesPage;
+import pageobjects.user.ownershipPage.SecurityOwnershipPage;
 import pageobjects.user.securityPage.SecurityOverviewPage;
-import pageobjects.user.securityPage.SecurityOwnershipPage;
-import pageobjects.user.supportTicketsPage.SupportTicketsPage;
 import pageobjects.user.targeting.TargetingPage;
 import pageobjects.user.watchlist.WatchlistPage;
 import pageobjects.user.webAnalyticsPage.WebAnalyticsPage;
@@ -134,8 +132,6 @@ public class TabNavigationExpanded extends AbstractSpec {
         Assert.assertThat("User was not taken to estimates page", securityEstimatesPage.getEstimatesTabTitle(), containsString(tabTitle));
     }
 
-    // TODO getPageTitle will not retrieve text for some reason. Ignoring until I can make this work.
-    @Ignore
     @Test
     public void canNavigateToWebAnalytics() {
         String pageTitle = "Web Analytics";
@@ -164,15 +160,5 @@ public class TabNavigationExpanded extends AbstractSpec {
                 .selectMyQ4TeamFromSideNav();
 
         Assert.assertThat("User was not taken to My Team page", myQ4TeamPage.getOtherPageTitle(), containsString(pageTitle));
-    }
-
-    @Test
-    public void canNavigateToSupportTickets() {
-        String pageTitle = "Support Tickets";
-        SupportTicketsPage supportTicketsPage = new SupportTicketsPage(driver);
-        new Dashboard(driver).accessSideNav()
-                .selectSupportTicketsFromSideNav();
-
-        Assert.assertThat("User was not taken to support tickets page", supportTicketsPage.getOtherPageTitle(), containsString(pageTitle));
     }
 }

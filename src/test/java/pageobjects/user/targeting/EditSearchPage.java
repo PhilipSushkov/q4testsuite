@@ -38,7 +38,8 @@ public class EditSearchPage extends AbstractPageObject {
     private final By deleteSearchButton = By.cssSelector(".action-button.x-iconalign-center");
     private final By saveSearchButton = By.xpath("//div[span/text()='Save Search']");
     private final By saveConfirmation = By.cssSelector (".targeting-update-search.q4-form .form-button");
-
+    private final By deleteConfirmation = By.xpath("//div[contains(@class,'x-msgbox-buttons')]//div[./span[contains(text(),'Yes')]]");
+    private final By deleteCancel = By.xpath("//div[contains(@class,'x-msgbox-buttons')]//div[./span[contains(text(),'No')]]");
 
     public EditSearchPage(WebDriver driver) {
         super(driver);
@@ -48,7 +49,9 @@ public class EditSearchPage extends AbstractPageObject {
     public TargetingPage deleteSearch(){
         waitForElement(deleteSearchButton);
         findElement(deleteSearchButton).click();
-
+        waitForElement(deleteConfirmation);
+        findVisibleElement(deleteConfirmation).click();
+        waitForLoadingScreen();
         return new TargetingPage(getDriver());
     }
 

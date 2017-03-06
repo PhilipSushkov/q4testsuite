@@ -350,11 +350,4 @@ public class Overview extends AbstractSpec {
                 , securityOverviewPage.recentResearchModalExists());
     }
 
-/*
-    @After
-    public void disableDriver() {
-        driver.close();
-        driver.quit();
-    }
-*/
 }

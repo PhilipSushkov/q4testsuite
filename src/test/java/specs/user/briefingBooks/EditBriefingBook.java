@@ -1,9 +1,6 @@
-package specs.user.reportBuilder;
+package specs.user.briefingBooks;
 
-import org.apache.commons.lang.RandomStringUtils;
 import org.junit.*;
-import pageobjects.AbstractPageObject;
-import pageobjects.user.briefingBooks.BriefingBookColumnType;
 import pageobjects.user.briefingBooks.BriefingBookDetailsPage;
 import pageobjects.user.briefingBooks.BriefingBookList;
 import pageobjects.user.loginPage.LoginPage;

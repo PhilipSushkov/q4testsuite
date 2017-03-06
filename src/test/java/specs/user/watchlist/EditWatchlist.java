@@ -1,16 +1,12 @@
 package specs.user.watchlist;
 
-import org.aspectj.lang.annotation.AfterReturning;
-import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import pageobjects.user.securityPage.SecurityOverviewPage;
 import pageobjects.user.loginPage.LoginPage;
-import pageobjects.user.securityPage.SecurityOwnershipPage;
 import pageobjects.user.watchlist.WatchlistPage;
 import specs.AbstractSpec;
-import specs.user.securityDetails.Overview;
 
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.is;
@@ -58,8 +54,7 @@ public class EditWatchlist extends AbstractSpec {
         WatchlistPage watchlist = new WatchlistPage(driver).checkForExistingSecurities();
         String companyName = watchlist.getFirstCompanyName();
 
-        SecurityOverviewPage overview = new SecurityOverviewPage(driver)
-                .clickOnFirstWatchlistCompany()
+        new SecurityOverviewPage(driver).clickOnFirstWatchlistCompany()
                 .clickThreePointBtn()
                 .clickWatchlistBtn();
 
@@ -68,6 +63,16 @@ public class EditWatchlist extends AbstractSpec {
                  .selectWatchListFromSideNav();
 
         Assert.assertThat("Removed company is still visible in watchlist", watchlist.getWatchlistSecurities(), is(not(companyName)));
+    }
+
+    @Test
+    public void canSearchForCompanyOnWatchlist() {
+        WatchlistPage watchlist = new WatchlistPage(driver).checkForExistingSecurities();
+        String companyName = watchlist.getFirstCompanyName();
+
+        new WatchlistPage(driver).searchForEntity(companyName);
+
+        Assert.assertEquals("Search returned incorrect results", watchlist.getAllCompanyNames(), companyName);
 
     }
 }

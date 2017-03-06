@@ -82,6 +82,7 @@ public class NewSearchPage extends AbstractPageObject{
         waitForElement(searchNameField);
         findElement(searchNameField).sendKeys(searchName);
         findElement(saveButton).click();
+        waitForLoadingScreen();
         return new TargetingPage(getDriver());
     }
 
@@ -318,7 +319,7 @@ public class NewSearchPage extends AbstractPageObject{
 
     public boolean resultsCanBeSorted(){
         // sorting by name ascending
-        findElement(nameColumnHeader).click();
+        findVisibleElement(nameColumnHeader).click();
         pause(500);
         if (!elementsAreAlphaUpSortedIgnoreCase(findElements(resultName))){
             System.out.println("SORT ERROR: Names are not in ascending order.");
@@ -326,7 +327,7 @@ public class NewSearchPage extends AbstractPageObject{
         }
 
         // sorting by name descending
-        findElement(nameColumnHeader).click();
+        findVisibleElement(nameColumnHeader).click();
         pause(500);
         if (!elementsAreAlphaDownSortedIgnoreCase(findElements(resultName))){
             System.out.println("SORT ERROR: Names are not in descending order.");
@@ -334,7 +335,7 @@ public class NewSearchPage extends AbstractPageObject{
         }
 
         // sorting by location ascending
-        findElement(locationColumnHeader).click();
+        findVisibleElement(locationColumnHeader).click();
         pause(500);
         if (!elementsAreAlphaUpSorted(findElements(resultLocation))){
             System.out.println("SORT ERROR: Locations are not in ascending order.");
@@ -342,7 +343,7 @@ public class NewSearchPage extends AbstractPageObject{
         }
 
         // sorting by location descending
-        findElement(locationColumnHeader).click();
+        findVisibleElement(locationColumnHeader).click();
         pause(300);
         if (!elementsAreAlphaDownSorted(findElements(resultLocation))){
             System.out.println("SORT ERROR: Locations are not in descending order.");
@@ -350,7 +351,7 @@ public class NewSearchPage extends AbstractPageObject{
         }
 
         // sorting by PP ascending
-        findElement(PPColumnHeader).click();
+        findVisibleElement(PPColumnHeader).click();
         pause(300);
         if (!elementsAreNumUpSorted(findElements(resultPP))){
             System.out.println("SORT ERROR: PP values are not in ascending order.");
@@ -358,7 +359,7 @@ public class NewSearchPage extends AbstractPageObject{
         }
 
         // sorting by PP descending
-        findElement(PPColumnHeader).click();
+        findVisibleElement(PPColumnHeader).click();
         pause(300);
         if (!elementsAreNumDownSorted(findElements(resultPP))){
             System.out.println("SORT ERROR: PP values are not in descending order.");
@@ -366,7 +367,7 @@ public class NewSearchPage extends AbstractPageObject{
         }
 
         // sorting by AUM ascending
-        findElement(AUMColumnHeader).click();
+        findVisibleElement(AUMColumnHeader).click();
         pause(300);
         if (!elementsAreNumUpSorted(findElements(resultAUM))){
             System.out.println("SORT ERROR: AUM values are not in ascending order.");
@@ -374,7 +375,7 @@ public class NewSearchPage extends AbstractPageObject{
         }
 
         // sorting by AUM descending
-        findElement(AUMColumnHeader).click();
+        findVisibleElement(AUMColumnHeader).click();
         pause(300);
         if (!elementsAreNumDownSorted(findElements(resultAUM))){
             System.out.println("SORT ERROR: AUM values are not in descending order.");
@@ -382,7 +383,7 @@ public class NewSearchPage extends AbstractPageObject{
         }
 
         // sorting by turnover ascending
-        findElement(turnoverColumnHeader).click();
+        findVisibleElement(turnoverColumnHeader).click();
         pause(300);
         if (!elementsAreTurnoverUpSorted(findElements(resultTurnover))){
             System.out.println("SORT ERROR: Turnover values are not in ascending order.");
@@ -390,7 +391,7 @@ public class NewSearchPage extends AbstractPageObject{
         }
 
         // sorting by turnover descending
-        findElement(turnoverColumnHeader).click();
+        findVisibleElement(turnoverColumnHeader).click();
         pause(300);
         if (!elementsAreTurnoverDownSorted(findElements(resultTurnover))){
             System.out.println("SORT ERROR: Turnover values are not in descending order.");
@@ -398,7 +399,7 @@ public class NewSearchPage extends AbstractPageObject{
         }
 
         // sorting by style ascending
-        findElement(styleColumnHeader).click();
+        findVisibleElement(styleColumnHeader).click();
         pause(300);
         if (!elementsAreAlphaUpSorted(findElements(resultStyle))){
             System.out.println("SORT ERROR: Styles are not in ascending order.");
@@ -406,7 +407,7 @@ public class NewSearchPage extends AbstractPageObject{
         }
 
         // sorting by style descending
-        findElement(styleColumnHeader).click();
+        findVisibleElement(styleColumnHeader).click();
         pause(300);
         if (!elementsAreAlphaDownSorted(findElements(resultStyle))){
             System.out.println("SORT ERROR: Styles are not in descending order.");
@@ -414,7 +415,7 @@ public class NewSearchPage extends AbstractPageObject{
         }
 
         // sorting by QR ascending
-        findElement(QRColumnHeader).click();
+        findVisibleElement(QRColumnHeader).click();
         pause(300);
         if (!elementsAreNumUpSorted(findElements(resultQRValue))){
             System.out.println("SORT ERROR: QR scores are not in ascending order.");
@@ -422,7 +423,7 @@ public class NewSearchPage extends AbstractPageObject{
         }
 
         // sorting by QR descending
-        findElement(QRColumnHeader).click();
+        findVisibleElement(QRColumnHeader).click();
         pause(300);
         if (!elementsAreNumDownSorted(findElements(resultQRValue))){
             System.out.println("SORT ERROR: QR scores are not in descending order.");
