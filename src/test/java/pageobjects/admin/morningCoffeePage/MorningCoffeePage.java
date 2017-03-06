@@ -46,8 +46,8 @@ public class MorningCoffeePage extends AbstractPageObject {
     private final By createCommentaryBox = By.className("ql-editor");
     private final By saveCommentaryButton = By.xpath("//q4-morning-coffee-commentary-create//button[contains(text(),'Save')]");
     private final By cancelCommentaryButton = By.xpath("//q4-morning-coffee-commentary-create//button[contains(text(),'Cancel')]");
-    private final By marketTable = By.xpath("//p-datatable[1]//tbody");
-    private final By sectorTable = By.xpath("//p-datatable[2]//tbody");
+    private final By marketTable = By.xpath("//div[contains(@class,'ui-datatable-tablewrapper')]");
+    private final By sectorTable = By.xpath("//div[contains(@class,'ui-datatable-tablewrapper')]");
 
     private final By editCommentaryButton = By.xpath(".//button[contains(@class,'square-button')]");
     private final By saveEditedCommentaryButton = By.xpath("//q4-morning-coffee-commentary-edit//button[contains(text(),'Save')]");
@@ -316,12 +316,14 @@ public class MorningCoffeePage extends AbstractPageObject {
     }
 
     private ArrayList<WebElement> retrieveMarketRowData(){
-       ArrayList<WebElement> rowContents = new ArrayList<>(findElement(marketTable).findElements(By.xpath(".//tr[contains(@class,'ui-datatable')]")));
+       ArrayList<WebElement> rowContents = new ArrayList<>(findVisibleElement(marketTable).findElements(By.xpath(".//tr[contains(@class,'ui-datatable')]")));
+       waitForLoadingScreen();
        return rowContents;
     }
 
     private ArrayList<WebElement> retrieveSectorRowData(){
-        ArrayList<WebElement> rowContents = new ArrayList<>(findElement(sectorTable).findElements(By.xpath(".//tr[contains(@class,'ui-datatable')]")));
+        ArrayList<WebElement> rowContents = new ArrayList<>(findVisibleElement(sectorTable).findElements(By.xpath(".//tr[contains(@class,'ui-datatable')]")));
+        waitForLoadingScreen();
         return rowContents;
     }
 
@@ -375,6 +377,7 @@ public class MorningCoffeePage extends AbstractPageObject {
    }
 
    public String returnMarketCommentary(Market market){
+       waitForLoadingScreen();
        WebElement element =returnMarketElement(market);
 
        if(element!=null) {
@@ -385,6 +388,7 @@ public class MorningCoffeePage extends AbstractPageObject {
    }
 
     public String returnSectorCommentary(Sector sector){
+       waitForLoadingScreen();
         WebElement element =returnSectorElement(sector);
 
         if(element!=null) {
