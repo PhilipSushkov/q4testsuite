@@ -8,6 +8,8 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import pageobjects.AbstractPageObject;
+import sun.jvm.hotspot.oops.Mark;
+
 
 import java.lang.reflect.Array;
 import java.text.DateFormat;
@@ -37,18 +39,26 @@ public class MorningCoffeePage extends AbstractPageObject {
 
 
     //COMMENTARY TAB SELECTORS
-    private final By addMarketCommentary = By.xpath("//div[contains(@class,'section-header') and .//h2[contains(text(),'Markets')]]//button[contains(@class, 'add') and contains(@class,'square-button')]");
-    private final By addSectorCommentary = By.xpath("//div[contains(@class,'section-header') and .//h2[contains(text(),'Sectors')]]//button[contains(@class, 'add') and contains(@class,'square-button')]");
-    private final By categoryDropdown = By.xpath("//p-dropdown[1]//label"); //not the best selector
+    private final By marketSegment = By.xpath("//button[contains(text(),'Market')]");
+    private final By sectorSegment = By.xpath("//button[contains(text(),'Sector')]");
+    private final By categoryDropdown = By.xpath("//q4-morning-coffee-commentary-create/p-dropdown[1]/div"); //not the best selector
     private final By sectorDropdown = By.xpath("//p-dropdown[2]//label");
     private final By createCommentaryBox = By.className("ql-editor");
     private final By saveCommentaryButton = By.xpath("//q4-morning-coffee-commentary-create//button[contains(text(),'Save')]");
     private final By cancelCommentaryButton = By.xpath("//q4-morning-coffee-commentary-create//button[contains(text(),'Cancel')]");
-    private final By marketTable = By.xpath("//p-datatable[1]//tbody");
-    private final By sectorTable = By.xpath("//p-datatable[2]//tbody");
+    private final By marketTable = By.xpath("//div[contains(@class,'ui-datatable-tablewrapper')]");
+    private final By sectorTable = By.xpath("//div[contains(@class,'ui-datatable-tablewrapper')]");
+
+    private final By editCommentaryButton = By.xpath(".//button[contains(@class,'square-button')]");
+    private final By saveEditedCommentaryButton = By.xpath("//q4-morning-coffee-commentary-edit//button[contains(text(),'Save')]");
+    private final By cancelEditedCommentaryButton = By.xpath("//q4-morning-coffee-commentary-edit//button[contains(text(),'Cancel')]");
+
+
     private ArrayList<WebElement> marketRowData = new ArrayList<>();
     private ArrayList<WebElement> sectorRowData = new ArrayList<>();
 
+    private String recentReportCompany = ""; //used to save info for the latest viewed report. We use this when confirming that a report has been deleted ( we no longer see this compant)
+    private String recentReportDate = "";
 
     public MorningCoffeePage(WebDriver driver){super(driver);}
 
@@ -80,8 +90,8 @@ public class MorningCoffeePage extends AbstractPageObject {
         return rowContents;
     }
 
-    public boolean recentReportExists(String symbol, Date currentDate){
-        if(findReport(symbol,currentDate)!=null) {
+    public boolean recentReportExists(String symbol,Date date){
+        if(findReport(symbol,date)!=null) {
             return true;
         }
         else
@@ -89,12 +99,60 @@ public class MorningCoffeePage extends AbstractPageObject {
 
     }
 
-    public void clickRecentReport(String symbol, Date currentDate) {
-         WebElement report = findReport(symbol,currentDate);
+    public Date recentReportDate(String symbol,Date date){
+        DateFormat dateFormat = new SimpleDateFormat("MMM d, yyyy, hh:mm:ss a");
+        Date reportDate =new Date();
+        WebElement report = findReport(symbol,date);
+        try {
+            System.out.print(report.findElement(By.xpath(".//td[6]")).getText()+" pre delete\n");
+            reportDate = dateFormat.parse(report.findElement(By.xpath(".//td[6]")).getText());
+            System.out.print(dateFormat.format(reportDate)+ " what it comes back as");
+        }
+        catch(Exception e){
+            reportDate = null;
+        }
+        return reportDate;
+    }
+
+
+
+    public MorningCoffeePreview clickRecentReport(String symbol,Date date) {
+         WebElement report = findReport(symbol,date);
         wait.until(ExpectedConditions.textToBePresentInElement(report,"Ready"));
         pause(500L);
         report.click();
+        waitForLoadingScreen();
+        return new MorningCoffeePreview(driver);
+    }
 
+    public boolean confirmReportDelete(String symbol,Date dateOfReport){
+        DateFormat dateFormat = new SimpleDateFormat("MMM d, yyyy, h:mm:ss a");
+        System.out.print(dateFormat.format(dateOfReport)+ " recent report");
+        try {
+            if(findReportWithDate(symbol,dateOfReport)==null){
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+        catch(Exception e){
+            return false;
+        }
+
+    }
+
+    private WebElement findReportWithDate(String symbol, Date currentDate){
+        tableRowsReports = new ArrayList<>(readTableRows());
+        DateFormat dateFormat = new SimpleDateFormat("MMM d, yyyy, hh:mm:ss a");
+        if(tableRowsReports!=null){
+            for(WebElement row : tableRowsReports) {
+                if (row.getText().contains(symbol) && row.getText().contains(username) && row.getText().contains(dateFormat.format(currentDate))){
+                    return row;
+                }
+            }
+        }
+        return null;
     }
 
     private WebElement findReport(String symbol, Date currentDate){
@@ -113,7 +171,7 @@ public class MorningCoffeePage extends AbstractPageObject {
 
     public MorningCoffeePage clickOwnerHeader(){
         wait.until(ExpectedConditions.elementToBeClickable(ownerColumn));
-        clickElementLocation(ownerColumn);
+        findElement(ownerColumn).click();
         waitForLoadingScreen();
         return this;
     }
@@ -158,7 +216,7 @@ public class MorningCoffeePage extends AbstractPageObject {
     }
 
     private boolean isDateSorted(boolean ascendingSort){
-        SimpleDateFormat dateFormat = new SimpleDateFormat("MMM d, yyyy");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MMM d, yyyy, hh:mm:ss");
         WebElement dateheader = findElement(dateColumn);
         tableRowsReports = new ArrayList<>(readTableRows());
         ArrayList<WebElement> ownerNames= new ArrayList<>();
@@ -181,15 +239,41 @@ public class MorningCoffeePage extends AbstractPageObject {
         return this;
     }
 
-    public MorningCoffeePage clickAddMarketCommentary(){
-        findElement(addMarketCommentary).click();
+    public MorningCoffeePage clickMarketSegment(){
+        findElement(marketSegment).click();
         return this;
     }
 
-    public MorningCoffeePage clickAddSectorCommentary(){
-        findElement(addSectorCommentary).click();
+    public MorningCoffeePage clickSectorSegment(){
+        findElement(sectorSegment).click();
         return this;
     }
+
+    public MorningCoffeePage clickAddCommentarty(){
+        wait.until(ExpectedConditions.presenceOfElementLocated(addReportButton));
+        findVisibleElement(addReportButton).click();
+        waitForLoadingScreen();
+        return this;
+    }
+
+    public MorningCoffeePage createCommentary(Enum<?> commentaryType, String commentary){
+        clickAddCommentarty();
+
+        if(commentaryType.getClass().equals(Sector.class)){
+            selectCatergory(Category.SECTOR);
+            selectSector((Sector)commentaryType);
+            enterInitialCommentary(commentary);
+            findElement(saveCommentaryButton).click();
+        }
+        else{
+           selectCatergory(Category.MARKET);
+            selectMarket((Market)commentaryType);
+            enterInitialCommentary(commentary);
+            findElement(saveCommentaryButton).click();
+        }
+    return this;
+    }
+
     public MorningCoffeePage clickAddReport(){
         findElement(addReportButton).click();
         wait.until(ExpectedConditions.visibilityOfElementLocated(companySymbolTextField));
@@ -198,12 +282,19 @@ public class MorningCoffeePage extends AbstractPageObject {
 
     public MorningCoffeePage selectCatergory(Category category){
         findElement(categoryDropdown).click();
-        findElement(By.className("ui-dropdown-item")).findElement(By.xpath("//span[contains(text(),'"+category.getCategory()+"')]")).click();
+        findVisibleElement(By.className("ui-dropdown-item")).findElement(By.xpath("//span[contains(text(),'"+category.getCategory()+"')]")).click();
         return this;
     }
     public MorningCoffeePage selectSector(Sector sector){
         findElement(sectorDropdown).click();
-        findElement(By.className("ui-dropdown-item")).findElement(By.xpath("//span[contains(text(),'"+sector.getSector()+"')]")).click();
+        waitForLoadingScreen();
+        clickElementLocation(By.xpath("//li[contains(@class,'ui-dropdown-item')][./span[contains(text(),'"+sector.getSector()+"')]]"));
+        return this;
+    }
+    public MorningCoffeePage selectMarket(Market market){
+        findElement(sectorDropdown).click();
+        waitForLoadingScreen();
+        clickElementLocation(By.xpath("//li[contains(@class,'ui-dropdown-item')][./span[contains(text(),'"+market.getMarket()+"')]]"));
         return this;
     }
 
@@ -224,18 +315,93 @@ public class MorningCoffeePage extends AbstractPageObject {
         return this;
     }
 
-    private List<WebElement> retrieveMarketRowData(){
-       List<WebElement> rowContents = new ArrayList<>(findElement(marketTable).findElements(By.xpath("//tr[contains(@class,'ui-datatable')]")));
-
-       for(WebElement row : rowContents){
-           System.out.print(row.getText()+"\n");
-
-       }
+    private ArrayList<WebElement> retrieveMarketRowData(){
+       ArrayList<WebElement> rowContents = new ArrayList<>(findVisibleElement(marketTable).findElements(By.xpath(".//tr[contains(@class,'ui-datatable')]")));
+       waitForLoadingScreen();
        return rowContents;
     }
 
+    private ArrayList<WebElement> retrieveSectorRowData(){
+        ArrayList<WebElement> rowContents = new ArrayList<>(findVisibleElement(sectorTable).findElements(By.xpath(".//tr[contains(@class,'ui-datatable')]")));
+        waitForLoadingScreen();
+        return rowContents;
+    }
+
+    private WebElement returnMarketElement(Market market){
+        marketRowData= retrieveMarketRowData();
+
+        for(WebElement row: marketRowData){
+            if(row.findElement(By.xpath(".//td[1]")).getText().equals(market.getMarket())){
+                return row;
+            }
+        }
+        return null;
+    }
+
+    private WebElement returnSectorElement(Sector sector){
+        sectorRowData= retrieveSectorRowData();
+
+        for(WebElement row: sectorRowData){
+            if(row.findElement(By.xpath(".//td[1]")).getText().equals(sector.getSector())){
+                return row;
+            }
+        }
+        return null;
+    }
+
+
+   public  MorningCoffeePage editMarketCommentary(Market market,String comment){
+        WebElement row = returnMarketElement(market);
+        row.findElement(editCommentaryButton).click();
+        findElement(createCommentaryBox).clear();
+        findElement(createCommentaryBox).sendKeys(comment);
+        return this;
+   }
+
+    public  MorningCoffeePage editSectorCommentary(Sector sector,String comment){
+        WebElement row = returnSectorElement(sector);
+        row.findElement(editCommentaryButton).click();
+        findElement(createCommentaryBox).clear();
+        findElement(createCommentaryBox).sendKeys(comment);
+        return this;
+    }
+
+   public MorningCoffeePage saveEditedCommentary(){
+       findElement(saveEditedCommentaryButton).click();
+       return this;
+   }
+
+   public MorningCoffeePage cancelEditedCommentary(){
+       findElement(cancelEditedCommentaryButton).click();
+       return this;
+   }
+
+   public String returnMarketCommentary(Market market){
+       waitForLoadingScreen();
+       WebElement element =returnMarketElement(market);
+
+       if(element!=null) {
+           return element.findElement(By.xpath(".//td[2]")).getText();
+       }
+       else
+           return null;
+   }
+
+    public String returnSectorCommentary(Sector sector){
+       waitForLoadingScreen();
+        WebElement element =returnSectorElement(sector);
+
+        if(element!=null) {
+            return element.findElement(By.xpath(".//td[2]")).getText();
+        }
+        else
+            return null;
+    }
+
+
     public void print(){
-        retrieveMarketRowData();
+       System.out.print(returnSectorElement(Sector.ENERGY).getText());
+
     }
 
 }

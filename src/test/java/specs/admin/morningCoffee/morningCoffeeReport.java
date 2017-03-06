@@ -7,7 +7,9 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 import pageobjects.admin.loginPage.AdminLoginPage;
+import pageobjects.admin.morningCoffeePage.Market;
 import pageobjects.admin.morningCoffeePage.MorningCoffeePage;
+import pageobjects.admin.morningCoffeePage.Sector;
 import specs.AdminAbstractSpec;
 
 import java.util.Date;
@@ -40,10 +42,9 @@ public class morningCoffeeReport extends AdminAbstractSpec {
         Date currentDate = new Date();
         MorningCoffeePage morningCoffeePage =  new MorningCoffeePage(driver);
         morningCoffeePage.clickAddReport().inputCompanySymbol(symbol).clickCancelReport();
-        Assert.assertFalse("Record not found",morningCoffeePage.recentReportExists(symbol,currentDate));
+        Assert.assertFalse("Record was found",morningCoffeePage.recentReportExists(symbol,currentDate));
     }
 
-    @Ignore
     @Test
     public void canPreviewNewlyCreatedReport(){
         String symbol ="YUM";
@@ -58,8 +59,24 @@ public class morningCoffeeReport extends AdminAbstractSpec {
        Assert.assertTrue("Not sorted", morningCoffeePage.clickOwnerHeader().isOwnerSortedAscending());
     }
 
+    @Test
+    public void addMarketCommentary(){
+        String commentary = "Canada commentary added via automation!";
+        MorningCoffeePage morningCoffeePage = new MorningCoffeePage(driver);
+        morningCoffeePage.clickCommentaryTab().clickMarketSegment().createCommentary(Market.CANADA,commentary);
+        Assert.assertTrue("COmmentary not added",morningCoffeePage.returnMarketCommentary(Market.CANADA).equals(commentary));
 
 
+    }
+
+    @Test
+    public void addSectorCommentary(){
+        String commentary ="Energy commentary added via automation";
+        MorningCoffeePage morningCoffeePage = new MorningCoffeePage(driver);
+        morningCoffeePage.clickCommentaryTab().clickSectorSegment().createCommentary(Sector.ENERGY,commentary);
+       Assert.assertTrue("COmmentary not added",morningCoffeePage.returnSectorCommentary(Sector.ENERGY).equals(commentary));
+
+    }
 
 
 }
