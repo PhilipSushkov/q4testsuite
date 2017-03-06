@@ -59,18 +59,22 @@ public class morningCoffeeReport extends AdminAbstractSpec {
        Assert.assertTrue("Not sorted", morningCoffeePage.clickOwnerHeader().isOwnerSortedAscending());
     }
 
-    @Ignore
     @Test
     public void addMarketCommentary(){
+        String commentary = "Canada commentary added via automation!";
         MorningCoffeePage morningCoffeePage = new MorningCoffeePage(driver);
-        morningCoffeePage.clickCommentaryTab().clickMarketSegment().createCommentary(Market.CANADA,"Canada commentary added via automation");
+        morningCoffeePage.clickCommentaryTab().clickMarketSegment().createCommentary(Market.CANADA,commentary);
+        Assert.assertTrue("COmmentary not added",morningCoffeePage.returnMarketCommentary(Market.CANADA).equals(commentary));
+
 
     }
-    @Ignore
+
     @Test
     public void addSectorCommentary(){
+        String commentary ="Energy commentary added via automation";
         MorningCoffeePage morningCoffeePage = new MorningCoffeePage(driver);
-        morningCoffeePage.clickCommentaryTab().clickSectorSegment().createCommentary(Sector.ENERGY,"Energy commentary added via automation");
+        morningCoffeePage.clickCommentaryTab().clickSectorSegment().createCommentary(Sector.ENERGY,commentary);
+       Assert.assertTrue("COmmentary not added",morningCoffeePage.returnSectorCommentary(Sector.ENERGY).equals(commentary));
 
     }
 
