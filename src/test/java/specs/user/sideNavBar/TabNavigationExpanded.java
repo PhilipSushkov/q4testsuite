@@ -10,9 +10,9 @@ import pageobjects.user.dashboardPage.Dashboard;
 import pageobjects.user.estimatesPage.SecurityEstimatesPage;
 import pageobjects.user.eventsTranscriptsPage.EventsTranscriptsPage;
 import pageobjects.user.loginPage.LoginPage;
-import pageobjects.user.myQ4TeamPage.MyQ4TeamPage;
 import pageobjects.user.ownershipPage.SecurityOwnershipPage;
 import pageobjects.user.securityPage.SecurityOverviewPage;
+import pageobjects.user.supportTicketsPage.SupportTicketsPage;
 import pageobjects.user.targeting.TargetingPage;
 import pageobjects.user.watchlist.WatchlistPage;
 import pageobjects.user.webAnalyticsPage.WebAnalyticsPage;
@@ -153,12 +153,12 @@ public class TabNavigationExpanded extends AbstractSpec {
     }
 
     @Test
-    public void canNavigateToMyQ4Team() {
-        String pageTitle = "Q4 Team";
-        MyQ4TeamPage myQ4TeamPage = new MyQ4TeamPage(driver);
+    public void canNavigateToSupportTickets() {
+        String pageTitle = "Support Tickets";
+        SupportTicketsPage supportTicketsPage = new SupportTicketsPage(driver);
         new Dashboard(driver).accessSideNav()
-                .selectMyQ4TeamFromSideNav();
+                .selectSupportTicketsFromSideNav();
 
-        Assert.assertThat("User was not taken to My Team page", myQ4TeamPage.getOtherPageTitle(), containsString(pageTitle));
+        Assert.assertThat("User was not taken to My Team page", supportTicketsPage.getOtherPageTitle(), containsString(pageTitle));
     }
 }

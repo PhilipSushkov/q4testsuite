@@ -6,15 +6,14 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageobjects.AbstractPageObject;
 import pageobjects.user.activityPage.ActivityPage;
 import pageobjects.user.advancedSearchResultsPage.AdvancedSearchResults;
+import pageobjects.user.briefingBooks.BriefingBookList;
 import pageobjects.user.contactPage.ContactPage;
 import pageobjects.user.dashboardPage.Dashboard;
-import pageobjects.user.eventsTranscriptsPage.EventsTranscriptsPage;
-import pageobjects.user.myQ4TeamPage.MyQ4TeamPage;
-import pageobjects.user.briefingBooks.BriefingBookList;
-import pageobjects.user.researchPage.ResearchPage;
 import pageobjects.user.estimatesPage.SecurityEstimatesPage;
-import pageobjects.user.securityPage.SecurityOverviewPage;
+import pageobjects.user.eventsTranscriptsPage.EventsTranscriptsPage;
 import pageobjects.user.ownershipPage.SecurityOwnershipPage;
+import pageobjects.user.researchPage.ResearchPage;
+import pageobjects.user.securityPage.SecurityOverviewPage;
 import pageobjects.user.supportTicketsPage.SupportTicketsPage;
 import pageobjects.user.targeting.TargetingPage;
 import pageobjects.user.watchlist.WatchlistPage;
@@ -40,8 +39,7 @@ public class SideNavBar extends AbstractPageObject{
     private final By researchSideNav = By.id("ext-treelistitem-13");
     private final By webAnalyticsSideNav = By.id("ext-treelistitem-14");
     private final By webcastAnalyticsSideNav = By.id("ext-treelistitem-15");
-    private final By myQ4TeamSideNav = By.id("ext-treelistitem-17");
-    private final By supportTicketsSideNav = By.id("ext-treelistitem-18");
+    private final By supportTicketsSideNav = By.id("ext-treelistitem-17");
     private final By checklistSideNav = By.id("ext-treelistitem-19");
 
 
@@ -130,14 +128,6 @@ public class SideNavBar extends AbstractPageObject{
         findElement(webcastAnalyticsSideNav).click();
 
         return new WebcastAnalyticsPage(getDriver());
-    }
-
-    public MyQ4TeamPage selectMyQ4TeamFromSideNav() {
-        pause(2000L);
-        waitForElementToAppear(myQ4TeamSideNav);
-        findElement(myQ4TeamSideNav).click();
-
-        return new MyQ4TeamPage(getDriver());
     }
 
     public SupportTicketsPage selectSupportTicketsFromSideNav() {
