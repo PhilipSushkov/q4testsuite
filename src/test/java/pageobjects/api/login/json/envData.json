@@ -1,0 +1,11 @@
+{
+  "Staging_Env": {
+    "url_auth": "https://staging.q4touch.com/api/auth",
+    "app_ver": "appver=1.5",
+    "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:45.0)",
+    "id": "UserLogin-1",
+    "password": "qwerty@01",
+    "product": "desktop",
+    "user": "pylypsushkov@gmail.com"
+  }
+}

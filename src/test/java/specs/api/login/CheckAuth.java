@@ -3,12 +3,14 @@ package specs.api.login;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import pageobjects.api.login.Auth;
 
 /**
  * Created by philipsushkov on 2017-03-08.
  */
 
-public class checkAuth {
+public class CheckAuth {
+    private static Auth auth;
 
     @Before
     public void setUp() {
