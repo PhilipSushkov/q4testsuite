@@ -5,6 +5,7 @@
     "product": "desktop",
     "app_ver": "appver=1.5",
     "url_auth": "https://staging.q4touch.com/api/auth",
+    "url_site": "https://staging.q4touch.com",
     "id": "UserLogin-1",
     "user": "pylypsushkov@gmail.com",
     "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:45.0)"

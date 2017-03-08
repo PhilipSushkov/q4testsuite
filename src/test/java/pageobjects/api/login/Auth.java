@@ -11,16 +11,9 @@ import org.apache.http.util.EntityUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.HttpEntity;
 
-import com.jayway.jsonpath.JsonPath;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -29,7 +22,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.net.URL;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -41,6 +33,7 @@ import java.util.logging.Logger;
 public class Auth extends util.Functions {
     private static String sPathToFile, sDataFileJson;
     private static JSONParser parser;
+    private static HttpClient client;
     private static final String STAGING_ENV = "Staging_Env";
     private static final String PATHTO_API_PROP = "api/ApiMap.properties";
     public static Properties propAPI;
@@ -55,11 +48,11 @@ public class Auth extends util.Functions {
 
         sPathToFile = System.getProperty("user.dir") + propAPI.getProperty("dataPath_Auth");
         sDataFileJson = propAPI.getProperty("jsonData_Auth");
+        client = HttpClientBuilder.create().build();
     }
 
     public boolean getAccessToken() throws IOException {
         String access_token = null;
-        HttpClient client;
         JSONObject jsonData = new JSONObject();
         JSONObject jsonEnv = new JSONObject();
 
@@ -95,7 +88,7 @@ public class Auth extends util.Functions {
 
         post.setEntity(new UrlEncodedFormEntity(urlParameters));
 
-        client = HttpClientBuilder.create().build();
+
         HttpResponse response = client.execute(post);
 
         //System.out.println("Response Code: " + response.getStatusLine().getStatusCode());
