@@ -31,16 +31,17 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Created by philipsushkov on 2017-03-08.
  */
 
 public class Auth extends util.Functions {
-    private String access_token = null;
-    private HttpClient client = null;
     private static String sPathToFile, sDataFileJson;
     private static JSONParser parser;
+    private static final String STAGING_ENV = "Staging_Env";
     private static final String PATHTO_API_PROP = "api/ApiMap.properties";
     public static Properties propAPI;
 
@@ -48,64 +49,91 @@ public class Auth extends util.Functions {
         parser = new JSONParser();
         setupPropUI();
 
+        //To hide warnings logs from execution console.
+        Logger logger = Logger.getLogger("");
+        logger.setLevel(Level.OFF);
+
         sPathToFile = System.getProperty("user.dir") + propAPI.getProperty("dataPath_Auth");
         sDataFileJson = propAPI.getProperty("jsonData_Auth");
     }
 
-    public boolean getAccessToken() {
+    public boolean getAccessToken() throws IOException {
+        String access_token = null;
+        HttpClient client;
+        JSONObject jsonData = new JSONObject();
+        JSONObject jsonEnv = new JSONObject();
 
+        try {
+            FileReader readFile = new FileReader(sPathToFile + sDataFileJson);
+            jsonData = (JSONObject) parser.parse(readFile);
+            jsonEnv = (JSONObject) jsonData.get(STAGING_ENV);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-        /*
-        String urlAuth = "https://staging.q4touch.com/api/auth";
-        String appver = "appver=1.5";
+        //System.out.println(jsonEnv.toString());
+
+        String urlAuth = jsonEnv.get("url_auth").toString();
+        String appver = jsonEnv.get("app_ver").toString();
+
         String urlAuthQuery = urlAuth+"?"+appver;
 
+        //System.out.println(urlAuthQuery);
+
         HttpPost post = new HttpPost(urlAuthQuery);
-        post.setHeader("User-Agent", USER_AGENT);
+        post.setHeader("User-Agent", jsonEnv.get("user_agent").toString());
 
         List<NameValuePair> urlParameters = new ArrayList<NameValuePair>();
-        urlParameters.add(new BasicNameValuePair("id", "UserLogin-1"));
-        urlParameters.add(new BasicNameValuePair("password", "qwerty@01"));
-        urlParameters.add(new BasicNameValuePair("product", "desktop"));
-        urlParameters.add(new BasicNameValuePair("user", "pylypsushkov@gmail.com"));
+        urlParameters.add(new BasicNameValuePair("id", jsonEnv.get("id").toString()));
+        urlParameters.add(new BasicNameValuePair("password", jsonEnv.get("password").toString()));
+        urlParameters.add(new BasicNameValuePair("product", jsonEnv.get("product").toString()));
+        urlParameters.add(new BasicNameValuePair("user", jsonEnv.get("user").toString()));
 
         post.setEntity(new UrlEncodedFormEntity(urlParameters));
 
+        client = HttpClientBuilder.create().build();
         HttpResponse response = client.execute(post);
 
-        System.out.println("Response Code: "
-                + response.getStatusLine().getStatusCode());
-
-        //JSONParser parser = new JSONParser();
-        JSONObject jsonObject = null;
+        //System.out.println("Response Code: " + response.getStatusLine().getStatusCode());
 
         if(response.getStatusLine().getStatusCode() == 200) {
             HttpEntity entity = response.getEntity();
-            //System.out.println("Entity:" + entity);
+
             if (entity != null) {
                 String responseBody = EntityUtils.toString(entity);
-                System.out.println("finalResult" + responseBody.toString());
+                try {
+                    JSONObject jsonResponse = (JSONObject) parser.parse(responseBody);
+                    JSONObject token = (JSONObject) jsonResponse.get("token");
+                    access_token = (String) token.get("access_token");
+                    //System.out.println(access_token);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+            }
 
-                jsonObject = new JSONObject(responseBody.toString());
+            jsonEnv.put("access_token", access_token);
 
-                Boolean success = (Boolean) jsonObject.get("success");
-                System.out.println(success);
-
-                JSONObject token = (JSONObject) jsonObject.get("token");
-                access_token = (String) token.get("access_token");
-                System.out.println(access_token);
+            try {
+                FileWriter writeFile = new FileWriter(sPathToFile + sDataFileJson);
+                writeFile.write(jsonData.toJSONString().replace("\\", ""));
+                writeFile.flush();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
 
         }
 
-        Assert.assertNotNull(access_token);
-
-        */
-
-        return true;
+        return access_token != null;
     }
 
     public static void setupPropUI() throws IOException {
         propAPI = ConnectToPropUI(PATHTO_API_PROP);
     }
+
 }
