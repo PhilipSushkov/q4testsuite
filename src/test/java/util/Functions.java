@@ -7,6 +7,7 @@ import java.util.Properties;
 /**
  * Created by philipsushkov on 2017-03-08.
  */
+
 public class Functions {
         private static Properties propUI;
         private static String currentDir;
