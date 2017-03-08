@@ -2,16 +2,14 @@ package pageobjects.api.historical;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 
-import java.util.ArrayList;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Iterator;
-import java.util.List;
 
 import org.apache.http.client.HttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
@@ -27,6 +25,10 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import yahoofinance.YahooFinance;
+import yahoofinance.histquotes.HistoricalQuote;
+import yahoofinance.histquotes.Interval;
+
 import static specs.ApiAbstractSpec.propAPI;
 
 /**
@@ -35,10 +37,12 @@ import static specs.ApiAbstractSpec.propAPI;
 
 public class Historical extends util.Functions {
     private static String sPathToFileAuth, sDataFileAuthJson, sPathToFileHist, sDataFileHistJson;
-    private static String host, app_ver, access_token, ticker, exchange, connection, user_agent;
+    private static String host, app_ver, access_token, ticker, exchange, connection, user_agent, security_name;
+    private static boolean result = true;
     private static JSONParser parser;
     private static HttpClient client;
-    private static final String STAGING_ENV = "Staging_Env", SECURITIES = "Securities", PROTOCOL = "https://";
+    private static final String STAGING_ENV = "Staging_Env", SECURITIES = "Securities", PROTOCOL = "https://", HISTORICAL = "historical";
+    private static int i;
 
     public Historical() throws IOException {
         parser = new JSONParser();
@@ -55,11 +59,11 @@ public class Historical extends util.Functions {
     }
 
     public boolean compareHistoricalData() throws IOException {
-        JSONObject jsonEnvData = new JSONObject();
+        JSONObject jsonEnvData;
         JSONObject jsonEnv = new JSONObject();
         JSONObject jsonHistData = new JSONObject();
         JSONArray securityArray = new JSONArray();
-        JSONObject jsonHist = new JSONObject();
+        JSONObject jsonHist;
 
         try {
             FileReader readAuthFile = new FileReader(sPathToFileAuth + sDataFileAuthJson);
@@ -82,11 +86,11 @@ public class Historical extends util.Functions {
         access_token = jsonEnv.get("access_token").toString();
         user_agent = jsonEnv.get("user_agent").toString();
         connection = jsonEnv.get("connection").toString();
-        //System.out.println(jsonEnv.get("access_token"));
 
         for (Iterator<String> iterator = securityArray.iterator(); iterator.hasNext(); securityArray.size()) {
             //System.out.println(iterator.next());
-            jsonHist = (JSONObject) jsonHistData.get(iterator.next());
+            security_name = iterator.next();
+            jsonHist = (JSONObject) jsonHistData.get(security_name);
             if (Boolean.parseBoolean(jsonHist.get("do_assertions").toString())) {
                 ticker = jsonHist.get("ticker").toString();
                 exchange = jsonHist.get("exchange").toString();
@@ -107,10 +111,53 @@ public class Historical extends util.Functions {
 
                     if (entity != null) {
                         String responseBody = EntityUtils.toString(entity);
-                        System.out.println("Entity:" + entity);
                         try {
                             JSONObject jsonResponse = (JSONObject) parser.parse(responseBody);
-                            System.out.println(jsonResponse.toJSONString());
+                            //System.out.println(jsonResponse.toJSONString());
+
+                            JSONArray historicalArray = (JSONArray) jsonResponse.get(HISTORICAL);
+                            i = 0;
+                            for (Iterator<JSONObject> iteratorHis = historicalArray.iterator(); iteratorHis.hasNext(); historicalArray.size()) {
+                                JSONObject jsonHistItem = iteratorHis.next();
+                                System.out.println(jsonHistItem.get("Date").toString());
+                                System.out.println("Q4 Desktop: " + jsonHistItem.get("Last").toString());
+
+                                // fetching data from Yahoo
+                                DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+                                HistoricalQuote lastTradingDayQuotes;
+                                try {
+                                    Date newDate = df.parse(jsonHistItem.get("Date").toString());
+
+                                    Calendar from = Calendar.getInstance();
+                                    from.setTime(newDate);
+                                    Calendar to = Calendar.getInstance();
+                                    to.setTime(newDate);
+
+                                    lastTradingDayQuotes = YahooFinance.get(ticker).getHistory(from, to, Interval.DAILY).get(0);
+                                    System.out.println("Yahoo Finance: " + lastTradingDayQuotes.getClose());
+
+                                    result = (Math.abs(lastTradingDayQuotes.getClose().doubleValue() - Double.parseDouble(jsonHistItem.get("Last").toString())) < 0.00001);
+                                    System.out.println(result);
+
+                                    if (!result) {
+                                        break;
+                                    }
+
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                    return false;
+                                } catch (java.text.ParseException e) {
+                                    e.printStackTrace();
+                                }
+
+                                System.out.println("------");
+                                i++;
+
+                                if (i>25) {
+                                    break;
+                                }
+                            }
+
                         } catch (ParseException e) {
                             e.printStackTrace();
                         }
@@ -118,13 +165,13 @@ public class Historical extends util.Functions {
 
                 }
 
-                //post.setEntity(new UrlEncodedFormEntity(urlParameters));
-
             }
+
+            System.out.println(security_name + " has been checked");
 
         }
 
-        return true;
+        return result;
     }
 
 }
