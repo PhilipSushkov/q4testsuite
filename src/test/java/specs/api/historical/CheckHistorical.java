@@ -4,7 +4,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import pageobjects.api.historical.Historical;
-import pageobjects.api.login.Auth;
+import specs.ApiAbstractSpec;
 
 import java.io.IOException;
 
@@ -12,7 +12,7 @@ import java.io.IOException;
  * Created by philipsushkov on 2017-03-08.
  */
 
-public class CheckHistorical {
+public class CheckHistorical extends ApiAbstractSpec {
     private static Historical historical;
 
     @Before

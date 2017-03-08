@@ -22,9 +22,10 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import static specs.ApiAbstractSpec.propAPI;
 
 /**
  * Created by philipsushkov on 2017-03-08.
@@ -35,12 +36,9 @@ public class Auth extends util.Functions {
     private static JSONParser parser;
     private static HttpClient client;
     private static final String STAGING_ENV = "Staging_Env";
-    private static final String PATHTO_API_PROP = "api/ApiMap.properties";
-    public static Properties propAPI;
 
     public Auth() throws IOException {
         parser = new JSONParser();
-        setupPropUI();
 
         //To hide warnings logs from execution console.
         Logger logger = Logger.getLogger("");
@@ -123,10 +121,6 @@ public class Auth extends util.Functions {
         }
 
         return access_token != null;
-    }
-
-    public static void setupPropUI() throws IOException {
-        propAPI = ConnectToPropUI(PATHTO_API_PROP);
     }
 
 }

@@ -1,0 +1,8 @@
+{
+  "Facebook": {
+    "do_assertions": true,
+    "ticker": "FB",
+    "exchange": "XNAS"
+  },
+  "Securities": ["Facebook"]
+}
