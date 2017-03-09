@@ -51,7 +51,7 @@ public class AbstractPageObject implements HeaderPage{
     private final By loading = By.className("outer-spinner-container");
     private final By companyPage = By.cssSelector("body > q4-app > div > q4-navbar > nav > div > ul > li:nth-child(2) > a > i");
     private final By profilesPage = By.cssSelector("body > q4-app > div > q4-navbar > nav > div > ul > li:nth-child(3) > a > i");
-    private final By intelligencePage = By.cssSelector("body > q4-app > div > q4-navbar > nav > div > ul > li:nth-child(3) > a > i");
+    private final By intelligencePage = By.cssSelector("body > q4-app > div > q4-navbar > nav > div > ul > li:nth-child(4) > a > i");
     private final By implementationPage = By.cssSelector("body > q4-app > div > q4-navbar > nav > div > ul > li:nth-child(3) > a > i");
     private final By morningCoffeePage = By.partialLinkText("Morning Coffee");
     private final By reportHeader = By.cssSelector(".page-header .page-title .details");
