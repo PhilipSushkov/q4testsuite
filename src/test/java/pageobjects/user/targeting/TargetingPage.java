@@ -1,10 +1,8 @@
 package pageobjects.user.targeting;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.Point;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageobjects.AbstractPageObject;
 import pageobjects.user.contactPage.ContactDetailsPage;
@@ -18,7 +16,7 @@ import java.util.List;
  */
 public class TargetingPage extends AbstractPageObject {
 
-    private final By newSearchButton = By.cssSelector(".q4-hero-banner .x-dock .action-button");
+    private final By newSearchButton = By.cssSelector(".btn.x-button.x-unsized:not(.btn-block)");
     private final By showSearches = By.cssSelector(".x-tabbar-inner div:first-child");
    private final By searchNameSelectors = By.cssSelector(".targeting-landing-list .x-dataview-item .name");
     private final By searchTableRow = By.xpath("//div[contains(@class,'x-dataview-item')]");
