@@ -25,6 +25,7 @@ public class MorningCoffeePage extends AbstractPageObject {
 
     private final By commentaryTab = By.xpath("//span[contains(text(),'Commentary')]");
     private final By reportsTab = By.xpath("//span[contains(text(),'Commentary')]");
+    private final By searchField =By.xpath("//div[contains(@class,'search')]");
     private final By addReportButton = By.xpath("//div[contains(@class,'action-buttons')]//button");
 
     private final By companySymbolTextField =By.xpath("//q4-morning-coffee-create//input");
@@ -45,8 +46,7 @@ public class MorningCoffeePage extends AbstractPageObject {
     private final By createCommentaryBox = By.className("ql-editor");
     private final By saveCommentaryButton = By.xpath("//q4-morning-coffee-commentary-create//button[contains(text(),'Save')]");
     private final By cancelCommentaryButton = By.xpath("//q4-morning-coffee-commentary-create//button[contains(text(),'Cancel')]");
-    private final By marketTable = By.xpath("//div[contains(@class,'ui-datatable-tablewrapper')]");
-    private final By sectorTable = By.xpath("//div[contains(@class,'ui-datatable-tablewrapper')]");
+    private final By commentaryTable = By.xpath("//div[contains(@class,'ui-datatable-tablewrapper')]");
 
     private final By editCommentaryButton = By.xpath(".//button[contains(@class,'square-button')]");
     private final By saveEditedCommentaryButton = By.xpath("//q4-morning-coffee-commentary-edit//button[contains(text(),'Save')]");
@@ -316,20 +316,15 @@ public class MorningCoffeePage extends AbstractPageObject {
         return this;
     }
 
-    private ArrayList<WebElement> retrieveMarketRowData(){
-       ArrayList<WebElement> rowContents = new ArrayList<>(findVisibleElement(marketTable).findElements(By.xpath(".//tr[contains(@class,'ui-datatable')]")));
-       waitForLoadingScreen();
-       return rowContents;
-    }
 
-    private ArrayList<WebElement> retrieveSectorRowData(){
-        ArrayList<WebElement> rowContents = new ArrayList<>(findVisibleElement(sectorTable).findElements(By.xpath(".//tr[contains(@class,'ui-datatable')]")));
+    private ArrayList<WebElement> retrieveRowData(){
+        ArrayList<WebElement> rowContents = new ArrayList<>(findVisibleElement(commentaryTable).findElements(By.xpath(".//tr[contains(@class,'ui-datatable')]")));
         waitForLoadingScreen();
         return rowContents;
     }
 
     private WebElement returnMarketElement(Market market){
-        marketRowData= retrieveMarketRowData();
+        marketRowData= retrieveRowData();
 
         for(WebElement row: marketRowData){
             if(row.findElement(By.xpath(".//td[1]")).getText().equals(market.getMarket())){
@@ -340,7 +335,7 @@ public class MorningCoffeePage extends AbstractPageObject {
     }
 
     private WebElement returnSectorElement(Sector sector){
-        sectorRowData= retrieveSectorRowData();
+        sectorRowData= retrieveRowData();
 
         for(WebElement row: sectorRowData){
             if(row.findElement(By.xpath(".//td[1]")).getText().equals(sector.getSector())){
@@ -349,6 +344,7 @@ public class MorningCoffeePage extends AbstractPageObject {
         }
         return null;
     }
+
 
 
    public  MorningCoffeePage editMarketCommentary(Market market,String comment){
@@ -389,6 +385,18 @@ public class MorningCoffeePage extends AbstractPageObject {
            return null;
    }
 
+    private ArrayList<String> returnCommentaryTypes(){
+       //this will return all the commentary for thr currently viewed page
+       waitForLoadingScreen();
+       ArrayList<WebElement> rowData =  retrieveRowData();
+       ArrayList<String> commentaryTypes = new ArrayList<>();
+
+       for(WebElement row: rowData){
+           commentaryTypes.add(row.findElement(By.xpath(".//td[1]")).getText());
+       }
+       return commentaryTypes;
+   }
+
     public String returnSectorCommentary(Sector sector){
        waitForLoadingScreen();
         WebElement element =returnSectorElement(sector);
@@ -399,6 +407,25 @@ public class MorningCoffeePage extends AbstractPageObject {
         else
             return null;
     }
+
+    public MorningCoffeePage inputSearch(String search){
+        findElement(searchField).click();
+        findElement(searchField).sendKeys(search);
+        waitForLoadingScreen();
+        return this;
+    }
+
+    public boolean onMarketTabe(){
+        ArrayList<String> commentaryTypes = returnCommentaryTypes();
+        for(int i=0;i<commentaryTypes.size();i++){
+           String type = commentaryTypes.get(i);
+           if(!type.equals(Market.CANADA.getMarket()) && !type.equals(Market.UK.getMarket()) && !type.equals(Market.US.getMarket())){
+               return false;
+           }
+        }
+        return true;
+    }
+
 
 
     public void print(){
