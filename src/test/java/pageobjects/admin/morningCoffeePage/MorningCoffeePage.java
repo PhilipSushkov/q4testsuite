@@ -240,11 +240,13 @@ public class MorningCoffeePage extends AbstractPageObject {
 
     public MorningCoffeePage clickMarketSegment(){
         findElement(marketSegment).click();
+        waitForLoadingScreen();
         return this;
     }
 
     public MorningCoffeePage clickSectorSegment(){
         findElement(sectorSegment).click();
+        waitForLoadingScreen();
         return this;
     }
 
@@ -259,13 +261,13 @@ public class MorningCoffeePage extends AbstractPageObject {
         clickAddCommentarty();
 
         if(commentaryType.getClass().equals(Sector.class)){
-            selectCatergory(Category.SECTOR);
+            selectCategory(Category.SECTOR);
             selectSector((Sector)commentaryType);
             enterInitialCommentary(commentary);
             findElement(saveCommentaryButton).click();
         }
         else{
-           selectCatergory(Category.MARKET);
+           selectCategory(Category.MARKET);
             selectMarket((Market)commentaryType);
             enterInitialCommentary(commentary);
             findElement(saveCommentaryButton).click();
@@ -279,7 +281,7 @@ public class MorningCoffeePage extends AbstractPageObject {
         return this;
     }
 
-    public MorningCoffeePage selectCatergory(Category category){
+    public MorningCoffeePage selectCategory(Category category){
         findElement(categoryDropdown).click();
         findVisibleElement(By.className("ui-dropdown-item")).findElement(By.xpath("//span[contains(text(),'"+category.getCategory()+"')]")).click();
         return this;
@@ -366,7 +368,8 @@ public class MorningCoffeePage extends AbstractPageObject {
     }
 
    public MorningCoffeePage saveEditedCommentary(){
-       findElement(saveEditedCommentaryButton).click();
+        clickElementLocation(saveEditedCommentaryButton);
+       //findElement(saveEditedCommentaryButton).click();
        return this;
    }
 

@@ -64,7 +64,7 @@ public class morningCoffeeReport extends AdminAbstractSpec {
         String commentary = "Canada commentary added via automation!";
         MorningCoffeePage morningCoffeePage = new MorningCoffeePage(driver);
         morningCoffeePage.clickCommentaryTab().clickMarketSegment().createCommentary(Market.CANADA,commentary);
-        Assert.assertTrue("COmmentary not added",morningCoffeePage.returnMarketCommentary(Market.CANADA).equals(commentary));
+        Assert.assertTrue("Commentary not added",morningCoffeePage.returnMarketCommentary(Market.CANADA).equals(commentary));
 
 
     }
@@ -74,9 +74,28 @@ public class morningCoffeeReport extends AdminAbstractSpec {
         String commentary ="Energy commentary added via automation";
         MorningCoffeePage morningCoffeePage = new MorningCoffeePage(driver);
         morningCoffeePage.clickCommentaryTab().clickSectorSegment().createCommentary(Sector.ENERGY,commentary);
-       Assert.assertTrue("COmmentary not added",morningCoffeePage.returnSectorCommentary(Sector.ENERGY).equals(commentary));
+       Assert.assertTrue("Commentary not added",morningCoffeePage.returnSectorCommentary(Sector.ENERGY).equals(commentary));
 
     }
 
+    @Test
+    public void editSectorCommentarty(){
+        Date currentDate = new Date();
+        String commentary = "Consumer staples sector was edited via automation "+currentDate.toString();
+        MorningCoffeePage morningCoffeePage = new MorningCoffeePage(driver);
+        morningCoffeePage.clickCommentaryTab().clickSectorSegment().editSectorCommentary(Sector.CONSUMER_STAPLES,commentary).saveEditedCommentary();
+        Assert.assertTrue("Commentary not added",morningCoffeePage.returnSectorCommentary(Sector.CONSUMER_STAPLES).equals(commentary));
+
+    }
+
+    @Test
+    public void editMarketCommentarty(){
+        Date currentDate = new Date();
+        String commentary = "United Kingdom Market Commentary was edited via automation "+currentDate.toString();
+        MorningCoffeePage morningCoffeePage = new MorningCoffeePage(driver);
+        morningCoffeePage.clickCommentaryTab().clickMarketSegment().editMarketCommentary(Market.UK,commentary).saveEditedCommentary();
+        Assert.assertTrue("Commentary not added",morningCoffeePage.returnMarketCommentary(Market.UK).equals(commentary));
+
+    }
 
 }
