@@ -9,6 +9,7 @@ import org.openqa.selenium.WebDriver;
 import pageobjects.admin.loginPage.AdminLoginPage;
 import pageobjects.admin.morningCoffeePage.Market;
 import pageobjects.admin.morningCoffeePage.MorningCoffeePage;
+import pageobjects.admin.morningCoffeePage.MorningCoffeePreview;
 import pageobjects.admin.morningCoffeePage.Sector;
 import specs.AdminAbstractSpec;
 
@@ -111,6 +112,18 @@ public class morningCoffeeReport extends AdminAbstractSpec {
         Assert.assertFalse("Market commentaries present on sector commentary page",morningCoffeePage.clickCommentaryTab().clickSectorSegment().marketTypesPresent());
 
 
+    }
+
+    @Test
+    public void canDeleteMorningCoffeeReport(){
+        String symbol ="CSCO";
+        Date currentDate = new Date();
+        MorningCoffeePage morningCoffeePage =  new MorningCoffeePage(driver);
+        morningCoffeePage.clickAddReport().inputCompanySymbol(symbol).clickCreateReport();
+        Date dateOfLatestReport =morningCoffeePage.getRecentReportDate();
+        MorningCoffeePreview morningCoffeePreview = morningCoffeePage.clickRecentReport(symbol,currentDate);
+        morningCoffeePage=morningCoffeePreview.confirmDelete();
+        Assert.assertTrue("Report not deleted",morningCoffeePage.confirmReportDelete("SYY",dateOfLatestReport));
     }
 
 }
