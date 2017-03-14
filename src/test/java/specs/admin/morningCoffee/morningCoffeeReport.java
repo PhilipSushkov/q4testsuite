@@ -101,7 +101,15 @@ public class morningCoffeeReport extends AdminAbstractSpec {
     @Test
     public void canFilterOnlyMarkets(){
         MorningCoffeePage morningCoffeePage = new MorningCoffeePage(driver);
-      Assert.assertTrue("Not filtering table to be Market commentaries only",morningCoffeePage.clickCommentaryTab().clickSectorSegment().onMarketTabe());
+      Assert.assertTrue("Not filtering table to be Market commentaries only",morningCoffeePage.clickCommentaryTab().clickMarketSegment().onMarketTab());
+
+    }
+
+    @Test
+    public void canFilterOnlySectors(){
+        MorningCoffeePage morningCoffeePage = new MorningCoffeePage(driver);
+        Assert.assertFalse("Market commentaries present on sector commentary page",morningCoffeePage.clickCommentaryTab().clickSectorSegment().marketTypesPresent());
+
 
     }
 

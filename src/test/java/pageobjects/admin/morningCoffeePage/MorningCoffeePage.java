@@ -415,7 +415,7 @@ public class MorningCoffeePage extends AbstractPageObject {
         return this;
     }
 
-    public boolean onMarketTabe(){
+    public boolean onMarketTab(){
         ArrayList<String> commentaryTypes = returnCommentaryTypes();
         for(int i=0;i<commentaryTypes.size();i++){
            String type = commentaryTypes.get(i);
@@ -426,11 +426,15 @@ public class MorningCoffeePage extends AbstractPageObject {
         return true;
     }
 
-
-
-    public void print(){
-       System.out.print(returnSectorElement(Sector.ENERGY).getText());
-
+    public boolean marketTypesPresent(){
+        ArrayList<String> commentaryTypes = returnCommentaryTypes();
+        for(int i=0;i<commentaryTypes.size();i++){
+            String type = commentaryTypes.get(i);
+            if(type.equals(Market.CANADA.getMarket()) && type.equals(Market.UK.getMarket()) && type.equals(Market.US.getMarket())){
+                return true;
+            }
+        }
+        return false;
     }
 
 }
