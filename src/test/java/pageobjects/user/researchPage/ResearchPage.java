@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import pageobjects.AbstractPageObject;
+import pageobjects.user.Calendar;
 import pageobjects.user.contactPage.ContactPage;
 import pageobjects.user.institutionPage.InstitutionPage;
 
@@ -25,7 +26,14 @@ public class ResearchPage extends AbstractPageObject {
     private final By researchFirm = By.xpath("//div[contains(@class, 'institution q4i-institution-2pt')]");
 
 
-    //x-container x-unsized x-size-monitored x-paint-monitored list-header
+    //for calendars
+    private final By startTimeSelector = By.id("ext-input-5");
+    private final By endTimeSelector = By.id("ext-input-6");
+    private final By previousMonthButton = By.xpath("//div[@class='pmu-prev pmu-button']");
+    private final By selectedMonth = By.xpath("//div[@class='pmu-month pmu-button']");
+    private final By selectedDay = By.xpath("//div[@class='pmu-days']/div[@class='pmu-button'][11]");
+    private final By dateFilterButton = By.xpath("//div[@id='ext-button-20']");
+
 
     public ResearchPage(WebDriver driver) {
         super(driver);
@@ -133,5 +141,37 @@ public class ResearchPage extends AbstractPageObject {
         }
         return true;
     }
+
+    public Calendar filterDate(Calendar calendar) {
+        calendar.selectStartDate(startTimeSelector, previousMonthButton, selectedMonth, selectedDay);
+        calendar.selectEndDate(endTimeSelector, previousMonthButton, selectedMonth, selectedDay);
+        calendar.filter(dateFilterButton);
+        pause(500L);
+        // helps keep track of which days were selected
+        calendar.print();
+        return calendar;
+    }
+
+    public boolean sortByDateRange(Calendar calendar) {
+        waitForLoadingScreen();
+        // sorting the date by earliest to latest
+        findVisibleElement(researchDateColumnHeader).click();
+        pause(200L);
+        boolean Sorted = true;
+        if (!calendar.EarliestDateWithinRange(findVisibleElement(researchDate).getText())) {
+            System.out.println("Earliest date in the table is earlier than the selected end time");
+            Sorted = false;
+        }
+
+        // sorting the date by latest to earliest
+        findVisibleElement(researchDateColumnHeader).click();
+        pause(200L);
+        if (!calendar.latestDateWithinRange(findVisibleElement(researchDate).getText())) {
+            System.out.println("Latest date in the table is later than the selected end time");
+            Sorted = false;
+        }
+        return Sorted;
+    }
+
 }
 
