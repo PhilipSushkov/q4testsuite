@@ -12,7 +12,6 @@ import pageobjects.user.eventsTranscriptsPage.EventsTranscriptsPage;
 import pageobjects.user.loginPage.LoginPage;
 import pageobjects.user.ownershipPage.SecurityOwnershipPage;
 import pageobjects.user.securityPage.SecurityOverviewPage;
-import pageobjects.user.supportTicketsPage.SupportTicketsPage;
 import pageobjects.user.targeting.TargetingPage;
 import pageobjects.user.watchlist.WatchlistPage;
 import pageobjects.user.webAnalyticsPage.WebAnalyticsPage;
@@ -150,15 +149,5 @@ public class TabNavigationExpanded extends AbstractSpec {
                 .selectWebcastAnalyticsFromSideNav();
 
         Assert.assertThat("User was not taken to webcast analytics page", webcastAnalyticsPage.getOtherPageTitle(), containsString(pageTitle));
-    }
-
-    @Test
-    public void canNavigateToSupportTickets() {
-        String pageTitle = "Support Tickets";
-        SupportTicketsPage supportTicketsPage = new SupportTicketsPage(driver);
-        new Dashboard(driver).accessSideNav()
-                .selectSupportTicketsFromSideNav();
-
-        Assert.assertThat("User was not taken to My Team page", supportTicketsPage.getOtherPageTitle(), containsString(pageTitle));
     }
 }
