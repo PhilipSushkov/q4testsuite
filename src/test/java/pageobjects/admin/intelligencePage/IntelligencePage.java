@@ -20,7 +20,7 @@ public class IntelligencePage extends AbstractPageObject {
     private final By weeklyTradeSummary = By.cssSelector(".ui-dropdown-open > div:nth-child(5) > div:nth-child(1) > ul:nth-child(1) > li:nth-child(2)");
     private final By weeklyOptionsReport = By.cssSelector(".ui-dropdown-open > div:nth-child(5) > div:nth-child(1) > ul:nth-child(1) > li:nth-child(3)");
     private final By salesEquityAndOptions = By.cssSelector(".ui-dropdown-open > div:nth-child(5) > div:nth-child(1) > ul:nth-child(1) > li:nth-child(4)");
-    private final By searchResult = By.cssSelector(".ui-autocomplete-list-item");
+    private final By searchResult = By.xpath("//li[contains(@class,'ui-autocomplete-list-item')][.//div[contains(text(),'Sysco')]]");
     private final By firstReportInList = By.cssSelector("tr.ui-widget-content:nth-child(1)");
     private final By firstReportDateTime = By.cssSelector("tr.ui-widget-content:nth-child(1) > td:nth-child(4)");
     private final By reportList = By.cssSelector(".ui-datatable-data");
