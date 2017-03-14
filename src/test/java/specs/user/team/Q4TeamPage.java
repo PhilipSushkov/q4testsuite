@@ -15,8 +15,7 @@ public class Q4TeamPage extends AbstractSpec {
     @Before
     public void setUp() {
         new LoginPage(driver).loginUser()
-                .accessSideNav()
-                .selectMyQ4TeamFromSideNav();
+                .accessSideNav();
     }
 
     @Ignore

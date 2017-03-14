@@ -3,7 +3,6 @@ package pageobjects.user.briefingBooks;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageobjects.AbstractPageObject;
 
 import java.util.ArrayList;
@@ -16,7 +15,7 @@ import java.util.List;
 public class BriefingBookList extends AbstractPageObject {
 
     private final By reportList = By.cssSelector(".briefing-book-list");
-    private final By createBookButton = By.cssSelector(".q4-hero-banner .action-button");
+    private final By createBookButton = By.cssSelector(".btn.x-button.x-unsized:not(.btn-block)");
     private final By newBriefingBook = By.cssSelector(".briefing-book-item:nth-child(1)");
     private final By checkbox = By.className("checkmark");
     private final By deleteButton = By.className("q4i-trashbin-4pt");
