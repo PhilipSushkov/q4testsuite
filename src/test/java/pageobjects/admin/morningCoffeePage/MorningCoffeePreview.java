@@ -33,6 +33,7 @@ public class MorningCoffeePreview extends AbstractPageObject{
 
     public MorningCoffeePreview clickDeleteIcon(){
         findElement(deleteIcon).click();
+        waitForLoadingScreen();
         return this;
     }
 
@@ -71,11 +72,12 @@ public class MorningCoffeePreview extends AbstractPageObject{
     public void typeStuffs(){
         findElement(companyCommentaryText).sendKeys("THIS WORKS!");
     }
+
     public MorningCoffeePage confirmDelete(){
         clickDeleteIcon();
         waitForLoadingScreen();
         wait.until(ExpectedConditions.visibilityOfElementLocated(confirmDelete));
-        findElement(confirmDelete).click();
+        findVisibleElement(confirmDelete).click();
         waitForLoadingScreen();
         return new MorningCoffeePage(driver);
     }

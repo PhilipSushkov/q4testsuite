@@ -98,17 +98,15 @@ public class MorningCoffeePage extends AbstractPageObject {
 
     }
 
-    public Date recentReportDate(String symbol,Date date){
+    public Date getRecentReportDate(){
         DateFormat dateFormat = new SimpleDateFormat("MMM d, yyyy, hh:mm:ss a");
-        Date reportDate =new Date();
-        WebElement report = findReport(symbol,date);
+        WebElement recentReportDate = findElement(By.xpath("//div[contains(@class,'ui-datatable-tablewrapper')]//tbody/tr[1]/td[6]"));
+        Date reportDate = new Date();
         try {
-            System.out.print(report.findElement(By.xpath(".//td[6]")).getText()+" pre delete\n");
-            reportDate = dateFormat.parse(report.findElement(By.xpath(".//td[6]")).getText());
-            System.out.print(dateFormat.format(reportDate)+ " what it comes back as");
+            reportDate = dateFormat.parse(recentReportDate.getText());
         }
         catch(Exception e){
-            reportDate = null;
+            return null;
         }
         return reportDate;
     }
