@@ -34,12 +34,13 @@ public class IntelligenceList extends AdminAbstractSpec {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MMM d, YYYY");
         String dateText = simpleDateFormat.format(date);
 
+        String searchTerm = "Sysco";
         String symbol = "SYY";
         String type = "Weekly Trade Summary";
         String reportTitle = "Sysco Corp. | SYY | XNYS\n" +
                 "Weekly Trade Summary";
 
-        IntelligencePage intelligencePage = new IntelligencePage(driver).createWeeklyTradeSummary(symbol);
+        IntelligencePage intelligencePage = new IntelligencePage(driver).createWeeklyTradeSummary(searchTerm);
 
         Assert.assertThat("Stock symbol does not match expected", intelligencePage.getNewReport(), containsString(symbol));
         Assert.assertThat("Report type does not match expected", intelligencePage.getNewReport(), containsString(type));
@@ -57,12 +58,13 @@ public class IntelligenceList extends AdminAbstractSpec {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MMM d, YYYY");
         String dateText = simpleDateFormat.format(date);
 
+        String searchTerm = "Sysco";
         String symbol = "SYY";
         String type = "Weekly Options Analytics";
         String reportTitle = "Sysco Corp. | SYY | XNYS\n" +
                 "Weekly Options Analytics";
 
-        IntelligencePage intelligencePage = new IntelligencePage(driver).createWeeklyOptionsAnalytics(symbol);
+        IntelligencePage intelligencePage = new IntelligencePage(driver).createWeeklyOptionsAnalytics(searchTerm);
 
         Assert.assertThat("Stock symbol does not match expected", intelligencePage.getNewReport(), containsString(symbol));
         Assert.assertThat("Report type does not match expected", intelligencePage.getNewReport(), containsString(type));
@@ -80,12 +82,13 @@ public class IntelligenceList extends AdminAbstractSpec {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MMM d, YYYY");
         String dateText = simpleDateFormat.format(date);
 
+        String searchTerm = "Sysco";
         String symbol = "SYY";
         String type = "Sales Equity And Options";
         String reportTitle = "Sysco Corp. | SYY | XNYS\n" +
                 "Sales Equity And Options";
 
-        IntelligencePage intelligencePage = new IntelligencePage(driver).createSalesEquitAndOptions(symbol);
+        IntelligencePage intelligencePage = new IntelligencePage(driver).createSalesEquitAndOptions(searchTerm);
 
         Assert.assertThat("Stock symbol does not match expected", intelligencePage.getNewReport(), containsString(symbol));
         Assert.assertThat("Report type does not match expected", intelligencePage.getNewReport(), containsString(type));
@@ -98,7 +101,7 @@ public class IntelligenceList extends AdminAbstractSpec {
 
     @Test
     public void canDeleteExistingReport() {
-        String symbol = "SYY";
+        String symbol = "Sysco";
         IntelligencePage intelligencePage = new IntelligencePage(driver).createWeeklyTradeSummary(symbol);
 
         String newReportDateTime = intelligencePage.getNewReportDateTime();
