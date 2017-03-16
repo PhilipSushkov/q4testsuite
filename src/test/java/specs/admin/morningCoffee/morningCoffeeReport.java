@@ -126,4 +126,22 @@ public class morningCoffeeReport extends AdminAbstractSpec {
         Assert.assertTrue("Report not deleted",morningCoffeePage.confirmReportDelete("SYY",dateOfLatestReport));
     }
 
+    @Test
+    public void canEditMorningCoffeeReportMailing(){
+        String symbol ="FB";
+        Date currentDate = new Date();
+        MorningCoffeePage morningCoffeePage =  new MorningCoffeePage(driver);
+        morningCoffeePage.clickAddReport().inputCompanySymbol(symbol).clickCreateReport();
+        Date dateOfLatestReport =morningCoffeePage.getRecentReportDate();
+        MorningCoffeePreview morningCoffeePreview = morningCoffeePage.clickRecentReport(symbol,currentDate).clickMailIcon();
+    }
+
+    @Test
+    public void canSearchForCommentary(){
+        String search="This is used for the search test";
+        MorningCoffeePage morningCoffeePage = new MorningCoffeePage(driver);
+        Assert.assertTrue("Search query not found",morningCoffeePage.clickCommentaryTab().inputSearch(search).findSearchQuery(search));
+
+
+    }
 }

@@ -25,7 +25,7 @@ public class MorningCoffeePage extends AbstractPageObject {
 
     private final By commentaryTab = By.xpath("//span[contains(text(),'Commentary')]");
     private final By reportsTab = By.xpath("//span[contains(text(),'Commentary')]");
-    private final By searchField =By.xpath("//div[contains(@class,'search')]");
+    private final By searchField =By.xpath("//div[contains(@class,'search')]//input");
     private final By addReportButton = By.xpath("//div[contains(@class,'action-buttons')]//button");
 
     private final By companySymbolTextField =By.xpath("//q4-morning-coffee-create//input");
@@ -229,6 +229,8 @@ public class MorningCoffeePage extends AbstractPageObject {
     }
 
     // COMMENTARY TAB
+
+
     public  MorningCoffeePage clickCommentaryTab(){
         wait.until(ExpectedConditions.elementToBeClickable(commentaryTab));
         findElement(commentaryTab).click();
@@ -384,7 +386,7 @@ public class MorningCoffeePage extends AbstractPageObject {
    }
 
     private ArrayList<String> returnCommentaryTypes(){
-       //this will return all the commentary for thr currently viewed page
+       //this will return all the commentary for the currently viewed page
        waitForLoadingScreen();
        ArrayList<WebElement> rowData =  retrieveRowData();
        ArrayList<String> commentaryTypes = new ArrayList<>();
@@ -429,6 +431,16 @@ public class MorningCoffeePage extends AbstractPageObject {
         for(int i=0;i<commentaryTypes.size();i++){
             String type = commentaryTypes.get(i);
             if(type.equals(Market.CANADA.getMarket()) && type.equals(Market.UK.getMarket()) && type.equals(Market.US.getMarket())){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean findSearchQuery(String search){
+        ArrayList<WebElement> rowData =  retrieveRowData();
+        for(WebElement row:rowData){
+            if(row.findElement(By.xpath(".//td[2]")).getText().contains(search)){
                 return true;
             }
         }
