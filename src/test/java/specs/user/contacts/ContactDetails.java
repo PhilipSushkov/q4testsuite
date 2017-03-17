@@ -5,7 +5,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-import pageobjects.user.advancedSearchResultsPage.AdvancedSearchResults;
+import pageobjects.user.advancedSearchPage.AdvancedSearchPage;
 import pageobjects.user.contactPage.ContactDetailsPage;
 import pageobjects.user.institutionPage.InstitutionPage;
 import pageobjects.user.loginPage.LoginPage;
@@ -100,7 +100,7 @@ public class ContactDetails extends AbstractSpec {
 
     @Test
     public void canLinkToTagDetails() {
-        AdvancedSearchResults advancedSearchResults = new ContactDetailsPage(driver).viewTagResults();
+        AdvancedSearchPage advancedSearchResults = new ContactDetailsPage(driver).viewTagResults();
 
         Assert.assertThat("Advanced search results did not contain contain contact's name", advancedSearchResults.getAdvancedSearchResults(), containsString(shortName));
     }

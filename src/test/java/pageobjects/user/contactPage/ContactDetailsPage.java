@@ -6,7 +6,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageobjects.Page;
-import pageobjects.user.advancedSearchResultsPage.AdvancedSearchResults;
+import pageobjects.user.advancedSearchPage.AdvancedSearchPage;
 import pageobjects.user.institutionPage.InstitutionPage;
 import pageobjects.user.logActivityModal.LogActivityModal;
 
@@ -135,10 +135,10 @@ public class ContactDetailsPage extends Page {
         return findElement(fundTableNames).getText();
     }
 
-    public AdvancedSearchResults viewTagResults() {
+    public AdvancedSearchPage viewTagResults() {
         findElement(tagIcon).click();
 
-        return new AdvancedSearchResults(getDriver());
+        return new AdvancedSearchPage(getDriver());
     }
 
     public ContactDetailsPage accessContactDropdown() {
