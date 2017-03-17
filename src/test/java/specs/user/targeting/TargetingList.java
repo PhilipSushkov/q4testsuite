@@ -15,6 +15,7 @@ import specs.AbstractSpec;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import static org.hamcrest.CoreMatchers.containsString;
 
 
 /**
@@ -323,5 +324,13 @@ public class TargetingList extends AbstractSpec {
         Assert.assertEquals("After editing: created date is incorrect", expectedCreatedDate, new TargetingPage(driver).getCreatedDate(searchNameIndex));
         // checking that last updated date is today
         Assert.assertEquals("After editing: last updated date is not today", dateFormat.format(current), new TargetingPage(driver).getUpdatedDate(searchNameIndex));
+    }
+
+    @Test
+    public void canSearchForSavedSearch() {
+        String searchTerm = "DO NOT REMOVE";
+        TargetingPage targetingPage = new TargetingPage(driver).searchForSearch(searchTerm);
+
+        Assert.assertThat(targetingPage.getSearchResults(), containsString(searchTerm));
     }
 }
