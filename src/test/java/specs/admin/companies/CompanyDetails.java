@@ -4,6 +4,7 @@ import org.apache.commons.lang.RandomStringUtils;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.openqa.selenium.By;
 import pageobjects.admin.companyPage.CompanyDetailsPage;
 import pageobjects.admin.companyPage.CompanyList;
 import pageobjects.admin.loginPage.AdminLoginPage;
@@ -69,5 +70,18 @@ public class CompanyDetails extends AdminAbstractSpec {
         driver.navigate().refresh();
 
         Assert.assertThat("Added ticker is still visible", companyList.getTickerList(), is(not(newTicker)));
+    }
+
+    @Test
+    public void canDismissAddTickerModal() {
+        String companyName = "GOLD";
+        new CompanyList(driver).searchForCompany(companyName)
+                .selectFirstCompanyInList()
+                .selectTickerTab()
+                .clickAddTickerButton()
+                .dismissAddTickerModal();
+
+        Assert.assertEquals("Forgot password modal was not successfully dismissed", 1, driver.findElements(By.cssSelector(".modal .ui-dialog .ui-dialog-content .ui-autocomplete.auto-complete-search .ui-inputtext")).size());
+
     }
 }

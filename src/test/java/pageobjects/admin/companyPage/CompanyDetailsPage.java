@@ -28,6 +28,7 @@ public class CompanyDetailsPage extends CompanyList {
     private final By tickerSave = By.cssSelector(".button-yellow");
     private final By removeTickerIcon = By.cssSelector(".q4-list .action-buttons .remove");
     private final By confirmButton = By.cssSelector("body > q4-app > div > div > q4-organization-details > q4-organization-tickers > p-datatable > div > div > table > tbody > tr:nth-child(1) > td.action-buttons > span > ng-component > p-dialog > div > div.ui-dialog-content.ui-widget-content > div > button.button.button-red");
+    private final By modalCancelButton = By.cssSelector("body > q4-app > div > div > q4-organization-details > q4-organization-tickers > p-dialog:nth-child(3) > div > div.ui-dialog-content.ui-widget-content > q4-ticker-create > div > button.button.button-no-background");
 
     public CompanyDetailsPage(WebDriver driver) {
         super(driver);
@@ -90,10 +91,23 @@ public class CompanyDetailsPage extends CompanyList {
         return this;
     }
 
+    public CompanyDetailsPage clickAddTickerButton() {
+        findElement(newTickerIcon).click();
+
+        return this;
+    }
+
     public CompanyDetailsPage removeTicker() {
         findElement(removeTickerIcon).click();
         waitForElementToAppear(confirmButton);
         findVisibleElement(confirmButton).click();
+
+        return this;
+    }
+
+    public CompanyDetailsPage dismissAddTickerModal() {
+        findElement(modalCancelButton).click();
+        waitForLoadingScreen();
 
         return this;
     }
