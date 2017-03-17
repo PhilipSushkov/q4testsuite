@@ -8,7 +8,7 @@ import pageobjects.AbstractPageObject;
 /**
  * Created by patrickp on 2016-09-16.
  */
-public class CompanyPage extends AbstractPageObject {
+public class CompanyList extends AbstractPageObject {
 
     private final By addCompanyButton = By.cssSelector(".page-header .action-buttons .add");
     private final By companyField = By.cssSelector(".modal .ui-dialog .ui-dialog-content .ui-autocomplete.auto-complete-search .ui-inputtext");
@@ -23,12 +23,13 @@ public class CompanyPage extends AbstractPageObject {
     private final By deletePeerButton = By.cssSelector("body > q4-app > div > div > q4-organization-details > q4-organization-peers > p-datatable > div > div > table > tbody > tr.ui-widget-content.ui-datatable-even > td.action-buttons > span > button.square-button.button-no-background.remove");
     private final By firstSearchResult = By.cssSelector("body > q4-app > div > div > q4-organization > p-dialog > div > div.ui-dialog-content.ui-widget-content > q4-organization-create > p-autocomplete > span > div > ul > li:nth-child(1)");
     private final By modalX = By.xpath("/html/body/q4-app/div/div/q4-organization/p-dialog/div/div[1]/a");
+    private final By tickerList = By.cssSelector(".ui-datatable tbody");
 
-    public CompanyPage(WebDriver driver) {
+    public CompanyList(WebDriver driver) {
         super(driver);
     }
 
-    public CompanyPage addNewCompany(String companyName) {
+    public CompanyList addNewCompany(String companyName) {
         wait.until(ExpectedConditions.elementToBeClickable(addCompanyButton));
         findElement(addCompanyButton).click();
         findElement(companyField).sendKeys(companyName);
@@ -39,14 +40,14 @@ public class CompanyPage extends AbstractPageObject {
         return this;
     }
 
-    public CompanyPage triggerAddCompanyModal() {
+    public CompanyList triggerAddCompanyModal() {
         pause(500L);
         findElement(addCompanyButton).click();
 
         return this;
     }
 
-    public CompanyPage cancelAddCompany() {
+    public CompanyList cancelAddCompany() {
         wait.until(ExpectedConditions.elementToBeClickable(cancelButton));
         findElement(cancelButton).click();
         pause(5000L);
@@ -65,8 +66,9 @@ public class CompanyPage extends AbstractPageObject {
         return findElement(companyName).getText();
     }
 
-    public CompanyPage searchForCompany(String companyName) {
+    public CompanyList searchForCompany(String companyName) {
         findElement(searchField).sendKeys(companyName);
+        waitForLoadingScreen();
 
         return this;
     }
@@ -86,16 +88,20 @@ public class CompanyPage extends AbstractPageObject {
         return findElement(peerList).getText();
     }
 
-    public CompanyPage removePeer() {
+    public CompanyList removePeer() {
         findElement(deletePeerButton).click();
 
         return this;
     }
 
-    public CompanyPage exitAddCompanyModal() {
+    public CompanyList exitAddCompanyModal() {
         waitForLoadingScreen();
         findElement(modalX).click();
 
         return this;
+    }
+
+    public String getTickerList() {
+        return findElement(tickerList).getText();
     }
 }

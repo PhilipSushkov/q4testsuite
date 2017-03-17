@@ -5,7 +5,7 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import pageobjects.admin.companyPage.CompanyPage;
+import pageobjects.admin.companyPage.CompanyList;
 import pageobjects.admin.implementationPage.ImplementationPage;
 import pageobjects.admin.intelligencePage.IntelligencePage;
 import pageobjects.admin.morningCoffeePage.MorningCoffeePage;
@@ -446,11 +446,11 @@ public class AbstractPageObject implements HeaderPage{
         }
     }
 
-    public CompanyPage navigateToCompanyPage() {
+    public CompanyList navigateToCompanyPage() {
         waitForLoadingScreen();
         selectProduct(DESKTOP);
         findElement(companyPage).click();
-        return new CompanyPage(getDriver());
+        return new CompanyList(getDriver());
     }
 
     public String getAdminPageTitle() {
