@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import pageobjects.AbstractPageObject;
+import pageobjects.user.securityPage.SecurityOverviewPage;
 
 /**
  * Created by patrickp on 2016-09-13.
@@ -13,6 +14,13 @@ public class AdvancedSearchPage extends AbstractPageObject {
     private final By searchField = By.cssSelector(".advanced-search-header .search-field .x-input-search");
     private final By transcriptsTab = By.cssSelector(".q4i-transcripts-2pt");
     private final By researchTab = By.cssSelector(".advanced-search .search-bar .search-tabs .x-button:last-of-type, .advanced-search .search-bar .search-tabs .x-button:last-child");
+    private final By firstSearchResultDetails = By.className("name");
+    private final By firstSearchResult = By.cssSelector(".advanced-search-results .advanced-search-results-item");
+    private final By securityTab = By.cssSelector(".advanced-search .search-bar .search-tabs .x-button:last-of-type, .advanced-search .search-bar .search-tabs .x-button:nth-child(2)");
+    private final By institutionTab = By.cssSelector(".advanced-search .search-bar .search-tabs .x-button:last-of-type, .advanced-search .search-bar .search-tabs .x-button:nth-child(3)");
+    private final By fundTab = By.cssSelector(".advanced-search .search-bar .search-tabs .x-button:last-of-type, .advanced-search .search-bar .search-tabs .x-button:nth-child(4)");
+    private final By contactTab = By.cssSelector(".advanced-search .search-bar .search-tabs .x-button:last-of-type, .advanced-search .search-bar .search-tabs .x-button:nth-child(5)");
+    private final By activityTab = By.cssSelector(".advanced-search .search-bar .search-tabs .x-button:last-of-type, .advanced-search .search-bar .search-tabs .x-button:nth-child(7)");
 
     public AdvancedSearchPage(WebDriver driver) {
         super(driver);
@@ -44,5 +52,50 @@ public class AdvancedSearchPage extends AbstractPageObject {
         waitForLoadingScreen();
 
         return this;
+    }
+
+    public AdvancedSearchPage selectSecurityTab() {
+        findElement(securityTab).click();
+        waitForLoadingScreen();
+
+        return this;
+    }
+
+    public AdvancedSearchPage selectInstitutionTab() {
+        findElement(institutionTab).click();
+        waitForLoadingScreen();
+
+        return this;
+    }
+
+    public AdvancedSearchPage selectFundTab() {
+        findElement(fundTab).click();
+        waitForLoadingScreen();
+
+        return this;
+    }
+
+    public AdvancedSearchPage selectContactTab() {
+        findElement(contactTab).click();
+        waitForLoadingScreen();
+
+        return this;
+    }
+
+    public AdvancedSearchPage selectActivityTab() {
+        findElement(activityTab).click();
+        waitForLoadingScreen();
+
+        return this;
+    }
+
+    public String getFirstSearchResult() {
+        return findElement(firstSearchResultDetails).getText();
+    }
+
+    public SecurityOverviewPage selectFirstSearchResult() {
+        findElement(firstSearchResult).click();
+
+        return new SecurityOverviewPage(getDriver());
     }
 }
