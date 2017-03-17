@@ -333,4 +333,13 @@ public class TargetingList extends AbstractSpec {
 
         Assert.assertThat(targetingPage.getSearchResults(), containsString(searchTerm));
     }
+
+    @Test
+    public void canSearchForSavedTargets() {
+        String searchTerm = "Harbor";
+        TargetingPage targetingPage = new TargetingPage(driver).selectTargetsTab()
+                .searchForSearch(searchTerm);
+
+        Assert.assertThat(targetingPage.getSearchResults(), containsString(searchTerm));
+    }
 }
