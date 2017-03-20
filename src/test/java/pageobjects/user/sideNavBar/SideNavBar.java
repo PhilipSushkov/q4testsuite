@@ -69,6 +69,7 @@ public class SideNavBar extends AbstractPageObject{
         pause(2000L);
         waitForElementToAppear(activityPageSideNav);
         findElement(activityPageSideNav).click();
+        waitForLoadingScreen();
 
         return new ActivityPage(getDriver());
     }
