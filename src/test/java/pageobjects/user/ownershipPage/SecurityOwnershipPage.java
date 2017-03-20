@@ -988,12 +988,12 @@ public class SecurityOwnershipPage extends AbstractPageObject {
     //// TREND ANALYSIS METHODS \\\\
 
     // Checks whether hovering over the charts causes hovertext to appear
-    public boolean canHoverOverTrendAnalysisCharts(){
+    public boolean canHoverOverTrendAnalysisCharts() throws Exception {
         boolean canHover = true;
         waitForLoadingScreen();
         waitForElement(trendAnalysisHoverText);
         List<WebElement> charts = findVisibleElements(trendAnalysisChartBody);
-        List<WebElement> hovertexts = findElements(trendAnalysisHoverText);
+        List<WebElement> hovertexts = findVisibleElements(trendAnalysisHoverText);
 
         for(int i=0; i<charts.size(); i++){
             actions.clickAndHold(charts.get(i)).perform(); //clickAndHold needed so that cursor is still there when getAttribute is run
