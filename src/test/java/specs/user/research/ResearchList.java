@@ -2,8 +2,8 @@ package specs.user.research;
 
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
+import pageobjects.user.Calendar;
 import pageobjects.user.contactPage.ContactPage;
 import pageobjects.user.institutionPage.InstitutionPage;
 import pageobjects.user.loginPage.LoginPage;
@@ -67,7 +67,12 @@ public class ResearchList extends AbstractSpec {
 
     @Test
     public void canSortResearchByDate() {
-        Assert.assertTrue("Research Reports cannot be sorted by date.", new ResearchPage(driver).sortByDate());
+        // Checking all research items fall within a designated time frame selected through "start" and "end" times
+        ResearchPage researchPage = new ResearchPage(driver);
+        Calendar calendar = new Calendar(driver);
+        researchPage.filterDate(calendar);
+
+        Assert.assertTrue("Research Reports cannot be sorted by date.", new ResearchPage(driver).sortByDateRange(calendar));
     }
 
     @Test
