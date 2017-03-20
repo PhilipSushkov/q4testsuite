@@ -47,7 +47,8 @@ public class IntelligencePage extends AbstractPageObject {
         pause(1000L);
         retryClick(companySymbolField);
         findElement(companySymbolField).sendKeys(symbol);
-        findElement(searchResult).click();
+        selectTickerFromDropDown(symbol);
+        //findElement(searchResult).click();
         findElement(createReportButton).click();
         waitForLoadingScreen();
 
@@ -61,7 +62,8 @@ public class IntelligencePage extends AbstractPageObject {
         findElement(weeklyOptionsReport).click();
         pause(500L);
         findElement(companySymbolField).sendKeys(symbol);
-        findElement(searchResult).click();
+        selectTickerFromDropDown(symbol);
+        //findElement(searchResult).click();
         findElement(createReportButton).click();
 
         return this;
@@ -74,7 +76,8 @@ public class IntelligencePage extends AbstractPageObject {
         findElement(salesEquityAndOptions).click();
         pause(500L);
         findElement(companySymbolField).sendKeys(symbol);
-        findElement(searchResult).click();
+        selectTickerFromDropDown(symbol);
+        //findElement(searchResult).click();
         findElement(createReportButton).click();
 
         return this;
@@ -163,6 +166,9 @@ public class IntelligencePage extends AbstractPageObject {
         }
         return true;
     }
+public void selectTickerFromDropDown(String symbol){
+   findElement(By.xpath("//li[contains(@class,'ui-autocomplete-list-item')][.//div[contains(text(),'"+symbol+"')]]")).click();
+}
 
     public IntelligencePage sortByCompanyReportType() {
         findElement(companyAndReportCulumnHeader).click();
