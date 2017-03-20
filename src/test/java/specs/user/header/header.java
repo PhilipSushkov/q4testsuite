@@ -33,7 +33,7 @@ public class header extends AbstractSpec{
 
     @Test
     public void canViewReleaseNotes(){
-        String releaseNotes = driver.getCurrentUrl().replace("/#company/XNYS%3ASYY", "/#release-note");
+        String releaseNotes = driver.getCurrentUrl().replace("/#company/57b92885be1c33ae235f5895", "/#release-note");
 
         SecurityOverviewPage securityOverviewPage = new SecurityOverviewPage(driver);
         securityOverviewPage.openProfile();
