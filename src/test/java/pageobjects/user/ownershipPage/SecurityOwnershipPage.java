@@ -988,7 +988,7 @@ public class SecurityOwnershipPage extends AbstractPageObject {
     //// TREND ANALYSIS METHODS \\\\
 
     // Checks whether hovering over the charts causes hovertext to appear
-    public boolean canHoverOverTrendAnalysisCharts() throws Exception {
+    public boolean canHoverOverTrendAnalysisCharts(){
         boolean canHover = true;
         waitForLoadingScreen();
         waitForElement(trendAnalysisHoverText);
