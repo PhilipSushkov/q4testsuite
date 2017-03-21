@@ -27,7 +27,7 @@ public class SecurityOverviewPage extends WatchlistPage {
 
     //data\\
 
-    private final By companyName = By.cssSelector(".watchlist-list .watchlist-row h5");
+    private final By companyName = By.className("company-name");
     private final By companyTicker = By.xpath("//div[contains(@class,'x-innerhtml')]/div[contains(@class,'company-symbol')]");
     private final By industry_Exchange = By.className("exchange");
     private final By stockQuote = By.className("stock-price");
