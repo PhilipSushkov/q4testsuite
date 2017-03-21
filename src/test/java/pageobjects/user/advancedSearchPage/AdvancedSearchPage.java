@@ -10,7 +10,7 @@ import pageobjects.user.securityPage.SecurityOverviewPage;
  * Created by patrickp on 2016-09-13.
  */
 public class AdvancedSearchPage extends AbstractPageObject {
-    private final By searchResults = By.cssSelector(".advanced-search-results .advanced-search-results-item .search-details");
+    private final By searchResults = By.cssSelector(".advanced-search-results");
     private final By searchField = By.cssSelector(".advanced-search-header .search-field .x-input-search");
     private final By transcriptsTab = By.cssSelector(".q4i-transcripts-2pt");
     private final By researchTab = By.cssSelector(".advanced-search .search-bar .search-tabs .x-button:last-of-type, .advanced-search .search-bar .search-tabs .x-button:last-child");

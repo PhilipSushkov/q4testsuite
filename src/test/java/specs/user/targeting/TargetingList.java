@@ -64,7 +64,7 @@ public class TargetingList extends AbstractSpec {
 
         // opening search and verifying that filters are correct
         boolean filtersMatch = new TargetingPage(driver).editSearch(searchNameIndex).verifyFilters(filters);
-        Assert.assertTrue("Known issue - DESKTOP-7376 - Filters do not match.", filtersMatch);
+        Assert.assertTrue("Filters do not match.", filtersMatch);
 
         // deleting search using button on filter page
         new EditSearchPage(driver).deleteSearch();
