@@ -2,6 +2,8 @@ package pageobjects.admin.companyPage;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageobjects.AbstractPageObject;
 
@@ -12,7 +14,7 @@ public class CompanyList extends AbstractPageObject {
 
     private final By addCompanyButton = By.cssSelector(".page-header .action-buttons .add");
     private final By companyField = By.cssSelector(".modal .ui-dialog .ui-dialog-content .ui-autocomplete.auto-complete-search .ui-inputtext");
-    private final By saveButton = By.cssSelector(".button-yellow");
+    private final By saveButton = By.xpath("//button[contains(text(),'Save')]");
     private final By cancelButton = By.cssSelector(".button-no-background");
     private final By firstCompany = By.cssSelector(".q4-list .ui-datatable tr.ui-widget-content td");
     private final By companyName = By.cssSelector("body > q4-app > div > div > q4-organization > p-datatable > div > div > table > tbody > tr:nth-child(1) > td:nth-child(2)");
@@ -30,14 +32,31 @@ public class CompanyList extends AbstractPageObject {
     }
 
     public CompanyList addNewCompany(String companyName) {
-        wait.until(ExpectedConditions.elementToBeClickable(addCompanyButton));
-        findElement(addCompanyButton).click();
-        findElement(companyField).sendKeys(companyName);
-        pause(500L);
+        searchForNewCompany(companyName);
         findElement(firstSearchResult).click();
         findElement(saveButton).click();
 
         return this;
+    }
+
+    public CompanyList searchForNewCompany(String companyName){
+        wait.until(ExpectedConditions.elementToBeClickable(addCompanyButton));
+        findElement(addCompanyButton).click();
+        findElement(companyField).sendKeys(companyName);
+        pause(500L);
+        return this;
+    }
+
+    public CompanyList dismissTickerDropdown(){
+        WebElement searchField = findElement(companyField);
+        Actions action = new Actions(driver);
+        action.doubleClick(searchField).perform();
+        return this;
+
+    }
+
+    public boolean isSaveButtonEnabled(){
+        return findElement(saveButton).isEnabled();
     }
 
     public CompanyList triggerAddCompanyModal() {

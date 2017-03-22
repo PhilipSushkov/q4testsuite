@@ -44,6 +44,15 @@ public class CompaniesList extends AdminAbstractSpec {
     }
 
     @Test
+    public void cannotAddInvalidCompany(){
+        String companyName = "Can't add this";
+        CompanyList companyList= new CompanyList(driver).searchForNewCompany(companyName);
+        Assert.assertFalse("Incorrectly able to add a company not in the system",companyList.dismissTickerDropdown().isSaveButtonEnabled());
+
+
+    }
+
+    @Test
     public void canSearchForCompany() {
         String companyName = "Yum";
         CompanyList companyPage = new CompanyList(driver).searchForCompany(companyName);
