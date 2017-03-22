@@ -148,7 +148,13 @@ public class morningCoffeeReport extends AdminAbstractSpec {
         String search="This is used for the search test";
         MorningCoffeePage morningCoffeePage = new MorningCoffeePage(driver);
         Assert.assertTrue("Search query not found",morningCoffeePage.clickCommentaryTab().inputSearch(search).findSearchQuery(search));
+    }
 
-
+    @Test
+    public void stillFilteringBySectorAfterCreation(){
+        String commentary ="Financial commentary added via automation";
+        MorningCoffeePage morningCoffeePage = new MorningCoffeePage(driver);
+        morningCoffeePage.clickCommentaryTab().clickSectorSegment().createCommentary(Sector.FINANCIALS,commentary);
+        Assert.assertFalse("Market commentaries present on sector commentary page after adding a sector",morningCoffeePage.marketTypesPresent());
     }
 }
