@@ -51,7 +51,14 @@ public class morningCoffeeReport extends AdminAbstractSpec {
         String symbol ="YUM";
         Date currentDate = new Date();
         MorningCoffeePage morningCoffeePage =  new MorningCoffeePage(driver);
-        morningCoffeePage.clickAddReport().inputCompanySymbol(symbol).clickCreateReport().clickRecentReport(symbol, currentDate);
+        Assert.assertTrue("Preview of report didn't load",morningCoffeePage.clickAddReport().inputCompanySymbol(symbol).clickCreateReport().clickRecentReport(symbol, currentDate).previewPageLoaded());
+    }
+    @Test
+    public void stockSummaryPresentInReportPreview(){
+        String symbol ="SYY";
+        Date currentDate = new Date();
+        MorningCoffeePage morningCoffeePage =  new MorningCoffeePage(driver);
+       Assert.assertTrue("Stock summary not present",morningCoffeePage.clickAddReport().inputCompanySymbol(symbol).clickCreateReport().clickRecentReport(symbol, currentDate).stockSummaryPresent());
     }
 
     @Test
