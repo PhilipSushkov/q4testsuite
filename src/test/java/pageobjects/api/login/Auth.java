@@ -3,17 +3,12 @@ package pageobjects.api.login;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.http.client.HttpClient;
-import org.apache.http.impl.client.HttpClientBuilder;
-
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -22,6 +17,8 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -35,7 +32,7 @@ public class Auth extends util.Functions {
     private static String sPathToFile, sDataFileJson;
     private static JSONParser parser;
     private static HttpClient client;
-    private static final String STAGING_ENV = "Staging_Env";
+    private static final String DEVELOP_ENV = "Develop_Env";
 
     public Auth() throws IOException {
         parser = new JSONParser();
@@ -57,7 +54,7 @@ public class Auth extends util.Functions {
         try {
             FileReader readFile = new FileReader(sPathToFile + sDataFileJson);
             jsonData = (JSONObject) parser.parse(readFile);
-            jsonEnv = (JSONObject) jsonData.get(STAGING_ENV);
+            jsonEnv = (JSONObject) jsonData.get(DEVELOP_ENV);
         } catch (ParseException e) {
             e.printStackTrace();
         } catch (FileNotFoundException e) {
