@@ -93,6 +93,7 @@ public class NewSearchPage extends AbstractPageObject{
     }
 
     public TargetingPage createNewSearch(String searchName, String[] filters){
+        waitForLoadingScreen();
         waitForElement(locationFilter);
 
         // typing in location

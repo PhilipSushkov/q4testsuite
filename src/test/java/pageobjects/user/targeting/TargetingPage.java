@@ -58,6 +58,7 @@ public class TargetingPage extends AbstractPageObject {
 
 
     public NewSearchPage newSearch(){
+        waitForLoadingScreen();
         waitForElement(newSearchButton);
         findElement(newSearchButton).click();
 

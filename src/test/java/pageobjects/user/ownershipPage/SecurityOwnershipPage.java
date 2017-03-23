@@ -997,7 +997,7 @@ public class SecurityOwnershipPage extends AbstractPageObject {
 
         for(int i=0; i<charts.size(); i++){
             actions.clickAndHold(charts.get(i)).perform(); //clickAndHold needed so that cursor is still there when getAttribute is run
-            pause(500);
+            pause(1000);
             if (!hovertexts.get(i).getAttribute("opacity").equals("1")){ // when hovertext is not visible, opacity attribute is either zero or non-existent
                 System.out.println("Trend Analysis chart (index "+i+") does have visible hovertext when hovering.");
                 canHover = false;
@@ -1011,29 +1011,34 @@ public class SecurityOwnershipPage extends AbstractPageObject {
     // these methods are to be used while one of the date tabs is selected
 
     public int getNumOfHolderBreakdownValues(){
+        waitForLoadingScreen();
         waitForElement(holderBreakdownValues);
         return findVisibleElements(holderBreakdownValues).size();
     }
 
     // checks that breakdown values are between 0 and 100 (inclusive)
     public boolean holderBreakdownValuesAreValid(){
+        waitForLoadingScreen();
         waitForElement(holderBreakdownValues);
         return elementsAreAllPercentages(findVisibleElements(holderBreakdownValues));
     }
 
     public int getNumofHolderTypeValues(){
+        waitForLoadingScreen();
         waitForElement(holderTypeValues);
         return findVisibleElements(holderTypeValues).size();
     }
 
     // checks that all type values are between 0 and 100 (inclusive)
     public boolean holderTypeValuesAreValid(){
+        waitForLoadingScreen();
         waitForElement(holderTypeValues);
         return elementsAreAllPercentages(findVisibleElements(holderTypeValues));
     }
 
     // clicks on the "Other" option under "Investor Type", causing the dropdown to open
     public SecurityOwnershipPage openOtherHolderTypes(){
+        waitForLoadingScreen();
         waitForElement(holderTypeOther);
         findVisibleElement(holderTypeOther).click();
         waitForElement(holderOtherDropdown);
