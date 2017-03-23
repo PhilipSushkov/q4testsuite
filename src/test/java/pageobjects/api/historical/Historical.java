@@ -232,8 +232,8 @@ public class Historical extends util.Functions {
                                     dataexists = true;
                                     for (int z = 0; z < individualJSONArray.length(); z++) {
                                         org.json.JSONObject jsonHistItem = individualJSONArray.getJSONObject(z);
-                                        // print statement to see all Q4 prices
-                                        // System.out.println("Q4 Desktop Price : " + jsonHistItem.get("Last").toString());
+                                        //print statement to see all Q4 prices
+                                        //System.out.println("Q4 Desktop Price : " + jsonHistItem.get("Last").toString());
                                         Q4Price = Double.parseDouble(jsonHistItem.get("Last").toString());
                                     }
                                 } else {
@@ -277,10 +277,9 @@ public class Historical extends util.Functions {
                 }
 
                 // printing out successful stocks for every 20 checked
-                if (securityCounter % 20 == 0 && securityCounter != 0) {
-                    for (int count = 0; count < 20; count ++ ) {
-                        System.out.println(Arrays.toString(accurateCompanies.toArray()));
-                    }
+                if (securityCounter % 4 == 0 && securityCounter != 0) {
+                System.out.println("The following stocks are full of accurate data!");
+                System.out.println(Arrays.toString(accurateCompanies.toArray()));
                 }
                 // clears everything in the list so it doesn't grow too large
                 accurateCompanies.clear();
