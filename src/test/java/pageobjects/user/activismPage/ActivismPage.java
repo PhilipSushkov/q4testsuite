@@ -21,6 +21,7 @@ public class ActivismPage extends AbstractPageObject {
     }
 
     public boolean verifyTextIsPresent() {
+        waitForLoadingScreen();
         String nglText = getNlgText();
         if (nglText.isEmpty()) {
             {

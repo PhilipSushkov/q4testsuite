@@ -22,6 +22,7 @@ public class VolatilityPage extends AbstractPageObject {
     }
 
     public boolean verifyTextIsPresent() {
+        waitForLoadingScreen();
         String nglText = getNlgText();
         if (nglText.isEmpty()) {
             {
