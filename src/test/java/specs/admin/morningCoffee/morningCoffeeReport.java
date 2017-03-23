@@ -157,4 +157,17 @@ public class morningCoffeeReport extends AdminAbstractSpec {
         morningCoffeePage.clickCommentaryTab().clickSectorSegment().createCommentary(Sector.FINANCIALS,commentary);
         Assert.assertFalse("Market commentaries present on sector commentary page after adding a sector",morningCoffeePage.marketTypesPresent());
     }
+
+    @Test
+    public void userCanEditCommentaryForSpecificReport(){
+        String symbol ="GE";
+        Date currentDate = new Date();
+        String editText = " EDITED "+currentDate.toString()+" ";
+        MorningCoffeePage morningCoffeePage =  new MorningCoffeePage(driver);
+        MorningCoffeePreview morningCoffeePreview= morningCoffeePage.clickAddReport().inputCompanySymbol(symbol).clickCreateReport().clickRecentReport(symbol, currentDate).typeInMarketCommentary(editText).clickSaveIcon();
+        driver.navigate().back();
+        morningCoffeePage = new MorningCoffeePage(driver);
+        morningCoffeePreview = morningCoffeePage.clickRecentReport(symbol, currentDate);
+        Assert.assertTrue("Commentary not saved",morningCoffeePreview.returnMarketCommentary().contains(editText));
+    }
 }

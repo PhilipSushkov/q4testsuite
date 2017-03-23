@@ -560,4 +560,16 @@ public class AbstractPageObject implements HeaderPage{
 
         return false;
     }
+
+    public void scrollToElement(By locator){
+        WebElement element = driver.findElement(locator);
+        Actions actions = new Actions(driver);
+        actions.moveToElement(element);
+        actions.perform();
+    }
+
+    public void scrollToTopOfPage(){
+        JavascriptExecutor jse = (JavascriptExecutor) driver;
+        jse.executeScript("window.scrollTo(0,0)");
+    }
 }

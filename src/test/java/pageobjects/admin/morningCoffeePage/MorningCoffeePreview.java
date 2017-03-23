@@ -17,11 +17,16 @@ public class MorningCoffeePreview extends AbstractPageObject{
    private final By saveConfirmation = By.xpath("//h2[contains(text(),'Success!')]");
    private final By cancelDelete = By.xpath("//q4-delete-confirm//button[contains(text(),'Cancel')]");
    private final By confirmDelete = By.xpath("//q4-delete-confirm//button[contains(text(),'Confirm')]");
-   private final By marketCommentaryText = By.xpath("//div[contains(@class,'col-1') and .//span[contains(text(),'Market Commentary')]]//div[contains(@class,'ql-editor')]");
-    private final By sectorCommentaryText = By.xpath("//div[contains(@class,'col-1') and .//span[contains(text(),'Sector Commentary')]]//div[contains(@class,'ql-editor')]");
-    private final By companyCommentaryText = By.xpath("//div[contains(@class,'col-1') and .//span[contains(text(),'Company Commentary')]]//div[contains(@class,'ql-editor')]");
+   private final By marketCommentaryIframe = By.xpath("//div[contains(@class,'col-1') and .//span[contains(text(),'Market Commentary')]]//mce-editor//iframe");
+    private final By sectorCommentaryIframe = By.xpath("//div[contains(@class,'col-1') and .//span[contains(text(),'Sector Commentary')]]//mce-editor//iframe");
+    private final By companyCommentaryIframe = By.xpath("//div[contains(@class,'col-1') and .//span[contains(text(),'Company Commentary')]]//mce-editor//iframe");
+
+    private final By textAreaOfCommentaryIframe =  By.xpath("//body");
+
     private final By morningCoffeeTitle = By.xpath("//q4-morning-coffee-details//div[contains(text(),'Morning Coffee Report')]");
 
+
+    //*[@id="tinymce"]/p
     //Ugly selectors below. No real unique styling for this group of elements.
     //Stock summary selectors
     private final By stockSummary = By.xpath("//h3[contains(text(),'Stock Summary')]");
@@ -49,9 +54,13 @@ public class MorningCoffeePreview extends AbstractPageObject{
     }
 
     public MorningCoffeePreview clickSaveIcon(){
-        findElement(saveIcon).click();
+        scrollToTopOfPage();
+        pause(5000);
+        clickElementLocation(saveIcon);
         return this;
     }
+
+
 
     public boolean canSaveMorningReport(){
         clickSaveIcon();
@@ -89,10 +98,53 @@ public class MorningCoffeePreview extends AbstractPageObject{
         }
     }
 
-    public void typeStuffs(){
-        findElement(companyCommentaryText).sendKeys("THIS WORKS!");
+    public String returnMarketCommentary(){
+        String commentary;
+        driver.switchTo().frame(findElement(marketCommentaryIframe));
+        commentary =findElement(textAreaOfCommentaryIframe).getText();
+        driver.switchTo().defaultContent();
+        return commentary;
+
+    }
+    public String returnSectorCommentary(){
+        String commentary;
+        driver.switchTo().frame(findElement(sectorCommentaryIframe));
+        commentary =findElement(textAreaOfCommentaryIframe).getText();
+        driver.switchTo().defaultContent();
+        return commentary;
+
+    }
+    public String returnCompanyCommentary(){
+        String commentary;
+        driver.switchTo().frame(findElement(companyCommentaryIframe));
+        commentary =findElement(textAreaOfCommentaryIframe).getText();
+        driver.switchTo().defaultContent();
+        return commentary;
     }
 
+    public MorningCoffeePreview typeInMarketCommentary(String text){
+        driver.switchTo().frame(findElement(marketCommentaryIframe));
+       findElement(textAreaOfCommentaryIframe).sendKeys(text);
+        pause(1000);
+        driver.switchTo().defaultContent();
+        return this;
+    }
+
+    public MorningCoffeePreview typeInSectorCommentary(String text){
+ driver.switchTo().frame(findElement(sectorCommentaryIframe));
+       findElement(textAreaOfCommentaryIframe).sendKeys(text);
+        pause(1000);
+        driver.switchTo().defaultContent();
+        return this;
+    }
+
+    public MorningCoffeePreview typeCompanyCommentary(String text){
+    driver.switchTo().frame(findElement(companyCommentaryIframe));
+       findElement(textAreaOfCommentaryIframe).sendKeys(text);
+        pause(1000);
+        driver.switchTo().defaultContent();
+        return this;
+    }
     public MorningCoffeePage confirmDelete(){
         clickDeleteIcon();
         waitForLoadingScreen();
