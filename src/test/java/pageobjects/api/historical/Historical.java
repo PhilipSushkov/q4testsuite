@@ -17,6 +17,7 @@ import yahoofinance.histquotes.Interval;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -37,11 +38,11 @@ public class Historical extends util.Functions {
     private static JSONParser parser;
     private static HttpClient client;
     private static final String DEVELOP_ENV = "Develop_Env", SECURITIES = "Securities", PROTOCOL = "https://", HISTORICAL = "historical";
-    private static int i;
+    private static int i, failurecount;
     private static String earliestDate;
     private static String q4DatabaseRequestDate;
     private static double YahooPrice, Q4Price;
-    private static int numberOfDates;
+    private static int numberOfDates  = 0;
 
     public Historical() throws IOException {
         parser = new JSONParser();
@@ -134,8 +135,6 @@ public class Historical extends util.Functions {
                 //System.out.println("Earliest date in Q4 Database is " + earliestDate + " for " + ticker);
 
                 // Now we can create the Yahoo Finance Request with the earliestDate object
-                // HistoricalQuote is the main Yahoo API Request object
-                HistoricalQuote lastTradingDayQuotes;
 
                 // Converting the earliestDate String into a Yahoo Calendar Object
                 DateFormat q4Format = new SimpleDateFormat("MM/dd/yyyy");
@@ -143,15 +142,49 @@ public class Historical extends util.Functions {
                     Date earliestDateInYahooFormat = q4Format.parse(earliestDate);
                     java.util.Calendar earliestDateForYahoo = java.util.Calendar.getInstance();
                     earliestDateForYahoo.setTime(earliestDateInYahooFormat);
+
+                    // HistoricalQuote is the main Yahoo API Request object
+                    // initializing some fault values to satisfy constructor
+                    long defaultLong = 0;
+                    BigDecimal defaultBigDecimal = new BigDecimal("0");
+                    HistoricalQuote lastTradingDayQuotes = new HistoricalQuote("default",earliestDateForYahoo,defaultBigDecimal,defaultBigDecimal,defaultBigDecimal,defaultBigDecimal,defaultBigDecimal,defaultLong);
+
                     // sending first request to yahoo to record number of days of data yahoo has from the earliestDate in our Database
-                    numberOfDates = YahooFinance.get(ticker).getHistory(earliestDateForYahoo, Interval.DAILY).size();
+                    // Yahoo's requests can be unstable. This for loop sends the same request back to yahoo 10 times before giving up and allowing the error to flow
+                    for (failurecount = 0; failurecount < 10; failurecount++) {
+                        try {
+                            numberOfDates = YahooFinance.get(ticker).getHistory(earliestDateForYahoo, Interval.DAILY).size();
+                            break;
+                        } catch (Exception e) { }
+                    }
+
+                    // if yahoo's array has no content, then Yahoo is missing data
+                    if ( failurecount == 10) {
+                        System.out.println("Yahoo does not have data for " + ticker + " : " + exchange + "     securtiyID = " + securityId);
+                        System.out.println("------");
+                        }
+
 
                     if (numberOfDates < 290) { System.out.println("There are only " + numberOfDates + "of data for " + security_name + "       securityId: " + securityId); }
 
                     //now construct a for loop that will parse through each day of data from yahoo and compare against Q4
-                    for (i = numberOfDates -1 ; i > 0; i-- ) {
+                    for (i = numberOfDates - 1 ; i > 0 && failurecount != 10; i-- ) {
                         // collecting each day of data from Yahoo
-                        lastTradingDayQuotes =  YahooFinance.get(ticker).getHistory(earliestDateForYahoo, Interval.DAILY).get(i);
+
+                        // Yahoo's requests can be unstable. This for loop sends the same request back to yahoo 10 times before giving up and allowing the error to flow
+                        for (failurecount = 0; failurecount < 10; failurecount++) {
+                           try {
+                                lastTradingDayQuotes = YahooFinance.get("SW5").getHistory(earliestDateForYahoo, Interval.DAILY).get(i);
+                                System.out.println("SW5 : " + lastTradingDayQuotes.toString());
+                                break;
+                           } catch (Exception e) { }
+                        }
+
+                        if ( failurecount == 10) {
+                            System.out.println("Yahoo does not have data for " + ticker + " : " + exchange + "     securtiyID = " + securityId);
+                            System.out.println("------");
+                            break;
+                        }
 
                         // saving Yahoo's end of day price
                         YahooPrice = lastTradingDayQuotes.getClose().doubleValue();
@@ -189,7 +222,7 @@ public class Historical extends util.Functions {
                                 }
                             } else {
                                 // data doesn't exist for this day
-                                System.out.println("Stock data doesn't exist for " + ticker + " on " + q4Date);
+                                System.out.println("Stock data doesn't exist for " + ticker + " : " + exchange + " on " + q4Date);
                                 dataexists = false;
                             }
                         }
@@ -198,7 +231,7 @@ public class Historical extends util.Functions {
                             result = (Math.abs(YahooPrice - Q4Price) < 0.01);
                             // print error for stock and date
                             if (!result) {
-                                System.out.println(ticker + " is inaccurate on " + q4Date);
+                                System.out.println(ticker + " : " + exchange + " is inaccurate on " + q4Date);
                                 System.out.println("Yahoo price: " + YahooPrice + " Q4 Price: " + Q4Price);
                                 // divides each failure
                                 System.out.println("------");
@@ -211,7 +244,7 @@ public class Historical extends util.Functions {
                 }
             } else {
                 // no data was found in the request
-                System.out.println("No historical stock data returned for " + ticker + "     se(curity ID: " + securityId);
+                System.out.println("Q4 Returned no historical stock data returned for " + ticker + " : " + exchange + "     security ID: " + securityId);
                 System.out.println("------");
             }
 
