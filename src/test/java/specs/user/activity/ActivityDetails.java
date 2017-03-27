@@ -3,6 +3,7 @@ package specs.user.activity;
 import org.apache.commons.lang.RandomStringUtils;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import pageobjects.user.activityPage.ActivityPage;
 import pageobjects.user.loginPage.LoginPage;
@@ -42,26 +43,31 @@ public class ActivityDetails extends AbstractSpec {
         Assert.assertEquals("Title's do not match", actualTitle, title);
     }
 
+    @Ignore
     @Test
     public void locationIsCorrect(){
 
     }
 
+    @Ignore
     @Test
     public void tagIsCorrect(){
 
     }
 
+    @Ignore
     @Test
     public void dateIsCorrect(){
 
     }
 
+    @Ignore
     @Test
     public void canEditActivity(){
 
     }
 
+    @Ignore
     @Test
     public void canAddTag(){
 
