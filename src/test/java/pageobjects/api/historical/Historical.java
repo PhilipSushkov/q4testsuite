@@ -21,7 +21,6 @@ import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -33,22 +32,23 @@ import static specs.ApiAbstractSpec.propAPI;
  */
 
 public class Historical extends util.Functions {
-    private static String sPathToFileAuth, sDataFileAuthJson, sPathToFileHist, sDataFileHistJson;
-    private static String host, app_ver, access_token, ticker, exchange, connection, user_agent, security_name, securityId;
+
+    private static String host, app_ver, access_token, connection, user_agent;
     private static boolean result = false;
-    private static boolean individualstockresult = true;
     private static boolean dataexists = true;
-    private static JSONParser parser;
     private static HttpClient client;
     private static final String DEVELOP_ENV = "Develop_Env", SECURITIES = "Securities", PROTOCOL = "https://", HISTORICAL = "historical";
-    private static int i, failurecount;
-    private static String earliestDate;
-    private static String q4DatabaseRequestDate;
-    private static double YahooPrice, Q4Price;
-    private static int numberOfDates  = 0;
+    org.json.JSONArray securityArray = new org.json.JSONArray();
+    ArrayList<String> accurateCompanies = new ArrayList<String>();
 
     public Historical() throws IOException {
-            parser = new JSONParser();
+
+        String sPathToFileAuth, sDataFileAuthJson, sPathToFileHist, sDataFileHistJson;
+
+            JSONParser parser = new JSONParser();
+            JSONObject jsonEnvData;
+            JSONObject jsonEnv = new JSONObject();
+            org.json.simple.JSONArray jsonHistData;
 
             //To hide warnings logs from execution console.
             Logger logger = Logger.getLogger("");
@@ -59,38 +59,44 @@ public class Historical extends util.Functions {
             sPathToFileHist = System.getProperty("user.dir") + propAPI.getProperty("dataPath_Hist");
             sDataFileHistJson = propAPI.getProperty("jsonData_Hist");
             client = HttpClientBuilder.create().build();
+
+        try {
+            // reading in environment variables
+            FileReader readAuthFile = new FileReader(sPathToFileAuth + sDataFileAuthJson);
+            jsonEnvData = (org.json.simple.JSONObject) parser.parse(readAuthFile);
+            jsonEnv = (JSONObject) jsonEnvData.get(DEVELOP_ENV);
+            // reading in stock data
+            FileReader readHistFile = new FileReader(sPathToFileHist + sDataFileHistJson);
+            // creating an array of all stocks
+            jsonHistData = (org.json.simple.JSONArray) parser.parse(readHistFile);
+            securityArray = new JSONArray(jsonHistData.toString());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+
+        host = jsonEnv.get("host").toString();
+        app_ver = jsonEnv.get("app_ver").toString();
+        access_token = jsonEnv.get("access_token").toString();
+        user_agent = jsonEnv.get("user_agent").toString();
+        connection = jsonEnv.get("connection").toString();
+
+    }
     public boolean compareHistoricalData() throws IOException {
 
-            JSONObject jsonEnvData;
-            JSONObject jsonEnv = new JSONObject();
-            org.json.simple.JSONArray jsonHistData;
-            org.json.JSONArray securityArray = new org.json.JSONArray();
-            ArrayList<String> accurateCompanies = new ArrayList<String>();
+        int i, failurecount;
+        String earliestDate = "";
+        String q4DatabaseRequestDate;
+        double YahooPrice;
+        double Q4Price = 0;
+        int numberOfDates  = 0;
+        String ticker, exchange, security_name, securityId;
+        boolean individualstockresult = true;
+        boolean requestSuccess = true;
 
-            try {
-                // reading in environment variables
-                FileReader readAuthFile = new FileReader(sPathToFileAuth + sDataFileAuthJson);
-                jsonEnvData = (org.json.simple.JSONObject) parser.parse(readAuthFile);
-                jsonEnv = (JSONObject) jsonEnvData.get(DEVELOP_ENV);
-                // reading in stock data
-                FileReader readHistFile = new FileReader(sPathToFileHist + sDataFileHistJson);
-                // creating an array of all stocks
-                jsonHistData = (org.json.simple.JSONArray) parser.parse(readHistFile);
-                securityArray = new JSONArray(jsonHistData.toString());
-            } catch (ParseException e) {
-                e.printStackTrace();
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            host = jsonEnv.get("host").toString();
-            app_ver = jsonEnv.get("app_ver").toString();
-            access_token = jsonEnv.get("access_token").toString();
-            user_agent = jsonEnv.get("user_agent").toString();
-            connection = jsonEnv.get("connection").toString();
 
             // this loop will run through every stock
             for (int securityCounter = 0; securityCounter < securityArray.length(); securityCounter++) {
@@ -106,7 +112,7 @@ public class Historical extends util.Functions {
                 exchange = individualStock.get("exchange").toString();
                 securityId = individualStock.get("_id").toString();
 
-            //System.out.println("Now checking: " + security_name + "       securityId: " + securityId);
+            // System.out.println("Now checking: " + security_name + "       securityId: " + securityId);
 
             // Q4 retains 300 days of stock data from the current date
             // To get all 300 days of data from Yahoo to compare against Q4DB, we need the earliest date value in our DB to create a "from" parameter for a Yahoo Request
@@ -159,24 +165,19 @@ public class Historical extends util.Functions {
 
                         // sending first request to yahoo to record number of days of data yahoo has from the earliestDate in our Database
                         // Yahoo's requests can be unstable. This for loop sends the same request back to yahoo 10 times before giving up and allowing the error to end the test for the current ticker
-                        for (failurecount = 0; failurecount < 10; failurecount++) {
+                        for (failurecount = 0; requestSuccess; failurecount++) {
                             try {
                                 numberOfDates = YahooFinance.get(ticker).getHistory(earliestDateForYahoo, Interval.DAILY).size();
                                 break;
-                            } catch (Exception e) { }
+                            } catch (Exception e) {
+                                requestSuccess = checkrequestfailure(failurecount, ticker, exchange, securityId);
+                            }
                         }
 
-                        // if yahoo's array has no content, then Yahoo is missing data
-
-
-                        if ( failurecount == 10) {
-                            // this stock was found to have at least one error
-                            individualstockresult = false;
-                            // printing error
-                            System.out.println("Yahoo encountered an error while requesting for " + ticker + " : " + exchange + "     securtiyID = " + securityId);
-                            System.out.println("------");
-                            }
-
+                        //break if previous request failed
+                        if (!requestSuccess) {
+                            break;
+                        }
 
                         if (numberOfDates < 290) { System.out.println("There are only " + numberOfDates + "of data for " + security_name + "       securityId: " + securityId); }
 
@@ -185,20 +186,17 @@ public class Historical extends util.Functions {
                             // collecting each day of data from Yahoo
                             lastTradingDayQuotes = YahooFinance.get(ticker).getHistory(earliestDateForYahoo, Interval.DAILY).get(i);
 
-                            for (failurecount = 0; failurecount < 10; failurecount++) {
+                            for (failurecount = 0; requestSuccess; failurecount++) {
                                try {
                                     lastTradingDayQuotes = YahooFinance.get(ticker).getHistory(earliestDateForYahoo, Interval.DAILY).get(i);
                                     break;
-                               } catch (Exception e) { }
+                               } catch (Exception e) {
+                                   requestSuccess = checkrequestfailure(failurecount, ticker, exchange, securityId);
+                               }
                             }
 
-
-                            if ( failurecount == 10) {
-                                // this stock was found to have at least one error
-                                individualstockresult = false;
-                                // printing error
-                                System.out.println("Yahoo encountered an error while requesting for " + ticker + " : " + exchange + "     securtiyID = " + securityId);
-                                System.out.println("------");
+                            //break if previous request failed
+                            if (!requestSuccess) {
                                 break;
                             }
 
@@ -211,6 +209,7 @@ public class Historical extends util.Functions {
                             Date q4Date = new Date(lastTradingDayQuotes.getDate().getTime().toString());
                             SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
                             q4DatabaseRequestDate = formatter.format(q4Date);
+
 
                             // Collecting Q4Data for that date
                             String q4DataBaseIndividualRequest = PROTOCOL + host + "/api/stock/historical?appver=" + app_ver + "&securityId=" + securityId + "&startDate=" + q4DatabaseRequestDate + "&endDate=" + q4DatabaseRequestDate;
@@ -267,12 +266,19 @@ public class Historical extends util.Functions {
                     // no data was found in the request
                     System.out.println("Q4 Returned no historical stock data returned for " + ticker + " : " + exchange + "     security ID: " + securityId);
                     System.out.println("------");
+                    individualstockresult = false;
                 }
 
+            } else {
+                // initial request to database was not successful
+                System.out.println("Response code from Q4 Database was not 200, it was " + response.getStatusLine().getStatusCode());
+                individualstockresult = false;
             }
 
+            /*
+
                 // recording stocks that are successful
-                if (individualstockresult = true) {
+                if (individualstockresult && i == 0) {
                     accurateCompanies.add(ticker + " : " + exchange);
                 }
 
@@ -284,7 +290,25 @@ public class Historical extends util.Functions {
                 // clears everything in the list so it doesn't grow too large
                 accurateCompanies.clear();
 
+             */
+
         } return result;
     }
+
+    // check for failure in the results
+    public boolean checkrequestfailure(int failcount, String ticker, String exchange, String securityId) {
+
+        // loop will fail after 10 runs
+        if ( failcount == 10) {
+            // printing error
+            System.out.println("Yahoo encountered an error while requesting for " + ticker + " : " + exchange + "     securtiyID = " + securityId);
+            System.out.println("------");
+            return false;
+            } else {
+            // request will keep going
+            return true;
+        }
+    }
 }
+
 

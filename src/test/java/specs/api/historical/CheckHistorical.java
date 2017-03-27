@@ -4,6 +4,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import pageobjects.api.historical.Historical;
+import pageobjects.api.historical.HistoricalStockQuote;
+import pageobjects.api.login.Auth;
 import specs.ApiAbstractSpec;
 
 import java.io.IOException;
@@ -13,15 +15,20 @@ import java.io.IOException;
  */
 
 public class CheckHistorical extends ApiAbstractSpec {
+
     private static Historical historical;
+    private static Auth auth;
 
     @Before
     public void setUp() throws IOException {
+        auth = new Auth();
+        Assert.assertTrue("Access Token didn't receive", new Auth().getAccessToken());
         historical = new Historical();
     }
 
     @Test
     public void CheckQ4DesktopAuth() throws IOException {
-        Assert.assertTrue("Q4 Historical Data doesn't match to Yahoo Finance", historical.compareHistoricalData());
+        HistoricalStockQuote historicalStockQuote = new HistoricalStockQuote();
+        HistoricalStockQuote.dataValidation();
     }
 }

@@ -44,6 +44,8 @@ public class Auth extends util.Functions {
         sPathToFile = System.getProperty("user.dir") + propAPI.getProperty("dataPath_Auth");
         sDataFileJson = propAPI.getProperty("jsonData_Auth");
         client = HttpClientBuilder.create().build();
+
+
     }
 
     public boolean getAccessToken() throws IOException {
