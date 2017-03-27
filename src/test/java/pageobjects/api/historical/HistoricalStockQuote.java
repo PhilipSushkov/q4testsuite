@@ -116,13 +116,12 @@ public class HistoricalStockQuote {
 
     public static void dataValidation() {
 
+        // for loop that goes through each entry in the histDataArray
         for ( securityCounter = 0; securityCounter < securityArray.length(); securityCounter++) {
 
         // parse through each piece of the securityArray and create a JSONObject for each
         parseIndividualStocks();
-
         }
-
     }
 
     public static void parseIndividualStocks () {
@@ -141,10 +140,9 @@ public class HistoricalStockQuote {
 
             // Q4 retains 300 days of stock data from the current date
             // To get all 300 days of data from Yahoo to compare against Q4DB, we need the earliest date value in our DB to create a "from" parameter for a Yahoo Request
-            // Obtaining earliest date in Q4 DB
-
             sendStockQuoteRequestToQ4DB();
 
+            // Obtaining earliest date in Q4 DB
             // ensuring request was successful
             if (response.getStatusLine().getStatusCode() == 200) {
                 HttpEntity entity = response.getEntity();
@@ -176,10 +174,6 @@ public class HistoricalStockQuote {
 
             //System.out.println("Earliest date in Q4 Database is " + earliestDate + " for " + ticker);
             // Now we can create the Yahoo Finance Request with the earliestDate object
-
-            // Converting the earliestDate String into a Yahoo Calendar Object
-            q4Format = new SimpleDateFormat("MM/dd/yyyy");
-
             HistoricalStockQuote.getYahooData();
 
 
@@ -209,7 +203,6 @@ public class HistoricalStockQuote {
     public static void sendStockQuoteRequestToQ4DB() {
 
         try {
-
         // API Request format: {{url}}/api/stock/historical?appver={{appver}}&securityID={{securityId}}
         String urlHistQuery = PROTOCOL + host + "/api/stock/historical?appver=" + app_ver + "&securityId=" + securityId;
 
@@ -220,7 +213,6 @@ public class HistoricalStockQuote {
         get.setHeader("Authorization", "Bearer " + access_token);
 
         response = client.execute(get);
-
         } catch (IOException e) {}
 
     }
@@ -246,14 +238,15 @@ public class HistoricalStockQuote {
     // long defaultLong = 0;
     // BigDecimal defaultBigDecimal = new BigDecimal("0");
     earliestDateForYahoo = java.util.Calendar.getInstance();
-    // HistoricalQuote lastTradingDayQuotes = new HistoricalQuote("default", earliestDateForYahoo, defaultBigDecimal, defaultBigDecimal, defaultBigDecimal, defaultBigDecimal, defaultBigDecimal, defaultLong);
 
-        adjustQueryForYahoo();
+    // Converting Q4 tickers to the Yahoo Format based on exchange
+    adjustQueryForYahoo();
 
         try {
+            // Converting the earliestDate String into a Yahoo Calendar Object
+            q4Format = new SimpleDateFormat("MM/dd/yyyy");
             Date earliestDateInYahooFormat = q4Format.parse(earliestDate);
             earliestDateForYahoo.setTime(earliestDateInYahooFormat);
-
 
             // sending first request to yahoo to record number of days of data yahoo has from the earliestDate in our Database
             // Yahoo's requests can be unstable. This for loop sends the same request back to yahoo 10 times before giving up and allowing the error to end the test for the current ticker
@@ -271,17 +264,16 @@ public class HistoricalStockQuote {
                 return;
             }
 
+            // checks if we have less than 300 days of data for a security
             if (numberOfDates < 290) {
                 System.out.println("There are only " + numberOfDates + " days of data for " + security_name + "       securityId: " + securityId);
             }
-
-            //now construct a for loop that will parse through each day of data from yahoo and compare against Q4
-
 
         } catch (java.text.ParseException e) {
             System.out.println("Q4 Date Format Couldn't Be Parsed");
         }
 
+        //now construct a for loop that will parse through each day of data from yahoo and compare against Q4
         for (i = numberOfDates - 1; i > 0 && failurecount != 10; i--) {
             // collecting each day of data from Yahoo
                 for (failurecount = 0; requestSuccess; failurecount++) {
@@ -293,29 +285,31 @@ public class HistoricalStockQuote {
                     }
                 }
 
-            //break if previous request failed
-            if (!requestSuccess) {
-                break;
+        //break if previous request failed
+        if (!requestSuccess) {
+            break;
+        }
+
+        // saving Yahoo's end of day price
+        YahooPrice = lastTradingDayQuotes.getClose().doubleValue();
+        // print statement to see all Q4 prices
+        // System.out.println("Yahoo's price is " + YahooPrice);
+
+        // converting the date in yahoo's body to Q4 format
+        q4Date = new Date(lastTradingDayQuotes.getDate().getTime().toString());
+        SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
+        q4DatabaseRequestDate = formatter.format(q4Date);
+
+        // collect data from Q4's DB with Yahoo's date
+        collectQ4Data();
+
+        // adjust for currency between the 2 DBs
+        adjustResultsForYahoo();
+
+            if (dataexists) {
+                // compares data between the 2 results
+                compareData();
             }
-
-                // saving Yahoo's end of day price
-                YahooPrice = lastTradingDayQuotes.getClose().doubleValue();
-                // print statement to see all Q4 prices
-                // System.out.println("Yahoo's price is " + YahooPrice);
-
-                // converting the date in yahoo's body to Q4 format
-                q4Date = new Date(lastTradingDayQuotes.getDate().getTime().toString());
-                SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
-                q4DatabaseRequestDate = formatter.format(q4Date);
-
-                collectQ4Data();
-
-                adjustResultsForYahoo();
-
-                if (dataexists) {
-                    // compares data between the 2 results
-                    compareData();
-                }
         }
     }
 

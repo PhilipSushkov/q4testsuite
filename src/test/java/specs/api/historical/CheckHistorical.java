@@ -29,6 +29,7 @@ public class CheckHistorical extends ApiAbstractSpec {
     @Test
     public void CheckQ4DesktopAuth() throws IOException {
         HistoricalStockQuote historicalStockQuote = new HistoricalStockQuote();
+        // begin data validation process
         HistoricalStockQuote.dataValidation();
     }
 }
