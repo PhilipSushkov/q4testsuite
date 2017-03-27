@@ -6,6 +6,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageobjects.AbstractPageObject;
 import pageobjects.user.dashboardPage.Dashboard;
+import specs.user.activity.LogActivity;
 
 /**
  * Created by patrickp on 2016-08-09.
@@ -15,7 +16,8 @@ public class LogActivityModal extends AbstractPageObject {
     private final By commentField = By.name("title");
     private final By typeNoteField = By.name("body");
     private final By tagField = By.name("tag");
-    private final By postButton = By.cssSelector(".new-note .post-btn");
+    private final By locationField = By.xpath("//input[contains(@placeholder,'Location')]");
+    private final By postButton = By.xpath("//span[contains(string(),'POST')]");
     private final By nameField = By.cssSelector(".note-participants-field .participants-field .x-form-field");
     private final By cancelNoteButton = By.xpath("//*[contains(text(), 'Cancel')]");
     private final By linkDropdown = By.cssSelector(".note-link-field .toggle-field .x-toggle.x-toggle-off");
@@ -80,6 +82,21 @@ public class LogActivityModal extends AbstractPageObject {
         findElement(tagField).sendKeys(tag);
         findElement(tagField).sendKeys(Keys.RETURN);
         pause(2000L);
+
+        return this;
+    }
+
+    public LogActivityModal enterRoadshowDetails(String title, String location, String tag){
+        //The waitForLoadingScreen() makes the test a bit slower than I'd like
+        //But at least now it's waiting for something instead of pause()
+        retryClick(findElement(commentField));
+        findElement(commentField).sendKeys(title);
+        findElement(locationField).sendKeys(location);
+        waitForLoadingScreen();
+        findElement(locationField).sendKeys(Keys.ENTER);
+        findElement(tagField).sendKeys(tag);
+        waitForLoadingScreen();
+        findElement(tagField).sendKeys(Keys.RETURN);
 
         return this;
     }
@@ -150,7 +167,7 @@ public class LogActivityModal extends AbstractPageObject {
     }
 
     public LogActivityModal postActivity() {
-        wait.until(ExpectedConditions.elementToBeClickable(postButton));
+        waitForElement(postButton);
         findElement(postButton).click();
 
         return this;
