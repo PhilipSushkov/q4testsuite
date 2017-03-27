@@ -17,7 +17,7 @@ import java.util.List;
 public class ActivityPage extends AbstractPageObject {
 
     private final By notesSection = By.cssSelector(".note-manager-list .note-item.x-dataview-item");
-    private final By firstNoteInList = By.cssSelector(".note-manager-list .note-item .column.title");
+    private final By firstNoteInList = By.xpath("//div[contains(@class,'note-item')][1]//div[contains(@class,'title')]");
     private final By newActivityIcon = By.cssSelector(".btn.x-button.x-unsized:not(.btn-block)");
     private final By activitySearchField = By.cssSelector(".toolbar-panel .search .x-field-input .x-input-el");
     private final By emptyResults = By.cssSelector(".note-manager-list .x-dataview-emptytext");
@@ -62,6 +62,7 @@ public class ActivityPage extends AbstractPageObject {
     }
 
     public NoteDetailsPage selectFirstNoteInList() {
+        waitForLoadingScreen();
         findElement(firstNoteInList).click();
 
         return new NoteDetailsPage(getDriver());
