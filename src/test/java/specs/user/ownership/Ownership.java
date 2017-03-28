@@ -200,6 +200,7 @@ public class Ownership extends AbstractSpec {
     @Test
     public void trendAnalysisChartsWork(){
         SecurityOwnershipPage securityOwnershipPage = new SecurityOwnershipPage(driver);
+        securityOwnershipPage.selectTrendAnalysis();
         // checking that hovertext appear when hovering cursor over each of the 4 charts
         Assert.assertTrue("Hovering does not work on one or more of the Trend Analysis Charts.", securityOwnershipPage.canHoverOverTrendAnalysisCharts());
     }
