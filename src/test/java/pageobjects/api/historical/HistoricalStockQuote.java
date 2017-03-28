@@ -65,8 +65,12 @@ public class HistoricalStockQuote {
     private static HttpResponse response;
     private static DateFormat q4Format;
     private static Date q4Date;
+    private  static JSONObject individualdata;
 
-    public HistoricalStockQuote() throws IOException {
+    public HistoricalStockQuote(JSONObject data) throws IOException {
+
+    individualdata = new JSONObject(data);
+    System.out.println("Thread " + Thread.currentThread().getId() + " assigned to handle " + individualdata.get("company_name").toString());
 
     // setup all environment variables. JSON file locations, Q4 API Permissions, and initialize yahoo object
 
@@ -114,7 +118,9 @@ public class HistoricalStockQuote {
 
     }
 
-    public static void dataValidation (JSONObject data) {
+    public static void dataValidation() {
+
+        System.out.println("Now checking: " + individualdata.get("company_name").toString() +  " on thread " + Thread.currentThread().getId());
 
         try {
             // this boolean keep track of the data health for individual stocks
@@ -122,12 +128,10 @@ public class HistoricalStockQuote {
             requestSuccess = true;
 
             // org.json.JSONObject individualStock = securityArray.getJSONObject(securityCounter);
-            security_name = data.get("company_name").toString();
-            ticker = data.get("symbol").toString();
-            exchange = data.get("exchange").toString();
-            securityId = data.get("_id").toString();
-
-            // System.out.println("Now checking: " + security_name + "       securityId: " + securityId);
+            security_name = individualdata.get("company_name").toString();
+            ticker = individualdata.get("symbol").toString();
+            exchange = individualdata.get("exchange").toString();
+            securityId = individualdata.get("_id").toString();
 
             // Q4 retains 300 days of stock data from the current date
             // To get all 300 days of data from Yahoo to compare against Q4DB, we need the earliest date value in our DB to create a "from" parameter for a Yahoo Request
@@ -163,7 +167,7 @@ public class HistoricalStockQuote {
                 individualstockresult = false;
             }
 
-            //System.out.println("Earliest date in Q4 Database is " + earliestDate + " for " + ticker);
+            // System.out.println("Earliest date in Q4 Database is " + earliestDate + " for " + ticker);
             // Now we can create the Yahoo Finance Request with the earliestDate object
             HistoricalStockQuote.getYahooData();
 
@@ -175,6 +179,8 @@ public class HistoricalStockQuote {
     public static void sendStockQuoteRequestToQ4DB() {
 
         try {
+
+
         // API Request format: {{url}}/api/stock/historical?appver={{appver}}&securityID={{securityId}}
         String urlHistQuery = PROTOCOL + host + "/api/stock/historical?appver=" + app_ver + "&securityId=" + securityId;
 
@@ -248,7 +254,7 @@ public class HistoricalStockQuote {
         }
 
         //now construct a for loop that will parse through each day of data from yahoo and compare against Q4
-        for (i = numberOfDates - 1; i > 0 && failurecount != 10; i--) {
+        for (i = numberOfDates - 1; i > 250 && failurecount != 10; i--) {
             // collecting each day of data from Yahoo
                 for (failurecount = 0; requestSuccess; failurecount++) {
                     try {
@@ -350,7 +356,7 @@ public class HistoricalStockQuote {
                     for (int z = 0; z < individualJSONArray.length(); z++) {
                         org.json.JSONObject jsonHistItem = individualJSONArray.getJSONObject(z);
                         // print statement to see all Q4 prices
-                        // System.out.println("Q4 Desktop Price : " + jsonHistItem.get("Last").toString());
+                        // System.out.println("Q4 Desktop Price : " + jsonHistItem.get("Last").toString() + " on " + jsonHistItem.get("Date").toString()  + " on thread " + Thread.currentThread().getId());
                         Q4Price = Double.parseDouble(jsonHistItem.get("Last").toString());
                         Q4Currency = jsonHistItem.get("Currency").toString();
                     }

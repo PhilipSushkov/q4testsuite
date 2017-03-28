@@ -44,13 +44,15 @@ public class CheckHistorical extends ApiAbstractSpec {
     @Test(dataProvider = STOCKDATA)
     public void CheckQ4DesktopAuth(JSONObject data) throws IOException {
 
-        HistoricalStockQuote historicalStockQuote = new HistoricalStockQuote();
+        System.out.println("New function initialized: Thread " + Thread.currentThread().getId() + " assigned to handle " + data.get("company_name").toString());
+
+        HistoricalStockQuote historicalStockQuote = new HistoricalStockQuote(data);
         // begin data validation process
-        HistoricalStockQuote.dataValidation(data);
-        Assert.assertTrue(HistoricalStockQuote.stockDataIsAccurate(),"Stock data is inaccurate for " + data.get("symbol").toString());
+        historicalStockQuote.dataValidation();
+        // Assert.assertTrue(HistoricalStockQuote.stockDataIsAccurate(),"Stock data is inaccurate for " + data.get("symbol").toString());
     }
 
-    @DataProvider
+    @DataProvider (parallel = true)
     public Object[][] getData() {
 
         try {
