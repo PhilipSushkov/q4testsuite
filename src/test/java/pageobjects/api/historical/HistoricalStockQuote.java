@@ -43,7 +43,7 @@ public class HistoricalStockQuote {
     private static String exchange;
     private static String security_name;
     private static String securityId;
-    private static boolean individualstockresult;
+    private static boolean individualstockresult = true;
     private static boolean requestSuccess;
     private static int securityCounter;
     private static String Q4Currency;
@@ -114,27 +114,18 @@ public class HistoricalStockQuote {
 
     }
 
-    public static void dataValidation() {
-
-        // for loop that goes through each entry in the histDataArray
-        for ( securityCounter = 0; securityCounter < securityArray.length(); securityCounter++) {
-
-        // parse through each piece of the securityArray and create a JSONObject for each
-        parseIndividualStocks();
-        }
-    }
-
-    public static void parseIndividualStocks () {
+    public static void dataValidation (JSONObject data) {
 
         try {
             // this boolean keep track of the data health for individual stocks
+            individualstockresult = true;
             requestSuccess = true;
 
-            org.json.JSONObject individualStock = securityArray.getJSONObject(securityCounter);
-            security_name = individualStock.getString("company_name");
-            ticker = individualStock.get("symbol").toString();
-            exchange = individualStock.get("exchange").toString();
-            securityId = individualStock.get("_id").toString();
+            // org.json.JSONObject individualStock = securityArray.getJSONObject(securityCounter);
+            security_name = data.get("company_name").toString();
+            ticker = data.get("symbol").toString();
+            exchange = data.get("exchange").toString();
+            securityId = data.get("_id").toString();
 
             // System.out.println("Now checking: " + security_name + "       securityId: " + securityId);
 
@@ -161,7 +152,7 @@ public class HistoricalStockQuote {
                     }
                 } else {
                     // no data was found in the request
-                    System.out.println("Q4 Returned no historical stock data returned for " + ticker + " : " + exchange + "     security ID: " + securityId);
+                    System.out.println("Q4 Returned no historical stock data for " + ticker + " : " + exchange + "     security ID: " + securityId);
                     System.out.println("------");
                     individualstockresult = false;
                 }
@@ -180,25 +171,6 @@ public class HistoricalStockQuote {
         } catch (IOException e) {
         }
     }
-
-            /*
-
-                // recording stocks that are successful
-                if (individualstockresult && i == 0) {
-                    accurateCompanies.add(ticker + " : " + exchange);
-                }
-
-                // printing out successful stocks for every 20 checked
-                if (securityCounter % 4 == 0 && securityCounter != 0) {
-                System.out.println("The following stocks are full of accurate data!");
-                System.out.println(Arrays.toString(accurateCompanies.toArray()));
-                }
-                // clears everything in the list so it doesn't grow too large
-                accurateCompanies.clear();
-
-             */
-
-
 
     public static void sendStockQuoteRequestToQ4DB() {
 
@@ -224,6 +196,8 @@ public class HistoricalStockQuote {
             // printing error
             System.out.println("Yahoo encountered an error while requesting for " + ticker + " : " + exchange + "     securtiyID = " + securityId);
             System.out.println("------");
+            // stock check failed
+            individualstockresult = false;
             return false;
         } else {
             // request will keep going
@@ -389,5 +363,9 @@ public class HistoricalStockQuote {
                 }
             }
         }  catch (IOException e) {}
+    }
+
+    public static boolean stockDataIsAccurate() {
+        return individualstockresult ;
     }
 }

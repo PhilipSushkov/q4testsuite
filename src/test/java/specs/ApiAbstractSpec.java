@@ -1,8 +1,10 @@
 package specs;
 
+import org.testng.ITestResult;
+import org.testng.annotations.BeforeTest;
+
 import java.io.IOException;
 import java.util.Properties;
-import org.junit.Before;
 
 /**
  * Created by philipsushkov on 2017-03-08.
@@ -12,7 +14,7 @@ public abstract class ApiAbstractSpec extends util.Functions {
     private static final String PATHTO_API_PROP = "api/ApiMap.properties";
     public static Properties propAPI;
 
-    @Before
+    @BeforeTest
     public void init() throws IOException {
         setupPropUI();
     }
@@ -21,4 +23,24 @@ public abstract class ApiAbstractSpec extends util.Functions {
         propAPI = ConnectToPropUI(PATHTO_API_PROP);
     }
 
+    public void afterMethod(ITestResult result) {
+
+        switch (result.getStatus()) {
+            case ITestResult.SUCCESS:
+                System.out.println(result.getMethod().getMethodName()+": PASS");
+                break;
+
+            case ITestResult.FAILURE:
+                System.out.println(result.getMethod().getMethodName()+": FAIL");
+                break;
+
+            case ITestResult.SKIP:
+                System.out.println(result.getMethod().getMethodName()+": SKIP BLOCKED");
+                break;
+
+            default:
+                throw new RuntimeException(result.getTestName() + "Invalid status");
+        }
+    }
 }
+
