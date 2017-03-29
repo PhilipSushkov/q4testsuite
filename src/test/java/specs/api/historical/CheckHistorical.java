@@ -29,11 +29,15 @@ public class CheckHistorical extends ApiAbstractSpec {
     private static String sPathToFileHist, sDataFileHistJson;
     private static JSONParser parser;
     private final String STOCKDATA = "getData";
+    private static final String DEVELOP_ENV = "Develop_Env";
+    private static final String PREPROD_ENV = "Preprod_Env";
 
     @BeforeTest
     public void setUp() throws IOException {
         auth = new Auth();
-        Assert.assertTrue(new Auth().getAccessToken(), "Access Token didn't receive");
+
+        // gets access token for the desired environment
+        Assert.assertTrue(new Auth().getAccessToken(PREPROD_ENV), "Access Token didn't receive");
         historical = new Historical();
 
         sPathToFileHist = System.getProperty("user.dir") + propAPI.getProperty("dataPath_Hist");
@@ -46,7 +50,8 @@ public class CheckHistorical extends ApiAbstractSpec {
 
         JSONObject individualdata = new JSONObject(data);
 
-        HistoricalStockQuote historicalStockQuote = new HistoricalStockQuote(individualdata);
+        // 2nd parameter specifies which environment to run in
+        HistoricalStockQuote historicalStockQuote = new HistoricalStockQuote(individualdata, PREPROD_ENV );
 
         // begin data validation process
         historicalStockQuote.dataValidation();

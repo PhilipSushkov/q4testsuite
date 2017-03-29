@@ -32,7 +32,6 @@ public class Auth extends util.Functions {
     private static String sPathToFile, sDataFileJson;
     private static JSONParser parser;
     private static HttpClient client;
-    private static final String DEVELOP_ENV = "Develop_Env";
 
     public Auth() throws IOException {
         parser = new JSONParser();
@@ -48,7 +47,7 @@ public class Auth extends util.Functions {
 
     }
 
-    public boolean getAccessToken() throws IOException {
+    public boolean getAccessToken(String environment) throws IOException {
         String access_token = null;
         JSONObject jsonData = new JSONObject();
         JSONObject jsonEnv = new JSONObject();
@@ -56,7 +55,7 @@ public class Auth extends util.Functions {
         try {
             FileReader readFile = new FileReader(sPathToFile + sDataFileJson);
             jsonData = (JSONObject) parser.parse(readFile);
-            jsonEnv = (JSONObject) jsonData.get(DEVELOP_ENV);
+            jsonEnv = (JSONObject) jsonData.get(environment);
         } catch (ParseException e) {
             e.printStackTrace();
         } catch (FileNotFoundException e) {

@@ -67,9 +67,9 @@ public class HistoricalStockQuote {
     private  Date q4Date;
     private JSONObject individualdata;
 
-    public HistoricalStockQuote(JSONObject globalindividualdata) throws IOException {
+    public HistoricalStockQuote(JSONObject globalindividualdata, String environment) throws IOException {
 
-        individualdata = new JSONObject(globalindividualdata);
+    individualdata = new JSONObject(globalindividualdata);
 
     // setup all environment variables. JSON file locations, Q4 API Permissions, and initialize yahoo object
 
@@ -95,7 +95,7 @@ public class HistoricalStockQuote {
         // reading in environment variables
         FileReader readAuthFile = new FileReader(sPathToFileAuth + sDataFileAuthJson);
         jsonEnvData = (org.json.simple.JSONObject) parser.parse(readAuthFile);
-        jsonEnv = (JSONObject) jsonEnvData.get(DEVELOP_ENV);
+        jsonEnv = (JSONObject) jsonEnvData.get(environment);
         // reading in stock data
         FileReader readHistFile = new FileReader(sPathToFileHist + sDataFileHistJson);
         // creating an array of all stocks
@@ -164,7 +164,7 @@ public class HistoricalStockQuote {
                 individualstockresult = false;
             }
 
-            // System.out.println("Earliest date in Q4 Database is " + earliestDate + " for " + ticker);
+            System.out.println("Earliest date in Q4 Database is " + earliestDate + " for " + ticker);
             // Now we can create the Yahoo Finance Request with the earliestDate object
             getYahooData();
 
@@ -180,6 +180,7 @@ public class HistoricalStockQuote {
 
         // API Request format: {{url}}/api/stock/historical?appver={{appver}}&securityID={{securityId}}
         String urlHistQuery = PROTOCOL + host + "/api/stock/historical?appver=" + app_ver + "&securityId=" + securityId;
+        System.out.println("Q4 query = " + urlHistQuery);
 
         HttpGet get = new HttpGet(urlHistQuery);
         // Setting up authentication headers
