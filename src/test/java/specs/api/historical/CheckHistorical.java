@@ -41,16 +41,19 @@ public class CheckHistorical extends ApiAbstractSpec {
         parser = new JSONParser();
     }
 
-    @Test(dataProvider = STOCKDATA)
+    @Test(dataProvider = STOCKDATA, threadPoolSize = 3)
     public void CheckQ4DesktopAuth(JSONObject data) throws IOException {
 
-        HistoricalStockQuote historicalStockQuote = new HistoricalStockQuote();
+        JSONObject individualdata = new JSONObject(data);
+
+        HistoricalStockQuote historicalStockQuote = new HistoricalStockQuote(individualdata);
+
         // begin data validation process
-        HistoricalStockQuote.dataValidation(data);
-        Assert.assertTrue(HistoricalStockQuote.stockDataIsAccurate(),"Stock data is inaccurate for " + data.get("symbol").toString());
+        historicalStockQuote.dataValidation();
+        Assert.assertTrue(historicalStockQuote.stockDataIsAccurate(),"Stock data is inaccurate for " + data.get("symbol").toString());
     }
 
-    @DataProvider
+    @DataProvider (parallel = true)
     public Object[][] getData() {
 
         try {
@@ -65,6 +68,7 @@ public class CheckHistorical extends ApiAbstractSpec {
             for (int i = 0; i < zoom.size(); i++) {
                 stockData[i][0] = zoom.get(i);
             }
+
             return stockData;
 
         } catch (FileNotFoundException e) {
