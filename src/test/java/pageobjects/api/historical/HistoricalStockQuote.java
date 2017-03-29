@@ -32,45 +32,44 @@ import static specs.ApiAbstractSpec.propAPI;
  */
 public class HistoricalStockQuote {
 
-    private static int i;
-    private static int failurecount;
-    private static String earliestDate = "";
-    private static String q4DatabaseRequestDate;
-    private static double YahooPrice;
-    private static double Q4Price = 0;
-    private static int numberOfDates = 0;
-    private static String ticker;
-    private static String exchange;
-    private static String security_name;
-    private static String securityId;
-    private static boolean individualstockresult = true;
-    private static boolean requestSuccess;
-    private static int securityCounter;
-    private static String Q4Currency;
+    private int i;
+    private  int failurecount;
+    private  String earliestDate = "";
+    private  String q4DatabaseRequestDate;
+    private  double YahooPrice;
+    private  double Q4Price = 0;
+    private  int numberOfDates = 0;
+    private  String ticker;
+    private  String exchange;
+    private  String security_name;
+    private  String securityId;
+    private  boolean individualstockresult = true;
+    private  boolean requestSuccess;
+    private  int securityCounter;
+    private  String Q4Currency;
 
-    private static String host;
-    private static String app_ver;
-    private static String access_token;
-    private static String connection;
-    private static String user_agent;
-    private static boolean result = false;
-    private static boolean dataexists = true;
-    private static HttpClient client;
-    private static final String DEVELOP_ENV = "Develop_Env", SECURITIES = "Securities", PROTOCOL = "https://", HISTORICAL = "historical";
-    private static org.json.JSONArray securityArray = new org.json.JSONArray();
+    private  String host;
+    private  String app_ver;
+    private  String access_token;
+    private  String connection;
+    private  String user_agent;
+    private  boolean result = false;
+    private  boolean dataexists = true;
+    private  HttpClient client;
+    private  final String DEVELOP_ENV = "Develop_Env", SECURITIES = "Securities", PROTOCOL = "https://", HISTORICAL = "historical";
+    private  org.json.JSONArray securityArray = new org.json.JSONArray();
     ArrayList<String> accurateCompanies = new ArrayList<String>();
 
-    private static HistoricalQuote lastTradingDayQuotes;
-    private static java.util.Calendar earliestDateForYahoo;
-    private static HttpResponse response;
-    private static DateFormat q4Format;
-    private static Date q4Date;
-    private  static JSONObject individualdata;
+    private  HistoricalQuote lastTradingDayQuotes;
+    private  java.util.Calendar earliestDateForYahoo;
+    private  HttpResponse response;
+    private  DateFormat q4Format;
+    private  Date q4Date;
+    private JSONObject individualdata;
 
-    public HistoricalStockQuote(JSONObject data) throws IOException {
+    public HistoricalStockQuote(JSONObject globalindividualdata) throws IOException {
 
-    individualdata = new JSONObject(data);
-    System.out.println("Thread " + Thread.currentThread().getId() + " assigned to handle " + individualdata.get("company_name").toString());
+        individualdata = new JSONObject(globalindividualdata);
 
     // setup all environment variables. JSON file locations, Q4 API Permissions, and initialize yahoo object
 
@@ -118,9 +117,7 @@ public class HistoricalStockQuote {
 
     }
 
-    public static void dataValidation() {
-
-        System.out.println("Now checking: " + individualdata.get("company_name").toString() +  " on thread " + Thread.currentThread().getId());
+    public void dataValidation() {
 
         try {
             // this boolean keep track of the data health for individual stocks
@@ -169,14 +166,14 @@ public class HistoricalStockQuote {
 
             // System.out.println("Earliest date in Q4 Database is " + earliestDate + " for " + ticker);
             // Now we can create the Yahoo Finance Request with the earliestDate object
-            HistoricalStockQuote.getYahooData();
+            getYahooData();
 
 
         } catch (IOException e) {
         }
     }
 
-    public static void sendStockQuoteRequestToQ4DB() {
+    public void sendStockQuoteRequestToQ4DB() {
 
         try {
 
@@ -195,7 +192,7 @@ public class HistoricalStockQuote {
 
     }
 
-    public static boolean checkrequestfailure(int failcount, String ticker, String exchange, String securityId) {
+    public boolean checkrequestfailure(int failcount, String ticker, String exchange, String securityId) {
 
         // loop will fail after 10 runs
         if (failcount == 10) {
@@ -211,7 +208,7 @@ public class HistoricalStockQuote {
         }
     }
 
-    static void getYahooData() {
+    void getYahooData() {
 
     // HistoricalQuote is the main Yahoo API Request object
     // initializing some fault values to satisfy constructor
@@ -254,7 +251,7 @@ public class HistoricalStockQuote {
         }
 
         //now construct a for loop that will parse through each day of data from yahoo and compare against Q4
-        for (i = numberOfDates - 1; i > 250 && failurecount != 10; i--) {
+        for (i = numberOfDates - 1; i > 0 && failurecount != 10; i--) {
             // collecting each day of data from Yahoo
                 for (failurecount = 0; requestSuccess; failurecount++) {
                     try {
@@ -293,7 +290,7 @@ public class HistoricalStockQuote {
         }
     }
 
-    private static void adjustResultsForYahoo() {
+    private void adjustResultsForYahoo() {
 
         if (Objects.equals(exchange,"XLON")) {
             // Adjust Q4 Currency from GBP to Pound Sterling
@@ -306,7 +303,7 @@ public class HistoricalStockQuote {
         }
     }
 
-    private static void adjustQueryForYahoo() {
+    private void adjustQueryForYahoo() {
         // Adjusting query format for Yahoo
         if (Objects.equals(exchange,"XLON")) {
             // .L is the format for london stock exchange for Yahoo
@@ -314,7 +311,7 @@ public class HistoricalStockQuote {
         }
     }
 
-    private static boolean compareData() {
+    private boolean compareData() {
         // margin of error between the 2 stock prices
         result = (Math.abs(YahooPrice - Q4Price) < 0.01);
         // print error for stock and date
@@ -331,7 +328,7 @@ public class HistoricalStockQuote {
 
     }
 
-    private static void collectQ4Data() {
+    private void collectQ4Data() {
 
         try {
 
@@ -371,7 +368,7 @@ public class HistoricalStockQuote {
         }  catch (IOException e) {}
     }
 
-    public static boolean stockDataIsAccurate() {
+    public boolean stockDataIsAccurate() {
         return individualstockresult ;
     }
 }
