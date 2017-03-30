@@ -45,7 +45,7 @@ public class CheckHistorical extends ApiAbstractSpec {
         parser = new JSONParser();
     }
 
-    @Test(dataProvider = STOCKDATA, threadPoolSize = 3)
+    @Test(dataProvider = STOCKDATA, threadPoolSize = 5)
     public void CheckQ4DesktopAuth(JSONObject data) throws IOException {
 
         JSONObject individualdata = new JSONObject(data);
