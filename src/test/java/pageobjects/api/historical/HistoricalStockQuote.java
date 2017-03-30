@@ -329,7 +329,7 @@ public class HistoricalStockQuote {
             // this stock was found to have at least one error
             individualstockresult = false;
             //System.out.println(ticker + " : " + exchange + " is inaccurate on " + q4Date);
-            System.out.println("Yahoo price: " + YahooPrice + " Q4 Price: " + Q4Price);
+            System.out.println(ticker + ": " + "Yahoo price: " + YahooPrice + " Q4 Price: " + Q4Price);
             // divides each failure
             //System.out.println("------");
         }
@@ -371,7 +371,7 @@ public class HistoricalStockQuote {
                     // data doesn't exist for this day
                     // this stock was found to have at least one error
                     individualstockresult = false;
-                    System.out.println("Stock data doesn't exist for " + ticker + " : " + exchange + " on " + q4Date);
+                    //System.out.println("Stock data doesn't exist for " + ticker + " : " + exchange + " on " + q4Date);
                     dataexists = false;
                 }
             }
