@@ -56,7 +56,7 @@ public class HistoricalStockQuote {
     private  boolean result = false;
     private  boolean dataexists = true;
     private  HttpClient client;
-    private  final String DEVELOP_ENV = "Develop_Env", SECURITIES = "Securities", PROTOCOL = "https://", HISTORICAL = "historical";
+    private  final String DEVELOP_ENV = "Preprod_Env", SECURITIES = "Securities", PROTOCOL = "https://", HISTORICAL = "historical";
     private  org.json.JSONArray securityArray = new org.json.JSONArray();
     ArrayList<String> accurateCompanies = new ArrayList<String>();
 
@@ -309,6 +309,11 @@ public class HistoricalStockQuote {
         if (Objects.equals(exchange,"XLON")) {
             // .L is the format for london stock exchange for Yahoo
             ticker = ticker + ".L";
+        } else {
+            if (Objects.equals(exchange,"XDUB")) {
+                // .L is the format for london stock exchange for Yahoo
+                ticker = ticker + ".IR";
+            }
         }
     }
 
