@@ -319,19 +319,19 @@ public class HistoricalStockQuote {
 
     private boolean compareData() {
         // margin of error between the 2 stock prices
-        result = (Math.abs(YahooPrice - Q4Price) < 0.01);
+        result = (Math.abs(YahooPrice - Q4Price) < 0.50);
         // print error for stock and date
 
-        System.out.println(ticker + " : " + exchange + " is tested on " + q4Date);
-        System.out.println("Yahoo price: " + YahooPrice + " Q4 Price: " + Q4Price);
+        //System.out.println(ticker + " : " + exchange + " is tested on " + q4Date);
+        //System.out.println("Yahoo price: " + YahooPrice + " Q4 Price: " + Q4Price);
 
         if (!result) {
             // this stock was found to have at least one error
             individualstockresult = false;
-            System.out.println(ticker + " : " + exchange + " is inaccurate on " + q4Date);
+            //System.out.println(ticker + " : " + exchange + " is inaccurate on " + q4Date);
             System.out.println("Yahoo price: " + YahooPrice + " Q4 Price: " + Q4Price);
             // divides each failure
-            System.out.println("------");
+            //System.out.println("------");
         }
 
         return result;
