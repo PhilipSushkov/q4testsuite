@@ -306,13 +306,34 @@ public class HistoricalStockQuote {
 
     private void adjustQueryForYahoo() {
         // Adjusting query format for Yahoo
-        if (Objects.equals(exchange,"XLON")) {
+        if (Objects.equals(exchange, "XLON")) {
             // .L is the format for london stock exchange for Yahoo
             ticker = ticker + ".L";
         } else {
-            if (Objects.equals(exchange,"XDUB")) {
+            if (Objects.equals(exchange, "XDUB")) {
                 // .L is the format for london stock exchange for Yahoo
                 ticker = ticker + ".IR";
+            } else {
+                if (Objects.equals(exchange, "XAMS")) {
+                    // .L is the format for london stock exchange for Yahoo
+                    ticker = ticker + ".AS";
+
+                } else {
+                    if (Objects.equals(exchange, "XBRU")) {
+                        // .L is the format for london stock exchange for Yahoo
+                        ticker = ticker + ".BR";
+                    } else {
+                        if (Objects.equals(exchange, "XLIS")) {
+                            // .L is the format for london stock exchange for Yahoo
+                            ticker = ticker + ".LS";
+                        } else {
+                            if (Objects.equals(exchange, "XPAR")) {
+                                // .L is the format for london stock exchange for Yahoo
+                                ticker = ticker + ".PA";
+                            }
+                        }
+                    }
+                }
             }
         }
     }
