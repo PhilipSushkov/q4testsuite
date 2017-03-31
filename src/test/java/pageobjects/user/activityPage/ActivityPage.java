@@ -5,6 +5,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageobjects.AbstractPageObject;
+import pageobjects.user.Calendar;
 import pageobjects.user.logActivityModal.LogActivityModal;
 import pageobjects.user.noteDetailsPage.NoteDetailsPage;
 
@@ -18,6 +19,7 @@ public class ActivityPage extends AbstractPageObject {
 
     private final By notesSection = By.cssSelector(".note-manager-list .note-item.x-dataview-item");
     private final By firstNoteInList = By.xpath("//div[contains(@class,'note-item')][1]//div[contains(@class,'title')]");
+    private final By firstNoteInListDate = By.xpath("//div[1][contains(@class,'note-item')]//div[contains(@class,'column')][7]");
     private final By newActivityIcon = By.cssSelector(".btn.x-button.x-unsized:not(.btn-block)");
     private final By activitySearchField = By.cssSelector(".toolbar-panel .search .x-field-input .x-input-el");
     private final By emptyResults = By.cssSelector(".note-manager-list .x-dataview-emptytext");
@@ -43,6 +45,14 @@ public class ActivityPage extends AbstractPageObject {
     private final By locationHeader = By.xpath("//div[contains(@class,'column') and contains(@class,'x-button-no-icon') and .//span[contains(text(),'Location')]]");
     private final By dateHeader = By.xpath("//div[contains(@class,'column') and contains(@class,'x-button-no-icon') and .//span[contains(text(),'Date')]]");
     private final By tagsHeader = By.xpath("//div[contains(@class,'column') and contains(@class,'x-button-no-icon') and .//span[contains(text(),'Tags')]]");
+
+    //for calendars
+    private final By startTimeSelector = By.xpath("//input[contains(@name,'startDate')]");
+    private final By endTimeSelector = By.xpath("//input[contains(@name,'endDate')]");
+    private final By previousMonthButton = By.xpath("//div[@class='pmu-prev pmu-button']");
+    private final By selectedMonth = By.xpath("//div[@class='pmu-month pmu-button']");
+    private final By selectedDay = By.xpath("//div[@class='pmu-days']/div[@class='pmu-button'][11]");
+    private final By dateFilterButton = By.xpath("//div[contains(@class,'go-button')]");
 
     public ActivityPage(WebDriver driver) {
         super(driver);
@@ -416,5 +426,37 @@ public class ActivityPage extends AbstractPageObject {
         pause(1000L);
         return Integer.parseInt(findElement(meetingCount).getText());
     }
+
+    public Calendar filterDate(Calendar calendar) {
+        calendar.selectStartDate(startTimeSelector, previousMonthButton, selectedMonth, selectedDay);
+        calendar.selectEndDate(endTimeSelector, previousMonthButton, selectedMonth, selectedDay);
+        calendar.filter(dateFilterButton);
+        pause(500L);
+        // helps keep track of which days were selected
+        calendar.print();
+        return calendar;
+    }
+
+    public boolean verifyDateFilter(Calendar calendar) {
+        waitForLoadingScreen();
+        // sorting the date by earliest to latest
+        findVisibleElement(dateHeader).click();
+        pause(200L);
+        boolean Sorted = true;
+        if (!calendar.EarliestDateWithinRange(findVisibleElement(firstNoteInListDate).getText())) {
+            System.out.println("Earliest date in the table is earlier than the selected end time");
+            Sorted = false;
+        }
+
+        // sorting the date by latest to earliest
+        findVisibleElement(dateHeader).click();
+        pause(200L);
+        if (!calendar.latestDateWithinRange(findVisibleElement(firstNoteInListDate).getText())) {
+            System.out.println("Latest date in the table is later than the selected end time");
+            Sorted = false;
+        }
+        return Sorted;
+    }
+
 }
 

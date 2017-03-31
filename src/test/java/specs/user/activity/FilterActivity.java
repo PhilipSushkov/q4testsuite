@@ -3,6 +3,7 @@ package specs.user.activity;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import pageobjects.user.Calendar;
 import pageobjects.user.activityPage.ActivityPage;
 import pageobjects.user.activityPage.ColumnType;
 import pageobjects.user.activityPage.FilterType;
@@ -54,6 +55,15 @@ public class FilterActivity extends AbstractSpec {
         FilterType phone = FilterType.PHONE;
         ActivityPage activityPage = new ActivityPage(driver).clickFilterCheckbox(phone);
         Assert.assertTrue("Filter not applied correctly for phone",activityPage.isFilteredCorrectly(phone));
+    }
+
+    @Test
+    public void filterActivitiesByDate(){
+        ActivityPage activityPage = new ActivityPage(driver);
+        Calendar calendar = new Calendar(driver);
+        activityPage.filterDate(calendar);
+
+        Assert.assertTrue("Activities cannot be filtered by date", activityPage.verifyDateFilter(calendar));
     }
 
     @Test
