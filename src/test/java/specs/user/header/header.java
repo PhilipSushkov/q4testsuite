@@ -168,14 +168,4 @@ public class header extends AbstractSpec{
         Assert.assertEquals("Logout was unsuccessful", 2, driver.findElements(By.className("q4i-logo")).size());
 
     }
-
-    @Test
-    public void canCancelLogOut(){
-        SecurityOverviewPage securityOverviewPage = new SecurityOverviewPage(driver);
-        securityOverviewPage.openProfile();
-
-        Assert.assertTrue("Logout cancellation was not successful", securityOverviewPage.cancelLogoutFromPage());
-
-    }
-
 }

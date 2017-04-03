@@ -1,8 +1,7 @@
 package pageobjects.user.headerPage;
 
-import org.openqa.selenium.*;
+import org.openqa.selenium.By;
 import pageobjects.PageObject;
-import pageobjects.user.dashboardPage.Dashboard;
 import pageobjects.user.securityPage.SecurityOverviewPage;
 
 /**
@@ -370,27 +369,6 @@ public interface HeaderPage extends PageObject{
         findElement(logoutButton).click();
         waitForElementToAppear(logoutConfirmation);
         findElement(logoutConfirmation).click();
-    }
-
-    default boolean cancelLogoutFromPage(){
-        findElement(logoutButton).click();
-        waitForElementToAppear(logoutRejection);
-        findElement(logoutRejection).click();
-        try{
-            waitForElementToDissapear(logoutOptionsField);
-
-            if(getDriver().findElement(logoutOptionsField).isDisplayed()) {
-                return false;
-            }
-            else{
-                return true;
-            }
-        }
-
-        catch(Exception e ){
-            System.out.println(e);
-            return true;
-        }
     }
 
 }
