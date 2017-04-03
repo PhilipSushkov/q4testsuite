@@ -19,7 +19,7 @@ public class BriefingBookList extends AbstractPageObject {
     private final By newBriefingBook = By.cssSelector(".briefing-book-item:nth-child(1)");
     private final By checkbox = By.className("checkmark");
     private final By deleteButton = By.className("q4i-trashbin-4pt");
-    private final By confirmDeleteButton = By.className("x-button-action");
+    private final By confirmDeleteButton = By.cssSelector(".q4-message-modal .x-button.primary");
     private final By searchBox = By.cssSelector(".briefing-book-toolbar [type=search]");
     private final By briefingBookTitle = By.cssSelector(".briefing-book-item .row div:nth-child(2)");
     private final By generalBriefingBookItem = By.xpath("//div[contains(@class,'briefing-book-item')]");
