@@ -81,7 +81,7 @@ public class AdvancedSearching extends AbstractSpec {
 
     @Test
     public void canSearchForResearch() {
-        String researchKeyword = "Bold Move";
+        String researchKeyword = "DXC";
         AdvancedSearchPage advancedSearchPage = new AdvancedSearchPage(driver).advancedSearchFor(researchKeyword)
                 .selectResearchTab();
 
