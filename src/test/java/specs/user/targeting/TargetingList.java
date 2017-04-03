@@ -47,7 +47,7 @@ public class TargetingList extends AbstractSpec {
                 "Low", // Turnover
                 "Investment Adviser", // Type
                 "Growth", // Style
-                "Owns Only Me", // Ownership
+                "Holds position in SYY:XNYS, but not peers", // Ownership
                 "Underweight", // Ownership in My Stock
                 "Net Buyer", // Sector Activity
                 "Net Buyer", // Peer Activity
