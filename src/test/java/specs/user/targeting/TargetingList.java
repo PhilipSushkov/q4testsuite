@@ -309,7 +309,7 @@ public class TargetingList extends AbstractSpec {
     /* This test requires the presence of a saved search titled "testing updated date - DO NOT REMOVE".
     *  If this search does not exist or was not created on 11/14/16, the test will fail.*/
     public void canEditSearchAndSeeUpdatedDate(){
-        String expectedSearchName = "testing updated date - DO NOT REMOVE";
+        String expectedSearchName = "Testing updated date - DO NOT REMOVE";
         String expectedCreatedDate = "01/26/17";
         SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yy");
         // checking that required search is present and that created date is correct
