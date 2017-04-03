@@ -21,6 +21,7 @@ public class AdvancedSearchPage extends AbstractPageObject {
     private final By fundTab = By.cssSelector(".advanced-search .search-bar .search-tabs .x-button:last-of-type, .advanced-search .search-bar .search-tabs .x-button:nth-child(4)");
     private final By contactTab = By.cssSelector(".advanced-search .search-bar .search-tabs .x-button:last-of-type, .advanced-search .search-bar .search-tabs .x-button:nth-child(5)");
     private final By activityTab = By.cssSelector(".advanced-search .search-bar .search-tabs .x-button:last-of-type, .advanced-search .search-bar .search-tabs .x-button:nth-child(7)");
+    private final By contactName = By.className("name");
 
     public AdvancedSearchPage(WebDriver driver) {
         super(driver);
@@ -29,6 +30,11 @@ public class AdvancedSearchPage extends AbstractPageObject {
     public String getAdvancedSearchResults() {
         waitForLoadingScreen();
         return findElement(searchResults).getText();
+    }
+
+    public String getContactNameFromSearchResults() {
+        waitForLoadingScreen();
+        return findElement(contactName).getText();
     }
 
     public AdvancedSearchPage advancedSearchFor(String entity) {

@@ -102,7 +102,7 @@ public class ContactDetails extends AbstractSpec {
     public void canLinkToTagDetails() {
         AdvancedSearchPage advancedSearchResults = new ContactDetailsPage(driver).viewTagResults();
 
-        Assert.assertThat("Advanced search results did not contain contain contact's name", advancedSearchResults.getAdvancedSearchResults(), containsString(shortName));
+        Assert.assertThat("Advanced search results did not contain contain contact's name", advancedSearchResults.getContactNameFromSearchResults(), containsString(shortName));
     }
 
     @Test
