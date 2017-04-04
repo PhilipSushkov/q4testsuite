@@ -1,8 +1,10 @@
 package pageobjects.admin.companyPage;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import specs.admin.companies.CompanyDetails;
 
 /**
  * Created by patrickp on 2016-09-20.
@@ -20,6 +22,7 @@ public class CompanyDetailsPage extends CompanyList {
     private final By companyNameField = By.xpath("//p-dialog[contains(@header,'Edit Company Name')]//input[contains(@placeholder,'Name')]");
     private final By companyEditField = By.name("company_name");
     private final By tickerTab = By.cssSelector(".toolbar-manager .tabs .tab:nth-child(4)");
+    private final By mailingListTab = By.cssSelector(".toolbar-manager .tabs .tab:nth-child(6)");
 
     // Ticker page
     private final By newTickerIcon = By.cssSelector(".sub-toolbar .action-buttons .add");
@@ -29,6 +32,18 @@ public class CompanyDetailsPage extends CompanyList {
     private final By removeTickerIcon = By.cssSelector(".q4-list .action-buttons .remove");
     private final By confirmButton = By.cssSelector("body > q4-app > div > div > q4-organization-details > q4-organization-tickers > p-datatable > div > div > table > tbody > tr:nth-child(1) > td.action-buttons > span > ng-component > p-dialog > div > div.ui-dialog-content.ui-widget-content > div > button.button.button-red");
     private final By modalCancelButton = By.cssSelector("body > q4-app > div > div > q4-organization-details > q4-organization-tickers > p-dialog:nth-child(3) > div > div.ui-dialog-content.ui-widget-content > q4-ticker-create > div > button.button.button-no-background");
+
+    // Mailing List page
+    private final By morningCoffeeReportRow = By.xpath("//td[span[contains(text(),'Morning Coffee Report')]]");
+
+    //Mailing List modal
+    private final By addEmailField = By.xpath("//q4-organization-mailing-list//input[@placeholder='Add Emails']");
+    private final By closeEditMailinglList = By.xpath("//q4-organization-mailing-list//a[@role='button']");
+    private final By saveMailingList = By.xpath("//q4-organization-mailing-list//div[@class='buttons']/button[text()='Save']");
+    private final By cancelMailingList =By.xpath("//q4-organization-mailing-list//div[@class='buttons']/button[text()='Cancel']");
+
+
+
 
     public CompanyDetailsPage(WebDriver driver) {
         super(driver);
@@ -81,6 +96,16 @@ public class CompanyDetailsPage extends CompanyList {
         return this;
     }
 
+    public CompanyDetailsPage selectMailingListTab() {
+        waitForLoadingScreen();
+        findElement(mailingListTab).click();
+        waitForLoadingScreen();
+
+        return this;
+    }
+
+
+
     public CompanyList addTicker(String newTicker) {
         findElement(newTickerIcon).click();
         findElement(editTickerSearchField).click();
@@ -111,4 +136,37 @@ public class CompanyDetailsPage extends CompanyList {
 
         return this;
     }
+
+
+    //Email List Methods
+
+    public CompanyDetailsPage clickMorningCoffeeReport(){
+        findElement(morningCoffeeReportRow).click();
+        waitForLoadingScreen();
+        return this;
+    }
+
+    public CompanyDetailsPage enterEmail(String email){
+        findElement(addEmailField).sendKeys(email);
+        findElement(addEmailField).sendKeys(Keys.ENTER);
+        return this;
+    }
+
+    public CompanyDetailsPage closeEditMailingList(){
+        findElement(closeEditMailinglList).click();
+        waitForLoadingScreen();
+        return this;
+    }
+    public CompanyDetailsPage saveMailingList(){
+        findElement(saveMailingList).click();
+        waitForLoadingScreen();
+        return this;
+    }
+    public CompanyDetailsPage cancelMailingList(){
+        findElement(cancelMailingList).click();
+        waitForLoadingScreen();
+        return this;
+    }
+
+
 }
