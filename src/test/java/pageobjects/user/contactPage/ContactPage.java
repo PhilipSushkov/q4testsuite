@@ -26,7 +26,7 @@ public class ContactPage extends AbstractPageObject {
 
     private final By contactDelete = By.xpath("//div[contains(@class,'checkbox-mask')]");
     private final By deleteButton = By.cssSelector(".x-button-icon.q4i-trashbin-4pt");
-    private final By confirmDeletion = By.xpath("//span[contains(text(),'Yes')]");
+    private final By confirmDeletion = By.cssSelector(".q4-message-modal .x-button.primary");
     private final By refusedDeletion = By.xpath("//span[contains(text(),'No')]");
 
     public ContactPage(WebDriver driver) {
@@ -70,7 +70,6 @@ public class ContactPage extends AbstractPageObject {
         findElement(deleteButton).click();
         waitForLoadingScreen();
         findElement(confirmDeletion).click();
-
     }
 
     public ContactPage searchForContact(String name) {

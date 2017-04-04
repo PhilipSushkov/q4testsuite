@@ -5,7 +5,7 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.openqa.selenium.By;
-import pageobjects.admin.companyPage.CompanyPage;
+import pageobjects.admin.companyPage.CompanyList;
 import pageobjects.admin.loginPage.AdminLoginPage;
 import specs.AdminAbstractSpec;
 
@@ -26,7 +26,7 @@ public class CompaniesList extends AdminAbstractSpec {
     @Test
     public void canAddCompanyToList() {
         String companyName = "Canopy Growth Corp.";
-        CompanyPage companyPage = new CompanyPage(driver).addNewCompany(companyName);
+        CompanyList companyPage = new CompanyList(driver).addNewCompany(companyName);
     }
 
     @Ignore
@@ -37,16 +37,25 @@ public class CompaniesList extends AdminAbstractSpec {
 
     @Test
     public void canViewCompanyDetails() {
-        String companyName = new CompanyPage(driver).getFirstCompanyName();
-        CompanyPage companyPage = new CompanyPage(driver).selectFirstCompanyInList();
+        String companyName = new CompanyList(driver).getFirstCompanyName();
+        CompanyList companyPage = new CompanyList(driver).selectFirstCompanyInList();
 
         Assert.assertThat("Company name does not match expected", companyPage.getAdminPageTitle(), containsString(companyName));
     }
 
     @Test
+    public void cannotAddInvalidCompany(){
+        String companyName = "Can't add this";
+        CompanyList companyList= new CompanyList(driver).searchForNewCompany(companyName);
+        Assert.assertFalse("Incorrectly able to add a company not in the system",companyList.dismissTickerDropdown().isSaveButtonEnabled());
+
+
+    }
+
+    @Test
     public void canSearchForCompany() {
         String companyName = "Yum";
-        CompanyPage companyPage = new CompanyPage(driver).searchForCompany(companyName);
+        CompanyList companyPage = new CompanyList(driver).searchForCompany(companyName);
 
         Assert.assertThat("Search results did not return expected results", companyPage.getCompanyList(), containsString(companyName));
     }
@@ -54,14 +63,14 @@ public class CompaniesList extends AdminAbstractSpec {
     @Test
     public void unknownSearchReturnsNoResults() {
         String fakeName = "1234";
-        CompanyPage companyPage = new CompanyPage(driver).searchForCompany(fakeName);
+        CompanyList companyPage = new CompanyList(driver).searchForCompany(fakeName);
 
         Assert.assertThat("Search returned results when none were expected", companyPage.getCompanyList(), containsString("No records found"));
     }
 
     @Test
     public void canCancelAddModal() {
-        new CompanyPage(driver).triggerAddCompanyModal()
+        new CompanyList(driver).triggerAddCompanyModal()
                 .cancelAddCompany();
 
         Assert.assertEquals("New company modal was not dismissed", 1, driver.findElements(By.className("ui-dialog-title")).size());
@@ -69,7 +78,7 @@ public class CompaniesList extends AdminAbstractSpec {
 
     @Test
     public void canDismissAddModal() {
-        new CompanyPage(driver).triggerAddCompanyModal()
+        new CompanyList(driver).triggerAddCompanyModal()
                 .exitAddCompanyModal();
 
         Assert.assertEquals("New company modal was not dismissed", 1, driver.findElements(By.className("ui-dialog-title")).size());

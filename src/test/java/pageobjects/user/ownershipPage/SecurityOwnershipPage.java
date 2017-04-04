@@ -78,6 +78,8 @@ public class SecurityOwnershipPage extends AbstractPageObject {
     private final By institutionalPercentages = By.cssSelector(".highcharts-data-labels g");
 
     // trend analysis section
+    private final By trendAnalysisPage = By.xpath("//div[contains(@class,'company-ownership-content')]//div[contains(@class,'anchor-toolbar')]//div[contains(@class,'x-button') and .//span [contains(text(),'Trend Analysis')]]");
+
     private final By trendAnalysisChartBody = By.cssSelector(".area-chart .highcharts-series path:first-child");
     private final By trendAnalysisHoverText = By.cssSelector(".ownership-report-trend-analysis-content .highcharts-tooltip");
 
@@ -993,14 +995,20 @@ public class SecurityOwnershipPage extends AbstractPageObject {
         waitForLoadingScreen();
         waitForElement(trendAnalysisHoverText);
         List<WebElement> charts = findVisibleElements(trendAnalysisChartBody);
-        List<WebElement> hovertexts = findElements(trendAnalysisHoverText);
+
 
         for(int i=0; i<charts.size(); i++){
             actions.clickAndHold(charts.get(i)).perform(); //clickAndHold needed so that cursor is still there when getAttribute is run
-            pause(500);
-            if (!hovertexts.get(i).getAttribute("opacity").equals("1")){ // when hovertext is not visible, opacity attribute is either zero or non-existent
-                System.out.println("Trend Analysis chart (index "+i+") does have visible hovertext when hovering.");
-                canHover = false;
+            pause(1000);
+            List<WebElement> hovertexts = findVisibleElements(trendAnalysisHoverText);
+            if(hovertexts.size()==0){
+                canHover=false;
+            }
+            for(int j=0; j<hovertexts.size(); j++) {
+                if (!hovertexts.get(j).getAttribute("opacity").equals("1")) { // when hovertext is not visible, opacity attribute is either zero or non-existent
+                    System.out.println("Trend Analysis chart (index " + i + ") does have visible hovertext when hovering.");
+                    canHover = false;
+                }
             }
         }
 
@@ -1011,29 +1019,34 @@ public class SecurityOwnershipPage extends AbstractPageObject {
     // these methods are to be used while one of the date tabs is selected
 
     public int getNumOfHolderBreakdownValues(){
+        waitForLoadingScreen();
         waitForElement(holderBreakdownValues);
         return findVisibleElements(holderBreakdownValues).size();
     }
 
     // checks that breakdown values are between 0 and 100 (inclusive)
     public boolean holderBreakdownValuesAreValid(){
+        waitForLoadingScreen();
         waitForElement(holderBreakdownValues);
         return elementsAreAllPercentages(findVisibleElements(holderBreakdownValues));
     }
 
     public int getNumofHolderTypeValues(){
+        waitForLoadingScreen();
         waitForElement(holderTypeValues);
         return findVisibleElements(holderTypeValues).size();
     }
 
     // checks that all type values are between 0 and 100 (inclusive)
     public boolean holderTypeValuesAreValid(){
+        waitForLoadingScreen();
         waitForElement(holderTypeValues);
         return elementsAreAllPercentages(findVisibleElements(holderTypeValues));
     }
 
     // clicks on the "Other" option under "Investor Type", causing the dropdown to open
     public SecurityOwnershipPage openOtherHolderTypes(){
+        waitForLoadingScreen();
         waitForElement(holderTypeOther);
         findVisibleElement(holderTypeOther).click();
         waitForElement(holderOtherDropdown);
@@ -1203,6 +1216,12 @@ public class SecurityOwnershipPage extends AbstractPageObject {
         waitForLoadingScreen();
         findElement(thirteenFButton).click();
 
+        return this;
+    }
+
+    public SecurityOwnershipPage selectTrendAnalysis(){
+        waitForLoadingScreen();
+        findElement(trendAnalysisPage).click();
         return this;
     }
 }

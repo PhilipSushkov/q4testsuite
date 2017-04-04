@@ -22,6 +22,7 @@ public class SentimentPage extends AbstractPageObject {
     }
 
     public boolean verifyTextIsPresent() {
+        waitForLoadingScreen();
         String nglText = getNlgText();
         if (nglText.isEmpty()) {
             {

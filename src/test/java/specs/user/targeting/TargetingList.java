@@ -15,6 +15,7 @@ import specs.AbstractSpec;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import static org.hamcrest.CoreMatchers.containsString;
 
 
 /**
@@ -46,7 +47,7 @@ public class TargetingList extends AbstractSpec {
                 "Low", // Turnover
                 "Investment Adviser", // Type
                 "Growth", // Style
-                "Owns Only Me", // Ownership
+                "Holds position in SYY:XNYS, but not peers", // Ownership
                 "Underweight", // Ownership in My Stock
                 "Net Buyer", // Sector Activity
                 "Net Buyer", // Peer Activity
@@ -63,7 +64,7 @@ public class TargetingList extends AbstractSpec {
 
         // opening search and verifying that filters are correct
         boolean filtersMatch = new TargetingPage(driver).editSearch(searchNameIndex).verifyFilters(filters);
-        Assert.assertTrue("Known issue - DESKTOP-7376 - Filters do not match.", filtersMatch);
+        Assert.assertTrue("Filters do not match.", filtersMatch);
 
         // deleting search using button on filter page
         new EditSearchPage(driver).deleteSearch();
@@ -308,7 +309,7 @@ public class TargetingList extends AbstractSpec {
     /* This test requires the presence of a saved search titled "testing updated date - DO NOT REMOVE".
     *  If this search does not exist or was not created on 11/14/16, the test will fail.*/
     public void canEditSearchAndSeeUpdatedDate(){
-        String expectedSearchName = "testing updated date - DO NOT REMOVE";
+        String expectedSearchName = "Testing updated date - DO NOT REMOVE";
         String expectedCreatedDate = "01/26/17";
         SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yy");
         // checking that required search is present and that created date is correct
@@ -323,5 +324,22 @@ public class TargetingList extends AbstractSpec {
         Assert.assertEquals("After editing: created date is incorrect", expectedCreatedDate, new TargetingPage(driver).getCreatedDate(searchNameIndex));
         // checking that last updated date is today
         Assert.assertEquals("After editing: last updated date is not today", dateFormat.format(current), new TargetingPage(driver).getUpdatedDate(searchNameIndex));
+    }
+
+    @Test
+    public void canSearchForSavedSearch() {
+        String searchTerm = "DO NOT REMOVE";
+        TargetingPage targetingPage = new TargetingPage(driver).searchForSearch(searchTerm);
+
+        Assert.assertThat(targetingPage.getSearchResults(), containsString(searchTerm));
+    }
+
+    @Test
+    public void canSearchForSavedTargets() {
+        String searchTerm = "Harbor";
+        TargetingPage targetingPage = new TargetingPage(driver).selectTargetsTab()
+                .searchForSearch(searchTerm);
+
+        Assert.assertThat(targetingPage.getSearchResults(), containsString(searchTerm));
     }
 }

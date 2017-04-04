@@ -5,7 +5,7 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import pageobjects.admin.companyPage.CompanyPage;
+import pageobjects.admin.companyPage.CompanyList;
 import pageobjects.admin.implementationPage.ImplementationPage;
 import pageobjects.admin.intelligencePage.IntelligencePage;
 import pageobjects.admin.morningCoffeePage.MorningCoffeePage;
@@ -125,20 +125,19 @@ public class AbstractPageObject implements HeaderPage{
 
     public String getPageTitle() {
         waitForLoadingScreen();
-        pause(500L);
-        return findElement(pageTitle).getText();
+        return findVisibleElement(pageTitle).getText();
     }
 
     // Some pages have a different header
     public String getOtherPageTitle() {
         waitForLoadingScreen();
-        return findElement(otherPageTitle).getText();
+        return findVisibleElement(otherPageTitle).getText();
     }
 
     // Watchlist page header is also different :|
     public String getWatchListPageTitle() {
         waitForLoadingScreen();
-        return findElement(otherPageTitle).getText();
+        return findVisibleElement(otherPageTitle).getText();
 
     }
 
@@ -446,11 +445,11 @@ public class AbstractPageObject implements HeaderPage{
         }
     }
 
-    public CompanyPage navigateToCompanyPage() {
+    public CompanyList navigateToCompanyPage() {
         waitForLoadingScreen();
         selectProduct(DESKTOP);
         findElement(companyPage).click();
-        return new CompanyPage(getDriver());
+        return new CompanyList(getDriver());
     }
 
     public String getAdminPageTitle() {
@@ -559,5 +558,17 @@ public class AbstractPageObject implements HeaderPage{
 
 
         return false;
+    }
+
+    public void scrollToElement(By locator){
+        WebElement element = driver.findElement(locator);
+        Actions actions = new Actions(driver);
+        actions.moveToElement(element);
+        actions.perform();
+    }
+
+    public void scrollToTopOfPage(){
+        JavascriptExecutor jse = (JavascriptExecutor) driver;
+        jse.executeScript("window.scrollTo(0,0)");
     }
 }

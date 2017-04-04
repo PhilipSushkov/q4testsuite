@@ -49,6 +49,7 @@ public class TargetingPage extends AbstractPageObject {
     private final By targetsNameColumnHeader = By.xpath("//div[contains(@class,'x-button')]//span[contains(text(),'Name')]");
     private final By targetsLocationColumnHeader = By.xpath("//div[contains(@class,'x-button')]//span[contains(text(),'Location')]");
     private final By entityLocation = By.cssSelector(".x-grid-row.q4-grid.x-has-height div:nth-child(2) .x-grid-cell-inner");
+    private final By searchResults = By.cssSelector(".targeting-landing-list");
 
 
     public TargetingPage(WebDriver driver) {
@@ -57,6 +58,7 @@ public class TargetingPage extends AbstractPageObject {
 
 
     public NewSearchPage newSearch(){
+        waitForLoadingScreen();
         waitForElement(newSearchButton);
         findElement(newSearchButton).click();
 
@@ -484,4 +486,14 @@ public class TargetingPage extends AbstractPageObject {
         return true;
     }
 
+    public String getSearchResults() {
+        waitForLoadingScreen();
+        return findVisibleElement(searchResults).getText();
+    }
+
+    public TargetingPage selectTargetsTab() {
+        findElement(showTargets).click();
+
+        return this;
+    }
 }

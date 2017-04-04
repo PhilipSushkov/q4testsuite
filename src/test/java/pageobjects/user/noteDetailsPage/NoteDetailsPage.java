@@ -11,10 +11,26 @@ import pageobjects.user.activityPage.ActivityPage;
 public class NoteDetailsPage extends ActivityPage {
     private final By noteDetails = By.cssSelector(".preview-note-view .preview-note-view-section");
     private final By commentDetails = By.cssSelector(".note-detail-header .note-detail-header-inner");
+    private final By activityTitle = By.xpath("//div[contains(@class,'note-detail-header-inner')]//div[contains(@class,'note-information')][2]//h1");
     private final By linkedToDetails = By.cssSelector(".preview-note-view .note-links .x-dataview-item");
+    private final By activityHeader = By.cssSelector(".note-detail-header .note-information h1");
+    private final By detailsHeader = By.xpath("//h3[contains(string(),'Details')]");
 
     public NoteDetailsPage(WebDriver driver) {
         super(driver);
+    }
+
+    public boolean detailsPageExists(){
+        waitForLoadingScreen();
+
+        try{
+            findElement(detailsHeader);
+            return true;
+        }
+        catch(Exception e){
+            return false;
+        }
+
     }
 
     public String getNoteBody() {
@@ -23,11 +39,21 @@ public class NoteDetailsPage extends ActivityPage {
         return findElement(noteDetails).getText();
     }
 
+    public String getActivityTitle(){
+        waitForLoadingScreen();
+        return findElement(activityTitle).getText();
+    }
+
     public String getCommentText() {
+        waitForLoadingScreen();
         return findElement(commentDetails).getText();
     }
 
     public String getLinkedToText() {
         return findElement(linkedToDetails).getText();
+    }
+
+    public String getActivityHeader() {
+        return findElement(activityHeader).getText();
     }
 }

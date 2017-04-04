@@ -6,6 +6,8 @@ import specs.user.activism.Activism;
 import specs.user.activity.FilterActivity;
 import specs.user.activity.LogActivity;
 import specs.user.activity.SearchForActivity;
+import specs.user.advancedSearch.AdvancedSearchNavigation;
+import specs.user.advancedSearch.AdvancedSearching;
 import specs.user.briefingBooks.CreateBriefingBook;
 import specs.user.briefingBooks.EditBriefingBook;
 import specs.user.contacts.ContactDetails;
@@ -52,7 +54,9 @@ import specs.user.watchlist.EditWatchlist;
         header.class,
         Activism.class,
         Sentiment.class,
-        Volatility.class
+        Volatility.class,
+        AdvancedSearching.class,
+        AdvancedSearchNavigation.class
 })
 
 public class NightRun {

@@ -33,7 +33,7 @@ public class header extends AbstractSpec{
 
     @Test
     public void canViewReleaseNotes(){
-        String releaseNotes = driver.getCurrentUrl().replace("/#company/XNYS%3ASYY", "/#release-note");
+        String releaseNotes = driver.getCurrentUrl().replace("/#company/57b92885be1c33ae235f5895", "/#release-note");
 
         SecurityOverviewPage securityOverviewPage = new SecurityOverviewPage(driver);
         securityOverviewPage.openProfile();
@@ -168,14 +168,4 @@ public class header extends AbstractSpec{
         Assert.assertEquals("Logout was unsuccessful", 2, driver.findElements(By.className("q4i-logo")).size());
 
     }
-
-    @Test
-    public void canCancelLogOut(){
-        SecurityOverviewPage securityOverviewPage = new SecurityOverviewPage(driver);
-        securityOverviewPage.openProfile();
-
-        Assert.assertTrue("Logout cancellation was not successful", securityOverviewPage.cancelLogoutFromPage());
-
-    }
-
 }

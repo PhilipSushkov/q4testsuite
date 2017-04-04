@@ -51,7 +51,26 @@ public class morningCoffeeReport extends AdminAbstractSpec {
         String symbol ="YUM";
         Date currentDate = new Date();
         MorningCoffeePage morningCoffeePage =  new MorningCoffeePage(driver);
-        morningCoffeePage.clickAddReport().inputCompanySymbol(symbol).clickCreateReport().clickRecentReport(symbol, currentDate);
+        Assert.assertTrue("Preview of report didn't load",morningCoffeePage.clickAddReport().inputCompanySymbol(symbol).clickCreateReport().clickRecentReport(symbol, currentDate).previewPageLoaded());
+    }
+
+    @Test
+    public void canRemoveEmailFromMailingList(){
+        String name ="ZPatrick Priestley";
+        String symbol ="EIX";
+        Date currentDate = new Date();
+        MorningCoffeePage morningCoffeePage =  new MorningCoffeePage(driver);
+        MorningCoffeePreview morningCoffeePreview= morningCoffeePage.clickAddReport().inputCompanySymbol(symbol).clickCreateReport().clickRecentReport(symbol, currentDate).clickMailIcon();
+        Assert.assertTrue("Required email not present for test",morningCoffeePreview.nameIsPresentInMailingList(name));
+        morningCoffeePreview.removeNameFromMailingList(name);
+        Assert.assertFalse("Name not successfuly removed",morningCoffeePreview.nameIsPresentInMailingList(name));
+    }
+    @Test
+    public void stockSummaryPresentInReportPreview(){
+        String symbol ="SYY";
+        Date currentDate = new Date();
+        MorningCoffeePage morningCoffeePage =  new MorningCoffeePage(driver);
+       Assert.assertTrue("Stock summary not present",morningCoffeePage.clickAddReport().inputCompanySymbol(symbol).clickCreateReport().clickRecentReport(symbol, currentDate).stockSummaryPresent());
     }
 
     @Test
@@ -126,4 +145,41 @@ public class morningCoffeeReport extends AdminAbstractSpec {
         Assert.assertTrue("Report not deleted",morningCoffeePage.confirmReportDelete("SYY",dateOfLatestReport));
     }
 
+    @Test
+    public void canEditMorningCoffeeReportMailing(){
+        String symbol ="FB";
+        Date currentDate = new Date();
+        MorningCoffeePage morningCoffeePage =  new MorningCoffeePage(driver);
+        morningCoffeePage.clickAddReport().inputCompanySymbol(symbol).clickCreateReport();
+        Date dateOfLatestReport =morningCoffeePage.getRecentReportDate();
+        MorningCoffeePreview morningCoffeePreview = morningCoffeePage.clickRecentReport(symbol,currentDate).clickMailIcon();
+    }
+
+    @Test
+    public void canSearchForCommentary(){
+        String search="This is used for the search test";
+        MorningCoffeePage morningCoffeePage = new MorningCoffeePage(driver);
+        Assert.assertTrue("Search query not found",morningCoffeePage.clickCommentaryTab().inputSearch(search).findSearchQuery(search));
+    }
+
+    @Test
+    public void stillFilteringBySectorAfterCreation(){
+        String commentary ="Financial commentary added via automation";
+        MorningCoffeePage morningCoffeePage = new MorningCoffeePage(driver);
+        morningCoffeePage.clickCommentaryTab().clickSectorSegment().createCommentary(Sector.FINANCIALS,commentary);
+        Assert.assertFalse("Market commentaries present on sector commentary page after adding a sector",morningCoffeePage.marketTypesPresent());
+    }
+
+    @Test
+    public void userCanEditCommentaryForSpecificReport(){
+        String symbol ="GE";
+        Date currentDate = new Date();
+        String editText = " EDITED "+currentDate.toString()+" ";
+        MorningCoffeePage morningCoffeePage =  new MorningCoffeePage(driver);
+        MorningCoffeePreview morningCoffeePreview= morningCoffeePage.clickAddReport().inputCompanySymbol(symbol).clickCreateReport().clickRecentReport(symbol, currentDate).typeInMarketCommentary(editText).clickSaveIcon();
+        driver.navigate().back();
+        morningCoffeePage = new MorningCoffeePage(driver);
+        morningCoffeePreview = morningCoffeePage.clickRecentReport(symbol, currentDate);
+        Assert.assertTrue("Commentary not saved",morningCoffeePreview.returnMarketCommentary().contains(editText));
+    }
 }

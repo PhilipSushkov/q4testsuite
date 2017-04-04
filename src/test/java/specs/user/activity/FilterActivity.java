@@ -3,6 +3,7 @@ package specs.user.activity;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import pageobjects.user.Calendar;
 import pageobjects.user.activityPage.ActivityPage;
 import pageobjects.user.activityPage.ColumnType;
 import pageobjects.user.activityPage.FilterType;
@@ -57,6 +58,15 @@ public class FilterActivity extends AbstractSpec {
     }
 
     @Test
+    public void filterActivitiesByDate(){
+        ActivityPage activityPage = new ActivityPage(driver);
+        Calendar calendar = new Calendar(driver);
+        activityPage.filterDate(calendar);
+
+        Assert.assertTrue("Activities cannot be filtered by date", activityPage.verifyDateFilter(calendar));
+    }
+
+    @Test
     public void sortActivitiesByType(){
         ColumnType type = ColumnType.TYPE;
         ActivityPage activityPage = new ActivityPage(driver).clickColumnHeader(type);
@@ -75,5 +85,40 @@ public class FilterActivity extends AbstractSpec {
         ColumnType date = ColumnType.DATE;
         ActivityPage activityPage = new ActivityPage(driver).clickColumnHeader(date);
         Assert.assertTrue("Date not sorted correctly",activityPage.isColumnSorted(date));
+    }
+
+    @Test
+    public void multiSort(){
+        //This checks that the sorting works even when it's been clicked before
+
+        ColumnType type = ColumnType.TYPE;
+        ColumnType title = ColumnType.TITLE;
+        ColumnType date = ColumnType.DATE;
+
+        boolean actualSort[] = new boolean[6];
+        boolean expectedSort[] = {true, true, true, true, true, true};
+
+        ActivityPage activityPage = new ActivityPage(driver).clickColumnHeader(date);
+        actualSort[0] = activityPage.isColumnSorted(date);
+
+        activityPage.clickColumnHeader(type);
+        actualSort[1] = activityPage.isColumnSorted(type);
+
+        activityPage.clickColumnHeader(title);
+        actualSort[2] = activityPage.isColumnSorted(title);
+
+        //now going back, and clicking those filters again (to see if clicking them a second time has any effect
+        activityPage.clickColumnHeader(date);
+        actualSort[3] = activityPage.isColumnSorted(date);
+
+        activityPage.clickColumnHeader(title);
+        actualSort[4] = activityPage.isColumnSorted(title);
+
+        activityPage.clickColumnHeader(type);
+        actualSort[5] = activityPage.isColumnSorted(type);
+
+        Assert.assertArrayEquals("Sorting failed", actualSort, expectedSort);
+
+
     }
 }

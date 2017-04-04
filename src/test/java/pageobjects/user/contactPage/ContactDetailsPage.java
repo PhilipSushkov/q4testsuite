@@ -6,7 +6,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageobjects.Page;
-import pageobjects.user.advancedSearchResultsPage.AdvancedSearchResults;
+import pageobjects.user.advancedSearchPage.AdvancedSearchPage;
 import pageobjects.user.institutionPage.InstitutionPage;
 import pageobjects.user.logActivityModal.LogActivityModal;
 
@@ -44,6 +44,10 @@ public class ContactDetailsPage extends Page {
     private final By postedDate = By.cssSelector(".entity-note-list .details .create-date");
     private final By generateButton = By.cssSelector(".q4-modal.briefing-book-generate.q4-form .action-buttons .form-button.yellow");
 
+    // Add contact modal and confirmation
+    private final By contactListSave = By.cssSelector(".add-contact-to-list .modal-btns-panel .form-button");
+    private final By okayConfirmationButton = By.cssSelector(".q4-message-modal .x-button.primary");
+
     public ContactDetailsPage(WebDriver driver) {
         super(driver);
     }
@@ -68,14 +72,24 @@ public class ContactDetailsPage extends Page {
         try {
             wait.until(ExpectedConditions.elementToBeClickable(addOption));
             findElement(addOption).click();
+            findElement(contactListSave).click();
+            wait.until(ExpectedConditions.elementToBeClickable(okayConfirmationButton));
+            findElement(okayConfirmationButton).click();
         }
         catch (Exception e){
             wait.until(ExpectedConditions.elementToBeClickable(removeFromContacts));
             findElement(removeFromContacts).click();
+            waitForLoadingScreen();
+            wait.until(ExpectedConditions.elementToBeClickable(okayConfirmationButton));
+            findElement(okayConfirmationButton).click();
+            wait.until(ExpectedConditions.elementToBeClickable(okayConfirmationButton));
+            findElement(okayConfirmationButton).click();
             wait.until(ExpectedConditions.elementToBeClickable(contactDropDown));
             findElement(contactDropDown).click();
             wait.until(ExpectedConditions.elementToBeClickable(addOption));
             findElement(addOption).click();
+            findElement(contactListSave).click();
+            findElement(okayConfirmationButton).click();
 
         }
         pause(500L);
@@ -91,6 +105,10 @@ public class ContactDetailsPage extends Page {
         retryClick(contactDropdownPostAdd);
         wait.until(ExpectedConditions.elementToBeClickable(removeFromContacts));
         findElement(removeFromContacts).click();
+        wait.until(ExpectedConditions.elementToBeClickable(okayConfirmationButton));
+        findElement(okayConfirmationButton).click();
+        waitForLoadingScreen();
+        findElement(okayConfirmationButton).click();
 
         return this;
     }
@@ -135,10 +153,10 @@ public class ContactDetailsPage extends Page {
         return findElement(fundTableNames).getText();
     }
 
-    public AdvancedSearchResults viewTagResults() {
+    public AdvancedSearchPage viewTagResults() {
         findElement(tagIcon).click();
 
-        return new AdvancedSearchResults(getDriver());
+        return new AdvancedSearchPage(getDriver());
     }
 
     public ContactDetailsPage accessContactDropdown() {

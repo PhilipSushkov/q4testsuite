@@ -5,7 +5,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageobjects.AbstractPageObject;
 import pageobjects.user.activityPage.ActivityPage;
-import pageobjects.user.advancedSearchResultsPage.AdvancedSearchResults;
+import pageobjects.user.advancedSearchPage.AdvancedSearchPage;
 import pageobjects.user.briefingBooks.BriefingBookList;
 import pageobjects.user.contactPage.ContactPage;
 import pageobjects.user.dashboardPage.Dashboard;
@@ -32,7 +32,7 @@ public class SideNavBar extends AbstractPageObject{
     private final By eventsSideNav = By.id("ext-treelistitem-5");
     private final By reportsSideNav = By.id("ext-treelistitem-6");
     private final By targetingSideNav = By.id("ext-treelistitem-7");
-    private final By advancedSearchSideNav = By.id("ext-treelistitem-9");
+    private final By advancedSearchSideNav = By.id("ext-treelistitem-8");
     private final By securitySideNav = By.id("ext-treelistitem-10");
     private final By ownershipSideNav = By.id("ext-treelistitem-11");
     private final By estimatesSideNav = By.id("ext-treelistitem-12");
@@ -69,6 +69,7 @@ public class SideNavBar extends AbstractPageObject{
         pause(2000L);
         waitForElementToAppear(activityPageSideNav);
         findElement(activityPageSideNav).click();
+        waitForLoadingScreen();
 
         return new ActivityPage(getDriver());
     }
@@ -154,12 +155,12 @@ public class SideNavBar extends AbstractPageObject{
         return new TargetingPage(getDriver());
     }
 
-    public AdvancedSearchResults selectAdvancedSearchFromSideNav() {
+    public AdvancedSearchPage selectAdvancedSearchFromSideNav() {
         pause(2000L);
         waitForElement(advancedSearchSideNav);
         findElement(advancedSearchSideNav).click();
 
-        return new AdvancedSearchResults(getDriver());
+        return new AdvancedSearchPage(getDriver());
     }
 
     public ResearchPage selectResearchFromSideNav() {
