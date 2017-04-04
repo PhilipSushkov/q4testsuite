@@ -1,10 +1,14 @@
 package specs.api.historical;
 
+import com.aventstack.extentreports.ExtentReports;
+import com.aventstack.extentreports.ExtentTest;
+import com.aventstack.extentreports.Status;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.testng.Assert;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -31,6 +35,11 @@ public class CheckHistorical extends ApiAbstractSpec {
     private final String STOCKDATA = "getData";
     private static final String DEVELOP_ENV = "Develop_Env";
     private static final String PREPROD_ENV = "Preprod_Env";
+    private static int totalNumberOfTests;
+    private static int testIteration = 0;
+
+    ExtentReports extent;
+    ExtentTest test;
 
     @BeforeTest
     public void setUp() throws IOException {
@@ -38,24 +47,69 @@ public class CheckHistorical extends ApiAbstractSpec {
 
         // gets access token for the desired environment
         Assert.assertTrue(new Auth().getAccessToken(PREPROD_ENV), "Access Token didn't receive");
-        historical = new Historical();
 
         sPathToFileHist = System.getProperty("user.dir") + propAPI.getProperty("dataPath_Hist");
         sDataFileHistJson = propAPI.getProperty("jsonData_Hist");
         parser = new JSONParser();
+
+        extent = ExtentManager.GetExtent();
+        System.setProperty("Q4 web driver", "Not quite sure what this is");
+
     }
 
-    @Test(dataProvider = STOCKDATA, threadPoolSize = 5)
+
+    @Test(dataProvider = STOCKDATA, threadPoolSize = 20)
     public void CheckQ4DesktopAuth(JSONObject data) throws IOException {
+
+        ExtentTest test = extent.createTest("symbol: " + data.get("symbol").toString() + " exchange: " + data.get("exchange").toString());
 
         JSONObject individualdata = new JSONObject(data);
 
         // 2nd parameter specifies which environment to run in
         HistoricalStockQuote historicalStockQuote = new HistoricalStockQuote(individualdata, PREPROD_ENV );
 
-        // begin data validation process
+        // validating data
         historicalStockQuote.dataValidation();
-        Assert.assertTrue(historicalStockQuote.stockDataIsAccurate(),"Stock data is inaccurate for " + data.get("symbol").toString());
+
+        // checking data with the ExtentReport framework
+
+        // checking if stock data is overall accurate
+        if (historicalStockQuote.stockDataIsPerfect() ) {
+            test.log(Status.PASS, "Stock data is accurate");
+        } else {
+
+            // checking if stock data has zero values
+            if (historicalStockQuote.stockDataReturnZeros()) {
+
+                for (String errorinstance : historicalStockQuote.getZeroDataList()) {
+                    test.log(Status.FAIL, errorinstance);
+                }
+            }
+
+            // checking if stock data has inaccurate data
+            if (historicalStockQuote.stockDataIsInaccurate()) {
+
+                for (String errorinstance : historicalStockQuote.getInaccurateStockDataList()) {
+                    test.log(Status.FAIL, errorinstance);
+                }
+            }
+
+            // checking if stock data is missing
+            if (historicalStockQuote.stockDataIsMissing()) {
+
+                for (String errorinstance : historicalStockQuote.getMissingDataList()) {
+                    test.log(Status.FAIL, errorinstance);
+                }
+            }
+
+            // checking for other related request errors
+            if (historicalStockQuote.miscellaneousErrorsExist()) {
+
+                for (String errorinstance : historicalStockQuote.getMiscellaneousErrorList()) {
+                    test.log(Status.FAIL, errorinstance);
+                }
+            }
+        }
     }
 
     @DataProvider (parallel = true)
@@ -63,6 +117,9 @@ public class CheckHistorical extends ApiAbstractSpec {
 
         try {
             JSONArray stockDataArray = (JSONArray) parser.parse(new FileReader(sPathToFileHist + sDataFileHistJson));
+
+            totalNumberOfTests = stockDataArray.size();
+
             ArrayList<Object> zoom = new ArrayList();
 
             for (int i = 0; i < stockDataArray.size(); i++) {
@@ -73,7 +130,6 @@ public class CheckHistorical extends ApiAbstractSpec {
             for (int i = 0; i < zoom.size(); i++) {
                 stockData[i][0] = zoom.get(i);
             }
-
             return stockData;
 
         } catch (FileNotFoundException e) {
@@ -84,5 +140,11 @@ public class CheckHistorical extends ApiAbstractSpec {
             e.printStackTrace();
         }
         return null;
+    }
+
+    @AfterClass
+    public void teardown()
+    {
+        extent.flush();
     }
 }
