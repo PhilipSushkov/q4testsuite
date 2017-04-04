@@ -25,11 +25,6 @@ public class CompanyDetails extends AdminAbstractSpec {
                 .navigateToCompanyPage();
     }
 
-    @Test
-    public  void  testing(){
-        CompanyList companyPage = new CompanyList(driver);
-        companyPage.selectFirstCompanyInList().selectMailingListTab().clickMorningCoffeeReport().enterEmail("SuperTesting@testing.com").saveMailingList();
-    }
 
     @Test
     public void canEditCompanyDetails() {
