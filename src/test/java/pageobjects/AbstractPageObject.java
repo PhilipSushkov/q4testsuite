@@ -125,20 +125,19 @@ public class AbstractPageObject implements HeaderPage{
 
     public String getPageTitle() {
         waitForLoadingScreen();
-        pause(500L);
-        return findElement(pageTitle).getText();
+        return findVisibleElement(pageTitle).getText();
     }
 
     // Some pages have a different header
     public String getOtherPageTitle() {
         waitForLoadingScreen();
-        return findElement(otherPageTitle).getText();
+        return findVisibleElement(otherPageTitle).getText();
     }
 
     // Watchlist page header is also different :|
     public String getWatchListPageTitle() {
         waitForLoadingScreen();
-        return findElement(otherPageTitle).getText();
+        return findVisibleElement(otherPageTitle).getText();
 
     }
 
