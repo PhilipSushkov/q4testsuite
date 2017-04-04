@@ -2,8 +2,11 @@ package pageobjects.admin.morningCoffeePage;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageobjects.AbstractPageObject;
+
+import java.util.ArrayList;
 
 /**
  * Created by noelc on 2017-01-18.
@@ -37,6 +40,11 @@ public class MorningCoffeePreview extends AbstractPageObject{
     private final By stockSummaryChangeAmount =By.xpath("//q4-table-stock-summary/p-datatable//table/tbody/tr/td[2]");
     private final By stockSummaryVolumeAmount =By.xpath("//q4-table-stock-summary/p-datatable//table/tbody/tr/td[3]");
 
+    //MailingList selectors
+
+    private final By mailingListNames = By.xpath("//morning-coffee-mail//li");
+    private final By deleteNameWithX = By.xpath(".//button[contains(@class,'remove-button')]");
+
 
     public MorningCoffeePreview(WebDriver driver){
         super(driver);
@@ -46,6 +54,7 @@ public class MorningCoffeePreview extends AbstractPageObject{
         findElement(mailIcon).click();
         return this;
     }
+
 
     public MorningCoffeePreview clickDeleteIcon(){
         findElement(deleteIcon).click();
@@ -165,4 +174,34 @@ public class MorningCoffeePreview extends AbstractPageObject{
             return false;
         }
     }
+
+    public MorningCoffeePreview clickMailingList(){
+        findElement(mailIcon).click();
+        waitForLoadingScreen();
+        return this;
+    }
+
+    public boolean nameIsPresentInMailingList(String name){
+       ArrayList<WebElement> mailingList =new ArrayList<>(findElements(mailingListNames));
+       for(WebElement nameInList : mailingList){
+
+           if(nameInList.getText().contains(name)){
+               return true;
+           }
+       }
+       return false;
+    }
+
+    public MorningCoffeePreview removeNameFromMailingList(String name){
+        ArrayList<WebElement> mailingList =new ArrayList<>(findElements(mailingListNames));
+        for(WebElement nameInList : mailingList){
+
+            if(nameInList.getText().contains(name)){
+                nameInList.findElement(deleteNameWithX).click();
+            }
+        }
+        return this;
+    }
+
+
 }

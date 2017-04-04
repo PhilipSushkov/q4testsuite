@@ -53,6 +53,18 @@ public class morningCoffeeReport extends AdminAbstractSpec {
         MorningCoffeePage morningCoffeePage =  new MorningCoffeePage(driver);
         Assert.assertTrue("Preview of report didn't load",morningCoffeePage.clickAddReport().inputCompanySymbol(symbol).clickCreateReport().clickRecentReport(symbol, currentDate).previewPageLoaded());
     }
+
+    @Test
+    public void canRemoveEmailFromMailingList(){
+        String name ="ZPatrick Priestley";
+        String symbol ="EIX";
+        Date currentDate = new Date();
+        MorningCoffeePage morningCoffeePage =  new MorningCoffeePage(driver);
+        MorningCoffeePreview morningCoffeePreview= morningCoffeePage.clickAddReport().inputCompanySymbol(symbol).clickCreateReport().clickRecentReport(symbol, currentDate).clickMailIcon();
+        Assert.assertTrue("Required email not present for test",morningCoffeePreview.nameIsPresentInMailingList(name));
+        morningCoffeePreview.removeNameFromMailingList(name);
+        Assert.assertFalse("Name not successfuly removed",morningCoffeePreview.nameIsPresentInMailingList(name));
+    }
     @Test
     public void stockSummaryPresentInReportPreview(){
         String symbol ="SYY";
