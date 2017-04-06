@@ -3,7 +3,7 @@
         <suite name="Data Validation Suite" parallel="methods" thread-count="20" data-provider-thread-count="20">
     <test name="CheckStockdata">
         <classes>
-            <!--<class name ="specs.api.historical.CheckHistorical" />-->
+            <class name ="specs.api.historical.CheckHistorical" />
         </classes>
     </test>
 </suite>
