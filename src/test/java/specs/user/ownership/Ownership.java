@@ -144,7 +144,9 @@ public class Ownership extends AbstractSpec {
             InstitutionPage institutionPage = securityOwnershipPage.goToInstitutionalHolder(i);
             Assert.assertThat("ERROR: incorrect institution page opened", institutionPage.getInstitutionName(), containsString(institutions[i]));
             Assert.assertTrue("Known issue - DESKTOP-7281 - Institution "+institutions[i]+" is not an activist.", institutionPage.isActivist());
-            institutionPage.accessSideNavFromPage().selectOwnershipFromSideNav().showOnlyActivists();
+             driver.navigate().back();
+            securityOwnershipPage= new SecurityOwnershipPage(driver);
+             securityOwnershipPage.showOnlyActivists();
         }
     }
 

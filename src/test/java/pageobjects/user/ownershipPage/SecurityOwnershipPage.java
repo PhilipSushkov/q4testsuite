@@ -775,7 +775,7 @@ public class SecurityOwnershipPage extends AbstractPageObject {
                 pause(100);
             }
         }
-        waitForLoadingScreen();
+        //waitForLoadingScreen();
         return this;
     }
 
