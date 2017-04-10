@@ -15,14 +15,15 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAdjusters;
 import java.util.List;
 
-public class SecurityOwnershipPage extends AbstractPageObject {
+public class SecurityOwnershipPage extends AbstractPageObject implements DateDropDownConstants {
     private final By tabTitle = By.cssSelector(".company-header .menu-button .x-button-label");
-    private final By dateOption = By.cssSelector(".company-ownership-inner .range-tabs-inner .x-button-no-icon");
+    private final By dateDropDown = By.xpath("//div[contains(@class,'buys-sells-header')]//div[contains(@class,'dropdown')]");
+    private final By dateDropDownItems = By.xpath("//div[contains(@class,'dropdown-list')]//div[contains(@class,'x-dataview-item')]");
     private final By asOfDate = By.cssSelector(".company-ownership-inner .disclaimer span");
-    private final By topBuyersNumbers = By.cssSelector(".top-buyers-list .inst-value:not(:empty)");
-    private final By topSellersNumbers = By.cssSelector(".top-sellers-list .inst-value:not(:empty)");
-    private final By topBuyersAndSellers = By.cssSelector(".list-item .inst-name");
-    private final By lastTopSeller = By.cssSelector(".company-ownership-inner > div > div > div:not(.x-hidden-display) .top-sellers-list .x-dataview-item:nth-child(5) .list-item");
+    private final By topBuyersNumbers = By.xpath("//div[contains(@class,'buyers-sellers-list')]//div[contains(@class,'value up')]");
+    private final By topSellersNumbers = By.xpath("//div[contains(@class,'buyers-sellers-list')]//div[contains(@class,'value down')]");
+    private final By topBuyersAndSellers = By.xpath("//div[contains(@class,'buyers-sellers-list')]//div[contains(@class,'name')]");
+    private final By lastTopSeller = By.cssSelector(".ownership-buyers-sellers .buyers-sellers-list .header .name, .ownership-buyers-sellers .buyers-sellers-list .row .name:last-child");
 
     // holders table
     private final By activistFilter = By.cssSelector(".ownership-report-holders .toggle-button");
@@ -135,9 +136,11 @@ public class SecurityOwnershipPage extends AbstractPageObject {
         builder.moveToElement(findVisibleElement(selector)).click().build().perform();
     }
 
-    public SecurityOwnershipPage selectDate(int index){
-        waitForElement(dateOption);
-        findElements(dateOption).get(index).click();
+    public SecurityOwnershipPage selectDateRange(int index){
+        wait.until(ExpectedConditions.elementToBeClickable(dateDropDown));
+        findElement(dateDropDown).click();
+        wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(dateDropDownItems));
+        findVisibleElements(dateDropDownItems).get(index).click();
         pause(500);
         wait.until(ExpectedConditions.elementToBeClickable(lastTopSeller));
         return this;
@@ -145,7 +148,8 @@ public class SecurityOwnershipPage extends AbstractPageObject {
 
     // checks that the date tabs indicate the end dates of the last four quarters
     public boolean dateOptionsAreValid(){
-        waitForElement(dateOption);
+        wait.until(ExpectedConditions.elementToBeClickable(dateDropDown));
+        findElement(dateDropDown).click();
         LocalDate endOfLastQuarter;
         if (today.getMonthValue() > 3){
             endOfLastQuarter = today.withMonth((today.getMonthValue()-1)/3*3).with(TemporalAdjusters.lastDayOfMonth());
@@ -154,31 +158,33 @@ public class SecurityOwnershipPage extends AbstractPageObject {
             endOfLastQuarter = today.minusYears(1).with(TemporalAdjusters.lastDayOfYear());;
         }
 
-        if (!LocalDate.parse(findElements(dateOption).get(0).getText(), shortDate).equals(endOfLastQuarter)){
+        if (!LocalDate.parse(findElements(dateDropDownItems).get(0).getText(), shortDate).equals(endOfLastQuarter)){
             System.out.println("First date option is incorrect.\n\tExpected: "+endOfLastQuarter.format(shortDate)
-                    +"\n\tDisplayed: "+findElements(dateOption).get(0).getText());
+                    +"\n\tDisplayed: "+findElements(dateDropDownItems).get(0).getText());
             return false;
         }
-        if (!LocalDate.parse(findElements(dateOption).get(1).getText(), shortDate).equals(endOfLastQuarter.minusMonths(3).with(TemporalAdjusters.lastDayOfMonth()))){
+        if (!LocalDate.parse(findElements(dateDropDownItems).get(1).getText(), shortDate).equals(endOfLastQuarter.minusMonths(3).with(TemporalAdjusters.lastDayOfMonth()))){
             System.out.println("Second date option is incorrect.\n\tExpected: "+endOfLastQuarter.minusMonths(3).with(TemporalAdjusters.lastDayOfMonth()).format(shortDate)
-                    +"\n\tDisplayed: "+findElements(dateOption).get(1).getText());
+                    +"\n\tDisplayed: "+findElements(dateDropDownItems).get(1).getText());
             return false;
         }
-        if (!LocalDate.parse(findElements(dateOption).get(2).getText(), shortDate).equals(endOfLastQuarter.minusMonths(6).with(TemporalAdjusters.lastDayOfMonth()))){
+        if (!LocalDate.parse(findElements(dateDropDownItems).get(2).getText(), shortDate).equals(endOfLastQuarter.minusMonths(6).with(TemporalAdjusters.lastDayOfMonth()))){
             System.out.println("Third date option is incorrect.\n\tExpected: "+endOfLastQuarter.minusMonths(6).with(TemporalAdjusters.lastDayOfMonth()).format(shortDate)
-                    +"\n\tDisplayed: "+findElements(dateOption).get(2).getText());
+                    +"\n\tDisplayed: "+findElements(dateDropDownItems).get(2).getText());
             return false;
         }
-        if (!LocalDate.parse(findElements(dateOption).get(3).getText(), shortDate).equals(endOfLastQuarter.minusMonths(9).with(TemporalAdjusters.lastDayOfMonth()))){
+        if (!LocalDate.parse(findElements(dateDropDown).get(3).getText(), shortDate).equals(endOfLastQuarter.minusMonths(9).with(TemporalAdjusters.lastDayOfMonth()))){
             System.out.println("Fourth date option is incorrect.\n\tExpected: "+endOfLastQuarter.minusMonths(9).with(TemporalAdjusters.lastDayOfMonth()).format(shortDate)
-                    +"\n\tDisplayed: "+findElements(dateOption).get(3).getText());
+                    +"\n\tDisplayed: "+findElements(dateDropDownItems).get(3).getText());
             return false;
         }
 
         return true;
     }
 
+
     // checks that the "As of" text is correct when each date option is selected
+
     public boolean asOfDateIsValid(){
         waitForElement(asOfDate);
         LocalDate lastFriday = today.with(TemporalAdjusters.previous(DayOfWeek.FRIDAY));
@@ -199,16 +205,9 @@ public class SecurityOwnershipPage extends AbstractPageObject {
         }
 
         // select first date tab and check that as of date is start - end of last quarter
-        selectDate(0);
-        pause(500);
-        if (!findElement(asOfDate).getText().equalsIgnoreCase(startOfQuarter.format(longDate)+" - "+endOfQuarter.format(longDate))){
-            System.out.println("As of date range after selecting first date option is incorrect.\n\tExpected: "+startOfQuarter.format(longDate)+" - "+endOfQuarter.format(longDate)
-                    +"\n\tDisplayed: "+findElement(asOfDate).getText());
-            return false;
-        }
 
         // select second date tab and check that as of date is start - end of quarter before that
-        selectDate(1);
+        selectDateRange(ONE_MONTH);
         pause(500);
         endOfQuarter = endOfQuarter.minusMonths(3).with(TemporalAdjusters.lastDayOfMonth());
         startOfQuarter = startOfQuarter.minusMonths(3);
@@ -219,7 +218,7 @@ public class SecurityOwnershipPage extends AbstractPageObject {
         }
 
         // select third date tab and check that as of date is start - end of quarter before that
-        selectDate(2);
+        selectDateRange(THREE_MONTHS);
         pause(500);
         endOfQuarter = endOfQuarter.minusMonths(3).with(TemporalAdjusters.lastDayOfMonth());
         startOfQuarter = startOfQuarter.minusMonths(3);
@@ -230,7 +229,16 @@ public class SecurityOwnershipPage extends AbstractPageObject {
         }
 
         // select fourth date tab and check that as of date is start - end of quarter before that
-        selectDate(3);
+        selectDateRange(SIX_MONTHS);
+        pause(500);
+        endOfQuarter = endOfQuarter.minusMonths(3).with(TemporalAdjusters.lastDayOfMonth());
+        startOfQuarter = startOfQuarter.minusMonths(3);
+        if (!findElement(asOfDate).getText().equalsIgnoreCase(startOfQuarter.format(longDate)+" - "+endOfQuarter.format(longDate))){
+            System.out.println("As of date range after selecting third date option is incorrect.\n\tExpected: "+startOfQuarter.format(longDate)+" - "+endOfQuarter.format(longDate)
+                    +"\n\tDisplayed: "+findElement(asOfDate).getText());
+            return false;
+        }
+        selectDateRange(ONE_YEAR);
         pause(500);
         endOfQuarter = endOfQuarter.minusMonths(3).with(TemporalAdjusters.lastDayOfMonth());
         startOfQuarter = startOfQuarter.minusMonths(3);
