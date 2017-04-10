@@ -29,6 +29,7 @@ public class ActivityPage extends AbstractPageObject {
     private final By meetingCount = By.xpath("(//*[@class=\"counter\"])[4]");
 
     //This is actually the text beside the checkbox. Clicking the checkbox is proving to be difficult
+    private final By filterDropDown = By.xpath("//div[contains(@class,'filters-toggle')]");
     private final By noteFilterCheckbox = By.xpath("//div[contains(@class,'x-button') and .//span[contains(text(),'Notes')]]");
     private final By phoneFilterCheckbox = By.xpath("//div[contains(@class,'x-button') and .//span[contains(text(),'Calls')]]");
     private final By emailFilterCheckbox = By.xpath("//div[contains(@class,'x-button') and .//span[contains(text(),'Emails')]]");
@@ -166,6 +167,7 @@ public class ActivityPage extends AbstractPageObject {
     public ActivityPage clickFilterCheckbox(FilterType filter){
         By selector = getFilterSelector(filter);
         waitForLoadingScreen();
+        wait.until(ExpectedConditions.elementToBeClickable(filterDropDown)).click();
         wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(selector));
         findElement(selector).click();
         waitForLoadingScreen();
