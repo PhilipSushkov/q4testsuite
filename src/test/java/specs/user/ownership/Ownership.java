@@ -2,6 +2,7 @@ package specs.user.ownership;
 
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import pageobjects.user.institutionPage.InstitutionPage;
 import pageobjects.user.loginPage.LoginPage;
@@ -19,6 +20,7 @@ public class Ownership extends AbstractSpec {
                 .selectOwnershipFromSideNav();
     }
 
+    @Ignore //We changed the design of the page we no longer have the 4 quarters as segmented controls. We have the dropdown list which has 1 month,3 month etc.
     @Test
     public void dateOptionsWorkCorrectly(){
         SecurityOwnershipPage securityOwnershipPage = new SecurityOwnershipPage(driver);
@@ -39,7 +41,7 @@ public class Ownership extends AbstractSpec {
         Assert.assertTrue("Top buyers and sellers list contains duplicates.", securityOwnershipPage.topBuyersAndSellersAreUnique());
         // checking top buyers and sellers list while each date option is selected
         for (int i=0; i<4; i++){
-            securityOwnershipPage.selectDate(i);
+            securityOwnershipPage.selectDateRange(i);
             Assert.assertTrue("Top buyers list contains negative numbers while in date option"+(i+1), securityOwnershipPage.topBuyersListIsPositive());
             Assert.assertTrue("Top sellers list contains positive numbers while in date option"+(i+1), securityOwnershipPage.topSellersListIsNegative());
             Assert.assertTrue("Top buyers list is not in descending order while in date option"+(i+1), securityOwnershipPage.topBuyersListIsDescending());
@@ -207,6 +209,8 @@ public class Ownership extends AbstractSpec {
         Assert.assertTrue("Hovering does not work on one or more of the Trend Analysis Charts.", securityOwnershipPage.canHoverOverTrendAnalysisCharts());
     }
 
+
+    @Ignore // this doesn't seem to be valid anymore
     @Test
     public void checkHolderBreakdownPie(){
         SecurityOwnershipPage securityOwnershipPage = new SecurityOwnershipPage(driver);
