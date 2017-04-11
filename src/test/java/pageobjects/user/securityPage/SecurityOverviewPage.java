@@ -29,7 +29,7 @@ public class SecurityOverviewPage extends WatchlistPage {
 
     private final By companyName = By.className("company-name");
     private final By companyTicker = By.xpath("//div[contains(@class,'x-innerhtml')]/div[contains(@class,'company-symbol')]");
-    private final By industry_Exchange = By.className("exchange");
+    private final By industry_Exchange = By.xpath("//div[contains(@class,'exchange')][text()[2]]");
     private final By stockQuote = By.className("stock-price");
     private final By changeIcon = By.className("change-icon");
     private final By stockChange = By.className("change-value");
@@ -37,7 +37,7 @@ public class SecurityOverviewPage extends WatchlistPage {
     private final By volume = By.xpath("//*[@class=\"value\"]");
     private final By avgVolume = By.xpath("(//span[@class='value'])[2]");   // <- Follow this syntax!!!
 
-    //dropdown\\
+    //dropdown
 
     final By dropdownModal = By.cssSelector(".company-service-list .company-service-list-container");
 
