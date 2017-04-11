@@ -492,7 +492,7 @@ public class TargetingPage extends AbstractPageObject {
     }
 
     public TargetingPage selectTargetsTab() {
-        findElement(showTargets).click();
+        findVisibleElement(showTargets).click();
 
         return this;
     }
