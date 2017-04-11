@@ -56,7 +56,7 @@ public class DashboardSearch extends AbstractSpec{
     public void canSearchForInstitution() {
         String institutionName = "JPMorgan Investment Management, Inc.";
         InstitutionPage finish = new InstitutionPage(driver);
-        new Dashboard(driver).searchFor(institutionName)
+        new Dashboard(driver).searchFor(institutionName.substring(0,18))
                 .selectInstitutionFromSearchResults(institutionName);
 
         Assert.assertThat("Expected institution name is not shown in search results", finish.getInstitutionName(), containsString(institutionName));
