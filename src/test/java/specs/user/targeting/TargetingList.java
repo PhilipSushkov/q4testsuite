@@ -198,7 +198,7 @@ public class TargetingList extends AbstractSpec {
         // verifying that the indicator is open and displaying right number of addresses
         Assert.assertTrue("Location popup is not open.", new NewSearchPage(driver).locationPopupIsOpen());
         int locationsDisplayed = new NewSearchPage(driver).numLocationsDisplayedInPopup();
-        Assert.assertEquals("Incorrect number of locations displayed in popup", numLocations, locationsDisplayed);
+        Assert.assertEquals("Incorrect number of locations displayed in popup", numLocations+1, locationsDisplayed);
         // closing the indicator by clicking elsewhere and verifying that it is closed
         new NewSearchPage(driver).closeLocationPopup();
         Assert.assertFalse("Location popup is not closed.", new NewSearchPage(driver).locationPopupIsOpen());
