@@ -306,18 +306,21 @@ public class Overview extends AbstractSpec {
     public void newsButtonWorks(){
         SecurityOverviewPage securityOverviewPage = new SecurityOverviewPage(driver);
         securityOverviewPage.clickRecentNewsButton();
-        Assert.assertTrue("Clicking the Recent News Button failed to open the modal."
-                , securityOverviewPage.recentNewsModalExists());
-        securityOverviewPage.clickRecentNewsResult();
+        if(!securityOverviewPage.newsItemsEmpty()) {
+            Assert.assertTrue("Clicking the Recent News Button failed to open the modal."
+                    , securityOverviewPage.recentNewsModalExists());
+            securityOverviewPage.clickRecentNewsResult();
 
-        Assert.assertTrue("Clicking on a Recent News Result fails to open the results' modal", securityOverviewPage
-                .recentNewsResultsModalExists(true));
-        securityOverviewPage.clickCoordinate(By.className("company-name"), 99, 223);
-        Assert.assertFalse("Recent News Result modal failed to close."
-                , securityOverviewPage.recentNewsResultsModalExists(false));
-        securityOverviewPage.clickCoordinate(By.className("company-name"), 99, 223);
-        Assert.assertFalse("Recent News modal failed to close."
-                , securityOverviewPage.recentNewsModalExists());
+            Assert.assertTrue("Clicking on a Recent News Result fails to open the results' modal", securityOverviewPage
+                    .recentNewsResultsModalExists(true));
+            securityOverviewPage.clickCoordinate(By.className("company-name"), 99, 223);
+            Assert.assertFalse("Recent News Result modal failed to close."
+                    , securityOverviewPage.recentNewsResultsModalExists(false));
+            securityOverviewPage.clickCoordinate(By.className("company-name"), 99, 223);
+            Assert.assertFalse("Recent News modal failed to close."
+                    , securityOverviewPage.recentNewsModalExists());
+        }
+
     }
 
     @Test
