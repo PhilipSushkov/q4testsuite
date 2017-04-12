@@ -581,9 +581,25 @@ public class SecurityOverviewPage extends WatchlistPage {
          findElement(recentEstimatesBtn).click();
      }
 
-    public void clickRecentNewsButton(){
+    public boolean newsItemsEmpty(){
+
+        System.out.println(findVisibleElement(By.xpath("//div[contains(@class,'no-data')]")).getText());
+
+        try{
+            if(findVisibleElement(By.xpath("//div[contains(@class,'no-data')]")).getText().contains("No news available"))
+                return true;
+            else
+                return false;
+        }
+        catch (Exception e){
+            return false;
+
+        }
+    }
+     public void clickRecentNewsButton(){
          
          findElement(recentNewsBtn).click();
+         waitForLoadingScreen();
      }
 
     public void clickRecentTranscriptsButton(){
