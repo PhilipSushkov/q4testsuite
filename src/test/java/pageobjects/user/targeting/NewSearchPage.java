@@ -60,6 +60,7 @@ public class NewSearchPage extends AbstractPageObject{
     private final By resultQRValue = By.cssSelector(".row .qr-value");
 
     private final By numLocations = By.className("location-counter");
+    private final By multipleLocationSelector = By.className("location-multiple");
     private final By locationPopup = By.className("target-search-result-locations-modal");
     private final By address = By.className("address");
 
@@ -456,7 +457,7 @@ public class NewSearchPage extends AbstractPageObject{
     }
 
     public void openFirstLocationPopup(){
-        findElement(numLocations).click();
+        findVisibleElement(multipleLocationSelector).click();
         waitForElementToAppear(locationPopup);
     }
 
