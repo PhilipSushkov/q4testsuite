@@ -20,7 +20,7 @@ public class Ownership extends AbstractSpec {
                 .selectOwnershipFromSideNav();
     }
 
-    @Ignore //We changed the design of the page we no longer have the 4 quarters as segmented controls. We have the dropdown list which has 1 month,3 month etc.
+    //@Ignore //We changed the design of the page we no longer have the 4 quarters as segmented controls. We have the dropdown list which has 1 month,3 month etc.
     @Test
     public void dateOptionsWorkCorrectly(){
         SecurityOwnershipPage securityOwnershipPage = new SecurityOwnershipPage(driver);
