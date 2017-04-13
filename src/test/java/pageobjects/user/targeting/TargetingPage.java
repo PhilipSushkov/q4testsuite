@@ -493,7 +493,7 @@ public class TargetingPage extends AbstractPageObject {
 
     public TargetingPage selectTargetsTab() {
         findVisibleElement(showTargets).click();
-
+        waitForLoadingScreen();
         return this;
     }
 }
