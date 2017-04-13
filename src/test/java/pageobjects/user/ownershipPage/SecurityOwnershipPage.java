@@ -1223,7 +1223,7 @@ public class SecurityOwnershipPage extends AbstractPageObject implements DateDro
     public SecurityOwnershipPage selectThirteenF() {
         waitForLoadingScreen();
         findElement(thirteenFButton).click();
-
+        waitForLoadingScreen();
         return this;
     }
 
