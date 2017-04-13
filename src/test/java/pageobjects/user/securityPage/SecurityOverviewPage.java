@@ -603,17 +603,17 @@ public class SecurityOverviewPage extends WatchlistPage {
      }
 
     public void clickRecentTranscriptsButton(){
-         
+         waitForLoadingScreen();
          findElement(recentTranscriptsBtn).click();
      }
 
     public void clickRecentEventsButton(){
-         
+         waitForLoadingScreen();
          findElement(recentEventsBtn).click();
      }
 
     public void clickRecentResearchButton(){
-
+        waitForLoadingScreen();
         findElement(recentResearchBtn).click();
     }
 
