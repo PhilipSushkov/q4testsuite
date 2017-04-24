@@ -161,7 +161,7 @@ public class TargetingList extends AbstractSpec {
         // loop 1 time (can increase if desired): clicking show more and then verifying sorting again
         for (int i=1; i<=1; i++){
             new NewSearchPage(driver).showMoreResults();
-            Assert.assertEquals("KNOWN ISSUE - DESKTOP-7179: Incorrect number of results displayed upon iteration "+i, 20*(i+1), new NewSearchPage(driver).numResultsDisplayed());
+            Assert.assertEquals("Fixed Issue - DESKTOP-7179: Incorrect number of results displayed upon iteration "+i, 20*(i+1), new NewSearchPage(driver).numResultsDisplayed());
             Assert.assertTrue("Sorting failed upon iteration "+i, new NewSearchPage(driver).resultsCanBeSorted());
         }
     }
@@ -300,8 +300,8 @@ public class TargetingList extends AbstractSpec {
 
     @Test
     public void canSortTargetsList(){
-        Assert.assertTrue("'All' Targets list cannot be sorted.", new TargetingPage(driver).allTargetsCanBeSorted());
-        Assert.assertTrue("Known issue - DESKTOP-6903 - Institutions list cannot be sorted.", new TargetingPage(driver).institutionsCanBeSorted());
+        Assert.assertTrue("Known Issue - DESKTOP-8189 - 'All' Targets list cannot be sorted.", new TargetingPage(driver).allTargetsCanBeSorted());
+        Assert.assertTrue("Fixed Issue - DESKTOP-6903 - Institutions list cannot be sorted.", new TargetingPage(driver).institutionsCanBeSorted());
         Assert.assertTrue("Funds list cannot be sorted.", new TargetingPage(driver).fundsCanBeSorted());
         Assert.assertTrue("Contacts list cannot be sorted.", new TargetingPage(driver).contactsCanBeSorted());
     }
