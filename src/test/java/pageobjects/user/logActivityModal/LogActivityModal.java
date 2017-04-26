@@ -114,6 +114,7 @@ public class LogActivityModal extends AbstractPageObject {
         findElement(linkDropdown).click();
         findElement(keywordField).sendKeys(institution);
         findElement(institutionSearchResult).click();
+        waitForElementToAppear(linkDropdown);
         findElement(linkDropdown).click();
 
         return this;
@@ -125,6 +126,7 @@ public class LogActivityModal extends AbstractPageObject {
         findElement(fundIcon).click();
         findElement(keywordField).sendKeys(fund);
         findElement(institutionSearchResult).click();
+        waitForElementToAppear(linkDropdown);
         findElement(linkDropdown).click();
 
         return this;
@@ -137,6 +139,7 @@ public class LogActivityModal extends AbstractPageObject {
         findElement(keywordField).sendKeys(contact);
         pause(1000L);
         findElement(institutionSearchResult).click();
+        waitForElementToAppear(linkDropdown);
         findElement(linkDropdown).click();
 
         return this;
