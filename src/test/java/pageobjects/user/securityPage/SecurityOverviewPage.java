@@ -582,9 +582,6 @@ public class SecurityOverviewPage extends WatchlistPage {
      }
 
     public boolean newsItemsEmpty(){
-
-        System.out.println(findVisibleElement(By.xpath("//div[contains(@class,'no-data')]")).getText());
-
         try{
             if(findVisibleElement(By.xpath("//div[contains(@class,'no-data')]")).getText().contains("No news available"))
                 return true;
