@@ -249,6 +249,7 @@ public class NewSearchPage extends AbstractPageObject{
     }
 
     public String targetRandomInstitution(){
+        int count =0;
         // performing filterless institution search
         waitForElement(searchButton);
         findElement(searchButton).click();
@@ -259,7 +260,15 @@ public class NewSearchPage extends AbstractPageObject{
         List<WebElement> saveTargetButtons = findElements(saveTargetButton);
         List<WebElement> resultNames = findElements(resultName);
         while (!saveTargetButtons.get(index).getAttribute("class").contains("unsaved")){
+            if(count>20){
+                findElement(showMoreButton).click();
+                waitForLoadingScreen();
+                count = 0;
+                saveTargetButtons = findElements(saveTargetButton);
+            }
             index = random.nextInt(20);
+            count++;
+
         }
 
         // targeting selected institution and returning its name
