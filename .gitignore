@@ -4,3 +4,7 @@
 .idea/workspace.xml
 target/
 *.orig
+
+*.png
+
+*.html
