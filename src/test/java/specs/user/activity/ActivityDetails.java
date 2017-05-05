@@ -1,5 +1,6 @@
 package specs.user.activity;
 
+import com.sun.tools.javap.TypeAnnotationWriter;
 import org.apache.commons.lang.RandomStringUtils;
 import org.junit.Assert;
 import org.junit.Before;
@@ -55,9 +56,12 @@ public class ActivityDetails extends AbstractSpec {
 
     }
 
-    @Ignore
     @Test
     public void dateIsCorrect(){
+        NoteDetailsPage note = new NoteDetailsPage(driver).selectFirstNoteInList();
+        String todayDate = note.getTodayDate();
+        String actualDate = note.getDetailsDate();
+        Assert.assertEquals("Dates do not match", todayDate, actualDate);
 
     }
 
