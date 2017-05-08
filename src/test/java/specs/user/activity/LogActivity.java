@@ -5,6 +5,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import pageobjects.user.activityPage.ActivityPage;
+import pageobjects.user.dashboardPage.Dashboard;
 import pageobjects.user.loginPage.LoginPage;
 import specs.AbstractSpec;
 
@@ -37,7 +38,6 @@ public class LogActivity extends AbstractSpec {
         // Make sure the new comment appears on page
         Assert.assertThat("Note text does not match expected", activityPage.getNewNote(), containsString(comment));
     }
-
 
     @Test
     public void canLogNoteFromActivityPage() {

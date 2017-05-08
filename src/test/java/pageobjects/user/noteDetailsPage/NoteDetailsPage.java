@@ -15,6 +15,8 @@ public class NoteDetailsPage extends ActivityPage {
     private final By linkedToDetails = By.cssSelector(".preview-note-view .note-links .x-dataview-item");
     private final By activityHeader = By.cssSelector(".note-detail-header .note-information h1");
     private final By detailsHeader = By.xpath("//h3[contains(string(),'Details')]");
+    private final By detailsDate = By.cssSelector(".preview-note-view h4 + div");
+    private final By detailsTag = By.cssSelector(".tags-view span.tag");
 
     public NoteDetailsPage(WebDriver driver) {
         super(driver);
@@ -55,5 +57,18 @@ public class NoteDetailsPage extends ActivityPage {
 
     public String getActivityHeader() {
         return findElement(activityHeader).getText();
+    }
+
+    public String getDetailsDate(){
+        waitForLoadingScreen();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(noteDetails));
+        return findElement(detailsDate).getText();
+    }
+
+    public String getDetailsTag(){
+        //Get tag from the details page
+        waitForLoadingScreen();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(noteDetails));
+        return findElement(detailsTag).getText();
     }
 }
