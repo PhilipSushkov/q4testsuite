@@ -4,8 +4,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageobjects.user.activityPage.ActivityPage;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 /**
  * Created by patrickp on 2016-08-12.

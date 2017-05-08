@@ -405,7 +405,7 @@ public class ActivityPage extends AbstractPageObject {
      *
      */
     public String getDate() throws ParseException {
-        //Gets date from activity page and format it
+        //Gets date from first note on the activity page and format it
         DateFormat activityFormat = new SimpleDateFormat("MM/dd/yy");
         DateFormat detailsFormat = new SimpleDateFormat("MMM dd, yyyy");
         Date strToDate = activityFormat.parse(findElement(firstNoteInListDate).getText());
