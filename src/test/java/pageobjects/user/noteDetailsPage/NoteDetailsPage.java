@@ -60,11 +60,6 @@ public class NoteDetailsPage extends ActivityPage {
         return findElement(activityHeader).getText();
     }
 
-    public String getTodayDate(){
-        String date = new SimpleDateFormat("MMM dd, yyyy").format(new Date());
-        return date;
-    }
-
     public String getDetailsDate(){
         waitForLoadingScreen();
         wait.until(ExpectedConditions.visibilityOfElementLocated(noteDetails));

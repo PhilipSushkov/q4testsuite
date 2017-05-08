@@ -10,6 +10,7 @@ import pageobjects.user.activityPage.ActivityPage;
 import pageobjects.user.loginPage.LoginPage;
 import pageobjects.user.noteDetailsPage.NoteDetailsPage;
 import specs.AbstractSpec;
+import java.text.ParseException;
 
 /**
  * Created by sarahr on 3/27/2017.
@@ -57,11 +58,14 @@ public class ActivityDetails extends AbstractSpec {
     }
 
     @Test
-    public void dateIsCorrect(){
-        NoteDetailsPage note = new NoteDetailsPage(driver).selectFirstNoteInList();
-        String todayDate = note.getTodayDate();
-        String actualDate = note.getDetailsDate();
-        Assert.assertEquals("Dates do not match", todayDate, actualDate);
+    public void dateIsCorrect() throws ParseException {
+        //Checking to see if the date on the activity page is equal to date on details page
+        NoteDetailsPage note = new NoteDetailsPage(driver);
+        String activityDate = note.getDate();
+
+        note.selectFirstNoteInList();
+        String detailsDate = note.getDetailsDate();
+        Assert.assertEquals("Dates do not match", activityDate, detailsDate);
 
     }
 

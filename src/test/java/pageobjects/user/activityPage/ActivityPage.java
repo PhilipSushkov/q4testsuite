@@ -9,7 +9,11 @@ import pageobjects.user.Calendar;
 import pageobjects.user.logActivityModal.LogActivityModal;
 import pageobjects.user.noteDetailsPage.NoteDetailsPage;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -400,6 +404,14 @@ public class ActivityPage extends AbstractPageObject {
      *
      *
      */
+    public String getDate() throws ParseException {
+        //Gets date from activity page and format it
+        DateFormat activityFormat = new SimpleDateFormat("MM/dd/yy");
+        DateFormat detailsFormat = new SimpleDateFormat("MMM dd, yyyy");
+        Date strToDate = activityFormat.parse(findElement(firstNoteInListDate).getText());
+        String dateToString = detailsFormat.format(strToDate);
+        return dateToString;
+    }
 
     public String getNoNote() {
         return findElement(emptyResults).getText();
