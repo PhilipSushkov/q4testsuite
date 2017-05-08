@@ -51,9 +51,13 @@ public class ActivityDetails extends AbstractSpec {
 
     }
 
-    @Ignore
     @Test
     public void tagIsCorrect(){
+        //Checking to see if the tag on the details page is the same as tag generated above
+        NoteDetailsPage note = new NoteDetailsPage(driver).selectFirstNoteInList();
+        String actualTag = note.getDetailsTag();
+        //Add '#' because the actual tag contains '#' in the beginning
+        Assert.assertEquals("Tags do not match", actualTag, "#"+tag);
 
     }
 
