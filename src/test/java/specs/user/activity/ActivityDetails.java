@@ -1,6 +1,5 @@
 package specs.user.activity;
 
-import com.sun.tools.javap.TypeAnnotationWriter;
 import org.apache.commons.lang.RandomStringUtils;
 import org.junit.Assert;
 import org.junit.Before;
