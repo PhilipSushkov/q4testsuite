@@ -31,6 +31,7 @@ public class ActivityPage extends AbstractPageObject {
     private final By callCount = By.xpath("(//*[@class=\"counter\"])[2]");
     private final By emailCount = By.xpath("(//*[@class=\"counter\"])[3]");
     private final By meetingCount = By.xpath("(//*[@class=\"counter\"])[4]");
+    private final By yourActivityToggle = By.cssSelector("#ext-thumb-3");
 
     //This is actually the text beside the checkbox. Clicking the checkbox is proving to be difficult
     private final By filterDropDown = By.xpath("//div[contains(@class,'filters-toggle')]");
@@ -470,6 +471,13 @@ public class ActivityPage extends AbstractPageObject {
             Sorted = false;
         }
         return Sorted;
+    }
+
+    public ActivityPage yourActivityFilter(){
+        findElement(yourActivityToggle).click();
+        pause(200L);
+
+        return this;
     }
 
 }

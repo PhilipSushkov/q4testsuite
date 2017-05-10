@@ -120,7 +120,6 @@ public class HistoricalStockQuote {
         access_token = jsonEnv.get("access_token").toString();
         user_agent = jsonEnv.get("user_agent").toString();
         connection = jsonEnv.get("connection").toString();
-
     }
 
     public void dataValidation() {

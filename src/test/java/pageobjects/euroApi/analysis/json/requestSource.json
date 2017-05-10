@@ -1,0 +1,130 @@
+[{
+  "IRInstrumentID": 1000003,
+  "CustomerKey": "hsbc",
+  "SolutionID": 1214,
+  "name": "HSBC",
+  "symbol": "HSBA",
+  "currency": "GBX",
+  "exchangeName": "London Stock Exchange",
+  "YahooSymbol": "HSBA.L",
+  "YahooExchangeName": ".L"
+}, {
+  "IRInstrumentID": 100145,
+  "CustomerKey": "vestas",
+  "SolutionID": 1656,
+  "name": "Vestas Wind Systems A/S",
+  "symbol": "VWS",
+  "currency": "DKK",
+  "exchangeName": "OMX Nordic Equities",
+  "YahooSymbol": "VWS"
+}, {
+  "IRInstrumentID": 101183,
+  "CustomerKey": "nkt",
+  "SolutionID": 1748,
+  "name": "TELENET GROUP",
+  "symbol": "TNET",
+  "currency": "EUR",
+  "exchangeName": "Euronext Stock Exchange",
+  "YahooSymbol": "TNET.BR",
+  "YahooExchangeName": ".BR"
+}, {
+  "IRInstrumentID": 1000821,
+  "CustomerKey": "ttelectronics",
+  "SolutionID": 1750,
+  "name": "TT Electronics Plc",
+  "symbol": "TTG",
+  "currency": "GBX",
+  "exchangeName": "London Stock Exchange",
+  "YahooSymbol": "TTG.L",
+  "YahooExchangeName": ".L"
+}, {
+  "IRInstrumentID": 1001019,
+  "CustomerKey": "sinclairispharma",
+  "SolutionID": 1782,
+  "name": "Sinclair IS Pharma",
+  "symbol": "SPH",
+  "currency": "GBp",
+  "exchangeName": "London Stock Exchange",
+  "YahooSymbol": "SPH.L",
+  "YahooExchangeName": ".L"
+}, {
+  "IRInstrumentID": 1000258,
+  "CustomerKey": "tymanplc",
+  "SolutionID": 1786,
+  "name": "TYMAN PLC ORD 5P",
+  "symbol": "TYMN",
+  "currency": "GBp",
+  "exchangeName": "London Stock Exchange",
+  "YahooSymbol": "TYMN.L",
+  "YahooExchangeName": ".L"
+}, {
+  "IRInstrumentID": 100059,
+  "CustomerKey": "almbrand",
+  "SolutionID": 1804,
+  "name": "Alm. Brand A/S",
+  "symbol": "ALMB",
+  "currency": "DKK",
+  "exchangeName": "OMX Nordic Equities",
+  "YahooSymbol": "ALMB.CO",
+  "YahooExchangeName": ".CO"
+}, {
+  "IRInstrumentID": 1000001,
+  "CustomerKey": "finsburygrowthandincometrustplc",
+  "SolutionID": 1808,
+  "name": "FINSBURY GROWTH & INCOME TRUST",
+  "symbol": "E:FGT",
+  "currency": "GBX",
+  "exchangeName": "London Stock Exchange",
+  "YahooSymbol": "FGT.L",
+  "YahooExchangeName": ".L"
+}, {
+  "IRInstrumentID": 1002125,
+  "CustomerKey": "worldwidehealthcaretrustplc",
+  "SolutionID": 1810,
+  "name": "Worldwide Healthcare Trust PLC",
+  "symbol": "WWH",
+  "currency": "GBX",
+  "exchangeName": "London Stock Exchange",
+  "YahooSymbol": "WWH.L",
+  "YahooExchangeName": ".L"
+}, {
+  "IRInstrumentID": 1002004,
+  "CustomerKey": "pacificassetstrustplc",
+  "SolutionID": 1814,
+  "name": "PACIFIC ASSETS TRUST PLC ORD 1",
+  "symbol": "PAC",
+  "currency": "GBX",
+  "exchangeName": "London Stock Exchange",
+  "YahooSymbol": "PAC.L",
+  "YahooExchangeName": ".L"
+}, {
+  "IRInstrumentID": 1000009,
+  "CustomerKey": "versarien",
+  "SolutionID": 1834,
+  "name": "Versarien PLC",
+  "symbol": "VRS",
+  "currency": "GBp",
+  "exchangeName": "London Stock Exchange",
+  "YahooSymbol": "VRS.L",
+  "YahooExchangeName": ".L"
+}, {
+  "IRInstrumentID": 1000010,
+  "CustomerKey": "mearsgroupplc",
+  "SolutionID": 1836,
+  "name": "Mears Group PLC",
+  "symbol": "MER",
+  "currency": "GBX",
+  "exchangeName": "London Stock Exchange",
+  "YahooSymbol": "MER.L",
+  "YahooExchangeName": ".L"
+}, {
+  "IRInstrumentID": 1000011,
+  "CustomerKey": "nektan",
+  "SolutionID": 1838,
+  "name": "NEKTAN PLC",
+  "symbol": "NKTN",
+  "currency": "GBp",
+  "exchangeName": "London Stock Exchange",
+  "YahooSymbol": "NKTN.L",
+  "YahooExchangeName": ".L"
+}]

@@ -5,6 +5,13 @@
 target/
 *.orig
 
+extentreport.html
+
 *.png
+/ImgCompExtentReport.html
+src/test/java/pageobjects/euroApi/imageComparison/screenshots/
+src/test/java/pageobjects/euroApi/stockData/
+/test-output/
+/phantomjs
 
 *.html
