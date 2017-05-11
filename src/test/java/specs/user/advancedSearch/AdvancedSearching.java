@@ -72,8 +72,8 @@ public class AdvancedSearching extends AbstractSpec {
 
     @Test
     public void canSearchForActivityByTag() {
-        String tagName = "#MeetingTagx1F";
-        String comment = "comment7Zi7tm";
+        String tagName = "#MeetingTagk6x";
+        String comment = "comment73z2f3";
         AdvancedSearchPage advancedSearchPage = new AdvancedSearchPage(driver).advancedSearchFor(tagName);
 
         Assert.assertThat("Could not find activity in search results", advancedSearchPage.getTagSearchResults(), containsString(comment));
