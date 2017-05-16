@@ -1,19 +1,13 @@
 package pageobjects.admin.morningCoffeePage;
 
-import org.joda.time.DateTime;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import pageobjects.AbstractPageObject;
 
-
-import java.lang.reflect.Array;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -376,7 +370,7 @@ public class MorningCoffeePage extends AbstractPageObject {
 
    public String returnMarketCommentary(Market market){
        waitForLoadingScreen();
-       WebElement element =returnMarketElement(market);
+       WebElement element = returnMarketElement(market);
 
        if(element!=null) {
            return element.findElement(By.xpath(".//td[2]")).getText();

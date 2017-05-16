@@ -22,7 +22,7 @@ public class NewSearchPage extends AbstractPageObject{
 
     private final By filterDropdownSelectors = By.cssSelector(".targeting-filters-inner .dropdown-field");
     private final By dropdownOptionTitleSelectors = By.cssSelector(".dropdown-field.open .dropdown-content .x-field span");
-    private final By dropdownOptionCheckboxSelectors = By.cssSelector(".dropdown-field.open .dropdown-content .x-field input + div");
+    private final By dropdownOptionCheckboxSelectors = By.cssSelector(".targeting-filters .dropdown-field.open .dropdown-content .x-field input + div");
 
     private final By ownershipStockSelectors = By.cssSelector("[name=ownership_stock] + div");
     private final By sectorActivitySelectors = By.cssSelector("[name=sector_activity] + div");
@@ -41,7 +41,7 @@ public class NewSearchPage extends AbstractPageObject{
 
     private final By contactToggle = By.className("contacts-toggle");
     private final By contactName = By.cssSelector(".contact .column.name");
-    private final By contactSaveTargetButton = By.cssSelector(".contact .target-toggle.unsaved");
+    private final By contactSaveTargetButton = By.cssSelector(".targeting-result .column.target .target-toggle");
 
     private final By showMoreButton = By.cssSelector(".load-more .x-button");
     private final By nameColumnHeader = By.cssSelector(".list-header .column.name");
@@ -149,7 +149,10 @@ public class NewSearchPage extends AbstractPageObject{
         dropdownOptionCheckboxes = findElements(dropdownOptionCheckboxSelectors);
         for (int i=0; i<dropdownOptionTitles.size(); i++){
             if (dropdownOptionTitles.get(i).getText().equalsIgnoreCase(filters[9])){
-                dropdownOptionCheckboxes.get(i).click();
+                Actions execute = new Actions(driver);
+                execute.click(dropdownOptionCheckboxes.get(i));
+                findElement(By.xpath("//div[contains(@class, 'x-container x-field x-field-checkbox x-field-labeled x-label-align-left x-form-label-nowrap')]/div[contains(@class, 'x-form-label')]/*[text()= '" +
+                        filters[9] + "']")).click();
                 System.out.println("SELECTED: "+dropdownOptionTitles.get(i).getText());
             }
             else System.out.println("NOT MATCHED: "+dropdownOptionTitles.get(i).getText());
@@ -163,7 +166,10 @@ public class NewSearchPage extends AbstractPageObject{
         dropdownOptionCheckboxes = findElements(dropdownOptionCheckboxSelectors);
         for (int i=0; i<dropdownOptionTitles.size(); i++){
             if (dropdownOptionTitles.get(i).getText().equalsIgnoreCase(filters[10])){
-                dropdownOptionCheckboxes.get(i).click();
+                Actions execute = new Actions(driver);
+                execute.moveToElement(dropdownOptionCheckboxes.get(i)).click();
+                findElement(By.xpath("//div[contains(@class, 'x-container x-field x-field-checkbox x-field-labeled x-label-align-left x-form-label-nowrap')]/div[contains(@class, 'x-form-label')]/*[text()= '" +
+                        filters[10] + "']")).click();
                 System.out.println("SELECTED: "+dropdownOptionTitles.get(i).getText());
             }
             else System.out.println("NOT MATCHED: "+dropdownOptionTitles.get(i).getText());
@@ -177,7 +183,8 @@ public class NewSearchPage extends AbstractPageObject{
         dropdownOptionCheckboxes = findElements(dropdownOptionCheckboxSelectors);
         for (int i=0; i<dropdownOptionTitles.size(); i++){
             if (dropdownOptionTitles.get(i).getText().equalsIgnoreCase(filters[11])){
-                dropdownOptionCheckboxes.get(i).click();
+                Actions execute = new Actions(driver);
+                execute.moveToElement(dropdownOptionCheckboxes.get(i)).click().perform();
                 System.out.println("SELECTED: "+dropdownOptionTitles.get(i).getText());
             }
             else System.out.println("NOT MATCHED: "+dropdownOptionTitles.get(i).getText());

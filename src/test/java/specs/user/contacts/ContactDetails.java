@@ -41,6 +41,8 @@ public class ContactDetails extends AbstractSpec {
         Assert.assertThat("New tag is not shown on Contact page", contactDetailsPage.getContactTags(), containsString(tagName));
     }
 
+    // Test will not work until ticket DESKTOP-8383 is addressed
+    @Ignore
     @Test
     public void loggedActivityDateCorrect()
     {
@@ -117,7 +119,7 @@ public class ContactDetails extends AbstractSpec {
                 .postActivity()
                 .pageRefresh();
 
-        Assert.assertThat("Not text is not visible after creation", contactDetailsPage.getNoteDetails(), containsString(comment));
+        Assert.assertThat("No text is visible after creation", contactDetailsPage.getNoteDetails(), containsString(comment));
     }
 
     @Test

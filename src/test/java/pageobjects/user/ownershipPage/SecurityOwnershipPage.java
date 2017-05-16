@@ -277,7 +277,8 @@ public class SecurityOwnershipPage extends AbstractPageObject implements DateDro
 
     // checks that no institution appears in both the top buyers and the top sellers list (or appears twice in either list)
     public boolean topBuyersAndSellersAreUnique(){
-        waitForElement(topBuyersAndSellers);
+        waitForElementToAppear(topBuyersAndSellers);
+        waitForLoadingScreen();
         return elementsDoNotContainDuplicates(findVisibleElements(topBuyersAndSellers));
     }
 

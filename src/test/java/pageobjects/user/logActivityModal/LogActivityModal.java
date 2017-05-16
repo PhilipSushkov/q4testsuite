@@ -6,7 +6,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageobjects.AbstractPageObject;
 import pageobjects.user.dashboardPage.Dashboard;
-import specs.user.activity.LogActivity;
 
 /**
  * Created by patrickp on 2016-08-09.
@@ -171,6 +170,7 @@ public class LogActivityModal extends AbstractPageObject {
 
     public LogActivityModal postActivity() {
         waitForElement(postButton);
+        scrollToElement(postButton);
         findElement(postButton).click();
 
         return this;

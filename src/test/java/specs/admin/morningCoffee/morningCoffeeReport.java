@@ -1,11 +1,8 @@
 package specs.admin.morningCoffee;
 
-import org.joda.time.DateTime;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
-import org.openqa.selenium.WebDriver;
 import pageobjects.admin.loginPage.AdminLoginPage;
 import pageobjects.admin.morningCoffeePage.Market;
 import pageobjects.admin.morningCoffeePage.MorningCoffeePage;
@@ -104,7 +101,7 @@ public class morningCoffeeReport extends AdminAbstractSpec {
         String commentary = "Consumer staples sector was edited via automation "+currentDate.toString();
         MorningCoffeePage morningCoffeePage = new MorningCoffeePage(driver);
         morningCoffeePage.clickCommentaryTab().clickSectorSegment().editSectorCommentary(Sector.CONSUMER_STAPLES,commentary).saveEditedCommentary();
-        Assert.assertTrue("Commentary not added",morningCoffeePage.returnSectorCommentary(Sector.CONSUMER_STAPLES).equals(commentary));
+        Assert.assertTrue("Commentary not added - Known issue ADMIN-817 ",morningCoffeePage.returnSectorCommentary(Sector.CONSUMER_STAPLES).equals(commentary));
 
     }
 
@@ -114,7 +111,7 @@ public class morningCoffeeReport extends AdminAbstractSpec {
         String commentary = "United Kingdom Market Commentary was edited via automation "+currentDate.toString();
         MorningCoffeePage morningCoffeePage = new MorningCoffeePage(driver);
         morningCoffeePage.clickCommentaryTab().clickMarketSegment().editMarketCommentary(Market.UK,commentary).saveEditedCommentary();
-        Assert.assertTrue("Commentary not added",morningCoffeePage.returnMarketCommentary(Market.UK).equals(commentary));
+        Assert.assertTrue("Commentary not added - Known issue ADMIN-817 ",morningCoffeePage.returnMarketCommentary(Market.UK).equals(commentary));
 
     }
 
