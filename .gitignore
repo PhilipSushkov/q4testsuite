@@ -5,12 +5,7 @@
 target/
 *.orig
 
-<<<<<<< Updated upstream
-extentreport.html
 
-=======
-<<<<<<< HEAD
->>>>>>> Stashed changes
 *.png
 /ImgCompExtentReport.html
 src/test/java/pageobjects/euroApi/imageComparison/screenshots/
@@ -19,15 +14,3 @@ src/test/java/pageobjects/euroApi/stockData/
 /phantomjs
 
 *.html
-=======
-extentreport.html
-
-*.html
-
-*.png
-/ImgCompExtentReport.html
-src/test/java/pageobjects/euroApi/imageComparison/screenshots/
-src/test/java/pageobjects/euroApi/stockData/
-/test-output/
-/phantomjs
->>>>>>> api_euroinvestor
