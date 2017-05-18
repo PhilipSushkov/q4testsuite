@@ -93,6 +93,7 @@ public class ContactDetails extends AbstractSpec {
         Assert.assertThat("Institution name does not match expected", institutionPage.getInstitutionName(), containsString(institutionName));
     }
 
+    // VIEW TICKET DESKTOP-8428
     @Test
     public void canViewManagedFundsTab() {
         ContactDetailsPage contactDetailsPage = new ContactDetailsPage(driver).switchToManagedFundsTab();

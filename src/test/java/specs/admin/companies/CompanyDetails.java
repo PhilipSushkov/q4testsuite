@@ -41,7 +41,7 @@ public class CompanyDetails extends AdminAbstractSpec {
 
     @Test
     public void canEditPeerNameWhenAdding() {
-        String peer = "GOOG";
+        String peer = "TSLA";
         String name = "New Test" + RandomStringUtils.randomAlphanumeric(3);
         CompanyList companyPage = new CompanyList(driver).selectFirstCompanyInList()
                 .addEditPeer(peer, name);

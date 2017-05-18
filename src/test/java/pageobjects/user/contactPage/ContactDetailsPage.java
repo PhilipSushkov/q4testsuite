@@ -143,7 +143,8 @@ public class ContactDetailsPage extends Page {
     }
 
     public ContactDetailsPage switchToManagedFundsTab() {
-        wait.until(ExpectedConditions.elementToBeClickable(managedFunds));
+        scrollToElement(managedFunds);
+        waitForElementToAppear(managedFunds);
         findElement(managedFunds).click();
 
         return this;
