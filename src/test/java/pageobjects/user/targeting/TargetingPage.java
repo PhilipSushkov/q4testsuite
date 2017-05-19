@@ -235,9 +235,9 @@ public class TargetingPage extends AbstractPageObject {
     public int findInstitutionIndex(String name){
         waitForElement(showTargets);
         findVisibleElement(showTargets).click();
-        pause(2000);
+        waitForLoadingScreen();
         findVisibleElement(showInstitutions).click();
-        pause(2000);
+        waitForLoadingScreen();
         List<WebElement> institutionNames = findVisibleElements(entityName);
         for (int i=0; i<institutionNames.size(); i++){
             if (institutionNames.get(i).getText().contains(name)){

@@ -138,7 +138,7 @@ public class TargetingList extends AbstractSpec {
 
         // going to contact page and checking that "Saved Target" icon appears
         String contactPageURL = new NewSearchPage(driver).goToContact(targetedContact).getURL();
-        Assert.assertTrue("'Saved Target' icon does not appear on contact page.", new ContactDetailsPage(driver).isSavedTarget());
+        Assert.assertTrue("Known Issue - Will fix later - Saved Target' icon does not appear on contact page.", new ContactDetailsPage(driver).isSavedTarget());
 
         // going to targets list and checking that contact appears
 
@@ -157,7 +157,7 @@ public class TargetingList extends AbstractSpec {
         // performing a filterless institution search and verifying sorting
         new TargetingPage(driver).newSearch().blankSearch();
         Assert.assertEquals("Incorrect number of initial results displayed", 20, new NewSearchPage(driver).numResultsDisplayed());
-        Assert.assertTrue("Fixed Issue - DESKTOP-6736 - Initial sorting failed.", new NewSearchPage(driver).resultsCanBeSorted());
+        Assert.assertTrue("KNOWN Issue - DESKTOP-8470 - Initial sorting failed.", new NewSearchPage(driver).resultsCanBeSorted());
         // loop 1 time (can increase if desired): clicking show more and then verifying sorting again
         for (int i=1; i<=1; i++){
             new NewSearchPage(driver).showMoreResults();

@@ -254,24 +254,28 @@ public class SecurityOwnershipPage extends AbstractPageObject implements DateDro
     // checks that entries on top buyers list have positive change numbers
     public boolean topBuyersListIsPositive(){
         waitForElement(topBuyersNumbers);
+        waitForLoadingScreen();
         return elementsAreAllPositive(findVisibleElements(topBuyersNumbers));
     }
 
     // checks that entries on top sellers list have negative change numbers
     public boolean topSellersListIsNegative(){
         waitForElement(topSellersNumbers);
+        waitForLoadingScreen();
         return elementsAreAllNegative(findVisibleElements(topSellersNumbers));
     }
 
     // checks that entries on top buyers list have change numbers in descending order
     public boolean topBuyersListIsDescending(){
         waitForElement(topBuyersNumbers);
+        waitForLoadingScreen();
         return elementsAreNumDownSorted(findVisibleElements(topBuyersNumbers));
     }
 
     // checks that entries on top sellers list have change numbers in ascending order
     public boolean topSellersListIsAscending(){
         waitForElement(topSellersNumbers);
+        waitForLoadingScreen();
         return elementsAreNumUpSorted(findVisibleElements(topSellersNumbers));
     }
 
