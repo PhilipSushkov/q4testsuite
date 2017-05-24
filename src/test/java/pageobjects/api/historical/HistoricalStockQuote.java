@@ -57,7 +57,10 @@ public class HistoricalStockQuote {
     private boolean result = false;
     private boolean dataexists = true;
     private HttpClient client;
-    private final String DEVELOP_ENV = "Preprod_Env", SECURITIES = "Securities", PROTOCOL = "https://", HISTORICAL = "historical";
+    private final String DEVELOP_ENV = "Preprod_Env";
+    private final String SECURITIES = "Securities";
+    private final String PROTOCOL = "https://";
+    private final String HISTORICAL = "historical";
     private org.json.JSONArray securityArray = new org.json.JSONArray();
     ArrayList<String> accurateCompanies = new ArrayList<String>();
 
@@ -129,7 +132,6 @@ public class HistoricalStockQuote {
             individualstockresult = true;
             requestSuccess = true;
 
-            // org.json.JSONObject individualStock = securityArray.getJSONObject(securityCounter);
             security_name = individualdata.get("company_name").toString();
             ticker = individualdata.get("symbol").toString();
             exchange = individualdata.get("exchange").toString();
@@ -140,7 +142,7 @@ public class HistoricalStockQuote {
             sendStockQuoteRequestToQ4DB();
 
             // Obtaining earliest date in Q4 DB
-            // ensuring request was successful
+            // ensuring request was successful - if code == 200 it means success
             if (response.getStatusLine().getStatusCode() == 200) {
                 HttpEntity entity = response.getEntity();
 
@@ -387,10 +389,13 @@ public class HistoricalStockQuote {
             getIndividual.setHeader("Authorization", "Bearer " + access_token);
             HttpResponse individualResponse = client.execute(getIndividual);
 
+            // if statuscode == 200 that basically means it's a success and we create an HttpEntity
             if (response.getStatusLine().getStatusCode() == 200) {
                 HttpEntity individualEntity = individualResponse.getEntity();
                 String individualResponseBody = EntityUtils.toString(individualEntity);
+                // Get a JSONObject from the Q4 database
                 org.json.JSONObject individualJSONResponse = new org.json.JSONObject(individualResponseBody);
+                // Get a JSONArray from the JSONObject above
                 org.json.JSONArray individualJSONArray = individualJSONResponse.getJSONArray(HISTORICAL);
 
                 if (individualJSONResponse.getJSONArray("historical").length() != 0) {
