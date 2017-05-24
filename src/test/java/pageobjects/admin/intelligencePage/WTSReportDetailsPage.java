@@ -73,17 +73,19 @@ public class WTSReportDetailsPage extends AbstractPageObject {
     }
 
     public float getClosePrice() {
+
         return Float.parseFloat(findElement(closingPrice).getText());
     }
 
     public float getComparisonClosePrice(String company) throws IOException {
+        // Method to get today's date
         Calendar cal = Calendar.getInstance();
+        // Go back one day because there is not stock data for today yet
         cal.add(Calendar.DATE, -1);
         Date today = cal.getTime();
+        // Format the date so QuandlAPI can read it
         DateFormat todaysDate = new SimpleDateFormat("yyyy-MM-dd");
         String inputDate = todaysDate.format(today);
-        // cal.add(Calendar.WEEK_OF_YEAR, -1);
-        // cal.set(Calendar.DAY_OF_WEEK, Calendar.FRIDAY);
 
         //Creates a QuandlDataset that contains the close price from a specific date
         QuandlDataset stock = QuandlConnectToApi.getClosePriceFromDate(company, "EOD", inputDate);

@@ -18,6 +18,7 @@ import java.util.Iterator;
  */
 public class QuandlDataset {
     private ArrayList<String> closingPrices = new ArrayList<String>();
+    private ArrayList<String> closingPriceDate = new ArrayList<>();
     private String rawData;
 
     JSONParser parser = new JSONParser();
@@ -33,9 +34,11 @@ public class QuandlDataset {
             JSONArray tempClosingPrice = (JSONArray) dataSet.get("data");
             Iterator<JSONArray> iterator = tempClosingPrice.iterator();
 
-            // Store the closing prices taken from tempClosingPrice into closingPrices
+            // Store the closing prices taken from tempClosingPrice into closingPrices and
+            //      store the date of each closing price into closingPriceDate
             while (iterator.hasNext()){
                 JSONArray handler = iterator.next();
+                closingPriceDate.add(handler.get(0).toString());
                 closingPrices.add(handler.get(1).toString());
             }
         } catch (ParseException e) {
@@ -47,5 +50,9 @@ public class QuandlDataset {
     public ArrayList<String> getClosingPrices(){
 
         return closingPrices;
+    }
+
+    public ArrayList<String> getClosingPriceDates(){
+        return closingPriceDate;
     }
 }
