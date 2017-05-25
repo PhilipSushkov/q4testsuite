@@ -319,7 +319,7 @@ public class Ownership extends AbstractSpec {
     @Test
     public void canSearchForHistoricalFundsETFs() {
         // Search for funds and ETFs under the Funds and ETFs tab of the Historical table
-        String holder = "Vanguard 500";
+        String holder = "Omikron 7";
         SecurityOwnershipPage securityOwnershipPage = new SecurityOwnershipPage(driver).selectThirteenF()
                 .viewHistoricalHolders()
                 .selectFundsETFstab()

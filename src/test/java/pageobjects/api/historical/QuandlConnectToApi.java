@@ -13,7 +13,6 @@ import java.io.IOException;
  */
 
 public class QuandlConnectToApi {
-    // Api key may change over time so just change it here if it does
     private static String key = "c_Zfy3So98bKcz1kgAGs";
     private static final String baseUrl = "https://www.quandl.com/api/v3/datasets/";
 
@@ -21,8 +20,7 @@ public class QuandlConnectToApi {
      * This method uses the uses the createURL method to return the dataset corresponding to the ticker and exchange.
      *
      * @param  ticker this is the stock you want.
-     *                exchange is the stock exchange you want (exchange = "EOD" means end of day stock info)
-     *                start and end will create a date range between start and end
+     *               exchange is the stock exchange you want
      */
 
     public static QuandlDataset getDataset(String ticker, String exchange) {
@@ -33,13 +31,35 @@ public class QuandlConnectToApi {
             return new QuandlDataset(createUrl(baseUrl + ticker + "/data.json?api_key=" + key + "&start_date=" + start + "&end_date=" + end), "json");
     }
 
-    public static QuandlDataset getDatasetFromDate(String ticker, String exchange, String from){
-        return new QuandlDataset(createUrl(baseUrl + exchange +"/"+ ticker + "/data.json?api_key=" + key + "&start_date=" + from), "json");
+    public static QuandlDataset getClosePriceFromDate(String ticker, String exchange,String from){
+        return new QuandlDataset(createUrl(baseUrl + exchange +"/"+ ticker + "/data.json?api_key=" + key + "&column_index=4&start_date=" + from), "json");
     }
 
     public static QuandlDataset getDatasetBetweenDatesAndTicker(String ticker, String exchange, String start, String end) {
         return new QuandlDataset(createUrl(baseUrl + exchange +  "/" + ticker + "data.json?api_key=" + key + "&end_date=" + end + "&start_date=" + start), "json");
     }
+
+    /**
+     * This method uses the uses the createURL method to return the dataset corresponding to the ticker and exchange.
+     *
+     * @param  parameters is a hashmap containing all the different parameters you want on your data
+     */
+    // Write more get methods as you need them.
+  /*  public QuandlDataset getDatasetWithParams(String ticker, String exchange, String[] parameters) {
+        // parameterString is just the string you'd attach to the end of the url to add all the parameters
+        String parameterString = "";
+
+        for (String eachParam : parameters) {
+                parameterString = parameterString + eachParam + "=" + eachParam + "&";
+        }
+
+            parameterString = parameterString + "api_key=" + key + "&";
+
+        //parameterString.substring(1, parameterString.length() - 2)) must be -2 because we don't want a hanging =&
+        return new QuandlDataset(createUrl(baseUrl + exchange +  "/" + ticker + "/data.json?api_token=" + key + "&" + parameterString.substring(0, parameterString.length() - 2)), "json");
+
+    }*/
+
 
     /**
      * This method just executes HTTP requests.

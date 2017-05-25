@@ -10,15 +10,16 @@ import org.json.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import yahoofinance.YahooFinance;
+import yahoofinance.histquotes.HistoricalQuote;
+import yahoofinance.histquotes.Interval;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -29,9 +30,12 @@ import static specs.ApiAbstractSpec.propAPI;
  */
 public class HistoricalStockQuote {
 
+    private int i;
     private int failurecount;
     private String earliestDate = "";
+    private String earliestDateForQuandl;
     private String q4DatabaseRequestDate;
+    private double YahooPrice;
     private double QuandlClosePrice;
     private double Q4Price = 0;
     private int numberOfDates = 0;
@@ -59,7 +63,9 @@ public class HistoricalStockQuote {
     private org.json.JSONArray securityArray = new org.json.JSONArray();
     ArrayList<String> accurateCompanies = new ArrayList<String>();
 
+    private HistoricalQuote lastTradingDayQuotes;
     private QuandlDataset stockInformation;
+    private Calendar earliestDateForYahoo;
     private HttpResponse response;
     private DateFormat q4Format;
     private DateFormat quandlFormat;
@@ -76,7 +82,7 @@ public class HistoricalStockQuote {
 
         individualdata = new JSONObject(globalindividualdata);
 
-        // setup all environment variables. JSON file locations, Q4 API Permissions
+        // setup all environment variables. JSON file locations, Q4 API Permissions, and initialize yahoo object
 
         // creating paths to the JSON files
         String sPathToFileAuth, sDataFileAuthJson, sPathToFileHist, sDataFileHistJson;
@@ -103,7 +109,7 @@ public class HistoricalStockQuote {
             jsonEnv = (JSONObject) jsonEnvData.get(environment);
             // reading in stock data
             FileReader readHistFile = new FileReader(sPathToFileHist + sDataFileHistJson);
-            // creating an JSONArray of all stocks
+            // creating an array of all stocks
             jsonHistData = (org.json.simple.JSONArray) parser.parse(readHistFile);
             securityArray = new JSONArray(jsonHistData.toString());
         } catch (ParseException e) {
@@ -134,7 +140,7 @@ public class HistoricalStockQuote {
             securityId = individualdata.get("_id").toString();
 
             // Q4 retains 300 days of stock data from the current date
-            // To get all 300 days of data from Quandl to compare against Q4DB, we need the earliest date value in our DB to create a "from" parameter for a Quandl Request
+            // To get all 300 days of data from Yahoo to compare against Q4DB, we need the earliest date value in our DB to create a "from" parameter for a Yahoo Request
             sendStockQuoteRequestToQ4DB();
 
             // Obtaining earliest date in Q4 DB
@@ -195,8 +201,6 @@ public class HistoricalStockQuote {
 
     }
 
-
-
     public boolean checkrequestfailure(int failcount, String ticker, String exchange, String securityId) {
 
         // loop will fail after 10 runs
@@ -223,8 +227,7 @@ public class HistoricalStockQuote {
             // In case a request to Quandl fails, this loop sends the same request back 10 times before giving up and allowing the error to end the test for the current ticker
             for (failurecount = 0; requestSuccess; failurecount++) {
                 try {
-                    // EOD exchange stands for END OF DAY, so it will give you all the end of day info for that stock
-                    stockInformation = QuandlConnectToApi.getDatasetFromDate(ticker, "EOD", earliestDateInQuandlFormat);
+                    stockInformation = QuandlConnectToApi.getClosePriceFromDate(ticker, "EOD", earliestDateInQuandlFormat);
                     break;
                 } catch (Exception e) {
                     requestSuccess = checkrequestfailure(failurecount, ticker, exchange, securityId);
@@ -248,14 +251,10 @@ public class HistoricalStockQuote {
 
         // loop to compare the data
         for (int i = 0; i < numberOfDates; i++){
-            // Store the closing price of the specific date in a string
             String quandlClosingPrice = stockInformation.getClosingPrices().get(i);
             String quandlDate = stockInformation.getClosingPriceDates().get(i);
-
-            // Change date so we can retrieve the matching data from the q4 database for comparison
             SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
             q4DatabaseRequestDate = formatter.format(quandlDate);
-
             QuandlClosePrice = Double.parseDouble(quandlClosingPrice);
             collectQ4Data();
 
@@ -266,24 +265,157 @@ public class HistoricalStockQuote {
         }
     }
 
-    // Compares the Q4 stock price with the Quandl stock price
+    void getYahooData() {
+
+        // HistoricalQuote is the main Yahoo API Request object
+        // initializing some fault values to satisfy constructor
+        // long defaultLong = 0;
+        // BigDecimal defaultBigDecimal = new BigDecimal("0");
+        earliestDateForYahoo = java.util.Calendar.getInstance();
+
+        // Converting Q4 tickers to the Yahoo Format based on exchange
+        adjustQueryForYahoo();
+
+        try {
+            // Converting the earliestDate String into a Yahoo Calendar Object
+            q4Format = new SimpleDateFormat("MM/dd/yyyy");
+            Date earliestDateInYahooFormat = q4Format.parse(earliestDate);
+            earliestDateForYahoo.setTime(earliestDateInYahooFormat);
+
+            // sending first request to yahoo to record number of days of data yahoo has from the earliestDate in our Database
+            // Yahoo's requests can be unstable. This for loop sends the same request back to yahoo 10 times before giving up and allowing the error to end the test for the current ticker
+            for (failurecount = 0; requestSuccess; failurecount++) {
+                try {
+                    numberOfDates = YahooFinance.get(ticker).getHistory(earliestDateForYahoo, Interval.DAILY).size();
+                    break;
+                } catch (Exception e) {
+                    requestSuccess = checkrequestfailure(failurecount, ticker, exchange, securityId);
+                }
+            }
+
+            //break if previous request failed
+            if (!requestSuccess) {
+                return;
+            }
+
+            // checks if we have less than 300 days of data for a security
+            if (numberOfDates < 290) {
+                System.out.println("There are only " + numberOfDates + " days of data for " + security_name + "       securityId: " + securityId);
+            }
+
+        } catch (java.text.ParseException e) {
+            System.out.println("Q4 Date Format Couldn't Be Parsed");
+        }
+
+        //now construct a for loop that will parse through each day of data from yahoo and compare against Q4
+        for (i = numberOfDates - 1; i > 0 && failurecount != 10; i--) {
+            // collecting each day of data from Yahoo
+            for (failurecount = 0; requestSuccess; failurecount++) {
+                try {
+                    lastTradingDayQuotes = YahooFinance.get(ticker).getHistory(earliestDateForYahoo, Interval.DAILY).get(i);
+                    break;
+                } catch (Exception e) {
+                    requestSuccess = checkrequestfailure(failurecount, ticker, exchange, securityId);
+                }
+            }
+
+            //break if previous request failed
+            if (!requestSuccess) {
+                break;
+            }
+
+            // saving Yahoo's end of day price
+            YahooPrice = lastTradingDayQuotes.getClose().doubleValue();
+            // print statement to see all Q4 prices
+            // System.out.println("Yahoo's price is " + YahooPrice);
+
+            // converting the date in yahoo's body to Q4 format
+            q4Date = new Date(lastTradingDayQuotes.getDate().getTime().toString());
+            SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
+            q4DatabaseRequestDate = formatter.format(q4Date);
+
+            // collect data from Q4's DB with Yahoo's date
+            collectQ4Data();
+
+            // adjust for currency between the 2 DBs
+            adjustResultsForYahoo();
+
+            if (dataexists) {
+                // compares data between the 2 results
+                compareData();
+            }
+        }
+    }
+
+    private void adjustResultsForYahoo() {
+
+        if (Objects.equals(exchange, "XLON")) {
+            // Adjust Q4 Currency from GBP to Pound Sterling
+            Q4Price = Q4Price * 100;
+
+            // Accounting for the differences in Yahoo's currency. Some are off by a factor of 100x due to currency
+            if (90 < Q4Price / YahooPrice && Q4Price / YahooPrice < 110) {
+                YahooPrice = YahooPrice * 100;
+            }
+        }
+    }
+
+    private void adjustQueryForYahoo() {
+        // Adjusting query format for Yahoo
+        if (Objects.equals(exchange, "XLON")) {
+            // .L is the format for london stock exchange for Yahoo
+            ticker = ticker + ".L";
+        } else {
+            if (Objects.equals(exchange, "XDUB")) {
+                // .L is the format for london stock exchange for Yahoo
+                ticker = ticker + ".IR";
+            } else {
+                if (Objects.equals(exchange, "XAMS")) {
+                    // .L is the format for london stock exchange for Yahoo
+                    ticker = ticker + ".AS";
+
+                } else {
+                    if (Objects.equals(exchange, "XBRU")) {
+                        // .L is the format for london stock exchange for Yahoo
+                        ticker = ticker + ".BR";
+                    } else {
+                        if (Objects.equals(exchange, "XLIS")) {
+                            // .L is the format for london stock exchange for Yahoo
+                            ticker = ticker + ".LS";
+                        } else {
+                            if (Objects.equals(exchange, "XPAR")) {
+                                // .L is the format for london stock exchange for Yahoo
+                                ticker = ticker + ".PA";
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     private boolean compareData() {
         // margin of error between the 2 stock prices
         result = (Math.abs(QuandlClosePrice - Q4Price) < 0.01);
+        // print error for stock and date
+
+        //System.out.println(ticker + " : " + exchange + " is tested on " + q4Date);
+        //System.out.println("Yahoo price: " + YahooPrice + " Q4 Price: " + Q4Price);
 
         if (!result) {
             // this stock was found to have at least one error
             individualstockresult = false;
-            System.out.println(ticker + ": " + "Quandl price: " + QuandlClosePrice + " Q4 Price: " + Q4Price);
+            //System.out.println(ticker + " : " + exchange + " is inaccurate on " + q4Date);
+            System.out.println(ticker + ": " + "Yahoo price: " + QuandlClosePrice + " Q4 Price: " + Q4Price);
 
             // accounting for case of 0 days
             if (Q4Price == 0.0) {
-                zeroDataList.add("0 value on " + q4Date + " while Quandl's price is " + QuandlClosePrice);
+                zeroDataList.add("0 value on " + q4Date + " while Yahoo's price is " + QuandlClosePrice);
             }
 
             // accounting for generally inaccurate days
             if (Q4Price != 0.0) {
-                inaccurateDataList.add("Inaccurate: on " + q4Date + " Q4 price is: " + Q4Price + " while Quandl's price is " + QuandlClosePrice);
+                inaccurateDataList.add("Inaccurate: on " + q4Date + " Q4 price is: " + Q4Price + " while Yahoo's price is " + QuandlClosePrice);
             }
 
             // divides each failure
@@ -330,7 +462,7 @@ public class HistoricalStockQuote {
                     // data doesn't exist for this day
 
                     // recording this error
-                    inaccurateDataList.add("Missing Data: on " + q4Date + " while Quandl's price is " + QuandlClosePrice);
+                    inaccurateDataList.add("Missing Data: on " + q4Date + " while Yahoo's price is " + YahooPrice);
 
                     // this stock was found to have at least one error
                     individualstockresult = false;

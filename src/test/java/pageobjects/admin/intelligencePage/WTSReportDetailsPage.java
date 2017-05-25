@@ -88,7 +88,7 @@ public class WTSReportDetailsPage extends AbstractPageObject {
         String inputDate = todaysDate.format(today);
 
         //Creates a QuandlDataset that contains the close price from a specific date
-        QuandlDataset stock = QuandlConnectToApi.getDatasetFromDate(company, "EOD", inputDate);
+        QuandlDataset stock = QuandlConnectToApi.getClosePriceFromDate(company, "EOD", inputDate);
         String lastClosePrice = stock.getClosingPrices().get(0);
 
         return Float.parseFloat(lastClosePrice);
