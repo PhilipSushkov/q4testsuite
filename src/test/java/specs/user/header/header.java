@@ -165,7 +165,7 @@ public class header extends AbstractSpec{
         securityOverviewPage.openProfile();
         securityOverviewPage.logoutFromPage();
 
-        Assert.assertEquals("Logout was unsuccessful", 2, driver.findElements(By.className("q4i-logo")).size());
+        Assert.assertEquals("Logout was unsuccessful", 1, driver.findElements(By.className("q4i-logo")).size());
 
     }
 }
