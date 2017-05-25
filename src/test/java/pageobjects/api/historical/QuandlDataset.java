@@ -15,10 +15,16 @@ import java.util.Iterator;
 
 /**
  Class to store the different types of data that are retrieved from the Quandl api
+ For documentation on how end of day stock info is displaying in the JSON file go to
+ https://www.quandl.com/data/EOD-End-of-Day-US-Stock-Prices/documentation/documentation
  */
 public class QuandlDataset {
     private ArrayList<String> closingPrices = new ArrayList<String>();
     private ArrayList<String> closingPriceDate = new ArrayList<>();
+    private ArrayList<String> openPrices = new ArrayList<>();
+    private ArrayList<String> highPrices = new ArrayList<>();
+    private ArrayList<String> lowPrices = new ArrayList<>();
+    private ArrayList<String> volume = new ArrayList<>();
     private String rawData;
 
     JSONParser parser = new JSONParser();
@@ -34,12 +40,15 @@ public class QuandlDataset {
             JSONArray tempClosingPrice = (JSONArray) dataSet.get("data");
             Iterator<JSONArray> iterator = tempClosingPrice.iterator();
 
-            // Store the closing prices taken from tempClosingPrice into closingPrices and
-            //      store the date of each closing price into closingPriceDate
+            // Store the data in their corresponding ArrayLists by looping through the iterator
             while (iterator.hasNext()){
                 JSONArray handler = iterator.next();
                 closingPriceDate.add(handler.get(0).toString());
-                closingPrices.add(handler.get(1).toString());
+                openPrices.add(handler.get(1).toString());
+                highPrices.add(handler.get(2).toString());
+                lowPrices.add(handler.get(3).toString());
+                closingPrices.add(handler.get(4).toString());
+                volume.add(handler.get(5).toString());
             }
         } catch (ParseException e) {
             e.printStackTrace();
@@ -48,11 +57,22 @@ public class QuandlDataset {
 
     // Method to return ArrayList of closingPrices
     public ArrayList<String> getClosingPrices(){
-
         return closingPrices;
     }
 
     public ArrayList<String> getClosingPriceDates(){
         return closingPriceDate;
     }
+
+    public String getRawData(){
+        return rawData;
+    }
+
+    public ArrayList<String> getHighPrices(){ return highPrices; }
+
+    public ArrayList<String> getOpenPrices(){ return openPrices; }
+
+    public ArrayList<String> getLowPrices(){ return lowPrices; }
+
+    public ArrayList<String> getVolume() { return volume; }
 }

@@ -367,6 +367,7 @@ public interface HeaderPage extends PageObject{
 
     default void logoutFromPage(){
         findElement(logoutButton).click();
+        pause(200L);
     }
 
 }
