@@ -57,7 +57,6 @@
         </dependency>
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
-
             <artifactId>selenium-server</artifactId>
             <version>2.53.0</version>
         </dependency>
@@ -108,12 +107,6 @@
             <groupId>com.googlecode.json-simple</groupId>
             <artifactId>json-simple</artifactId>
             <version>1.1.1</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.testng</groupId>
-            <artifactId>testng</artifactId>
-            <version>6.8</version>
             <scope>test</scope>
         </dependency>
         <dependency>
