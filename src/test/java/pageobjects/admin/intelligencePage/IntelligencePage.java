@@ -13,6 +13,7 @@ import java.util.List;
  */
 public class IntelligencePage extends AbstractPageObject {
     private final By newReportButton = By.cssSelector(".page-header .action-buttons .add");
+    private final By intelligencePageButton = By.cssSelector("body > q4-app > div > q4-navbar > nav > div > ul > li:nth-child(3) > a > i");
     private final By companySymbolField = By.cssSelector("body > q4-app > div > div > q4-report > p-dialog > div > div.ui-dialog-content.ui-widget-content > q4-report-create > p-autocomplete > span > input");
     private final By createReportButton = By.cssSelector("button.button.button-yellow");
     private final By newReportInList = By.cssSelector("body > q4-app > div > div > q4-report > p-datatable > div > div > table > tbody > tr:nth-child(1)");
@@ -41,6 +42,8 @@ public class IntelligencePage extends AbstractPageObject {
 
     public IntelligencePage createWeeklyTradeSummary(String symbol) {
         waitForLoadingScreen();
+        findElement(intelligencePageButton).click();
+        waitForLoadingScreen();
         findElement(newReportButton).click();
         findElement(reportDropdown).click();
         findElement(weeklyTradeSummary).click();
@@ -57,6 +60,8 @@ public class IntelligencePage extends AbstractPageObject {
 
     public IntelligencePage createWeeklyOptionsAnalytics(String symbol) {
         waitForLoadingScreen();
+        findElement(intelligencePageButton).click();
+        waitForLoadingScreen();
         findElement(newReportButton).click();
         findElement(reportDropdown).click();
         findElement(weeklyOptionsReport).click();
@@ -70,6 +75,8 @@ public class IntelligencePage extends AbstractPageObject {
     }
 
     public IntelligencePage createSalesEquitAndOptions(String symbol) {
+        waitForLoadingScreen();
+        findElement(intelligencePageButton).click();
         waitForLoadingScreen();
         findElement(newReportButton).click();
         findElement(reportDropdown).click();
@@ -103,16 +110,22 @@ public class IntelligencePage extends AbstractPageObject {
 
     public String getEntireReportList() {
         waitForLoadingScreen();
+        findElement(intelligencePageButton).click();
+        waitForLoadingScreen();
         return findElement(reportList).getText();
     }
 
     public IntelligencePage showPendingReports(){
+        waitForLoadingScreen();
+        findElement(intelligencePageButton).click();
         waitForLoadingScreen();
         findElement(pendingFilter).click();
         return this;
     }
 
     public IntelligencePage showReadyReports(){
+        waitForLoadingScreen();
+        findElement(intelligencePageButton).click();
         waitForLoadingScreen();
         findElement(readyFilter).click();
         return this;
@@ -125,6 +138,8 @@ public class IntelligencePage extends AbstractPageObject {
     }
 
     public IntelligencePage showReadyToPublishReports(){
+        waitForLoadingScreen();
+        findElement(intelligencePageButton).click();
         waitForLoadingScreen();
         findElement(readyToPublishFilter).click();
         return this;
@@ -143,6 +158,8 @@ public class IntelligencePage extends AbstractPageObject {
     }
 
     public IntelligencePage showReportsOfType(String type){
+        waitForLoadingScreen();
+        findElement(intelligencePageButton).click();
         waitForLoadingScreen();
         findVisibleElement(reportTypeFilterDropdown).click();
         List <WebElement> options = findVisibleElements(reportTypeFilterOptions);
