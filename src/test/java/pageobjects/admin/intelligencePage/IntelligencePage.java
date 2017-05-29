@@ -42,8 +42,6 @@ public class IntelligencePage extends AbstractPageObject {
 
     public IntelligencePage createWeeklyTradeSummary(String symbol) {
         waitForLoadingScreen();
-        findElement(intelligencePageButton).click();
-        waitForLoadingScreen();
         findElement(newReportButton).click();
         findElement(reportDropdown).click();
         findElement(weeklyTradeSummary).click();
@@ -60,8 +58,6 @@ public class IntelligencePage extends AbstractPageObject {
 
     public IntelligencePage createWeeklyOptionsAnalytics(String symbol) {
         waitForLoadingScreen();
-        findElement(intelligencePageButton).click();
-        waitForLoadingScreen();
         findElement(newReportButton).click();
         findElement(reportDropdown).click();
         findElement(weeklyOptionsReport).click();
@@ -75,8 +71,6 @@ public class IntelligencePage extends AbstractPageObject {
     }
 
     public IntelligencePage createSalesEquitAndOptions(String symbol) {
-        waitForLoadingScreen();
-        findElement(intelligencePageButton).click();
         waitForLoadingScreen();
         findElement(newReportButton).click();
         findElement(reportDropdown).click();
@@ -110,22 +104,16 @@ public class IntelligencePage extends AbstractPageObject {
 
     public String getEntireReportList() {
         waitForLoadingScreen();
-        findElement(intelligencePageButton).click();
-        waitForLoadingScreen();
         return findElement(reportList).getText();
     }
 
     public IntelligencePage showPendingReports(){
-        waitForLoadingScreen();
-        findElement(intelligencePageButton).click();
         waitForLoadingScreen();
         findElement(pendingFilter).click();
         return this;
     }
 
     public IntelligencePage showReadyReports(){
-        waitForLoadingScreen();
-        findElement(intelligencePageButton).click();
         waitForLoadingScreen();
         findElement(readyFilter).click();
         return this;
@@ -138,8 +126,6 @@ public class IntelligencePage extends AbstractPageObject {
     }
 
     public IntelligencePage showReadyToPublishReports(){
-        waitForLoadingScreen();
-        findElement(intelligencePageButton).click();
         waitForLoadingScreen();
         findElement(readyToPublishFilter).click();
         return this;
@@ -158,8 +144,6 @@ public class IntelligencePage extends AbstractPageObject {
     }
 
     public IntelligencePage showReportsOfType(String type){
-        waitForLoadingScreen();
-        findElement(intelligencePageButton).click();
         waitForLoadingScreen();
         findVisibleElement(reportTypeFilterDropdown).click();
         List <WebElement> options = findVisibleElements(reportTypeFilterOptions);
