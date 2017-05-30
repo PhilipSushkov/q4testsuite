@@ -27,6 +27,7 @@ public class LogActivityModal extends AbstractPageObject {
     private final By phoneTab = By.id("ext-radiofield-2");
     private final By emailTab = By.id("ext-radiofield-3");
     private final By meetingTab = By.id("ext-radiofield-4");
+    private final By roadshowTab = By.id("ext-radiofield-5");
 
     public LogActivityModal(WebDriver driver) {
         super(driver);
@@ -162,6 +163,14 @@ public class LogActivityModal extends AbstractPageObject {
 
     public LogActivityModal chooseMeetingTab() {
         findElement(meetingTab).click();
+        wait.until(ExpectedConditions.elementToBeClickable(postButton));
+        findElement(postButton).click();
+
+        return this;
+    }
+
+    public LogActivityModal chooseRoadshowTab() {
+        findElement(roadshowTab).click();
         wait.until(ExpectedConditions.elementToBeClickable(postButton));
         findElement(postButton).click();
 

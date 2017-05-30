@@ -102,4 +102,19 @@ public class LogActivity extends AbstractSpec {
         // Make sure the new comment appears on page
         Assert.assertThat("Note text does not match expected", activityPage.getNewNote(), containsString(comment));
     }
+
+    @Test
+    public void canLogRoadShowFromActivityPage() {
+        String title = "This is a test title" + RandomStringUtils.randomAlphanumeric(6);
+        String location = "This is a test location" + RandomStringUtils.randomAlphanumeric(6);
+        String tag = "TestTag" + RandomStringUtils.randomAlphanumeric(6);
+
+        ActivityPage activityPage = new ActivityPage(driver);
+        new ActivityPage(driver).logNote()
+                .enterRoadshowDetails(title, location, tag)
+                .chooseRoadshowTab();
+
+        // Make sure the new comment appears on page
+        Assert.assertThat("Note text does not match expected", activityPage.getNewNote(), containsString(title));
+    }
 }
