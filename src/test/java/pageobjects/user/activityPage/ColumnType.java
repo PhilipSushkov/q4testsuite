@@ -7,6 +7,7 @@ public enum ColumnType {
     TYPE,
     TITLE,
     CONTACT,
+    INSTITUTION,
     LOCATION,
     DATE,
     TAGS;

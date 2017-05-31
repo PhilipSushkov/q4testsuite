@@ -208,11 +208,27 @@ public class ActivityPage extends AbstractPageObject {
 
     private boolean isContactSorted (List<WebElement> rows){
 
+        ArrayList<WebElement> contacts = new ArrayList<>();
+        for(WebElement i : rows){
+            contacts.add(i.findElement(By.className("contact")));
+        }
         if(isColumnAscending(ColumnType.CONTACT)){
-            return elementsAreAlphaUpSorted(rows);
+            return elementsAreAlphaUpSorted(contacts);
         }
         else
-            return elementsAreAlphaDownSorted(rows);
+            return elementsAreAlphaDownSorted(contacts);
+    }
+
+    private boolean isInstitutionSorted(List<WebElement> rows){
+        ArrayList<WebElement> institutions = new ArrayList<>();
+        for(WebElement i : rows){
+            institutions.add(i.findElement(By.className("institution")));
+        }
+        if(isColumnAscending(ColumnType.INSTITUTION)){
+            return elementsAreAlphaUpSorted(institutions);
+        }
+        else
+            return elementsAreAlphaDownSorted(institutions);
     }
 
 
@@ -393,6 +409,8 @@ public class ActivityPage extends AbstractPageObject {
                 return isTitleSorted(returnTableRows());
             case CONTACT:
                 return isContactSorted(returnTableRows());
+            case INSTITUTION:
+                return isInstitutionSorted(returnTableRows());
             case LOCATION:
                 break;
             case DATE:

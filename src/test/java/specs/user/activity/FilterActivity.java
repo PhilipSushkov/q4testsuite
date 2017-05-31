@@ -88,6 +88,20 @@ public class FilterActivity extends AbstractSpec {
     }
 
     @Test
+    public void sortActivitiesByContact(){
+        ColumnType contact = ColumnType.CONTACT;
+        ActivityPage activityPage = new ActivityPage(driver).clickColumnHeader(contact);
+        Assert.assertTrue("Contacts are not sorted correctly", activityPage.isColumnSorted(contact));
+    }
+
+    @Test
+    public void sortActivitiesByInstitution(){
+        ColumnType institution = ColumnType.INSTITUTION;
+        ActivityPage activityPage = new ActivityPage(driver).clickColumnHeader(institution);
+        Assert.assertTrue("Institutions are not sorted correctly", activityPage.isColumnSorted(institution));
+    }
+
+    @Test
     public void multiSort(){
         //This checks that the sorting works even when it's been clicked before
 

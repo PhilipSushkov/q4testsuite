@@ -193,11 +193,41 @@ public class AbstractPageObject implements HeaderPage{
         wait.until(ExpectedConditions.invisibilityOfElementLocated(loading));
     }
 
+    //Can't leave this for JUST contacts
     public boolean elementsAreAlphaUpSorted(List<WebElement> elements){
+        //adding so to ignore the Multiple
+        //Must account for - contacts too
+        By multipleFirstResult = By.xpath("//div//h2//..//div[1]");
+        By test = By.xpath("//div[contains(@class,'footer-content')]");
+
         boolean sortedWell = true;
         for (int i=0; i<elements.size()-1; i++){
-            if (elements.get(i+1).getText().compareTo/*IgnoreCase*/(elements.get(i).getText()) < 0){
-                System.out.println("MIS-SORT: Ascending: '"+elements.get(i+1).getText()+"' should not be after '"+elements.get(i).getText()+"'");
+
+            String frontElement = elements.get(i+1).getText();
+            String backElement = elements.get(i).getText();
+
+            if(frontElement.contains("Multiple")){
+                findElement(test);
+                (elements.get(i+1)).click();
+                waitForElement(multipleFirstResult);
+                frontElement = findElement(multipleFirstResult).getText();
+                waitForLoadingScreen();
+                clickCoordinate(searchBar,10,10);
+
+            }
+
+            if(backElement.contains("Multiple")){
+                findElement(test);
+                (elements.get(i)).click();
+                waitForElement(multipleFirstResult);
+                backElement = findElement(multipleFirstResult).getText();
+                waitForLoadingScreen();
+                clickCoordinate(searchBar,10,10);
+
+            }
+
+            if (frontElement.compareTo(backElement) < 0){
+                System.out.println("MIS-SORT: Ascending: '"+frontElement+"' should not be after '"+backElement+"'");
                 sortedWell = false;
             }
         }
