@@ -1,6 +1,8 @@
 package pageobjects.user.noteDetailsPage;
 
+import org.apache.commons.lang.StringUtils;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageobjects.user.activityPage.ActivityPage;
@@ -40,6 +42,9 @@ public class NoteDetailsPage extends ActivityPage {
     private final By itineraryAttendees = By.xpath("//div[contains(@class,'itinerary-list-item')]/div[contains(@class,'links')]");
     private final By detailsDate = By.cssSelector(".preview-note-view h4 + div");
     private final By detailsTag = By.cssSelector(".tags-view span.tag");
+    private final By addTagButton = By.cssSelector(".tags-view .tag.add-button");
+    private final By addTagField = By.cssSelector(".tags-modal-list .tag-field input");
+    private final By detailsLocation = By.xpath("//div[contains(@class, 'x-innerhtml')][h4[contains(text(), 'Location')]]");
 
     public NoteDetailsPage(WebDriver driver) {
         super(driver);
@@ -198,5 +203,23 @@ public class NoteDetailsPage extends ActivityPage {
         waitForLoadingScreen();
         wait.until(ExpectedConditions.visibilityOfElementLocated(noteDetails));
         return findElement(detailsTag).getText();
+    }
+
+    public NoteDetailsPage addNewTag(String newTag){
+        //Add new tag from details page
+        waitForLoadingScreen();
+        findElement(addTagButton).click();
+        waitForElementToAppear(addTagField);
+        findElement(addTagField).click();
+        findElement(addTagField).sendKeys(newTag);
+        findElement(addTagField).sendKeys(Keys.ENTER);
+
+        return this;
+    }
+
+    public String getDetailsLocation(){
+        //Gets the location from details page - detailsLocation will return all content inside details page, substringBetween selects the location
+        waitForLoadingScreen();
+        return StringUtils.substringBetween(findElement(detailsLocation).getText(),"LOCATION\n","\nCORPORATE");
     }
 }

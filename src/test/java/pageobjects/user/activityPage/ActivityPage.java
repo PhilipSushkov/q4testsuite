@@ -24,6 +24,8 @@ public class ActivityPage extends AbstractPageObject {
     private final By notesSection = By.cssSelector(".note-manager-list .note-item.x-dataview-item");
     private final By firstNoteInList = By.xpath("//div[contains(@class,'note-item')][1]//div[contains(@class,'title')]");
     private final By firstNoteInListDate = By.xpath("//div[1][contains(@class,'note-item')]//div[contains(@class,'column')][7]");
+    private final By firstNoteInListNewTag = By.xpath("//div[1][contains(@class,'note-item')]//div[contains(@class,'column')][8]/a[2]");
+    private final By firstNoteInListLocation = By.xpath("//div[1][contains(@class,'note-item')]//div[contains(@class,'column')][6]");
     private final By newActivityIcon = By.cssSelector(".btn.x-button.x-unsized:not(.btn-block)");
     private final By activitySearchField = By.cssSelector(".toolbar-panel .search .x-field-input .x-input-el");
     private final By emptyResults = By.cssSelector(".note-manager-list .x-dataview-emptytext");
@@ -413,6 +415,10 @@ public class ActivityPage extends AbstractPageObject {
         String dateToString = detailsFormat.format(strToDate);
         return dateToString;
     }
+
+    public String getActivityPageTag(){ return findElement(firstNoteInListNewTag).getText(); }
+
+    public String getActivityPageLocation(){return findElement(firstNoteInListLocation).getText(); }
 
     public String getNoNote() {
         return findElement(emptyResults).getText();

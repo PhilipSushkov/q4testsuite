@@ -19,6 +19,7 @@ public class ActivityDetails extends AbstractSpec {
     String title = "Activity Details Test " + RandomStringUtils.randomAlphanumeric(6);
     String location = "New York";
     String tag = "automation" + RandomStringUtils.randomAlphabetic(6);
+    String newTag = "newTag" + RandomStringUtils.randomAlphabetic(6);
 
     @Before
     public void setup() {
@@ -32,28 +33,43 @@ public class ActivityDetails extends AbstractSpec {
     @Test
     public void detailsPageAppears(){
         //checking to see if the word Details appears in the correct section
-        NoteDetailsPage noteDetailsPage = new NoteDetailsPage(driver).selectFirstNoteInList();
+        NoteDetailsPage noteDetailsPage = new NoteDetailsPage(driver)
+                .searchForNote(title)
+                .selectFirstNoteInList();
         Assert.assertTrue(noteDetailsPage.detailsPageExists());
     }
 
     @Test
     public void titleIsCorrect(){
         //checking to see if the title on the activity page is the same on the details page
-        NoteDetailsPage note = new NoteDetailsPage(driver).selectFirstNoteInList();
+        NoteDetailsPage note = new NoteDetailsPage(driver)
+                .searchForNote(title)
+                .selectFirstNoteInList();
         String actualTitle = note.getActivityTitle();
-        Assert.assertEquals("Title's do not match", actualTitle, title);
+        Assert.assertEquals("Titles do not match", actualTitle, title);
     }
 
-    @Ignore
     @Test
     public void locationIsCorrect(){
+        //Checks if location in details page is the same as one displayed on activity page
+        NoteDetailsPage note = new NoteDetailsPage(driver);
+
+        note.searchForNote(title);
+        String activityLocation = note.getActivityPageLocation();
+        note.selectFirstNoteInList();
+
+        String detailsLocation = note.getDetailsLocation();
+
+        Assert.assertEquals("Locations do not match", detailsLocation, activityLocation);
 
     }
 
     @Test
     public void tagIsCorrect(){
         //Checking to see if the tag on the details page is the same as tag generated above
-        NoteDetailsPage note = new NoteDetailsPage(driver).selectFirstNoteInList();
+        NoteDetailsPage note = new NoteDetailsPage(driver)
+                .searchForNote(title)
+                .selectFirstNoteInList();
         String actualTag = note.getDetailsTag();
         //Add '#' because the actual tag contains '#' in the beginning
         Assert.assertEquals("Tags do not match", actualTag, "#"+tag);
@@ -62,12 +78,15 @@ public class ActivityDetails extends AbstractSpec {
 
     @Test
     public void dateIsCorrect() throws ParseException {
-        //Checking to see if the date on the activity page is equal to date on details page
+        //Checking to see if date in details page is the same as one displayed on activity page
         NoteDetailsPage note = new NoteDetailsPage(driver);
-        String activityDate = note.getDate();
 
+        note.searchForNote(title);
+        String activityDate = note.getDate();
         note.selectFirstNoteInList();
+
         String detailsDate = note.getDetailsDate();
+
         Assert.assertEquals("Dates do not match", activityDate, detailsDate);
 
     }
@@ -78,9 +97,23 @@ public class ActivityDetails extends AbstractSpec {
 
     }
 
-    @Ignore
     @Test
     public void canAddTag(){
+        //Two parts; 1st part: Check if tag can be added from details page
+        NoteDetailsPage note = new NoteDetailsPage(driver)
+                .selectFirstNoteInList()
+                .addNewTag(newTag);
+        note.pageRefresh();
+        String actualNewTag = note.getDetailsTag();
+
+        Assert.assertEquals("New tag does not match", actualNewTag, "#"+newTag);
+
+        //2nd part: Check from the activity page if new tag is there
+        note.goBackPages(1);
+        note.searchForNote(title);
+        String actualNewTagOnActivityPage = note.getActivityPageTag();
+
+        Assert.assertEquals("New tag on activity page does not match", actualNewTagOnActivityPage, "#"+newTag);
 
     }
 
