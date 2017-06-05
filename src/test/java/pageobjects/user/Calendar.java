@@ -85,7 +85,7 @@ public class Calendar extends AbstractPageObject{
             case "FEBRUARY":
                 month = "02";
                 break;
-            case "March":
+            case "MARCH":
                 month = "03";
                 break;
             case "APRIL":
