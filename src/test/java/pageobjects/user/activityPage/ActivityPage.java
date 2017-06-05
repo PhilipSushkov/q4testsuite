@@ -486,7 +486,7 @@ public class ActivityPage extends AbstractPageObject {
             System.out.println("Earliest date in the table is earlier than the selected end time");
             Sorted = false;
         }
-
+        waitForLoadingScreen();
         // sorting the date by latest to earliest
         findVisibleElement(dateHeader).click();
         pause(200L);

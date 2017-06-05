@@ -1213,6 +1213,7 @@ public class SecurityOwnershipPage extends AbstractPageObject implements DateDro
     }
 
     public String getHolderSearchResultstwo() {
+        scrollToElement(holderSearchResulttwo);
         waitForElementToAppear(holderSearchResulttwo);
         return findElement(holderSearchResulttwo).getText();
     }
