@@ -1,6 +1,8 @@
 package pageobjects.user.headerPage;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageobjects.PageObject;
 import pageobjects.user.securityPage.SecurityOverviewPage;
 
@@ -366,8 +368,9 @@ public interface HeaderPage extends PageObject{
 
 
     default void logoutFromPage(){
+        WebElement staleElement = findElement(logoutButton);
         findElement(logoutButton).click();
-        pause(200L);
+        getWait().until(ExpectedConditions.stalenessOf(staleElement));
     }
 
 }
