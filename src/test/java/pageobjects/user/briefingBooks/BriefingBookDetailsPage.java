@@ -24,6 +24,7 @@ public class BriefingBookDetailsPage extends AbstractPageObject {
     private final By contactOption = By.className("contact");
     private final By entitySearchBox = By.cssSelector(".note-link-field .x-input-search");
     private final By entityResults = By.className("result-item");
+    private final By firstEntityResult = By.xpath("//div[contains(@class,'result-item')][1]");
     private final By saveEntityButton = By.cssSelector(".form-button.yellow");
     private final By entityList = By.className("briefing-book-detail-list");
     private final By editButton = By.xpath("//div[contains(@class,'x-button-no-icon') and ./span[contains(text(),'Edit')]]");
@@ -57,7 +58,7 @@ public class BriefingBookDetailsPage extends AbstractPageObject {
         findElement(institutionOption).click();
         findElement(entitySearchBox).sendKeys(name);
         waitForElement(entityResults);
-        findElement(entityResults).click();
+        findElement(firstEntityResult).click();
         findElement(saveEntityButton).click();
         pause(1000);
         return this;
@@ -71,7 +72,7 @@ public class BriefingBookDetailsPage extends AbstractPageObject {
         findElement(fundOption).click();
         findElement(entitySearchBox).sendKeys(name);
         waitForElement(entityResults);
-        findElement(entityResults).click();
+        findElement(firstEntityResult).click();
         findElement(saveEntityButton).click();
         pause(1000);
         return this;
@@ -85,7 +86,7 @@ public class BriefingBookDetailsPage extends AbstractPageObject {
         findElement(contactOption).click();
         findElement(entitySearchBox).sendKeys(name);
         waitForElement(entityResults);
-        findElement(entityResults).click();
+        findElement(firstEntityResult).click();
         findElement(saveEntityButton).click();
         pause(1000);
         return this;
