@@ -50,7 +50,8 @@ public class TargetingPage extends AbstractPageObject {
     private final By firstEntitySelector = By.cssSelector(".targeting-landing-list .x-dataview-item:first-child");
     private final By firstEntityNameSelector = By.cssSelector(".targeting-landing-list .x-dataview-item:first-child .name");
     //private final By firstEntityNameSelector = By.cssSelector(".targeting-grid-item-first.x-has-height div:first-child .x-grid-cell-inner");
-    private final By entityName = By.xpath("//div[contains(@class,'targeting-name')]");
+    private final By entityNamesForSorting = By.xpath("//div[contains(@class,'targeting-name')]");
+    private final By entityName = By.cssSelector(".targeting-landing-list .x-dataview-item .name");
     private final By entityTargetButton = By.className("target");
     private final By entityTargetNumber = By.xpath("//div[@class='details'][string-length(text()) > 0]");
     private final By targetsNameColumnHeader = By.xpath("//div[contains(@class,'x-button')]//span[contains(text(),'Name')]");
@@ -240,8 +241,11 @@ public class TargetingPage extends AbstractPageObject {
         waitForLoadingScreen();
         findVisibleElement(showInstitutions).click();
         waitForLoadingScreen();
+
         List<WebElement> institutionNames = findVisibleElements(entityName);
+
         for (int i=0; i<institutionNames.size(); i++){
+            System.out.print(institutionNames.get(i).getText());
             if (institutionNames.get(i).getText().contains(name)){
                 return i;
             }
@@ -388,7 +392,7 @@ public class TargetingPage extends AbstractPageObject {
         // sorting by name ascending
         findVisibleElement(targetsNameColumnHeader).click();
         pause(waitTime);
-        if (!elementsAreAlphaUpSorted(findVisibleElements(entityName))){
+        if (!elementsAreAlphaUpSorted(findVisibleElements(entityNamesForSorting))){
             System.out.println("SORT ERROR: Names are not in ascending order.");
             return false;
         }
@@ -396,7 +400,7 @@ public class TargetingPage extends AbstractPageObject {
         // sorting by name descending
         findVisibleElement(targetsNameColumnHeader).click();
         pause(waitTime);
-        if (!elementsAreAlphaDownSorted(findVisibleElements(entityName))){
+        if (!elementsAreAlphaDownSorted(findVisibleElements(entityNamesForSorting))){
             System.out.println("SORT ERROR: Names are not in descending order.");
             return false;
         }
