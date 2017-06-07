@@ -300,15 +300,15 @@ public class TargetingList extends AbstractSpec {
 
     @Test
     public void canSortTargetsList(){
-        Assert.assertTrue("Known Issue - DESKTOP-8189 - 'All' Targets list cannot be sorted.", new TargetingPage(driver).allTargetsCanBeSorted());
-        Assert.assertTrue("Fixed Issue - DESKTOP-6903 - Institutions list cannot be sorted.", new TargetingPage(driver).institutionsCanBeSorted());
+        Assert.assertTrue("'All' Targets list cannot be sorted.", new TargetingPage(driver).allTargetsCanBeSorted());
+        Assert.assertTrue("Institutions list cannot be sorted.", new TargetingPage(driver).institutionsCanBeSorted());
         Assert.assertTrue("Funds list cannot be sorted.", new TargetingPage(driver).fundsCanBeSorted());
         Assert.assertTrue("Contacts list cannot be sorted.", new TargetingPage(driver).contactsCanBeSorted());
     }
 
     @Test
     /* This test requires the presence of a saved search titled "testing updated date - DO NOT REMOVE".
-    *  If this search does not exist or was not created on 11/14/16, the test will fail.*/
+    *  If this search does not exist or was not created on 01/26/17, the test will fail.*/
     public void canEditSearchAndSeeUpdatedDate(){
         String expectedSearchName = "Testing updated date - DO NOT REMOVE";
         String expectedCreatedDate = "01/26/17";

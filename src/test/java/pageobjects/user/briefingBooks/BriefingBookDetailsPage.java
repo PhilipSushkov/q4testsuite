@@ -57,6 +57,7 @@ public class BriefingBookDetailsPage extends AbstractPageObject {
         findVisibleElement(entityTypeToggle).click();
         findElement(institutionOption).click();
         findElement(entitySearchBox).sendKeys(name);
+        pause(500);
         waitForElement(entityResults);
         findElement(firstEntityResult).click();
         findElement(saveEntityButton).click();
@@ -71,6 +72,7 @@ public class BriefingBookDetailsPage extends AbstractPageObject {
         findVisibleElement(entityTypeToggle).click();
         findElement(fundOption).click();
         findElement(entitySearchBox).sendKeys(name);
+        pause(500);
         waitForElement(entityResults);
         findElement(firstEntityResult).click();
         findElement(saveEntityButton).click();
@@ -85,6 +87,7 @@ public class BriefingBookDetailsPage extends AbstractPageObject {
         findVisibleElement(entityTypeToggle).click();
         findElement(contactOption).click();
         findElement(entitySearchBox).sendKeys(name);
+        pause(500);
         waitForElement(entityResults);
         findElement(firstEntityResult).click();
         findElement(saveEntityButton).click();
