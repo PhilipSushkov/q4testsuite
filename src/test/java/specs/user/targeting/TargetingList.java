@@ -138,7 +138,7 @@ public class TargetingList extends AbstractSpec {
 
         // going to contact page and checking that "Saved Target" icon appears
         String contactPageURL = new NewSearchPage(driver).goToContact(targetedContact).getURL();
-        Assert.assertTrue("Known Issue - Will fix later - Saved Target' icon does not appear on contact page.", new ContactDetailsPage(driver).isSavedTarget());
+        Assert.assertTrue("Contact could not be targeted", new ContactDetailsPage(driver).isSavedTarget());
 
         // going to targets list and checking that contact appears
 

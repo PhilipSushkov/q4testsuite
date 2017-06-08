@@ -42,6 +42,7 @@ public class NewSearchPage extends AbstractPageObject{
     private final By contactToggle = By.className("contacts-toggle");
     private final By contactName = By.cssSelector(".contact .column.name");
     private final By contactSaveTargetButton = By.cssSelector(".targeting-result .column.target .target-toggle");
+    private final By personContactTargetButton = By.xpath("//div[@class='x-dataview-item contact']/div/span");
 
     private final By showMoreButton = By.cssSelector(".load-more .x-button");
     private final By nameColumnHeader = By.cssSelector(".list-header .column.name");
@@ -298,9 +299,10 @@ public class NewSearchPage extends AbstractPageObject{
 
         // targeting first contact and returning its name
         contactToggles.get(index).click();
-        waitForElementToAppear(contactSaveTargetButton);
+        waitForElementToAppear(personContactTargetButton);
         String targetedContact = findElement(contactName).getText();
-        findElement(contactSaveTargetButton).click();
+        System.out.print(targetedContact);
+        findElement(personContactTargetButton).click();
         return targetedContact;
     }
 
