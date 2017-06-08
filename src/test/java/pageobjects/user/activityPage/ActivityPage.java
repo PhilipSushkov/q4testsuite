@@ -50,6 +50,7 @@ public class ActivityPage extends AbstractPageObject {
     private final By typeHeader = By.xpath("//div[contains(@class,'column') and contains(@class,'x-button-no-icon') and .//span[contains(text(),'Type')]]");
     private final By titleHeader = By.xpath("//div[contains(@class,'column') and contains(@class,'x-button-no-icon') and .//span[contains(text(),'Title')]]");
     private final By contactHeader = By.xpath("//div[contains(@class,'column') and contains(@class,'x-button-no-icon') and .//span[contains(text(),'Contact')]]");
+    private final By institutionHeader = By.xpath("//div[contains(@class,'column') and contains(@class,'x-button-no-icon') and .//span[contains(text(),'Institution')]]");
     private final By locationHeader = By.xpath("//div[contains(@class,'column') and contains(@class,'x-button-no-icon') and .//span[contains(text(),'Location')]]");
     private final By dateHeader = By.xpath("//div[contains(@class,'column') and contains(@class,'x-button-no-icon') and .//span[contains(text(),'Date')]]");
     private final By tagsHeader = By.xpath("//div[contains(@class,'column') and contains(@class,'x-button-no-icon') and .//span[contains(text(),'Tags')]]");
@@ -120,6 +121,8 @@ public class ActivityPage extends AbstractPageObject {
                 break;
             case CONTACT:
                 selector = contactHeader;
+            case INSTITUTION:
+                selector = institutionHeader;
                 break;
             case LOCATION:
                 selector = locationHeader;
