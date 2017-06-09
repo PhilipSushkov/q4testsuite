@@ -241,12 +241,13 @@ public class ActivityPage extends AbstractPageObject {
         FilterType meeting = FilterType.MEETING;
         FilterType phone = FilterType.PHONE;
         FilterType roadshow = FilterType.ROADHSHOW;
+        FilterType none = FilterType.NONE;
         FilterType savedIcon = null;
         FilterType currentIcon= FilterType.PHONE;
 
         for (WebElement i : rows){
             if(savedIcon!=null){
-                currentIcon=currentIcon.returnType(i.findElement(By.xpath(".//i")).getAttribute("class"));
+                currentIcon=currentIcon.returnType(i.findElement(By.xpath("//div[@class='column centered type']/i")).getAttribute("class"));
                 if (currentIcon!=savedIcon) {
                     switch (currentIcon) {
                         case EMAIL:
@@ -268,6 +269,9 @@ public class ActivityPage extends AbstractPageObject {
                                         break;
                                     case ROADHSHOW:
                                         roadshow.setChecked(true);
+                                        break;
+                                    case NONE:
+                                        none.setChecked(true);
                                         break;
                                 }
                                 savedIcon = email;
@@ -293,6 +297,9 @@ public class ActivityPage extends AbstractPageObject {
                                     case ROADHSHOW:
                                         roadshow.setChecked(true);
                                         break;
+                                    case NONE:
+                                        none.setChecked(true);
+                                        break;
                                 }
                                 savedIcon = note;
                             }
@@ -316,6 +323,9 @@ public class ActivityPage extends AbstractPageObject {
                                         break;
                                     case ROADHSHOW:
                                         roadshow.setChecked(true);
+                                        break;
+                                    case NONE:
+                                        none.setChecked(true);
                                         break;
                                 }
                                 savedIcon = meeting;
@@ -341,6 +351,9 @@ public class ActivityPage extends AbstractPageObject {
                                     case ROADHSHOW:
                                         roadshow.setChecked(true);
                                         break;
+                                    case NONE:
+                                        none.setChecked(true);
+                                        break;
                                 }
                                 savedIcon = phone;
                             }
@@ -364,8 +377,37 @@ public class ActivityPage extends AbstractPageObject {
                                     case ROADHSHOW:
                                         roadshow.setChecked(true);
                                         break;
+                                    case NONE:
+                                        none.setChecked(true);
+                                        break;
                                 }
                                 savedIcon = roadshow;
+                            }
+                        case NONE:
+                            if (none.isChecked()) {
+                                return false;
+                            } else {
+                                switch(savedIcon){
+                                    case EMAIL:
+                                        email.setChecked(true);
+                                        break;
+                                    case NOTE:
+                                        note.setChecked(true);
+                                        break;
+                                    case MEETING:
+                                        meeting.setChecked(true);
+                                        break;
+                                    case PHONE:
+                                        phone.setChecked(true);
+                                        break;
+                                    case ROADHSHOW:
+                                        roadshow.setChecked(true);
+                                        break;
+                                    case NONE:
+                                        none.setChecked(true);
+                                        break;
+                                }
+                                savedIcon = none;
                             }
                     }
                 }
