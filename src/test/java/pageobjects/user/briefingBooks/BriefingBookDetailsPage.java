@@ -17,7 +17,7 @@ public class BriefingBookDetailsPage extends AbstractPageObject {
     private final By heroDeleteButton = By.xpath("//div[contains(@class,'action-button')][.//span[contains(@class,'q4i-trashbin-4pt')]]");
     private final By deleteConfirmation = By.xpath("//*[contains(text(), 'Yes')]");
     private final By saveButton = By.xpath("//div[contains(@class,'x-button-no-icon') and ./span[contains(text(),'Save')]]");
-    private final By addButton = By.xpath("//div[contains(@class,'x-button-no-icon') and ./span[contains(text(),'Add')]]");
+    private final By addButton = By.xpath("//span[contains(@class,'x-button-icon x-shown q4i-add-4pt')]");
     private final By entityTypeToggle = By.className("x-toggle");
     private final By institutionOption = By.className("institution");
     private final By fundOption = By.className("fund");
@@ -52,7 +52,7 @@ public class BriefingBookDetailsPage extends AbstractPageObject {
 
     public BriefingBookDetailsPage addInstitution(String name) {
         waitForLoadingScreen();
-        findElement(addButton).click();
+        findVisibleElement(addButton).click();
         pause(500);
         findVisibleElement(entityTypeToggle).click();
         findElement(institutionOption).click();
@@ -67,7 +67,7 @@ public class BriefingBookDetailsPage extends AbstractPageObject {
 
     public BriefingBookDetailsPage addFund(String name) {
         waitForLoadingScreen();
-        findElement(addButton).click();
+        findVisibleElement(addButton).click();
         pause(500);
         findVisibleElement(entityTypeToggle).click();
         findElement(fundOption).click();
@@ -82,7 +82,7 @@ public class BriefingBookDetailsPage extends AbstractPageObject {
 
     public BriefingBookDetailsPage addContact(String name) {
         waitForLoadingScreen();
-        findElement(addButton).click();
+        findVisibleElement(addButton).click();
         pause(500);
         findVisibleElement(entityTypeToggle).click();
         findElement(contactOption).click();
