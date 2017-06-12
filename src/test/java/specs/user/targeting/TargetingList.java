@@ -137,6 +137,7 @@ public class TargetingList extends AbstractSpec {
         System.out.println("Targeted contact is: "+targetedContact);
 
         // going to contact page and checking that "Saved Target" icon appears
+        // Possible error - contact was already targeted so clicking "target" actually removes them from the list
         String contactPageURL = new NewSearchPage(driver).goToContact(targetedContact).getURL();
         Assert.assertTrue("Contact could not be targeted", new ContactDetailsPage(driver).isSavedTarget());
 

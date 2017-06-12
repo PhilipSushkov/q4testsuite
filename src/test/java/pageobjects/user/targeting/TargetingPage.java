@@ -50,7 +50,7 @@ public class TargetingPage extends AbstractPageObject {
     private final By firstEntitySelector = By.cssSelector(".targeting-landing-list .x-dataview-item:first-child");
     private final By firstEntityNameSelector = By.cssSelector(".targeting-landing-list .x-dataview-item:first-child .name");
     //private final By firstEntityNameSelector = By.cssSelector(".targeting-grid-item-first.x-has-height div:first-child .x-grid-cell-inner");
-    private final By entityNamesForSorting = By.xpath("//div[contains(@class,'targeting-name')]");
+    private final By entityNameTargetPage = By.xpath("//div[contains(@class,'targeting-name')]");
     private final By entityName = By.cssSelector(".targeting-landing-list .x-dataview-item .name");
     private final By entityTargetButton = By.className("target");
     private final By entityTargetNumber = By.xpath("//div[@class='details'][string-length(text()) > 0]");
@@ -260,12 +260,15 @@ public class TargetingPage extends AbstractPageObject {
         pause(2000);
         findVisibleElement(showContacts).click();
         pause(5000);
-        List<WebElement> contactNames = findVisibleElements(entityName);
+        List<WebElement> contactNames = findVisibleElements(entityNameTargetPage);
         for (int i=0; i<contactNames.size(); i++){
-            if (contactNames.get(i).getText().contains(name)){
+            System.out.println("Contact name is: "+ contactNames.get(i).getText());
+            System.out.println("Name is: "+ name);
+            if (name.contains(contactNames.get(i).getText())){
                 return i;
             }
         }
+        System.out.println("Name could not be found");
         return -1;
     }
 
@@ -392,7 +395,7 @@ public class TargetingPage extends AbstractPageObject {
         // sorting by name ascending
         findVisibleElement(targetsNameColumnHeader).click();
         pause(waitTime);
-        if (!elementsAreAlphaUpSorted(findVisibleElements(entityNamesForSorting))){
+        if (!elementsAreAlphaUpSorted(findVisibleElements(entityNameTargetPage))){
             System.out.println("SORT ERROR: Names are not in ascending order.");
             return false;
         }
@@ -400,7 +403,7 @@ public class TargetingPage extends AbstractPageObject {
         // sorting by name descending
         findVisibleElement(targetsNameColumnHeader).click();
         pause(waitTime);
-        if (!elementsAreAlphaDownSorted(findVisibleElements(entityNamesForSorting))){
+        if (!elementsAreAlphaDownSorted(findVisibleElements(entityNameTargetPage))){
             System.out.println("SORT ERROR: Names are not in descending order.");
             return false;
         }
