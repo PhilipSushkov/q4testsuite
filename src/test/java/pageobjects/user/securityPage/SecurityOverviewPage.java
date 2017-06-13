@@ -653,7 +653,9 @@ public class SecurityOverviewPage extends WatchlistPage {
 
     public SentimentPage navigateToSentimentPage() {
         findElement(dropdownRightArrow).click();
+        pause(500L);
         findElement(dropdownRightArrow).click();
+        pause(500L);
         findElement(dropdownRightArrow).click();
         waitForLoadingScreen();
 
@@ -662,8 +664,11 @@ public class SecurityOverviewPage extends WatchlistPage {
 
     public VolatilityPage navigateToVolatilityPage() {
         findElement(dropdownRightArrow).click();
+        pause(500L);
         findElement(dropdownRightArrow).click();
+        pause(500L);
         findElement(dropdownRightArrow).click();
+        pause(500L);
         findElement(dropdownRightArrow).click();
         waitForLoadingScreen();
 
@@ -672,9 +677,13 @@ public class SecurityOverviewPage extends WatchlistPage {
 
     public ActivismPage navigateToActivismPage() {
         findElement(dropdownRightArrow).click();
+        pause(500L);
         findElement(dropdownRightArrow).click();
+        pause(500L);
         findElement(dropdownRightArrow).click();
+        pause(500L);
         findElement(dropdownRightArrow).click();
+        pause(500L);
         findElement(dropdownRightArrow).click();
         waitForLoadingScreen();
 

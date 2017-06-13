@@ -302,7 +302,7 @@ public class Ownership extends AbstractSpec {
         securityOwnershipPage.selectInsiderstab();
         securityOwnershipPage.searchForHoldings(holder);
 
-        Assert.assertThat(securityOwnershipPage.getInsiderSearchResults(), containsString(holder));
+        Assert.assertThat("Known Issue: DESKTOP-8692", securityOwnershipPage.getInsiderSearchResults(), containsString(holder));
     }
 
     @Test
