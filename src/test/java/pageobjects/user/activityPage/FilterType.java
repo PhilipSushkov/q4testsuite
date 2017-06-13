@@ -10,7 +10,8 @@ public enum FilterType {
     PHONE("q4i-phone-2pt",false),
     EMAIL("q4i-mail-2pt",false),
     MEETING("q4i-meeting-2pt",false),
-    ROADHSHOW("q4i-roadshow-2pt",false);
+    ROADHSHOW("q4i-roadshow-2pt",false),
+    NONE("",false);
 
     private final String iconClass;
     private boolean checked;
@@ -47,6 +48,8 @@ public enum FilterType {
                 return FilterType.MEETING;
             case "q4i-roadshow-2pt":
                 return FilterType.ROADHSHOW;
+            case "":
+                return FilterType.NONE;
             default:
                 return null;
 

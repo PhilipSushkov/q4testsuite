@@ -92,7 +92,7 @@ public class SideNavBar extends AbstractPageObject{
 
     public BriefingBookList selectBriefingBookFromSideNav() {
         pause(2000L);
-        waitForElementToAppear(reportsSideNav);
+        wait.until(ExpectedConditions.elementToBeClickable(reportsSideNav));
         findElement(reportsSideNav).click();
 
         return new BriefingBookList(getDriver());
