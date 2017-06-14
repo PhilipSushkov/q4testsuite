@@ -256,10 +256,12 @@ public class TargetingPage extends AbstractPageObject {
     public int findContactIndex(String name){
         waitForElement(showTargets);
         findVisibleElement(showTargets).click();
-        pause(2000);
+        waitForLoadingScreen();
         findVisibleElement(showContacts).click();
-        pause(5000);
+        waitForLoadingScreen();
+
         List<WebElement> contactNames = findVisibleElements(entityName);
+
         for (int i=0; i<contactNames.size(); i++){
             if (contactNames.get(i).getText().contains(name)){
                 return i;
