@@ -30,11 +30,12 @@ import static specs.ApiAbstractSpec.propAPI;
 public class HistoricalStockQuote {
 
     private int failurecount;
+    private int compareDataCounter = 0;
     private String earliestDate = "";
     private String q4DatabaseRequestDate;
     private double QuandlClosePrice;
     private double Q4Price = 0;
-    private int numberOfDates = 0;
+    private int numberOfDates = 20;
     private String ticker;
     private String exchange;
     private String security_name;
@@ -153,10 +154,12 @@ public class HistoricalStockQuote {
                         org.json.JSONObject jsonHistItem = historicalArray.getJSONObject(j);
                         // recording the date property, data is stored so the first element of the array stores the stock data for today, so earliestDate will eventually get the most past day
                         earliestDate = jsonHistItem.get("Date").toString();
+                        System.out.println(earliestDate);
+                        compareQ4AndQuandlClosePrices();
                     }
 
                     // Now we can compare the two close prices
-                    compareQ4AndQuandlClosePrices();
+
 
                 } else {
                     // no data was found in the request, storing error in list
@@ -214,10 +217,11 @@ public class HistoricalStockQuote {
 
     void compareQ4AndQuandlClosePrices(){
         // Changing the format of the date so it works in the Quandl api
-        quandlFormat = new SimpleDateFormat("yyyy-MM-dd");
+        quandlFormat = new SimpleDateFormat("MM/dd/yyyy");
         try {
-            Date earliestDateInQuandl = quandlFormat.parse(earliestDate);
-            String earliestDateInQuandlFormat = quandlFormat.format(earliestDateInQuandl);
+            Date earliestDateInQuandl = quandlFormat.parse("6/13/2017");
+            SimpleDateFormat realQuandlFormat = new SimpleDateFormat("yyyy-MM-dd");
+          String earliestDateInQuandlFormat = realQuandlFormat.format(earliestDateInQuandl);
 
             // sending first request to Quandl to record number of days of data Quandl has from the earliestDate in the Q4 database
             // In case a request to Quandl fails, this loop sends the same request back 10 times before giving up and allowing the error to end the test for the current ticker
@@ -243,27 +247,34 @@ public class HistoricalStockQuote {
             }
 
         } catch (java.text.ParseException e) {
-            System.out.println ("Q4 date couldn't be parsed");
-        }
+           System.out.println ("Q4 date couldn't be parsed");
+       }
 
         // loop to compare the data
-        for (int i = 0; i < numberOfDates; i++){
+        //for (int i = 0; i < numberOfDates; i++){
             // Store the closing price of the specific date in a string
-            String quandlClosingPrice = stockInformation.getClosingPrices().get(i);
-            String quandlDate = stockInformation.getClosingPriceDates().get(i);
-
+            String quandlClosingPrice = stockInformation.getClosingPrices().get(compareDataCounter);
+            String quandlDate = stockInformation.getClosingPriceDates().get(compareDataCounter);
+            System.out.println("Testing...");
             // Change date so we can retrieve the matching data from the q4 database for comparison
-            SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
-            q4DatabaseRequestDate = formatter.format(quandlDate);
+            try {
+                SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
+            Date quandlDateObject = formatter.parse(quandlDate);
+            SimpleDateFormat formatQuandlToQ4 = new SimpleDateFormat("yyyy-MM-dd");
+            q4DatabaseRequestDate = formatQuandlToQ4.format(quandlDateObject);}
+            catch (java.text.ParseException e){
+                System.out.println("Could not parse Quandl Date");
+            }
 
             QuandlClosePrice = Double.parseDouble(quandlClosingPrice);
             collectQ4Data();
 
             if (dataexists){
                 compareData();
+                compareDataCounter++;
             }
 
-        }
+        //}
     }
 
     // Compares the Q4 stock price with the Quandl stock price
@@ -299,7 +310,7 @@ public class HistoricalStockQuote {
         try {
 
             // Collecting Q4Data for that date
-            String q4DataBaseIndividualRequest = PROTOCOL + host + "/api/stock/historical?appver=" + app_ver + "&securityId=" + securityId + "&startDate=" + q4DatabaseRequestDate + "&endDate=" + q4DatabaseRequestDate;
+            String q4DataBaseIndividualRequest = PROTOCOL + host + "/api/stock/historical?appver=" + app_ver + "&securityId=" + securityId + "&startDate=" + earliestDate + "&endDate=" + earliestDate;
             // Setting up new requests
             HttpGet getIndividual = new HttpGet((q4DataBaseIndividualRequest));
             // Setting up authentication headers for individual get query
