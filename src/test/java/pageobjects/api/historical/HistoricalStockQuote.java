@@ -35,6 +35,8 @@ public class HistoricalStockQuote {
     private String q4DatabaseRequestDate;
     private double QuandlClosePrice;
     private double Q4Price = 0;
+    private ArrayList<String> Q4prices = new ArrayList<String>();
+    private ArrayList<String> Q4dates = new ArrayList<String>();
     private int numberOfDates = 250;
     private String ticker;
     private String exchange;
@@ -44,6 +46,8 @@ public class HistoricalStockQuote {
     private boolean requestSuccess;
     private int securityCounter;
     private String Q4Currency;
+    private String Q4Date;
+    private String QuandlDate;
 
     private String host;
     private String app_ver;
@@ -62,10 +66,7 @@ public class HistoricalStockQuote {
 
     private QuandlDataset stockInformation;
     private HttpResponse response;
-    private DateFormat q4Format;
     private DateFormat quandlFormat;
-    private Date quandlDate;
-    private Date q4Date;
     private JSONObject individualdata;
 
     private List<String> zeroDataList = new ArrayList<>();
@@ -73,6 +74,8 @@ public class HistoricalStockQuote {
     private List<String> missingDataList = new ArrayList<>();
     private List<String> miscellaneousErrorList = new ArrayList<>();
 
+    // Purpose: Reads the globalindividualdata JSON file and runs a test for each Stock in the globalindividualdata file in the given environment.
+    // Environment can be one of PREPROD_ENV, STAGING_ENV, or DEVELOP_ENV
     public HistoricalStockQuote(JSONObject globalindividualdata, String environment) throws IOException {
 
         individualdata = new JSONObject(globalindividualdata);
@@ -122,6 +125,7 @@ public class HistoricalStockQuote {
         connection = jsonEnv.get("connection").toString();
     }
 
+    // Purpose: Ensures that Q4 data exists before continuing, and returns an error message in the console if it doesn't.
     public void dataValidation() {
 
         try {
@@ -157,12 +161,10 @@ public class HistoricalStockQuote {
                         org.json.JSONObject jsonHistItem = historicalArray.getJSONObject(j);
                         // recording the date property, data is stored so the first element of the array stores the stock data for today, so earliestDate will eventually get the most past day
                         earliestDate = jsonHistItem.get("Date").toString();
-                        System.out.println(earliestDate);
-                        compareQ4AndQuandlClosePrices();
                     }
-
+                   // System.out.println(earliestDate);
                     // Now we can compare the two close prices
-
+                    compareQ4AndQuandlClosePrices();
 
                 } else {
                     // no data was found in the request, storing error in list
@@ -179,7 +181,7 @@ public class HistoricalStockQuote {
         } catch (IOException e) {
         }
     }
-
+    // Purpose: Makes a call to the Q4 api to get all the possible historical data. This lets us know the maximum number of dates we are able to call from the Quandl Api.
     public void sendStockQuoteRequestToQ4DB() {
 
         try {
@@ -218,6 +220,7 @@ public class HistoricalStockQuote {
         }
     }
 
+    // Purpose: Format the dates so that requests to the Quandl Api can be made and then format the dates again so a request to the Q4 api can be made and then the data is compared.
     void compareQ4AndQuandlClosePrices(){
         // Changing the format of the date so it works in the Quandl api
         quandlFormat = new SimpleDateFormat("MM/dd/yyyy");
@@ -231,53 +234,70 @@ public class HistoricalStockQuote {
             for (failurecount = 0; requestSuccess; failurecount++) {
                 try {
                     // EOD exchange stands for END OF DAY, so it will give you all the end of day info for that stock
-                    stockInformation = QuandlConnectToApi.getDatasetBetweenDates(ticker, "EOD", earliestDateInQuandlFormat, earliestDateInQuandlFormat);
+                    stockInformation = QuandlConnectToApi.getDatasetFromDate(ticker, "EOD", earliestDateInQuandlFormat);
                     break;
                 } catch (Exception e) {
                     requestSuccess = checkrequestfailure(failurecount, ticker, exchange, securityId);
                 }
-               // numberOfDates++;
             }
+        } catch (java.text.ParseException e) {
+            System.out.println ("Q4 date couldn't be parsed");
+        }
+        if (stockInformation.getClosingPriceDates().size() != 0) {
+
+            // Gets the most recent date that has stock data from the QuandlDataset StockInformation
+            String quandlDate = stockInformation.getClosingPriceDates().get(0);
+            // Change date so we can retrieve the matching data from the q4 database for comparison
+            try {
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+                Date quandlDateObject = formatter.parse(quandlDate);
+                SimpleDateFormat formatQuandlToQ4 = new SimpleDateFormat("MM/dd/yyyy");
+                q4DatabaseRequestDate = formatQuandlToQ4.format(quandlDateObject);
+                //System.out.println(q4DatabaseRequestDate);
+            } catch (java.text.ParseException e) {
+                System.out.println("Could not parse Quandl Date");
+            }
+            collectQ4Data();
 
             //break if previous request failed
             if (!requestSuccess) {
                 return;
             }
 
-        } catch (java.text.ParseException e) {
-           System.out.println ("Q4 date couldn't be parsed");
-       }
-
         // loop to compare the data
-        //for (int i = 0; i < numberOfDates; i++){
-            // Store the closing price of the specific date in a string
-            String quandlClosingPrice = stockInformation.getClosingPrices().get(0);
-            String quandlDate = stockInformation.getClosingPriceDates().get(0);
+        for (int i = 0; i < numberOfDates; i++) {
+            // Store the closing price of a specific date for comparison
+            Q4Price = Double.parseDouble(Q4prices.get(i));
+            Q4Date = Q4dates.get(i);
+            QuandlDate = stockInformation.getClosingPriceDates().get(i);
+            QuandlClosePrice = Double.parseDouble(stockInformation.getClosingPrices().get(i));
 
-
-            // Change date so we can retrieve the matching data from the q4 database for comparison
             try {
-                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-            Date quandlDateObject = formatter.parse(quandlDate);
-            SimpleDateFormat formatQuandlToQ4 = new SimpleDateFormat("MM/dd/yyyy");
-            q4DatabaseRequestDate = formatQuandlToQ4.format(quandlDateObject);
-                System.out.println(q4DatabaseRequestDate);}
+                Date currentDateInQuandl = quandlFormat.parse(Q4Date);
+                SimpleDateFormat realQuandlFormat = new SimpleDateFormat("yyyy-MM-dd");
+                Q4Date = realQuandlFormat.format(currentDateInQuandl);
+            }
             catch (java.text.ParseException e){
-                System.out.println("Could not parse Quandl Date");
+                System.out.println("Could not parse Quandl Date before comparing");
             }
 
-            QuandlClosePrice = Double.parseDouble(quandlClosingPrice);
-            collectQ4Data();
-
-            if (dataexists){
+            if (Q4Date.equalsIgnoreCase(QuandlDate)){
                 compareData();
                 compareDataCounter++;
             }
+            else {
+                System.out.println("Dates didn't match. Q4 date was " + Q4Date + ". While Quandl date was " + QuandlDate + ".");
+            }
 
-        //}
+            }
+        }
+        else
+        {
+            System.out.println("No Quandl Data");
+        }
     }
 
-    // Compares the Q4 stock price with the Quandl stock price
+    // Purpose: Compares the Q4 stock price with the Quandl stock price
     private boolean compareData() {
         // margin of error between the 2 stock prices
         result = (Math.abs(QuandlClosePrice - Q4Price) < 0.01);
@@ -287,34 +307,24 @@ public class HistoricalStockQuote {
             individualstockresult = false;
             System.out.println(ticker + ": " + "Quandl price: " + QuandlClosePrice + " Q4 Price: " + Q4Price);
 
-            // accounting for case of 0 days
-            if (Q4Price == 0.0) {
-                zeroDataList.add("0 value on " + q4Date + " while Quandl's price is " + QuandlClosePrice);
-            }
-
-            // accounting for generally inaccurate days
-            if (Q4Price != 0.0) {
-                inaccurateDataList.add("Inaccurate: on " + q4Date + " Q4 price is: " + Q4Price + " while Quandl's price is " + QuandlClosePrice);
-            }
-
             // divides each failure
             System.out.println("------");
         }
-        else
+        /*else
         {
-            System.out.println("Good");
-        }
+            System.out.println("Success");
+        }*/
 
         return result;
 
     }
-
+    // Purpose: Makes a call to the Q4api and stores the closing price in an ArrayList.
     private void collectQ4Data() {
 
         try {
 
             // Collecting Q4Data for that date
-            String q4DataBaseIndividualRequest = PROTOCOL + host + "/api/stock/historical?appver=" + app_ver + "&securityId=" + securityId + "&startDate=" + earliestDate + "&endDate=" + earliestDate;
+            String q4DataBaseIndividualRequest = PROTOCOL + host + "/api/stock/historical?appver=" + app_ver + "&securityId=" + securityId + "&startDate=" + earliestDate + "&endDate=" + q4DatabaseRequestDate;
             // Setting up new requests
             HttpGet getIndividual = new HttpGet((q4DataBaseIndividualRequest));
             // Setting up authentication headers for individual get query
@@ -338,19 +348,14 @@ public class HistoricalStockQuote {
                         org.json.JSONObject jsonHistItem = individualJSONArray.getJSONObject(z);
                         // print statement to see all Q4 prices
                         // System.out.println("Q4 Desktop Price : " + jsonHistItem.get("Last").toString() + " on " + jsonHistItem.get("Date").toString()  + " on thread " + Thread.currentThread().getId());
-                        Q4Price = Double.parseDouble(jsonHistItem.get("Last").toString());
-                        Q4Currency = jsonHistItem.get("Currency").toString();
+                        Q4prices.add(jsonHistItem.get("Last").toString());
+                        Q4dates.add(jsonHistItem.get("Date").toString());
+                        //Q4Currency = jsonHistItem.get("Currency").toString();
                     }
-                } else {
-                    // data doesn't exist for this day
-
-                    // recording this error
-                    inaccurateDataList.add("Missing Data: on " + q4Date + " while Quandl's price is " + QuandlClosePrice);
-
-                    // this stock was found to have at least one error
-                    individualstockresult = false;
-                    //System.out.println("Stock data doesn't exist for " + ticker + " : " + exchange + " on " + q4Date);
-                    dataexists = false;
+                }
+                else
+                {
+                    System.out.println("No data");
                 }
             }
         } catch (IOException e) {
