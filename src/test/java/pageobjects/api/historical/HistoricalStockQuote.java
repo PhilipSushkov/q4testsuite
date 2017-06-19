@@ -35,7 +35,7 @@ public class HistoricalStockQuote {
     private String q4DatabaseRequestDate;
     private double QuandlClosePrice;
     private double Q4Price = 0;
-    private int numberOfDates = 20;
+    private int numberOfDates = 250;
     private String ticker;
     private String exchange;
     private String security_name;
@@ -150,7 +150,10 @@ public class HistoricalStockQuote {
                 // Checking if data exists
                 if (jsonResponse.getJSONArray("historical").length() != 0) {
                     // read through Historical Stock Data for final entry
-                    for (int j = 0; j < historicalArray.length(); j++) {
+                    if (numberOfDates > historicalArray.length()){
+                        numberOfDates = historicalArray.length();
+                    }
+                    for (int j = 0; j < numberOfDates; j++) {
                         org.json.JSONObject jsonHistItem = historicalArray.getJSONObject(j);
                         // recording the date property, data is stored so the first element of the array stores the stock data for today, so earliestDate will eventually get the most past day
                         earliestDate = jsonHistItem.get("Date").toString();
@@ -205,7 +208,7 @@ public class HistoricalStockQuote {
         // loop will fail after 10 runs
         if (failcount == 10) {
             // Storing error
-            miscellaneousErrorList.add("Yahoo encountered an error while requesting for " + ticker + " : " + exchange + "     securtiyID = " + securityId);
+            miscellaneousErrorList.add("Quandl encountered an error while requesting for " + ticker + " : " + exchange + "     securtiyID = " + securityId);
             // stock check failed
             individualstockresult = false;
             return false;
@@ -219,7 +222,7 @@ public class HistoricalStockQuote {
         // Changing the format of the date so it works in the Quandl api
         quandlFormat = new SimpleDateFormat("MM/dd/yyyy");
         try {
-            Date earliestDateInQuandl = quandlFormat.parse("6/13/2017");
+            Date earliestDateInQuandl = quandlFormat.parse(earliestDate);
             SimpleDateFormat realQuandlFormat = new SimpleDateFormat("yyyy-MM-dd");
           String earliestDateInQuandlFormat = realQuandlFormat.format(earliestDateInQuandl);
 
@@ -228,22 +231,17 @@ public class HistoricalStockQuote {
             for (failurecount = 0; requestSuccess; failurecount++) {
                 try {
                     // EOD exchange stands for END OF DAY, so it will give you all the end of day info for that stock
-                    stockInformation = QuandlConnectToApi.getDatasetFromDate(ticker, "EOD", earliestDateInQuandlFormat);
+                    stockInformation = QuandlConnectToApi.getDatasetBetweenDates(ticker, "EOD", earliestDateInQuandlFormat, earliestDateInQuandlFormat);
                     break;
                 } catch (Exception e) {
                     requestSuccess = checkrequestfailure(failurecount, ticker, exchange, securityId);
                 }
-                numberOfDates++;
+               // numberOfDates++;
             }
 
             //break if previous request failed
             if (!requestSuccess) {
                 return;
-            }
-
-            // checks if we have less than 300 days of data for a security
-            if (numberOfDates < 290) {
-                System.out.println("There are only " + numberOfDates + " days of data for " + security_name + "       securityId: " + securityId);
             }
 
         } catch (java.text.ParseException e) {
@@ -253,15 +251,17 @@ public class HistoricalStockQuote {
         // loop to compare the data
         //for (int i = 0; i < numberOfDates; i++){
             // Store the closing price of the specific date in a string
-            String quandlClosingPrice = stockInformation.getClosingPrices().get(compareDataCounter);
-            String quandlDate = stockInformation.getClosingPriceDates().get(compareDataCounter);
-            System.out.println("Testing...");
+            String quandlClosingPrice = stockInformation.getClosingPrices().get(0);
+            String quandlDate = stockInformation.getClosingPriceDates().get(0);
+
+
             // Change date so we can retrieve the matching data from the q4 database for comparison
             try {
-                SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
             Date quandlDateObject = formatter.parse(quandlDate);
-            SimpleDateFormat formatQuandlToQ4 = new SimpleDateFormat("yyyy-MM-dd");
-            q4DatabaseRequestDate = formatQuandlToQ4.format(quandlDateObject);}
+            SimpleDateFormat formatQuandlToQ4 = new SimpleDateFormat("MM/dd/yyyy");
+            q4DatabaseRequestDate = formatQuandlToQ4.format(quandlDateObject);
+                System.out.println(q4DatabaseRequestDate);}
             catch (java.text.ParseException e){
                 System.out.println("Could not parse Quandl Date");
             }
@@ -299,6 +299,10 @@ public class HistoricalStockQuote {
 
             // divides each failure
             System.out.println("------");
+        }
+        else
+        {
+            System.out.println("Good");
         }
 
         return result;
