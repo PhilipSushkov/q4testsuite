@@ -29,8 +29,8 @@ public class QuandlConnectToApi {
             return new QuandlDataset(createUrl(baseUrl + exchange +  "/" + ticker + "/data.json?api_token=" + key), "json");
     }
 
-    public static QuandlDataset getDatasetBetweenDates(String ticker, String start, String end) {
-            return new QuandlDataset(createUrl(baseUrl + ticker + "/data.json?api_key=" + key + "&start_date=" + start + "&end_date=" + end), "json");
+    public static QuandlDataset getDatasetBetweenDates(String ticker, String exchange, String start, String end) {
+            return new QuandlDataset(createUrl(baseUrl + exchange +"/"+ ticker + "/data.json?api_key=" + key + "&start_date=" + start + "&end_date=" + end), "json");
     }
 
     public static QuandlDataset getDatasetFromDate(String ticker, String exchange, String from){
