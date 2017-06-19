@@ -37,8 +37,9 @@ public class HistoricalStockQuote {
     private double Q4Price = 0;
     private ArrayList<String> Q4prices = new ArrayList<String>();
     private ArrayList<String> Q4dates = new ArrayList<String>();
-    private int numberOfDates = 250;
+    private int numberOfDates = 287;
     private String ticker;
+    private String QuandlTicker;
     private String exchange;
     private String security_name;
     private String securityId;
@@ -137,6 +138,7 @@ public class HistoricalStockQuote {
             ticker = individualdata.get("symbol").toString();
             exchange = individualdata.get("exchange").toString();
             securityId = individualdata.get("_id").toString();
+            QuandlTicker = ticker;
 
             // Q4 retains 300 days of stock data from the current date
             // To get all 300 days of data from Quandl to compare against Q4DB, we need the earliest date value in our DB to create a "from" parameter for a Quandl Request
@@ -223,6 +225,10 @@ public class HistoricalStockQuote {
     // Purpose: Format the dates so that requests to the Quandl Api can be made and then format the dates again so a request to the Q4 api can be made and then the data is compared.
     void compareQ4AndQuandlClosePrices(){
         // Changing the format of the date so it works in the Quandl api
+        if (ticker.contains("."))
+        {
+            QuandlTicker = ticker.replace(".", "_");
+        }
         quandlFormat = new SimpleDateFormat("MM/dd/yyyy");
         try {
             Date earliestDateInQuandl = quandlFormat.parse(earliestDate);
@@ -234,7 +240,7 @@ public class HistoricalStockQuote {
             for (failurecount = 0; requestSuccess; failurecount++) {
                 try {
                     // EOD exchange stands for END OF DAY, so it will give you all the end of day info for that stock
-                    stockInformation = QuandlConnectToApi.getDatasetFromDate(ticker, "EOD", earliestDateInQuandlFormat);
+                    stockInformation = QuandlConnectToApi.getDatasetFromDate(QuandlTicker, "EOD", earliestDateInQuandlFormat);
                     break;
                 } catch (Exception e) {
                     requestSuccess = checkrequestfailure(failurecount, ticker, exchange, securityId);
@@ -283,17 +289,17 @@ public class HistoricalStockQuote {
 
             if (Q4Date.equalsIgnoreCase(QuandlDate)){
                 compareData();
-                compareDataCounter++;
             }
             else {
-                System.out.println("Dates didn't match. Q4 date was " + Q4Date + ". While Quandl date was " + QuandlDate + ".");
+                System.out.println(ticker + ": Dates didn't match. Q4 date was " + Q4Date + ". While Quandl date was " + QuandlDate + ".");
             }
 
             }
         }
         else
         {
-            System.out.println("No Quandl Data");
+            System.out.println("No Quandl Data for "+ ticker);
+            miscellaneousErrorList.add("Quandl Data not found for stock");
         }
     }
 
@@ -306,6 +312,7 @@ public class HistoricalStockQuote {
             // this stock was found to have at least one error
             individualstockresult = false;
             System.out.println(ticker + ": " + "Quandl price: " + QuandlClosePrice + " Q4 Price: " + Q4Price);
+            System.out.println("Date:" + QuandlDate);
 
             // divides each failure
             System.out.println("------");
@@ -322,7 +329,6 @@ public class HistoricalStockQuote {
     private void collectQ4Data() {
 
         try {
-
             // Collecting Q4Data for that date
             String q4DataBaseIndividualRequest = PROTOCOL + host + "/api/stock/historical?appver=" + app_ver + "&securityId=" + securityId + "&startDate=" + earliestDate + "&endDate=" + q4DatabaseRequestDate;
             // Setting up new requests
