@@ -37,7 +37,7 @@ public class HistoricalStockQuote {
     private double Q4Price = 0;
     private ArrayList<String> Q4prices = new ArrayList<String>();
     private ArrayList<String> Q4dates = new ArrayList<String>();
-    private int numberOfDates = 287;
+    private int numberOfDates = 290;
     private String ticker;
     private String QuandlTicker;
     private String exchange;
@@ -268,6 +268,15 @@ public class HistoricalStockQuote {
             //break if previous request failed
             if (!requestSuccess) {
                 return;
+            }
+
+            // This if statement ensures that if either Q4 or Quandl has more dates than the other, the smallest amount of dates is used as the number of dates to avoid going out of bounds of either array.
+            if (stockInformation.getClosingPriceDates().size() >= Q4dates.size()){
+                numberOfDates = Q4dates.size();
+            }
+            else
+            {
+                numberOfDates = stockInformation.getClosingPriceDates().size();
             }
 
         // loop to compare the data
