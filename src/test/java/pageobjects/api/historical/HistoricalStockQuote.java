@@ -303,9 +303,6 @@ public class HistoricalStockQuote {
             else {
                 System.out.println("Dates didn't match. Q4 date was " + Q4Date + ". While Quandl date was " + QuandlDate + ".");
             }
-            else {
-                System.out.println(ticker + ": Dates didn't match. Q4 date was " + Q4Date + ". While Quandl date was " + QuandlDate + ".");
-            }
 
             }
         }
