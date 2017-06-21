@@ -32,7 +32,7 @@ public class ResearchPage extends AbstractPageObject {
     private final By previousMonthButton = By.xpath("//div[@class='pmu-prev pmu-button']");
     private final By selectedMonth = By.xpath("//div[@class='pmu-month pmu-button']");
     private final By selectedDay = By.xpath("//div[@class='pmu-days']/div[@class='pmu-button'][11]");
-    private final By dateFilterButton = By.xpath("//div[@id='ext-button-20']");
+    private final By dateFilterButton = By.cssSelector(".toolbar-panel .date-range .search-range");
 
 
     public ResearchPage(WebDriver driver) {
