@@ -32,9 +32,10 @@ public class LogActivity extends AbstractSpec {
 
         ActivityPage activityPage = new ActivityPage(driver);
         new ActivityPage(driver).logNote()
-
                 .enterNoteDetails(comment, note, tag)
-                .postActivity();
+                .accessSideNavFromPage()
+                .selectActivityPageFromSideNav()
+                .searchForNote(comment);
 
         // Make sure the new comment appears on page
         Assert.assertThat("Note text does not match expected", activityPage.getNewNote(), containsString(comment));

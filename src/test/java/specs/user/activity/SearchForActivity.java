@@ -5,9 +5,9 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import pageobjects.user.activityPage.ActivityPage;
+import pageobjects.user.activityPage.logActivityPage;
 import pageobjects.user.dashboardPage.Dashboard;
 import pageobjects.user.loginPage.LoginPage;
-import pageobjects.user.activityPage.logActivityPage;
 import specs.AbstractSpec;
 
 import static org.hamcrest.CoreMatchers.containsString;
@@ -51,9 +51,8 @@ public class SearchForActivity extends AbstractSpec {
                 .selectActivityPageFromSideNav()
                 .searchForNote(comment2);
 
-        // TODO this assertion should make sure comment1 is NOT visible
-
-        Assert.assertThat("Searching did not return the expected results", activityPage.getSearchResults(), containsString(comment2));
+        Assert.assertThat("Searching did not return the expected results", activityPage.getNewNote(), containsString(comment2));
+        Assert.assertNotEquals("Searching found more than expected", activityPage.getNewNote(), containsString(comment1));
     }
 
     @Test
