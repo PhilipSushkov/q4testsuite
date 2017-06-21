@@ -6,7 +6,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageobjects.AbstractPageObject;
 import pageobjects.user.Calendar;
-import pageobjects.user.logActivityModal.LogActivityModal;
 import pageobjects.user.noteDetailsPage.NoteDetailsPage;
 
 import java.text.DateFormat;
@@ -26,7 +25,7 @@ public class ActivityPage extends AbstractPageObject {
     private final By firstNoteInListDate = By.xpath("//div[1][contains(@class,'note-item')]//div[contains(@class,'column')][7]");
     private final By firstNoteInListNewTag = By.xpath("//div[1][contains(@class,'note-item')]//div[contains(@class,'column')][8]/a[2]");
     private final By firstNoteInListLocation = By.xpath("//div[1][contains(@class,'note-item')]//div[contains(@class,'column')][6]");
-    private final By newActivityIcon = By.cssSelector(".btn.x-button.x-unsized:not(.btn-block)");
+    private final By newActivityIcon = By.xpath("//div[contains(@class, 'x-unsized x-button x-iconalign-left primary-action btn btn-primary btn-icon-only x-dock-item x-docked-right')]/span[contains(@class, 'x-button-icon x-shown q4i-add-4pt')]");
     private final By activitySearchField = By.cssSelector(".toolbar-panel .search .x-field-input .x-input-el");
     private final By emptyResults = By.cssSelector(".note-manager-list .x-dataview-emptytext");
     private final By notesCount = By.xpath("//*[@class=\"counter\"][1]");
@@ -87,11 +86,12 @@ public class ActivityPage extends AbstractPageObject {
         return new NoteDetailsPage(getDriver());
     }
 
-    public LogActivityModal logNote() {
+    public logActivityPage logNote() {
         waitForLoadingScreen();
+        waitForElementToAppear(newActivityIcon);
         findElement(newActivityIcon).click();
 
-        return new LogActivityModal(getDriver());
+        return new logActivityPage(getDriver());
     }
 
     public ActivityPage searchForNote(String note) {
