@@ -82,11 +82,17 @@ public class WTSReportDetailsPage extends AbstractPageObject {
         Calendar cal = Calendar.getInstance();
         // Go back one day because there is not stock data for today yet
         cal.add(Calendar.DATE, -1);
+        if (cal.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY){
+            cal.add(Calendar.DATE, -1);
+        }
+        else if ( cal.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY){
+            cal.add(Calendar.DATE, -2);
+        }
         Date today = cal.getTime();
         // Format the date so QuandlAPI can read it
         DateFormat todaysDate = new SimpleDateFormat("yyyy-MM-dd");
         String inputDate = todaysDate.format(today);
-
+        System.out.println(inputDate);
         //Creates a QuandlDataset that contains the close price from a specific date
         QuandlDataset stock = QuandlConnectToApi.getDatasetFromDate(company, "EOD", inputDate);
         String lastClosePrice = stock.getClosingPrices().get(0);

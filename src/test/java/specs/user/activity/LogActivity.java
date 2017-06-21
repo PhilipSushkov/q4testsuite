@@ -5,8 +5,9 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import pageobjects.user.activityPage.ActivityPage;
-import pageobjects.user.dashboardPage.Dashboard;
 import pageobjects.user.loginPage.LoginPage;
+import pageobjects.user.activityPage.logActivityPage;
+import pageobjects.user.noteDetailsPage.NoteDetailsPage;
 import specs.AbstractSpec;
 
 import static org.hamcrest.CoreMatchers.containsString;
@@ -62,14 +63,16 @@ public class LogActivity extends AbstractSpec {
         String tag = "TestTag" + RandomStringUtils.randomAlphanumeric(6);
         String name = "Person" + RandomStringUtils.randomAlphanumeric(3);
 
+        NoteDetailsPage noteDetailsPage = new NoteDetailsPage(driver);
 
         ActivityPage activityPage = new ActivityPage(driver);
-        new ActivityPage(driver).logNote()
+        new ActivityPage(driver).logNote();
+        new logActivityPage(driver)
                 .enterPhoneNoteDetails(comment, name, note, tag)
                 .choosePhoneTab();
 
         // Make sure the new comment appears on page
-        Assert.assertThat("Note text does not match expected", activityPage.getNewNote(), containsString(comment));
+        Assert.assertThat("Note text does not match expected", noteDetailsPage.getCommentText(), containsString(comment));
     }
 
     @Test
@@ -78,13 +81,16 @@ public class LogActivity extends AbstractSpec {
         String note = "This is a test note" + RandomStringUtils.randomAlphanumeric(6);
         String tag = "TestTag" + RandomStringUtils.randomAlphanumeric(6);
 
+        NoteDetailsPage noteDetailsPage = new NoteDetailsPage(driver);
+
         ActivityPage activityPage = new ActivityPage(driver);
-        new ActivityPage(driver).logNote()
+        new ActivityPage(driver).logNote();
+        new logActivityPage(driver)
                 .enterEmailNoteDetails(comment, note, tag)
                 .chooseEmailTab();
 
         // Make sure the new comment appears on page
-        Assert.assertThat("Note text does not match expected", activityPage.getNewNote(), containsString(comment));
+        Assert.assertThat("Note text does not match expected", noteDetailsPage.getCommentText(), containsString(comment));
     }
 
     @Test
@@ -94,13 +100,16 @@ public class LogActivity extends AbstractSpec {
         String tag = "TestTag" + RandomStringUtils.randomAlphanumeric(6);
         String name = "Person" + RandomStringUtils.randomAlphanumeric(3);
 
+        NoteDetailsPage noteDetailsPage = new NoteDetailsPage(driver);
+
         ActivityPage activityPage = new ActivityPage(driver);
-        new ActivityPage(driver).logNote()
+        new ActivityPage(driver).logNote();
+        new logActivityPage(driver)
                 .enterMeetingDetails(comment, name, note, tag)
                 .chooseMeetingTab();
 
         // Make sure the new comment appears on page
-        Assert.assertThat("Note text does not match expected", activityPage.getNewNote(), containsString(comment));
+        Assert.assertThat("Note text does not match expected", noteDetailsPage.getCommentText(), containsString(comment));
     }
 
     @Test
@@ -109,12 +118,15 @@ public class LogActivity extends AbstractSpec {
         String location = "This is a test location" + RandomStringUtils.randomAlphanumeric(6);
         String tag = "TestTag" + RandomStringUtils.randomAlphanumeric(6);
 
+        NoteDetailsPage noteDetailsPage = new NoteDetailsPage(driver);
+
         ActivityPage activityPage = new ActivityPage(driver);
-        new ActivityPage(driver).logNote()
+        new ActivityPage(driver).logNote();
+        new logActivityPage(driver)
                 .enterRoadshowDetails(title, location, tag)
                 .chooseRoadshowTab();
 
         // Make sure the new comment appears on page
-        Assert.assertThat("Note text does not match expected", activityPage.getNewNote(), containsString(title));
+        Assert.assertThat("Note text does not match expected", noteDetailsPage.getLocation(), containsString(location));
     }
 }

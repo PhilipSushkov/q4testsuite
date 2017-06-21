@@ -5,7 +5,9 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import pageobjects.user.activityPage.ActivityPage;
+import pageobjects.user.dashboardPage.Dashboard;
 import pageobjects.user.loginPage.LoginPage;
+import pageobjects.user.activityPage.logActivityPage;
 import specs.AbstractSpec;
 
 import static org.hamcrest.CoreMatchers.containsString;
@@ -33,15 +35,21 @@ public class SearchForActivity extends AbstractSpec {
         String tag2 = "TestTag" + RandomStringUtils.randomAlphanumeric(6);
 
         ActivityPage activityPage = new ActivityPage(driver);
-        activityPage.logNote()
+        activityPage.logNote();
+        new logActivityPage(driver)
                 .enterNoteDetails(comment1, note1, tag1)
-                .postActivity();
+                .accessSideNavFromPage()
+                .selectDashboardFromSideNav();
 
-        activityPage.logNote()
+        new Dashboard(driver).logNote();
+        new logActivityPage(driver)
                 .enterNoteDetails(comment2, note2, tag2)
-                .postActivity();
-
-        activityPage.searchForNote(comment2);
+                .accessSideNavFromPage()
+                .selectDashboardFromSideNav();
+        new Dashboard(driver)
+                .accessSideNav()
+                .selectActivityPageFromSideNav()
+                .searchForNote(comment2);
 
         // TODO this assertion should make sure comment1 is NOT visible
 

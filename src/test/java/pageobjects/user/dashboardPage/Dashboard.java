@@ -34,7 +34,7 @@ public class Dashboard extends AbstractPageObject {
 
     // Build report icon
 
-    private final By buildReportDashboardButton = By.id("ext-button-15");
+    private final By buildReportDashboardButton = By.xpath("//div[contains(@class, 'x-button x-iconalign-center x-layout-box-item x-stretched')]/span[contains(@class, 'x-button-icon x-shown q4i-reports-2pt')]");
 
     // Log Note icon (unique selectors for dashboard)
 
