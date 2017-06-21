@@ -301,7 +301,6 @@ public class NewSearchPage extends AbstractPageObject{
         contactToggles.get(index).click();
         waitForElementToAppear(personContactTargetButton);
         String targetedContact = findElement(contactName).getText();
-        System.out.print(targetedContact);
         findElement(personContactTargetButton).click();
         return targetedContact;
     }

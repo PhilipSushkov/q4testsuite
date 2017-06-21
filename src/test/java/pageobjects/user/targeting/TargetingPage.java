@@ -245,7 +245,6 @@ public class TargetingPage extends AbstractPageObject {
         List<WebElement> institutionNames = findVisibleElements(entityName);
 
         for (int i=0; i<institutionNames.size(); i++){
-            System.out.print(institutionNames.get(i).getText());
             if (institutionNames.get(i).getText().contains(name)){
                 return i;
             }
@@ -257,18 +256,17 @@ public class TargetingPage extends AbstractPageObject {
     public int findContactIndex(String name){
         waitForElement(showTargets);
         findVisibleElement(showTargets).click();
-        pause(2000);
+        waitForLoadingScreen();
         findVisibleElement(showContacts).click();
-        pause(5000);
-        List<WebElement> contactNames = findVisibleElements(entityNameTargetPage);
+        waitForLoadingScreen();
+
+        List<WebElement> contactNames = findVisibleElements(entityName);
+
         for (int i=0; i<contactNames.size(); i++){
-            System.out.println("Contact name is: "+ contactNames.get(i).getText());
-            System.out.println("Name is: "+ name);
-            if (name.contains(contactNames.get(i).getText())){
+            if (contactNames.get(i).getText().contains(name)){
                 return i;
             }
         }
-        System.out.println("Name could not be found");
         return -1;
     }
 
