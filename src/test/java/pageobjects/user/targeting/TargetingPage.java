@@ -10,7 +10,6 @@ import pageobjects.user.contactPage.ContactDetailsPage;
 import pageobjects.user.fundPage.FundPage;
 import pageobjects.user.institutionPage.InstitutionPage;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -438,6 +437,7 @@ public class TargetingPage extends AbstractPageObject {
     }
 
     public TargetingPage selectTargetsTab() {
+        waitForElement(showTargets);
         findVisibleElement(showTargets).click();
         waitForLoadingScreen();
         return this;
