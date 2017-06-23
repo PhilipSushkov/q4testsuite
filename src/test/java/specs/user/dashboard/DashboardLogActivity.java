@@ -8,7 +8,7 @@ import org.openqa.selenium.By;
 import pageobjects.user.activityPage.ActivityPage;
 import pageobjects.user.dashboardPage.Dashboard;
 import pageobjects.user.loginPage.LoginPage;
-import pageobjects.user.activityPage.logActivityPage;
+import pageobjects.user.activityPage.LogActivityPage;
 import pageobjects.user.noteDetailsPage.NoteDetailsPage;
 import specs.AbstractSpec;
 
@@ -32,7 +32,7 @@ public class DashboardLogActivity extends AbstractSpec {
 
         ActivityPage activityPage = new ActivityPage(driver);
         new Dashboard(driver).logNote();
-        new logActivityPage(driver)
+        new LogActivityPage(driver)
                 .enterNoteDetails(comment, note, tag);
 
         new NoteDetailsPage(driver)
@@ -54,7 +54,7 @@ public class DashboardLogActivity extends AbstractSpec {
 
         ActivityPage activityPage = new ActivityPage(driver);
         new Dashboard(driver).logPhoneNote();
-        new logActivityPage(driver)
+        new LogActivityPage(driver)
                 .enterPhoneNoteDetails(comment, name, note, tag)
                 .postActivity()
                 .addNewTag(tag)
@@ -74,7 +74,7 @@ public class DashboardLogActivity extends AbstractSpec {
 
         ActivityPage activityPage = new ActivityPage(driver);
         new Dashboard(driver).logEmailNote();
-        new logActivityPage(driver)
+        new LogActivityPage(driver)
                 .enterEmailNoteDetails(comment, note, tag)
                 .postActivity()
                 .addNewTag(tag)
@@ -95,7 +95,7 @@ public class DashboardLogActivity extends AbstractSpec {
 
         ActivityPage activityPage = new ActivityPage(driver);
         new Dashboard(driver).logMeetingNote();
-        new logActivityPage(driver)
+        new LogActivityPage(driver)
                 .enterMeetingDetails(comment, name, note, tag)
                 .postActivity()
                 .addNewTag(tag)
@@ -117,7 +117,7 @@ public class DashboardLogActivity extends AbstractSpec {
 
         ActivityPage activityPage = new ActivityPage(driver);
         new Dashboard(driver).logRoadshowNote();
-        new logActivityPage(driver)
+        new LogActivityPage(driver)
                 .enterMeetingDetails(comment, name, note, tag)
                 .postActivity()
                 .addNewTag(tag)
@@ -149,7 +149,7 @@ public class DashboardLogActivity extends AbstractSpec {
         NoteDetailsPage noteDetailsPage = new NoteDetailsPage(driver);
 
         new Dashboard(driver).logNote();
-        logActivityPage logActivityPage = new logActivityPage(driver)
+        LogActivityPage logActivityPage = new LogActivityPage(driver)
                 .linkNoteToInstitution(institution)
                 .enterNoteDetails(comment,note,tag);
 
@@ -176,7 +176,7 @@ public class DashboardLogActivity extends AbstractSpec {
         NoteDetailsPage noteDetailsPage = new NoteDetailsPage(driver);
 
         new Dashboard(driver).logNote();
-        logActivityPage logActivityPage = new logActivityPage(driver)
+        LogActivityPage logActivityPage = new LogActivityPage(driver)
                 .linkNoteToFund(fund)
                 .enterNoteDetails(comment,note,tag);
 
@@ -203,7 +203,7 @@ public class DashboardLogActivity extends AbstractSpec {
         NoteDetailsPage noteDetailsPage = new NoteDetailsPage(driver);
 
         new Dashboard(driver).logNote();
-        new logActivityPage(driver)
+        new LogActivityPage(driver)
                 .linkNoteToContact(contact)
                 .enterNoteDetails(comment,note,tag);
 

@@ -5,7 +5,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import pageobjects.user.activityPage.ActivityPage;
-import pageobjects.user.activityPage.logActivityPage;
+import pageobjects.user.activityPage.LogActivityPage;
 import pageobjects.user.dashboardPage.Dashboard;
 import pageobjects.user.loginPage.LoginPage;
 import specs.AbstractSpec;
@@ -36,13 +36,13 @@ public class SearchForActivity extends AbstractSpec {
 
         ActivityPage activityPage = new ActivityPage(driver);
         activityPage.logNote();
-        new logActivityPage(driver)
+        new LogActivityPage(driver)
                 .enterNoteDetails(comment1, note1, tag1)
                 .accessSideNavFromPage()
                 .selectDashboardFromSideNav();
 
         new Dashboard(driver).logNote();
-        new logActivityPage(driver)
+        new LogActivityPage(driver)
                 .enterNoteDetails(comment2, note2, tag2)
                 .accessSideNavFromPage()
                 .selectDashboardFromSideNav();

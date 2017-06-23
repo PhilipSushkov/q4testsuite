@@ -86,12 +86,12 @@ public class ActivityPage extends AbstractPageObject {
         return new NoteDetailsPage(getDriver());
     }
 
-    public logActivityPage logNote() {
+    public LogActivityPage logNote() {
         waitForLoadingScreen();
         waitForElementToAppear(newActivityIcon);
         findElement(newActivityIcon).click();
 
-        return new logActivityPage(getDriver());
+        return new LogActivityPage(getDriver());
     }
 
     public ActivityPage searchForNote(String note) {
