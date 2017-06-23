@@ -6,7 +6,6 @@ import org.junit.Before;
 import org.junit.Test;
 import pageobjects.user.activityPage.ActivityPage;
 import pageobjects.user.loginPage.LoginPage;
-import pageobjects.user.activityPage.LogActivityPage;
 import pageobjects.user.noteDetailsPage.NoteDetailsPage;
 import specs.AbstractSpec;
 
@@ -50,7 +49,6 @@ public class LogActivity extends AbstractSpec {
         NoteDetailsPage noteDetailsPage = new NoteDetailsPage(driver);
 
         new ActivityPage(driver).logNote()
-
                 .enterNoteDetails(comment, note, tag);
 
         // Make sure the new comment appears on page
@@ -66,7 +64,7 @@ public class LogActivity extends AbstractSpec {
 
         NoteDetailsPage noteDetailsPage = new NoteDetailsPage(driver);
 
-        new LogActivityPage(driver)
+        new ActivityPage(driver).logNote()
                 .enterPhoneNoteDetails(comment, name, note, tag)
                 .choosePhoneTab();
 
@@ -82,7 +80,7 @@ public class LogActivity extends AbstractSpec {
 
         NoteDetailsPage noteDetailsPage = new NoteDetailsPage(driver);
 
-        new LogActivityPage(driver)
+        new ActivityPage(driver).logNote()
                 .enterEmailNoteDetails(comment, note, tag)
                 .chooseEmailTab();
 
@@ -99,7 +97,7 @@ public class LogActivity extends AbstractSpec {
 
         NoteDetailsPage noteDetailsPage = new NoteDetailsPage(driver);
 
-        new LogActivityPage(driver)
+        new ActivityPage(driver).logNote()
                 .enterMeetingDetails(comment, name, note, tag)
                 .chooseMeetingTab();
 
