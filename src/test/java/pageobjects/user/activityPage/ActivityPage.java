@@ -120,6 +120,7 @@ public class ActivityPage extends AbstractPageObject {
                 break;
             case CONTACT:
                 selector = contactHeader;
+                break;
             case INSTITUTION:
                 selector = institutionHeader;
                 break;

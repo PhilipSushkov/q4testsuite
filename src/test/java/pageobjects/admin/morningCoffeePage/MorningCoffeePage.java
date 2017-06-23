@@ -42,7 +42,7 @@ public class MorningCoffeePage extends AbstractPageObject {
     private final By cancelCommentaryButton = By.xpath("//q4-morning-coffee-commentary-create//button[contains(text(),'Cancel')]");
     private final By commentaryTable = By.xpath("//div[contains(@class,'ui-datatable-tablewrapper')]");
 
-    private final By editCommentaryButton = By.xpath(".//button[contains(@class,'square-button')]");
+    private final By editCommentaryButton = By.cssSelector(".q4-list .action-buttons .edit");
     private final By saveEditedCommentaryButton = By.xpath("//q4-morning-coffee-commentary-edit//button[contains(text(),'Save')]");
     private final By cancelEditedCommentaryButton = By.xpath("//q4-morning-coffee-commentary-edit//button[contains(text(),'Cancel')]");
 
@@ -343,6 +343,7 @@ public class MorningCoffeePage extends AbstractPageObject {
 
    public  MorningCoffeePage editMarketCommentary(Market market,String comment){
         WebElement row = returnMarketElement(market);
+        waitForLoadingScreen();
         row.findElement(editCommentaryButton).click();
         findElement(createCommentaryBox).clear();
         findElement(createCommentaryBox).sendKeys(comment);
@@ -432,7 +433,7 @@ public class MorningCoffeePage extends AbstractPageObject {
     }
 
     public boolean findSearchQuery(String search){
-        ArrayList<WebElement> rowData =  retrieveRowData();
+        ArrayList<WebElement> rowData = retrieveRowData();
         for(WebElement row:rowData){
             if(row.findElement(By.xpath(".//td[2]")).getText().contains(search)){
                 return true;

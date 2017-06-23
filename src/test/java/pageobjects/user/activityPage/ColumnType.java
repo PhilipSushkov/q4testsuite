@@ -10,5 +10,5 @@ public enum ColumnType {
     INSTITUTION,
     LOCATION,
     DATE,
-    TAGS;
+    TAGS
 }

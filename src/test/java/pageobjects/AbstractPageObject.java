@@ -200,6 +200,9 @@ public class AbstractPageObject implements HeaderPage{
         By multipleFirstResult = By.xpath("//div//h2//..//div[1]");
         By test = By.xpath("//div[contains(@class,'footer-content')]");
 
+        // We have to scroll to the center of the screen so that we can see all 10 results or else the test will fail.
+        scrollToElement(By.cssSelector(".load-more .x-button-icon"));
+
         boolean sortedWell = true;
         for (int i=0; i<elements.size()-1; i++){
 
@@ -209,21 +212,48 @@ public class AbstractPageObject implements HeaderPage{
             if(frontElement.contains("Multiple")){
                 findElement(test);
                 (elements.get(i+1)).click();
-                waitForElement(multipleFirstResult);
+                waitForElementToAppear(multipleFirstResult);
                 frontElement = findElement(multipleFirstResult).getText();
-                waitForLoadingScreen();
-                clickCoordinate(searchBar,10,10);
 
+                // Sometimes multipleFirstResult returns nothing so we run a loop to try again 10 times until text is returned.
+                for (int k = 0; k < 9; k++)
+                {
+                    if (frontElement.equalsIgnoreCase("")){
+                        (elements.get(i+1)).click();
+                        waitForElementToAppear(multipleFirstResult);
+                        frontElement = findElement(multipleFirstResult).getText();
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+                clickCoordinate(searchBar,10,10);
+                pause(500);
             }
 
             if(backElement.contains("Multiple")){
                 findElement(test);
                 (elements.get(i)).click();
-                waitForElement(multipleFirstResult);
+                waitForElementToAppear(multipleFirstResult);
                 backElement = findElement(multipleFirstResult).getText();
-                waitForLoadingScreen();
-                clickCoordinate(searchBar,10,10);
 
+                // Sometimes multipleFirstResult returns nothing so we run a loop to try again 10 times until text is returned.
+                for (int k = 0; k < 9; k++)
+                {
+                    if (backElement.equalsIgnoreCase("")){
+                        (elements.get(i)).click();
+                        waitForElementToAppear(multipleFirstResult);
+                        backElement = findElement(multipleFirstResult).getText();
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+
+                clickCoordinate(searchBar,10,10);
+                pause(500);
             }
 
             if (frontElement.compareTo(backElement) < 0){

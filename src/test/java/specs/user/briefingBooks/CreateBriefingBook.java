@@ -60,7 +60,7 @@ public class CreateBriefingBook extends AbstractSpec {
     @Test
     public void canAddInstitutionToBriefingBook(){
         String briefingBookName = "New Briefing Book" + RandomStringUtils.randomAlphanumeric(6);
-        String institution = "Fidelity Capital Investors, Inc.";
+        String institution = "McDonald Capital Investors, Inc.";
         BriefingBookDetailsPage briefingBookDetailsPage = new BriefingBookList(driver).addNewBriefingBook()
                 .saveBriefingBook(briefingBookName)
                 .viewNewBriefingBook()

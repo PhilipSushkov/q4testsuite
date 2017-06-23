@@ -80,21 +80,24 @@ public class WTSReportDetailsPage extends AbstractPageObject {
     public float getComparisonClosePrice(String company) throws IOException {
         // Method to get today's date
         Calendar cal = Calendar.getInstance();
-        // Go back one day because there is not stock data for today yet
-        cal.add(Calendar.DATE, -1);
-        if (cal.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY){
-            cal.add(Calendar.DATE, -1);
+        // This ensures that if today is friday but it hasn't passed 5:30pm yet, it still takes last friday's closing price.
+        if ((cal.get(Calendar.HOUR) < 5) && (cal.get(Calendar.MINUTE) < 30) && (cal.get(Calendar.DAY_OF_WEEK) == cal.get(Calendar.FRIDAY)) && (cal.get(Calendar.AM_PM) == Calendar.AM)){
+            cal.add(Calendar.DATE, -7);
         }
-        else if ( cal.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY){
-            cal.add(Calendar.DATE, -2);
+        else {
+            // Go back until the day is friday.
+            while (cal.get(Calendar.DAY_OF_WEEK) != Calendar.FRIDAY) {
+                cal.add(Calendar.DATE, -1);
+            }
         }
         Date today = cal.getTime();
+
         // Format the date so QuandlAPI can read it
         DateFormat todaysDate = new SimpleDateFormat("yyyy-MM-dd");
         String inputDate = todaysDate.format(today);
         System.out.println(inputDate);
         //Creates a QuandlDataset that contains the close price from a specific date
-        QuandlDataset stock = QuandlConnectToApi.getDatasetFromDate(company, "EOD", inputDate);
+        QuandlDataset stock = QuandlConnectToApi.getDatasetBetweenDates(company, "EOD", inputDate, inputDate);
         String lastClosePrice = stock.getClosingPrices().get(0);
 
         return Float.parseFloat(lastClosePrice);
