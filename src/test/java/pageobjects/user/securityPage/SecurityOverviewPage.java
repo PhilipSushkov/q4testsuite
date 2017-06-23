@@ -107,9 +107,9 @@ public class SecurityOverviewPage extends WatchlistPage {
     private final By dowjonesBtn = By.className("x-button x-button-no-icon legend-dowjones x-layout-box-item x-stretched");
     private final By indicatorsBtn = By.className("x-button x-iconalign-left legend-indicators x-layout-box-item x-stretched");
 
-    private final By sentimentBtn = By.className("indicator-item osi");
-    private final By volatilityBtn = By.className("indicator-item ovi");
-    private final By activismBtn = By.className("indicator-item oaa");
+    private final By sentimentBtn = By.xpath("//*[@class=\"company-service-list-item menu-item\"][4]");
+    private final By volatilityBtn = By.xpath("//*[@class=\"company-service-list-item menu-item\"][5]");
+    private final By activismBtn = By.xpath("//*[@class=\"company-service-list-item menu-item\"][6]");
     private final By performanceBtn = By.className("indicator-item rp");
 
     private final By toggleBtn = By.cssSelector(".switch-view-button .x-toggle .x-thumb");
@@ -652,39 +652,27 @@ public class SecurityOverviewPage extends WatchlistPage {
     }
 
     public SentimentPage navigateToSentimentPage() {
-        findElement(dropdownRightArrow).click();
+        findElement(dropdownMenu).click();
         pause(500L);
-        findElement(dropdownRightArrow).click();
-        pause(500L);
-        findElement(dropdownRightArrow).click();
+        findElement(sentimentBtn).click();
         waitForLoadingScreen();
 
         return new SentimentPage(driver);
     }
 
     public VolatilityPage navigateToVolatilityPage() {
-        findElement(dropdownRightArrow).click();
+        findElement(dropdownMenu).click();
         pause(500L);
-        findElement(dropdownRightArrow).click();
-        pause(500L);
-        findElement(dropdownRightArrow).click();
-        pause(500L);
-        findElement(dropdownRightArrow).click();
+        findElement(volatilityBtn).click();
         waitForLoadingScreen();
 
         return new VolatilityPage(driver);
     }
 
     public ActivismPage navigateToActivismPage() {
-        findElement(dropdownRightArrow).click();
+        findElement(dropdownMenu).click();
         pause(500L);
-        findElement(dropdownRightArrow).click();
-        pause(500L);
-        findElement(dropdownRightArrow).click();
-        pause(500L);
-        findElement(dropdownRightArrow).click();
-        pause(500L);
-        findElement(dropdownRightArrow).click();
+        findElement(activismBtn).click();
         waitForLoadingScreen();
 
         return new ActivismPage(driver);

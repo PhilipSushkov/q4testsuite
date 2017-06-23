@@ -66,7 +66,7 @@ public class CreateBriefingBook extends AbstractSpec {
                 .viewNewBriefingBook()
                 .addInstitution(institution);
 
-        Assert.assertThat("Institution is not listed in the briefing book", briefingBookDetailsPage.getEntityList(), containsString(institution));
+        Assert.assertThat("KNOWN ISSUE: DESKTOP-8844 - Institution is not listed in the briefing book", briefingBookDetailsPage.getEntityList(), containsString(institution));
     }
 
     @Test
