@@ -6,7 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 import pageobjects.user.activityPage.ActivityPage;
 import pageobjects.user.loginPage.LoginPage;
-import pageobjects.user.activityPage.logActivityPage;
+import pageobjects.user.activityPage.LogActivityPage;
 import pageobjects.user.noteDetailsPage.NoteDetailsPage;
 import specs.AbstractSpec;
 
@@ -49,7 +49,6 @@ public class LogActivity extends AbstractSpec {
 
         NoteDetailsPage noteDetailsPage = new NoteDetailsPage(driver);
 
-        ActivityPage activityPage = new ActivityPage(driver);
         new ActivityPage(driver).logNote()
 
                 .enterNoteDetails(comment, note, tag);
@@ -67,9 +66,7 @@ public class LogActivity extends AbstractSpec {
 
         NoteDetailsPage noteDetailsPage = new NoteDetailsPage(driver);
 
-        ActivityPage activityPage = new ActivityPage(driver);
-        new ActivityPage(driver).logNote();
-        new logActivityPage(driver)
+        new LogActivityPage(driver)
                 .enterPhoneNoteDetails(comment, name, note, tag)
                 .choosePhoneTab();
 
@@ -85,9 +82,7 @@ public class LogActivity extends AbstractSpec {
 
         NoteDetailsPage noteDetailsPage = new NoteDetailsPage(driver);
 
-        ActivityPage activityPage = new ActivityPage(driver);
-        new ActivityPage(driver).logNote();
-        new logActivityPage(driver)
+        new LogActivityPage(driver)
                 .enterEmailNoteDetails(comment, note, tag)
                 .chooseEmailTab();
 
@@ -104,9 +99,7 @@ public class LogActivity extends AbstractSpec {
 
         NoteDetailsPage noteDetailsPage = new NoteDetailsPage(driver);
 
-        ActivityPage activityPage = new ActivityPage(driver);
-        new ActivityPage(driver).logNote();
-        new logActivityPage(driver)
+        new LogActivityPage(driver)
                 .enterMeetingDetails(comment, name, note, tag)
                 .chooseMeetingTab();
 
@@ -122,9 +115,7 @@ public class LogActivity extends AbstractSpec {
 
         NoteDetailsPage noteDetailsPage = new NoteDetailsPage(driver);
 
-        ActivityPage activityPage = new ActivityPage(driver);
-        new ActivityPage(driver).logNote();
-        new logActivityPage(driver)
+        new ActivityPage(driver).logNote()
                 .enterRoadshowDetails(title, location, tag)
                 .chooseRoadshowTab();
 

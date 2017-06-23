@@ -10,7 +10,7 @@ import pageobjects.user.noteDetailsPage.NoteDetailsPage;
 /**
  * Created by dannyl on 2017-06-20.
  */
-public class logActivityPage extends AbstractPageObject{
+public class LogActivityPage extends AbstractPageObject{
     private final By cancelActivityButton = By.xpath("//div[contains(@class,'x-unsized x-button form-button no-background x-button-no-icon')]");
     private final By titleField = By.name("title");
     private final By saveButton = By.xpath("//div[contains(@class, 'x-container x-unsized x-size-monitored x-paint-monitored x-dock-item x-docked-right')]/div[contains(@class, 'x-inner')]/div[contains(@class, 'x-unsized x-button action-button citrus x-button-no-icon')]");
@@ -30,12 +30,12 @@ public class logActivityPage extends AbstractPageObject{
     private final By meetingTab = By.id("ext-radiofield-4");
     private final By roadshowTab = By.id("ext-radiofield-5");
 
-    public logActivityPage(WebDriver driver) {
+    public LogActivityPage(WebDriver driver) {
         super(driver);
     }
 
 
-    public logActivityPage enterNoteDetails(String comment, String note, String tag) {
+    public LogActivityPage enterNoteDetails(String comment, String note, String tag) {
         waitForLoadingScreen();
         wait.until(ExpectedConditions.elementToBeClickable(titleField));
         retryClick(findElement(titleField));
@@ -51,7 +51,7 @@ public class logActivityPage extends AbstractPageObject{
         return this;
     }
 
-    public logActivityPage enterPhoneNoteDetails(String comment, String name, String note, String tag) {
+    public LogActivityPage enterPhoneNoteDetails(String comment, String name, String note, String tag) {
         retryClick(findElement(titleField));
         findElement(titleField).sendKeys(comment);
         findElement(nameField).click();
@@ -66,7 +66,7 @@ public class logActivityPage extends AbstractPageObject{
         return this;
     }
 
-    public logActivityPage enterEmailNoteDetails(String comment, String note, String tag) {
+    public LogActivityPage enterEmailNoteDetails(String comment, String note, String tag) {
         retryClick(findElement(titleField));
         findElement(titleField).sendKeys(comment);
         findElement(typeNoteField).sendKeys(note);
@@ -78,7 +78,7 @@ public class logActivityPage extends AbstractPageObject{
         return this;
     }
 
-    public logActivityPage enterMeetingDetails(String comment, String name, String note, String tag) {
+    public LogActivityPage enterMeetingDetails(String comment, String name, String note, String tag) {
         retryClick(findElement(titleField));
         findElement(titleField).sendKeys(comment);
         findElement(nameField).sendKeys(name);
@@ -91,7 +91,7 @@ public class logActivityPage extends AbstractPageObject{
         return this;
     }
 
-    public logActivityPage enterRoadshowDetails(String title, String location, String tag){
+    public LogActivityPage enterRoadshowDetails(String title, String location, String tag){
         //The waitForLoadingScreen() makes the test a bit slower than I'd like
         //But at least now it's waiting for something instead of pause()
         retryClick(findElement(titleField));
@@ -113,7 +113,7 @@ public class logActivityPage extends AbstractPageObject{
         return new ActivityPage(getDriver());
     }
 
-    public logActivityPage linkNoteToInstitution(String institution) {
+    public LogActivityPage linkNoteToInstitution(String institution) {
         keyword = institution;
         scrollToElement(selectInstitutionButton);
         findElement(selectInstitutionButton).click();
@@ -124,7 +124,7 @@ public class logActivityPage extends AbstractPageObject{
         return this;
     }
 
-     public logActivityPage linkNoteToFund(String fund) {
+     public LogActivityPage linkNoteToFund(String fund) {
         keyword = fund;
         scrollToElement(fundIcon);
         findElement(fundIcon).click();
@@ -135,7 +135,7 @@ public class logActivityPage extends AbstractPageObject{
         return this;
     }
 
-    public logActivityPage linkNoteToContact(String contact) {
+    public LogActivityPage linkNoteToContact(String contact) {
         keyword = contact;
         scrollToElement(contactIcon);
         findElement(contactIcon).click();
@@ -147,7 +147,7 @@ public class logActivityPage extends AbstractPageObject{
         return this;
     }
 
-    public logActivityPage choosePhoneTab() {
+    public LogActivityPage choosePhoneTab() {
         findElement(phoneTab).click();
         wait.until(ExpectedConditions.elementToBeClickable(saveButton));
         findElement(saveButton).click();
@@ -155,7 +155,7 @@ public class logActivityPage extends AbstractPageObject{
         return this;
     }
 
-    public logActivityPage chooseEmailTab() {
+    public LogActivityPage chooseEmailTab() {
         findElement(emailTab).click();
         wait.until(ExpectedConditions.elementToBeClickable(saveButton));
         findElement(saveButton).click();
@@ -163,7 +163,7 @@ public class logActivityPage extends AbstractPageObject{
         return this;
     }
 
-    public logActivityPage chooseMeetingTab() {
+    public LogActivityPage chooseMeetingTab() {
         findElement(meetingTab).click();
         wait.until(ExpectedConditions.elementToBeClickable(saveButton));
         findElement(saveButton).click();
@@ -171,7 +171,7 @@ public class logActivityPage extends AbstractPageObject{
         return this;
     }
 
-    public logActivityPage chooseRoadshowTab() {
+    public LogActivityPage chooseRoadshowTab() {
         findElement(roadshowTab).click();
         wait.until(ExpectedConditions.elementToBeClickable(saveButton));
         findElement(saveButton).click();
