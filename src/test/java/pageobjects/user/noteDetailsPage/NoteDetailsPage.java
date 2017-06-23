@@ -14,7 +14,7 @@ public class NoteDetailsPage extends ActivityPage {
     private final By noteDetails = By.xpath("//div[contains(@class, 'x-container x-unsized x-size-monitored x-paint-monitored notes')]/div[contains(@class, 'x-inner')]/div[contains(@class, 'x-innerhtml')]/div[contains(@class, 'q4-fade-in')]");
     private final By commentDetails = By.cssSelector(".activity-header .detail-header .detail-info .title");
     private final By activityTitle = By.xpath("//div[contains(@class,'note-detail-header-inner')]//div[contains(@class,'note-information')][2]//h1");
-    private final By linkedToDetails = By.xpath("//div[contains(@class, 'x-container x-unsized activity-attendees-list x-dataview x-paint-monitored')]/div[contains(@class, 'x-body x-domscroller')]/div[contains(@class, 'x-inner x-dataview-inner')]/div[contains(@class, 'x-unsized x-dataview-container')]/div[contains(@class, 'x-dataview-item attendee-item')]/div[contains(@class, 'row')]/div[contains(@class, 'column flex name')]");
+    private final By linkedToDetails = By.cssSelector(".activity-attendees-list .attendee-item .column");
     private final By activityHeader = By.cssSelector(".note-detail-header .note-information h1");
     private final By detailsHeader = By.xpath("//h3[contains(string(),'Details')]");
     private final By activityDetails = By.cssSelector(".preview-note-view p");
@@ -109,7 +109,8 @@ public class NoteDetailsPage extends ActivityPage {
     public String filterContactsOnlys(){
         scrollToElement(contactAttendees);
         findElement(contactAttendees).click();
-        return findElement(linkedToDetails).getText();
+        waitForElement(linkedToDetails);
+        return findVisibleElement(linkedToDetails).getText();
     }
 
     public String getActivityHeader() {

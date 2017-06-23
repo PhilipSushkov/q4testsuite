@@ -203,15 +203,11 @@ public class DashboardLogActivity extends AbstractSpec {
         NoteDetailsPage noteDetailsPage = new NoteDetailsPage(driver);
 
         new Dashboard(driver).logNote();
-        logActivityPage logActivityPage = new logActivityPage(driver)
+        new logActivityPage(driver)
                 .linkNoteToContact(contact)
                 .enterNoteDetails(comment,note,tag);
 
-        new Dashboard(driver)
-                .accessSideNavFromPage()
-                .selectActivityPageFromSideNav()
-                .searchForNote(comment)
-                .selectFirstNoteInList();
+        driver.navigate().refresh();
 
     //search comment and then search contacts
         Assert.assertThat("Note does not contain expected text", noteDetailsPage.getNoteBody(), containsString(expectedNote));
