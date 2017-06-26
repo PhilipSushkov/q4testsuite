@@ -147,6 +147,7 @@ public class LogActivityPage extends AbstractPageObject{
     }
 
     public LogActivityPage choosePhoneTab() {
+        wait.until(ExpectedConditions.elementToBeClickable(phoneTab));
         findElement(phoneTab).click();
         wait.until(ExpectedConditions.elementToBeClickable(saveButton));
         findElement(saveButton).click();
@@ -155,6 +156,7 @@ public class LogActivityPage extends AbstractPageObject{
     }
 
     public LogActivityPage chooseEmailTab() {
+        wait.until(ExpectedConditions.elementToBeClickable(emailTab));
         findElement(emailTab).click();
         wait.until(ExpectedConditions.elementToBeClickable(saveButton));
         findElement(saveButton).click();
@@ -163,6 +165,7 @@ public class LogActivityPage extends AbstractPageObject{
     }
 
     public LogActivityPage chooseMeetingTab() {
+        wait.until(ExpectedConditions.elementToBeClickable(meetingTab));
         findElement(meetingTab).click();
         wait.until(ExpectedConditions.elementToBeClickable(saveButton));
         findElement(saveButton).click();
@@ -171,6 +174,7 @@ public class LogActivityPage extends AbstractPageObject{
     }
 
     public LogActivityPage chooseRoadshowTab() {
+        wait.until(ExpectedConditions.elementToBeClickable(roadshowTab));
         findElement(roadshowTab).click();
         wait.until(ExpectedConditions.elementToBeClickable(saveButton));
         findElement(saveButton).click();
