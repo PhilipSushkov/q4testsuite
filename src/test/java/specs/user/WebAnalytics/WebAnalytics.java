@@ -38,8 +38,4 @@ public class WebAnalytics extends AbstractSpec {
         Assert.assertEquals(page.getDateRange(), sDate, "Date range does not match expected date range");
     }
 
-
-
-
-
 }
