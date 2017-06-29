@@ -9,6 +9,7 @@ import pageobjects.user.activityPage.ActivityPage;
 import pageobjects.user.loginPage.LoginPage;
 import pageobjects.user.noteDetailsPage.NoteDetailsPage;
 import specs.AbstractSpec;
+
 import java.text.ParseException;
 
 /**
@@ -83,12 +84,14 @@ public class ActivityDetails extends AbstractSpec {
 
         note.searchForNote(title);
         String activityDate = new ActivityPage(driver).getDate();
+        String month = activityDate.substring(0,2);
+        String dayAndYear = activityDate.substring(3);
         note.selectFirstNoteInList();
 
         String detailsDate = note.getDetailsDate();
-
-        Assert.assertEquals("Dates do not match", activityDate, detailsDate);
-
+        // Must use assertTrue because the Date formats don't write out the entire month
+        Assert.assertTrue("Month does not match", detailsDate.contains(month));
+        Assert.assertTrue("Month does not match", detailsDate.contains(dayAndYear));
     }
 
     @Ignore

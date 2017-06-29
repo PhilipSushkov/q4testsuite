@@ -207,7 +207,6 @@ public class NoteDetailsPage extends ActivityPage {
     public String getDetailsTag(){
         //Get tag from the details page
         waitForLoadingScreen();
-//        wait.until(ExpectedConditions.visibilityOfElementLocated(noteDetails));
         return findElement(detailsTag).getText();
     }
 

@@ -193,7 +193,7 @@ public class MorningCoffeePage extends AbstractPageObject {
         }
 
         if(ascendingSort)
-            return elementsAreAlphaUpSorted(ownerNames);
+            return elementsAreAlphaUpSortedMorningCoffee(ownerNames);
         else
             return elementsAreAlphaDownSorted(ownerNames);
         }
