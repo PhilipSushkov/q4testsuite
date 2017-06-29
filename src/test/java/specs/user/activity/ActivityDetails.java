@@ -27,7 +27,7 @@ public class ActivityDetails extends AbstractSpec {
         new LoginPage(driver).loginUser()
                 .accessSideNav()
                 .selectActivityPageFromSideNav();
-        new ActivityPage(driver).logNote().enterRoadshowDetails(title, location, tag).postActivity();
+        new ActivityPage(driver).logNote().enterRoadshowDetails(title, location, tag).postActivity().accessSideNavFromPage().selectActivityPageFromSideNav();
     }
 
     @Test
@@ -69,7 +69,7 @@ public class ActivityDetails extends AbstractSpec {
         //Checking to see if the tag on the details page is the same as tag generated above
         NoteDetailsPage note = new NoteDetailsPage(driver)
                 .searchForNote(title)
-                .selectFirstNoteInList();
+                .selectFirstNoteInList().addNewTag(tag);
         String actualTag = note.getDetailsTag();
         //Add '#' because the actual tag contains '#' in the beginning
         Assert.assertEquals("Tags do not match", actualTag, "#"+tag);
@@ -82,7 +82,7 @@ public class ActivityDetails extends AbstractSpec {
         NoteDetailsPage note = new NoteDetailsPage(driver);
 
         note.searchForNote(title);
-        String activityDate = note.getDate();
+        String activityDate = new ActivityPage(driver).getDate();
         note.selectFirstNoteInList();
 
         String detailsDate = note.getDetailsDate();
@@ -101,6 +101,7 @@ public class ActivityDetails extends AbstractSpec {
     public void canAddTag(){
         //Two parts; 1st part: Check if tag can be added from details page
         NoteDetailsPage note = new NoteDetailsPage(driver)
+                .searchForNote(title)
                 .selectFirstNoteInList()
                 .addNewTag(newTag);
         note.pageRefresh();

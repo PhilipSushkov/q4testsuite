@@ -48,6 +48,7 @@ public class LogActivity extends AbstractSpec {
 
         NoteDetailsPage noteDetailsPage = new NoteDetailsPage(driver);
 
+        ActivityPage activityPage = new ActivityPage(driver);
         new ActivityPage(driver).logNote()
                 .enterNoteDetails(comment, note, tag);
 

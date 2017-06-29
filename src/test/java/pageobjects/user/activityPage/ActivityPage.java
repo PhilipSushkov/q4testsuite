@@ -23,7 +23,7 @@ public class ActivityPage extends AbstractPageObject {
     private final By notesSection = By.cssSelector(".note-manager-list .note-item.x-dataview-item");
     private final By firstNoteInList = By.xpath("//div[contains(@class,'note-item')][1]//div[contains(@class,'title')]");
     private final By firstNoteInListDate = By.xpath("//div[1][contains(@class,'note-item')]//div[contains(@class,'column')][7]");
-    private final By firstNoteInListNewTag = By.xpath("//div[1][contains(@class,'note-item')]//div[contains(@class,'column')][8]/a[2]");
+    private final By firstNoteInListNewTag = By.xpath("//div[1][contains(@class,'note-item')]//div[contains(@class,'column')][8]/a[1]");
     private final By firstNoteInListLocation = By.xpath("//div[1][contains(@class,'note-item')]//div[contains(@class,'column')][6]");
     private final By newActivityIcon = By.xpath("//div[contains(@class, 'x-unsized x-button x-iconalign-left primary-action btn btn-primary btn-icon-only x-dock-item x-docked-right')]/span[contains(@class, 'x-button-icon x-shown q4i-add-4pt')]");
     private final By activitySearchField = By.cssSelector(".toolbar-panel .search .x-field-input .x-input-el");
@@ -81,7 +81,7 @@ public class ActivityPage extends AbstractPageObject {
 
     public NoteDetailsPage selectFirstNoteInList() {
         waitForLoadingScreen();
-        findElement(firstNoteInList).click();
+        findVisibleElement(firstNoteInList).click();
 
         return new NoteDetailsPage(getDriver());
     }
@@ -474,14 +474,14 @@ public class ActivityPage extends AbstractPageObject {
         //Gets date from first note on the activity page and format it
         DateFormat activityFormat = new SimpleDateFormat("MM/dd/yy");
         DateFormat detailsFormat = new SimpleDateFormat("MMM dd, yyyy");
-        Date strToDate = activityFormat.parse(findElement(firstNoteInListDate).getText());
+        Date strToDate = activityFormat.parse(findVisibleElement(firstNoteInListDate).getText());
         String dateToString = detailsFormat.format(strToDate);
         return dateToString;
     }
 
     public String getActivityPageTag(){ return findElement(firstNoteInListNewTag).getText(); }
 
-    public String getActivityPageLocation(){return findElement(firstNoteInListLocation).getText(); }
+    public String getActivityPageLocation(){return findVisibleElement(firstNoteInListLocation).getText(); }
 
     public String getNoNote() {
         return findElement(emptyResults).getText();
