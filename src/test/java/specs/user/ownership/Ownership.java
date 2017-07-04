@@ -296,7 +296,7 @@ public class Ownership extends AbstractSpec {
     @Test
     public void canSearchForHistoricalInsiders() {
         // Search for specific insiders on the insiders tab of the historical section of the Holder's table
-        String holder = "Nelson Peltz";
+        String holder = "William J. DeLaney";
         SecurityOwnershipPage securityOwnershipPage = new SecurityOwnershipPage(driver).selectThirteenF();
         securityOwnershipPage.viewHistoricalHolders();
         securityOwnershipPage.selectInsiderstab();

@@ -5,6 +5,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import pageobjects.user.activityPage.ActivityPage;
+import pageobjects.user.activityPage.logActivityPage;
+import pageobjects.user.dashboardPage.Dashboard;
 import pageobjects.user.loginPage.LoginPage;
 import specs.AbstractSpec;
 
@@ -33,19 +35,24 @@ public class SearchForActivity extends AbstractSpec {
         String tag2 = "TestTag" + RandomStringUtils.randomAlphanumeric(6);
 
         ActivityPage activityPage = new ActivityPage(driver);
-        activityPage.logNote()
+        activityPage.logNote();
+        new LogActivityPage(driver)
                 .enterNoteDetails(comment1, note1, tag1)
-                .postActivity();
+                .accessSideNavFromPage()
+                .selectDashboardFromSideNav();
 
-        activityPage.logNote()
+        new Dashboard(driver).logNote();
+        new LogActivityPage(driver)
                 .enterNoteDetails(comment2, note2, tag2)
-                .postActivity();
+                .accessSideNavFromPage()
+                .selectDashboardFromSideNav();
+        new Dashboard(driver)
+                .accessSideNav()
+                .selectActivityPageFromSideNav()
+                .searchForNote(comment2);
 
-        activityPage.searchForNote(comment2);
-
-        // TODO this assertion should make sure comment1 is NOT visible
-
-        Assert.assertThat("Searching did not return the expected results", activityPage.getSearchResults(), containsString(comment2));
+        Assert.assertThat("Searching did not return the expected results", activityPage.getNewNote(), containsString(comment2));
+        Assert.assertNotEquals("Searching found more than expected", activityPage.getNewNote(), containsString(comment1));
     }
 
     @Test

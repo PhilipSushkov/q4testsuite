@@ -1,6 +1,5 @@
 package pageobjects.user.noteDetailsPage;
 
-import org.apache.commons.lang.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
@@ -11,17 +10,18 @@ import pageobjects.user.activityPage.ActivityPage;
  * Created by patrickp on 2016-08-12.
  */
 public class NoteDetailsPage extends ActivityPage {
-    private final By noteDetails = By.cssSelector(".preview-note-view .preview-note-view-section");
-    private final By commentDetails = By.cssSelector(".note-detail-header .note-detail-header-inner");
-    private final By activityTitle = By.xpath("//div[contains(@class,'note-detail-header-inner')]//div[contains(@class,'note-information')][2]//h1");
-    private final By linkedToDetails = By.cssSelector(".preview-note-view .note-links .x-dataview-item");
+    private final By noteDetails = By.xpath("//div[contains(@class, 'x-container x-unsized x-size-monitored x-paint-monitored notes')]/div[contains(@class, 'x-inner')]/div[contains(@class, 'x-innerhtml')]/div[contains(@class, 'q4-fade-in')]");
+    private final By commentDetails = By.cssSelector(".activity-header .detail-header .detail-info .title");
+    private final By activityTitle = By.xpath("//div[contains(@class, 'detail-info')]/h2[contains(@class, 'title')]");
+    private final By linkedToDetails = By.xpath("//div[contains(@class, 'x-container x-unsized activity-attendees-list x-dataview x-paint-monitored')]/div[contains(@class, 'x-body x-domscroller')]/div[contains(@class, 'x-inner x-dataview-inner')]/div[contains(@class, 'x-unsized x-dataview-container')]/div[contains(@class, 'x-dataview-item attendee-item')]/div[contains(@class, 'row')]/div[contains(@class, 'column flex name')]");
     private final By activityHeader = By.cssSelector(".note-detail-header .note-information h1");
-    private final By detailsHeader = By.xpath("//h3[contains(string(),'Details')]");
+    private final By detailsHeader = By.xpath("//div[contains(@class, 'x-container x-tabbar x-dock-item x-docked-top x-stretched')]");
     private final By activityDetails = By.cssSelector(".preview-note-view p");
     private final By venueDetails = By.xpath("//div[contains(@class,'x-innerhtml')][h4[contains(text(),'Venue')]]");
-    private final By locationDetails = By.xpath("//div[contains(@class, 'x-innerhtml')][h4[contains(text(), 'Location')]]");
+    private final By locationDetails = By.xpath("//div[contains(@class, 'x-innerhtml')]/ul[contains(@class, 'bordered-list')]/li[2]");
     private final By attendeeDetails = By.xpath("//div[contains (@class, 'x-unsized x-dataview-container')]/div[contains(@class, 'x-dataview-item')]/div[contains(@class, 'details')]");
-    private final By dateDetails = By.xpath("//div[contains(@class, 'x-unsized x-dataview-container')][h4[contains(text(), 'Date')]]/div");
+    private final By dateDetails = By.xpath("//div[contains(@class, 'x-innerhtml')]/ul[contains(@class, 'bordered-list')]/li[1]");
+    private final By contactAttendees = By.xpath("//div[contains(@class, 'x-inner x-data-item-inner toolbar-panel-inner attendees-toolbar-inner')]/div[contains(@class, 'x-container range-tabs dark-tabs x-stretched')]/div[contains(@class, 'x-inner range-tabs-inner x-align-center x-horizontal x-pack-start x-layout-box')]/div[contains(@class, 'x-button x-button-no-icon x-layout-box-item x-stretched')]/*[contains(text(), 'Contact')]");
 
     // Suggest an Edit Note Menu
     private final By suggestEditMenuDropdownButton = By.cssSelector("#ext-element-661");
@@ -44,7 +44,7 @@ public class NoteDetailsPage extends ActivityPage {
     private final By detailsTag = By.cssSelector(".tags-view span.tag");
     private final By addTagButton = By.cssSelector(".tags-view .tag.add-button");
     private final By addTagField = By.cssSelector(".tags-modal-list .tag-field input");
-    private final By detailsLocation = By.xpath("//div[contains(@class, 'x-innerhtml')][h4[contains(text(), 'Location')]]");
+    private final By detailsLocation = By.xpath("//div[contains(@class, 'x-innerhtml')]/ul/li[2]");
 
     public NoteDetailsPage(WebDriver driver) {
         super(driver);
@@ -105,6 +105,13 @@ public class NoteDetailsPage extends ActivityPage {
         return findElement(linkedToDetails).getText();
     }
 
+    public String filterContactsOnlys(){
+        scrollToElement(contactAttendees);
+        findElement(contactAttendees).click();
+        waitForElement(linkedToDetails);
+        return findVisibleElement(linkedToDetails).getText();
+    }
+
     public String getActivityHeader() {
         return findElement(activityHeader).getText();
     }
@@ -133,7 +140,7 @@ public class NoteDetailsPage extends ActivityPage {
 
     public String getDate(){
         waitForLoadingScreen();
-        return findElement(locationDetails).getText();
+        return findElement(dateDetails).getText();
     }
 
     public String getVenueDetails(){
@@ -194,14 +201,12 @@ public class NoteDetailsPage extends ActivityPage {
 
     public String getDetailsDate(){
         waitForLoadingScreen();
-        wait.until(ExpectedConditions.visibilityOfElementLocated(noteDetails));
-        return findElement(detailsDate).getText();
+        return findElement(dateDetails).getText();
     }
 
     public String getDetailsTag(){
         //Get tag from the details page
         waitForLoadingScreen();
-        wait.until(ExpectedConditions.visibilityOfElementLocated(noteDetails));
         return findElement(detailsTag).getText();
     }
 
@@ -213,6 +218,7 @@ public class NoteDetailsPage extends ActivityPage {
         findElement(addTagField).click();
         findElement(addTagField).sendKeys(newTag);
         findElement(addTagField).sendKeys(Keys.ENTER);
+        findElement(addTagField).sendKeys(Keys.ESCAPE);
 
         return this;
     }
@@ -220,6 +226,6 @@ public class NoteDetailsPage extends ActivityPage {
     public String getDetailsLocation(){
         //Gets the location from details page - detailsLocation will return all content inside details page, substringBetween selects the location
         waitForLoadingScreen();
-        return StringUtils.substringBetween(findElement(detailsLocation).getText(),"LOCATION\n","\nCORPORATE");
+        return findElement(detailsLocation).getText();
     }
 }

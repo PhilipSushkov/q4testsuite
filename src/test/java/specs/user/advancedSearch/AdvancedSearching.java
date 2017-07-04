@@ -31,7 +31,7 @@ public class AdvancedSearching extends AbstractSpec {
 
     @Test
     public void canSearchForInstitution() {
-        String institution = "Vanguard Ventures";
+        String institution = "The Vanguard Group, Inc.";
         AdvancedSearchPage advancedSearchPage = new AdvancedSearchPage(driver).advancedSearchFor(institution);
 
         Assert.assertThat("Could not find institution in search results", advancedSearchPage.getAdvancedSearchResults(), containsString((institution)));

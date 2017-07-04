@@ -143,13 +143,25 @@ public class TargetingList extends AbstractSpec {
 
         // going to targets list and checking that contact appears
 
-        int targetedContactIndex = new ContactDetailsPage(driver).accessSideNavFromPage().selectTargetingFromSideNav().selectTargetsTab().searchForSearch(targetedContact).findContactIndex(targetedContact);
+        int targetedContactIndex = new ContactDetailsPage(driver)
+                .accessSideNavFromPage()
+                .selectTargetingFromSideNav()
+                .selectTargetsTab()
+                .searchForSearch(targetedContact)
+                .findContactIndex(targetedContact);
         Assert.assertNotEquals("Contact not found in targets list", -1, targetedContactIndex);
 
         // removing the target and checking that the target no longer appears
         new TargetingPage(driver).untargetContact(targetedContactIndex);
         Assert.assertFalse("'Saved Target' icon still appears on contact page.", new TargetingPage(driver).goToContactURL(contactPageURL).isSavedTarget());
-        targetedContactIndex = new ContactDetailsPage(driver).accessSideNavFromPage().selectTargetingFromSideNav().selectTargetsTab().searchForSearch(targetedContact).findContactIndex(targetedContact);
+
+        targetedContactIndex = new ContactDetailsPage(driver)
+                .accessSideNavFromPage()
+                .selectTargetingFromSideNav()
+                .selectTargetsTab()
+                .searchForSearch(targetedContact)
+                .findContactIndex(targetedContact);
+
         Assert.assertEquals("Contact has not been removed from targets list", -1, targetedContactIndex);
     }
 

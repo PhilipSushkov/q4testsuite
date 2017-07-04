@@ -209,21 +209,116 @@ public class AbstractPageObject implements HeaderPage{
             if(frontElement.contains("Multiple")){
                 findElement(test);
                 (elements.get(i+1)).click();
-                waitForElement(multipleFirstResult);
+                waitForElementToAppear(multipleFirstResult);
                 frontElement = findElement(multipleFirstResult).getText();
-                waitForLoadingScreen();
-                clickCoordinate(searchBar,10,10);
 
+                // Sometimes multipleFirstResult returns nothing so we run a loop to try again 10 times until text is returned.
+                for (int k = 0; k < 9; k++)
+                {
+                    if (frontElement.equalsIgnoreCase("")){
+                        (elements.get(i+1)).click();
+                        waitForElementToAppear(multipleFirstResult);
+                        frontElement = findElement(multipleFirstResult).getText();
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+                clickCoordinate(searchBar,10,10);
+                pause(500);
             }
 
             if(backElement.contains("Multiple")){
                 findElement(test);
                 (elements.get(i)).click();
-                waitForElement(multipleFirstResult);
+                waitForElementToAppear(multipleFirstResult);
                 backElement = findElement(multipleFirstResult).getText();
-                waitForLoadingScreen();
-                clickCoordinate(searchBar,10,10);
 
+                // Sometimes multipleFirstResult returns nothing so we run a loop to try again 10 times until text is returned.
+                for (int k = 0; k < 9; k++)
+                {
+                    if (backElement.equalsIgnoreCase("")){
+                        (elements.get(i)).click();
+                        waitForElementToAppear(multipleFirstResult);
+                        backElement = findElement(multipleFirstResult).getText();
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+
+                clickCoordinate(searchBar,10,10);
+                pause(500);
+            }
+
+            if (frontElement.compareTo(backElement) < 0){
+                System.out.println("MIS-SORT: Ascending: '"+frontElement+"' should not be after '"+backElement+"'");
+                sortedWell = false;
+            }
+        }
+        return sortedWell;
+    }
+
+    public boolean elementsAreAlphaUpSortedMorningCoffee(List<WebElement> elements){
+        //adding so to ignore the Multiple
+        //Must account for - contacts too
+        By multipleFirstResult = By.xpath("//div//h2//..//div[1]");
+        By test = By.xpath("//div[contains(@class,'footer-content')]");
+
+
+        boolean sortedWell = true;
+        for (int i=0; i<elements.size()-1; i++){
+
+            String frontElement = elements.get(i+1).getText();
+            String backElement = elements.get(i).getText();
+
+            if(frontElement.contains("Multiple")){
+                findElement(test);
+                (elements.get(i+1)).click();
+                waitForElementToAppear(multipleFirstResult);
+                frontElement = findElement(multipleFirstResult).getText();
+
+                // Sometimes multipleFirstResult returns nothing so we run a loop to try again 10 times until text is returned.
+                for (int k = 0; k < 9; k++)
+                {
+                    if (frontElement.equalsIgnoreCase("")){
+                        (elements.get(i+1)).click();
+                        waitForElementToAppear(multipleFirstResult);
+                        frontElement = findElement(multipleFirstResult).getText();
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+                clickCoordinate(searchBar,10,10);
+                pause(500);
+            }
+
+            if(backElement.contains("Multiple")){
+                findElement(test);
+                (elements.get(i)).click();
+                waitForElementToAppear(multipleFirstResult);
+                backElement = findElement(multipleFirstResult).getText();
+
+                // Sometimes multipleFirstResult returns nothing so we run a loop to try again 10 times until text is returned.
+                for (int k = 0; k < 9; k++)
+                {
+                    if (backElement.equalsIgnoreCase("")){
+                        (elements.get(i)).click();
+                        waitForElementToAppear(multipleFirstResult);
+                        backElement = findElement(multipleFirstResult).getText();
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+
+                clickCoordinate(searchBar,10,10);
+                pause(500);
             }
 
             if (frontElement.compareTo(backElement) < 0){
