@@ -43,7 +43,7 @@ public class NoteDetailsPage extends ActivityPage {
     private final By detailsDate = By.cssSelector(".preview-note-view h4 + div");
     private final By detailsTag = By.cssSelector(".tags-view span.tag");
     private final By addTagButton = By.cssSelector(".tags-view .tag.add-button");
-    private final By addTagField = By.cssSelector(".tags-modal-list .tag-field input");
+    private final By addTagField = By.xpath("//div[@class='x-unsized x-field-input x-has-width']//input[@class='x-input-el x-form-field x-input-text']");
     private final By detailsLocation = By.xpath("//div[contains(@class, 'x-innerhtml')]/ul/li[2]");
 
     public NoteDetailsPage(WebDriver driver) {
@@ -54,6 +54,7 @@ public class NoteDetailsPage extends ActivityPage {
         waitForLoadingScreen();
 
         try{
+            waitForElement(detailsHeader);
             findElement(detailsHeader);
             return true;
         }
@@ -140,67 +141,80 @@ public class NoteDetailsPage extends ActivityPage {
 
     public String getDate(){
         waitForLoadingScreen();
+        waitForElement(dateDetails);
         return findElement(dateDetails).getText();
     }
 
     public String getVenueDetails(){
         waitForLoadingScreen();
+        waitForElement(venueDetails);
         return findElement(venueDetails).getText();
     }
 
     public String getLocation(){
         waitForLoadingScreen();
+        waitForElement(locationDetails);
         return findElement(locationDetails).getText();
     }
 
     public String getCommentText() {
         waitForLoadingScreen();
+        waitForElement(commentDetails);
         return findElement(commentDetails).getText();
     }
 
     // index ensures the correct participant is selected
     public String getParticipants(){
         waitForLoadingScreen();
+        waitForElement(locationDetails);
         return findElement(locationDetails).getText();
     }
 
     public String getAttendees(){
         waitForLoadingScreen();
+        waitForElement(attendeeDetails);
         return findElement(attendeeDetails).getText();
     }
 
     public String getItineraryTitle(){
         waitForLoadingScreen();
+        waitForElement(itineraryTitle);
         return findElement(itineraryTitle).getText();
     }
 
     public String getItineraryDate(){
         waitForLoadingScreen();
+        waitForElement(itineraryDate);
         return findElement(itineraryDate).getText();
     }
 
     public String getItineraryTime(){
         waitForLoadingScreen();
+        waitForElement(itineraryTime);
         return findElement(itineraryTime).getText();
     }
 
     public String getItineraryVenue(){
         waitForLoadingScreen();
+        waitForElement(itineraryVenue);
         return findElement(itineraryVenue).getText();
     }
 
     public String getItineraryParticipants(){
         waitForLoadingScreen();
+        waitForElement(itineraryParticipants);
         return findElement(itineraryParticipants).getText();
     }
 
     public String getItineraryAttendees(){
         waitForLoadingScreen();
+        waitForElement(itineraryAttendees);
         return findElement(itineraryAttendees).getText();
     }
 
     public String getDetailsDate(){
         waitForLoadingScreen();
+        waitForElementToAppear(dateDetails);
         return findElement(dateDetails).getText();
     }
 
@@ -212,7 +226,7 @@ public class NoteDetailsPage extends ActivityPage {
 
     public NoteDetailsPage addNewTag(String newTag){
         //Add new tag from details page
-        waitForLoadingScreen();
+        waitForElementToAppear(addTagButton);
         findElement(addTagButton).click();
         waitForElementToAppear(addTagField);
         findElement(addTagField).click();
@@ -226,6 +240,7 @@ public class NoteDetailsPage extends ActivityPage {
     public String getDetailsLocation(){
         //Gets the location from details page - detailsLocation will return all content inside details page, substringBetween selects the location
         waitForLoadingScreen();
+        waitForElement(detailsLocation);
         return findElement(detailsLocation).getText();
     }
 }
