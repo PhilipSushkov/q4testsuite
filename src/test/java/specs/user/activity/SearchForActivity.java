@@ -5,7 +5,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import pageobjects.user.activityPage.ActivityPage;
-import pageobjects.user.activityPage.logActivityPage;
+import pageobjects.user.activityPage.LogActivityPage;
 import pageobjects.user.dashboardPage.Dashboard;
 import pageobjects.user.loginPage.LoginPage;
 import specs.AbstractSpec;
