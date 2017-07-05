@@ -41,7 +41,7 @@ public class SearchForActivity extends AbstractSpec {
                 .accessSideNavFromPage()
                 .selectDashboardFromSideNav();
 
-        new Dashboard(driver).logNote();
+        new Dashboard(driver).logActivity();
         new LogActivityPage(driver)
                 .enterNoteDetails(comment2, note2, tag2)
                 .accessSideNavFromPage()

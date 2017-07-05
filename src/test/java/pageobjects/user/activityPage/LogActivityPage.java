@@ -3,6 +3,7 @@ package pageobjects.user.activityPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageobjects.AbstractPageObject;
 import pageobjects.user.noteDetailsPage.NoteDetailsPage;
@@ -13,7 +14,7 @@ import pageobjects.user.noteDetailsPage.NoteDetailsPage;
 public class LogActivityPage extends AbstractPageObject{
     private final By cancelActivityButton = By.xpath("//div[contains(@class,'x-unsized x-button form-button no-background x-button-no-icon')]");
     private final By titleField = By.name("title");
-    private final By saveButton = By.xpath("//div[contains(@class, 'x-container x-unsized x-size-monitored x-paint-monitored x-dock-item x-docked-right')]/div[contains(@class, 'x-inner')]/div[contains(@class, 'x-unsized x-button action-button citrus x-button-no-icon')]");
+    private final By saveButton = By.xpath("//div[contains(@class, 'x-container x-unsized x-size-monitored x-paint-monitored x-dock-item x-docked-right')]/div[contains(@class, 'x-inner')]/div[contains(@class, 'x-unsized x-button action-button citrus x-button-no-icon')]/span[contains(@class,'x-button-label')]");
     private final By selectInstitutionButton = By.id("ext-radiofield-10");
     private final By keywordField = By.xpath("//div[contains(@class, 'x-container x-field x-field-text x-label-align-left typeaheaded-search x-form-label-nowrap x-empty')]/div[contains(@class,'x-component-outer')]/div[contains(@class,'x-unsized x-field-input')]/input[contains(@class, 'x-input-el x-form-field x-input-text')]");
     private  String keyword = "";
@@ -184,8 +185,7 @@ public class LogActivityPage extends AbstractPageObject{
 
     public NoteDetailsPage postActivity() {
         waitForElement(saveButton);
-        scrollToElement(saveButton);
-        findElement(saveButton).click();
+        new Actions(driver).moveToElement(findElement(saveButton)).click().perform();
 
         return new NoteDetailsPage(getDriver());
     }
