@@ -98,6 +98,7 @@ public class ActivityPage extends AbstractPageObject {
 
     public ActivityPage searchForNote(String note) {
         waitForLoadingScreen();
+        waitForElementToAppear(activitySearchField);
         findVisibleElement(activitySearchField).click();
         findVisibleElement(activitySearchField).sendKeys(note);
         //findElement(activitySearchField).sendKeys(Keys.RETURN);
