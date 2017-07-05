@@ -1,6 +1,7 @@
 package pageobjects.user.targeting;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.ElementNotVisibleException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -16,27 +17,31 @@ import java.util.List;
  */
 public class TargetingPage extends AbstractPageObject {
 
+    //Many selectors are different from the Saved Searches tab vs the Saved targets tab
+
     private final By newSearchButton = By.cssSelector(".btn.x-button.x-unsized:not(.btn-block)");
     private final By showSearches = By.cssSelector(".x-tabbar-inner div:first-child");
-   private final By searchNameSelectors = By.cssSelector(".targeting-landing-list .x-dataview-item .name");
+    private final By searchNameSelectors = By.cssSelector(".targeting-landing-list .x-dataview-item .name");
     private final By searchTableRow = By.xpath("//div[contains(@class,'x-dataview-item')]");
     private final By searchNameDivSelectors = By.cssSelector(".targeting-landing-list .x-dataview-item");
-    private final By editButton = By.cssSelector(".edit .x-button-label");
+
     private final By checkbox = By.cssSelector(".checkbox-mask");
     private final By trashIcon = By.xpath("//div[not(contains(@class,'disabled')) and ./span[contains(@class,'q4i-trashbin-4pt')]]");
     //private final By trashIcon = By.cssSelector(".q4i-trashbin-4pt");
     private final By cancelDelete = By.xpath("//div[contains(@class,'x-msgbox')]//div[./span[contains(text(),'No')]]");
     private final By confirmDelete = By.xpath("//div[contains(@class,'x-msgbox')]//div[./span[contains(text(),'Yes')]]");
     private final By doneButton = By.cssSelector(".done .x-button-label");
+
     private final By searchesColumnHeader = By.cssSelector(".targeting-landing-list .list-header");
     private final By nameColumnSearches = By.xpath("//div[contains(@class,'x-button')]//span[contains(text(),'Name')]");
     private final By createdColumnSearches = By.xpath("//div[contains(@class,'x-button')]//span[contains(text(),'Created')]");
     private final By updatedColumnSearches = By.xpath("//div[contains(@class,'x-button')]//span[contains(text(),'Updated')]");
     private final By searchCreatedDate = By.cssSelector(".targeting-landing-list .column.centered.created");
     private final By searchUpdatedDate = By.cssSelector(".targeting-landing-list .x-dataview-item .column.centered.updated");
-    private final By showMoreButton = By.cssSelector(".load-more .x-button");
-    private final By searchInput = By.xpath("//*[contains(@class,'toolbar-panel')]//input");
+    private final By searchShowMoreButton = By.cssSelector(".load-more .x-button");
+    private final By searchSearchInput = By.xpath("//*[contains(@class,'toolbar-panel')]//input");
 
+    //targeting tab buttons
     private final By showTargets = By.cssSelector(".x-tabbar-inner div:last-child");
     private final By showInstitutions = By.xpath("//div[contains(@class,'range-tabs-inner')]/div[span/text()='Institutions']");
     private final By showFunds = By.xpath("//div[contains(@class,'range-tabs-inner')]/div[span/text()='Funds']");
@@ -44,13 +49,15 @@ public class TargetingPage extends AbstractPageObject {
     private final By firstEntitySelector = By.cssSelector(".targeting-landing-list .x-dataview-item:first-child");
     private final By firstEntityNameSelector = By.cssSelector(".targeting-landing-list .x-dataview-item:first-child .name");
     //private final By firstEntityNameSelector = By.cssSelector(".targeting-grid-item-first.x-has-height div:first-child .x-grid-cell-inner");
+    private final By entityNameTargetPage = By.xpath("//div[contains(@class,'targeting-name')]");
     private final By entityName = By.cssSelector(".targeting-landing-list .x-dataview-item .name");
     private final By entityTargetButton = By.className("target");
+    private final By entityTargetNumber = By.xpath("//div[@class='details'][string-length(text()) > 0]");
     private final By targetsNameColumnHeader = By.xpath("//div[contains(@class,'x-button')]//span[contains(text(),'Name')]");
     private final By targetsLocationColumnHeader = By.xpath("//div[contains(@class,'x-button')]//span[contains(text(),'Location')]");
-    private final By entityLocation = By.cssSelector(".x-grid-row.q4-grid.x-has-height div:nth-child(2) .x-grid-cell-inner");
+    private final By entityLocation = By.xpath("//div[contains(@class,'location-value')]");
     private final By searchResults = By.cssSelector(".targeting-landing-list");
-
+    private final By targetShowMoreButton = By.xpath("//div[contains(@class,'targeting-landing-list') and not(contains(@class,'x-hidden-display'))]//span[contains(@class,'q4i-arrow-down-2pt')]");
 
     public TargetingPage(WebDriver driver) {
         super(driver);
@@ -68,7 +75,7 @@ public class TargetingPage extends AbstractPageObject {
 
     private void showMoreSavedSearches(){
        // int numSearches = findElements(searchNameSelectors).size();
-        findVisibleElement(showMoreButton).click();
+        findVisibleElement(searchShowMoreButton).click();
         waitForLoadingScreen();
        /* for (int i=0; i<100; i++){
             if (findElements(searchNameSelectors).size()>numSearches){
@@ -82,7 +89,7 @@ public class TargetingPage extends AbstractPageObject {
     public int findSearchNameIndex(String searchName){
         waitForElement(showSearches);
         pause(2000);
-        while (findVisibleElements(showMoreButton).size()>0){
+        while (findVisibleElements(searchShowMoreButton).size()>0){
             showMoreSavedSearches();
         }
         List<WebElement> searchNames = findVisibleElements(searchNameSelectors);
@@ -96,14 +103,14 @@ public class TargetingPage extends AbstractPageObject {
     }
 
     public TargetingPage searchForSearch(String searchName){
-        findVisibleElement(searchInput).sendKeys(searchName);
+        findVisibleElement(searchSearchInput).sendKeys(searchName);
         waitForLoadingScreen();
         return this;
     }
 
     public WebElement returnSearch(String searchName){
         waitForElement(showSearches);
-        while (findVisibleElements(showMoreButton).size()>0){
+        while (findVisibleElements(searchShowMoreButton).size()>0){
             showMoreSavedSearches();
         }
         List<WebElement> searchNames = findVisibleElements(searchTableRow);
@@ -161,7 +168,7 @@ public class TargetingPage extends AbstractPageObject {
 
         // sorting by name ascending
         findVisibleElement(nameColumnSearches).click();
-        pause(300);
+        pause(500);
         waitForLoadingScreen();
         if (!elementsAreAlphaUpSortedIgnoreCase(findElements(searchNameSelectors))) {
             System.out.println("SORT ERROR: Names are not in ascending order.");
@@ -170,7 +177,7 @@ public class TargetingPage extends AbstractPageObject {
 
         // sorting by name descending
         findVisibleElement(nameColumnSearches).click();
-        pause(300);
+        pause(500);
         waitForLoadingScreen();
         if (!elementsAreAlphaDownSortedIgnoreCase(findElements(searchNameSelectors))) {
             System.out.println("SORT ERROR: Names are not in descending order.");
@@ -185,7 +192,7 @@ public class TargetingPage extends AbstractPageObject {
         pause(2000);
         // sorting by created date descending
         findVisibleElement(createdColumnSearches).click();
-        pause(300);
+        pause(500);
         waitForLoadingScreen();
         if (!elementsAreDateDownSorted(findElements(searchCreatedDate))) {
             System.out.println("SORT ERROR: Created dates are not in descending order.");
@@ -194,7 +201,7 @@ public class TargetingPage extends AbstractPageObject {
 
         // sorting by created date ascending
         findVisibleElement(createdColumnSearches).click();
-        pause(300);
+        pause(500);
         waitForLoadingScreen();
         if (!elementsAreDateUpSorted(findElements(searchCreatedDate))) {
             System.out.println("SORT ERROR: Created dates are not in ascending order.");
@@ -216,7 +223,7 @@ public class TargetingPage extends AbstractPageObject {
 
         // sorting by last updated date descending
         findVisibleElement(updatedColumnSearches).click();
-        pause(300);
+        pause(500);
         waitForLoadingScreen();
         if (!elementsAreDateDownSorted(findElements(searchUpdatedDate))){
             System.out.println("SORT ERROR: Last updated dates are not in descending order.");
@@ -230,10 +237,12 @@ public class TargetingPage extends AbstractPageObject {
     public int findInstitutionIndex(String name){
         waitForElement(showTargets);
         findVisibleElement(showTargets).click();
-        pause(2000);
+        waitForLoadingScreen();
         findVisibleElement(showInstitutions).click();
-        pause(2000);
+        waitForLoadingScreen();
+
         List<WebElement> institutionNames = findVisibleElements(entityName);
+
         for (int i=0; i<institutionNames.size(); i++){
             if (institutionNames.get(i).getText().contains(name)){
                 return i;
@@ -246,10 +255,12 @@ public class TargetingPage extends AbstractPageObject {
     public int findContactIndex(String name){
         waitForElement(showTargets);
         findVisibleElement(showTargets).click();
-        pause(2000);
+        waitForLoadingScreen();
         findVisibleElement(showContacts).click();
-        pause(3000);
+        waitForLoadingScreen();
+
         List<WebElement> contactNames = findVisibleElements(entityName);
+
         for (int i=0; i<contactNames.size(); i++){
             if (contactNames.get(i).getText().contains(name)){
                 return i;
@@ -325,123 +336,31 @@ public class TargetingPage extends AbstractPageObject {
         findVisibleElement(showTargets).click();
         pause(2000);
 
-        // sorting by name ascending
-        findVisibleElement(targetsNameColumnHeader).click();
-        pause(300);
-        if (!elementsAreAlphaUpSorted(findVisibleElements(entityName))){
-            System.out.println("SORT ERROR: Names are not in ascending order.");
-            return false;
-        }
-
-        // sorting by name descending
-        findVisibleElement(targetsNameColumnHeader).click();
-        pause(300);
-        if (!elementsAreAlphaDownSorted(findVisibleElements(entityName))){
-            System.out.println("SORT ERROR: Names are not in descending order.");
-            return false;
-        }
-
-        // sorting by location ascending
-        findVisibleElement(targetsLocationColumnHeader).click();
-        pause(300);
-        if (!elementsAreAlphaUpSorted(findVisibleElements(entityLocation))){
-            System.out.println("SORT ERROR: Locations are not in ascending order.");
-            return false;
-        }
-
-        // sorting by location descending
-        findVisibleElement(targetsLocationColumnHeader).click();
-        pause(300);
-        if (!elementsAreAlphaDownSorted(findVisibleElements(entityLocation))){
-            System.out.println("SORT ERROR: Locations are not in descending order.");
-            return false;
-        }
-
-        return true;
+        //clicking Show More - See DESKTOP-8189
+        return checkSorted(1000);
     }
 
     public boolean institutionsCanBeSorted(){
+        int beforeShowMore=0;
         findVisibleElement(showTargets).click();
         pause(2000);
         wait.until(ExpectedConditions.elementToBeClickable(showInstitutions));
         findElement(showInstitutions).click();
         pause(2000);
 
-        // sorting by name ascending
-        findVisibleElement(targetsNameColumnHeader).click();
-        pause(300);
-        if (!elementsAreAlphaUpSorted(findVisibleElements(entityName))){
-            System.out.println("SORT ERROR: Names are not in ascending order.");
-            return false;
-        }
-
-        // sorting by name descending
-        findVisibleElement(targetsNameColumnHeader).click();
-        pause(300);
-        if (!elementsAreAlphaDownSorted(findVisibleElements(entityName))){
-            System.out.println("SORT ERROR: Names are not in descending order.");
-            return false;
-        }
-
-        // sorting by location ascending
-        findVisibleElement(targetsLocationColumnHeader).click();
-        pause(300);
-        if (!elementsAreAlphaUpSorted(findVisibleElements(entityLocation))){
-            System.out.println("SORT ERROR: Locations are not in ascending order.");
-            return false;
-        }
-
-        // sorting by location descending
-        findVisibleElement(targetsLocationColumnHeader).click();
-        pause(300);
-        if (!elementsAreAlphaDownSorted(findVisibleElements(entityLocation))){
-            System.out.println("SORT ERROR: Locations are not in descending order.");
-            return false;
-        }
-
-        return true;
+        //clicking Show More - See DESKTOP-8189
+        return checkSorted(1000);
     }
 
     public boolean fundsCanBeSorted(){
+        int beforeShowMore = 0;
         findVisibleElement(showTargets).click();
         pause(2000);
         wait.until(ExpectedConditions.elementToBeClickable(showFunds));
         findElement(showFunds).click();
         pause(2000);
 
-        // sorting by name ascending
-        findVisibleElement(targetsNameColumnHeader).click();
-        pause(300);
-        if (!elementsAreAlphaUpSorted(findVisibleElements(entityName))){
-            System.out.println("SORT ERROR: Names are not in ascending order.");
-            return false;
-        }
-
-        // sorting by name descending
-        findVisibleElement(targetsNameColumnHeader).click();
-        pause(300);
-        if (!elementsAreAlphaDownSorted(findVisibleElements(entityName))){
-            System.out.println("SORT ERROR: Names are not in descending order.");
-            return false;
-        }
-
-        // sorting by location ascending
-        findVisibleElement(targetsLocationColumnHeader).click();
-        pause(300);
-        if (!elementsAreAlphaUpSorted(findVisibleElements(entityLocation))){
-            System.out.println("SORT ERROR: Locations are not in ascending order.");
-            return false;
-        }
-
-        // sorting by location descending
-        findVisibleElement(targetsLocationColumnHeader).click();
-        pause(300);
-        if (!elementsAreAlphaDownSorted(findVisibleElements(entityLocation))){
-            System.out.println("SORT ERROR: Locations are not in descending order.");
-            return false;
-        }
-
-        return true;
+        return checkSorted(1000);
     }
 
     public boolean contactsCanBeSorted(){
@@ -451,25 +370,44 @@ public class TargetingPage extends AbstractPageObject {
         findElement(showContacts).click();
         pause(2000);
 
+        return checkSorted(1000);
+
+    }
+
+    public boolean checkSorted(int waitTime){
+        int beforeShowMore = 0;
+        List<WebElement> beforeSort = findElements(entityTargetNumber);
+        beforeShowMore = beforeSort.size();
+
+        if (beforeShowMore < 10) {
+            try {
+                findElement(targetShowMoreButton).click();
+                waitForLoadingScreen();
+            } catch (ElementNotVisibleException e) {
+                System.out.println("There are less than 10 items therefore there is no Show More button");
+                System.out.println("Expection: " + e);
+            }
+        }
+
         // sorting by name ascending
         findVisibleElement(targetsNameColumnHeader).click();
-        pause(300);
-        if (!elementsAreAlphaUpSorted(findVisibleElements(entityName))){
+        pause(waitTime);
+        if (!elementsAreAlphaUpSorted(findVisibleElements(entityNameTargetPage))){
             System.out.println("SORT ERROR: Names are not in ascending order.");
             return false;
         }
 
         // sorting by name descending
         findVisibleElement(targetsNameColumnHeader).click();
-        pause(300);
-        if (!elementsAreAlphaDownSorted(findVisibleElements(entityName))){
+        pause(waitTime);
+        if (!elementsAreAlphaDownSorted(findVisibleElements(entityNameTargetPage))){
             System.out.println("SORT ERROR: Names are not in descending order.");
             return false;
         }
 
         // sorting by location ascending
         findVisibleElement(targetsLocationColumnHeader).click();
-        pause(300);
+        pause(waitTime);
         if (!elementsAreAlphaUpSorted(findVisibleElements(entityLocation))){
             System.out.println("SORT ERROR: Locations are not in ascending order.");
             return false;
@@ -477,9 +415,16 @@ public class TargetingPage extends AbstractPageObject {
 
         // sorting by location descending
         findVisibleElement(targetsLocationColumnHeader).click();
-        pause(300);
+        pause(waitTime);
         if (!elementsAreAlphaDownSorted(findVisibleElements(entityLocation))){
             System.out.println("SORT ERROR: Locations are not in descending order.");
+            return false;
+        }
+
+        int afterNum = findElements(entityTargetNumber).size();
+        //checking to make sure the Show More still exists after sorting
+        if(!(beforeShowMore == afterNum)){
+            System.out.println("Show More did not stay after sort.");
             return false;
         }
 
@@ -492,6 +437,7 @@ public class TargetingPage extends AbstractPageObject {
     }
 
     public TargetingPage selectTargetsTab() {
+        waitForElement(showTargets);
         findVisibleElement(showTargets).click();
         waitForLoadingScreen();
         return this;

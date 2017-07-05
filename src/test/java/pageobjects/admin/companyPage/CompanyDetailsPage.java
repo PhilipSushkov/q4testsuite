@@ -4,7 +4,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import specs.admin.companies.CompanyDetails;
 
 /**
  * Created by patrickp on 2016-09-20.
@@ -110,6 +109,7 @@ public class CompanyDetailsPage extends CompanyList {
         findElement(newTickerIcon).click();
         findElement(editTickerSearchField).click();
         findElement(editTickerSearchField).sendKeys(newTicker);
+        waitForElementToAppear(firstTicker);
         findElement(firstTicker).click();
         findVisibleElement(tickerSave).click();
 

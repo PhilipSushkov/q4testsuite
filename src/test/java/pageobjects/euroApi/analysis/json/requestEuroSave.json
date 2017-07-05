@@ -1,0 +1,1991 @@
+[
+  {
+    "symbol": "C21",
+    "SolutionID": "1876",
+    "CustomerKey": "21stCenturyTechnology",
+    "name": "21ST CENTURY TECHNOLOGY PLC OR",
+    "currency": "GBX",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1000027
+  },
+  {
+    "symbol": "FOUR",
+    "SolutionID": "2258",
+    "CustomerKey": "4imprint",
+    "name": "4imprint Group PLC",
+    "currency": "GBP",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1000343
+  },
+  {
+    "symbol": "ABVX",
+    "SolutionID": "2202",
+    "CustomerKey": "abivax",
+    "name": "Abivax",
+    "currency": "EUR",
+    "exchangeName": "Euronext Stock Exchange",
+    "IRInstrumentID": 1000288
+  },
+  {
+    "symbol": "ACRL",
+    "SolutionID": "2500",
+    "CustomerKey": "AccrolPapers",
+    "name": "Accrol Papers",
+    "currency": "GBp",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1000756
+  },
+  {
+    "symbol": "AGL",
+    "SolutionID": "2824",
+    "CustomerKey": "AGL",
+    "name": "AGL Energy",
+    "currency": "AUD",
+    "exchangeName": "Australian Stock Exchange",
+    "IRInstrumentID": 1001109
+  },
+  {
+    "symbol": "AGLHA",
+    "SolutionID": "2824",
+    "CustomerKey": "AGL",
+    "name": "AGL Energy",
+    "currency": "AUD",
+    "exchangeName": "Australian Stock Exchange",
+    "IRInstrumentID": 1002248
+  },
+  {
+    "symbol": "AGL",
+    "SolutionID": "2824",
+    "CustomerKey": "AGL",
+    "name": "AGL Energy",
+    "currency": "AUD",
+    "exchangeName": "Australian Stock Exchange",
+    "IRInstrumentID": 1001109
+  },
+  {
+    "symbol": "AGLHA",
+    "SolutionID": "2824",
+    "CustomerKey": "AGL",
+    "name": "AGL Energy",
+    "currency": "AUD",
+    "exchangeName": "Australian Stock Exchange",
+    "IRInstrumentID": 1002248
+  },
+  {
+    "symbol": "ALMB",
+    "SolutionID": "1804",
+    "CustomerKey": "AlmBrand",
+    "name": "Alm. Brand A/S",
+    "currency": "DKK",
+    "exchangeName": "OMX Nordic Equities",
+    "IRInstrumentID": 100059
+  },
+  {
+    "symbol": "ALMB",
+    "SolutionID": "2300",
+    "CustomerKey": "AlmBrand",
+    "name": "Alm. Brand A/S",
+    "currency": "DKK",
+    "exchangeName": "OMX Nordic Equities",
+    "IRInstrumentID": 1000428
+  },
+  {
+    "symbol": "ANTO",
+    "SolutionID": "2288",
+    "CustomerKey": "Antofagasta",
+    "name": "Antofagasta Plc",
+    "currency": "GBp",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1000401
+  },
+  {
+    "symbol": "APAX",
+    "SolutionID": "3468",
+    "CustomerKey": "ApaxGlobalAlphaLtd",
+    "name": "Apax Global Alpha Ltd",
+    "currency": "GBp",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1002199
+  },
+  {
+    "symbol": "AGM",
+    "SolutionID": "2152",
+    "CustomerKey": "AppliedGrapheneMaterials",
+    "name": "Applied Graphene Materials",
+    "currency": "GBX",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1000249
+  },
+  {
+    "symbol": "AFG",
+    "SolutionID": "1880",
+    "CustomerKey": "AquaticFoodsGroupPlc",
+    "name": "AQUATIC FOODS GROUP PLC ORD NP",
+    "currency": "GBX",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1000028
+  },
+  {
+    "symbol": "ASM",
+    "SolutionID": "2774",
+    "CustomerKey": "ASM",
+    "name": "ASM",
+    "currency": "EUR",
+    "exchangeName": "Euronext Stock Exchange",
+    "IRInstrumentID": 1001036
+  },
+  {
+    "symbol": "ASMIY",
+    "SolutionID": "2774",
+    "CustomerKey": "ASM",
+    "name": "ASM",
+    "currency": "USD",
+    "exchangeName": "Nasdaq OTC Foreign",
+    "IRInstrumentID": 1002151
+  },
+  {
+    "symbol": "AGR",
+    "SolutionID": "2788",
+    "CustomerKey": "AssuraPlc",
+    "name": "Assura Plc Ord 10p",
+    "currency": "GBX",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1001066
+  },
+  {
+    "symbol": "ASURB",
+    "SolutionID": "3356",
+    "CustomerKey": "ASUR",
+    "name": "ASUR.B [BMW]",
+    "currency": "MXN",
+    "exchangeName": "Mexico Variable Income (Equities)",
+    "IRInstrumentID": 1002016
+  },
+  {
+    "symbol": "ASR",
+    "SolutionID": "3356",
+    "CustomerKey": "ASUR",
+    "name": "ASR [NYSE]",
+    "currency": "USD",
+    "exchangeName": "New York Stock Exchange",
+    "IRInstrumentID": 1002017
+  },
+  {
+    "symbol": "ATQT",
+    "SolutionID": "2610",
+    "CustomerKey": "AttraqtGroupPlc",
+    "name": "ATTRAQT GROUP PLC",
+    "currency": "GBX",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1000844
+  },
+  {
+    "symbol": "AURA",
+    "SolutionID": "2760",
+    "CustomerKey": "AuraEnergy",
+    "name": "AURA ENERGY LIMITED ORD NPV (D",
+    "currency": "GBX",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1001023
+  },
+  {
+    "symbol": "AUTG",
+    "SolutionID": "2554",
+    "CustomerKey": "AutinsGroup",
+    "name": "AUTINS GROUP PLC",
+    "currency": "GBX",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1000922
+  },
+  {
+    "symbol": "BCN",
+    "SolutionID": "2482",
+    "CustomerKey": "BacanoraMinerals",
+    "name": "BACANORA MINERALS LTD ORD NPV",
+    "currency": "GBp",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1000683
+  },
+  {
+    "symbol": "BCN",
+    "SolutionID": "2482",
+    "CustomerKey": "BacanoraMinerals",
+    "name": "E:BCN",
+    "currency": "CAD",
+    "exchangeName": "Canadian Venture Exchange",
+    "IRInstrumentID": 1000728
+  },
+  {
+    "symbol": "BHRD",
+    "SolutionID": "2240",
+    "CustomerKey": "BeHeardGroupPlc",
+    "name": "Be Heard Group",
+    "currency": "GBX",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1000336
+  },
+  {
+    "symbol": "BLV",
+    "SolutionID": "1968",
+    "CustomerKey": "BelvoirLettingsPlc",
+    "name": "BELVOIR LETTINGS PLC ORD 1P",
+    "currency": "GBX",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1000081
+  },
+  {
+    "symbol": "BST",
+    "SolutionID": "3354",
+    "CustomerKey": "BigSofaLtd",
+    "name": "Big Sofa Technologies Plc",
+    "currency": "GBX",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1002161
+  },
+  {
+    "symbol": "BMY",
+    "SolutionID": "1884",
+    "CustomerKey": "BloomsburyPublishingPlc",
+    "name": "Bloomsbury Publishing PLC",
+    "currency": "GBX",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1000029
+  },
+  {
+    "symbol": "BSIF",
+    "SolutionID": "2870",
+    "CustomerKey": "BluefieldSolarIncomeFund",
+    "name": "BSIF",
+    "currency": "GBX",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1001185
+  },
+  {
+    "symbol": "PRSM",
+    "SolutionID": "2376",
+    "CustomerKey": "BluePrism",
+    "name": "Blue Prism",
+    "currency": "GBX",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1000601
+  },
+  {
+    "symbol": "BIH",
+    "SolutionID": "2706",
+    "CustomerKey": "BostonInternationalHolding",
+    "name": "BOSTON INTERNATIONAL HOLDINGS",
+    "currency": "GBX",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1001083
+  },
+  {
+    "symbol": "CARR",
+    "SolutionID": "1888",
+    "CustomerKey": "CarrsMillingindustriesPlc",
+    "name": "Carr's Group PLC",
+    "currency": "GBX",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1000031
+  },
+  {
+    "symbol": "CBOT",
+    "SolutionID": "2884",
+    "CustomerKey": "CBO",
+    "name": "CBOT",
+    "currency": "EUR",
+    "exchangeName": "Euronext Stock Exchange",
+    "IRInstrumentID": 1001213
+  },
+  {
+    "symbol": "CLTV",
+    "SolutionID": "1894",
+    "CustomerKey": "CellcastUKLtd",
+    "name": "Cellcast PLC Ord 3p",
+    "currency": "GBX",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1000033
+  },
+  {
+    "symbol": "CCAP",
+    "SolutionID": "2890",
+    "CustomerKey": "CharlemagneCapital",
+    "name": "CCAP",
+    "currency": "GBX",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1001224
+  },
+  {
+    "symbol": "CLIN",
+    "SolutionID": "2126",
+    "CustomerKey": "ClinigenGroup",
+    "name": "Clinigen Group PLC Ord 0.1P",
+    "currency": "GBp",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1000205
+  },
+  {
+    "symbol": "KOFL",
+    "SolutionID": "3362",
+    "CustomerKey": "CocaColaFemsa",
+    "name": "Coca-Cola Femsa (BMV)",
+    "currency": "MXN",
+    "exchangeName": "Mexico Variable Income (Equities)",
+    "IRInstrumentID": 1002025
+  },
+  {
+    "symbol": "KOF",
+    "SolutionID": "3362",
+    "CustomerKey": "CocaColaFemsa",
+    "name": "Coca Cola Femsa S.A.B. de C.V.",
+    "currency": "USD",
+    "exchangeName": "New York Stock Exchange",
+    "IRInstrumentID": 1002139
+  },
+  {
+    "symbol": "COS",
+    "SolutionID": "1898",
+    "CustomerKey": "CollagenSolutionsPlc",
+    "name": "COLLAGEN SOLUTIONS PLC ORD 1P",
+    "currency": "GBX",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1000035
+  },
+  {
+    "symbol": "CPT",
+    "SolutionID": "2590",
+    "CustomerKey": "ConceptaPLC",
+    "name": "Concepta PLC",
+    "currency": "GBX",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1000879
+  },
+  {
+    "symbol": "CHA",
+    "SolutionID": "1900",
+    "CustomerKey": "Conchaplc",
+    "name": "Concha PLC",
+    "currency": "GBX",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1000066
+  },
+  {
+    "symbol": "CTEC",
+    "SolutionID": "2808",
+    "CustomerKey": "ConvaTec",
+    "name": "ConvaTec Group PLC",
+    "currency": "GBX",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1002003
+  },
+  {
+    "symbol": "CNS",
+    "SolutionID": "2576",
+    "CustomerKey": "Corero",
+    "name": "Corero Network Security Plc",
+    "currency": "GBX",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1000819
+  },
+  {
+    "symbol": "CRON",
+    "SolutionID": "2174",
+    "CustomerKey": "CroninGroupPlc",
+    "name": "Cronin Group Plc",
+    "currency": "GBX",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1000246
+  },
+  {
+    "symbol": "CYAN",
+    "SolutionID": "1902",
+    "CustomerKey": "CyanHoldingsplc",
+    "name": "CYAN HOLDINGS PLC ORD 0.01P",
+    "currency": "GBX",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1000037
+  },
+  {
+    "symbol": "E1:DGHL",
+    "SolutionID": "2476",
+    "CustomerKey": "DagangHalalPlc",
+    "name": "DagangHalal Plc",
+    "currency": "GBX",
+    "exchangeName": "ICAP Securities and Derivatives Exchange",
+    "IRInstrumentID": 1000669
+  },
+  {
+    "symbol": "DEDR.L",
+    "SolutionID": "2098",
+    "CustomerKey": "delekdrilling",
+    "name": "Delek Drilling L",
+    "currency": "ILA",
+    "exchangeName": "Tel Aviv Stock Exchange",
+    "IRInstrumentID": 1000178
+  },
+  {
+    "symbol": "AVNR.L",
+    "SolutionID": "2098",
+    "CustomerKey": "delekdrilling",
+    "name": "Avner Oil Exploration LP",
+    "currency": "ILA",
+    "exchangeName": "Tel Aviv Stock Exchange",
+    "IRInstrumentID": 1000339
+  },
+  {
+    "symbol": "DELT",
+    "SolutionID": "2918",
+    "CustomerKey": "DeltaGalilIndustries",
+    "name": "Delta Galil Industries",
+    "currency": "ILA",
+    "exchangeName": "Tel Aviv Stock Exchange",
+    "IRInstrumentID": 1001265
+  },
+  {
+    "symbol": "DFS",
+    "SolutionID": "3366",
+    "CustomerKey": "DFS",
+    "name": "DFS",
+    "currency": "GBX",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1002029
+  },
+  {
+    "symbol": "DPLM",
+    "SolutionID": "2010",
+    "CustomerKey": "Diplomaplc",
+    "name": "DIPLOMA PLC ORD 5P",
+    "currency": "GBX",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1000110
+  },
+  {
+    "symbol": "DPLM",
+    "SolutionID": "2926",
+    "CustomerKey": "Diplomaplc",
+    "name": "DiplomaPlc",
+    "currency": "GBp",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1001287
+  },
+  {
+    "symbol": "DNORD",
+    "SolutionID": "2928",
+    "CustomerKey": "DS-Norden",
+    "name": "NORDEN",
+    "currency": "DKK",
+    "exchangeName": "OMX Nordic Equities",
+    "IRInstrumentID": 1001289
+  },
+  {
+    "symbol": "EDEN",
+    "SolutionID": "1904",
+    "CustomerKey": "EdenResearchplc",
+    "name": "Eden Research plc",
+    "currency": "GBX",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1000038
+  },
+  {
+    "symbol": "EDEN",
+    "SolutionID": "1904",
+    "CustomerKey": "EdenResearchplc",
+    "name": "Eden Research plc",
+    "currency": "GBX",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1000038
+  },
+  {
+    "symbol": "ELA",
+    "SolutionID": "1874",
+    "CustomerKey": "ElandOilAndGas",
+    "name": "Eland Oil & Gas PLC",
+    "currency": "GBX",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1000026
+  },
+  {
+    "symbol": "ELA",
+    "SolutionID": "1874",
+    "CustomerKey": "ElandOilAndGas",
+    "name": "Eland Oil & Gas PLC",
+    "currency": "GBX",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1000026
+  },
+  {
+    "symbol": "PAL",
+    "SolutionID": "2182",
+    "CustomerKey": "EPoil",
+    "name": "EQUAT PALM OIL ORD 1P",
+    "currency": "GBX",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1000304
+  },
+  {
+    "symbol": "ESCH",
+    "SolutionID": "2244",
+    "CustomerKey": "EscherGroup",
+    "name": "ESCHER GROUP",
+    "currency": "GBX",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1000324
+  },
+  {
+    "symbol": "ETLN",
+    "SolutionID": "2936",
+    "CustomerKey": "Etalon",
+    "name": "Etalon",
+    "currency": "USD",
+    "exchangeName": "London Stock Exchange (International)",
+    "IRInstrumentID": 1001312
+  },
+  {
+    "symbol": "ECEL",
+    "SolutionID": "3486",
+    "CustomerKey": "EurocellPlc",
+    "name": "Eurocell Plc",
+    "currency": "GBX",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1002225
+  },
+  {
+    "symbol": "EXI",
+    "SolutionID": "1960",
+    "CustomerKey": "ExillonEnergyPLC",
+    "name": "EXILLON ENERGY ORD USD0.000012",
+    "currency": "GBp",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1000073
+  },
+  {
+    "symbol": "EXPN",
+    "SolutionID": "2726",
+    "CustomerKey": "Experian",
+    "name": "Experian ORD ",
+    "currency": "GBp",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1000973
+  },
+  {
+    "symbol": "EXPGY",
+    "SolutionID": "2726",
+    "CustomerKey": "Experian",
+    "name": "Experian ADR",
+    "currency": "$",
+    "exchangeName": "Nasdaq OTC Foreign",
+    "IRInstrumentID": 1000974
+  },
+  {
+    "symbol": "EXPN",
+    "SolutionID": "2948",
+    "CustomerKey": "Experian",
+    "name": "Experian ORD",
+    "currency": "GBX",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1001325
+  },
+  {
+    "symbol": "O10",
+    "SolutionID": "3410",
+    "CustomerKey": "FarEastOrchard",
+    "name": "Far East Orchard Limited",
+    "currency": "SGD",
+    "exchangeName": "Singapore Stock Exchange",
+    "IRInstrumentID": 1002086
+  },
+  {
+    "symbol": "142",
+    "SolutionID": "2960",
+    "CustomerKey": "FirstPacificCompanyLtd",
+    "name": "First Pacific Company Limited",
+    "currency": "HKD",
+    "exchangeName": "Hong Kong Exchange",
+    "IRInstrumentID": 1001339
+  },
+  {
+    "symbol": "FLO",
+    "SolutionID": "2526",
+    "CustomerKey": "FlowtechFluidpowerPlc",
+    "name": "Flowtech Fluidpower Group",
+    "currency": "GBX",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1000726
+  },
+  {
+    "symbol": "FRO",
+    "SolutionID": "2530",
+    "CustomerKey": "Frontline",
+    "name": "Frontline",
+    "currency": "NOK",
+    "exchangeName": "Oslo Stock Exchange",
+    "IRInstrumentID": 1000732
+  },
+  {
+    "symbol": "FRO",
+    "SolutionID": "2530",
+    "CustomerKey": "Frontline",
+    "name": "Frontline Ltd",
+    "currency": "USD",
+    "exchangeName": "New York Stock Exchange",
+    "IRInstrumentID": 1000733
+  },
+  {
+    "symbol": "FUR",
+    "SolutionID": "2968",
+    "CustomerKey": "Fugro",
+    "name": "Fugro",
+    "currency": "EUR",
+    "exchangeName": "Euronext Stock Exchange",
+    "IRInstrumentID": 1001346
+  },
+  {
+    "symbol": "FCIF",
+    "SolutionID": "2266",
+    "CustomerKey": "Fundingcircle",
+    "name": "Funding Circle",
+    "currency": "GBX",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1000352
+  },
+  {
+    "symbol": "FUM",
+    "SolutionID": "1908",
+    "CustomerKey": "FuturaMedicalplc",
+    "name": "FUTURA MEDICAL PLC",
+    "currency": "GBX",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1000040
+  },
+  {
+    "symbol": "GALP",
+    "SolutionID": "2778",
+    "CustomerKey": "GalpEnergia",
+    "name": "Galp Energia",
+    "currency": "u20ac",
+    "exchangeName": "Euronext Stock Exchange",
+    "IRInstrumentID": 1001043
+  },
+  {
+    "symbol": "GALP",
+    "SolutionID": "3370",
+    "CustomerKey": "Galpenergia",
+    "name": "Galp Energia",
+    "currency": "EUR",
+    "exchangeName": "Euronext Stock Exchange",
+    "IRInstrumentID": 1002031
+  },
+  {
+    "symbol": "GAPB",
+    "SolutionID": "2052",
+    "CustomerKey": "GAP",
+    "name": "GRUPO AEROPORTUARIO DEL PACIFI",
+    "currency": "MXN",
+    "exchangeName": "Mexico Variable Income (Equities)",
+    "IRInstrumentID": 1002128
+  },
+  {
+    "symbol": "GBG",
+    "SolutionID": "2810",
+    "CustomerKey": "GBGroupPLC",
+    "name": "GB Group PLC",
+    "currency": "GBX",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1001092
+  },
+  {
+    "symbol": "G4M",
+    "SolutionID": "2466",
+    "CustomerKey": "Gear4Music",
+    "name": "E:G4M",
+    "currency": "GBp",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1000660
+  },
+  {
+    "symbol": "G4M",
+    "SolutionID": "2466",
+    "CustomerKey": "Gear4Music",
+    "name": "E:G4M",
+    "currency": "GBp",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1000660
+  },
+  {
+    "symbol": "GEMD",
+    "SolutionID": "2292",
+    "CustomerKey": "GemDiamonds",
+    "name": "GEM DIAMONDS",
+    "currency": "GBX",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1000414
+  },
+  {
+    "symbol": "GNFT",
+    "SolutionID": "2980",
+    "CustomerKey": "Genfit",
+    "name": "Genfit",
+    "currency": "EUR",
+    "exchangeName": "Euronext Stock Exchange",
+    "IRInstrumentID": 1001374
+  },
+  {
+    "symbol": "GFIN",
+    "SolutionID": "1910",
+    "CustomerKey": "Gfinityplc",
+    "name": "GFINITY PLC ORD 0.1P",
+    "currency": "GBX",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1000041
+  },
+  {
+    "symbol": "GPT",
+    "SolutionID": "3374",
+    "CustomerKey": "GPTGroup",
+    "name": "GPT Group",
+    "currency": "AUD",
+    "exchangeName": "Australian Stock Exchange",
+    "IRInstrumentID": 1002049
+  },
+  {
+    "symbol": "GIPO",
+    "SolutionID": "1912",
+    "CustomerKey": "GrandGroupInvestmentPLC",
+    "name": "GRAND GROUP INVESTMENT PLC ORD",
+    "currency": "GBX",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1000042
+  },
+  {
+    "symbol": "GRYFO",
+    "SolutionID": "2478",
+    "CustomerKey": "GreenyardFoods",
+    "name": "Greenyard Foods",
+    "currency": "EUR",
+    "exchangeName": "Euronext Stock Exchange",
+    "IRInstrumentID": 1000682
+  },
+  {
+    "symbol": "GRG",
+    "SolutionID": "2998",
+    "CustomerKey": "Greggs",
+    "name": "GRG",
+    "currency": "GBX",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1001406
+  },
+  {
+    "symbol": "SUPV",
+    "SolutionID": "2494",
+    "CustomerKey": "GrupoSupervielle",
+    "name": "Grupo Supervielle",
+    "currency": "USD",
+    "exchangeName": "New York Stock Exchange",
+    "IRInstrumentID": 1000693
+  },
+  {
+    "symbol": "SUPV",
+    "SolutionID": "2494",
+    "CustomerKey": "GrupoSupervielle",
+    "name": "Grupo Supervielle",
+    "currency": "ARS",
+    "exchangeName": "Buenos Aires Stock Exchange",
+    "IRInstrumentID": 1000775
+  },
+  {
+    "symbol": "GOGE",
+    "SolutionID": "3484",
+    "CustomerKey": "GuinnessOilAndGas",
+    "name": "Guinness Oil & Gas Exploration Trust plc (Dummy)",
+    "currency": "GBX",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1002224
+  },
+  {
+    "symbol": "GKP",
+    "SolutionID": "3002",
+    "CustomerKey": "GulfKeystone",
+    "name": "GKP - London (GBp)",
+    "currency": "GBX",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1001419
+  },
+  {
+    "symbol": "GVC",
+    "SolutionID": "1914",
+    "CustomerKey": "GVCHoldingsPLC",
+    "name": "GVC Holdings PLC Ord EUR0.01",
+    "currency": "GBX",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1000043
+  },
+  {
+    "symbol": "HSP",
+    "SolutionID": "3004",
+    "CustomerKey": "Hargreaves",
+    "name": "Hargreaves Services",
+    "currency": "GBX",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1001426
+  },
+  {
+    "symbol": "HAYD",
+    "SolutionID": "3496",
+    "CustomerKey": "HaydaleGrapheneIndustriesPLC",
+    "name": "Haydale Graphene Industries PLC",
+    "currency": "GBX",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1002234
+  },
+  {
+    "symbol": "HOTC",
+    "SolutionID": "2484",
+    "CustomerKey": "HotelChocolat",
+    "name": "Hotel Chocolat",
+    "currency": "GBX",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1000692
+  },
+  {
+    "symbol": "HWDN",
+    "SolutionID": "3022",
+    "CustomerKey": "HowdenJoineryGroup",
+    "name": "Howden Joinery Group",
+    "currency": "GBX",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1001447
+  },
+  {
+    "symbol": "HUGO",
+    "SolutionID": "2166",
+    "CustomerKey": "hugogames",
+    "name": "Hugo Games A/S",
+    "currency": "NOK",
+    "exchangeName": "Oslo Stock Exchange",
+    "IRInstrumentID": 1000250
+  },
+  {
+    "symbol": "HNT",
+    "SolutionID": "2402",
+    "CustomerKey": "HuntsworthPlc",
+    "name": "Huntsworth PLC Ord 50p",
+    "currency": "GBX",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1000569
+  },
+  {
+    "symbol": "HVID",
+    "SolutionID": "3028",
+    "CustomerKey": "HvidbjergBank",
+    "name": "Hvidbjerg Bank",
+    "currency": "DKK",
+    "exchangeName": "OMX Nordic Equities",
+    "IRInstrumentID": 1001477
+  },
+  {
+    "symbol": "IGAS",
+    "SolutionID": "3378",
+    "CustomerKey": "IGas",
+    "name": "IGas plc",
+    "currency": "GBX",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1002051
+  },
+  {
+    "symbol": "IDP",
+    "SolutionID": "2630",
+    "CustomerKey": "InnovadermaPlc",
+    "name": "Innovaderma Plc",
+    "currency": "GBX",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1000913
+  },
+  {
+    "symbol": "INPP",
+    "SolutionID": "2024",
+    "CustomerKey": "internationalpublicpartnerships",
+    "name": "INPP",
+    "currency": "GBX",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1000276
+  },
+  {
+    "symbol": "JPJ",
+    "SolutionID": "2762",
+    "CustomerKey": "Jackpotjoy",
+    "name": "Jackpotjoy Plc",
+    "currency": "GBX",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1002202
+  },
+  {
+    "symbol": "FSJ",
+    "SolutionID": "2140",
+    "CustomerKey": "JamesFisher",
+    "name": "James Fisher and Sons Plc",
+    "currency": "GBp",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1000643
+  },
+  {
+    "symbol": "CHOO",
+    "SolutionID": "3054",
+    "CustomerKey": "JimmyChoo",
+    "name": "JimmyChoo",
+    "currency": "GBX",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1001506
+  },
+  {
+    "symbol": "JZCP",
+    "SolutionID": "2172",
+    "CustomerKey": "JZCapital",
+    "name": "JZ Capital",
+    "currency": "GBp",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1000387
+  },
+  {
+    "symbol": "JZCN",
+    "SolutionID": "2172",
+    "CustomerKey": "JZCapital",
+    "name": "JZ Capital Partners Ld New Zer",
+    "currency": "GBp",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1000487
+  },
+  {
+    "symbol": "JZCZ",
+    "SolutionID": "2172",
+    "CustomerKey": "JZCapital",
+    "name": "JZ Capital ZDP Zero Div Red",
+    "currency": "GBp",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1000488
+  },
+  {
+    "symbol": "JZCC",
+    "SolutionID": "2172",
+    "CustomerKey": "JZCapital",
+    "name": "JZ Capital Partners Limited 6%",
+    "currency": "GBP",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1000489
+  },
+  {
+    "symbol": "KNOS",
+    "SolutionID": "2080",
+    "CustomerKey": "Kainos",
+    "name": "Kainos Group PLC",
+    "currency": "GBX",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1000308
+  },
+  {
+    "symbol": "KLBT",
+    "SolutionID": "1920",
+    "CustomerKey": "KalibrateTechnologiesPLC",
+    "name": "KALIBRATE TECHNOLOGIES PLC ORD",
+    "currency": "GBX",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1000047
+  },
+  {
+    "symbol": "KCR",
+    "SolutionID": "2074",
+    "CustomerKey": "KandCReit",
+    "name": "K&C Reit",
+    "currency": "GBX",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1000145
+  },
+  {
+    "symbol": "LAKE",
+    "SolutionID": "3062",
+    "CustomerKey": "LakeHouse",
+    "name": "LAKE",
+    "currency": "GBX",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1001527
+  },
+  {
+    "symbol": "LEK",
+    "SolutionID": "2064",
+    "CustomerKey": "Lekoil",
+    "name": "LEKOIL LIMITED ORD USD0.00005",
+    "currency": "GBp",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1000123
+  },
+  {
+    "symbol": "LHC",
+    "SolutionID": "2550",
+    "CustomerKey": "LifeHealthcare",
+    "name": "E:LHC",
+    "currency": "AUD",
+    "exchangeName": "Australian Stock Exchange",
+    "IRInstrumentID": 1000776
+  },
+  {
+    "symbol": "BOLS",
+    "SolutionID": "3070",
+    "CustomerKey": "LucasBols",
+    "name": "Lucas Bols",
+    "currency": "EUR",
+    "exchangeName": "Euronext Stock Exchange",
+    "IRInstrumentID": 1001537
+  },
+  {
+    "symbol": "XXXX",
+    "SolutionID": "1954",
+    "CustomerKey": "Malin",
+    "name": "Malin",
+    "currency": "GBx",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1000068
+  },
+  {
+    "symbol": "MLC",
+    "SolutionID": "3380",
+    "CustomerKey": "Malin",
+    "name": "Malin",
+    "currency": "EUR",
+    "exchangeName": "Irish Stock Exchange",
+    "IRInstrumentID": 1002052
+  },
+  {
+    "symbol": "MFC",
+    "SolutionID": "3430",
+    "CustomerKey": "ManulifeFinancialCorporation",
+    "name": "Manulife Financial",
+    "currency": "CAD",
+    "exchangeName": "Toronto Stock Exchange",
+    "IRInstrumentID": 1002142
+  },
+  {
+    "symbol": "MFC",
+    "SolutionID": "3430",
+    "CustomerKey": "ManulifeFinancialCorporation",
+    "name": "Manulife Financial Corporation",
+    "currency": "USD",
+    "exchangeName": "New York Stock Exchange",
+    "IRInstrumentID": 1002143
+  },
+  {
+    "symbol": "MFC.PR.A",
+    "SolutionID": "3430",
+    "CustomerKey": "ManulifeFinancialCorporation",
+    "name": "MANULIFE FINANCIAL CORP CLASS",
+    "currency": "CAD",
+    "exchangeName": "Toronto Stock Exchange",
+    "IRInstrumentID": 1002144
+  },
+  {
+    "symbol": "MFC.PR.B",
+    "SolutionID": "3430",
+    "CustomerKey": "ManulifeFinancialCorporation",
+    "name": "MANULIFE FINANCIAL CORP CL A,",
+    "currency": "CAD",
+    "exchangeName": "Toronto Stock Exchange",
+    "IRInstrumentID": 1002145
+  },
+  {
+    "symbol": "MFC.PS",
+    "SolutionID": "3430",
+    "CustomerKey": "ManulifeFinancialCorporation",
+    "name": "Manulife Financial Corp",
+    "currency": "PHP",
+    "exchangeName": "Philippine Stock Exchange",
+    "IRInstrumentID": 1002146
+  },
+  {
+    "symbol": "945",
+    "SolutionID": "3430",
+    "CustomerKey": "ManulifeFinancialCorporation",
+    "name": "MANULIFE-S",
+    "currency": "HKD",
+    "exchangeName": "Hong Kong Exchange",
+    "IRInstrumentID": 1002147
+  },
+  {
+    "symbol": "MTW",
+    "SolutionID": "3352",
+    "CustomerKey": "MattioliWoodsplc",
+    "name": "Mattioli Woods Plc",
+    "currency": "GBX",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1002009
+  },
+  {
+    "symbol": "MXHN",
+    "SolutionID": "2238",
+    "CustomerKey": "MaxAutomation",
+    "name": "MAX AUTOMATION AG",
+    "currency": "EUR",
+    "exchangeName": "Xetra",
+    "IRInstrumentID": 1002127
+  },
+  {
+    "symbol": "MCC",
+    "SolutionID": "3438",
+    "CustomerKey": "MercomCapitalPlc",
+    "name": "Monchhichi PLC",
+    "currency": "GBX",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1002156
+  },
+  {
+    "symbol": "MPH",
+    "SolutionID": "3348",
+    "CustomerKey": "MereoBioPharma",
+    "name": "Mereo BioPharma Group plc",
+    "currency": "GBX",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1002005
+  },
+  {
+    "symbol": "MIDW",
+    "SolutionID": "2470",
+    "CustomerKey": "MidwichLimited",
+    "name": "Midwich Group PLC",
+    "currency": "GBp",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1000668
+  },
+  {
+    "symbol": "MONET",
+    "SolutionID": "2588",
+    "CustomerKey": "MonetaMoneyBank",
+    "name": "MONETA MONEY BANK",
+    "currency": "CZK",
+    "exchangeName": "Prague Stock Exchange",
+    "IRInstrumentID": 1000824
+  },
+  {
+    "symbol": "MOTR",
+    "SolutionID": "2472",
+    "CustomerKey": "MotorpointPlc",
+    "name": "E:MOTR",
+    "currency": "GBp",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1000702
+  },
+  {
+    "symbol": "MOGP",
+    "SolutionID": "1924",
+    "CustomerKey": "MountfieldBuildingGroupLimited",
+    "name": "Mountfield Group PLC Ord 0.1p",
+    "currency": "GBX",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1000049
+  },
+  {
+    "symbol": "MBC",
+    "SolutionID": "2608",
+    "CustomerKey": "MyBucks",
+    "name": "MYBUCKS S.A.",
+    "currency": "EUR",
+    "exchangeName": "Xetra",
+    "IRInstrumentID": 1000847
+  },
+  {
+    "symbol": "NAUT",
+    "SolutionID": "3466",
+    "CustomerKey": "NautilusMarineServicesPlc",
+    "name": "Nautilus Marine Services Plc",
+    "currency": "GBX",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1002223
+  },
+  {
+    "symbol": "TNET",
+    "SolutionID": "1748",
+    "CustomerKey": "NKT",
+    "name": "TELENET GROUP",
+    "currency": "EUR",
+    "exchangeName": "Euronext Stock Exchange",
+    "IRInstrumentID": 101183
+  },
+  {
+    "symbol": "NKT",
+    "SolutionID": "3408",
+    "CustomerKey": "NKT",
+    "name": "NKT Holding A/S",
+    "currency": "DKK",
+    "exchangeName": "OMX Nordic Equities",
+    "IRInstrumentID": 1002082
+  },
+  {
+    "symbol": "NXR",
+    "SolutionID": "2076",
+    "CustomerKey": "Norcros",
+    "name": "NORCROS ORD 10P",
+    "currency": "GBX",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1000141
+  },
+  {
+    "symbol": "NTG",
+    "SolutionID": "2298",
+    "CustomerKey": "NorthgatePlc",
+    "name": "Northgate PLC",
+    "currency": "GBp",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1000427
+  },
+  {
+    "symbol": "NTOG",
+    "SolutionID": "2410",
+    "CustomerKey": "NostraTerra",
+    "name": "NOSTRA TERRA ORD 0.1P",
+    "currency": "GBX",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1000588
+  },
+  {
+    "symbol": "NZYM-B",
+    "SolutionID": "3454",
+    "CustomerKey": "Novozymes",
+    "name": "Novozymes B A/S",
+    "currency": "DKK",
+    "exchangeName": "OMX Nordic Equities",
+    "IRInstrumentID": 1002175
+  },
+  {
+    "symbol": "OBT",
+    "SolutionID": "2502",
+    "CustomerKey": "ObtalaResources",
+    "name": "Obtala Limited",
+    "currency": "GBp",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1000701
+  },
+  {
+    "symbol": "ONC",
+    "SolutionID": "2680",
+    "CustomerKey": "OncimmuneHoldingsPlc",
+    "name": "ONCIMMUNE HOLDINGS PLC ORD 1P",
+    "currency": "GBX",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1000909
+  },
+  {
+    "symbol": "OPG",
+    "SolutionID": "2614",
+    "CustomerKey": "OpgPowerVenturesPlc",
+    "name": "OPG POWER VENTURES PLC",
+    "currency": "GBX",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1000842
+  },
+  {
+    "symbol": "OPTI",
+    "SolutionID": "1926",
+    "CustomerKey": "OptibiotixHealthPLC",
+    "name": "OPTIBIOTIX HEALTH PLC ORD 2P",
+    "currency": "GBX",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1000050
+  },
+  {
+    "symbol": "OXP",
+    "SolutionID": "1928",
+    "CustomerKey": "OxfordPharmascienceGroupPlc",
+    "name": "OXFORD PHARMASCIENCE GROUP PLC",
+    "currency": "GBX",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1000051
+  },
+  {
+    "symbol": "PAM",
+    "SolutionID": "2122",
+    "CustomerKey": "PampaEnergia",
+    "name": "PAMPA (NYSE)",
+    "currency": "USD",
+    "exchangeName": "New York Stock Exchange",
+    "IRInstrumentID": 1000182
+  },
+  {
+    "symbol": "PAMP",
+    "SolutionID": "2122",
+    "CustomerKey": "PampaEnergia",
+    "name": "PAMPA",
+    "currency": "ARS",
+    "exchangeName": "Buenos Aires Stock Exchange",
+    "IRInstrumentID": 1000181
+  },
+  {
+    "symbol": "EDN",
+    "SolutionID": "2122",
+    "CustomerKey": "PampaEnergia",
+    "name": "EDENOR (NYSE)",
+    "currency": "USD",
+    "exchangeName": "New York Stock Exchange",
+    "IRInstrumentID": 1000183
+  },
+  {
+    "symbol": "EDN",
+    "SolutionID": "2122",
+    "CustomerKey": "PampaEnergia",
+    "name": "Edenor (BCBA)",
+    "currency": "ARS",
+    "exchangeName": "Buenos Aires Stock Exchange",
+    "IRInstrumentID": 1000184
+  },
+  {
+    "symbol": "TRAN",
+    "SolutionID": "2122",
+    "CustomerKey": "PampaEnergia",
+    "name": "Transener",
+    "currency": "ARS",
+    "exchangeName": "Buenos Aires Stock Exchange",
+    "IRInstrumentID": 1000185
+  },
+  {
+    "symbol": "PETR",
+    "SolutionID": "2122",
+    "CustomerKey": "PampaEnergia",
+    "name": "Petrolera Pampa",
+    "currency": "ARS",
+    "exchangeName": "Buenos Aires Stock Exchange",
+    "IRInstrumentID": 1000186
+  },
+  {
+    "symbol": "TGS",
+    "SolutionID": "2122",
+    "CustomerKey": "PampaEnergia",
+    "name": "TGS (NYSE)",
+    "currency": "USD",
+    "exchangeName": "New York Stock Exchange",
+    "IRInstrumentID": 1000188
+  },
+  {
+    "symbol": "TGSU2",
+    "SolutionID": "2122",
+    "CustomerKey": "PampaEnergia",
+    "name": "TGS (BCBA)",
+    "currency": "ARS",
+    "exchangeName": "Buenos Aires Stock Exchange",
+    "IRInstrumentID": 1000187
+  },
+  {
+    "symbol": "PZE",
+    "SolutionID": "2122",
+    "CustomerKey": "PampaEnergia",
+    "name": "Petrobras (NYSE)",
+    "currency": "USD",
+    "exchangeName": "New York Stock Exchange",
+    "IRInstrumentID": 1000881
+  },
+  {
+    "symbol": "PESA",
+    "SolutionID": "2122",
+    "CustomerKey": "PampaEnergia",
+    "name": "Petrobras (BCBA)",
+    "currency": "ARS",
+    "exchangeName": "Buenos Aires Stock Exchange",
+    "IRInstrumentID": 1000882
+  },
+  {
+    "symbol": "PARKEN",
+    "SolutionID": "2252",
+    "CustomerKey": "parken",
+    "name": "PARKEN Sport & Entertainment A/S",
+    "currency": "DKK",
+    "exchangeName": "OMX Nordic Equities",
+    "IRInstrumentID": 1000338
+  },
+  {
+    "symbol": "PEGAS",
+    "SolutionID": "3142",
+    "CustomerKey": "Pegas",
+    "name": "PEGAS NONWOVENS",
+    "currency": "CZK",
+    "exchangeName": "Prague Stock Exchange",
+    "IRInstrumentID": 1001621
+  },
+  {
+    "symbol": "PGS",
+    "SolutionID": "3142",
+    "CustomerKey": "Pegas",
+    "name": "PEGAS",
+    "currency": "PLN",
+    "exchangeName": "Warsaw Stock Exchange",
+    "IRInstrumentID": 1002141
+  },
+  {
+    "symbol": "PDL",
+    "SolutionID": "3144",
+    "CustomerKey": "PetraDiamonds",
+    "name": "PDL",
+    "currency": "GBX",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1001623
+  },
+  {
+    "symbol": "PHARM",
+    "SolutionID": "2772",
+    "CustomerKey": "PharmingGroupNV",
+    "name": "Pharming Group NV",
+    "currency": "EUR",
+    "exchangeName": "Euronext Stock Exchange",
+    "IRInstrumentID": 1001034
+  },
+  {
+    "symbol": "PHGUF",
+    "SolutionID": "2772",
+    "CustomerKey": "PharmingGroupNV",
+    "name": "Pharming Group NV EUR0.01",
+    "currency": "USD",
+    "exchangeName": "Nasdaq OTC Foreign",
+    "IRInstrumentID": 1001035
+  },
+  {
+    "symbol": "PSDL",
+    "SolutionID": "3448",
+    "CustomerKey": "PhoenixSpree",
+    "name": "Phoenix Spree Deutschland Ltd",
+    "currency": "GBX",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1002165
+  },
+  {
+    "symbol": "PLP",
+    "SolutionID": "3434",
+    "CustomerKey": "PolypipeGroupPLC",
+    "name": "Polypipe Group PLC",
+    "currency": "GBp",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1002153
+  },
+  {
+    "symbol": "PNL",
+    "SolutionID": "3498",
+    "CustomerKey": "PostNL",
+    "name": "PostNL",
+    "currency": "EUR",
+    "exchangeName": "Euronext Stock Exchange",
+    "IRInstrumentID": 1002238
+  },
+  {
+    "symbol": "POXEL",
+    "SolutionID": "3150",
+    "CustomerKey": "Poxel",
+    "name": "Poxel (Paris)",
+    "currency": "EUR",
+    "exchangeName": "Euronext Stock Exchange",
+    "IRInstrumentID": 1001641
+  },
+  {
+    "symbol": "PTSG",
+    "SolutionID": "2366",
+    "CustomerKey": "PTSG",
+    "name": "PREMIER TECHNICAL SERVICES GRO",
+    "currency": "GBX",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1000514
+  },
+  {
+    "symbol": "PAY",
+    "SolutionID": "2386",
+    "CustomerKey": "pushpay",
+    "name": "PAY",
+    "currency": "NZD",
+    "exchangeName": "New Zealand Stock Exchange",
+    "IRInstrumentID": 1000537
+  },
+  {
+    "symbol": "QBE",
+    "SolutionID": "3166",
+    "CustomerKey": "QBE",
+    "name": "QBE Insurance",
+    "currency": "AUD",
+    "exchangeName": "Australian Stock Exchange",
+    "IRInstrumentID": 1001658
+  },
+  {
+    "symbol": "QP.",
+    "SolutionID": "1930",
+    "CustomerKey": "QuantumPharmaPlc",
+    "name": "QUANTUM PHARMA PLC ORD 10P",
+    "currency": "GBX",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1000052
+  },
+  {
+    "symbol": "REAT",
+    "SolutionID": "2090",
+    "CustomerKey": "REACTgroupPLC",
+    "name": "E:REAT",
+    "currency": "GBX",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1000173
+  },
+  {
+    "symbol": "RCN",
+    "SolutionID": "3172",
+    "CustomerKey": "Redcentric",
+    "name": "RCN",
+    "currency": "GBX",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1001661
+  },
+  {
+    "symbol": "RPT",
+    "SolutionID": "2164",
+    "CustomerKey": "regalpetroleumplc",
+    "name": "Regal Petroleum PLC",
+    "currency": "GBX",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1000362
+  },
+  {
+    "symbol": "RNWH",
+    "SolutionID": "2256",
+    "CustomerKey": "RenewHoldings",
+    "name": "Renew Holdings PLC",
+    "currency": "GBX",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1000342
+  },
+  {
+    "symbol": "RBG",
+    "SolutionID": "2498",
+    "CustomerKey": "RevolutionBarsGroupPlc",
+    "name": "Revolution Bars Group plc",
+    "currency": "GBp",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1000699
+  },
+  {
+    "symbol": "RRE",
+    "SolutionID": "2446",
+    "CustomerKey": "RockroseEnergyPLC",
+    "name": "E:RRE",
+    "currency": "GBp",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1000634
+  },
+  {
+    "symbol": "SAT",
+    "SolutionID": "1990",
+    "CustomerKey": "SatelliteSolutionsWorldwideGroupPlc",
+    "name": "Satellite Solutions Woldwide Grp",
+    "currency": "GBX",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1000103
+  },
+  {
+    "symbol": "SIR",
+    "SolutionID": "1996",
+    "CustomerKey": "SecureIncomeReitPlc",
+    "name": "SECURE INCOME REIT PLC ORD 10P",
+    "currency": "GBP",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1000095
+  },
+  {
+    "symbol": "SFL",
+    "SolutionID": "3226",
+    "CustomerKey": "ShipFinance",
+    "name": "SFL",
+    "currency": "USD",
+    "exchangeName": "New York Stock Exchange",
+    "IRInstrumentID": 1001797
+  },
+  {
+    "symbol": "SRX",
+    "SolutionID": "3228",
+    "CustomerKey": "SierraRutile",
+    "name": "SRX",
+    "currency": "GBX",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1001805
+  },
+  {
+    "symbol": "SHI",
+    "SolutionID": "3390",
+    "CustomerKey": "SIG",
+    "name": "SIG PLC",
+    "currency": "GBX",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1002064
+  },
+  {
+    "symbol": "SPH",
+    "SolutionID": "1782",
+    "CustomerKey": "SinclairISPharma",
+    "name": "Sinclair IS Pharma",
+    "currency": "GBp",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1001019
+  },
+  {
+    "symbol": "SPH",
+    "SolutionID": "3392",
+    "CustomerKey": "SinclairIsPharma",
+    "name": "Sinclair IS Pharma",
+    "currency": "GBX",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1002065
+  },
+  {
+    "symbol": "GLE",
+    "SolutionID": "2812",
+    "CustomerKey": "SocieteGenerale",
+    "name": "SOCIETE GENERALE",
+    "currency": "EUR",
+    "exchangeName": "Euronext Stock Exchange",
+    "IRInstrumentID": 1001096
+  },
+  {
+    "symbol": "GLE",
+    "SolutionID": "3242",
+    "CustomerKey": "SocieteGenerale",
+    "name": "Societe Generale",
+    "currency": "EUR",
+    "exchangeName": "Euronext Stock Exchange",
+    "IRInstrumentID": 1001822
+  },
+  {
+    "symbol": "SOU",
+    "SolutionID": "3446",
+    "CustomerKey": "SoundEnergyplc",
+    "name": "Sound Energy plc",
+    "currency": "GBp",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1002164
+  },
+  {
+    "symbol": "STM",
+    "SolutionID": "1936",
+    "CustomerKey": "STMGroupPlc",
+    "name": "STM GRP. ORD 0.1P",
+    "currency": "GBX",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1000055
+  },
+  {
+    "symbol": "PXAGUSDOZSP",
+    "SolutionID": "2084",
+    "CustomerKey": "stuntandco",
+    "name": "Silver",
+    "currency": "USD",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1000153
+  },
+  {
+    "symbol": "PXAGGBPOZSP",
+    "SolutionID": "2084",
+    "CustomerKey": "stuntandco",
+    "name": "Silver",
+    "currency": "GBP",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1000154
+  },
+  {
+    "symbol": "PXAGEUROZSP",
+    "SolutionID": "2084",
+    "CustomerKey": "stuntandco",
+    "name": "Silver",
+    "currency": "EUR",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1000155
+  },
+  {
+    "symbol": "PXAUUSDOZSP",
+    "SolutionID": "2084",
+    "CustomerKey": "stuntandco",
+    "name": "Gold",
+    "currency": "USD",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1000151
+  },
+  {
+    "symbol": "PXAUGBPOZSP",
+    "SolutionID": "2084",
+    "CustomerKey": "stuntandco",
+    "name": "Gold",
+    "currency": "GBP",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1000150
+  },
+  {
+    "symbol": "PXAUEUROZSP",
+    "SolutionID": "2084",
+    "CustomerKey": "stuntandco",
+    "name": "Gold",
+    "currency": "EUR",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1000152
+  },
+  {
+    "symbol": "TKWY",
+    "SolutionID": "3414",
+    "CustomerKey": "TAKEAWAY",
+    "name": "Takeaway.com",
+    "currency": "EUR",
+    "exchangeName": "Euronext Stock Exchange",
+    "IRInstrumentID": 1002108
+  },
+  {
+    "symbol": "THRL",
+    "SolutionID": "3256",
+    "CustomerKey": "TargetHealthcareREIT",
+    "name": "THRL - London (GBp)",
+    "currency": "GBX",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1001863
+  },
+  {
+    "symbol": "TMR",
+    "SolutionID": "3338",
+    "CustomerKey": "TatryMountainResorts",
+    "name": "TATRY",
+    "currency": "PLN",
+    "exchangeName": "Warsaw Stock Exchange",
+    "IRInstrumentID": 1001994
+  },
+  {
+    "symbol": "1TMR001E",
+    "SolutionID": "3338",
+    "CustomerKey": "TatryMountainResorts",
+    "name": "Tatry Mount. Resorts",
+    "currency": "EUR",
+    "exchangeName": "Bratislava Stock Exchange",
+    "IRInstrumentID": 1001999
+  },
+  {
+    "symbol": "TMR",
+    "SolutionID": "3338",
+    "CustomerKey": "TatryMountainResorts",
+    "name": "TATRY MOUNTAIN RES",
+    "currency": "CZK",
+    "exchangeName": "Prague Stock Exchange",
+    "IRInstrumentID": 1002000
+  },
+  {
+    "symbol": "TEF",
+    "SolutionID": "2792",
+    "CustomerKey": "TelfordHomesPlc",
+    "name": "TELFORD HOMES PLC ORD 10P",
+    "currency": "GBX",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1001072
+  },
+  {
+    "symbol": "GYM",
+    "SolutionID": "2178",
+    "CustomerKey": "thegymgroup",
+    "name": "The Gym Group Plc",
+    "currency": "GBp",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1000327
+  },
+  {
+    "symbol": "QRT",
+    "SolutionID": "1932",
+    "CustomerKey": "TheQuartoGroupInc",
+    "name": "Quarto Group (The) Inc",
+    "currency": "GBX",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1000053
+  },
+  {
+    "symbol": "TRMD-A",
+    "SolutionID": "2464",
+    "CustomerKey": "Torm",
+    "name": "TORM",
+    "currency": "DKK",
+    "exchangeName": "OMX Nordic Equities",
+    "IRInstrumentID": 1000652
+  },
+  {
+    "symbol": "TTG",
+    "SolutionID": "1750",
+    "CustomerKey": "TTElectronics",
+    "name": "TT Electronics Plc",
+    "currency": "GBX",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1000821
+  },
+  {
+    "symbol": "UDG",
+    "SolutionID": "2508",
+    "CustomerKey": "UDGHealthcarePlc",
+    "name": "UDG HEALTHCARE PUBLIC LIMITED",
+    "currency": "GBp",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1000707
+  },
+  {
+    "symbol": "UEN",
+    "SolutionID": "1944",
+    "CustomerKey": "UralsEnergyPublicCompanyLimited",
+    "name": "Urals Energy Public Company Ld",
+    "currency": "GBX",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1000058
+  },
+  {
+    "symbol": "UANC",
+    "SolutionID": "2054",
+    "CustomerKey": "UrbanAndCivicPlc",
+    "name": "URBAN&CIVIC PLC ORD 20P",
+    "currency": "GBX",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1000114
+  },
+  {
+    "symbol": "VANL",
+    "SolutionID": "3344",
+    "CustomerKey": "VanElleLimited",
+    "name": "Van Elle Holdings PLC",
+    "currency": "GBX",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1002002
+  },
+  {
+    "symbol": "ATO",
+    "SolutionID": "2598",
+    "CustomerKey": "Vanucor",
+    "name": "ATOS (Dummy Data)",
+    "currency": "EUR",
+    "exchangeName": "Euronext Stock Exchange",
+    "IRInstrumentID": 1000832
+  },
+  {
+    "symbol": "VEC",
+    "SolutionID": "2008",
+    "CustomerKey": "VecturaIntranet",
+    "name": "Vectura Group plc",
+    "currency": "GBp",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1000104
+  },
+  {
+    "symbol": "DMY",
+    "SolutionID": "3482",
+    "CustomerKey": "VelocityComposites",
+    "name": "Dummy Data",
+    "currency": "GBX",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1002230
+  },
+  {
+    "symbol": "SAVE",
+    "SolutionID": "3426",
+    "CustomerKey": "VeniceAirport",
+    "name": "SAVE",
+    "currency": "EUR",
+    "exchangeName": "Milan Ced Borsa",
+    "IRInstrumentID": 1002131
+  },
+  {
+    "symbol": "VWS",
+    "SolutionID": "1656",
+    "CustomerKey": "Vestas",
+    "name": "Vestas Wind Systems A/S",
+    "currency": "DKK",
+    "exchangeName": "OMX Nordic Equities",
+    "IRInstrumentID": 100021
+  },
+  {
+    "symbol": "VPK",
+    "SolutionID": "3308",
+    "CustomerKey": "Vopak",
+    "name": "Vopak",
+    "currency": "EUR",
+    "exchangeName": "Euronext Stock Exchange",
+    "IRInstrumentID": 1001946
+  },
+  {
+    "symbol": "WGB",
+    "SolutionID": "1972",
+    "CustomerKey": "WalkerGreenbank",
+    "name": "Walker Greenbank PLC",
+    "currency": "GBp",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1000082
+  },
+  {
+    "symbol": "WALMEX",
+    "SolutionID": "3310",
+    "CustomerKey": "Wal-Mart_de_Mexico",
+    "name": "WALMEX (MSE)",
+    "currency": "MXN",
+    "exchangeName": "Mexico Variable Income (Equities)",
+    "IRInstrumentID": 1001947
+  },
+  {
+    "symbol": "WEHB",
+    "SolutionID": "2704",
+    "CustomerKey": "Wereldhave",
+    "name": "WERELDHAVE BELGIUM",
+    "currency": "EUR",
+    "exchangeName": "Euronext Stock Exchange",
+    "IRInstrumentID": 1000944
+  },
+  {
+    "symbol": "WHA",
+    "SolutionID": "2704",
+    "CustomerKey": "Wereldhave",
+    "name": "WERELDHAVE",
+    "currency": "EUR",
+    "exchangeName": "Euronext Stock Exchange",
+    "IRInstrumentID": 1000962
+  },
+  {
+    "symbol": "WHA",
+    "SolutionID": "3314",
+    "CustomerKey": "Wereldhave",
+    "name": "Wereldhave",
+    "currency": "EUR",
+    "exchangeName": "Euronext Stock Exchange",
+    "IRInstrumentID": 1001951
+  },
+  {
+    "symbol": "WIZZ",
+    "SolutionID": "2372",
+    "CustomerKey": "wizzair",
+    "name": "WIZZ AIR HOLDINGS PLC ORD GBP0",
+    "currency": "GBX",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1000531
+  },
+  {
+    "symbol": "WKL",
+    "SolutionID": "3322",
+    "CustomerKey": "WoltersKluwer",
+    "name": "Wolters Kluwer (Euronext)",
+    "currency": "EUR",
+    "exchangeName": "Euronext Stock Exchange",
+    "IRInstrumentID": 1001967
+  },
+  {
+    "symbol": "XPP",
+    "SolutionID": "1948",
+    "CustomerKey": "XPPowerLimited",
+    "name": "XP POWER ORD 1P (DI)",
+    "currency": "GBX",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1000072
+  },
+  {
+    "symbol": "XTLB",
+    "SolutionID": "3326",
+    "CustomerKey": "XTLBio",
+    "name": "XTL Biopharmaceuticals (Tel-Aviv)",
+    "currency": "ILA",
+    "exchangeName": "Tel Aviv Stock Exchange",
+    "IRInstrumentID": 1001980
+  },
+  {
+    "symbol": "YOLO",
+    "SolutionID": "1950",
+    "CustomerKey": "YOLOLeisureandTechnologyplc",
+    "name": "YOLO LEISURE AND TECHNOLOGY PL",
+    "currency": "GBX",
+    "exchangeName": "London Stock Exchange",
+    "IRInstrumentID": 1000061
+  }
+]

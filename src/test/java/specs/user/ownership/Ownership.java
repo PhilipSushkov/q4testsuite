@@ -296,13 +296,13 @@ public class Ownership extends AbstractSpec {
     @Test
     public void canSearchForHistoricalInsiders() {
         // Search for specific insiders on the insiders tab of the historical section of the Holder's table
-        String holder = "Nelson Peltz";
+        String holder = "William J. DeLaney";
         SecurityOwnershipPage securityOwnershipPage = new SecurityOwnershipPage(driver).selectThirteenF();
         securityOwnershipPage.viewHistoricalHolders();
         securityOwnershipPage.selectInsiderstab();
         securityOwnershipPage.searchForHoldings(holder);
 
-        Assert.assertThat(securityOwnershipPage.getInsiderSearchResults(), containsString(holder));
+        Assert.assertThat("Known Issue: DESKTOP-8692", securityOwnershipPage.getInsiderSearchResults(), containsString(holder));
     }
 
     @Test
@@ -319,7 +319,7 @@ public class Ownership extends AbstractSpec {
     @Test
     public void canSearchForHistoricalFundsETFs() {
         // Search for funds and ETFs under the Funds and ETFs tab of the Historical table
-        String holder = "Omikron 7";
+        String holder = "Vanguard 500";
         SecurityOwnershipPage securityOwnershipPage = new SecurityOwnershipPage(driver).selectThirteenF()
                 .viewHistoricalHolders()
                 .selectFundsETFstab()

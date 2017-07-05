@@ -254,30 +254,35 @@ public class SecurityOwnershipPage extends AbstractPageObject implements DateDro
     // checks that entries on top buyers list have positive change numbers
     public boolean topBuyersListIsPositive(){
         waitForElement(topBuyersNumbers);
+        waitForLoadingScreen();
         return elementsAreAllPositive(findVisibleElements(topBuyersNumbers));
     }
 
     // checks that entries on top sellers list have negative change numbers
     public boolean topSellersListIsNegative(){
         waitForElement(topSellersNumbers);
+        waitForLoadingScreen();
         return elementsAreAllNegative(findVisibleElements(topSellersNumbers));
     }
 
     // checks that entries on top buyers list have change numbers in descending order
     public boolean topBuyersListIsDescending(){
         waitForElement(topBuyersNumbers);
+        waitForLoadingScreen();
         return elementsAreNumDownSorted(findVisibleElements(topBuyersNumbers));
     }
 
     // checks that entries on top sellers list have change numbers in ascending order
     public boolean topSellersListIsAscending(){
         waitForElement(topSellersNumbers);
+        waitForLoadingScreen();
         return elementsAreNumUpSorted(findVisibleElements(topSellersNumbers));
     }
 
     // checks that no institution appears in both the top buyers and the top sellers list (or appears twice in either list)
     public boolean topBuyersAndSellersAreUnique(){
-        waitForElement(topBuyersAndSellers);
+        waitForElementToAppear(topBuyersAndSellers);
+        waitForLoadingScreen();
         return elementsDoNotContainDuplicates(findVisibleElements(topBuyersAndSellers));
     }
 
@@ -1007,7 +1012,7 @@ public class SecurityOwnershipPage extends AbstractPageObject implements DateDro
 
         for(int i=0; i<charts.size(); i++){
             actions.clickAndHold(charts.get(i)).perform(); //clickAndHold needed so that cursor is still there when getAttribute is run
-            pause(1000);
+            pause(2000);
             List<WebElement> hovertexts = findVisibleElements(trendAnalysisHoverText);
             if(hovertexts.size()==0){
                 canHover=false;
@@ -1208,6 +1213,7 @@ public class SecurityOwnershipPage extends AbstractPageObject implements DateDro
     }
 
     public String getHolderSearchResultstwo() {
+        scrollToElement(holderSearchResulttwo);
         waitForElementToAppear(holderSearchResulttwo);
         return findElement(holderSearchResulttwo).getText();
     }

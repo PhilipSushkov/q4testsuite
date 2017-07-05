@@ -5,21 +5,19 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import pageobjects.AbstractPageObject;
-import yahoofinance.Stock;
+import pageobjects.api.historical.QuandlConnectToApi;
+import pageobjects.api.historical.QuandlDataset;
 import yahoofinance.YahooFinance;
 import yahoofinance.histquotes.HistoricalQuote;
 import yahoofinance.histquotes.Interval;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
-import java.time.LocalDate;
-import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.temporal.TemporalAdjusters;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by patrickp on 2016-11-09.
@@ -75,19 +73,32 @@ public class WTSReportDetailsPage extends AbstractPageObject {
     }
 
     public float getClosePrice() {
+
         return Float.parseFloat(findElement(closingPrice).getText());
     }
 
-    public float getLastClosePrice(String company) throws IOException {
+    public float getComparisonClosePrice(String company) throws IOException {
+        // Method to get today's date
         Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.WEEK_OF_YEAR, -1);
-        cal.set(Calendar.DAY_OF_WEEK, Calendar.FRIDAY);
+        // This ensures that if today is friday but it hasn't passed 5:30pm yet, it still takes last friday's closing price.
+        if ((cal.get(Calendar.HOUR) < 5) && (cal.get(Calendar.MINUTE) < 30) && (cal.get(Calendar.DAY_OF_WEEK) == cal.get(Calendar.FRIDAY)) && (cal.get(Calendar.AM_PM) == Calendar.AM)){
+            cal.add(Calendar.DATE, -7);
+        }
+        else {
+            // Go back until the day is friday.
+            while (cal.get(Calendar.DAY_OF_WEEK) != Calendar.FRIDAY) {
+                cal.add(Calendar.DATE, -1);
+            }
+        }
+        Date today = cal.getTime();
 
-        Stock stock = YahooFinance.get(company, cal, cal, Interval.WEEKLY);
-        String rawData = String.valueOf(stock.getHistory()).replaceAll("", "").trim();
-
-        // After parsing the Yahoo csv file, the number within the parentheses is Friday's closing price
-        String lastClosePrice = rawData.substring(rawData.indexOf("(") + 1, rawData.indexOf(")"));
+        // Format the date so QuandlAPI can read it
+        DateFormat todaysDate = new SimpleDateFormat("yyyy-MM-dd");
+        String inputDate = todaysDate.format(today);
+        System.out.println(inputDate);
+        //Creates a QuandlDataset that contains the close price from a specific date
+        QuandlDataset stock = QuandlConnectToApi.getDatasetBetweenDates(company, "EOD", inputDate, inputDate);
+        String lastClosePrice = stock.getClosingPrices().get(0);
 
         return Float.parseFloat(lastClosePrice);
     }

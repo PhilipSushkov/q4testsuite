@@ -12,6 +12,7 @@ import pageobjects.user.securityPage.SecurityOverviewPage;
 public class AdvancedSearchPage extends AbstractPageObject {
     private final By searchResults = By.cssSelector(".advanced-search-results");
     private final By searchField = By.cssSelector(".advanced-search-header .search-field .x-input-search");
+    private final By searchButton = By.xpath("//span[@class='x-button-label'][text()='Search'][1]");
     private final By transcriptsTab = By.cssSelector(".q4i-transcripts-2pt");
     private final By researchTab = By.cssSelector(".advanced-search .search-bar .search-tabs .x-button:last-of-type, .advanced-search .search-bar .search-tabs .x-button:last-child");
     private final By firstSearchResultDetails = By.className("name");
@@ -41,7 +42,7 @@ public class AdvancedSearchPage extends AbstractPageObject {
         waitForLoadingScreen();
         findElement(searchField).click();
         findElement(searchField).sendKeys(entity);
-        findElement(searchField).sendKeys(Keys.ENTER);
+        findElement(searchButton).click();
         waitForLoadingScreen();
 
         return this;
