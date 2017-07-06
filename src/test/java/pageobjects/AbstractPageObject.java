@@ -119,6 +119,7 @@ public class AbstractPageObject implements HeaderPage{
     //use from other pages
     public SideNavBar accessSideNavFromPage() {
         waitForLoadingScreen();
+        waitForElement(hamburgerIcon);
         findElement(hamburgerIcon).click();
         return new SideNavBar(getDriver());
     }

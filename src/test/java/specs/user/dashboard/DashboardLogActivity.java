@@ -31,7 +31,7 @@ public class DashboardLogActivity extends AbstractSpec {
         String tag = "TestTag" + RandomStringUtils.randomAlphanumeric(6);
 
         ActivityPage activityPage = new ActivityPage(driver);
-        new Dashboard(driver).logNote();
+        new Dashboard(driver).logActivity();
         new LogActivityPage(driver)
                 .enterNoteDetails(comment, note, tag);
 
@@ -53,9 +53,10 @@ public class DashboardLogActivity extends AbstractSpec {
         String tag = "PhoneTag" + RandomStringUtils.randomAlphanumeric(6);
 
         ActivityPage activityPage = new ActivityPage(driver);
-        new Dashboard(driver).logPhoneNote();
+        new Dashboard(driver).logActivity();
         new LogActivityPage(driver)
                 .enterPhoneNoteDetails(comment, name, note, tag)
+                .choosePhoneTab()
                 .postActivity()
                 .addNewTag(tag)
                 .accessSideNavFromPage()
@@ -73,9 +74,10 @@ public class DashboardLogActivity extends AbstractSpec {
         String tag = "EmailTag" + RandomStringUtils.randomAlphanumeric(6);
 
         ActivityPage activityPage = new ActivityPage(driver);
-        new Dashboard(driver).logEmailNote();
+        new Dashboard(driver).logActivity();
         new LogActivityPage(driver)
                 .enterEmailNoteDetails(comment, note, tag)
+                .chooseEmailTab()
                 .postActivity()
                 .addNewTag(tag)
                 .accessSideNavFromPage()
@@ -94,9 +96,10 @@ public class DashboardLogActivity extends AbstractSpec {
         String tag = "MeetingTag" + RandomStringUtils.randomAlphanumeric(3);
 
         ActivityPage activityPage = new ActivityPage(driver);
-        new Dashboard(driver).logMeetingNote();
+        new Dashboard(driver).logActivity();
         new LogActivityPage(driver)
                 .enterMeetingDetails(comment, name, note, tag)
+                .chooseMeetingTab()
                 .postActivity()
                 .addNewTag(tag)
                 .accessSideNavFromPage()
@@ -116,9 +119,10 @@ public class DashboardLogActivity extends AbstractSpec {
 
 
         ActivityPage activityPage = new ActivityPage(driver);
-        new Dashboard(driver).logRoadshowNote();
+        new Dashboard(driver).logActivity();
         new LogActivityPage(driver)
                 .enterMeetingDetails(comment, name, note, tag)
+                .chooseRoadshowTab()
                 .postActivity()
                 .addNewTag(tag)
                 .accessSideNavFromPage()
@@ -131,7 +135,7 @@ public class DashboardLogActivity extends AbstractSpec {
 
     @Test
     public void canCancelActivity() {
-        new Dashboard(driver).logNote()
+        new Dashboard(driver).logActivity()
                 .cancelNote();
 
         Assert.assertEquals("Activity modal was not dismissed", 0, driver.findElements(By.cssSelector(".new-note .cancel-btn")).size());
@@ -148,7 +152,7 @@ public class DashboardLogActivity extends AbstractSpec {
 
         NoteDetailsPage noteDetailsPage = new NoteDetailsPage(driver);
 
-        new Dashboard(driver).logNote();
+        new Dashboard(driver).logActivity();
         LogActivityPage logActivityPage = new LogActivityPage(driver)
                 .linkNoteToInstitution(institution)
                 .enterNoteDetails(comment,note,tag);
@@ -175,7 +179,7 @@ public class DashboardLogActivity extends AbstractSpec {
 
         NoteDetailsPage noteDetailsPage = new NoteDetailsPage(driver);
 
-        new Dashboard(driver).logNote();
+        new Dashboard(driver).logActivity();
         LogActivityPage logActivityPage = new LogActivityPage(driver)
                 .linkNoteToFund(fund)
                 .enterNoteDetails(comment,note,tag);
@@ -202,7 +206,7 @@ public class DashboardLogActivity extends AbstractSpec {
 
         NoteDetailsPage noteDetailsPage = new NoteDetailsPage(driver);
 
-        new Dashboard(driver).logNote();
+        new Dashboard(driver).logActivity();
         new LogActivityPage(driver)
                 .linkNoteToContact(contact)
                 .enterNoteDetails(comment,note,tag);

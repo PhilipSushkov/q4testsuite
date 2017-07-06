@@ -2,6 +2,7 @@ package pageobjects.user.sideNavBar;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageobjects.AbstractPageObject;
 import pageobjects.user.activityPage.ActivityPage;
@@ -67,8 +68,8 @@ public class SideNavBar extends AbstractPageObject{
 
     public ActivityPage selectActivityPageFromSideNav() {
         pause(2000L);
-        waitForElementToAppear(activityPageSideNav);
-        findElement(activityPageSideNav).click();
+        waitForElement(activityPageSideNav);
+        new Actions(driver).moveToElement(findElement(activityPageSideNav)).click().perform();
         waitForLoadingScreen();
 
         return new ActivityPage(getDriver());

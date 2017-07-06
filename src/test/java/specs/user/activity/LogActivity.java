@@ -24,18 +24,19 @@ public class LogActivity extends AbstractSpec {
     }
 
     @Test
+    //Really weird behaviour, .getNewNote returns wrong data
     public void createNoteWith$Symbole(){
         String comment = "This is a test comment with $" + RandomStringUtils.randomAlphanumeric(6);
         String note = "This is a test note with $" + RandomStringUtils.randomAlphanumeric(6);
         String tag = "TestTag" + RandomStringUtils.randomAlphanumeric(6);
 
         ActivityPage activityPage = new ActivityPage(driver);
+        NoteDetailsPage noteDetailsPage = new NoteDetailsPage(driver);
         new ActivityPage(driver).logNote()
-
                 .enterNoteDetails(comment, note, tag);
 
         // Make sure the new comment appears on page
-        Assert.assertThat("Note text does not match expected", activityPage.getNewNote(), containsString(comment));
+        Assert.assertThat("Note text does not match expected", noteDetailsPage.getCommentText(), containsString(comment));
     }
 
     @Test
