@@ -101,6 +101,7 @@ public class LogActivityPage extends AbstractPageObject{
         // Tags don't exist on new activity page
      /*   findElement(tagField).sendKeys(tag);
         findElement(tagField).sendKeys(Keys.RETURN); */
+        pause(2000L);
 
         return this;
     }
