@@ -11,7 +11,6 @@ import specs.user.activity.LogActivity;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
-        ActivityDetails.class,
         LogActivity.class
 })
 public class TestSuite {

@@ -178,8 +178,8 @@ public class LogActivityPage extends AbstractPageObject{
     public LogActivityPage chooseRoadshowTab() {
         wait.until(ExpectedConditions.elementToBeClickable(roadshowTab));
         findElement(roadshowTab).click();
-        wait.until(ExpectedConditions.elementToBeClickable(saveButton));
-        findElement(saveButton).click();
+        waitForElement(saveButton);
+        new Actions(driver).moveToElement(findElement(saveButton)).click().perform();
 
         return this;
     }
