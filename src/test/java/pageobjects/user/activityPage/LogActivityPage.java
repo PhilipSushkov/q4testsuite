@@ -38,6 +38,7 @@ public class LogActivityPage extends AbstractPageObject{
     public LogActivityPage enterNoteDetails(String comment, String note, String tag) {
         waitForLoadingScreen();
         wait.until(ExpectedConditions.elementToBeClickable(titleField));
+        waitForElementToAppear(titleField);
         retryClick(findElement(titleField));
         findElement(titleField).sendKeys(comment);
         findElement(typeNoteField).sendKeys(note);
