@@ -153,7 +153,7 @@ public class NoteDetailsPage extends ActivityPage {
 
     public String getLocation(){
         waitForLoadingScreen();
-        waitForElement(locationDetails);
+        waitForElementToAppear(locationDetails);
         return findElement(locationDetails).getText();
     }
 
