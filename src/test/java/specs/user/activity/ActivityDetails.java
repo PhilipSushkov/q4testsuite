@@ -90,8 +90,6 @@ public class ActivityDetails extends AbstractSpec {
 
         note.searchForNote(title);
         String activityDate = new ActivityPage(driver).getDate();
-        String month = activityDate.substring(0,activityDate.indexOf(" "));
-        String dayAndYear = activityDate.substring(activityDate.indexOf(" "));
         String activityDate = new SimpleDateFormat("EEEE, MMMM d, yyyy")
                 .format(new SimpleDateFormat("MMM dd, yyyy").parse(new ActivityPage(driver).getDate()));
         note.selectFirstNoteInList();
