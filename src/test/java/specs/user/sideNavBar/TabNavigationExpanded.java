@@ -92,13 +92,14 @@ public class TabNavigationExpanded extends AbstractSpec {
     }
 
     @Test
-    public void canNavigateToTargeting() {
-        String pageTitle = "Targeting";
+    public void canNavigateToScreener() {
+        //'Targeting 'page was renamed to 'Screener'
+        String pageTitle = "Screener";
         TargetingPage targetingPage = new TargetingPage(driver);
         new Dashboard(driver).accessSideNav()
                 .selectTargetingFromSideNav();
 
-        Assert.assertThat("User was not taken to targeting page", targetingPage.getPageTitle(), containsString(pageTitle));
+        Assert.assertThat("User was not taken to Screener (formerly targeting) page", targetingPage.getPageTitle(), containsString(pageTitle));
     }
 
     @Test

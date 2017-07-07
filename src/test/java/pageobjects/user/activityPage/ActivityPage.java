@@ -80,11 +80,13 @@ public class ActivityPage extends AbstractPageObject {
     public String getNewNote() {
         // Waits for the load more button to appear at the bottom of the page.
         waitForLoadingScreen();
-            return findVisibleElement(notesSection).getText();
+        waitForElement(notesSection);
+        return findVisibleElement(notesSection).getText();
     }
 
     public NoteDetailsPage selectFirstNoteInList() {
         waitForLoadingScreen();
+        waitForElement(firstNoteInList);
         findVisibleElement(firstNoteInList).click();
 
         return new NoteDetailsPage(getDriver());
@@ -92,7 +94,7 @@ public class ActivityPage extends AbstractPageObject {
 
     public LogActivityPage logNote() {
         waitForLoadingScreen();
-        waitForElementToAppear(newActivityIcon);
+        waitForElement(newActivityIcon);
         findElement(newActivityIcon).click();
 
         return new LogActivityPage(getDriver());
@@ -100,6 +102,7 @@ public class ActivityPage extends AbstractPageObject {
 
     public ActivityPage searchForNote(String note) {
         waitForLoadingScreen();
+        waitForElement(activitySearchField);
         findVisibleElement(activitySearchField).click();
         findVisibleElement(activitySearchField).sendKeys(note);
         //findElement(activitySearchField).sendKeys(Keys.RETURN);

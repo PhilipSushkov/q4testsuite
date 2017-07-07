@@ -8,6 +8,7 @@ import pageobjects.user.noteDetailsPage.NoteDetailsPage;
 import specs.AbstractSpec;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 /**
  * Created by sarahr on 3/27/2017.
@@ -91,18 +92,19 @@ public class ActivityDetails extends AbstractSpec {
         String activityDate = new ActivityPage(driver).getDate();
         String month = activityDate.substring(0,activityDate.indexOf(" "));
         String dayAndYear = activityDate.substring(activityDate.indexOf(" "));
+        String activityDate = new SimpleDateFormat("EEEE, MMMM d, yyyy")
+                .format(new SimpleDateFormat("MMM dd, yyyy").parse(new ActivityPage(driver).getDate()));
         note.selectFirstNoteInList();
 
         String detailsDate = note.getDetailsDate();
-        // Must use assertTrue because the Date formats don't write out the entire month
-        Assert.assertTrue("Month does not match", detailsDate.contains(month));
-        Assert.assertTrue("Month does not match", detailsDate.contains(dayAndYear));
+        // AssertTrue used because it works
+        Assert.assertTrue("Date does not match", detailsDate.contains(activityDate));
     }
 
     @Ignore
     @Test
     public void canEditActivity(){
-
+        //TODO
     }
 
     @Test

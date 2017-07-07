@@ -133,7 +133,7 @@ public class Ownership extends AbstractSpec {
         //unselect activist filter
         securityOwnershipPage.doNotShowOnlyActivists();
         //check that original list is displayed
-        Assert.assertArrayEquals("Original list is not displayed after reverting activist filter", holders, securityOwnershipPage.getHolderNames());
+        Assert.assertArrayEquals("Known issue - DESKTOP-8902", holders, securityOwnershipPage.getHolderNames());
     }
 
     @Test
@@ -289,7 +289,7 @@ public class Ownership extends AbstractSpec {
                 .viewHistoricalHolders()
                 .searchForHoldings(holder);
       
-        Assert.assertThat(securityOwnershipPage.getHolderSearchResults(), containsString(holder));
+        Assert.assertThat("Looks like Chevy Chase isn't in databse", securityOwnershipPage.getHolderSearchResults(), containsString(holder));
         Assert.assertThat(securityOwnershipPage.getHistoricalInstitutionsHolderSearchResults(), containsString(holder));
     }
 
