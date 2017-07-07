@@ -89,7 +89,6 @@ public class ActivityDetails extends AbstractSpec {
         NoteDetailsPage note = new NoteDetailsPage(driver);
 
         note.searchForNote(title);
-        String activityDate = new ActivityPage(driver).getDate();
         String activityDate = new SimpleDateFormat("EEEE, MMMM d, yyyy")
                 .format(new SimpleDateFormat("MMM dd, yyyy").parse(new ActivityPage(driver).getDate()));
         note.selectFirstNoteInList();
