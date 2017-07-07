@@ -29,7 +29,12 @@ public class ActivityDetails extends AbstractSpec {
         new LoginPage(driver).loginUser()
                 .accessSideNav()
                 .selectActivityPageFromSideNav();
-        new ActivityPage(driver).logNote().enterRoadshowDetails(title, location, tag).postActivity().accessSideNavFromPage().selectActivityPageFromSideNav();
+        new ActivityPage(driver)
+                .logNote()
+                .enterRoadshowDetails(title, location, tag)
+                .postActivity()
+                .accessSideNavFromPage()
+                .selectActivityPageFromSideNav();
     }
 
     @Test
