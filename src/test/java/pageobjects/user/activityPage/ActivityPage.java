@@ -33,6 +33,10 @@ public class ActivityPage extends AbstractPageObject {
     private final By emailCount = By.xpath("(//*[@class=\"counter\"])[3]");
     private final By meetingCount = By.xpath("(//*[@class=\"counter\"])[4]");
     private final By yourActivityToggle = By.cssSelector("#ext-thumb-3");
+    private final By rowCheckBox = By.xpath("//div[contains(@class,'checkmark') and contains(@class,'checkbox')]");
+    private final By deleteIcon = By.xpath("//div[span[contains(@class,'q4i-trashbin-4pt')]]");
+    private final By deleteConfirm = By.xpath("//div[span[contains(text(),'Yes')]]");
+    private final By bulkCheckBox = By.xpath("//div[contains(@class,'bulk-checkbox')]");
 
     //This is actually the text beside the checkbox. Clicking the checkbox is proving to be difficult
     private final By filterDropDown = By.xpath("//div[contains(@class,'filters-toggle')]");
@@ -67,7 +71,7 @@ public class ActivityPage extends AbstractPageObject {
     }
 
     private List<WebElement> returnTableRows (){
-        List<WebElement> rowList = findElements(By.xpath("//div[contains(@class,'x-dataview-container')]//div[contains(@class,'row')]"));
+        List<WebElement> rowList = findVisibleElements(By.xpath("//div[contains(@class,'x-dataview-container')]//div[contains(@class,'row')]"));
         ArrayList<WebElement> tableRowsList = new ArrayList<>(rowList);
         return tableRowsList;
 
@@ -476,7 +480,7 @@ public class ActivityPage extends AbstractPageObject {
     public String getDate() throws ParseException {
         //Gets date from first note on the activity page and format it
         DateFormat activityFormat = new SimpleDateFormat("MM/dd/yy");
-        DateFormat detailsFormat = new SimpleDateFormat("MMM dd, yyyy");
+        DateFormat detailsFormat = new SimpleDateFormat("MMMM d, yyyy");
         Date strToDate = activityFormat.parse(findVisibleElement(firstNoteInListDate).getText());
         String dateToString = detailsFormat.format(strToDate);
         return dateToString;
@@ -549,6 +553,16 @@ public class ActivityPage extends AbstractPageObject {
         findElement(yourActivityToggle).click();
         pause(200L);
 
+        return this;
+    }
+
+    public ActivityPage deleteAllNotes(String title){
+        List<WebElement> searchResults;
+        searchForNote(title);
+        findVisibleElement(bulkCheckBox).click();
+        findVisibleElement(deleteIcon).click();
+        waitForElementToAppear(deleteConfirm);
+        findVisibleElement(deleteConfirm).click();
         return this;
     }
 
