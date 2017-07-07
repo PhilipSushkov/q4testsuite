@@ -96,10 +96,12 @@ public class LogActivityPage extends AbstractPageObject{
     public LogActivityPage enterRoadshowDetails(String title, String location, String tag){
         //The waitForLoadingScreen() makes the test a bit slower than I'd like
         //But at least now it's waiting for something instead of pause()
+        waitForLoadingScreen();
         retryClick(findElement(titleField));
         findElement(titleField).sendKeys(title);
         findElement(locationField).sendKeys(location);
         pause(2000L);
+        // This gets rid of the location pop up
         clickElementLocation(saveButton);
 
         // Tags don't exist on new activity page

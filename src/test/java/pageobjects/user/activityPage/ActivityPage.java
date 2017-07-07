@@ -62,6 +62,7 @@ public class ActivityPage extends AbstractPageObject {
     private final By selectedDay = By.xpath("//div[@class='pmu-days']/div[@class='pmu-button'][11]");
     private final By dateFilterButton = By.xpath("//div[contains(@class,'go-button')]");
 
+
     public ActivityPage(WebDriver driver) {
         super(driver);
     }
@@ -82,7 +83,7 @@ public class ActivityPage extends AbstractPageObject {
 
     public NoteDetailsPage selectFirstNoteInList() {
         waitForLoadingScreen();
-        waitForElementToAppear(firstNoteInList);
+        waitForElement(firstNoteInList);
         findVisibleElement(firstNoteInList).click();
 
         return new NoteDetailsPage(getDriver());
@@ -90,7 +91,7 @@ public class ActivityPage extends AbstractPageObject {
 
     public LogActivityPage logNote() {
         waitForLoadingScreen();
-        waitForElementToAppear(newActivityIcon);
+        waitForElement(newActivityIcon);
         findElement(newActivityIcon).click();
 
         return new LogActivityPage(getDriver());
@@ -98,7 +99,7 @@ public class ActivityPage extends AbstractPageObject {
 
     public ActivityPage searchForNote(String note) {
         waitForLoadingScreen();
-        waitForElementToAppear(activitySearchField);
+        waitForElement(activitySearchField);
         findVisibleElement(activitySearchField).click();
         findVisibleElement(activitySearchField).sendKeys(note);
         //findElement(activitySearchField).sendKeys(Keys.RETURN);
