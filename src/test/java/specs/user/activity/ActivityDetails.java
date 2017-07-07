@@ -1,10 +1,7 @@
 package specs.user.activity;
 
 import org.apache.commons.lang.RandomStringUtils;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.*;
 import pageobjects.user.activityPage.ActivityPage;
 import pageobjects.user.loginPage.LoginPage;
 import pageobjects.user.noteDetailsPage.NoteDetailsPage;
@@ -17,10 +14,11 @@ import java.text.ParseException;
  */
 public class ActivityDetails extends AbstractSpec {
 
-    String title = "Activity Details Test " + RandomStringUtils.randomAlphanumeric(6);
+    String title = "**AUTOMATION** Activity Details Test " + RandomStringUtils.randomAlphanumeric(6);
     String location = "New York";
     String tag = "automation" + RandomStringUtils.randomAlphabetic(6);
     String newTag = "newTag" + RandomStringUtils.randomAlphabetic(6);
+    String keyWord = "**AUTOMATION**";
 
     @Before
     public void setup() {
@@ -29,6 +27,13 @@ public class ActivityDetails extends AbstractSpec {
                 .accessSideNav()
                 .selectActivityPageFromSideNav();
         new ActivityPage(driver).logNote().enterRoadshowDetails(title, location, tag).postActivity().accessSideNavFromPage().selectActivityPageFromSideNav();
+    }
+
+    @After
+    public void cleanUp(){
+         NoteDetailsPage note =new NoteDetailsPage(driver);
+         ActivityPage activity= note.accessSideNavFromPage().selectActivityPageFromSideNav();
+              activity.deleteAllNotes(keyWord);
     }
 
     @Test
@@ -84,8 +89,8 @@ public class ActivityDetails extends AbstractSpec {
 
         note.searchForNote(title);
         String activityDate = new ActivityPage(driver).getDate();
-        String month = activityDate.substring(0,2);
-        String dayAndYear = activityDate.substring(3);
+        String month = activityDate.substring(0,activityDate.indexOf(" "));
+        String dayAndYear = activityDate.substring(activityDate.indexOf(" "));
         note.selectFirstNoteInList();
 
         String detailsDate = note.getDetailsDate();
