@@ -30,6 +30,7 @@ public class LogActivityPage extends AbstractPageObject{
     private final By emailTab = By.id("ext-radiofield-3");
     private final By meetingTab = By.id("ext-radiofield-4");
     private final By roadshowTab = By.id("ext-radiofield-5");
+    private final By firstLocationFieldData = By.xpath("//div[contains(@class,'x-unsized x-list-item x-list-item-tpl x-list-item-relative");
 
     public LogActivityPage(WebDriver driver) {
         super(driver);
@@ -95,9 +96,14 @@ public class LogActivityPage extends AbstractPageObject{
     public LogActivityPage enterRoadshowDetails(String title, String location, String tag){
         //The waitForLoadingScreen() makes the test a bit slower than I'd like
         //But at least now it's waiting for something instead of pause()
+        waitForLoadingScreen();
         retryClick(findElement(titleField));
         findElement(titleField).sendKeys(title);
         findElement(locationField).sendKeys(location);
+        pause(2000L);
+        // This gets rid of the location pop up
+        clickElementLocation(saveButton);
+
         // Tags don't exist on new activity page
      /*   findElement(tagField).sendKeys(tag);
         findElement(tagField).sendKeys(Keys.RETURN); */
@@ -186,8 +192,9 @@ public class LogActivityPage extends AbstractPageObject{
     }
 
     public NoteDetailsPage postActivity() {
-        waitForElement(saveButton);
-        new Actions(driver).moveToElement(findElement(saveButton)).click().perform();
+        waitForElementToAppear(saveButton);
+        clickElementLocation(saveButton);
+        pause(2000);
 
         return new NoteDetailsPage(getDriver());
     }
