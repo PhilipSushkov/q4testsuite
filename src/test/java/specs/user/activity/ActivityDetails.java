@@ -1,10 +1,7 @@
 package specs.user.activity;
 
 import org.apache.commons.lang.RandomStringUtils;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.*;
 import pageobjects.user.activityPage.ActivityPage;
 import pageobjects.user.loginPage.LoginPage;
 import pageobjects.user.noteDetailsPage.NoteDetailsPage;
@@ -18,10 +15,11 @@ import java.text.SimpleDateFormat;
  */
 public class ActivityDetails extends AbstractSpec {
 
-    String title = "Activity Details Test " + RandomStringUtils.randomAlphanumeric(6);
+    String title = "**AUTOMATION** Activity Details Test " + RandomStringUtils.randomAlphanumeric(6);
     String location = "New York";
     String tag = "automation" + RandomStringUtils.randomAlphabetic(6);
     String newTag = "newTag" + RandomStringUtils.randomAlphabetic(6);
+    String keyWord = "**AUTOMATION**";
 
     @Before
     public void setup() {
@@ -35,6 +33,13 @@ public class ActivityDetails extends AbstractSpec {
                 .postActivity()
                 .accessSideNavFromPage()
                 .selectActivityPageFromSideNav();
+    }
+
+    @After
+    public void cleanUp(){
+         NoteDetailsPage note =new NoteDetailsPage(driver);
+         ActivityPage activity= note.accessSideNavFromPage().selectActivityPageFromSideNav();
+              activity.deleteAllNotes(keyWord);
     }
 
     @Test
