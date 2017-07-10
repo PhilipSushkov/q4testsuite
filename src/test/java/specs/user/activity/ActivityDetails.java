@@ -15,11 +15,11 @@ import java.text.SimpleDateFormat;
  */
 public class ActivityDetails extends AbstractSpec {
 
-    String title = "**AUTOMATION** Activity Details Test " + RandomStringUtils.randomAlphanumeric(6);
+    String title = "Activity Details Test " + RandomStringUtils.randomAlphanumeric(6);
     String location = "New York";
     String tag = "automation" + RandomStringUtils.randomAlphabetic(6);
     String newTag = "newTag" + RandomStringUtils.randomAlphabetic(6);
-    String keyWord = "**AUTOMATION**";
+    String keyword = "**AUTOMATION**";
 
     @Before
     public void setup() {
@@ -34,7 +34,7 @@ public class ActivityDetails extends AbstractSpec {
     public void cleanUp(){
          NoteDetailsPage note =new NoteDetailsPage(driver);
          ActivityPage activity= note.accessSideNavFromPage().selectActivityPageFromSideNav();
-              activity.deleteAllNotes(keyWord);
+              activity.deleteAllNotes(keyword);
     }
 
     @Test

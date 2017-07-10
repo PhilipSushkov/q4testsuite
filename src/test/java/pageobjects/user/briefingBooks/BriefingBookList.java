@@ -14,11 +14,12 @@ import java.util.List;
 
 public class BriefingBookList extends AbstractPageObject {
 
-    private final By reportList = By.cssSelector(".briefing-book-list");
+    private final By reportList = By.xpath("//*[contains(@class,'briefing-book-list')]//div[contains(@class,'x-dataview-container')]");
     private final By createBookButton = By.cssSelector(".btn.x-button.x-unsized:not(.btn-block)");
     private final By newBriefingBook = By.cssSelector(".briefing-book-item:nth-child(1)");
     private final By checkbox = By.className("checkmark");
-    private final By deleteButton = By.className("q4i-trashbin-4pt");
+    private final By bulkCheckbox = By.xpath(("//div[contains(@class,'bulk-checkbox')]"));
+    private final By deleteButton = By.xpath("//div[contains(@class,'bulk-button')]");
     private final By confirmDeleteButton = By.cssSelector(".q4-message-modal .x-button.primary");
     private final By searchBox = By.cssSelector(".briefing-book-toolbar [type=search]");
     private final By briefingBookTitle = By.cssSelector(".briefing-book-item .row div:nth-child(2)");
@@ -114,8 +115,21 @@ public class BriefingBookList extends AbstractPageObject {
         return this;
     }
 
+    public BriefingBookList deleteAllBriefingBooks(String title){
+        waitForLoadingScreen();
+        findVisibleElement(bulkCheckbox).click();
+        String awesome = findElement(deleteButton).getAttribute("class");
+        if(!findElement(deleteButton).getAttribute("class").contains("x-item-disabled")) {
+            findElement(deleteButton).click();
+            waitForElementToAppear(confirmDeleteButton);
+            findElement(confirmDeleteButton).click();
+        }
+        return this;
+    }
+
     public BriefingBookList searchFor(String searchTerm){
         waitForLoadingScreen();
+        findElement(searchBox).sendKeys(" ");
         findElement(searchBox).clear();
         findElement(searchBox).sendKeys(searchTerm);
         pause(2000);

@@ -1,6 +1,7 @@
 package specs.user.briefingBooks;
 
 import org.apache.commons.lang.RandomStringUtils;
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -17,6 +18,8 @@ import static org.hamcrest.CoreMatchers.not;
  * Created by patrickp on 2016-09-14.
  */
 public class CreateBriefingBook extends AbstractSpec {
+    private final static String keyword = "**AUTOMATION**";
+    private final static String briefingBookTitle = keyword+" New Briefing Book";
 
     @Before
     public void setUp() {
@@ -25,9 +28,15 @@ public class CreateBriefingBook extends AbstractSpec {
                 .selectBriefingBookFromSideNav();
     }
 
+    @After
+    public void cleanUp(){
+        BriefingBookList briefingBookList = new BriefingBookDetailsPage(driver).accessSideNavFromPage().selectBriefingBookFromSideNav();
+        briefingBookList.searchFor(keyword);
+        briefingBookList.deleteAllBriefingBooks(keyword);
+    }
     @Test
     public void canCreateNewBriefingBook() {
-        String briefingBookName = "New Briefing Book" + RandomStringUtils.randomAlphanumeric(6);
+        String briefingBookName = briefingBookTitle + RandomStringUtils.randomAlphanumeric(6);
         BriefingBookList briefingBookList = new BriefingBookList(driver).addNewBriefingBook()
                 .saveBriefingBook(briefingBookName);
 
@@ -36,7 +45,7 @@ public class CreateBriefingBook extends AbstractSpec {
 
     @Test
     public void canDeleteBriefingBookFromDetailsPage() {
-        String briefingBookName = "New Briefing Book" + RandomStringUtils.randomAlphanumeric(6);
+        String briefingBookName =briefingBookTitle + RandomStringUtils.randomAlphanumeric(6);
         BriefingBookList briefingBookList = new BriefingBookList(driver).addNewBriefingBook()
                 .saveBriefingBook(briefingBookName);
         Assert.assertThat("New briefing book was not created", briefingBookList.getBriefingBookList(), containsString(briefingBookName));
@@ -48,7 +57,7 @@ public class CreateBriefingBook extends AbstractSpec {
 
     @Test
     public void canDeleteBriefingBookFromMainPage(){
-        String briefingBookName = "New Briefing Book" + RandomStringUtils.randomAlphanumeric(6);
+        String briefingBookName = briefingBookTitle + RandomStringUtils.randomAlphanumeric(6);
         BriefingBookList briefingBookList = new BriefingBookList(driver).addNewBriefingBook()
                 .saveBriefingBook(briefingBookName);
         Assert.assertThat("New briefing book was not created", briefingBookList.getBriefingBookList(), containsString(briefingBookName));
@@ -59,8 +68,8 @@ public class CreateBriefingBook extends AbstractSpec {
 
     @Test
     public void canAddInstitutionToBriefingBook(){
-        String briefingBookName = "New Briefing Book" + RandomStringUtils.randomAlphanumeric(6);
-        String institution = "Fidelity Capital Investors, Inc.";
+        String briefingBookName = briefingBookTitle + RandomStringUtils.randomAlphanumeric(6);
+        String institution = "Fidelity Management & Research Co.";
         BriefingBookDetailsPage briefingBookDetailsPage = new BriefingBookList(driver).addNewBriefingBook()
                 .saveBriefingBook(briefingBookName)
                 .viewNewBriefingBook()
@@ -71,7 +80,7 @@ public class CreateBriefingBook extends AbstractSpec {
 
     @Test
     public void canAddFundToBriefingBook(){
-        String briefingBookName = "New Briefing Book" + RandomStringUtils.randomAlphanumeric(6);
+        String briefingBookName = briefingBookTitle + RandomStringUtils.randomAlphanumeric(6);
         String fund = "Canada Pension Plan";
         BriefingBookDetailsPage briefingBookDetailsPage = new BriefingBookList(driver).addNewBriefingBook()
                 .saveBriefingBook(briefingBookName)
@@ -83,7 +92,7 @@ public class CreateBriefingBook extends AbstractSpec {
 
     @Test
     public void canAddContactToBriefingBook(){
-        String briefingBookName = "New Briefing Book" + RandomStringUtils.randomAlphanumeric(6);
+        String briefingBookName = briefingBookTitle + RandomStringUtils.randomAlphanumeric(6);
         String contact = "Samuel Stursberg";
         BriefingBookDetailsPage briefingBookDetailsPage = new BriefingBookList(driver).addNewBriefingBook()
                 .saveBriefingBook(briefingBookName)
@@ -103,7 +112,6 @@ public class CreateBriefingBook extends AbstractSpec {
     }
 
     @Test
-    // This test relies on the existence of a briefing book called "Search Test - DO NOT DELETE" in order to pass
     public void searchingForUnknownKeywordReturnsNoResults(){
         String randomSearchTerm = "asdsfgdhfasdfb"; // should be no matches
 
@@ -114,7 +122,7 @@ public class CreateBriefingBook extends AbstractSpec {
 
     @Test
     public void canReorderTearSheets(){
-        String briefingBookName = "New Briefing Book" + RandomStringUtils.randomAlphanumeric(6);
+        String briefingBookName = briefingBookTitle + RandomStringUtils.randomAlphanumeric(6);
         String[] institutions = {"Fidelity Capital Investors, Inc.", "AU & Associates LLC", "Suez Ventures", "HSBC Guyerzeller Bank AG"};
         // creating and opening blank briefing book
         BriefingBookDetailsPage briefingBookDetailsPage = new BriefingBookList(driver).addNewBriefingBook()
