@@ -111,6 +111,7 @@ public class AbstractPageObject implements HeaderPage{
     //use from dashboard
     public SideNavBar accessSideNav() {
         waitForLoadingScreen();
+        waitForElement(sideNavIcon);
         findElement(sideNavIcon).click();
 
         return new SideNavBar(getDriver());

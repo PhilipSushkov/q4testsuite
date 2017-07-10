@@ -66,6 +66,7 @@ public class ActivityPage extends AbstractPageObject {
     private final By selectedDay = By.xpath("//div[@class='pmu-days']/div[@class='pmu-button'][11]");
     private final By dateFilterButton = By.xpath("//div[contains(@class,'go-button')]");
 
+
     public ActivityPage(WebDriver driver) {
         super(driver);
     }
@@ -80,7 +81,7 @@ public class ActivityPage extends AbstractPageObject {
     public String getNewNote() {
         // Waits for the load more button to appear at the bottom of the page.
         waitForLoadingScreen();
-        waitForElement(notesSection);
+        waitForElementToAppear(notesSection);
         return findVisibleElement(notesSection).getText();
     }
 
