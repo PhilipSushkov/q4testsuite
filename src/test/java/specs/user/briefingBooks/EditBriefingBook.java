@@ -10,8 +10,8 @@ import specs.AbstractSpec;
  * Created by noelc on 2016-11-23.
  */
 public class EditBriefingBook extends AbstractSpec {
-
-    private  static final String nightlyBook = "nightlyTestingBriefingBook";
+    private final static String keyword = "**AUTOMATION**";
+    private  static final String nightlyBook = keyword+" nightlyTestingBriefingBook";
     private final String fund = "Canada Pension Plan";
     private final String contact = "Samuel Stursberg";
     private final String Insitution = "Fidelity Capital Investors, Inc.";
@@ -35,6 +35,12 @@ public class EditBriefingBook extends AbstractSpec {
         }
     }
 
+    @After
+    public void cleanUp(){
+        BriefingBookList briefingBookList = new BriefingBookDetailsPage(driver).accessSideNavFromPage().selectBriefingBookFromSideNav();
+        briefingBookList.searchFor(keyword);
+        briefingBookList.deleteAllBriefingBooks(keyword);
+    }
 
     @Test
     public void canDeleteFundInBriefingBook(){

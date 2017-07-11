@@ -19,7 +19,7 @@ import static org.hamcrest.CoreMatchers.not;
  */
 public class CreateBriefingBook extends AbstractSpec {
     private final static String keyword = "**AUTOMATION**";
-    private final static String briefingBookTitle = keyword+" New Briefing Book";
+    private final static String briefingBookTitle =keyword+"New Briefing Book";
 
     @Before
     public void setUp() {

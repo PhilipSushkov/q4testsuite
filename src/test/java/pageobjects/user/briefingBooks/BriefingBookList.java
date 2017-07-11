@@ -21,7 +21,7 @@ public class BriefingBookList extends AbstractPageObject {
     private final By bulkCheckbox = By.xpath(("//div[contains(@class,'bulk-checkbox')]"));
     private final By deleteButton = By.xpath("//div[contains(@class,'bulk-button')]");
     private final By confirmDeleteButton = By.cssSelector(".q4-message-modal .x-button.primary");
-    private final By searchBox = By.cssSelector(".briefing-book-toolbar [type=search]");
+    private final By searchBox = By.xpath("//div[contains(@class,'briefing-book-toolbar')]//input");
     private final By briefingBookTitle = By.cssSelector(".briefing-book-item .row div:nth-child(2)");
     private final By generalBriefingBookItem = By.xpath("//div[contains(@class,'briefing-book-item')]");
     private final By titleHeader = By.xpath("//div[contains(@class,'column') and contains(@class,'x-button-no-icon')][.//span[contains(text(),'Title')]]");
@@ -117,21 +117,20 @@ public class BriefingBookList extends AbstractPageObject {
 
     public BriefingBookList deleteAllBriefingBooks(String title){
         waitForLoadingScreen();
+        if(!findVisibleElement(bulkCheckbox).getAttribute("class").contains("x-item-disabled")){
         findVisibleElement(bulkCheckbox).click();
-        String awesome = findElement(deleteButton).getAttribute("class");
-        if(!findElement(deleteButton).getAttribute("class").contains("x-item-disabled")) {
-            findElement(deleteButton).click();
+            findVisibleElement(deleteButton).click();
             waitForElementToAppear(confirmDeleteButton);
-            findElement(confirmDeleteButton).click();
+            findVisibleElement(confirmDeleteButton).click();
         }
         return this;
     }
 
     public BriefingBookList searchFor(String searchTerm){
         waitForLoadingScreen();
-        findElement(searchBox).sendKeys(" ");
-        findElement(searchBox).clear();
-        findElement(searchBox).sendKeys(searchTerm);
+        findVisibleElement(searchBox).sendKeys(" ");
+        findVisibleElement(searchBox).clear();
+        findVisibleElement(searchBox).sendKeys(searchTerm);
         pause(2000);
         return this;
     }
