@@ -15,11 +15,12 @@ import java.text.SimpleDateFormat;
  */
 public class ActivityDetails extends AbstractSpec {
 
-    String title = "Activity Details Test " + RandomStringUtils.randomAlphanumeric(6);
+    String keyword = "**AUTOMATION**";
+    String title = keyword+" Activity Details Test " + RandomStringUtils.randomAlphanumeric(6);
     String location = "New York";
     String tag = "automation" + RandomStringUtils.randomAlphabetic(6);
     String newTag = "newTag" + RandomStringUtils.randomAlphabetic(6);
-    String keyword = "**AUTOMATION**";
+
 
     @Before
     public void setup() {
@@ -37,9 +38,14 @@ public class ActivityDetails extends AbstractSpec {
 
     @After
     public void cleanUp(){
-         NoteDetailsPage note =new NoteDetailsPage(driver);
-         ActivityPage activity= note.accessSideNavFromPage().selectActivityPageFromSideNav();
-              activity.deleteAllNotes(keyword);
+        try {
+            NoteDetailsPage note = new NoteDetailsPage(driver);
+            ActivityPage activity = note.accessSideNavFromPage().selectActivityPageFromSideNav();
+            activity.deleteAllNotes(keyword);
+        }
+        catch(Exception e){
+            //I don't want tests to fail because the clean up failed
+        }
     }
 
     @Test

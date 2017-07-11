@@ -25,9 +25,14 @@ public class EditActivity extends AbstractSpec {
 
     @After
     public void cleanUp(){
-        NoteDetailsPage note =new NoteDetailsPage(driver);
-        ActivityPage activity= note.accessSideNavFromPage().selectActivityPageFromSideNav();
-        activity.deleteAllNotes(keyword);
+        try {
+            NoteDetailsPage note = new NoteDetailsPage(driver);
+            ActivityPage activity = note.accessSideNavFromPage().selectActivityPageFromSideNav();
+            activity.deleteAllNotes(keyword);
+        }
+        catch(Exception e){
+            //I don't want tests to fail because the clean up failed
+        }
     }
     // TODO Figure out how to assert suggesting an edit.
     @Ignore
