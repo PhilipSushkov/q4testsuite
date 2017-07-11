@@ -559,11 +559,14 @@ public class ActivityPage extends AbstractPageObject {
 
     public ActivityPage deleteAllNotes(String title){
         List<WebElement> searchResults;
+        findElement(searchBar).clear();
         searchForNote(title);
-        findVisibleElement(bulkCheckBox).click();
-        findVisibleElement(deleteIcon).click();
-        waitForElementToAppear(deleteConfirm);
-        findVisibleElement(deleteConfirm).click();
+        if(!findVisibleElement(bulkCheckBox).getAttribute("class").contains("x-item-disabled")) {
+            findVisibleElement(bulkCheckBox).click();
+            findVisibleElement(deleteIcon).click();
+            waitForElementToAppear(deleteConfirm);
+            findVisibleElement(deleteConfirm).click();
+        }
         return this;
     }
 

@@ -4,10 +4,8 @@ package specs.user.activity;
  * Created by dannyl on 2017-05-04.
  */
 import org.apache.commons.lang.RandomStringUtils;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.*;
+import pageobjects.user.activityPage.ActivityPage;
 import pageobjects.user.loginPage.LoginPage;
 import pageobjects.user.noteDetailsPage.NoteDetailsPage;
 import pageobjects.user.noteDetailsPage.editNoteDetailsPage;
@@ -16,6 +14,7 @@ import specs.AbstractSpec;
 import static org.hamcrest.CoreMatchers.containsString;
 
 public class EditActivity extends AbstractSpec {
+    public static final String keyword = "**AUTOMATION** ";
 
     @Before
     public void setUp(){
@@ -24,11 +23,22 @@ public class EditActivity extends AbstractSpec {
                 .selectActivityPageFromSideNav();
     }
 
+    @After
+    public void cleanUp(){
+        try {
+            NoteDetailsPage note = new NoteDetailsPage(driver);
+            ActivityPage activity = note.accessSideNavFromPage().selectActivityPageFromSideNav();
+            activity.deleteAllNotes(keyword);
+        }
+        catch(Exception e){
+            //I don't want tests to fail because the clean up failed
+        }
+    }
     // TODO Figure out how to assert suggesting an edit.
     @Ignore
     @Test
     public void suggestAnEdit(){
-        String comment = "This is a test comment" + RandomStringUtils.randomAlphanumeric(6);
+        String comment =keyword+ "This is a test comment" + RandomStringUtils.randomAlphanumeric(6);
         NoteDetailsPage noteDetailsPage = new NoteDetailsPage(driver).selectFirstNoteInList();
         noteDetailsPage.getSuggestEditTextBox().postASuggestedEdit(comment);
 
@@ -39,7 +49,7 @@ public class EditActivity extends AbstractSpec {
     @Ignore
     @Test
     public void cancelASuggestedEdit(){
-        String comment = "This is a test comment" + RandomStringUtils.randomAlphanumeric(6);
+        String comment = keyword+ "This is a test comment" + RandomStringUtils.randomAlphanumeric(6);
         NoteDetailsPage noteDetailsPage = new NoteDetailsPage(driver).selectFirstNoteInList();
         noteDetailsPage.getSuggestEditTextBox().cancelASuggestedEdit(comment);
     }
@@ -48,7 +58,7 @@ public class EditActivity extends AbstractSpec {
 
     @Test
     public void canEditNoteTitle(){
-        String comment = "This is a test comment" + RandomStringUtils.randomAlphanumeric(6);
+        String comment =keyword+  "This is a test comment" + RandomStringUtils.randomAlphanumeric(6);
         NoteDetailsPage noteDetailsPage = new NoteDetailsPage(driver).yourActivityFilter().selectFirstNoteInList();
         String existingTitle = noteDetailsPage.getActivityTitle();
         String expectedTitle = existingTitle + comment;
@@ -62,7 +72,7 @@ public class EditActivity extends AbstractSpec {
     // TODO Figure out why sendKeys isn't sending the first letter of note
     @Test
     public void canEditActivityNotes(){
-        String note = "This is a test note" + RandomStringUtils.randomAlphanumeric(6);
+        String note =keyword+ "This is a test note" + RandomStringUtils.randomAlphanumeric(6);
         NoteDetailsPage noteDetailsPage = new NoteDetailsPage(driver).yourActivityFilter().selectFirstNoteInList();
         String existingNote = noteDetailsPage.getActivityDetails();
         String modifiedNote = note.substring(1);
