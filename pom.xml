@@ -196,6 +196,7 @@
                     </dependency>
                 </dependencies>
                 <configuration>
+                    <testNGArtifactName>none:none</testNGArtifactName>
                     <redirectTestOutputToFile>false</redirectTestOutputToFile>
                     <useUnlimitedThreads>true</useUnlimitedThreads>
                     <perCoreThreadCount>false</perCoreThreadCount>
