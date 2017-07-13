@@ -43,13 +43,13 @@ public class Calendar extends AbstractPageObject{
 
     }
     // these parameters change according to where the calendar tool appears on the web page
-    public Calendar selectEndDate(By endTimeSelector, By previousMonthButton, By selectedMonth, By selectedDay) {
+    public Calendar selectEndDate(By endTimeSelector, By nextMonthButton, By selectedMonth, By selectedDay) {
 
         findElement(endTimeSelector).click();
-        // end time will always go back 2 months from the current month
+        // end time will always go ahead 2 months from the current month
             for (int i = 0; i < 3; i++)
             {
-                findElement(previousMonthButton).click();
+                findElement(nextMonthButton).click();
             }
         // collects a string in format "NOVEMBER 2016"
         endMonth = findElement(selectedMonth).getText();

@@ -20,7 +20,7 @@ import java.util.List;
  */
 public class ActivityPage extends AbstractPageObject {
 
-    private final By notesSection = By.cssSelector(".note-manager-list .note-item.x-dataview-item");
+    private final By notesSection = By.xpath("//div[contains(@class,'note-manager-list')]//div[contains(@class,'x-dataview-item')]");
     private final By firstNoteInList = By.xpath("//div[contains(@class,'note-item')][1]//div[contains(@class,'title')]");
     private final By firstNoteInListDate = By.xpath("//div[1][contains(@class,'note-item')]//div[contains(@class,'column')][7]");
     private final By firstNoteInListNewTag = By.xpath("//div[1][contains(@class,'note-item')]//div[contains(@class,'column')][8]/a[1]");
@@ -62,6 +62,7 @@ public class ActivityPage extends AbstractPageObject {
     private final By startTimeSelector = By.xpath("//input[contains(@name,'startDate')]");
     private final By endTimeSelector = By.xpath("//input[contains(@name,'endDate')]");
     private final By previousMonthButton = By.xpath("//div[@class='pmu-prev pmu-button']");
+    private final By nextMonthButton = By.xpath("//div[@class='pmu-next pmu-button']");
     private final By selectedMonth = By.xpath("//div[@class='pmu-month pmu-button']");
     private final By selectedDay = By.xpath("//div[@class='pmu-days']/div[@class='pmu-button'][11]");
     private final By dateFilterButton = By.xpath("//div[contains(@class,'go-button')]");
@@ -81,7 +82,7 @@ public class ActivityPage extends AbstractPageObject {
     public String getNewNote() {
         // Waits for the load more button to appear at the bottom of the page.
         waitForLoadingScreen();
-        waitForElementToAppear(notesSection);
+        waitForElement(notesSection);
         return findVisibleElement(notesSection).getText();
     }
 
@@ -521,7 +522,7 @@ public class ActivityPage extends AbstractPageObject {
 
     public Calendar filterDate(Calendar calendar) {
         calendar.selectStartDate(startTimeSelector, previousMonthButton, selectedMonth, selectedDay);
-        calendar.selectEndDate(endTimeSelector, previousMonthButton, selectedMonth, selectedDay);
+        calendar.selectEndDate(endTimeSelector, nextMonthButton, selectedMonth, selectedDay);
         calendar.filter(dateFilterButton);
         pause(500L);
         // helps keep track of which days were selected
