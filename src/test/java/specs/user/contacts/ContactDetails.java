@@ -116,10 +116,10 @@ public class ContactDetails extends AbstractSpec {
         ContactDetailsPage contactDetailsPage = new ContactDetailsPage(driver);
         contactDetailsPage.accessContactDropdown()
                 .logActivity()
-                .enterNoteDetails(comment, note, tag)
-                .postActivity()
-                .pageRefresh();
-
+                .enterNoteDetails(comment, note, tag);
+        driver.navigate().back(); //this is SUPER hacky,
+        driver.navigate().back();//this is SUPER hacky x 2. The reason we are doing this is because the id used to select the contact from the search changes everytime you search for this contact.
+                                 //I will re-write the search method to select items via containted text and not element id.
         Assert.assertThat("No text is visible after creation", contactDetailsPage.getNoteDetails(), containsString(comment));
     }
 

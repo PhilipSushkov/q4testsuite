@@ -6,6 +6,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageobjects.Page;
+import pageobjects.user.activityPage.LogActivityPage;
 import pageobjects.user.advancedSearchPage.AdvancedSearchPage;
 import pageobjects.user.institutionPage.InstitutionPage;
 import pageobjects.user.logActivityModal.LogActivityModal;
@@ -167,10 +168,10 @@ public class ContactDetailsPage extends Page {
         return this;
     }
 
-    public LogActivityModal logActivity() {
+    public LogActivityPage logActivity() {
         findElement(logActivityOption).click();
         
-        return new LogActivityModal(getDriver());
+        return new LogActivityPage(driver);
     }
 
     public String getNoteDetails() {
