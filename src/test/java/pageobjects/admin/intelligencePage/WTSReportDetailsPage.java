@@ -81,7 +81,7 @@ public class WTSReportDetailsPage extends AbstractPageObject {
         // Method to get today's date
         Calendar cal = Calendar.getInstance();
         // This ensures that if today is friday but it hasn't passed 5:30pm yet, it still takes last friday's closing price.
-        if ((cal.get(Calendar.HOUR) < 5) && (cal.get(Calendar.MINUTE) < 30) && (cal.get(Calendar.DAY_OF_WEEK) == cal.get(Calendar.FRIDAY)) && (cal.get(Calendar.AM_PM) == Calendar.AM)){
+        if (((cal.get(Calendar.HOUR) < 17) || (cal.get(Calendar.HOUR) == 17) && (cal.get(Calendar.MINUTE) < 30)) && (cal.get(Calendar.DAY_OF_WEEK) == Calendar.FRIDAY)){
             cal.add(Calendar.DATE, -7);
         }
         else {
