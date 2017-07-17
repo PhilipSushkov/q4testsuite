@@ -34,7 +34,7 @@ public class CreateBriefingBook extends AbstractSpec {
         try {
             BriefingBookList briefingBookList = new BriefingBookDetailsPage(driver).accessSideNavFromPage().selectBriefingBookFromSideNav();
             briefingBookList.searchFor(keyword);
-            briefingBookList.deleteAllBriefingBooks(keyword);
+            briefingBookList.deleteAllBriefingBooks();
         }
         catch(Exception e) {
 
