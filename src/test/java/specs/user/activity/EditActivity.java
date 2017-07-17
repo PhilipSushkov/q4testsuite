@@ -29,6 +29,7 @@ public class EditActivity extends AbstractSpec {
             NoteDetailsPage note = new NoteDetailsPage(driver);
             ActivityPage activity = note.accessSideNavFromPage().selectActivityPageFromSideNav();
             activity.deleteAllNotes(keyword);
+            activity.waitForLoadingScreen();
         }
         catch(Exception e){
             //I don't want tests to fail because the clean up failed
