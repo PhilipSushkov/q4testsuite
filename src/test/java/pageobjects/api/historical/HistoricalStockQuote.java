@@ -318,6 +318,16 @@ public class HistoricalStockQuote {
         // margin of error between the 2 stock prices
         result = (Math.abs(QuandlClosePrice - Q4Price) < 0.01);
 
+        // accounting for case of 0 days
+        if (Q4Price == 0.0) {
+            zeroDataList.add("0 value on " + Q4Date + " while Quandl's price is " + QuandlClosePrice);
+        }
+
+        // accounting for generally inaccurate days
+        if (Q4Price != 0.0) {
+            inaccurateDataList.add("Inaccurate: on " + Q4Date + " Q4 price is: " + Q4Price + " while Quandl's price is " + QuandlClosePrice);
+        }
+
         if (!result) {
             // this stock was found to have at least one error
             individualstockresult = false;
