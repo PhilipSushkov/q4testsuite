@@ -35,9 +35,19 @@ public class CSMAccess extends AdminAbstractSpec {
         String editedCompanyName = "Harmonic, Inc. ";
         Date today = new Date();
         CompanyList companyList = new CompanyList(driver).navigateToCompanyPage();
-        CompanyDetailsPage companyDetails = companyList.searchForCompany("Harmonic").selectFirstCompanyInList();
+        CompanyDetailsPage companyDetails = companyList.searchForCompany(editedCompanyName).selectFirstCompanyInList();
         companyDetails.editCompanyName(editedCompanyName+ today);
        Assert.assertTrue("Company name not edited",companyDetails.getCompanyName().contains(editedCompanyName+today));
+    }
+
+    @Test
+    public void canAddPeerToACompany(){
+        String editedCompanyName = "Harmonic, Inc. ";
+        Date today = new Date();
+        CompanyList companyList = new CompanyList(driver).navigateToCompanyPage();
+        CompanyDetailsPage companyDetails = companyList.searchForCompany(editedCompanyName).selectFirstCompanyInList();
+        Assert.assertTrue("CSM cannot accesss peer table for viewing",companyDetails.canClickPeerTab());
+
     }
 
 }
