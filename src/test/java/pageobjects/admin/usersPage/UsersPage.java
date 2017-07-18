@@ -69,4 +69,16 @@ public class UsersPage extends AbstractPageObject {
         return new UserRoleDetails(driver);
     }
 
+    public UserRoleDetails selectUser(String userEmail){
+        ArrayList<WebElement> users = getUsers();
+        for(int i=0;i<users.size();i++){
+            if(users.get(i).getText().contains(userEmail)){
+                users.get(i).click();
+                waitForLoadingScreen();
+                return new UserRoleDetails(driver);
+            }
+        }
+        return null;
+    }
+
 }
