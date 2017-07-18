@@ -49,6 +49,16 @@ public class CompanyDetailsPage extends CompanyList {
         super(driver);
     }
 
+    public boolean canClickPeerTab(){
+        waitForLoadingScreen();
+       try {
+           wait.until(ExpectedConditions.elementToBeClickable(addButton));
+           return true;
+       }
+       catch(Exception e){
+           return false;
+        }
+    }
     public CompanyDetailsPage addPeer(String company) {
         waitForLoadingScreen();
         wait.until(ExpectedConditions.elementToBeClickable(addButton));
