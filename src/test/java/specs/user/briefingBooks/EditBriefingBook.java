@@ -40,7 +40,7 @@ public class EditBriefingBook extends AbstractSpec {
         try {
             BriefingBookList briefingBookList = new BriefingBookDetailsPage(driver).accessSideNavFromPage().selectBriefingBookFromSideNav();
             briefingBookList.searchFor(keyword);
-            briefingBookList.deleteAllBriefingBooks();
+            briefingBookList.deleteAllBriefingBooks(nightlyBook);
         }
         catch(Exception e) {
 

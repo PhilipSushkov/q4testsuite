@@ -5,7 +5,6 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import pageobjects.Page;
 import pageobjects.user.briefingBooks.BriefingBookColumnType;
 import pageobjects.user.briefingBooks.BriefingBookDetailsPage;
 import pageobjects.user.briefingBooks.BriefingBookList;
@@ -34,12 +33,13 @@ public class CreateBriefingBook extends AbstractSpec {
         try {
             BriefingBookList briefingBookList = new BriefingBookDetailsPage(driver).accessSideNavFromPage().selectBriefingBookFromSideNav();
             briefingBookList.searchFor(keyword);
-            briefingBookList.deleteAllBriefingBooks();
+            briefingBookList.deleteAllBriefingBooks(briefingBookTitle);
         }
         catch(Exception e) {
 
         }
     }
+
     @Test
     public void canCreateNewBriefingBook() {
         String briefingBookName = briefingBookTitle + RandomStringUtils.randomAlphanumeric(6);
