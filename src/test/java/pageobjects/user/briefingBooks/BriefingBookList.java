@@ -15,6 +15,7 @@ import java.util.List;
 public class BriefingBookList extends AbstractPageObject {
 
     private final By reportList = By.xpath("//*[contains(@class,'briefing-book-list')]//div[contains(@class,'x-dataview-container')]");
+    private final By emptyList =By.xpath("//div[contains(@class,'briefing-book-list')]//div[contains(@class,'x-dataview-emptytext')]");
     private final By createBookButton = By.cssSelector(".btn.x-button.x-unsized:not(.btn-block)");
     private final By newBriefingBook = By.cssSelector(".briefing-book-item:nth-child(1)");
     private final By checkbox = By.className("checkmark");
@@ -137,7 +138,7 @@ public class BriefingBookList extends AbstractPageObject {
 
     public boolean briefingBooksAreDisplayed(){
         waitForLoadingScreen();
-        return !findElement(reportList).getText().contains("No briefing books available.");
+        return !findElement(emptyList).getText().contains("No briefing books available.");
     }
 
     public boolean allTitlesContain(String term){
