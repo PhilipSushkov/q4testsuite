@@ -115,7 +115,7 @@ public class BriefingBookList extends AbstractPageObject {
         return this;
     }
 
-    public BriefingBookList deleteAllBriefingBooks(String title){
+    public BriefingBookList deleteAllBriefingBooks(){
         waitForLoadingScreen();
         if(!findVisibleElement(bulkCheckbox).getAttribute("class").contains("x-item-disabled")){
         findVisibleElement(bulkCheckbox).click();
