@@ -1011,8 +1011,9 @@ public class SecurityOwnershipPage extends AbstractPageObject implements DateDro
 
 
         for(int i=0; i<charts.size(); i++){
-            actions.clickAndHold(charts.get(i)).perform(); //clickAndHold needed so that cursor is still there when getAttribute is run
-            pause(2000);
+            //actions.clickAndHold(charts.get(i)).perform(); //clickAndHold needed so that cursor is still there when getAttribute is run
+            //actions.moveToElement(charts.get(i)).click().perform();
+            actions.moveToElement(charts.get(i)).click(charts.get(i)).perform();
             List<WebElement> hovertexts = findVisibleElements(trendAnalysisHoverText);
             if(hovertexts.size()==0){
                 canHover=false;
