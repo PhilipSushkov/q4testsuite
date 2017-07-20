@@ -55,7 +55,7 @@ public class CSMAccess extends AdminAbstractSpec {
         Date today = new Date();
         CompanyList companyList = new CompanyList(driver).navigateToCompanyPage();
         CompanyDetailsPage companyDetails = companyList.searchForCompany(editedCompanyName).selectFirstCompanyInList();
-        Assert.assertTrue("CSM cannot accesss mailing list viewing",companyDetails.canClickEmailTab());
+        Assert.assertTrue("CSM cannot access mailing list viewing",companyDetails.canClickEmailTab());
     }
 
     @Test
@@ -66,7 +66,18 @@ public class CSMAccess extends AdminAbstractSpec {
         CompanyList companyList = new CompanyList(driver).navigateToCompanyPage();
         CompanyDetailsPage companyDetails = companyList.searchForCompany(editedCompanyName).selectFirstCompanyInList();
         companyDetails.selectTickerTab().addTicker(ticker);
+        Assert.assertTrue("Ticker is not present after being added",companyDetails.isTickerPresent(ticker));
         companyDetails.removeTicker();
+    }
+
+    @Test
+    public void q4TeamTabclick(){
+        String editedCompanyName = "Harmonic, Inc. ";
+        String ticker = "SYY";
+        Date today = new Date();
+        CompanyList companyList = new CompanyList(driver).navigateToCompanyPage();
+        CompanyDetailsPage companyDetails = companyList.searchForCompany(editedCompanyName).selectFirstCompanyInList();
+        companyDetails.clickQ4TeamTab().clickAddButton().addTeamMember("QA Test");
     }
 
 }
