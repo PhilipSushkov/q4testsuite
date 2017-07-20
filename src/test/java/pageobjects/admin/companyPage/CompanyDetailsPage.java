@@ -15,6 +15,7 @@ public class CompanyDetailsPage extends CompanyList {
     private final By companySearchField = By.cssSelector(".modal .ui-dialog .ui-dialog-content .ui-autocomplete.auto-complete-search .ui-inputtext");
     private final By saveButton = By.xpath("/html/body/q4-app/div/div/q4-organization-details/q4-organization-peers/p-dialog[1]/div/div[2]/q4-peer-create/div/button[2]");
     private final By companyNameSaveButton = By.xpath("/html/body/q4-app/div/div/q4-organization-details/p-dialog[2]/div/div[2]/q4-organization-details-edit/div/button");
+    private final By mailingTab = By.xpath("//div[contains(@class,'tab')][span[contains(text(),'Mailing List')]]");
     private final By peerTab = By.xpath("//div[contains(@class,'tab')][span[contains(text(),'Peers')]]");
     private final By searchResult = By.cssSelector("body > q4-app > div > div > q4-organization-details > q4-organization-peers > p-dialog:nth-child(3) > div > div.ui-dialog-content.ui-widget-content > q4-peer-create > p-autocomplete > span > div");
 
@@ -53,10 +54,23 @@ public class CompanyDetailsPage extends CompanyList {
         waitForLoadingScreen();
        try {
            wait.until(ExpectedConditions.elementToBeClickable(peerTab));
+           findElement(peerTab).click();
            return true;
        }
        catch(Exception e){
            return false;
+        }
+    }
+
+    public boolean canClickEmailTab(){
+        waitForLoadingScreen();
+        try {
+            wait.until(ExpectedConditions.elementToBeClickable(mailingTab));
+            findElement(mailingTab).click();
+            return true;
+        }
+        catch(Exception e){
+            return false;
         }
     }
     public CompanyDetailsPage addPeer(String company) {
@@ -177,6 +191,8 @@ public class CompanyDetailsPage extends CompanyList {
         waitForLoadingScreen();
         return this;
     }
+
+
 
 
 }
