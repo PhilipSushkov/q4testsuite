@@ -44,8 +44,8 @@ public class LogActivity extends AbstractSpec {
         String note = "This is a test note with $" + RandomStringUtils.randomAlphanumeric(6);
         String tag = "TestTag" + RandomStringUtils.randomAlphanumeric(6);
 
-        ActivityPage activityPage = new ActivityPage(driver);
         NoteDetailsPage noteDetailsPage = new NoteDetailsPage(driver);
+
         new ActivityPage(driver).logNote()
                 .enterNoteDetails(comment, note, tag);
 
@@ -60,7 +60,7 @@ public class LogActivity extends AbstractSpec {
         String tag = "TestTag" + RandomStringUtils.randomAlphanumeric(6);
 
         NoteDetailsPage noteDetailsPage = new NoteDetailsPage(driver);
-        ActivityPage activityPage = new ActivityPage(driver);
+
         new ActivityPage(driver).logNote()
                 .enterNoteDetails(comment, note, tag);
 

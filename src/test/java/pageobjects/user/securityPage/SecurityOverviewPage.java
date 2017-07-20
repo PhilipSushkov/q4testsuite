@@ -2,6 +2,7 @@ package pageobjects.user.securityPage;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageobjects.user.activismPage.ActivismPage;
 import pageobjects.user.estimatesPage.SecurityEstimatesPage;
 import pageobjects.user.ownershipPage.SecurityOwnershipPage;
@@ -652,6 +653,7 @@ public class SecurityOverviewPage extends WatchlistPage {
     }
 
     public SentimentPage navigateToSentimentPage() {
+        wait.until(ExpectedConditions.elementToBeClickable(dropdownMenu));
         findElement(dropdownMenu).click();
         pause(500L);
         findElement(sentimentBtn).click();
@@ -661,6 +663,7 @@ public class SecurityOverviewPage extends WatchlistPage {
     }
 
     public VolatilityPage navigateToVolatilityPage() {
+        wait.until(ExpectedConditions.elementToBeClickable(dropdownMenu));
         findElement(dropdownMenu).click();
         pause(500L);
         findElement(volatilityBtn).click();
@@ -670,6 +673,7 @@ public class SecurityOverviewPage extends WatchlistPage {
     }
 
     public ActivismPage navigateToActivismPage() {
+        wait.until(ExpectedConditions.elementToBeClickable(dropdownMenu));
         findElement(dropdownMenu).click();
         pause(500L);
         findElement(activismBtn).click();

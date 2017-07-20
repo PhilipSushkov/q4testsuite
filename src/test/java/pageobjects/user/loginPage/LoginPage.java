@@ -39,8 +39,9 @@ public class LoginPage extends Page {
     }
 
     public Dashboard loginUser() {
-        waitForLoadingScreen();
-        wait.until(ExpectedConditions.elementToBeClickable(emailField));
+        //waitForLoadingScreen();
+        //wait.until(ExpectedConditions.elementToBeClickable(emailField));
+        waitForElementToAppear(emailField);
         findElement(emailField).clear();
         findElement(passwordField).clear();
         findElement(emailField).sendKeys("patrickp@q4websystems.com");
@@ -53,8 +54,9 @@ public class LoginPage extends Page {
     }
 
     public Dashboard customLoginUser(String email, String password) {
-        waitForLoadingScreen();
-        waitForElementToAppear(emailField);
+        //waitForLoadingScreen();
+        wait.until(ExpectedConditions.elementToBeClickable(emailField));
+        //waitForElementToAppear(emailField);
         findElement(emailField).clear();
         findElement(passwordField).clear();
         findElement(emailField).sendKeys(email);
