@@ -3,8 +3,12 @@ package pageobjects.admin.companyPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import pageobjects.Page;
 import specs.admin.companies.CompanyDetails;
+
+import java.util.ArrayList;
 
 /**
  * Created by patrickp on 2016-09-20.
@@ -18,6 +22,7 @@ public class CompanyDetailsPage extends CompanyList {
     private final By mailingTab = By.xpath("//div[contains(@class,'tab')][span[contains(text(),'Mailing List')]]");
     private final By peerTab = By.xpath("//div[contains(@class,'tab')][span[contains(text(),'Peers')]]");
     private final By searchResult = By.cssSelector("body > q4-app > div > div > q4-organization-details > q4-organization-peers > p-dialog:nth-child(3) > div > div.ui-dialog-content.ui-widget-content > q4-peer-create > p-autocomplete > span > div");
+    private final By q4TeamTab = By.xpath("//div[contains(@class,'tab')][span[contains(text(),'Q4 Team')]]");
 
     private final By editCompanyButton = By.xpath("/html/body/q4-app/div/div/q4-organization-details/header/div/div[2]/button[1]");
     private final By companyNameField = By.xpath("//p-dialog[contains(@header,'Edit Company Name')]//input[contains(@placeholder,'Name')]");
@@ -33,7 +38,7 @@ public class CompanyDetailsPage extends CompanyList {
     private final By removeTickerIcon = By.cssSelector(".q4-list .action-buttons .remove");
     private final By confirmButton = By.cssSelector("body > q4-app > div > div > q4-organization-details > q4-organization-tickers > p-datatable > div > div > table > tbody > tr:nth-child(1) > td.action-buttons > span > ng-component > p-dialog > div > div.ui-dialog-content.ui-widget-content > div > button.button.button-red");
     private final By modalCancelButton = By.cssSelector("body > q4-app > div > div > q4-organization-details > q4-organization-tickers > p-dialog:nth-child(3) > div > div.ui-dialog-content.ui-widget-content > q4-ticker-create > div > button.button.button-no-background");
-
+    private final By tickerList = By.xpath("//tbody[contains(@class,'ui-datatable-data')]");
     // Mailing List page
     private final By morningCoffeeReportRow = By.xpath("//td[span[contains(text(),'Morning Coffee Report')]]");
 
@@ -42,6 +47,12 @@ public class CompanyDetailsPage extends CompanyList {
     private final By closeEditMailinglList = By.xpath("//q4-organization-mailing-list//a[@role='button']");
     private final By saveMailingList = By.xpath("//q4-organization-mailing-list//div[@class='buttons']/button[text()='Save']");
     private final By cancelMailingList =By.xpath("//q4-organization-mailing-list//div[@class='buttons']/button[text()='Cancel']");
+
+
+    //Q4 Team tab
+    private final By addTeamMemberInput = By.xpath("//q4-team-member-add//input");
+    private final By teamMemberSearchResult = By.xpath("//div[contains(@class,'search-result-item')]");
+    private final By dismissTeamMemberAddModal = By.xpath("//div[contains(@class,'ui-dialog')]//div[span[contains(text(),'Q4 Team')]]//a[contains(@role,'button')]");
 
 
 
@@ -54,7 +65,6 @@ public class CompanyDetailsPage extends CompanyList {
         waitForLoadingScreen();
        try {
            wait.until(ExpectedConditions.elementToBeClickable(peerTab));
-           findElement(peerTab).click();
            return true;
        }
        catch(Exception e){
@@ -66,13 +76,32 @@ public class CompanyDetailsPage extends CompanyList {
         waitForLoadingScreen();
         try {
             wait.until(ExpectedConditions.elementToBeClickable(mailingTab));
-            findElement(mailingTab).click();
             return true;
         }
         catch(Exception e){
             return false;
         }
     }
+
+    public boolean canClickQ4Tab(){
+        waitForLoadingScreen();
+        try {
+            wait.until(ExpectedConditions.elementToBeClickable(q4TeamTab));
+            return true;
+        }
+        catch(Exception e){
+            return false;
+        }
+    }
+
+
+    public CompanyDetailsPage clickQ4TeamTab(){
+        if(canClickQ4Tab()) {
+            findVisibleElement(q4TeamTab).click();
+        }
+        return this;
+    }
+
     public CompanyDetailsPage addPeer(String company) {
         waitForLoadingScreen();
         wait.until(ExpectedConditions.elementToBeClickable(addButton));
@@ -145,6 +174,11 @@ public class CompanyDetailsPage extends CompanyList {
 
         return this;
     }
+    public CompanyDetailsPage clickAddButton() {
+        findElement(addButton).click();
+
+        return this;
+    }
 
     public CompanyDetailsPage removeTicker() {
         findElement(removeTickerIcon).click();
@@ -161,6 +195,15 @@ public class CompanyDetailsPage extends CompanyList {
         return this;
     }
 
+    public boolean isTickerPresent(String ticker){
+        ArrayList<WebElement> tickers = new ArrayList<WebElement>(findVisibleElements(tickerList));
+        for(WebElement currentTicker: tickers){
+            if(currentTicker.getText().contains(ticker)){
+                return true;
+            }
+        }
+        return false;
+    }
 
     //Email List Methods
 
@@ -192,6 +235,29 @@ public class CompanyDetailsPage extends CompanyList {
         return this;
     }
 
+
+
+    //Q4 Team Tab
+    public CompanyDetailsPage addTeamMember(String name){
+        waitForElementToAppear(addTeamMemberInput);
+        findVisibleElement(addTeamMemberInput).sendKeys(name);
+        selectTeamMemberFromDropDown(name);
+
+        return this;
+    }
+
+    private CompanyDetailsPage selectTeamMemberFromDropDown(String name){
+        wait.until(ExpectedConditions.elementToBeClickable(teamMemberSearchResult));
+        ArrayList<WebElement> members = new ArrayList<WebElement>(findVisibleElements(teamMemberSearchResult));
+        for(WebElement member: members){
+            if(member.getText().contains(name)){
+                member.click();
+            }
+        }
+        wait.until(ExpectedConditions.elementToBeClickable(dismissTeamMemberAddModal));
+        findVisibleElement(dismissTeamMemberAddModal).click();
+        return this;
+    }
 
 
 
