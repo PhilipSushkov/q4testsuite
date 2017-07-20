@@ -48,7 +48,7 @@ public class AbstractPageObject implements HeaderPage{
 
     // Admin page elements
     private final By adminPageTitle = By.cssSelector(".page-header .page-title .details h2");
-    private final By loading = By.className("x-loading-spinner");
+    private final By loading = By.className("outer-spinner-container");
     private final By companyPage = By.cssSelector("body > q4-app > div > q4-navbar > nav > div > ul > li:nth-child(2) > a > i");
     private final By profilesPage = By.cssSelector("body > q4-app > div > q4-navbar > nav > div > ul > li:nth-child(3) > a > i");
     private final By intelligencePage = By.cssSelector("body > q4-app > div > q4-navbar > nav > div > ul > li:nth-child(4) > a > i");
@@ -73,7 +73,7 @@ public class AbstractPageObject implements HeaderPage{
 
     public AbstractPageObject(WebDriver driver) {
         this.driver = driver;
-        this.wait = new WebDriverWait(driver, 10L, 500L);
+        this.wait = new WebDriverWait(driver, 10L);
     }
 
     @Override
@@ -110,18 +110,16 @@ public class AbstractPageObject implements HeaderPage{
 
     //use from dashboard
     public SideNavBar accessSideNav() {
-        //waitForLoadingScreen();
-        //waitForElement(sideNavIcon);
-        wait.until(ExpectedConditions.elementToBeClickable(sideNavIcon));
-        retryClick(sideNavIcon);
+        waitForLoadingScreen();
+        waitForElement(sideNavIcon);
+        findElement(sideNavIcon).click();
 
         return new SideNavBar(getDriver());
     }
 
     //use from other pages
     public SideNavBar accessSideNavFromPage() {
-        //waitForLoadingScreen();
-        wait.until(ExpectedConditions.elementToBeClickable(hamburgerIcon));
+        waitForLoadingScreen();
         waitForElement(hamburgerIcon);
         findElement(hamburgerIcon).click();
         return new SideNavBar(getDriver());
@@ -194,13 +192,7 @@ public class AbstractPageObject implements HeaderPage{
     }
 
     public void waitForLoadingScreen() {
-        WebDriverWait spinnerWait = new WebDriverWait(driver, 3);
-        try {
-            spinnerWait.until(ExpectedConditions.presenceOfElementLocated(loading));
-            wait.until(ExpectedConditions.invisibilityOfAllElements(findElements(loading)));
-        } catch (Exception e) {
-            // No loading spinners; do nothing
-        }
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(loading));
     }
 
     //Can't leave this for JUST contacts

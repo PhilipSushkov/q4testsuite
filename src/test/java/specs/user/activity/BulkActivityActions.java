@@ -27,7 +27,7 @@ public class BulkActivityActions extends AbstractSpec {
         String comment, note, tag;
 
         ActivityPage activityPage = new ActivityPage(driver);
-
+        
         try {
 
             for (int i=0; i<5; i++) {

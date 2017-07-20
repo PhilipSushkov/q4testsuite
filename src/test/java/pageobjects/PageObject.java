@@ -141,7 +141,7 @@ public interface PageObject {
                 findElement(by).click();
                 result = true;
                 break;
-            } catch (Exception e) {
+            } catch (StaleElementReferenceException e) {
                 // Retry if Stale Element Reference Exception occurs
             }
         }
@@ -156,7 +156,7 @@ public interface PageObject {
                 element.click();
                 result = true;
                 break;
-            } catch (Exception e) {
+            } catch (StaleElementReferenceException e) {
                 // Retry if Stale Element Reference Exception occurs
             }
         }
