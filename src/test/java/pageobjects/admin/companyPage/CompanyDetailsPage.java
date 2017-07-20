@@ -14,7 +14,7 @@ public class CompanyDetailsPage extends CompanyList {
     private final By companySearchField = By.cssSelector(".modal .ui-dialog .ui-dialog-content .ui-autocomplete.auto-complete-search .ui-inputtext");
     private final By saveButton = By.xpath("/html/body/q4-app/div/div/q4-organization-details/q4-organization-peers/p-dialog[1]/div/div[2]/q4-peer-create/div/button[2]");
     private final By companyNameSaveButton = By.xpath("/html/body/q4-app/div/div/q4-organization-details/p-dialog[2]/div/div[2]/q4-organization-details-edit/div/button");
-
+    private final By peerTab = By.xpath("//div[contains(@class,'tab')][span[contains(text(),'Peers')]]");
     private final By searchResult = By.cssSelector("body > q4-app > div > div > q4-organization-details > q4-organization-peers > p-dialog:nth-child(3) > div > div.ui-dialog-content.ui-widget-content > q4-peer-create > p-autocomplete > span > div");
 
     private final By editCompanyButton = By.xpath("/html/body/q4-app/div/div/q4-organization-details/header/div/div[2]/button[1]");
@@ -48,6 +48,16 @@ public class CompanyDetailsPage extends CompanyList {
         super(driver);
     }
 
+    public boolean canClickPeerTab(){
+        waitForLoadingScreen();
+       try {
+           wait.until(ExpectedConditions.elementToBeClickable(peerTab));
+           return true;
+       }
+       catch(Exception e){
+           return false;
+        }
+    }
     public CompanyDetailsPage addPeer(String company) {
         waitForLoadingScreen();
         wait.until(ExpectedConditions.elementToBeClickable(addButton));

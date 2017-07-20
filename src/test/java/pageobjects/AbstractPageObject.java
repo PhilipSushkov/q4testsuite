@@ -56,10 +56,10 @@ public class AbstractPageObject implements HeaderPage{
     private final By morningCoffeePage = By.partialLinkText("Morning Coffee");
     private final By reportHeader = By.cssSelector(".page-header .page-title .details");
     private final By usersPage = By.cssSelector("body > q4-app > div > q4-navbar > nav > div > ul > li:nth-child(6) > a > i");
-    private final By profileIcon = By.xpath("//div[contains(@class,'x-docked-right') and contains(concat(' ',@class,' '), 'profile') and contains(@class,'x-paint-monitored')][.//div[contains(@class,'avatar')]]");
+    private final By profileIcon = By.xpath("//div[contains(@class,'profile dropdown')]");
     private final By feedback = By.xpath("//div[@class='profile-menu-item']/span[contains(text(),'Leave Feedback')]");
     private final By password = By.xpath("//div[@class='profile-menu-item']/span[contains(text(),'Change Password')]");
-    private final By logout = By.xpath("//div[@class='profile-menu-item']/span[contains(text(),'Logout')]");
+    private final By logout = By.xpath("//a[span[contains(text(),'Logout')]]");
     private final By confirmLogout = By.xpath("//div[contains(@class,'x-button-action') and ./span[contains(text(),'Yes')]]");
     private final By productDropDown = By.xpath("//p-dropdown");
     private final By desktopSelect = By.xpath("//p-dropdown//span[contains(text(),'Desktop')]");
@@ -640,8 +640,6 @@ public class AbstractPageObject implements HeaderPage{
         ArrayList<WebElement> testing = new ArrayList<>(findElements(profileIcon));
         findElement(profileIcon).click();
         findElement(logout).click();
-        wait.until(ExpectedConditions.visibilityOfElementLocated(confirmLogout));
-        findElement(confirmLogout).click();
         waitForLoadingScreen();
         return new LoginPage(getDriver());
     }

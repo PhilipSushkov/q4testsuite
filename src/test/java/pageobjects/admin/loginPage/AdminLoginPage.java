@@ -16,6 +16,7 @@ public class AdminLoginPage extends AbstractPageObject {
     private final By enterPassword = By.name("password");
     private final By submit = By.cssSelector("#passwordNext ");
     private final By nextButton = By.cssSelector("#identifierNext");
+    private final By useAnotherAccount = By.id("identifierLink");
 
     public AdminLoginPage(WebDriver driver) {
         super(driver);
@@ -38,6 +39,13 @@ public class AdminLoginPage extends AbstractPageObject {
         }
 
         // Perform the actions on new window
+
+      try{
+            findElement(enterEmail);
+      }
+      catch(Exception e){
+            findElement(useAnotherAccount).click();
+      }
         findElement(enterEmail).sendKeys(email);
         findElement(nextButton).click();
         waitForElementToAppear(enterPassword);
