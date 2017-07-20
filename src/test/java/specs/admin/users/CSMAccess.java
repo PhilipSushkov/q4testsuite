@@ -71,7 +71,7 @@ public class CSMAccess extends AdminAbstractSpec {
     }
 
     @Test
-    public void q4TeamTabClick(){
+    public void canEditQ4Team(){
         String editedCompanyName = "Harmonic, Inc. ";
         String ticker = "SYY";
         String name = "QA Test";
