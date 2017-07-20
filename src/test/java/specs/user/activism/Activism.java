@@ -8,7 +8,7 @@ import pageobjects.user.loginPage.LoginPage;
 import specs.AbstractSpec;
 
 /**
- * Created by kelvint on 11/2/16.
+ * Created by kelvint on 11/2/16..
  */
 public class Activism extends AbstractSpec {
 

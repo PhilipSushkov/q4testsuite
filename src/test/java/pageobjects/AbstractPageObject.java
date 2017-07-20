@@ -111,6 +111,7 @@ public class AbstractPageObject implements HeaderPage{
     //use from dashboard
     public SideNavBar accessSideNav() {
         waitForLoadingScreen();
+        waitForElement(sideNavIcon);
         findElement(sideNavIcon).click();
 
         return new SideNavBar(getDriver());
@@ -119,6 +120,7 @@ public class AbstractPageObject implements HeaderPage{
     //use from other pages
     public SideNavBar accessSideNavFromPage() {
         waitForLoadingScreen();
+        waitForElement(hamburgerIcon);
         findElement(hamburgerIcon).click();
         return new SideNavBar(getDriver());
     }
@@ -144,6 +146,7 @@ public class AbstractPageObject implements HeaderPage{
     public LogActivityModal pageRefresh() {
         pause(2000L);
         driver.navigate().refresh();
+        waitForLoadingScreen();
 
         return new LogActivityModal(getDriver());
     }
@@ -192,11 +195,136 @@ public class AbstractPageObject implements HeaderPage{
         wait.until(ExpectedConditions.invisibilityOfElementLocated(loading));
     }
 
+    //Can't leave this for JUST contacts
     public boolean elementsAreAlphaUpSorted(List<WebElement> elements){
+        //adding so to ignore the Multiple
+        //Must account for - contacts too
+        By multipleFirstResult = By.xpath("//div//h2//..//div[1]");
+        By test = By.xpath("//div[contains(@class,'footer-content')]");
+
         boolean sortedWell = true;
         for (int i=0; i<elements.size()-1; i++){
-            if (elements.get(i+1).getText().compareTo/*IgnoreCase*/(elements.get(i).getText()) < 0){
-                System.out.println("MIS-SORT: Ascending: '"+elements.get(i+1).getText()+"' should not be after '"+elements.get(i).getText()+"'");
+
+            String frontElement = elements.get(i+1).getText();
+            String backElement = elements.get(i).getText();
+
+            if(frontElement.contains("Multiple")){
+                findElement(test);
+                (elements.get(i+1)).click();
+                waitForElementToAppear(multipleFirstResult);
+                frontElement = findElement(multipleFirstResult).getText();
+
+                // Sometimes multipleFirstResult returns nothing so we run a loop to try again 10 times until text is returned.
+                for (int k = 0; k < 9; k++)
+                {
+                    if (frontElement.equalsIgnoreCase("")){
+                        (elements.get(i+1)).click();
+                        waitForElementToAppear(multipleFirstResult);
+                        frontElement = findElement(multipleFirstResult).getText();
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+                clickCoordinate(searchBar,10,10);
+                pause(500);
+            }
+
+            if(backElement.contains("Multiple")){
+                findElement(test);
+                (elements.get(i)).click();
+                waitForElementToAppear(multipleFirstResult);
+                backElement = findElement(multipleFirstResult).getText();
+
+                // Sometimes multipleFirstResult returns nothing so we run a loop to try again 10 times until text is returned.
+                for (int k = 0; k < 9; k++)
+                {
+                    if (backElement.equalsIgnoreCase("")){
+                        (elements.get(i)).click();
+                        waitForElementToAppear(multipleFirstResult);
+                        backElement = findElement(multipleFirstResult).getText();
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+
+                clickCoordinate(searchBar,10,10);
+                pause(500);
+            }
+
+            if (frontElement.compareTo(backElement) < 0){
+                System.out.println("MIS-SORT: Ascending: '"+frontElement+"' should not be after '"+backElement+"'");
+                sortedWell = false;
+            }
+        }
+        return sortedWell;
+    }
+
+    public boolean elementsAreAlphaUpSortedMorningCoffee(List<WebElement> elements){
+        //adding so to ignore the Multiple
+        //Must account for - contacts too
+        By multipleFirstResult = By.xpath("//div//h2//..//div[1]");
+        By test = By.xpath("//div[contains(@class,'footer-content')]");
+
+
+        boolean sortedWell = true;
+        for (int i=0; i<elements.size()-1; i++){
+
+            String frontElement = elements.get(i+1).getText();
+            String backElement = elements.get(i).getText();
+
+            if(frontElement.contains("Multiple")){
+                findElement(test);
+                (elements.get(i+1)).click();
+                waitForElementToAppear(multipleFirstResult);
+                frontElement = findElement(multipleFirstResult).getText();
+
+                // Sometimes multipleFirstResult returns nothing so we run a loop to try again 10 times until text is returned.
+                for (int k = 0; k < 9; k++)
+                {
+                    if (frontElement.equalsIgnoreCase("")){
+                        (elements.get(i+1)).click();
+                        waitForElementToAppear(multipleFirstResult);
+                        frontElement = findElement(multipleFirstResult).getText();
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+                clickCoordinate(searchBar,10,10);
+                pause(500);
+            }
+
+            if(backElement.contains("Multiple")){
+                findElement(test);
+                (elements.get(i)).click();
+                waitForElementToAppear(multipleFirstResult);
+                backElement = findElement(multipleFirstResult).getText();
+
+                // Sometimes multipleFirstResult returns nothing so we run a loop to try again 10 times until text is returned.
+                for (int k = 0; k < 9; k++)
+                {
+                    if (backElement.equalsIgnoreCase("")){
+                        (elements.get(i)).click();
+                        waitForElementToAppear(multipleFirstResult);
+                        backElement = findElement(multipleFirstResult).getText();
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+
+                clickCoordinate(searchBar,10,10);
+                pause(500);
+            }
+
+            if (frontElement.compareTo(backElement) < 0){
+                System.out.println("MIS-SORT: Ascending: '"+frontElement+"' should not be after '"+backElement+"'");
                 sortedWell = false;
             }
         }
@@ -309,14 +437,17 @@ public class AbstractPageObject implements HeaderPage{
         SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yy");
         boolean sortedWell = true;
         for (int i=0; i<elements.size()-1; i++){
-            try {
-                if(dateFormat.parse(elements.get(i+1).getText()).before(dateFormat.parse(elements.get(i).getText()))){
-                    System.out.println("MIS-SORT: Ascending: Date "+elements.get(i+1).getText()+" should not be after "+elements.get(i).getText());
-                    sortedWell = false;
+            System.out.print(elements.get(i).getText());
+            if(!(elements.get(i+1).getText().contains("-") || elements.get(i).getText().contains("-"))) {
+                try {
+                    if (dateFormat.parse(elements.get(i + 1).getText()).before(dateFormat.parse(elements.get(i).getText()))) {
+                        System.out.println("MIS-SORT: Ascending: Date " + elements.get(i + 1).getText() + " should not be after " + elements.get(i).getText());
+                        sortedWell = false;
+                    }
+                } catch (ParseException e) {
+                    System.out.println("Error parsing date: " + elements.get(i + 1).getText());
+                    return false;
                 }
-            }catch (ParseException e){
-                System.out.println("Error parsing date: "+elements.get(i+1).getText());
-                return false;
             }
         }
         return sortedWell;
@@ -326,14 +457,16 @@ public class AbstractPageObject implements HeaderPage{
         SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yy");
         boolean sortedWell = true;
         for (int i=0; i<elements.size()-1; i++){
-            try {
-                if(dateFormat.parse(elements.get(i+1).getText()).after(dateFormat.parse(elements.get(i).getText()))){
-                    System.out.println("MIS-SORT: Descending: Date "+elements.get(i+1).getText()+" should not be after "+elements.get(i).getText());
-                    sortedWell = false;
+            if(!(elements.get(i+1).getText().contains("-") || elements.get(i).getText().contains("-"))) {
+                try {
+                    if (dateFormat.parse(elements.get(i + 1).getText()).after(dateFormat.parse(elements.get(i).getText()))) {
+                        System.out.println("MIS-SORT: Descending: Date " + elements.get(i + 1).getText() + " should not be after " + elements.get(i).getText());
+                        sortedWell = false;
+                    }
+                } catch (ParseException e) {
+                    System.out.println("Error parsing date: " + elements.get(i + 1).getText());
+                    return false;
                 }
-            }catch (ParseException e){
-                System.out.println("Error parsing date: "+elements.get(i+1).getText());
-                return false;
             }
         }
         return sortedWell;

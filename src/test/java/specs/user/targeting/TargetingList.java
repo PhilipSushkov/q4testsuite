@@ -137,18 +137,31 @@ public class TargetingList extends AbstractSpec {
         System.out.println("Targeted contact is: "+targetedContact);
 
         // going to contact page and checking that "Saved Target" icon appears
+        // Possible error - contact was already targeted so clicking "target" actually removes them from the list
         String contactPageURL = new NewSearchPage(driver).goToContact(targetedContact).getURL();
-        Assert.assertTrue("'Saved Target' icon does not appear on contact page.", new ContactDetailsPage(driver).isSavedTarget());
+        Assert.assertTrue("Contact could not be targeted", new ContactDetailsPage(driver).isSavedTarget());
 
         // going to targets list and checking that contact appears
 
-        int targetedContactIndex = new ContactDetailsPage(driver).accessSideNavFromPage().selectTargetingFromSideNav().selectTargetsTab().searchForSearch(targetedContact).findContactIndex(targetedContact);
+        int targetedContactIndex = new ContactDetailsPage(driver)
+                .accessSideNavFromPage()
+                .selectTargetingFromSideNav()
+                .selectTargetsTab()
+                .searchForSearch(targetedContact)
+                .findContactIndex(targetedContact);
         Assert.assertNotEquals("Contact not found in targets list", -1, targetedContactIndex);
 
         // removing the target and checking that the target no longer appears
         new TargetingPage(driver).untargetContact(targetedContactIndex);
         Assert.assertFalse("'Saved Target' icon still appears on contact page.", new TargetingPage(driver).goToContactURL(contactPageURL).isSavedTarget());
-        targetedContactIndex = new ContactDetailsPage(driver).accessSideNavFromPage().selectTargetingFromSideNav().selectTargetsTab().searchForSearch(targetedContact).findContactIndex(targetedContact);
+
+        targetedContactIndex = new ContactDetailsPage(driver)
+                .accessSideNavFromPage()
+                .selectTargetingFromSideNav()
+                .selectTargetsTab()
+                .searchForSearch(targetedContact)
+                .findContactIndex(targetedContact);
+
         Assert.assertEquals("Contact has not been removed from targets list", -1, targetedContactIndex);
     }
 
@@ -157,7 +170,7 @@ public class TargetingList extends AbstractSpec {
         // performing a filterless institution search and verifying sorting
         new TargetingPage(driver).newSearch().blankSearch();
         Assert.assertEquals("Incorrect number of initial results displayed", 20, new NewSearchPage(driver).numResultsDisplayed());
-        Assert.assertTrue("Fixed Issue - DESKTOP-6736 - Initial sorting failed.", new NewSearchPage(driver).resultsCanBeSorted());
+        Assert.assertTrue("KNOWN Issue - DESKTOP-8470 - Initial sorting failed.", new NewSearchPage(driver).resultsCanBeSorted());
         // loop 1 time (can increase if desired): clicking show more and then verifying sorting again
         for (int i=1; i<=1; i++){
             new NewSearchPage(driver).showMoreResults();
@@ -300,15 +313,15 @@ public class TargetingList extends AbstractSpec {
 
     @Test
     public void canSortTargetsList(){
-        Assert.assertTrue("Known Issue - DESKTOP-8189 - 'All' Targets list cannot be sorted.", new TargetingPage(driver).allTargetsCanBeSorted());
-        Assert.assertTrue("Fixed Issue - DESKTOP-6903 - Institutions list cannot be sorted.", new TargetingPage(driver).institutionsCanBeSorted());
+        Assert.assertTrue("'All' Targets list cannot be sorted.", new TargetingPage(driver).allTargetsCanBeSorted());
+        Assert.assertTrue("Institutions list cannot be sorted.", new TargetingPage(driver).institutionsCanBeSorted());
         Assert.assertTrue("Funds list cannot be sorted.", new TargetingPage(driver).fundsCanBeSorted());
         Assert.assertTrue("Contacts list cannot be sorted.", new TargetingPage(driver).contactsCanBeSorted());
     }
 
     @Test
     /* This test requires the presence of a saved search titled "testing updated date - DO NOT REMOVE".
-    *  If this search does not exist or was not created on 11/14/16, the test will fail.*/
+    *  If this search does not exist or was not created on 01/26/17, the test will fail.*/
     public void canEditSearchAndSeeUpdatedDate(){
         String expectedSearchName = "Testing updated date - DO NOT REMOVE";
         String expectedCreatedDate = "01/26/17";

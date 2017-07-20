@@ -77,7 +77,7 @@ public class FilterActivity extends AbstractSpec {
     public void sortActivitiesByTitle(){
         ColumnType title = ColumnType.TITLE;
         ActivityPage activityPage = new ActivityPage(driver).clickColumnHeader(title);
-        Assert.assertTrue("Title not sorted correctly",activityPage.isColumnSorted(title));
+        Assert.assertTrue("Known Issue DESKTOP-8696 Title not sorted correctly",activityPage.isColumnSorted(title));
     }
 
     @Test
@@ -88,6 +88,20 @@ public class FilterActivity extends AbstractSpec {
     }
 
     @Test
+    public void sortActivitiesByContact(){
+        ColumnType contact = ColumnType.CONTACT;
+        ActivityPage activityPage = new ActivityPage(driver).clickColumnHeader(contact);
+        Assert.assertTrue("Contacts are not sorted correctly", activityPage.isColumnSorted(contact));
+    }
+
+    @Test
+    public void sortActivitiesByInstitution(){
+        ColumnType institution = ColumnType.INSTITUTION;
+        ActivityPage activityPage = new ActivityPage(driver).clickColumnHeader(institution);
+        Assert.assertTrue("Institutions are not sorted correctly", activityPage.isColumnSorted(institution));
+    }
+
+    @Test
     public void multiSort(){
         //This checks that the sorting works even when it's been clicked before
 
@@ -95,30 +109,23 @@ public class FilterActivity extends AbstractSpec {
         ColumnType title = ColumnType.TITLE;
         ColumnType date = ColumnType.DATE;
 
-        boolean actualSort[] = new boolean[6];
-        boolean expectedSort[] = {true, true, true, true, true, true};
-
         ActivityPage activityPage = new ActivityPage(driver).clickColumnHeader(date);
-        actualSort[0] = activityPage.isColumnSorted(date);
+        Assert.assertTrue("Date not sorted by ascending order", activityPage.isColumnSorted(date));
 
         activityPage.clickColumnHeader(type);
-        actualSort[1] = activityPage.isColumnSorted(type);
+        Assert.assertTrue("Type not sorted by ascending order", activityPage.isColumnSorted(type));
 
         activityPage.clickColumnHeader(title);
-        actualSort[2] = activityPage.isColumnSorted(title);
+        Assert.assertTrue("Known Issue: DESKTOP-8696", activityPage.isColumnSorted(title));
 
         //now going back, and clicking those filters again (to see if clicking them a second time has any effect
         activityPage.clickColumnHeader(date);
-        actualSort[3] = activityPage.isColumnSorted(date);
-
-        activityPage.clickColumnHeader(title);
-        actualSort[4] = activityPage.isColumnSorted(title);
+        Assert.assertTrue("Date not sorted by descending order", activityPage.isColumnSorted(date));
 
         activityPage.clickColumnHeader(type);
-        actualSort[5] = activityPage.isColumnSorted(type);
+        Assert.assertTrue("Type not sorted by descending order", activityPage.isColumnSorted(type));
 
-        Assert.assertArrayEquals("Sorting failed", actualSort, expectedSort);
-
-
+        activityPage.clickColumnHeader(title);
+        Assert.assertTrue("Title not sorted by descending order", activityPage.isColumnSorted(title));
     }
 }

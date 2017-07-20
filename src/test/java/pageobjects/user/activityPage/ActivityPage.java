@@ -1,15 +1,19 @@
 package pageobjects.user.activityPage;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageobjects.AbstractPageObject;
 import pageobjects.user.Calendar;
-import pageobjects.user.logActivityModal.LogActivityModal;
 import pageobjects.user.noteDetailsPage.NoteDetailsPage;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -17,16 +21,25 @@ import java.util.List;
  */
 public class ActivityPage extends AbstractPageObject {
 
-    private final By notesSection = By.cssSelector(".note-manager-list .note-item.x-dataview-item");
+    private final By notesSection = By.xpath("//div[contains(@class,'note-manager-list')]//div[contains(@class,'x-dataview-item')]");
     private final By firstNoteInList = By.xpath("//div[contains(@class,'note-item')][1]//div[contains(@class,'title')]");
     private final By firstNoteInListDate = By.xpath("//div[1][contains(@class,'note-item')]//div[contains(@class,'column')][7]");
-    private final By newActivityIcon = By.cssSelector(".btn.x-button.x-unsized:not(.btn-block)");
+    private final By firstNoteInListNewTag = By.xpath("//div[1][contains(@class,'note-item')]//div[contains(@class,'column')][8]/a[1]");
+    private final By firstNoteInListLocation = By.xpath("//div[1][contains(@class,'note-item')]//div[contains(@class,'column')][6]");
+    private final By newActivityIcon = By.xpath("//div[contains(@class, 'x-unsized x-button x-iconalign-left primary-action btn btn-primary btn-icon-only x-dock-item x-docked-right')]/span[contains(@class, 'x-button-icon x-shown q4i-add-4pt')]");
     private final By activitySearchField = By.cssSelector(".toolbar-panel .search .x-field-input .x-input-el");
+    private final By deleteButton = By.xpath("//span[contains(@class, 'q4i-trashbin-4pt')]");
+    private final By confirmDeleteButton = By.xpath("//span[@class='x-button-label'][text()='Yes']");
     private final By emptyResults = By.cssSelector(".note-manager-list .x-dataview-emptytext");
     private final By notesCount = By.xpath("//*[@class=\"counter\"][1]");
     private final By callCount = By.xpath("(//*[@class=\"counter\"])[2]");
     private final By emailCount = By.xpath("(//*[@class=\"counter\"])[3]");
     private final By meetingCount = By.xpath("(//*[@class=\"counter\"])[4]");
+    private final By yourActivityToggle = By.cssSelector("#ext-thumb-3");
+    private final By rowCheckBox = By.xpath("//div[contains(@class,'checkmark') and contains(@class,'checkbox')]");
+    private final By deleteIcon = By.xpath("//div[span[contains(@class,'q4i-trashbin-4pt')]]");
+    private final By deleteConfirm = By.xpath("//div[span[contains(text(),'Yes')]]");
+    private final By bulkCheckBox = By.xpath("//div[contains(@class,'bulk-checkbox')]");
 
     //This is actually the text beside the checkbox. Clicking the checkbox is proving to be difficult
     private final By filterDropDown = By.xpath("//div[contains(@class,'filters-toggle')]");
@@ -43,6 +56,7 @@ public class ActivityPage extends AbstractPageObject {
     private final By typeHeader = By.xpath("//div[contains(@class,'column') and contains(@class,'x-button-no-icon') and .//span[contains(text(),'Type')]]");
     private final By titleHeader = By.xpath("//div[contains(@class,'column') and contains(@class,'x-button-no-icon') and .//span[contains(text(),'Title')]]");
     private final By contactHeader = By.xpath("//div[contains(@class,'column') and contains(@class,'x-button-no-icon') and .//span[contains(text(),'Contact')]]");
+    private final By institutionHeader = By.xpath("//div[contains(@class,'column') and contains(@class,'x-button-no-icon') and .//span[contains(text(),'Institution')]]");
     private final By locationHeader = By.xpath("//div[contains(@class,'column') and contains(@class,'x-button-no-icon') and .//span[contains(text(),'Location')]]");
     private final By dateHeader = By.xpath("//div[contains(@class,'column') and contains(@class,'x-button-no-icon') and .//span[contains(text(),'Date')]]");
     private final By tagsHeader = By.xpath("//div[contains(@class,'column') and contains(@class,'x-button-no-icon') and .//span[contains(text(),'Tags')]]");
@@ -51,16 +65,18 @@ public class ActivityPage extends AbstractPageObject {
     private final By startTimeSelector = By.xpath("//input[contains(@name,'startDate')]");
     private final By endTimeSelector = By.xpath("//input[contains(@name,'endDate')]");
     private final By previousMonthButton = By.xpath("//div[@class='pmu-prev pmu-button']");
+    private final By nextMonthButton = By.xpath("//div[@class='pmu-next pmu-button']");
     private final By selectedMonth = By.xpath("//div[@class='pmu-month pmu-button']");
     private final By selectedDay = By.xpath("//div[@class='pmu-days']/div[@class='pmu-button'][11]");
     private final By dateFilterButton = By.xpath("//div[contains(@class,'go-button')]");
+
 
     public ActivityPage(WebDriver driver) {
         super(driver);
     }
 
     private List<WebElement> returnTableRows (){
-        List<WebElement> rowList = findElements(By.xpath("//div[contains(@class,'x-dataview-container')]//div[contains(@class,'row')]"));
+        List<WebElement> rowList = findVisibleElements(By.xpath("//div[contains(@class,'x-dataview-container')]//div[contains(@class,'row')]"));
         ArrayList<WebElement> tableRowsList = new ArrayList<>(rowList);
         return tableRowsList;
 
@@ -69,28 +85,32 @@ public class ActivityPage extends AbstractPageObject {
     public String getNewNote() {
         // Waits for the load more button to appear at the bottom of the page.
         waitForLoadingScreen();
-        return findElement(notesSection).getText();
+        waitForElement(notesSection);
+        return findVisibleElement(notesSection).getText();
     }
 
     public NoteDetailsPage selectFirstNoteInList() {
         waitForLoadingScreen();
-        findElement(firstNoteInList).click();
+        waitForElement(firstNoteInList);
+        findVisibleElement(firstNoteInList).click();
 
         return new NoteDetailsPage(getDriver());
     }
 
-    public LogActivityModal logNote() {
+    public LogActivityPage logNote() {
         waitForLoadingScreen();
-        findElement(newActivityIcon).click();
+        waitForElement(newActivityIcon);
+        findVisibleElement(newActivityIcon).click();
 
-        return new LogActivityModal(getDriver());
+        return new LogActivityPage(getDriver());
     }
 
     public ActivityPage searchForNote(String note) {
         waitForLoadingScreen();
-        wait.until(ExpectedConditions.elementToBeClickable(activitySearchField));
-        findElement(activitySearchField).click();
-        findElement(activitySearchField).sendKeys(note);
+        waitForElement(activitySearchField);
+        findVisibleElement(activitySearchField).click();
+        findVisibleElement(activitySearchField).clear();
+        findVisibleElement(activitySearchField).sendKeys(note);
         //findElement(activitySearchField).sendKeys(Keys.RETURN);
         waitForLoadingScreen();
 
@@ -113,6 +133,9 @@ public class ActivityPage extends AbstractPageObject {
                 break;
             case CONTACT:
                 selector = contactHeader;
+                break;
+            case INSTITUTION:
+                selector = institutionHeader;
                 break;
             case LOCATION:
                 selector = locationHeader;
@@ -201,11 +224,27 @@ public class ActivityPage extends AbstractPageObject {
 
     private boolean isContactSorted (List<WebElement> rows){
 
+        ArrayList<WebElement> contacts = new ArrayList<>();
+        for(WebElement i : rows){
+            contacts.add(i.findElement(By.className("contact")));
+        }
         if(isColumnAscending(ColumnType.CONTACT)){
-            return elementsAreAlphaUpSorted(rows);
+            return elementsAreAlphaUpSorted(contacts);
         }
         else
-            return elementsAreAlphaDownSorted(rows);
+            return elementsAreAlphaDownSorted(contacts);
+    }
+
+    private boolean isInstitutionSorted(List<WebElement> rows){
+        ArrayList<WebElement> institutions = new ArrayList<>();
+        for(WebElement i : rows){
+            institutions.add(i.findElement(By.className("institution")));
+        }
+        if(isColumnAscending(ColumnType.INSTITUTION)){
+            return elementsAreAlphaUpSorted(institutions);
+        }
+        else
+            return elementsAreAlphaDownSorted(institutions);
     }
 
 
@@ -215,12 +254,13 @@ public class ActivityPage extends AbstractPageObject {
         FilterType meeting = FilterType.MEETING;
         FilterType phone = FilterType.PHONE;
         FilterType roadshow = FilterType.ROADHSHOW;
+        FilterType none = FilterType.NONE;
         FilterType savedIcon = null;
         FilterType currentIcon= FilterType.PHONE;
 
         for (WebElement i : rows){
             if(savedIcon!=null){
-                currentIcon=currentIcon.returnType(i.findElement(By.xpath(".//i")).getAttribute("class"));
+                currentIcon=currentIcon.returnType(i.findElement(By.xpath("//div[@class='column centered type']/i")).getAttribute("class"));
                 if (currentIcon!=savedIcon) {
                     switch (currentIcon) {
                         case EMAIL:
@@ -242,6 +282,9 @@ public class ActivityPage extends AbstractPageObject {
                                         break;
                                     case ROADHSHOW:
                                         roadshow.setChecked(true);
+                                        break;
+                                    case NONE:
+                                        none.setChecked(true);
                                         break;
                                 }
                                 savedIcon = email;
@@ -267,6 +310,9 @@ public class ActivityPage extends AbstractPageObject {
                                     case ROADHSHOW:
                                         roadshow.setChecked(true);
                                         break;
+                                    case NONE:
+                                        none.setChecked(true);
+                                        break;
                                 }
                                 savedIcon = note;
                             }
@@ -290,6 +336,9 @@ public class ActivityPage extends AbstractPageObject {
                                         break;
                                     case ROADHSHOW:
                                         roadshow.setChecked(true);
+                                        break;
+                                    case NONE:
+                                        none.setChecked(true);
                                         break;
                                 }
                                 savedIcon = meeting;
@@ -315,6 +364,9 @@ public class ActivityPage extends AbstractPageObject {
                                     case ROADHSHOW:
                                         roadshow.setChecked(true);
                                         break;
+                                    case NONE:
+                                        none.setChecked(true);
+                                        break;
                                 }
                                 savedIcon = phone;
                             }
@@ -338,8 +390,37 @@ public class ActivityPage extends AbstractPageObject {
                                     case ROADHSHOW:
                                         roadshow.setChecked(true);
                                         break;
+                                    case NONE:
+                                        none.setChecked(true);
+                                        break;
                                 }
                                 savedIcon = roadshow;
+                            }
+                        case NONE:
+                            if (none.isChecked()) {
+                                return false;
+                            } else {
+                                switch(savedIcon){
+                                    case EMAIL:
+                                        email.setChecked(true);
+                                        break;
+                                    case NOTE:
+                                        note.setChecked(true);
+                                        break;
+                                    case MEETING:
+                                        meeting.setChecked(true);
+                                        break;
+                                    case PHONE:
+                                        phone.setChecked(true);
+                                        break;
+                                    case ROADHSHOW:
+                                        roadshow.setChecked(true);
+                                        break;
+                                    case NONE:
+                                        none.setChecked(true);
+                                        break;
+                                }
+                                savedIcon = none;
                             }
                     }
                 }
@@ -386,6 +467,8 @@ public class ActivityPage extends AbstractPageObject {
                 return isTitleSorted(returnTableRows());
             case CONTACT:
                 return isContactSorted(returnTableRows());
+            case INSTITUTION:
+                return isInstitutionSorted(returnTableRows());
             case LOCATION:
                 break;
             case DATE:
@@ -400,6 +483,18 @@ public class ActivityPage extends AbstractPageObject {
      *
      *
      */
+    public String getDate() throws ParseException {
+        //Gets date from first note on the activity page and format it
+        DateFormat activityFormat = new SimpleDateFormat("MM/dd/yy");
+        DateFormat detailsFormat = new SimpleDateFormat("MMMM d, yyyy");
+        Date strToDate = activityFormat.parse(findVisibleElement(firstNoteInListDate).getText());
+        String dateToString = detailsFormat.format(strToDate);
+        return dateToString;
+    }
+
+    public String getActivityPageTag(){ return findElement(firstNoteInListNewTag).getText(); }
+
+    public String getActivityPageLocation(){return findVisibleElement(firstNoteInListLocation).getText(); }
 
     public String getNoNote() {
         return findElement(emptyResults).getText();
@@ -431,7 +526,7 @@ public class ActivityPage extends AbstractPageObject {
 
     public Calendar filterDate(Calendar calendar) {
         calendar.selectStartDate(startTimeSelector, previousMonthButton, selectedMonth, selectedDay);
-        calendar.selectEndDate(endTimeSelector, previousMonthButton, selectedMonth, selectedDay);
+        calendar.selectEndDate(endTimeSelector, nextMonthButton, selectedMonth, selectedDay);
         calendar.filter(dateFilterButton);
         pause(500L);
         // helps keep track of which days were selected
@@ -449,7 +544,7 @@ public class ActivityPage extends AbstractPageObject {
             System.out.println("Earliest date in the table is earlier than the selected end time");
             Sorted = false;
         }
-
+        waitForLoadingScreen();
         // sorting the date by latest to earliest
         findVisibleElement(dateHeader).click();
         pause(200L);
@@ -460,5 +555,50 @@ public class ActivityPage extends AbstractPageObject {
         return Sorted;
     }
 
+    public ActivityPage clickNthActivityCheckBox(int n) {
+        try {
+            findVisibleElements(rowCheckBox).get(n).click();
+        } catch (StaleElementReferenceException e) {
+            findVisibleElements(rowCheckBox).get(n).click();
+        }
+
+        return this;
+    }
+
+    public ActivityPage clickDeleteButton() {
+        findVisibleElement(deleteButton).click();
+        waitForElementToAppear(confirmDeleteButton);
+        findVisibleElement(confirmDeleteButton).click();
+
+        return this;
+    }
+
+    public ActivityPage yourActivityFilter(){
+        findElement(yourActivityToggle).click();
+        pause(200L);
+
+        return this;
+    }
+
+    public ActivityPage deleteAllNotes(String title){
+        List<WebElement> searchResults;
+        waitForLoadingScreen();
+        searchForNote(title);
+        if(!findVisibleElement(bulkCheckBox).getAttribute("class").contains("x-item-disabled")) {
+            findVisibleElement(bulkCheckBox).click();
+            findVisibleElement(deleteIcon).click();
+            waitForElementToAppear(deleteConfirm);
+            findVisibleElement(deleteConfirm).click();
+        }
+        return this;
+    }
+
+    public int getNumberOfDisplayedActivities(){
+        try {
+            return findVisibleElements(rowCheckBox).size();
+        } catch (StaleElementReferenceException e) {
+            return findVisibleElements(rowCheckBox).size();
+        }
+    }
 }
 

@@ -26,6 +26,7 @@ public class CompanyList extends AbstractPageObject {
     private final By firstSearchResult = By.cssSelector("body > q4-app > div > div > q4-organization > p-dialog > div > div.ui-dialog-content.ui-widget-content > q4-organization-create > p-autocomplete > span > div > ul > li:nth-child(1)");
     private final By modalX = By.xpath("/html/body/q4-app/div/div/q4-organization/p-dialog/div/div[1]/a");
     private final By tickerList = By.cssSelector(".ui-datatable tbody");
+    private final By confirmDeleteButton = By.xpath("/html/body/q4-app/div/div/q4-organization-details/q4-organization-peers/p-datatable/div/div/table/tbody/tr/td[4]/span/ng-component/p-dialog/div/div[2]/div/button[2]");
 
     public CompanyList(WebDriver driver) {
         super(driver);
@@ -109,6 +110,8 @@ public class CompanyList extends AbstractPageObject {
 
     public CompanyList removePeer() {
         findElement(deletePeerButton).click();
+        waitForElementToAppear(confirmDeleteButton);
+        findElement(confirmDeleteButton).click();
 
         return this;
     }

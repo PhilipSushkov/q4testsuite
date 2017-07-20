@@ -172,6 +172,6 @@ public class IntelligenceList extends AdminAbstractSpec {
         Assert.assertThat("Expected stock symbol doesn't match with first listed report", intelligencePage.getNewReport(), containsString(symbols[0]));
         WTSReportDetailsPage wtsReportDetailsPage = intelligencePage.selectNewReport();
         Assert.assertThat("Report title does not match expected", wtsReportDetailsPage.getReportHeader(), containsString(reportTitle));
-        Assert.assertTrue("KNOWN ISSUE - ADMIN (440, 399): Report contains invalid data.", wtsReportDetailsPage.reportDataIsValid(symbols)); //see start of method definition to understand what this checks
+        Assert.assertTrue("KNOWN ISSUE - Yahoo Finance is down, will fix later", wtsReportDetailsPage.reportDataIsValid(symbols)); //see start of method definition to understand what this checks
     }
 }

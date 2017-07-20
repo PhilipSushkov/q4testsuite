@@ -13,6 +13,7 @@ import java.util.List;
  */
 public class IntelligencePage extends AbstractPageObject {
     private final By newReportButton = By.cssSelector(".page-header .action-buttons .add");
+    private final By intelligencePageButton = By.cssSelector("body > q4-app > div > q4-navbar > nav > div > ul > li:nth-child(3) > a > i");
     private final By companySymbolField = By.cssSelector("body > q4-app > div > div > q4-report > p-dialog > div > div.ui-dialog-content.ui-widget-content > q4-report-create > p-autocomplete > span > input");
     private final By createReportButton = By.cssSelector("button.button.button-yellow");
     private final By newReportInList = By.cssSelector("body > q4-app > div > div > q4-report > p-datatable > div > div > table > tbody > tr:nth-child(1)");

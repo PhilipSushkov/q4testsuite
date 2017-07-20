@@ -6,6 +6,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageobjects.Page;
+import pageobjects.user.activityPage.LogActivityPage;
 import pageobjects.user.advancedSearchPage.AdvancedSearchPage;
 import pageobjects.user.institutionPage.InstitutionPage;
 import pageobjects.user.logActivityModal.LogActivityModal;
@@ -33,7 +34,7 @@ public class ContactDetailsPage extends Page {
     private final By fundTableNames = By.cssSelector(".q4-list .x-dataview-container");
     private final By tagIcon = By.cssSelector(".x-dataview-inlineblock .x-dataview-item, .x-dataview-inlineblock .x-data-item");
     private final By logActivityOption = By.xpath("//*[contains(text(), 'Log an Activity')]");
-    private final By noteDetails = By.cssSelector(".entity-note-list .details");
+    private final By noteDetails = By.xpath("//div[contains(@class, 'x-unsized x-dataview-container')]/div[contains(@class, 'x-dataview-item entity-note')]/div[contains(@class, 'details')]");
     private final By createTearSheet = By.xpath("//*[contains(text(), 'Create Tear Sheet')]");
     private final By reportTitle = By.cssSelector(".report-create .x-input-el");
     private final By createButton = By.cssSelector(".report-create .submit-button");
@@ -143,7 +144,8 @@ public class ContactDetailsPage extends Page {
     }
 
     public ContactDetailsPage switchToManagedFundsTab() {
-        wait.until(ExpectedConditions.elementToBeClickable(managedFunds));
+        scrollToElement(managedFunds);
+        waitForElementToAppear(managedFunds);
         findElement(managedFunds).click();
 
         return this;
@@ -166,14 +168,15 @@ public class ContactDetailsPage extends Page {
         return this;
     }
 
-    public LogActivityModal logActivity() {
+    public LogActivityPage logActivity() {
         findElement(logActivityOption).click();
         
-        return new LogActivityModal(getDriver());
+        return new LogActivityPage(driver);
     }
 
     public String getNoteDetails() {
         waitForLoadingScreen();
+        scrollToElement(noteDetails);
         return findElement(noteDetails).getText();
     }
 

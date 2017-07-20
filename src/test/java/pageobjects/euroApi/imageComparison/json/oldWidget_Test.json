@@ -1,0 +1,107 @@
+[
+  {
+    "Solution Folder": "ASUR",
+    "URL EURO": "http://ir1.euroinvestor.com/asp/ir/ASUR/calc.aspx",
+    "URL Q4": "http://q4eurotestir1.q4web.com/asp/ir/ASUR/calc.aspx"
+  },
+  {
+    "Solution Folder": "ASUR",
+    "URL EURO": "http://ir1.euroinvestor.com/asp/ir/ASUR/calc_es.aspx",
+    "URL Q4": "http://q4eurotestir1.q4web.com/asp/ir/ASUR/calc_es.aspx"
+  },
+  {
+    "Solution Folder": "ASUR",
+    "URL EURO": "http://ir1.euroinvestor.com/asp/ir/ASUR/lookup.aspx",
+    "URL Q4": "http://q4eurotestir1.q4web.com/asp/ir/ASUR/lookup.aspx"
+  },
+  {
+    "Solution Folder": "ASUR",
+    "URL EURO": "http://ir1.euroinvestor.com/asp/ir/ASUR/lookup_es.aspx",
+    "URL Q4": "http://q4eurotestir1.q4web.com/asp/ir/ASUR/lookup_es.aspx"
+  },
+  {
+    "Solution Folder": "ASUR",
+    "URL EURO": "http://ir1.euroinvestor.com/asp/ir/ASUR/qc.aspx",
+    "URL Q4": "http://q4eurotestir1.q4web.com/asp/ir/ASUR/qc.aspx"
+  },
+  {
+    "Solution Folder": "ASUR",
+    "URL EURO": "http://ir1.euroinvestor.com/asp/ir/ASUR/qc_es.aspx",
+    "URL Q4": "http://q4eurotestir1.q4web.com/asp/ir/ASUR/qc_es.aspx"
+  },
+  {
+    "Solution Folder": "ASUR",
+    "URL EURO": "http://ir1.euroinvestor.com/asp/ir/ASUR/2012disabled/qc_f.aspx",
+    "URL Q4": "http://q4eurotestir1.q4web.com/asp/ir/ASUR/2012disabled/qc_f.aspx"
+  },
+  {
+    "Solution Folder": "ASUR",
+    "URL EURO": "http://ir1.euroinvestor.com/asp/ir/ASUR/2012disabled/ticker.aspx",
+    "URL Q4": "http://q4eurotestir1.q4web.com/asp/ir/ASUR/2012disabled/ticker.aspx"
+  },
+  {
+    "Solution Folder": "ASUR",
+    "URL EURO": "http://ir1.euroinvestor.com/asp/ir/ASUR/2013disabled/benchmark.aspx",
+    "URL Q4": "http://q4eurotestir1.q4web.com/asp/ir/ASUR/2013disabled/benchmark.aspx"
+  },
+  {
+    "Solution Folder": "ASUR",
+    "URL EURO": "http://ir1.euroinvestor.com/asp/ir/ASUR/2013disabled/calc.aspx",
+    "URL Q4": "http://q4eurotestir1.q4web.com/asp/ir/ASUR/2013disabled/calc.aspx"
+  },
+  {
+    "Solution Folder": "ASUR",
+    "URL EURO": "http://ir1.euroinvestor.com/asp/ir/ASUR/2013disabled/lookup.aspx",
+    "URL Q4": "http://q4eurotestir1.q4web.com/asp/ir/ASUR/2013disabled/lookup.aspx"
+  },
+  {
+    "Solution Folder": "ASUR",
+    "URL EURO": "http://ir1.euroinvestor.com/asp/ir/ASUR/2013disabled/miniquote.aspx",
+    "URL Q4": "http://q4eurotestir1.q4web.com/asp/ir/ASUR/2013disabled/miniquote.aspx"
+  },
+  {
+    "Solution Folder": "ASUR",
+    "URL EURO": "http://ir1.euroinvestor.com/asp/ir/ASUR/2013disabled/miniquote2.aspx",
+    "URL Q4": "http://q4eurotestir1.q4web.com/asp/ir/ASUR/2013disabled/miniquote2.aspx"
+  },
+  {
+    "Solution Folder": "ASUR",
+    "URL EURO": "http://ir1.euroinvestor.com/asp/ir/ASUR/2013disabled/qc_f.aspx",
+    "URL Q4": "http://q4eurotestir1.q4web.com/asp/ir/ASUR/2013disabled/qc_f.aspx"
+  },
+  {
+    "Solution Folder": "ASUR",
+    "URL EURO": "http://ir1.euroinvestor.com/asp/ir/ASUR/2015/benchmark.aspx",
+    "URL Q4": "http://q4eurotestir1.q4web.com/asp/ir/ASUR/2015/benchmark.aspx"
+  },
+  {
+    "Solution Folder": "ASUR",
+    "URL EURO": "http://ir1.euroinvestor.com/asp/ir/ASUR/2015/calc.aspx",
+    "URL Q4": "http://q4eurotestir1.q4web.com/asp/ir/ASUR/2015/calc.aspx"
+  },
+  {
+    "Solution Folder": "ASUR",
+    "URL EURO": "http://ir1.euroinvestor.com/asp/ir/ASUR/2015/HTML5Chart.aspx",
+    "URL Q4": "http://q4eurotestir1.q4web.com/asp/ir/ASUR/2015/HTML5Chart.aspx"
+  },
+  {
+    "Solution Folder": "ASUR",
+    "URL EURO": "http://ir1.euroinvestor.com/asp/ir/ASUR/2015/lookup.aspx",
+    "URL Q4": "http://q4eurotestir1.q4web.com/asp/ir/ASUR/2015/lookup.aspx"
+  },
+  {
+    "Solution Folder": "ASUR",
+    "URL EURO": "http://ir1.euroinvestor.com/asp/ir/ASUR/2015/miniquote.aspx",
+    "URL Q4": "http://q4eurotestir1.q4web.com/asp/ir/ASUR/2015/miniquote.aspx"
+  },
+  {
+    "Solution Folder": "ASUR",
+    "URL EURO": "http://ir1.euroinvestor.com/asp/ir/ASUR/2015/miniquote2.aspx",
+    "URL Q4": "http://q4eurotestir1.q4web.com/asp/ir/ASUR/2015/miniquote2.aspx"
+  },
+  {
+    "Solution Folder": "ASUR",
+    "URL EURO": "http://ir1.euroinvestor.com/asp/ir/ASUR/2015/qc_f.aspx",
+    "URL Q4": "http://q4eurotestir1.q4web.com/asp/ir/ASUR/2015/qc_f.aspx"
+  }
+]

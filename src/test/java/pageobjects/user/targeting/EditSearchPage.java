@@ -68,7 +68,8 @@ public class EditSearchPage extends AbstractPageObject {
         findElement(hideResultsButton).click();
 
         // verifying location
-        if (!findElement(cityName).getText().equalsIgnoreCase(filters[0])){
+        String temp = findElement(cityName).getText();
+        if (!findElement(cityName).getText().contains(filters[0])){
             filtersMatch = false;
             System.out.println("Location "+findElement(cityName).getText()+" does not equal desired value "+filters[0]);
         }
