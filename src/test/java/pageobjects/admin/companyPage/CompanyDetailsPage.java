@@ -52,7 +52,7 @@ public class CompanyDetailsPage extends CompanyList {
     public boolean canClickPeerTab(){
         waitForLoadingScreen();
        try {
-           wait.until(ExpectedConditions.elementToBeClickable(addButton));
+           wait.until(ExpectedConditions.elementToBeClickable(peerTab));
            return true;
        }
        catch(Exception e){
