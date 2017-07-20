@@ -41,7 +41,7 @@ public class CSMAccess extends AdminAbstractSpec {
     }
 
     @Test
-    public void canAddPeerToACompany(){
+    public void canViewPeerToACompany(){
         String editedCompanyName = "Harmonic, Inc. ";
         Date today = new Date();
         CompanyList companyList = new CompanyList(driver).navigateToCompanyPage();
