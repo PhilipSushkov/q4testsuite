@@ -96,7 +96,7 @@ public class Overview extends AbstractSpec {
         if (secondChangeNumber > 0 && firstChangeNumber > 0) {
             Assert.assertEquals(securityOverviewPage.getChangeIconColor(), "462041131"); //These numbers are rgba in a single int val
         } else if (secondChangeNumber < 0 || firstChangeNumber < 0) {
-            Assert.assertEquals(securityOverviewPage.getChangeIconColor(), "23175601"); //Formatted in getChangeIconColor method
+            Assert.assertEquals(securityOverviewPage.getChangeIconColor(), "23176601"); //Formatted in getChangeIconColor method
         }
     }
 

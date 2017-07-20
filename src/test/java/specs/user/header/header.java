@@ -1,10 +1,14 @@
 package specs.user.header;
 
+import jdk.nashorn.internal.runtime.regexp.joni.Regex;
 import org.junit.*;
 import org.openqa.selenium.By;
+import org.openqa.selenium.interactions.Pause;
 import pageobjects.user.loginPage.LoginPage;
 import pageobjects.user.securityPage.SecurityOverviewPage;
 import specs.AbstractSpec;
+
+import java.util.regex.Pattern;
 
 /**
  * Created by sarahr on 2/9/2017.
@@ -33,14 +37,12 @@ public class header extends AbstractSpec{
 
     @Test
     public void canViewReleaseNotes(){
-        String releaseNotes = driver.getCurrentUrl().replace("/#company/57b92885be1c33ae235f5895", "/#release-note");
-
+        String releaseNotes = driver.getCurrentUrl().replaceAll("\\bcompany.*\\b", "release-note");
         SecurityOverviewPage securityOverviewPage = new SecurityOverviewPage(driver);
         securityOverviewPage.openProfile();
         securityOverviewPage.clickReleaseNotes();
-
+        securityOverviewPage.waitForLoadingScreen();
         String actualURL = driver.getCurrentUrl();
-
         Assert.assertEquals("This is not the release notes page", releaseNotes, actualURL);
 
     }
@@ -165,7 +167,7 @@ public class header extends AbstractSpec{
         securityOverviewPage.openProfile();
         securityOverviewPage.logoutFromPage();
 
-        Assert.assertEquals("Logout was unsuccessful", 2, driver.findElements(By.className("q4i-logo")).size());
+        Assert.assertEquals("Logout was unsuccessful", 1, driver.findElements(By.className("q4i-logo")).size());
 
     }
 }

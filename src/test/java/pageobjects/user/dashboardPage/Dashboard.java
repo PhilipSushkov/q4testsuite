@@ -34,15 +34,17 @@ public class Dashboard extends AbstractPageObject {
 
     // Build report icon
 
-    private final By buildReportDashboardButton = By.id("ext-button-15");
+    private final By buildReportDashboardButton = By.xpath("//div[contains(@class, 'x-button x-iconalign-center x-layout-box-item x-stretched')]/span[contains(@class, 'x-button-icon x-shown q4i-reports-2pt')]");
 
     // Log Note icon (unique selectors for dashboard)
-
     private final By logNoteIcon = By.id("ext-button-10");
     private final By logPhoneIcon = By.id("ext-button-11");
     private final By logEmailIcon = By.id("ext-button-12");
     private final By logMeetingIcon = By.id("ext-button-13");
     private final By logRoadshowIcon = By.id("ext-button-14");
+
+    // Log activity button
+    private final By logActivityButton = By.xpath("//span[@class='x-button-label'][text()='Log Activity']");
 
     public Dashboard(WebDriver driver) {
         super(driver);
@@ -146,6 +148,8 @@ public class Dashboard extends AbstractPageObject {
 
         return new CreateBriefingBookModal(getDriver());
     }
+    /*
+    New Dashboard does not have icons for these buttons, but a single 'Log Activity' button
 
     public LogActivityModal logNote() {
         waitForLoadingScreen();
@@ -179,6 +183,13 @@ public class Dashboard extends AbstractPageObject {
     public LogActivityModal logRoadshowNote() {
         wait.until(ExpectedConditions.elementToBeClickable(logRoadshowIcon));
         findElement(logRoadshowIcon).click();
+
+        return new LogActivityModal(getDriver());
+    }
+    */
+    public LogActivityModal logActivity(){
+        wait.until(ExpectedConditions.elementToBeClickable(logActivityButton));
+        findElement(logActivityButton).click();
 
         return new LogActivityModal(getDriver());
     }

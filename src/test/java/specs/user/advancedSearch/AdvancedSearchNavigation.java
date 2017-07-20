@@ -97,7 +97,7 @@ public class AdvancedSearchNavigation extends AbstractSpec {
 
     @Test
     public void canNavigateToEntityFromActivityTab() {
-        String activityKeyword = "comment7Zi7tm";
+        String activityKeyword = "This is a test commentSc9MrN";
         NoteDetailsPage noteDetailsPage = new NoteDetailsPage(driver);
         AdvancedSearchPage advancedSearchPage = new AdvancedSearchPage(driver).advancedSearchFor(activityKeyword)
                 .selectActivityTab();

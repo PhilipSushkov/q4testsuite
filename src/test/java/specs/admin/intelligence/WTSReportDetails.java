@@ -37,7 +37,7 @@ public class WTSReportDetails extends AdminAbstractSpec {
     @Test
     public void verifyClosePrice() throws IOException {
         WTSReportDetailsPage wtsReportDetailsPage = new WTSReportDetailsPage(driver);
-        Float closePrice = wtsReportDetailsPage.getLastClosePrice(company);
+        Float closePrice = wtsReportDetailsPage.getComparisonClosePrice(company);
 
         Assert.assertEquals("Difference between prices is greater that $0.5", closePrice, wtsReportDetailsPage.getClosePrice(), 0.5);
     }

@@ -6,7 +6,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageobjects.AbstractPageObject;
 import pageobjects.user.dashboardPage.Dashboard;
-import specs.user.activity.LogActivity;
 
 /**
  * Created by patrickp on 2016-08-09.
@@ -28,6 +27,7 @@ public class LogActivityModal extends AbstractPageObject {
     private final By phoneTab = By.id("ext-radiofield-2");
     private final By emailTab = By.id("ext-radiofield-3");
     private final By meetingTab = By.id("ext-radiofield-4");
+    private final By roadshowTab = By.id("ext-radiofield-5");
 
     public LogActivityModal(WebDriver driver) {
         super(driver);
@@ -169,8 +169,17 @@ public class LogActivityModal extends AbstractPageObject {
         return this;
     }
 
+    public LogActivityModal chooseRoadshowTab() {
+        findElement(roadshowTab).click();
+        wait.until(ExpectedConditions.elementToBeClickable(postButton));
+        findElement(postButton).click();
+
+        return this;
+    }
+
     public LogActivityModal postActivity() {
         waitForElement(postButton);
+        scrollToElement(postButton);
         findElement(postButton).click();
 
         return this;

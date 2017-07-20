@@ -5,8 +5,6 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import pageobjects.Page;
-import specs.admin.companies.CompanyDetails;
 
 import java.util.ArrayList;
 
@@ -168,6 +166,7 @@ public class CompanyDetailsPage extends CompanyList {
         findElement(newTickerIcon).click();
         findElement(editTickerSearchField).click();
         findElement(editTickerSearchField).sendKeys(newTicker);
+        waitForElementToAppear(firstTicker);
         findElement(firstTicker).click();
         findVisibleElement(tickerSave).click();
 
