@@ -53,6 +53,11 @@ public class CompanyDetailsPage extends CompanyList {
     private final By addTeamMemberInput = By.xpath("//q4-team-member-add//input");
     private final By teamMemberSearchResult = By.xpath("//div[contains(@class,'search-result-item')]");
     private final By dismissTeamMemberAddModal = By.xpath("//div[contains(@class,'ui-dialog')]//div[span[contains(text(),'Q4 Team')]]//a[contains(@role,'button')]");
+    private final By teamMembers = By.xpath("//tr[contains(@class,'ui-datatable')]");
+    private final By emptyMembersList = By.xpath("//td[contains(@class,'ui-datatable-emptymessage')]");
+    private final By deleteCheckbox =By.xpath(".//td[contains(@class,'col-delete')]");
+    private final By trashIcon = By.xpath("//button[contains(@class,'button remove active')]");
+    private final By deleteConfirm =By.xpath("//q4-delete-confirm//button[contains(text(),'Confirm')]");
 
 
 
@@ -259,6 +264,46 @@ public class CompanyDetailsPage extends CompanyList {
         return this;
     }
 
+    public boolean isMembersListEmpty(){
+        try{
+            findVisibleElement(emptyMembersList);
+            return true;
+        }
+        catch(Exception e){{
+            return false;
+            }
+        }
+    }
+
+    public boolean isTeamMemberPresent(String name){
+        if(!isMembersListEmpty()){
+            return false;
+        }
+        else{
+            ArrayList<WebElement> members = new ArrayList<WebElement>(findVisibleElements(teamMembers));
+            for(WebElement member: members){
+                if(member.getText().contains(name)){
+                    return true;
+                }
+            }
+            return false;
+        }
+    }
+
+    public CompanyDetailsPage removeTeamMember(String name){
+        ArrayList<WebElement> members = new ArrayList<WebElement>(findVisibleElements(teamMembers));
+        for(WebElement member: members){
+            if(member.getText().contains(name)){
+                member.findElement(deleteCheckbox).click();
+                wait.until(ExpectedConditions.elementToBeClickable(trashIcon));
+                findVisibleElement(trashIcon).click();
+                wait.until(ExpectedConditions.elementToBeClickable(deleteConfirm));
+                findVisibleElement(deleteConfirm).click();
+
+            }
+        }
+        return this;
+    }
 
 
 }

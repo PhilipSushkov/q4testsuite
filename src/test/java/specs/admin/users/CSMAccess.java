@@ -71,13 +71,16 @@ public class CSMAccess extends AdminAbstractSpec {
     }
 
     @Test
-    public void q4TeamTabclick(){
+    public void q4TeamTabClick(){
         String editedCompanyName = "Harmonic, Inc. ";
         String ticker = "SYY";
+        String name = "QA Test";
         Date today = new Date();
         CompanyList companyList = new CompanyList(driver).navigateToCompanyPage();
         CompanyDetailsPage companyDetails = companyList.searchForCompany(editedCompanyName).selectFirstCompanyInList();
-        companyDetails.clickQ4TeamTab().clickAddButton().addTeamMember("QA Test");
+        companyDetails.clickQ4TeamTab().clickAddButton().addTeamMember(name);
+        Assert.assertTrue("Team member not added", companyDetails.isTeamMemberPresent(name));
+        companyDetails.removeTeamMember(name);
     }
 
 }
