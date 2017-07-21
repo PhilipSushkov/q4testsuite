@@ -75,7 +75,7 @@ public class CompanyDetailsPage extends CompanyList {
         }
     }
 
-    public boolean canClickEmailTab(){
+    public boolean canClickMailTab(){
         waitForLoadingScreen();
         try {
             wait.until(ExpectedConditions.elementToBeClickable(mailingTab));
@@ -101,6 +101,20 @@ public class CompanyDetailsPage extends CompanyList {
     public CompanyDetailsPage clickQ4TeamTab(){
         if(canClickQ4Tab()) {
             findVisibleElement(q4TeamTab).click();
+        }
+        return this;
+    }
+
+    public CompanyDetailsPage clickMailingTab(){
+        if(canClickMailTab()) {
+            findVisibleElement(mailingTab).click();
+        }
+        return this;
+    }
+
+    public CompanyDetailsPage clickPeerTab(){
+        if(canClickPeerTab()) {
+            findVisibleElement(peerTab).click();
         }
         return this;
     }
