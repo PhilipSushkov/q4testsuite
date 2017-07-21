@@ -21,6 +21,8 @@ public class CompanyDetailsPage extends CompanyList {
     private final By peerTab = By.xpath("//div[contains(@class,'tab')][span[contains(text(),'Peers')]]");
     private final By searchResult = By.cssSelector("body > q4-app > div > div > q4-organization-details > q4-organization-peers > p-dialog:nth-child(3) > div > div.ui-dialog-content.ui-widget-content > q4-peer-create > p-autocomplete > span > div");
     private final By q4TeamTab = By.xpath("//div[contains(@class,'tab')][span[contains(text(),'Q4 Team')]]");
+    private final By peerNameHeader= By.xpath("//th//span[contains(text(),'Peer Name')]");
+    private final By reportTypeHeader = By.xpath("//th//span[contains(text(),'Report Type')]");
 
     private final By editCompanyButton = By.xpath("/html/body/q4-app/div/div/q4-organization-details/header/div/div[2]/button[1]");
     private final By companyNameField = By.xpath("//p-dialog[contains(@header,'Edit Company Name')]//input[contains(@placeholder,'Name')]");
@@ -119,6 +121,25 @@ public class CompanyDetailsPage extends CompanyList {
         return this;
     }
 
+    public boolean onPeerTab(){
+        try{
+            waitForElementToAppear(peerNameHeader);
+            return true;
+        }
+        catch(Exception e){
+            return false;
+        }
+    }
+
+    public boolean onMailTab(){
+        try{
+            waitForElementToAppear(reportTypeHeader);
+            return true;
+        }
+        catch(Exception e){
+            return false;
+        }
+    }
     public CompanyDetailsPage addPeer(String company) {
         waitForLoadingScreen();
         wait.until(ExpectedConditions.elementToBeClickable(addButton));

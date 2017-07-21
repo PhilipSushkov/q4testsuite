@@ -46,7 +46,7 @@ public class CSMAccess extends AdminAbstractSpec {
         Date today = new Date();
         CompanyList companyList = new CompanyList(driver).navigateToCompanyPage();
         CompanyDetailsPage companyDetails = companyList.searchForCompany(editedCompanyName).selectFirstCompanyInList();
-        Assert.assertTrue("CSM cannot accesss peer table for viewing",companyDetails.canClickPeerTab());
+        Assert.assertTrue("CSM cannot accesss peer table for viewing",companyDetails.clickPeerTab().onPeerTab());
     }
 
     @Test
@@ -55,7 +55,7 @@ public class CSMAccess extends AdminAbstractSpec {
         Date today = new Date();
         CompanyList companyList = new CompanyList(driver).navigateToCompanyPage();
         CompanyDetailsPage companyDetails = companyList.searchForCompany(editedCompanyName).selectFirstCompanyInList();
-        Assert.assertTrue("CSM cannot access mailing list viewing",companyDetails.canClickMailTab());
+        Assert.assertTrue("CSM cannot access mailing list viewing",companyDetails.clickMailingTab().onMailTab());
     }
 
     @Test
