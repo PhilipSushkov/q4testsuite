@@ -47,7 +47,40 @@ public class CSMAccess extends AdminAbstractSpec {
         CompanyList companyList = new CompanyList(driver).navigateToCompanyPage();
         CompanyDetailsPage companyDetails = companyList.searchForCompany(editedCompanyName).selectFirstCompanyInList();
         Assert.assertTrue("CSM cannot accesss peer table for viewing",companyDetails.canClickPeerTab());
+    }
 
+    @Test
+    public void canViewMailingList(){
+        String editedCompanyName = "Harmonic, Inc. ";
+        Date today = new Date();
+        CompanyList companyList = new CompanyList(driver).navigateToCompanyPage();
+        CompanyDetailsPage companyDetails = companyList.searchForCompany(editedCompanyName).selectFirstCompanyInList();
+        Assert.assertTrue("CSM cannot access mailing list viewing",companyDetails.canClickEmailTab());
+    }
+
+    @Test
+    public void canEditTickers(){
+        String editedCompanyName = "Harmonic, Inc. ";
+        String ticker = "SYY";
+        Date today = new Date();
+        CompanyList companyList = new CompanyList(driver).navigateToCompanyPage();
+        CompanyDetailsPage companyDetails = companyList.searchForCompany(editedCompanyName).selectFirstCompanyInList();
+        companyDetails.selectTickerTab().addTicker(ticker);
+        Assert.assertTrue("Ticker is not present after being added",companyDetails.isTickerPresent(ticker));
+        companyDetails.removeTicker();
+    }
+
+    @Test
+    public void canEditQ4Team(){
+        String editedCompanyName = "Harmonic, Inc. ";
+        String ticker = "SYY";
+        String name = "QA Test";
+        Date today = new Date();
+        CompanyList companyList = new CompanyList(driver).navigateToCompanyPage();
+        CompanyDetailsPage companyDetails = companyList.searchForCompany(editedCompanyName).selectFirstCompanyInList();
+        companyDetails.clickQ4TeamTab().clickAddButton().addTeamMember(name);
+        Assert.assertTrue("Team member not added", companyDetails.isTeamMemberPresent(name));
+        companyDetails.removeTeamMember(name);
     }
 
 }
