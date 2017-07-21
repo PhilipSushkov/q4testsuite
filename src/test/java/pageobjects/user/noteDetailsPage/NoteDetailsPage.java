@@ -13,7 +13,7 @@ public class NoteDetailsPage extends ActivityPage {
     private final By noteDetails = By.xpath("//div[contains(@class, 'x-container x-unsized x-size-monitored x-paint-monitored notes')]/div[contains(@class, 'x-inner')]/div[contains(@class, 'x-innerhtml')]/div[contains(@class, 'q4-fade-in')]");
     private final By commentDetails = By.cssSelector(".activity-header .detail-header .detail-info .title");
     private final By activityTitle = By.xpath("//div[contains(@class, 'detail-info')]/h2[contains(@class, 'title')]");
-    private final By linkedToDetails = By.xpath("//div[contains(@class, 'x-container x-unsized activity-attendees-list x-dataview x-paint-monitored')]/div[contains(@class, 'x-body x-domscroller')]/div[contains(@class, 'x-inner x-dataview-inner')]/div[contains(@class, 'x-unsized x-dataview-container')]/div[contains(@class, 'x-dataview-item attendee-item')]/div[contains(@class, 'row')]/div[contains(@class, 'column flex name')]");
+    private final By linkedToDetails = By.xpath("//div[contains(@class,'x-dataview-container')]//div[contains(@class,'column flex name')]");
     private final By activityHeader = By.cssSelector(".note-detail-header .note-information h1");
     private final By detailsHeader = By.xpath("//div[contains(@class, 'x-container x-tabbar x-dock-item x-docked-top x-stretched')]");
     private final By activityDetails = By.cssSelector(".preview-note-view p");
@@ -22,6 +22,9 @@ public class NoteDetailsPage extends ActivityPage {
     private final By attendeeDetails = By.xpath("//div[contains (@class, 'x-unsized x-dataview-container')]/div[contains(@class, 'x-dataview-item')]/div[contains(@class, 'details')]");
     private final By dateDetails = By.xpath("//div[contains(@class, 'x-innerhtml')]/ul[contains(@class, 'bordered-list')]/li[1]");
     private final By contactAttendees = By.xpath("//div[contains(@class, 'x-inner x-data-item-inner toolbar-panel-inner attendees-toolbar-inner')]/div[contains(@class, 'x-container range-tabs dark-tabs x-stretched')]/div[contains(@class, 'x-inner range-tabs-inner x-align-center x-horizontal x-pack-start x-layout-box')]/div[contains(@class, 'x-button x-button-no-icon x-layout-box-item x-stretched')]/*[contains(text(), 'Contact')]");
+    private final By institutionTab = By.xpath("//div[contains(@class,'x-button')][span[contains(text(),'Institution')][span[contains(@class,'counter')]]]");
+    private final By fundTab = By.xpath("//div[contains(@class,'x-button')][span[contains(text(),'Fund')][span[contains(@class,'counter')]]]");
+    private final By contactTab = By.xpath("//div[contains(@class,'x-button')][span[contains(text(),'Contact')][span[contains(@class,'counter')]]]");
 
     // Suggest an Edit Note Menu
     private final By suggestEditMenuDropdownButton = By.cssSelector("#ext-element-661");
@@ -102,16 +105,30 @@ public class NoteDetailsPage extends ActivityPage {
         return this;
     }
 
-    public String getLinkedToText() {
-        return findElement(linkedToDetails).getText();
-    }
-
-    public String filterContactsOnlys(){
-        scrollToElement(contactAttendees);
-        findElement(contactAttendees).click();
+    public String returnAttendeesList(){
         waitForElement(linkedToDetails);
         return findVisibleElement(linkedToDetails).getText();
     }
+
+    public NoteDetailsPage clickInstitutionTab(){
+        wait.until(ExpectedConditions.elementToBeClickable(institutionTab));
+        findVisibleElement(institutionTab).click();
+        waitForLoadingScreen();
+        return this;
+    }
+    public NoteDetailsPage clickFundTab(){
+        wait.until(ExpectedConditions.elementToBeClickable(fundTab));
+        findVisibleElement(fundTab).click();
+        waitForLoadingScreen();
+        return this;
+    }
+    public NoteDetailsPage clickContactTab(){
+        wait.until(ExpectedConditions.elementToBeClickable(contactTab));
+        findVisibleElement(contactTab).click();
+        waitForLoadingScreen();
+        return this;
+    }
+
 
     public String getActivityHeader() {
         return findElement(activityHeader).getText();
