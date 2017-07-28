@@ -244,10 +244,8 @@ public class NoteDetailsPage extends ActivityPage {
 
     public NoteDetailsPage addNewTag(String newTag){
         //Add new tag from details page
-        waitForElementToAppear(addTagButton);
-        findElement(addTagButton).click();
-        waitForElementToAppear(addTagField);
-        findElement(addTagField).click();
+        waitForElementToBeClickable(addTagButton).click();
+        waitForElementToBeClickable(addTagField).click();
         findElement(addTagField).sendKeys(newTag);
         findElement(addTagField).sendKeys(Keys.ENTER);
         findElement(addTagField).sendKeys(Keys.ESCAPE);

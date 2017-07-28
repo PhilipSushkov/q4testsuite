@@ -50,15 +50,15 @@ public class ResearchPage extends AbstractPageObject {
     }
 
     public String getResearchHeadline() {
-        return findElement(researchSearchResults).getText();
+        return waitForElementToAppear(researchSearchResults).getText();
     }
 
     public int getNumberOfDocuments() {
-        return Integer.parseInt(findElement(numberOfDocuments).getText().replaceAll("[()]", ""));
+        return Integer.parseInt(waitForElementToAppear(numberOfDocuments).getText().replaceAll("[()]", ""));
     }
 
     public String getFirmNameFromList() {
-        return findElement(firmName).getText();
+        return waitForElementToAppear(firmName).getText();
     }
 
     public InstitutionPage selectFirmFromResearchList() {

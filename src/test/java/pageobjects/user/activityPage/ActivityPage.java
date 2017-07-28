@@ -85,6 +85,7 @@ public class ActivityPage extends AbstractPageObject {
     public String getNewNote() {
         // Waits for the load more button to appear at the bottom of the page.
         waitForLoadingScreen();
+        waitForAnyElementToAppear(notesSection);
         return findVisibleElement(notesSection).getText();
     }
 
@@ -113,7 +114,7 @@ public class ActivityPage extends AbstractPageObject {
         //findElement(activitySearchField).sendKeys(Keys.RETURN);
         waitForLoadingScreen();
         if (doesElementExist(notesSection)) {
-            waitForElementToRest(notesSection, 3000L);
+            waitForElementToRest(notesSection, 2000L);
         }
 
         return this;

@@ -30,11 +30,14 @@ public class AdvancedSearchPage extends AbstractPageObject {
 
     public String getAdvancedSearchResults() {
         waitForLoadingScreen();
+        waitForElement(searchResults);
+        waitForElementToRest(searchResults, 500L);
         return findElement(searchResults).getText();
     }
 
     public String getContactNameFromSearchResults() {
         waitForLoadingScreen();
+        waitForElement(contactName);
         return findElement(contactName).getText();
     }
 
