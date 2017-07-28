@@ -41,8 +41,7 @@ public class ContactDetails extends AbstractSpec {
         Assert.assertThat("New tag is not shown on Contact page", contactDetailsPage.getContactTags(), containsString(tagName));
     }
 
-    // Test will not work until ticket DESKTOP-8383 is addressed
-    @Ignore
+
     @Test
     public void loggedActivityDateCorrect()
     {
@@ -133,8 +132,6 @@ public class ContactDetails extends AbstractSpec {
         Assert.assertFalse("'Saved Target' icon still appears.", new ContactDetailsPage(driver).isSavedTarget());
     }
 
-    // TODO this is currently broken. Remove ignore after this has been fixed on develop
-    @Ignore
     @Test
     public void canAddContactToBriefingBook() {
         String title = "Contact Details Ttitle" + RandomStringUtils.randomAlphanumeric(6);

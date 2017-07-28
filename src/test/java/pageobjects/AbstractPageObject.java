@@ -3,6 +3,7 @@ package pageobjects;
 import org.apache.commons.collections4.Predicate;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import pageobjects.admin.companyPage.CompanyList;
@@ -15,6 +16,7 @@ import pageobjects.user.headerPage.HeaderPage;
 import pageobjects.user.logActivityModal.LogActivityModal;
 import pageobjects.user.loginPage.LoginPage;
 import pageobjects.user.sideNavBar.SideNavBar;
+
 
 import java.text.NumberFormat;
 import java.text.ParseException;
@@ -38,6 +40,9 @@ public class AbstractPageObject implements HeaderPage{
 
     private final By notSubscribed = By.xpath("//h1[contains(text(),'Interested?')]");
 
+    // Dashboard
+    private final By dashboardLoaded = By.xpath("//div[@class='x-container x-sized home-stock x-layout-box-item']");
+
     // Side hamburger menu icon
     private final By sideNavIcon = By.cssSelector(".page-home .menu-btn"); //use for dashboard
     private final By hamburgerIcon = By.cssSelector(".navigation-toggler .x-button-icon"); //use for other pages
@@ -48,7 +53,7 @@ public class AbstractPageObject implements HeaderPage{
 
     // Admin page elements
     private final By adminPageTitle = By.cssSelector(".page-header .page-title .details h2");
-    private final By loading = By.className("outer-spinner-container");
+    private final By loading = By.className("x-loading-spinner");
     private final By companyPage = By.cssSelector("body > q4-app > div > q4-navbar > nav > div > ul > li:nth-child(2) > a > i");
     private final By profilesPage = By.cssSelector("body > q4-app > div > q4-navbar > nav > div > ul > li:nth-child(3) > a > i");
     private final By intelligencePage = By.cssSelector("body > q4-app > div > q4-navbar > nav > div > ul > li:nth-child(4) > a > i");
@@ -73,7 +78,7 @@ public class AbstractPageObject implements HeaderPage{
 
     public AbstractPageObject(WebDriver driver) {
         this.driver = driver;
-        this.wait = new WebDriverWait(driver, 10L);
+        this.wait = new WebDriverWait(driver, 10L, 500L);
     }
 
     @Override
@@ -110,18 +115,13 @@ public class AbstractPageObject implements HeaderPage{
 
     //use from dashboard
     public SideNavBar accessSideNav() {
-        waitForLoadingScreen();
-        waitForElement(sideNavIcon);
-        findElement(sideNavIcon).click();
-
+        waitForElementToBeClickable(sideNavIcon).click();
         return new SideNavBar(getDriver());
     }
 
     //use from other pages
     public SideNavBar accessSideNavFromPage() {
-        waitForLoadingScreen();
-        waitForElement(hamburgerIcon);
-        findElement(hamburgerIcon).click();
+        waitForElementToBeClickable(hamburgerIcon).click();
         return new SideNavBar(getDriver());
     }
 
@@ -192,7 +192,18 @@ public class AbstractPageObject implements HeaderPage{
     }
 
     public void waitForLoadingScreen() {
-        wait.until(ExpectedConditions.invisibilityOfElementLocated(loading));
+        //Waits 2 sec for spinners to appear, then 10 sec for spinners to disappear
+        WebDriverWait spinnerWait = new WebDriverWait(driver, 2);
+        try {
+            spinnerWait.until(ExpectedConditions.presenceOfElementLocated(loading));
+            wait.until(ExpectedConditions.invisibilityOfAllElements(findElements(loading)));
+        } catch (Exception e) {
+            // No loading spinners; do nothing
+        }
+    }
+
+    public void waitForDashboardToLoad() {
+        waitForElementToAppear(dashboardLoaded);
     }
 
     //Can't leave this for JUST contacts

@@ -79,9 +79,9 @@ public class NewSearchPage extends AbstractPageObject{
 
 
     public TargetingPage createBlankSearch(String searchName){
-        waitForElement(saveSearchButton);
+        waitForElementToBeClickable(saveSearchButton);
         findElement(saveSearchButton).click();
-        waitForElement(searchNameField);
+        waitForElementToBeClickable(searchNameField);
         findElement(searchNameField).sendKeys(searchName);
         findElement(saveButton).click();
         waitForLoadingScreen();
@@ -132,6 +132,7 @@ public class NewSearchPage extends AbstractPageObject{
         // Selecting turnover
         System.out.println("SELECTING TURNOVER");
         filterDropdowns.get(0).click();
+        waitForAnyElementToAppear(dropdownOptionTitleSelectors);
         List<WebElement> dropdownOptionTitles = findElements(dropdownOptionTitleSelectors);
         List<WebElement> dropdownOptionCheckboxes = findElements(dropdownOptionCheckboxSelectors);
         for (int i=0; i<dropdownOptionTitles.size(); i++){
@@ -146,6 +147,7 @@ public class NewSearchPage extends AbstractPageObject{
         // Selecting type of institution/fund
         System.out.println("SELECTING TYPE");
         filterDropdowns.get(1).click();
+        waitForAnyElementToAppear(dropdownOptionTitleSelectors);
         dropdownOptionTitles = findElements(dropdownOptionTitleSelectors);
         dropdownOptionCheckboxes = findElements(dropdownOptionCheckboxSelectors);
         for (int i=0; i<dropdownOptionTitles.size(); i++){
@@ -163,6 +165,7 @@ public class NewSearchPage extends AbstractPageObject{
         // Selecting style of institution/fund
         System.out.println("SELECTING STYLE");
         filterDropdowns.get(2).click();
+        waitForAnyElementToAppear(dropdownOptionTitleSelectors);
         dropdownOptionTitles = findElements(dropdownOptionTitleSelectors);
         dropdownOptionCheckboxes = findElements(dropdownOptionCheckboxSelectors);
         for (int i=0; i<dropdownOptionTitles.size(); i++){
@@ -180,6 +183,7 @@ public class NewSearchPage extends AbstractPageObject{
         // Selecting ownership filter
         System.out.println("SELECTING OWNERSHIP");
         filterDropdowns.get(3).click();
+        waitForAnyElementToAppear(dropdownOptionTitleSelectors);
         dropdownOptionTitles = findElements(dropdownOptionTitleSelectors);
         dropdownOptionCheckboxes = findElements(dropdownOptionCheckboxSelectors);
         for (int i=0; i<dropdownOptionTitles.size(); i++){
@@ -242,6 +246,7 @@ public class NewSearchPage extends AbstractPageObject{
         waitForElement(searchNameField);
         findElement(searchNameField).sendKeys(searchName);
         findElement(saveButton).click();
+        waitForLoadingScreen();
 
         return new TargetingPage(getDriver());
     }

@@ -3,6 +3,7 @@ package pageobjects.user.loginPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import pageobjects.user.dashboardPage.Dashboard;
 import pageobjects.Page;
 
@@ -34,34 +35,32 @@ public class LoginPage extends Page {
     private final By confirmationModal = By.id("ext-messagebox-1");
     private final By confirmationOkButton = By.cssSelector(".x-msgbox-buttons .x-button");
 
+    // Longer WebDriverWait for initial loading screen
+    WebDriverWait longWait = new WebDriverWait(driver, 20);
+
     public LoginPage(WebDriver driver) {
         super(driver);
+        disableAnimations();
     }
 
     public Dashboard loginUser() {
-        waitForLoadingScreen();
-        wait.until(ExpectedConditions.elementToBeClickable(emailField));
-        findElement(emailField).clear();
+        longWait.until(ExpectedConditions.elementToBeClickable(emailField)).clear();
         findElement(passwordField).clear();
         findElement(emailField).sendKeys("patrickp@q4websystems.com");
         findElement(passwordField).sendKeys("patrick!");
-        pause(2000L);
-        waitForElementToAppear(loginButton);
-        retryClick(loginButton);
+        waitForElementToBeClickable(loginButton).click();
+        waitForDashboardToLoad();
+        pause(1000L);
 
         return new Dashboard(getDriver());
     }
 
     public Dashboard customLoginUser(String email, String password) {
-        waitForLoadingScreen();
-        waitForElementToAppear(emailField);
-        findElement(emailField).clear();
+        longWait.until(ExpectedConditions.elementToBeClickable(emailField)).clear();
         findElement(passwordField).clear();
         findElement(emailField).sendKeys(email);
         findElement(passwordField).sendKeys(password);
-        pause(2000L);
-        waitForElementToAppear(loginButton);
-        retryClick(loginButton);
+        waitForElementToBeClickable(loginButton).click();
 
         return new Dashboard(getDriver());
     }
@@ -80,7 +79,7 @@ public class LoginPage extends Page {
 
     public LoginPage forgotPassword() {
         waitForLoadingScreen();
-        findElement(forgotPasswordLink).click();
+        waitForElementToBeClickable(forgotPasswordLink).click();
 
         return this;
     }

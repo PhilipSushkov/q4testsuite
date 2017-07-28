@@ -52,7 +52,7 @@ public class SideNavBar extends AbstractPageObject{
 
     public Dashboard selectDashboardFromSideNav() {
         pause(2000L);
-        waitForElementToAppear(dashBoardSideNav);
+        waitForElementToBeClickable(dashBoardSideNav);
         findElement(dashBoardSideNav).click();
 
         return new Dashboard(getDriver());
@@ -60,7 +60,7 @@ public class SideNavBar extends AbstractPageObject{
 
     public WatchlistPage selectWatchListFromSideNav() {
         pause(2000L);
-        waitForElementToAppear(watchlistSideNav);
+        waitForElementToBeClickable(watchlistSideNav);
         findElement(watchlistSideNav).click();
 
         return new WatchlistPage(getDriver());
@@ -68,7 +68,7 @@ public class SideNavBar extends AbstractPageObject{
 
     public ActivityPage selectActivityPageFromSideNav() {
         pause(2000L);
-        waitForElement(activityPageSideNav);
+        waitForElementToBeClickable(activityPageSideNav);
         new Actions(driver).moveToElement(findElement(activityPageSideNav)).click().perform();
         waitForLoadingScreen();
 
@@ -77,7 +77,7 @@ public class SideNavBar extends AbstractPageObject{
 
     public ContactPage selectContactsFromSideNav() {
         pause(2000L);
-        wait.until(ExpectedConditions.elementToBeClickable(contactsSideNav));
+        waitForElementToBeClickable(contactsSideNav);
         findElement(contactsSideNav).click();
 
         return new ContactPage(getDriver());
@@ -85,7 +85,7 @@ public class SideNavBar extends AbstractPageObject{
 
     public EventsTranscriptsPage selectEventsAndTranscriptsFromSideNav() {
         pause(2000L);
-        waitForElementToAppear(eventsSideNav);
+        waitForElementToBeClickable(eventsSideNav);
         findElement(eventsSideNav).click();
 
         return new EventsTranscriptsPage(getDriver());
@@ -93,7 +93,7 @@ public class SideNavBar extends AbstractPageObject{
 
     public BriefingBookList selectBriefingBookFromSideNav() {
         pause(2000L);
-        waitForElementToAppear(reportsSideNav);
+        waitForElementToBeClickable(reportsSideNav);
         findElement(reportsSideNav).click();
 
         return new BriefingBookList(getDriver());
@@ -101,7 +101,7 @@ public class SideNavBar extends AbstractPageObject{
 
     public SecurityOwnershipPage selectOwnershipFromSideNav() {
         pause(2000L);
-        waitForElementToAppear(ownershipSideNav);
+        waitForElementToBeClickable(ownershipSideNav);
         findElement(ownershipSideNav).click();
         waitForLoadingScreen();
 
@@ -110,7 +110,7 @@ public class SideNavBar extends AbstractPageObject{
 
     public SecurityEstimatesPage selectEstimatesFromSideNav() {
         pause(2000L);
-        waitForElementToAppear(estimatesSideNav);
+        waitForElementToBeClickable(estimatesSideNav);
         findElement(estimatesSideNav).click();
 
         return new SecurityEstimatesPage(getDriver());
@@ -118,7 +118,7 @@ public class SideNavBar extends AbstractPageObject{
 
     public WebAnalyticsPage selectWebAnalyticsFromSideNav() {
         pause(2000L);
-        waitForElementToAppear(webAnalyticsSideNav);
+        waitForElementToBeClickable(webAnalyticsSideNav);
         findElement(webAnalyticsSideNav).click();
 
         return new WebAnalyticsPage(getDriver());
@@ -126,7 +126,7 @@ public class SideNavBar extends AbstractPageObject{
 
     public WebcastAnalyticsPage selectWebcastAnalyticsFromSideNav() {
         pause(2000L);
-        waitForElementToAppear(webcastAnalyticsSideNav);
+        waitForElementToBeClickable(webcastAnalyticsSideNav);
         findElement(webcastAnalyticsSideNav).click();
 
         return new WebcastAnalyticsPage(getDriver());
@@ -134,7 +134,7 @@ public class SideNavBar extends AbstractPageObject{
 
     public SupportTicketsPage selectSupportTicketsFromSideNav() {
         pause(2000L);
-        waitForElementToAppear(supportTicketsSideNav);
+        waitForElementToBeClickable(supportTicketsSideNav);
         findElement(supportTicketsSideNav).click();
 
         return new SupportTicketsPage(getDriver());
@@ -142,7 +142,7 @@ public class SideNavBar extends AbstractPageObject{
 
     public SecurityOverviewPage selectSecurityFromSideNav() {
         pause(2000L);
-        waitForElementToAppear(securitySideNav);
+        waitForElementToBeClickable(securitySideNav);
         findElement(securitySideNav).click();
 
         return new SecurityOverviewPage(getDriver());
@@ -150,7 +150,7 @@ public class SideNavBar extends AbstractPageObject{
 
     public TargetingPage selectTargetingFromSideNav() {
         pause(2000L);
-        waitForElement(targetingSideNav);
+        waitForElementToBeClickable(targetingSideNav);
         findElement(targetingSideNav).click();
 
         return new TargetingPage(getDriver());
@@ -158,7 +158,7 @@ public class SideNavBar extends AbstractPageObject{
 
     public AdvancedSearchPage selectAdvancedSearchFromSideNav() {
         pause(2000L);
-        waitForElement(advancedSearchSideNav);
+        waitForElementToBeClickable(advancedSearchSideNav);
         findElement(advancedSearchSideNav).click();
 
         return new AdvancedSearchPage(getDriver());
@@ -166,7 +166,7 @@ public class SideNavBar extends AbstractPageObject{
 
     public ResearchPage selectResearchFromSideNav() {
         pause(2000L);
-        wait.until(ExpectedConditions.elementToBeClickable(researchSideNav));
+        waitForElementToBeClickable(researchSideNav);
         findElement(researchSideNav).click();
 
         return new ResearchPage(getDriver());

@@ -76,7 +76,7 @@ public abstract class AbstractSpec {
     private void setupLocalDriver() {
 
         driver = new ChromeDriver();
-        driver.manage().timeouts().implicitlyWait(DEFAULT_TIMEOUT, TimeUnit.SECONDS);
+        //driver.manage().timeouts().implicitlyWait(DEFAULT_TIMEOUT, TimeUnit.SECONDS);
         driver.manage().window().setSize(new Dimension(1400, 1400));
         driver.get(desktopUrl.toString());
     }
@@ -94,7 +94,7 @@ public abstract class AbstractSpec {
         capability.setCapability("browserstack.debug", "false");
 
         driver = new RemoteWebDriver(new URL(BROWSER_STACK_URL), capability);
-        driver.manage().timeouts().implicitlyWait(DEFAULT_TIMEOUT, TimeUnit.SECONDS);
+        //driver.manage().timeouts().implicitlyWait(DEFAULT_TIMEOUT, TimeUnit.SECONDS);
         driver.manage().window().setSize(new Dimension(1400, 1400));
 
         driver.get(desktopUrl.toString());

@@ -13,7 +13,7 @@ public class NoteDetailsPage extends ActivityPage {
     private final By noteDetails = By.xpath("//div[contains(@class, 'x-container x-unsized x-size-monitored x-paint-monitored notes')]/div[contains(@class, 'x-inner')]/div[contains(@class, 'x-innerhtml')]/div[contains(@class, 'q4-fade-in')]");
     private final By commentDetails = By.cssSelector(".activity-header .detail-header .detail-info .title");
     private final By activityTitle = By.xpath("//div[contains(@class, 'detail-info')]/h2[contains(@class, 'title')]");
-    private final By linkedToDetails = By.xpath("//div[contains(@class,'x-dataview-container')]//div[contains(@class,'column flex name')]");
+    private final By linkedToDetails = By.xpath("//div[contains(@class, 'x-container x-unsized activity-attendees-list x-dataview x-paint-monitored')]//div[contains(@class, 'column flex name')]");
     private final By activityHeader = By.cssSelector(".note-detail-header .note-information h1");
     private final By detailsHeader = By.xpath("//div[contains(@class, 'x-container x-tabbar x-dock-item x-docked-top x-stretched')]");
     private final By activityDetails = By.cssSelector(".preview-note-view p");
@@ -171,6 +171,7 @@ public class NoteDetailsPage extends ActivityPage {
     public String getLocation(){
         waitForLoadingScreen();
         waitForElement(locationDetails);
+        waitForTextToChange(locationDetails, "...");
         return findElement(locationDetails).getText();
     }
 
@@ -238,7 +239,7 @@ public class NoteDetailsPage extends ActivityPage {
     public String getDetailsTag(){
         //Get tag from the details page
         waitForLoadingScreen();
-        return findElement(detailsTag).getText();
+        return waitForElementToBeClickable(detailsTag).getText();
     }
 
     public NoteDetailsPage addNewTag(String newTag){

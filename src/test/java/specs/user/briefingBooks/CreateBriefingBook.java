@@ -28,7 +28,7 @@ public class CreateBriefingBook extends AbstractSpec {
                 .selectBriefingBookFromSideNav();
     }
 
-    @After
+    //@After
     public void cleanUp(){
         try {
             BriefingBookList briefingBookList = new BriefingBookDetailsPage(driver).accessSideNavFromPage().selectBriefingBookFromSideNav();
@@ -44,7 +44,8 @@ public class CreateBriefingBook extends AbstractSpec {
     public void canCreateNewBriefingBook() {
         String briefingBookName = briefingBookTitle + RandomStringUtils.randomAlphanumeric(6);
         BriefingBookList briefingBookList = new BriefingBookList(driver).addNewBriefingBook()
-                .saveBriefingBook(briefingBookName);
+                .saveBriefingBook(briefingBookName)
+                .waitForListToUpdate();
 
         Assert.assertThat("New briefing book was not created", briefingBookList.getBriefingBookList(), containsString(briefingBookName));
     }
@@ -53,7 +54,8 @@ public class CreateBriefingBook extends AbstractSpec {
     public void canDeleteBriefingBookFromDetailsPage() {
         String briefingBookName =briefingBookTitle + RandomStringUtils.randomAlphanumeric(6);
         BriefingBookList briefingBookList = new BriefingBookList(driver).addNewBriefingBook()
-                .saveBriefingBook(briefingBookName);
+                .saveBriefingBook(briefingBookName)
+                .waitForListToUpdate();
         Assert.assertThat("New briefing book was not created", briefingBookList.getBriefingBookList(), containsString(briefingBookName));
         briefingBookList.viewNewBriefingBook()
                 .deleteBriefingBookFromDetailsPage();
@@ -65,7 +67,8 @@ public class CreateBriefingBook extends AbstractSpec {
     public void canDeleteBriefingBookFromMainPage(){
         String briefingBookName = briefingBookTitle + RandomStringUtils.randomAlphanumeric(6);
         BriefingBookList briefingBookList = new BriefingBookList(driver).addNewBriefingBook()
-                .saveBriefingBook(briefingBookName);
+                .saveBriefingBook(briefingBookName)
+                .waitForListToUpdate();
         Assert.assertThat("New briefing book was not created", briefingBookList.getBriefingBookList(), containsString(briefingBookName));
         briefingBookList.deleteNewBriefingBook();
 

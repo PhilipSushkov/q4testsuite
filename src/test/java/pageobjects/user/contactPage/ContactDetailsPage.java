@@ -60,37 +60,35 @@ public class ContactDetailsPage extends Page {
     }
 
     public String getContactName() {
-        waitForElementToAppear(contactIcon);
+        waitForLoadingScreen();
+        waitForAnyElementToAppear(contactName);
         return findVisibleElement(contactName).getText();
     }
 
     public ContactDetailsPage addToContacts() {
 
         pause(500L);
-        wait.until(ExpectedConditions.elementToBeClickable(contactDropDown));
-        findElement(contactDropDown).click();
+        waitForElementToBeClickable(contactDropDown).click();
 
         try {
-            wait.until(ExpectedConditions.elementToBeClickable(addOption));
+            waitForElementToBeClickable(addOption);
             findElement(addOption).click();
+            waitForElementToBeClickable(contactListSave);
             findElement(contactListSave).click();
-            wait.until(ExpectedConditions.elementToBeClickable(okayConfirmationButton));
+            waitForElementToBeClickable(okayConfirmationButton);
             findElement(okayConfirmationButton).click();
         }
         catch (Exception e){
-            wait.until(ExpectedConditions.elementToBeClickable(removeFromContacts));
-            findElement(removeFromContacts).click();
+            waitForElementToBeClickable(removeFromContacts).click();
             waitForLoadingScreen();
-            wait.until(ExpectedConditions.elementToBeClickable(okayConfirmationButton));
-            findElement(okayConfirmationButton).click();
-            wait.until(ExpectedConditions.elementToBeClickable(okayConfirmationButton));
-            findElement(okayConfirmationButton).click();
-            wait.until(ExpectedConditions.elementToBeClickable(contactDropDown));
-            findElement(contactDropDown).click();
-            wait.until(ExpectedConditions.elementToBeClickable(addOption));
-            findElement(addOption).click();
-            findElement(contactListSave).click();
-            findElement(okayConfirmationButton).click();
+            waitForElementToBeClickable(okayConfirmationButton).click();
+            pause(300L);
+            waitForElementToBeClickable(okayConfirmationButton).click();
+            pause(300L);
+            waitForElementToBeClickable(contactDropDown).click();
+            waitForElementToBeClickable(addOption).click();
+            waitForElementToBeClickable(contactListSave).click();
+            waitForElementToBeClickable(okayConfirmationButton).click();
 
         }
         pause(500L);
@@ -102,14 +100,13 @@ public class ContactDetailsPage extends Page {
         pause(500L);
         driver.navigate().refresh();
         waitForLoadingScreen();
-        wait.until(ExpectedConditions.elementToBeClickable(contactDropdownPostAdd));
+        waitForElementToBeClickable(contactDropdownPostAdd);
         retryClick(contactDropdownPostAdd);
         wait.until(ExpectedConditions.elementToBeClickable(removeFromContacts));
-        findElement(removeFromContacts).click();
-        wait.until(ExpectedConditions.elementToBeClickable(okayConfirmationButton));
-        findElement(okayConfirmationButton).click();
-        waitForLoadingScreen();
-        findElement(okayConfirmationButton).click();
+        waitForElementToBeClickable(removeFromContacts).click();
+        waitForElementToBeClickable(okayConfirmationButton).click();
+        pause(500L);
+        waitForElementToBeClickable(okayConfirmationButton).click();
 
         return this;
     }
@@ -129,11 +126,12 @@ public class ContactDetailsPage extends Page {
 
     public String getContactTags() {
         waitForLoadingScreen();
-        waitForElementToAppear(contactTags);
+        waitForAnyElementToAppear(contactTags);
         return findElement(contactTags).getText();
     }
 
     public String getInstitutionName() {
+        waitForElementToBeClickable(institutionName);
         return findElement(institutionName).getText();
     }
 
@@ -144,8 +142,8 @@ public class ContactDetailsPage extends Page {
     }
 
     public ContactDetailsPage switchToManagedFundsTab() {
-        scrollToElement(managedFunds);
         waitForElementToAppear(managedFunds);
+        scrollToElement(managedFunds);
         findElement(managedFunds).click();
 
         return this;
@@ -156,7 +154,7 @@ public class ContactDetailsPage extends Page {
     }
 
     public AdvancedSearchPage viewTagResults() {
-        findElement(tagIcon).click();
+        waitForElementToBeClickable(tagIcon).click();
 
         return new AdvancedSearchPage(getDriver());
     }
@@ -169,13 +167,14 @@ public class ContactDetailsPage extends Page {
     }
 
     public LogActivityPage logActivity() {
-        findElement(logActivityOption).click();
+        waitForElementToBeClickable(logActivityOption).click();
         
         return new LogActivityPage(driver);
     }
 
     public String getNoteDetails() {
         waitForLoadingScreen();
+        waitForElement(noteDetails);
         scrollToElement(noteDetails);
         return findElement(noteDetails).getText();
     }
@@ -222,11 +221,9 @@ public class ContactDetailsPage extends Page {
     public void markAsTarget(){
         if (isSavedTarget()) {
                 waitForLoadingScreen();
-                findElement(contactDropDown).click();
-                findElement(removeTarget).click();
-                pause(2000L);
-                driver.navigate().refresh();
-                waitForLoadingScreen();
+                waitForElementToBeClickable(contactDropDown).click();
+                waitForElementToBeClickable(removeTarget).click();
+                waitForElementToRest(contactDropDown, 1000L);
                 findElement(contactDropDown).click();
                 waitForElementToAppear(markTarget);
                 findElement(markTarget).click();
@@ -234,12 +231,11 @@ public class ContactDetailsPage extends Page {
             }
             else
             {
-                waitForElementToAppear(contactDropDown);
-                findElement(contactDropDown).click();
-                waitForElementToAppear(markTarget);
-                findElement(markTarget).click();
+                waitForElementToBeClickable(contactDropDown).click();
+                waitForElementToBeClickable(markTarget).click();
                 waitForElementToDissapear(markTarget);
         }
+        waitForElementToAppear(targetIcon);
     }
 
     public void removeFromTargets(){
@@ -248,6 +244,7 @@ public class ContactDetailsPage extends Page {
         waitForElementToAppear(removeTarget);
         findElement(removeTarget).click();
         waitForElementToDissapear(removeTarget);
+        waitForElementToDissapear(targetIcon);
     }
 
     public ContactDetailsPage generateTearSheet(String title) {

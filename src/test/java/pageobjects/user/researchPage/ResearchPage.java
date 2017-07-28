@@ -41,7 +41,7 @@ public class ResearchPage extends AbstractPageObject {
 
     public ResearchPage searchForDocument(String documentName) {
         waitForLoadingScreen();
-        findElement(researchSearchField).click();
+        waitForElementToBeClickable(researchSearchField).click();
         findElement(researchSearchField).sendKeys(documentName);
         findElement(researchSearchField).sendKeys(Keys.ENTER);
         waitForLoadingScreen();
@@ -63,23 +63,23 @@ public class ResearchPage extends AbstractPageObject {
 
     public InstitutionPage selectFirmFromResearchList() {
         waitForLoadingScreen();
-        findElement(firmName).click();
+        waitForElementToBeClickable(firmName).click();
 
         return new InstitutionPage(getDriver());
     }
 
     public String getAnalystNameFromList() {
-        return findElement(analystName).getText();
+        waitForAnyElementToAppear(analystName);
+        return findVisibleElement(analystName).getText();
     }
 
     public ResearchPage viewMultipleAnaysts() {
-        findElement(multipleAnalystDropdown).click();
-
+        waitForElementToBeClickable(multipleAnalystDropdown).click();
         return this;
     }
 
     public ContactPage selectAnalystFromResearchList() {
-        findElement(analystName).click();
+        waitForElementToBeClickable(analystName).click();
         pause(1000L);
 
         return new ContactPage(getDriver());

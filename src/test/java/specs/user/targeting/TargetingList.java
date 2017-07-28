@@ -59,19 +59,18 @@ public class TargetingList extends AbstractSpec {
         new TargetingPage(driver).newSearch().createNewSearch(searchName, filters);
 
         // verifying that search name is listed
-        int searchNameIndex = new TargetingPage(driver).findSearchNameIndex(searchName); //will be -1 if not listed
-        Assert.assertNotEquals("Search name not found in saved searches list", -1, searchNameIndex);
+        WebElement search = new TargetingPage(driver).returnSearch(searchName);
+        Assert.assertNotNull("Search name not found in saved searches list", search);
 
         // opening search and verifying that filters are correct
-        boolean filtersMatch = new TargetingPage(driver).editSearch(searchNameIndex).verifyFilters(filters);
+        boolean filtersMatch = new TargetingPage(driver).editSearch(search).verifyFilters(filters);
         Assert.assertTrue("Filters do not match.", filtersMatch);
 
         // deleting search using button on filter page
         new EditSearchPage(driver).deleteSearch();
 
         // verifying that search is gone
-        searchNameIndex = new TargetingPage(driver).findSearchNameIndex(searchName); //will be -1 if not listed
-        Assert.assertEquals("Search has not been deleted", -1, searchNameIndex);
+        Assert.assertNull("Search has not been deleted", new TargetingPage(driver).returnSearch(searchName));
     }
 
     @Test
@@ -227,15 +226,15 @@ public class TargetingList extends AbstractSpec {
         // creating a new search and saving it
         new TargetingPage(driver).newSearch().createNewSearch(searchName, filters);
         // verifying that search name is listed
-        int searchNameIndex = new TargetingPage(driver).findSearchNameIndex(searchName);//will be -1 if not listed
+        int searchNameIndex = new TargetingPage(driver).searchExists(searchName);//will be -1 if not listed
         Assert.assertNotEquals("Search name not found in saved searches list", -1, searchNameIndex);
         // starting then aborting a delete and verifying that the search is still there
         new TargetingPage(driver).deleteSearchAbort(searchNameIndex);
-        searchNameIndex = new TargetingPage(driver).findSearchNameIndex(searchName);//will be -1 if not listed
+        searchNameIndex = new TargetingPage(driver).searchExists(searchName);//will be -1 if not listed
         Assert.assertNotEquals("Search name not found despite aborted delete", -1, searchNameIndex);
         // actually deleting the search and verifying that it is gone
         new TargetingPage(driver).deleteSearch(searchNameIndex);
-        searchNameIndex = new TargetingPage(driver).findSearchNameIndex(searchName);//will be -1 if not listed
+        searchNameIndex = new TargetingPage(driver).searchExists(searchName);//will be -1 if not listed
         Assert.assertEquals("Search has not been deleted", -1, searchNameIndex);
     }*/
    @Test
@@ -271,7 +270,6 @@ public class TargetingList extends AbstractSpec {
        targetingPage =targetingPage.deleteSearch(search);
        search = targetingPage.returnSearch(searchName);
        Assert.assertTrue("Search has not been deleted", search==null);
-
    }
 
     @Test
@@ -327,17 +325,17 @@ public class TargetingList extends AbstractSpec {
         String expectedCreatedDate = "01/26/17";
         SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yy");
         // checking that required search is present and that created date is correct
-        int searchNameIndex = new TargetingPage(driver).findSearchNameIndex(expectedSearchName);
-        Assert.assertNotEquals("Before editing: the required search cannot be found", -1, searchNameIndex);
-        Assert.assertEquals("Before editing: created date is incorrect", expectedCreatedDate, new TargetingPage(driver).getCreatedDate(searchNameIndex));
+        WebElement search = new TargetingPage(driver).returnSearch(expectedSearchName);
+        Assert.assertNotNull("Before editing: the required search cannot be found", search);
+        Assert.assertEquals("Before editing: created date is incorrect", expectedCreatedDate, new TargetingPage(driver).getCreatedDate());
         // opening and resaving search (this should change the last updated date)
-        new TargetingPage(driver).editSearch(searchNameIndex).resaveSearch();
+        new TargetingPage(driver).editSearch(search).resaveSearch();
         // checking that search is still listed with correct created date
-        searchNameIndex = new EditSearchPage(driver).accessSideNavFromPage().selectTargetingFromSideNav().findSearchNameIndex(expectedSearchName);
-        Assert.assertNotEquals("After editing: the required search cannot be found", -1, searchNameIndex);
-        Assert.assertEquals("After editing: created date is incorrect", expectedCreatedDate, new TargetingPage(driver).getCreatedDate(searchNameIndex));
+        search = new EditSearchPage(driver).accessSideNavFromPage().selectTargetingFromSideNav().returnSearch(expectedSearchName);
+        Assert.assertNotNull("After editing: the required search cannot be found", search);
+        Assert.assertEquals("After editing: created date is incorrect", expectedCreatedDate, new TargetingPage(driver).getCreatedDate());
         // checking that last updated date is today
-        Assert.assertEquals("After editing: last updated date is not today", dateFormat.format(current), new TargetingPage(driver).getUpdatedDate(searchNameIndex));
+        Assert.assertEquals("After editing: last updated date is not today", dateFormat.format(current), new TargetingPage(driver).getUpdatedDate());
     }
 
     @Test

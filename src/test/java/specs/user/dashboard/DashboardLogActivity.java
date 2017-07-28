@@ -39,7 +39,8 @@ public class DashboardLogActivity extends AbstractSpec {
                 .addNewTag(tag)
                 .accessSideNavFromPage()
                 .selectActivityPageFromSideNav()
-                .searchForNote(comment);
+                .searchForNote(comment)
+                .waitForText(comment);
 
         Assert.assertThat("Note does not contain the expected comment text", activityPage.getNewNote(), containsString(comment));
         Assert.assertThat("Note does not contain the expected tag", activityPage.getNewNote(), containsString(tag));
@@ -61,7 +62,8 @@ public class DashboardLogActivity extends AbstractSpec {
                 .addNewTag(tag)
                 .accessSideNavFromPage()
                 .selectActivityPageFromSideNav()
-                .searchForNote(comment);
+                .searchForNote(comment)
+                .waitForText(comment);
 
         Assert.assertThat("Note does not contain the expected comment text", activityPage.getNewNote(), containsString(comment));
         Assert.assertThat("Note does not contain the expected tag", activityPage.getNewNote(), containsString(tag));

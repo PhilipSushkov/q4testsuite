@@ -102,17 +102,18 @@ public class BriefingBookList extends AbstractPageObject {
 
     public BriefingBookDetailsPage viewNewBriefingBook() {
         waitForLoadingScreen();
+        waitForElementToBeClickable(newBriefingBook);
         findElement(newBriefingBook).click();
 
         return new BriefingBookDetailsPage(getDriver());
     }
 
     public BriefingBookList deleteNewBriefingBook(){
-        waitForLoadingScreen();
         findElement(checkbox).click();
         findElement(deleteButton).click();
         waitForElementToAppear(confirmDeleteButton);
         findElement(confirmDeleteButton).click();
+        waitForElementToRest(reportList, 1000L);
         return this;
     }
 
@@ -132,7 +133,7 @@ public class BriefingBookList extends AbstractPageObject {
         findVisibleElement(searchBox).sendKeys(" ");
         findVisibleElement(searchBox).clear();
         findVisibleElement(searchBox).sendKeys(searchTerm);
-        pause(2000);
+        waitForElementToRest(reportList, 1000L);
         return this;
     }
 
@@ -173,6 +174,14 @@ public class BriefingBookList extends AbstractPageObject {
                 findElement(updatedHeader).click();
                 break;
         }
+        if (doesElementExist(generalBriefingBookItem)) {
+            waitForElementToRest(generalBriefingBookItem, 1000L);
+        }
+    }
 
+    public BriefingBookList waitForListToUpdate() {
+        waitForElement(reportList);
+        waitForElementToRest(reportList, 1000L);
+        return this;
     }
 }

@@ -16,6 +16,7 @@ public class FundPage extends Page {
 
     public String getFundName() {
         waitForLoadingScreen();
+        waitForAnyElementToAppear(fundName);
         return findVisibleElement(fundName).getText();
     }
 }

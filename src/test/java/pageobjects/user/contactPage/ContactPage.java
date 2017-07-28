@@ -59,24 +59,28 @@ public class ContactPage extends AbstractPageObject {
     }
 
     public ContactDetailsPage viewContactDetails() {
-        findElement(firstContactInList).click();
+        waitForElementToBeClickable(firstContactInList);
+        retryClick(firstContactInList);
         
         return new ContactDetailsPage(getDriver());
     }
 
 
     public void deleteFromList(){
-        findElement(contactDelete).click();
-        findElement(deleteButton).click();
         waitForLoadingScreen();
-        findElement(confirmDeletion).click();
+        waitForElementToBeClickable(contactDelete).click();
+        waitForElementToBeClickable(deleteButton).click();
+        waitForLoadingScreen();
+        waitForElementToBeClickable(confirmDeletion).click();
+        waitForElement(contactList);
+        waitForElementToRest(contactList, 200L);
     }
 
     public ContactPage searchForContact(String name) {
-        findElement(searchField).click();
+        waitForElementToBeClickable(searchField).click();
         findElement(searchField).sendKeys(name);
         findElement(searchField).sendKeys(Keys.ENTER);
-        waitForLoadingScreen();
+        pause(4000L);
 
         return this;
     }

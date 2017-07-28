@@ -35,6 +35,7 @@ public class CreateBriefingBookModal extends AbstractPageObject {
     }
 
     public BriefingBookList saveBriefingBook(String briefingBookName) {
+        waitForElementToAppear(nameField);
         findElement(nameField).sendKeys(briefingBookName);
         findElement(saveButton).click();
 

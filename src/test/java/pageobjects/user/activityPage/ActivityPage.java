@@ -85,7 +85,6 @@ public class ActivityPage extends AbstractPageObject {
     public String getNewNote() {
         // Waits for the load more button to appear at the bottom of the page.
         waitForLoadingScreen();
-        waitForElement(notesSection);
         return findVisibleElement(notesSection).getText();
     }
 
@@ -113,6 +112,9 @@ public class ActivityPage extends AbstractPageObject {
         findVisibleElement(activitySearchField).sendKeys(note);
         //findElement(activitySearchField).sendKeys(Keys.RETURN);
         waitForLoadingScreen();
+        if (doesElementExist(notesSection)) {
+            waitForElementToRest(notesSection, 3000L);
+        }
 
         return this;
     }
@@ -538,7 +540,7 @@ public class ActivityPage extends AbstractPageObject {
         waitForLoadingScreen();
         // sorting the date by earliest to latest
         findVisibleElement(dateHeader).click();
-        pause(200L);
+        pause(2000L);
         boolean Sorted = true;
         if (!calendar.EarliestDateWithinRange(findVisibleElement(firstNoteInListDate).getText())) {
             System.out.println("Earliest date in the table is earlier than the selected end time");
@@ -547,7 +549,7 @@ public class ActivityPage extends AbstractPageObject {
         waitForLoadingScreen();
         // sorting the date by latest to earliest
         findVisibleElement(dateHeader).click();
-        pause(200L);
+        pause(2000L);
         if (!calendar.latestDateWithinRange(findVisibleElement(firstNoteInListDate).getText())) {
             System.out.println("Latest date in the table is later than the selected end time");
             Sorted = false;
