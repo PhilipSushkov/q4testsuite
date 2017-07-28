@@ -94,7 +94,7 @@ public class TargetingPage extends AbstractPageObject {
         findVisibleElement(searchSearchInput).click();
         findVisibleElement(searchSearchInput).clear();
         findVisibleElement(searchSearchInput).sendKeys(searchName);
-        waitForElementToRest(searchTableRow, 500L);
+        waitForElementToRest(searchTableRow, 1000L);
         waitForLoadingScreen();
         return this;
     }

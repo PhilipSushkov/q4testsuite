@@ -266,10 +266,11 @@ public class SecurityOverviewPage extends WatchlistPage {
     }
 
     public boolean recentNewsResultsModalExists(boolean active) {
-        pause(500L);
         if (active) {
+            waitForAnyElementToAppear(newsResultsModal);
             return findVisibleElement(newsResultsModal).isDisplayed();
         }
+        waitForElement(newsResultsModal);
         return !findVisibleElement(recentNewsResults).isDisplayed();
     }
 
