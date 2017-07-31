@@ -2,6 +2,7 @@ package pageobjects.user.securityPage;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageobjects.user.activismPage.ActivismPage;
 import pageobjects.user.estimatesPage.SecurityEstimatesPage;
 import pageobjects.user.ownershipPage.SecurityOwnershipPage;
@@ -57,9 +58,9 @@ public class SecurityOverviewPage extends WatchlistPage {
     //buttons\\ -> to add stuff for modals that appear when clicking button
 
     private final By recentEstimatesBtn = By.cssSelector(".company-header .header-notifications-tab .x-button:first-child");
-    private final By recentEventsBtn = By.xpath("//div[span[contains(@class,'q4i-events-transcripts-2pt')]]");
-    private final By recentTranscriptsBtn = By.xpath("//div[span[contains(@class,'q4i-transcripts-2pt')]]");
-    private final By recentNewsBtn = By.cssSelector(".company-header .header-notifications-tab .x-button:last-child");
+    private final By recentEventsBtn = By.xpath("//div[contains(@class, 'x-iconalign-center')][span[contains(@class,'q4i-events-transcripts-2pt')]]");
+    private final By recentTranscriptsBtn = By.xpath("//div[contains(@class, 'x-iconalign-center')][span[contains(@class,'q4i-transcripts-2pt')]]");
+    private final By recentNewsBtn = By.xpath("//div[contains(@class, 'x-iconalign-center')][span[contains(@class,'q4i-press-releases-2pt')]]");
     private final By recentResearchBtn = By.xpath("//div[contains(@class, 'research-buttonresearch-button')]");
 
     private final By recentEstimatesResults = By.cssSelector(".company-header-latest-estimates .latest-estimate-item");
@@ -265,10 +266,11 @@ public class SecurityOverviewPage extends WatchlistPage {
     }
 
     public boolean recentNewsResultsModalExists(boolean active) {
-        pause(500L);
         if (active) {
+            waitForAnyElementToAppear(newsResultsModal);
             return findVisibleElement(newsResultsModal).isDisplayed();
         }
+        waitForElement(newsResultsModal);
         return !findVisibleElement(recentNewsResults).isDisplayed();
     }
 
@@ -299,93 +301,104 @@ public class SecurityOverviewPage extends WatchlistPage {
 
     public String getCompanyName() {
         waitForLoadingScreen();
+        waitForElementToAppear(companyName);
         return findElement(companyName).getText().replaceAll("\\p{P}", "");
     }
 
     public String getCompanyTicker() {
+        waitForElementToAppear(companyTicker);
         return findElement(companyTicker).getAttribute("innerHTML").replaceAll("\\p{P}", "");
     }
 
     public String getIndustry_Exchange() {
+        waitForElementToAppear(industry_Exchange);
         return findElement(industry_Exchange).getText().replaceAll("\\p{P}", "");
     }
 
     public String getStockQuote() {
-        pause(4000L);
+        waitForElementToAppear(stockQuote);
         return findElement(stockQuote).getText().replaceAll("[^0-9.]+", "");
     }
 
     public String getChangeIconColor() {
-        pause(500L);
+        waitForElementToAppear(changeIcon);
         String color = findElement(changeIcon).getCssValue("background-color");
         return color.replaceAll("[ rgba(),]", "");
     }
 
     public String getStockChange() {
-        pause(4000L);
+        waitForElementToAppear(stockChange);
         return findElement(stockChange).getText();
     }
 
     public String getVolume() {
-        pause(2000L);
+        waitForElementToAppear(volume);
         return findElement(volume).getText();
     }
 
     public String getAvgVolume() {
-        pause(500L);
+        waitForElementToAppear(avgVolume);
         return findElement(avgVolume).getText();
     }
 
     public String getRecentEstimatesButtonNumber() {
         waitForLoadingScreen();
+        waitForElement(recentEstimatesBtn);
+        waitForTextToChange(recentEstimatesBtn, "-");
         return findElement(recentEstimatesBtn).getText();
     }
 
     public int getNumEstimatesResultsDisplayed() {
+        waitForElementToAppear(recentEstimatesModal);
         return findElements(recentEstimatesResults).size();
     }
 
     public String getRecentNewsButtonNumber() {
         waitForLoadingScreen();
+        waitForElementToAppear(recentNewsBtn);
+        waitForTextToChange(recentNewsBtn, "-");
         return findElement(recentNewsBtn).getText();
     }
 
     public int getNumNewsResultsDisplayed() { //Issue spans here. Get news text and do a regex, checking it has the text "hour" within it
-        waitForLoadingScreen();
-        int num = 0;
-        for (int x = 0; x < findElements(recentNewsResults).size(); x++) {
-                num++;
-            }
-        return num;
+        waitForElementToAppear(recentNewsModal);
+        return findElements(recentNewsResults).size();
     }
 
     public String getRecentEventsButtonNumber() {
         waitForLoadingScreen();
+        waitForElementToAppear(recentEventsBtn);
+        waitForTextToChange(recentEventsBtn, "-");
         return findElement(recentEventsBtn).getText();
     }
 
     public int getNumEventsResultsDisplayed() {
+        waitForElement(recentEventsModal);
         return findElements(recentEventsResults).size();
     }
 
     public String getRecentTranscriptsButtonNumber() {
         waitForLoadingScreen();
+        waitForElementToAppear(recentTranscriptsBtn);
+        waitForTextToChange(recentTranscriptsBtn, "-");
         return findElement(recentTranscriptsBtn).getText();
     }
 
     public int getNumTranscriptsResultsDisplayed() {
+        waitForElementToAppear(recentTranscriptsModal);
         return findElements(recentTranscriptsResults).size();
     }
 
     public String getRecentResearchButtonNumber(){
         waitForLoadingScreen();
+        waitForElement(recentResearchBtn);
+        waitForTextToChange(recentResearchBtn, "-");
         return findElement(recentResearchBtn).getText();
     }
 
     public int getNumResearchResultsDisplayed(){
-        waitForLoadingScreen();
+        waitForElementToAppear(recentResearchModal);
         return findElements(recentResearchResults).size();
-
     }
 
     //CHARTS\\
@@ -506,6 +519,7 @@ public class SecurityOverviewPage extends WatchlistPage {
 
     // Gets the stock price from the security details page
     public float getStockPrice() {
+        waitForElement(stockQuote);
         return Float.parseFloat(findElement(stockQuote).getText().replaceAll("[^0-9.]+", ""));
     }
 
@@ -515,70 +529,70 @@ public class SecurityOverviewPage extends WatchlistPage {
 
     //RECALL, ALL TESTS ARE BASED ON OVERVIEW PAGE, SO JUST CHECKS IF A BUTTON TAKES YOU TO RIGHT PAGE BUT NO MORE.
     public SecurityOverviewPage clickDropdownLeftArrowOverview() {
-        findElement(dropdownLeftArrow).click();
+        waitForElementToBeClickable(dropdownLeftArrow).click();
         return this;
     }
 
     public SecurityOwnershipPage clickDropdownRightArrowOverview() { //Other versions of this on other pages
-        findElement(dropdownRightArrow).click();
+        waitForElementToBeClickable(dropdownRightArrow).click();
         return new SecurityOwnershipPage(getDriver());
     }
 
     public SecurityOverviewPage clickViewDropdownMenu() {
-        findElement(dropdownMenu).click();
+        waitForElementToBeClickable(dropdownMenu).click();
         return this;
     }
 
     public SecurityOverviewPage clickDropdownOverview()//Perhaps put these methods into an interface for security?
     {
-        findElement(dropdownOverview).click();
+        waitForElementToBeClickable(dropdownOverview).click();
         return new SecurityOverviewPage(getDriver());
     }
 
     public SecurityOwnershipPage clickDropdownOwnership()
     {
-          findElement(dropdownOwnership).click();
+        waitForElementToBeClickable(dropdownOwnership).click();
           return new SecurityOwnershipPage(getDriver());
     }
 
     public TradingRangePage clickDropdownTrading() {
 
-        findElement(dropdownTrading).click();
+        waitForElementToBeClickable(dropdownTrading).click();
         return new TradingRangePage(getDriver());
     }
 
     public SentimentPage clickDropdownSentiment() {
 
-         findElement(dropdownSentiment).click();
+        waitForElementToBeClickable(dropdownSentiment).click();
          return new SentimentPage(getDriver());
     }
 
     public VolatilityPage clickDropdownVolatility() {
 
-          findElement(dropdownVolatility).click();
+        waitForElementToBeClickable(dropdownVolatility).click();
           return new VolatilityPage(getDriver());
      }
 
     public ActivismPage clickDropdownActivism() {
 
-          findElement(dropdownActivism).click();
+        waitForElementToBeClickable(dropdownActivism).click();
           return new ActivismPage(getDriver());
      }
 
     public RelativePerformacePage clickDropdownPerformance() {
 
-          findElement(dropdownPerformance).click();
+        waitForElementToBeClickable(dropdownPerformance).click();
           return new RelativePerformacePage(getDriver());
      }
 
     public SecurityEstimatesPage clickDropdownEstimates() {
 
-          findElement(dropdownEstimates).click();
+        waitForElementToBeClickable(dropdownEstimates).click();
           return new SecurityEstimatesPage(getDriver());
      }
 
     public void clickRecentEstimatesButton(){
-         findElement(recentEstimatesBtn).click();
+         waitForElementToBeClickable(recentEstimatesBtn).click();
      }
 
     public boolean newsItemsEmpty(){
@@ -594,24 +608,23 @@ public class SecurityOverviewPage extends WatchlistPage {
         }
     }
      public void clickRecentNewsButton(){
-         
-         findElement(recentNewsBtn).click();
          waitForLoadingScreen();
+         waitForElementToBeClickable(recentNewsBtn).click();
      }
 
     public void clickRecentTranscriptsButton(){
          waitForLoadingScreen();
-         findElement(recentTranscriptsBtn).click();
+         waitForElementToBeClickable(recentTranscriptsBtn).click();
      }
 
     public void clickRecentEventsButton(){
          waitForLoadingScreen();
-         findElement(recentEventsBtn).click();
+         waitForElementToBeClickable(recentEventsBtn).click();
      }
 
     public void clickRecentResearchButton(){
         waitForLoadingScreen();
-        findElement(recentResearchBtn).click();
+        waitForElementToBeClickable(recentResearchBtn).click();
     }
 
 
@@ -621,12 +634,11 @@ public class SecurityOverviewPage extends WatchlistPage {
 
 
     public void clickRecentEstimatesResult(){
-         findElement(recentEstimatesResults).click();
+         waitForElementToBeClickable(recentEstimatesResults).click();
      }
 
     public void clickRecentNewsResult() {
-         pause(500L);
-         findElement(recentNewsResults).click();
+         waitForElementToBeClickable(recentNewsResults).click();
      }
 
     public void clickRecentEventsResult()
@@ -643,36 +655,33 @@ public class SecurityOverviewPage extends WatchlistPage {
     }
 
     public SecurityOverviewPage clickThreePointBtn(){
-        findElement(threePointBtn).click();
+        waitForElementToBeClickable(threePointBtn).click();
         return new SecurityOverviewPage(getDriver());
     }
     public SecurityOverviewPage clickWatchlistBtn(){
-        findElement(watchlistBtn).click();
+        waitForElementToBeClickable(watchlistBtn).click();
         return new SecurityOverviewPage(getDriver());
     }
 
     public SentimentPage navigateToSentimentPage() {
-        findElement(dropdownMenu).click();
-        pause(500L);
-        findElement(sentimentBtn).click();
+        waitForElementToBeClickable(dropdownMenu).click();
+        waitForElementToBeClickable(sentimentBtn).click();
         waitForLoadingScreen();
 
         return new SentimentPage(driver);
     }
 
     public VolatilityPage navigateToVolatilityPage() {
-        findElement(dropdownMenu).click();
-        pause(500L);
-        findElement(volatilityBtn).click();
+        waitForElementToBeClickable(dropdownMenu).click();
+        waitForElementToBeClickable(volatilityBtn).click();
         waitForLoadingScreen();
 
         return new VolatilityPage(driver);
     }
 
     public ActivismPage navigateToActivismPage() {
-        findElement(dropdownMenu).click();
-        pause(500L);
-        findElement(activismBtn).click();
+        waitForElementToBeClickable(dropdownMenu).click();
+        waitForElementToBeClickable(activismBtn).click();
         waitForLoadingScreen();
 
         return new ActivismPage(driver);

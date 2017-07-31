@@ -131,16 +131,17 @@ public interface HeaderPage extends PageObject{
 
     //this opens the chat, but where should all the chat info go?
     default void openChat(){
-        findElement(chatButton).click();
+        waitForElementToBeClickable(chatButton).click();
     }
 
     default boolean clearChat(String message){
 
-        findElement(chatMessageField).sendKeys(message);
-        findElement(clearChatBtn).click();
+        waitForElementToBeClickable(chatMessageField).sendKeys(message);
+        waitForElementToBeClickable(clearChatBtn).click();
 
         try{
-            if(getDriver().findElement(emptyMessageField).isDisplayed()){
+            waitForElement(emptyMessageField);
+            if(findElement(emptyMessageField).isDisplayed()){
                 return true;
             }
             else{
@@ -155,24 +156,23 @@ public interface HeaderPage extends PageObject{
     }
 
     default void openProfile(){
-        findElement(profileButton).click();
+        waitForElementToBeClickable(profileButton).click();
     }
 
 
     //in profile
     default void clickReleaseNotes(){
-        findElement(releaseNotesButton).click();
+        waitForElementToBeClickable(releaseNotesButton).click();
         try{
             waitForElement(releaseNotesPageHeader);
         }
         catch(Exception e){
-
         }
     }
 
     default boolean leaveBlankFeedback(){
-        findElement(leaveFeedbackButton).click();
-        findElement(postFeedbackButton).click();
+        waitForElementToBeClickable(leaveFeedbackButton).click();
+        waitForElementToBeClickable(postFeedbackButton).click();
 
         waitForElementToAppear(emptyFieldMessage);
 
@@ -186,10 +186,10 @@ public interface HeaderPage extends PageObject{
     }
 
     default boolean leaveFeedback(String feedbackMsg){
-        findElement(leaveFeedbackButton).click();
-        findElement(feedbackMsgField).sendKeys(feedbackMsg);
+        waitForElementToBeClickable(leaveFeedbackButton).click();
+        waitForElementToBeClickable(feedbackMsgField).sendKeys(feedbackMsg);
 
-        findElement(cancelFeedback).click();
+        waitForElementToBeClickable(cancelFeedback).click();
 
         try {
             if (getDriver().findElement(feedbackMsgField).isDisplayed()) {
@@ -207,8 +207,8 @@ public interface HeaderPage extends PageObject{
     }
 
     default boolean cancelChangePassword(){
-        findElement(changePasswordButton).click();
-        findElement(cancelChangePass).click();
+        waitForElementToBeClickable(changePasswordButton).click();
+        waitForElementToBeClickable(cancelChangePass).click();
 
         try{
             if(getDriver().findElement(changePassField).isDisplayed()){
@@ -227,11 +227,11 @@ public interface HeaderPage extends PageObject{
     }
 
     default boolean noCurrentPassword(String newPass){
-        findElement(changePasswordButton).click();
-        findElement(newPassField).sendKeys(newPass);
-        findElement(confirmNewPassField).sendKeys(newPass);
+        waitForElementToBeClickable(changePasswordButton).click();
+        waitForElementToBeClickable(newPassField).sendKeys(newPass);
+        waitForElementToBeClickable(confirmNewPassField).sendKeys(newPass);
 
-        findElement(postChangePassBtn).click();
+        waitForElementToBeClickable(postChangePassBtn).click();
 
 
         try{
@@ -250,10 +250,10 @@ public interface HeaderPage extends PageObject{
     }
 
     default boolean noNewPassword(String currentPass){
-        findElement(changePasswordButton).click();
-        findElement(currentPassField).sendKeys(currentPass);
+        waitForElementToBeClickable(changePasswordButton).click();
+        waitForElementToBeClickable(currentPassField).sendKeys(currentPass);
 
-        findElement(postChangePassBtn).click();
+        waitForElementToBeClickable(postChangePassBtn).click();
 
         try{
             waitForElementToAppear(noNewPassMsg);
@@ -272,11 +272,11 @@ public interface HeaderPage extends PageObject{
     }
 
     default boolean notSecurePass(String currentPass, String newPass){
-        findElement(changePasswordButton).click();
-        findElement(currentPassField).sendKeys(currentPass);
-        findElement(newPassField).sendKeys(newPass);
+        waitForElementToBeClickable(changePasswordButton).click();
+        waitForElementToBeClickable(currentPassField).sendKeys(currentPass);
+        waitForElementToBeClickable(newPassField).sendKeys(newPass);
 
-        findElement(postChangePassBtn).click();
+        waitForElementToBeClickable(postChangePassBtn).click();
 
         try{
             waitForElementToAppear(notSecurePassMsg);
@@ -295,11 +295,11 @@ public interface HeaderPage extends PageObject{
     }
 
     default boolean noConfirmationPass(String currentPass, String newPass){
-        findElement(changePasswordButton).click();
-        findElement(currentPassField).sendKeys(currentPass);
-        findElement(newPassField).sendKeys(newPass);
+        waitForElementToBeClickable(changePasswordButton).click();
+        waitForElementToBeClickable(currentPassField).sendKeys(currentPass);
+        waitForElementToBeClickable(newPassField).sendKeys(newPass);
 
-        findElement(postChangePassBtn).click();
+        waitForElementToBeClickable(postChangePassBtn).click();
 
         try{
             waitForElementToAppear(noConfirmationPassMsg);
@@ -318,12 +318,12 @@ public interface HeaderPage extends PageObject{
     }
 
     default boolean wrongOldPass(String currentPass, String newPass){
-        findElement(changePasswordButton).click();
-        findElement(currentPassField).sendKeys(currentPass);
-        findElement(newPassField).sendKeys(newPass);
-        findElement(confirmNewPassField).sendKeys(newPass);
+        waitForElementToBeClickable(changePasswordButton).click();
+        waitForElementToBeClickable(currentPassField).sendKeys(currentPass);
+        waitForElementToBeClickable(newPassField).sendKeys(newPass);
+        waitForElementToBeClickable(confirmNewPassField).sendKeys(newPass);
 
-        findElement(postChangePassBtn).click();
+        waitForElementToBeClickable(postChangePassBtn).click();
 
         try{
             waitForElementToAppear(wrongOldPassMsg);
@@ -342,12 +342,12 @@ public interface HeaderPage extends PageObject{
     }
 
     default boolean samePassAsBefore(String password){
-        findElement(changePasswordButton).click();
-        findElement(currentPassField).sendKeys(password);
-        findElement(newPassField).sendKeys(password);
-        findElement(confirmNewPassField).sendKeys(password);
+        waitForElementToBeClickable(changePasswordButton).click();
+        waitForElementToBeClickable(currentPassField).sendKeys(password);
+        waitForElementToBeClickable(newPassField).sendKeys(password);
+        waitForElementToBeClickable(confirmNewPassField).sendKeys(password);
 
-        findElement(postChangePassBtn).click();
+        waitForElementToBeClickable(postChangePassBtn).click();
 
         try{
             waitForElementToAppear(samePassAsBeforeMsg);
@@ -368,6 +368,7 @@ public interface HeaderPage extends PageObject{
 
 
     default void logoutFromPage(){
+        waitForElement(logoutButton);
         WebElement staleElement = findElement(logoutButton);
         findElement(logoutButton).click();
         getWait().until(ExpectedConditions.stalenessOf(staleElement));

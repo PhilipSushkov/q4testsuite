@@ -1,16 +1,16 @@
 package pageobjects;
 
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.Predicate;
-import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.StaleElementReferenceException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
+import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -102,16 +102,103 @@ public interface PageObject {
         return findElement(selector).findElement(By.xpath("parent::*"));
     }
 
-    default void waitForElement(By selector) {
-        getWait().until(ExpectedConditions.presenceOfElementLocated(selector));
+    default WebElement waitForElement(By selector) {
+        return getWait().until(ExpectedConditions.presenceOfElementLocated(selector));
     }
 
     default void waitForElementToDissapear(By selector) {
         getWait().until(ExpectedConditions.invisibilityOfElementLocated(selector));
     }
 
-    default void waitForElementToAppear(By selector) {
-        getWait().until(ExpectedConditions.visibilityOfElementLocated(selector));
+    default WebElement waitForElementToAppear(By selector) {
+         return getWait().until(ExpectedConditions.visibilityOfElementLocated(selector));
+    }
+
+    default void waitForAnyElementToAppear(By selector) {
+
+        long startTime = System.currentTimeMillis();
+        long elapsedTime = 0;
+        long loopStartTime = startTime;
+        long loopTime = 0;
+
+        while (elapsedTime < 10000) {
+            if (loopTime > 500) {
+                List<WebElement> elements = findElements(selector);
+                for (WebElement element : elements) {
+                    if (element.isDisplayed()) return;
+                }
+                loopStartTime = System.currentTimeMillis();
+                loopTime = 0;
+            } else {
+                loopTime = System.currentTimeMillis()-loopStartTime;
+            }
+            elapsedTime = System.currentTimeMillis()-startTime;
+        }
+        throw new TimeoutException("Timed out after 10 seconds waiting for element to appear: " + selector);
+    }
+
+    default WebElement waitForElementToBeClickable(By selector) {
+        return getWait().until(ExpectedConditions.elementToBeClickable(selector));
+    }
+
+    default void waitForText(String text) {
+        waitForElement(By.xpath("//*[contains(text(), '"+ text +"')]"));
+    }
+
+    default void waitForTextToChange(By selector) {
+        waitForElement(selector);
+        String currentText = findElement(selector).getText();
+        getWait().until(new ExpectedCondition() {
+            @Override
+            public Object apply(Object o) {
+                return !findElement(selector).getText().equals(currentText);
+            }
+        });
+    }
+
+    default void waitForTextToChange(By selector, String from) {
+        try {
+            if (findElement(selector).getText().contains(from)) {
+                waitForTextToChange(selector);
+            }
+        } catch (StaleElementReferenceException e) {
+           pause(500L);
+           if (findElement(selector).getText().contains(from)) {
+               waitForTextToChange(selector);
+           }
+        }
+    }
+
+    default WebElement waitForElementToRest(By selector, long restTime) {
+        // Waits for element to remain unchanged for the given time (in millis), or for 10s
+
+        WebElement element = findElement(selector);
+        long startTime = System.currentTimeMillis();
+        long sinceChanged = startTime;
+        long elapsedTime = 0;
+        while (elapsedTime < restTime) {
+            if (!element.equals(findElement(selector))) {
+                sinceChanged = System.currentTimeMillis();
+            }
+            elapsedTime = System.currentTimeMillis()-sinceChanged;
+
+            if (System.currentTimeMillis()-startTime > 10000) {
+                throw new TimeoutException("Timed out after 10 seconds waiting for element to rest: " + selector);
+            }
+        }
+        return element;
+    }
+
+    default void disableAnimations() {
+
+        // See https://stackoverflow.com/questions/14791094/how-to-set-the-universal-css-selector-with-javascript
+
+        JavascriptExecutor executor = (JavascriptExecutor) getDriver();
+        executor.executeScript(";(function(exports) {var style = document.querySelector(\"head\").appendChild(document.createElement(\"style\"));\n" +
+                "var styleSheet = document.styleSheets[document.styleSheets.length - 1];\n" +
+                "styleSheet.insertRule(\"* {}\", 0);\n" +
+                "exports.universal = styleSheet.cssRules[0];}(window));");
+        executor.executeScript("window.universal.style.cssText += (\"; animation-duration: 0s !important; transition-duration: 0s !important\")");
     }
 
     default <T extends PageObject> T pause(long time) {
@@ -141,8 +228,8 @@ public interface PageObject {
                 findElement(by).click();
                 result = true;
                 break;
-            } catch (StaleElementReferenceException e) {
-                // Retry if Stale Element Reference Exception occurs
+            } catch (Exception e) {
+                // Retry if exception occurs
             }
         }
         return result;
@@ -156,8 +243,8 @@ public interface PageObject {
                 element.click();
                 result = true;
                 break;
-            } catch (StaleElementReferenceException e) {
-                // Retry if Stale Element Reference Exception occurs
+            } catch (Exception e) {
+                // Retry if exception occurs
             }
         }
         return result;

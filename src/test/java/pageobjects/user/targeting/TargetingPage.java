@@ -66,55 +66,45 @@ public class TargetingPage extends AbstractPageObject {
 
     public NewSearchPage newSearch(){
         waitForLoadingScreen();
-        waitForElement(newSearchButton);
+        waitForElementToBeClickable(newSearchButton);
         findElement(newSearchButton).click();
 
         return new NewSearchPage(getDriver());
 
     }
 
-    private void showMoreSavedSearches(){
-       // int numSearches = findElements(searchNameSelectors).size();
-        findVisibleElement(searchShowMoreButton).click();
-        waitForLoadingScreen();
-       /* for (int i=0; i<100; i++){
-            if (findElements(searchNameSelectors).size()>numSearches){
-                return;
-            }
-            pause(100);
-        }*/
-    }
-
     // returns the position (starting from 0) that the search name appears; returns -1 if not displayed
-    public int findSearchNameIndex(String searchName){
+    public Boolean searchExists(String searchName){
         waitForElement(showSearches);
-        pause(2000);
-        while (findVisibleElements(searchShowMoreButton).size()>0){
-            showMoreSavedSearches();
-        }
+        searchForSearch(searchName);
+
         List<WebElement> searchNames = findVisibleElements(searchNameSelectors);
 
         for (int i=0; i<searchNames.size(); i++){
             if (searchNames.get(i).getText().equals(searchName)){
-                return i;
+                return true;
             }
         }
-        return -1;
+        return false;
     }
 
     public TargetingPage searchForSearch(String searchName){
+        waitForLoadingScreen();
+        waitForAnyElementToAppear(searchSearchInput);
+        findVisibleElement(searchSearchInput).click();
+        findVisibleElement(searchSearchInput).clear();
         findVisibleElement(searchSearchInput).sendKeys(searchName);
+        waitForElementToRest(searchTableRow, 1000L);
         waitForLoadingScreen();
         return this;
     }
 
     public WebElement returnSearch(String searchName){
         waitForElement(showSearches);
-        while (findVisibleElements(searchShowMoreButton).size()>0){
-            showMoreSavedSearches();
-        }
-        List<WebElement> searchNames = findVisibleElements(searchTableRow);
+        waitForLoadingScreen();
+        searchForSearch(searchName);
 
+        List<WebElement> searchNames = findVisibleElements(searchTableRow);
         for(WebElement row: searchNames){
             if(row.getText().contains(searchName)){
                 return row;
@@ -124,16 +114,17 @@ public class TargetingPage extends AbstractPageObject {
     }
 
     public TargetingPage deleteSearchAbort(WebElement search){
-        waitForLoadingScreen();
+        waitForElement(checkbox);
         search.findElement(checkbox).click();
+        waitForElement(trashIcon);
         findElement(trashIcon).click();
         waitForElementToAppear(cancelDelete);
         findElement(cancelDelete).click();
         return this;
     }
     // parameter index is the position (starting from 0) that the search name appears
-    public EditSearchPage editSearch(int index){
-        findVisibleElements(searchNameDivSelectors).get(index).click();
+    public EditSearchPage editSearch(WebElement search){
+        search.click();
         return new EditSearchPage(getDriver());
     }
 
@@ -147,19 +138,22 @@ public class TargetingPage extends AbstractPageObject {
         catch(Exception e) {
             search.findElement(checkbox).click();
         }
-        findElement(trashIcon).click();
+        waitForElementToBeClickable(trashIcon).click();
         waitForElementToAppear(confirmDelete);
         findElement(confirmDelete).click();
+
         waitForLoadingScreen();
         return this;
     }
 
-    public String getCreatedDate(int index){
-        return findVisibleElements(searchCreatedDate).get(index).getText();
+    public String getCreatedDate(){
+        waitForAnyElementToAppear(searchCreatedDate);
+        return findVisibleElement(firstEntitySelector).findElement(searchCreatedDate).getText();
     }
 
-    public String getUpdatedDate(int index){
-        return findVisibleElements(searchUpdatedDate).get(index).getText();
+    public String getUpdatedDate(){
+        waitForAnyElementToAppear(searchUpdatedDate);
+        return findVisibleElement(firstEntitySelector).findElement(searchUpdatedDate).getText();
     }
 
     public boolean searchesCanBeSortedByName() {
@@ -212,10 +206,10 @@ public class TargetingPage extends AbstractPageObject {
 
     public boolean searchesCanBeSortedByUpdatedDate() {
         waitForElementToAppear(searchesColumnHeader);
-        pause(2000);
         // sorting by last updated date ascending
-        findVisibleElement(updatedColumnSearches).click();
+        waitForElementToBeClickable(updatedColumnSearches).click();
         waitForLoadingScreen();
+        waitForElementToRest(searchResults, 500L);
         if (!elementsAreDateUpSorted(findElements(searchUpdatedDate))){
             System.out.println("SORT ERROR: Last updated dates are not in ascending order.");
             return false;
@@ -223,8 +217,8 @@ public class TargetingPage extends AbstractPageObject {
 
         // sorting by last updated date descending
         findVisibleElement(updatedColumnSearches).click();
-        pause(500);
         waitForLoadingScreen();
+        waitForElementToRest(searchResults, 500L);
         if (!elementsAreDateDownSorted(findElements(searchUpdatedDate))){
             System.out.println("SORT ERROR: Last updated dates are not in descending order.");
             return false;
@@ -278,28 +272,25 @@ public class TargetingPage extends AbstractPageObject {
     }
 
     public String getFirstInstitution(){
-        findElement(showTargets).click();
-        pause(2000);
-        wait.until(ExpectedConditions.elementToBeClickable(showInstitutions));
-        findElement(showInstitutions).click();
+        waitForElementToBeClickable(showTargets).click();
+        waitForElementToRest(showInstitutions, 200L);
+        waitForElementToBeClickable(showInstitutions).click();
         pause(2000);
         return findVisibleElement(firstEntityNameSelector).getText();
     }
 
     public String getFirstFund(){
-        findElement(showTargets).click();
-        pause(2000);
-        wait.until(ExpectedConditions.elementToBeClickable(showFunds));
-        findElement(showFunds).click();
+        waitForElementToBeClickable(showTargets).click();
+        waitForElementToRest(showFunds, 200L);
+        waitForElementToBeClickable(showFunds).click();
         pause(2000);
         return findVisibleElement(firstEntityNameSelector).getText();
     }
 
     public String getFirstContact(){
-        findElement(showTargets).click();
-        pause(2000);
-        wait.until(ExpectedConditions.elementToBeClickable(showContacts));
-        findElement(showContacts).click();
+        waitForElementToBeClickable(showTargets).click();
+        waitForElementToRest(showContacts, 200L);
+        waitForElementToBeClickable(showContacts).click();
         pause(2000);
         return findVisibleElement(firstEntityNameSelector).getText();
     }
@@ -333,6 +324,7 @@ public class TargetingPage extends AbstractPageObject {
     }
 
     public boolean allTargetsCanBeSorted(){
+        waitForAnyElementToAppear(showTargets);
         findVisibleElement(showTargets).click();
         pause(2000);
 
@@ -342,6 +334,7 @@ public class TargetingPage extends AbstractPageObject {
 
     public boolean institutionsCanBeSorted(){
         int beforeShowMore=0;
+        waitForAnyElementToAppear(showTargets);
         findVisibleElement(showTargets).click();
         pause(2000);
         wait.until(ExpectedConditions.elementToBeClickable(showInstitutions));
@@ -354,6 +347,7 @@ public class TargetingPage extends AbstractPageObject {
 
     public boolean fundsCanBeSorted(){
         int beforeShowMore = 0;
+        waitForAnyElementToAppear(showTargets);
         findVisibleElement(showTargets).click();
         pause(2000);
         wait.until(ExpectedConditions.elementToBeClickable(showFunds));
@@ -364,6 +358,7 @@ public class TargetingPage extends AbstractPageObject {
     }
 
     public boolean contactsCanBeSorted(){
+        waitForAnyElementToAppear(showTargets);
         findVisibleElement(showTargets).click();
         pause(2000);
         wait.until(ExpectedConditions.elementToBeClickable(showContacts));

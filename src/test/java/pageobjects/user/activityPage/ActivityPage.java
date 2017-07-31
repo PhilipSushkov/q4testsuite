@@ -1,6 +1,7 @@
 package pageobjects.user.activityPage;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -27,6 +28,8 @@ public class ActivityPage extends AbstractPageObject {
     private final By firstNoteInListLocation = By.xpath("//div[1][contains(@class,'note-item')]//div[contains(@class,'column')][6]");
     private final By newActivityIcon = By.xpath("//div[contains(@class, 'x-unsized x-button x-iconalign-left primary-action btn btn-primary btn-icon-only x-dock-item x-docked-right')]/span[contains(@class, 'x-button-icon x-shown q4i-add-4pt')]");
     private final By activitySearchField = By.cssSelector(".toolbar-panel .search .x-field-input .x-input-el");
+    private final By deleteButton = By.xpath("//span[contains(@class, 'q4i-trashbin-4pt')]");
+    private final By confirmDeleteButton = By.xpath("//span[@class='x-button-label'][text()='Yes']");
     private final By emptyResults = By.cssSelector(".note-manager-list .x-dataview-emptytext");
     private final By notesCount = By.xpath("//*[@class=\"counter\"][1]");
     private final By callCount = By.xpath("(//*[@class=\"counter\"])[2]");
@@ -82,7 +85,7 @@ public class ActivityPage extends AbstractPageObject {
     public String getNewNote() {
         // Waits for the load more button to appear at the bottom of the page.
         waitForLoadingScreen();
-        waitForElement(notesSection);
+        waitForAnyElementToAppear(notesSection);
         return findVisibleElement(notesSection).getText();
     }
 
@@ -97,7 +100,7 @@ public class ActivityPage extends AbstractPageObject {
     public LogActivityPage logNote() {
         waitForLoadingScreen();
         waitForElement(newActivityIcon);
-        findElement(newActivityIcon).click();
+        findVisibleElement(newActivityIcon).click();
 
         return new LogActivityPage(getDriver());
     }
@@ -106,9 +109,13 @@ public class ActivityPage extends AbstractPageObject {
         waitForLoadingScreen();
         waitForElement(activitySearchField);
         findVisibleElement(activitySearchField).click();
+        findVisibleElement(activitySearchField).clear();
         findVisibleElement(activitySearchField).sendKeys(note);
         //findElement(activitySearchField).sendKeys(Keys.RETURN);
         waitForLoadingScreen();
+        if (doesElementExist(notesSection)) {
+            waitForElementToRest(notesSection, 2000L);
+        }
 
         return this;
     }
@@ -534,7 +541,7 @@ public class ActivityPage extends AbstractPageObject {
         waitForLoadingScreen();
         // sorting the date by earliest to latest
         findVisibleElement(dateHeader).click();
-        pause(200L);
+        pause(2000L);
         boolean Sorted = true;
         if (!calendar.EarliestDateWithinRange(findVisibleElement(firstNoteInListDate).getText())) {
             System.out.println("Earliest date in the table is earlier than the selected end time");
@@ -543,12 +550,30 @@ public class ActivityPage extends AbstractPageObject {
         waitForLoadingScreen();
         // sorting the date by latest to earliest
         findVisibleElement(dateHeader).click();
-        pause(200L);
+        pause(2000L);
         if (!calendar.latestDateWithinRange(findVisibleElement(firstNoteInListDate).getText())) {
             System.out.println("Latest date in the table is later than the selected end time");
             Sorted = false;
         }
         return Sorted;
+    }
+
+    public ActivityPage clickNthActivityCheckBox(int n) {
+        try {
+            findVisibleElements(rowCheckBox).get(n).click();
+        } catch (StaleElementReferenceException e) {
+            findVisibleElements(rowCheckBox).get(n).click();
+        }
+
+        return this;
+    }
+
+    public ActivityPage clickDeleteButton() {
+        findVisibleElement(deleteButton).click();
+        waitForElementToAppear(confirmDeleteButton);
+        findVisibleElement(confirmDeleteButton).click();
+
+        return this;
     }
 
     public ActivityPage yourActivityFilter(){
@@ -560,7 +585,7 @@ public class ActivityPage extends AbstractPageObject {
 
     public ActivityPage deleteAllNotes(String title){
         List<WebElement> searchResults;
-        findElement(searchBar).clear();
+        waitForLoadingScreen();
         searchForNote(title);
         if(!findVisibleElement(bulkCheckBox).getAttribute("class").contains("x-item-disabled")) {
             findVisibleElement(bulkCheckBox).click();
@@ -571,5 +596,12 @@ public class ActivityPage extends AbstractPageObject {
         return this;
     }
 
+    public int getNumberOfDisplayedActivities(){
+        try {
+            return findVisibleElements(rowCheckBox).size();
+        } catch (StaleElementReferenceException e) {
+            return findVisibleElements(rowCheckBox).size();
+        }
+    }
 }
 

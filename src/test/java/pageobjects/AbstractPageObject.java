@@ -3,6 +3,7 @@ package pageobjects;
 import org.apache.commons.collections4.Predicate;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import pageobjects.admin.companyPage.CompanyList;
@@ -15,6 +16,7 @@ import pageobjects.user.headerPage.HeaderPage;
 import pageobjects.user.logActivityModal.LogActivityModal;
 import pageobjects.user.loginPage.LoginPage;
 import pageobjects.user.sideNavBar.SideNavBar;
+
 
 import java.text.NumberFormat;
 import java.text.ParseException;
@@ -38,6 +40,9 @@ public class AbstractPageObject implements HeaderPage{
 
     private final By notSubscribed = By.xpath("//h1[contains(text(),'Interested?')]");
 
+    // Dashboard
+    private final By dashboardLoaded = By.xpath("//div[@class='x-container x-sized home-stock x-layout-box-item']");
+
     // Side hamburger menu icon
     private final By sideNavIcon = By.cssSelector(".page-home .menu-btn"); //use for dashboard
     private final By hamburgerIcon = By.cssSelector(".navigation-toggler .x-button-icon"); //use for other pages
@@ -48,7 +53,7 @@ public class AbstractPageObject implements HeaderPage{
 
     // Admin page elements
     private final By adminPageTitle = By.cssSelector(".page-header .page-title .details h2");
-    private final By loading = By.className("outer-spinner-container");
+    private final By loading = By.className("x-loading-spinner");
     private final By companyPage = By.cssSelector("body > q4-app > div > q4-navbar > nav > div > ul > li:nth-child(2) > a > i");
     private final By profilesPage = By.cssSelector("body > q4-app > div > q4-navbar > nav > div > ul > li:nth-child(3) > a > i");
     private final By intelligencePage = By.cssSelector("body > q4-app > div > q4-navbar > nav > div > ul > li:nth-child(4) > a > i");
@@ -56,10 +61,10 @@ public class AbstractPageObject implements HeaderPage{
     private final By morningCoffeePage = By.partialLinkText("Morning Coffee");
     private final By reportHeader = By.cssSelector(".page-header .page-title .details");
     private final By usersPage = By.cssSelector("body > q4-app > div > q4-navbar > nav > div > ul > li:nth-child(6) > a > i");
-    private final By profileIcon = By.xpath("//div[contains(@class,'x-docked-right') and contains(concat(' ',@class,' '), 'profile') and contains(@class,'x-paint-monitored')][.//div[contains(@class,'avatar')]]");
+    private final By profileIcon = By.xpath("//div[contains(@class,'profile dropdown')]");
     private final By feedback = By.xpath("//div[@class='profile-menu-item']/span[contains(text(),'Leave Feedback')]");
     private final By password = By.xpath("//div[@class='profile-menu-item']/span[contains(text(),'Change Password')]");
-    private final By logout = By.xpath("//div[@class='profile-menu-item']/span[contains(text(),'Logout')]");
+    private final By logout = By.xpath("//a[span[contains(text(),'Logout')]]");
     private final By confirmLogout = By.xpath("//div[contains(@class,'x-button-action') and ./span[contains(text(),'Yes')]]");
     private final By productDropDown = By.xpath("//p-dropdown");
     private final By desktopSelect = By.xpath("//p-dropdown//span[contains(text(),'Desktop')]");
@@ -73,7 +78,7 @@ public class AbstractPageObject implements HeaderPage{
 
     public AbstractPageObject(WebDriver driver) {
         this.driver = driver;
-        this.wait = new WebDriverWait(driver, 10L);
+        this.wait = new WebDriverWait(driver, 10L, 500L);
     }
 
     @Override
@@ -110,18 +115,13 @@ public class AbstractPageObject implements HeaderPage{
 
     //use from dashboard
     public SideNavBar accessSideNav() {
-        waitForLoadingScreen();
-        waitForElement(sideNavIcon);
-        findElement(sideNavIcon).click();
-
+        waitForElementToBeClickable(sideNavIcon).click();
         return new SideNavBar(getDriver());
     }
 
     //use from other pages
     public SideNavBar accessSideNavFromPage() {
-        waitForLoadingScreen();
-        waitForElement(hamburgerIcon);
-        findElement(hamburgerIcon).click();
+        waitForElementToBeClickable(hamburgerIcon).click();
         return new SideNavBar(getDriver());
     }
 
@@ -192,7 +192,18 @@ public class AbstractPageObject implements HeaderPage{
     }
 
     public void waitForLoadingScreen() {
-        wait.until(ExpectedConditions.invisibilityOfElementLocated(loading));
+        //Waits 2 sec for spinners to appear, then 10 sec for spinners to disappear
+        WebDriverWait spinnerWait = new WebDriverWait(driver, 2);
+        try {
+            spinnerWait.until(ExpectedConditions.presenceOfElementLocated(loading));
+            wait.until(ExpectedConditions.invisibilityOfAllElements(findElements(loading)));
+        } catch (Exception e) {
+            // No loading spinners; do nothing
+        }
+    }
+
+    public void waitForDashboardToLoad() {
+        waitForElementToAppear(dashboardLoaded);
     }
 
     //Can't leave this for JUST contacts
@@ -437,14 +448,17 @@ public class AbstractPageObject implements HeaderPage{
         SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yy");
         boolean sortedWell = true;
         for (int i=0; i<elements.size()-1; i++){
-            try {
-                if(dateFormat.parse(elements.get(i+1).getText()).before(dateFormat.parse(elements.get(i).getText()))){
-                    System.out.println("MIS-SORT: Ascending: Date "+elements.get(i+1).getText()+" should not be after "+elements.get(i).getText());
-                    sortedWell = false;
+            System.out.print(elements.get(i).getText());
+            if(!(elements.get(i+1).getText().contains("-") || elements.get(i).getText().contains("-"))) {
+                try {
+                    if (dateFormat.parse(elements.get(i + 1).getText()).before(dateFormat.parse(elements.get(i).getText()))) {
+                        System.out.println("MIS-SORT: Ascending: Date " + elements.get(i + 1).getText() + " should not be after " + elements.get(i).getText());
+                        sortedWell = false;
+                    }
+                } catch (ParseException e) {
+                    System.out.println("Error parsing date: " + elements.get(i + 1).getText());
+                    return false;
                 }
-            }catch (ParseException e){
-                System.out.println("Error parsing date: "+elements.get(i+1).getText());
-                return false;
             }
         }
         return sortedWell;
@@ -454,14 +468,16 @@ public class AbstractPageObject implements HeaderPage{
         SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yy");
         boolean sortedWell = true;
         for (int i=0; i<elements.size()-1; i++){
-            try {
-                if(dateFormat.parse(elements.get(i+1).getText()).after(dateFormat.parse(elements.get(i).getText()))){
-                    System.out.println("MIS-SORT: Descending: Date "+elements.get(i+1).getText()+" should not be after "+elements.get(i).getText());
-                    sortedWell = false;
+            if(!(elements.get(i+1).getText().contains("-") || elements.get(i).getText().contains("-"))) {
+                try {
+                    if (dateFormat.parse(elements.get(i + 1).getText()).after(dateFormat.parse(elements.get(i).getText()))) {
+                        System.out.println("MIS-SORT: Descending: Date " + elements.get(i + 1).getText() + " should not be after " + elements.get(i).getText());
+                        sortedWell = false;
+                    }
+                } catch (ParseException e) {
+                    System.out.println("Error parsing date: " + elements.get(i + 1).getText());
+                    return false;
                 }
-            }catch (ParseException e){
-                System.out.println("Error parsing date: "+elements.get(i+1).getText());
-                return false;
             }
         }
         return sortedWell;
@@ -635,8 +651,6 @@ public class AbstractPageObject implements HeaderPage{
         ArrayList<WebElement> testing = new ArrayList<>(findElements(profileIcon));
         findElement(profileIcon).click();
         findElement(logout).click();
-        wait.until(ExpectedConditions.visibilityOfElementLocated(confirmLogout));
-        findElement(confirmLogout).click();
         waitForLoadingScreen();
         return new LoginPage(getDriver());
     }

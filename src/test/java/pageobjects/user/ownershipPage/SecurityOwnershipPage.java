@@ -253,36 +253,36 @@ public class SecurityOwnershipPage extends AbstractPageObject implements DateDro
 
     // checks that entries on top buyers list have positive change numbers
     public boolean topBuyersListIsPositive(){
-        waitForElement(topBuyersNumbers);
         waitForLoadingScreen();
+        waitForElement(topBuyersNumbers);
         return elementsAreAllPositive(findVisibleElements(topBuyersNumbers));
     }
 
     // checks that entries on top sellers list have negative change numbers
     public boolean topSellersListIsNegative(){
-        waitForElement(topSellersNumbers);
         waitForLoadingScreen();
+        waitForElement(topSellersNumbers);
         return elementsAreAllNegative(findVisibleElements(topSellersNumbers));
     }
 
     // checks that entries on top buyers list have change numbers in descending order
     public boolean topBuyersListIsDescending(){
-        waitForElement(topBuyersNumbers);
         waitForLoadingScreen();
+        waitForElement(topBuyersNumbers);
         return elementsAreNumDownSorted(findVisibleElements(topBuyersNumbers));
     }
 
     // checks that entries on top sellers list have change numbers in ascending order
     public boolean topSellersListIsAscending(){
-        waitForElement(topSellersNumbers);
         waitForLoadingScreen();
+        waitForElement(topSellersNumbers);
         return elementsAreNumUpSorted(findVisibleElements(topSellersNumbers));
     }
 
     // checks that no institution appears in both the top buyers and the top sellers list (or appears twice in either list)
     public boolean topBuyersAndSellersAreUnique(){
-        waitForElementToAppear(topBuyersAndSellers);
         waitForLoadingScreen();
+        waitForElementToAppear(topBuyersAndSellers);
         return elementsDoNotContainDuplicates(findVisibleElements(topBuyersAndSellers));
     }
 
@@ -828,7 +828,7 @@ public class SecurityOwnershipPage extends AbstractPageObject implements DateDro
     public SecurityOwnershipPage showAllTypes(){
         waitForElement(allTypesFilter);
         findVisibleElement(allTypesFilter).click();
-        pause(5000);
+        waitForLoadingScreen();
         return this;
     }
 
@@ -836,7 +836,7 @@ public class SecurityOwnershipPage extends AbstractPageObject implements DateDro
     public SecurityOwnershipPage showOnlyInstitutions(){
         waitForElement(institutionsFilter);
         findVisibleElement(institutionsFilter).click();
-        pause(5000);
+        waitForLoadingScreen();
         return this;
     }
 
@@ -844,7 +844,7 @@ public class SecurityOwnershipPage extends AbstractPageObject implements DateDro
     public SecurityOwnershipPage showOnlyInsiders(){
         waitForElement(insidersFilter);
         findVisibleElement(insidersFilter).click();
-        pause(5000);
+        waitForLoadingScreen();
         return this;
     }
 
@@ -852,7 +852,7 @@ public class SecurityOwnershipPage extends AbstractPageObject implements DateDro
     public SecurityOwnershipPage showOnlyFunds(){
         waitForElement(fundsFilter);
         findVisibleElement(fundsFilter).click();
-        pause(5000);
+        waitForLoadingScreen();
         return this;
     }
 
@@ -898,21 +898,21 @@ public class SecurityOwnershipPage extends AbstractPageObject implements DateDro
     public SecurityOwnershipPage showOnlyBuyers(){
         waitForElement(buyersFilter);
         findVisibleElement(buyersFilter).click();
-        pause(5000);
+        waitForLoadingScreen();
         return this;
     }
 
     public SecurityOwnershipPage showOnlySellers(){
         waitForElement(sellersFilter);
         findVisibleElement(sellersFilter).click();
-        pause(5000);
+        waitForLoadingScreen();
         return this;
     }
 
     public SecurityOwnershipPage showBuyersAndSellers(){
         waitForElement(allBuyersSellersFilter);
         findVisibleElement(allBuyersSellersFilter).click();
-        pause(5000);
+        waitForLoadingScreen();
         return this;
     }
 
@@ -1006,16 +1006,24 @@ public class SecurityOwnershipPage extends AbstractPageObject implements DateDro
     public boolean canHoverOverTrendAnalysisCharts(){
         boolean canHover = true;
         waitForLoadingScreen();
-        waitForElement(trendAnalysisHoverText);
+        waitForAnyElementToAppear(trendAnalysisChartBody);
         List<WebElement> charts = findVisibleElements(trendAnalysisChartBody);
 
 
         for(int i=0; i<charts.size(); i++){
-            actions.clickAndHold(charts.get(i)).perform(); //clickAndHold needed so that cursor is still there when getAttribute is run
+            //actions.clickAndHold(charts.get(i)).perform(); //clickAndHold needed so that cursor is still there when getAttribute is run
+            //actions.moveToElement(charts.get(i)).click().perform();
+            actions.moveToElement(charts.get(i)).perform();
+            actions.click(charts.get(i)).perform();
             pause(2000);
+            waitForAnyElementToAppear(trendAnalysisHoverText);
             List<WebElement> hovertexts = findVisibleElements(trendAnalysisHoverText);
+
             if(hovertexts.size()==0){
                 canHover=false;
+            }
+            if(hovertexts.size()>2){
+                System.out.print("You were right\n "+i);
             }
             for(int j=0; j<hovertexts.size(); j++) {
                 if (!hovertexts.get(j).getAttribute("opacity").equals("1")) { // when hovertext is not visible, opacity attribute is either zero or non-existent
@@ -1152,8 +1160,7 @@ public class SecurityOwnershipPage extends AbstractPageObject implements DateDro
     }
 
     public SecurityOwnershipPage searchForHoldings(String searchTerm) {
-        findElement(holdingsSearchField).sendKeys(searchTerm);
-        waitForLoadingScreen();
+        waitForElementToAppear(holdingsSearchField).sendKeys(searchTerm);
         // Added pause to account for the situation where the test will take the original top value of the table and won't wait for the results to be updated by the search.
         pause(3000);
         return this;
@@ -1161,22 +1168,22 @@ public class SecurityOwnershipPage extends AbstractPageObject implements DateDro
 
     //different types of Holder Searches
     public String getHistoricalInstitutionsHolderSearchResults() {
-        waitForElementToAppear(historicalInstitutionsHolderSearchResult);
-        return findElement(historicalInstitutionsHolderSearchResult).getText();
+        waitForElementToRest(historicalInstitutionsHolderSearchResult, 500L);
+        return waitForElementToAppear(historicalInstitutionsHolderSearchResult).getText();
     }
 
     public String getCurrentInsidersHolderSearchResults() {
-        waitForElementToAppear(currentInsidersHolderSearchResult);
-        return findElement(currentInsidersHolderSearchResult).getText();
+        waitForElementToRest(currentInsidersHolderSearchResult, 500L);
+        return waitForElementToAppear(currentInsidersHolderSearchResult).getText();
     }
 
     public String getHistoricalFundsHolderSearchResults(){
-        waitForElementToAppear(historicalFundsHolderSearchResults);
-        return findElement(historicalFundsHolderSearchResults).getText();
+        waitForElementToRest(historicalFundsHolderSearchResults, 500L);
+        return waitForElementToAppear(historicalFundsHolderSearchResults).getText();
     }
 
     public SecurityOwnershipPage searchForFundsETFs(String searchTerm) {
-        findElement(holdingsSearchField).sendKeys(searchTerm);
+        waitForElementToAppear(holdingsSearchField).sendKeys(searchTerm);
         // Added pause to account for the situation where the test will take the original top value of the table and won't wait for the results to be updated by the search.
         pause(3000);
         return this;
@@ -1184,30 +1191,30 @@ public class SecurityOwnershipPage extends AbstractPageObject implements DateDro
 
 
     public String getInstitutionSearchResults() {
-        waitForElementToAppear(InstitutionSearchResult);
-        return findElement(InstitutionSearchResult).getText();
+        waitForElementToRest(InstitutionSearchResult, 500L);
+        return waitForElementToAppear(InstitutionSearchResult).getText();
     }
 
     public void selectInsiderstab() {
         waitForLoadingScreen();
-        findElement(thirteenFButton).click();
-        findElement(InsidersTab).click();
+        waitForElementToBeClickable(thirteenFButton).click();
+        waitForElementToBeClickable(InsidersTab).click();
 
     }
 
     public String getInsiderSearchResults() {
-        waitForElementToAppear(InsiderSearchResult);
-        return findElement(InsiderSearchResult).getText();
+        waitForElementToRest(InsiderSearchResult, 500L);
+        return waitForElementToAppear(InsiderSearchResult).getText();
     }
 
     public String getHolderSearchResults() {
-        waitForElementToAppear(holderSearchResult);
-        return findElement(holderSearchResult).getText();
+        waitForElementToRest(holderSearchResult, 500L);
+        return waitForElementToAppear(holderSearchResult).getText();
     }
 
     public SecurityOwnershipPage selectFundsETFstab() {
         waitForLoadingScreen();
-        findElement(FundsETFsTab).click();
+        waitForElementToBeClickable(FundsETFsTab).click();
 
         return this;
     }

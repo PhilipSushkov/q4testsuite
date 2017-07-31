@@ -14,7 +14,7 @@ import pageobjects.user.noteDetailsPage.NoteDetailsPage;
 public class LogActivityPage extends AbstractPageObject{
     private final By cancelActivityButton = By.xpath("//div[contains(@class,'x-unsized x-button form-button no-background x-button-no-icon')]");
     private final By titleField = By.name("title");
-    private final By saveButton = By.xpath("//div[contains(@class, 'x-container x-unsized x-size-monitored x-paint-monitored x-dock-item x-docked-right')]/div[contains(@class, 'x-inner')]/div[contains(@class, 'x-unsized x-button action-button citrus x-button-no-icon')]/span[contains(@class,'x-button-label')]");
+    private final By saveButton = By.xpath("//span[@class='x-button-label'][text()='Save']");
     private final By selectInstitutionButton = By.id("ext-radiofield-10");
     private final By keywordField = By.xpath("//div[contains(@class, 'x-container x-field x-field-text x-label-align-left typeaheaded-search x-form-label-nowrap x-empty')]/div[contains(@class,'x-component-outer')]/div[contains(@class,'x-unsized x-field-input')]/input[contains(@class, 'x-input-el x-form-field x-input-text')]");
     private  String keyword = "";
@@ -47,13 +47,14 @@ public class LogActivityPage extends AbstractPageObject{
      /*   findElement(tagField).sendKeys(tag);
         findElement(tagField).sendKeys(Keys.RETURN); */
         scrollToElement(saveButton);
-        findElement(saveButton).click();
-        pause(2000L);
+        waitForElementToBeClickable(saveButton).click();
+        waitForLoadingScreen();
 
         return this;
     }
 
     public LogActivityPage enterPhoneNoteDetails(String comment, String name, String note, String tag) {
+        waitForElementToBeClickable(titleField);
         retryClick(findElement(titleField));
         findElement(titleField).sendKeys(comment);
         findElement(nameField).click();
@@ -63,24 +64,24 @@ public class LogActivityPage extends AbstractPageObject{
         // Tags don't exist on new activity page
      /*   findElement(tagField).sendKeys(tag);
         findElement(tagField).sendKeys(Keys.RETURN); */
-        pause(1500L);
 
         return this;
     }
 
     public LogActivityPage enterEmailNoteDetails(String comment, String note, String tag) {
+        waitForElementToBeClickable(titleField);
         retryClick(findElement(titleField));
         findElement(titleField).sendKeys(comment);
         findElement(typeNoteField).sendKeys(note);
         // Tags don't exist on new activity page
      /*   findElement(tagField).sendKeys(tag);
         findElement(tagField).sendKeys(Keys.RETURN); */
-        pause(2000L);
 
         return this;
     }
 
     public LogActivityPage enterMeetingDetails(String comment, String name, String note, String tag) {
+        waitForElementToBeClickable(titleField);
         retryClick(findElement(titleField));
         findElement(titleField).sendKeys(comment);
         findElement(nameField).sendKeys(name);
@@ -88,7 +89,6 @@ public class LogActivityPage extends AbstractPageObject{
         // Tags don't exist on new activity page
      /*   findElement(tagField).sendKeys(tag);
         findElement(tagField).sendKeys(Keys.RETURN); */
-        pause(2000L);
 
         return this;
     }
@@ -97,54 +97,53 @@ public class LogActivityPage extends AbstractPageObject{
         //The waitForLoadingScreen() makes the test a bit slower than I'd like
         //But at least now it's waiting for something instead of pause()
         waitForLoadingScreen();
+        waitForElementToBeClickable(titleField);
         retryClick(findElement(titleField));
         findElement(titleField).sendKeys(title);
         findElement(locationField).sendKeys(location);
-        pause(2000L);
-        // This gets rid of the location pop up
-        clickElementLocation(saveButton);
+
+        // Click to get rid of location dropdown menu
+        pause(500L);
+        clickElementLocation(titleField);
 
         // Tags don't exist on new activity page
      /*   findElement(tagField).sendKeys(tag);
         findElement(tagField).sendKeys(Keys.RETURN); */
-        pause(2000L);
 
         return this;
     }
 
     public ActivityPage cancelNote() {
-        pause(500L);
-        waitForElementToAppear(cancelActivityButton);
-        findElement(cancelActivityButton).click();
-        pause(500L);
+        waitForElementToBeClickable(cancelActivityButton).click();
 
         return new ActivityPage(getDriver());
     }
 
     public LogActivityPage linkNoteToInstitution(String institution) {
         keyword = institution;
+        waitForElement(selectInstitutionButton);
         scrollToElement(selectInstitutionButton);
         findElement(selectInstitutionButton).click();
         findElement(keywordField).sendKeys(institution);
-        waitForElementToAppear(keywordSearchDropdown);
-        findElement(keywordSearchDropdown).click();
+        waitForElementToBeClickable(keywordSearchDropdown).click();
 
         return this;
     }
 
      public LogActivityPage linkNoteToFund(String fund) {
         keyword = fund;
+        waitForElement(fundIcon);
         scrollToElement(fundIcon);
         findElement(fundIcon).click();
         findElement(keywordField).sendKeys(fund);
-         waitForElementToAppear(keywordSearchDropdown);
-         findElement(keywordSearchDropdown).click();
+        waitForElementToBeClickable(keywordSearchDropdown).click();
 
         return this;
     }
 
     public LogActivityPage linkNoteToContact(String contact) {
         keyword = contact;
+        waitForElement(contactIcon);
         scrollToElement(contactIcon);
         findElement(contactIcon).click();
         findElement(keywordField).sendKeys(contact);
@@ -156,37 +155,31 @@ public class LogActivityPage extends AbstractPageObject{
     }
 
     public LogActivityPage choosePhoneTab() {
-        wait.until(ExpectedConditions.elementToBeClickable(phoneTab));
-        findElement(phoneTab).click();
-        wait.until(ExpectedConditions.elementToBeClickable(saveButton));
-        findElement(saveButton).click();
+        waitForElementToBeClickable(phoneTab).click();
+        waitForElementToBeClickable(saveButton).click();
 
         return this;
     }
 
     public LogActivityPage chooseEmailTab() {
-        wait.until(ExpectedConditions.elementToBeClickable(emailTab));
-        findElement(emailTab).click();
-        wait.until(ExpectedConditions.elementToBeClickable(saveButton));
-        findElement(saveButton).click();
+        waitForElementToBeClickable(emailTab).click();
+        waitForElementToBeClickable(saveButton).click();
 
         return this;
     }
 
     public LogActivityPage chooseMeetingTab() {
-        wait.until(ExpectedConditions.elementToBeClickable(meetingTab));
-        findElement(meetingTab).click();
-        wait.until(ExpectedConditions.elementToBeClickable(saveButton));
-        findElement(saveButton).click();
+        waitForElementToBeClickable(meetingTab).click();
+        waitForElementToBeClickable(saveButton).click();
 
         return this;
     }
 
     public LogActivityPage chooseRoadshowTab() {
-        wait.until(ExpectedConditions.elementToBeClickable(roadshowTab));
-        findElement(roadshowTab).click();
-        waitForElement(saveButton);
-        new Actions(driver).moveToElement(findElement(saveButton)).click().perform();
+        waitForLoadingScreen();
+        waitForElementToBeClickable(roadshowTab);
+        retryClick(roadshowTab);
+        findVisibleElement(saveButton).click();
 
         return this;
     }

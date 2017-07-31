@@ -31,9 +31,17 @@ public class UserRoleDetails extends AbstractPageObject {
         return this;
     }
 
+    public UserRoleDetails disableAllRoles(){
+        for(UserRole role : UserRole.values()){
+            disableRole(role);
+        }
+        return this;
+    }
+
+
     public boolean isRoleEnabled(UserRole role){
 
-        if(findElement(By.xpath(role.returnSelector())).findElement(toggleSelector).getCssValue("class").contains(" off ")){
+        if(findElement(By.xpath(role.returnSelector())).findElement(toggleSelector).getAttribute("class").contains("off")){
             return false;
         }
         else{

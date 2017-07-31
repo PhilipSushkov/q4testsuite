@@ -39,7 +39,8 @@ public class DashboardLogActivity extends AbstractSpec {
                 .addNewTag(tag)
                 .accessSideNavFromPage()
                 .selectActivityPageFromSideNav()
-                .searchForNote(comment);
+                .searchForNote(comment)
+                .waitForText(comment);
 
         Assert.assertThat("Note does not contain the expected comment text", activityPage.getNewNote(), containsString(comment));
         Assert.assertThat("Note does not contain the expected tag", activityPage.getNewNote(), containsString(tag));
@@ -61,7 +62,8 @@ public class DashboardLogActivity extends AbstractSpec {
                 .addNewTag(tag)
                 .accessSideNavFromPage()
                 .selectActivityPageFromSideNav()
-                .searchForNote(comment);
+                .searchForNote(comment)
+                .waitForText(comment);
 
         Assert.assertThat("Note does not contain the expected comment text", activityPage.getNewNote(), containsString(comment));
         Assert.assertThat("Note does not contain the expected tag", activityPage.getNewNote(), containsString(tag));
@@ -165,7 +167,7 @@ public class DashboardLogActivity extends AbstractSpec {
 
         Assert.assertThat("Note does not contain expected text", noteDetailsPage.getNoteBody(), containsString(expectedNote));
         Assert.assertThat("Note does not contain expected comment text", noteDetailsPage.getCommentText(), containsString(comment));
-        Assert.assertThat("Note does not contain expected linked institution", noteDetailsPage.getLinkedToText(), containsString(institution));
+        Assert.assertThat("Note does not contain expected linked institution", noteDetailsPage.clickInstitutionTab().returnAttendeesList(), containsString(institution));
     }
 
     @Test
@@ -192,7 +194,7 @@ public class DashboardLogActivity extends AbstractSpec {
 
         Assert.assertThat("Note does not contain expected text", noteDetailsPage.getNoteBody(), containsString(expectedNote));
         Assert.assertThat("Note does not contain expected comment text", noteDetailsPage.getCommentText(), containsString(comment));
-        Assert.assertThat("Note does not contain expected linked fund", noteDetailsPage.getLinkedToText(), containsString(fund));
+        Assert.assertThat("Note does not contain expected linked fund", noteDetailsPage.clickFundTab().returnAttendeesList(), containsString(fund));
     }
 
     @Test
@@ -216,6 +218,6 @@ public class DashboardLogActivity extends AbstractSpec {
     //search comment and then search contacts
         Assert.assertThat("Note does not contain expected text", noteDetailsPage.getNoteBody(), containsString(expectedNote));
         Assert.assertThat("Note does not contain expected comment text", noteDetailsPage.getCommentText(), containsString(comment));
-        Assert.assertThat("Note does not contain expected linked contact", noteDetailsPage.filterContactsOnlys(), containsString(contact));
+        Assert.assertThat("Note does not contain expected linked contact", noteDetailsPage.clickContactTab().returnAttendeesList(), containsString(contact));
     }
 }

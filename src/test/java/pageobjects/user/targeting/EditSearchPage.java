@@ -60,6 +60,7 @@ public class EditSearchPage extends AbstractPageObject {
         findVisibleElement(saveSearchButton).click();
         wait.until(ExpectedConditions.elementToBeClickable(saveConfirmation));
         findElement(saveConfirmation).click();
+        waitForLoadingScreen();
     }
 
     public boolean verifyFilters(String[] filters){
@@ -124,6 +125,7 @@ public class EditSearchPage extends AbstractPageObject {
 
         // verifying turnover filter
         filterDropdowns.get(0).click();
+        waitForAnyElementToAppear(filterDropdownSelectors);
         List<WebElement> dropdownOptionTitles = findElements(dropdownOptionTitleSelectors);
         List<WebElement> dropdownOptionCheckboxes = findElements(dropdownOptionCheckboxSelectors);
         for (int i=0; i<dropdownOptionTitles.size() && !filterOptionFound; i++){
@@ -144,6 +146,7 @@ public class EditSearchPage extends AbstractPageObject {
         // verifying type filter
         filterOptionFound = false;
         filterDropdowns.get(1).click();
+        waitForAnyElementToAppear(filterDropdownSelectors);
         dropdownOptionTitles = findElements(dropdownOptionTitleSelectors);
         dropdownOptionCheckboxes = findElements(dropdownOptionCheckboxSelectors);
         for (int i=0; i<dropdownOptionTitles.size() && !filterOptionFound; i++){
@@ -164,6 +167,7 @@ public class EditSearchPage extends AbstractPageObject {
         // verifying style filter
         filterOptionFound = false;
         filterDropdowns.get(2).click();
+        waitForAnyElementToAppear(filterDropdownSelectors);
         dropdownOptionTitles = findElements(dropdownOptionTitleSelectors);
         dropdownOptionCheckboxes = findElements(dropdownOptionCheckboxSelectors);
         for (int i=0; i<dropdownOptionTitles.size() && !filterOptionFound; i++){

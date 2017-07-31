@@ -15,6 +15,7 @@ import java.util.List;
 public class BriefingBookList extends AbstractPageObject {
 
     private final By reportList = By.xpath("//*[contains(@class,'briefing-book-list')]//div[contains(@class,'x-dataview-container')]");
+    private final By emptyList =By.xpath("//div[contains(@class,'briefing-book-list')]//div[contains(@class,'x-dataview-emptytext')]");
     private final By createBookButton = By.cssSelector(".btn.x-button.x-unsized:not(.btn-block)");
     private final By newBriefingBook = By.cssSelector(".briefing-book-item:nth-child(1)");
     private final By checkbox = By.className("checkmark");
@@ -101,21 +102,22 @@ public class BriefingBookList extends AbstractPageObject {
 
     public BriefingBookDetailsPage viewNewBriefingBook() {
         waitForLoadingScreen();
+        waitForElementToBeClickable(newBriefingBook);
         findElement(newBriefingBook).click();
 
         return new BriefingBookDetailsPage(getDriver());
     }
 
     public BriefingBookList deleteNewBriefingBook(){
-        waitForLoadingScreen();
         findElement(checkbox).click();
         findElement(deleteButton).click();
         waitForElementToAppear(confirmDeleteButton);
         findElement(confirmDeleteButton).click();
+        waitForElementToRest(reportList, 1000L);
         return this;
     }
 
-    public BriefingBookList deleteAllBriefingBooks(String title){
+    public BriefingBookList deleteAllBriefingBooks(){
         waitForLoadingScreen();
         if(!findVisibleElement(bulkCheckbox).getAttribute("class").contains("x-item-disabled")){
         findVisibleElement(bulkCheckbox).click();
@@ -131,13 +133,13 @@ public class BriefingBookList extends AbstractPageObject {
         findVisibleElement(searchBox).sendKeys(" ");
         findVisibleElement(searchBox).clear();
         findVisibleElement(searchBox).sendKeys(searchTerm);
-        pause(2000);
+        waitForElementToRest(reportList, 1000L);
         return this;
     }
 
     public boolean briefingBooksAreDisplayed(){
         waitForLoadingScreen();
-        return !findElement(reportList).getText().contains("No briefing books available.");
+        return !findElement(emptyList).getText().contains("No briefing books available.");
     }
 
     public boolean allTitlesContain(String term){
@@ -172,6 +174,14 @@ public class BriefingBookList extends AbstractPageObject {
                 findElement(updatedHeader).click();
                 break;
         }
+        if (doesElementExist(generalBriefingBookItem)) {
+            waitForElementToRest(generalBriefingBookItem, 1000L);
+        }
+    }
 
+    public BriefingBookList waitForListToUpdate() {
+        waitForElement(reportList);
+        waitForElementToRest(reportList, 1000L);
+        return this;
     }
 }

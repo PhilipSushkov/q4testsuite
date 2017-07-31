@@ -25,6 +25,7 @@ public class InstitutionPage extends Page {
 
     public String getInstitutionName() {
         waitForLoadingScreen();
+        waitForAnyElementToAppear(institutionName);
         return findVisibleElement(institutionName).getText();
     }
 

@@ -19,17 +19,8 @@ import specs.user.watchlist.EditWatchlist;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
+        TargetingList.class
 
-        ContactDetails.class,
-        TabNavigationExpanded.class,
-        EditWatchlist.class,
-        Q4TeamPage.class,
-        SearchForActivity.class,
-        TargetingList.class,
-        ResearchList.class,
-        Ownership.class,
-        CreateBriefingBook.class,
-        EditBriefingBook.class
 })
 
 

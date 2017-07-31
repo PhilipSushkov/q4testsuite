@@ -4,7 +4,6 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import specs.admin.companies.CompaniesList;
 import specs.admin.companies.CompanyDetails;
-import specs.admin.implementation.AddEditImplementations;
 import specs.admin.intelligence.IntelligenceList;
 import specs.admin.intelligence.WTSReportDetails;
 import specs.admin.loginPage.AdminLogin;
@@ -22,7 +21,7 @@ import specs.admin.users.UserRoles;
         CompaniesList.class,
         CompanyDetails.class,
         EditProfilesList.class,
-        AddEditImplementations.class,
+        // AddEditImplementations.class,
         IntelligenceList.class,
         WTSReportDetails.class,
         UserRoles.class,

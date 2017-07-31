@@ -76,6 +76,7 @@ public class Dashboard extends AbstractPageObject {
     }
 
     public String getSearchFieldText() {
+        waitForElementToAppear(searchField);
         return findElement(searchField).getAttribute("placeholder");
     }
 
@@ -129,22 +130,19 @@ public class Dashboard extends AbstractPageObject {
     }
 
     public ContactDetailsPage selectContactFromSearchResults() {
-        wait.until(ExpectedConditions.elementToBeClickable(contactResult));
-        findElement(contactResult).click();
+        waitForElementToBeClickable(contactResult).click();
 
         return new ContactDetailsPage(getDriver());
     }
 
     public FundPage selectFundFromSearchResults() {
-        wait.until(ExpectedConditions.elementToBeClickable(fundResult));
-        findElement(fundResult).click();
+        waitForElementToBeClickable(fundResult).click();
 
         return new FundPage(getDriver());
     }
 
     public CreateBriefingBookModal selectCreateBriefingBook() {
-        wait.until(ExpectedConditions.elementToBeClickable(buildReportDashboardButton));
-        findElement(buildReportDashboardButton).click();
+        waitForElementToBeClickable(buildReportDashboardButton).click();
 
         return new CreateBriefingBookModal(getDriver());
     }
@@ -188,8 +186,9 @@ public class Dashboard extends AbstractPageObject {
     }
     */
     public LogActivityModal logActivity(){
-        wait.until(ExpectedConditions.elementToBeClickable(logActivityButton));
-        findElement(logActivityButton).click();
+        waitForDashboardToLoad();
+        waitForElementToRest(logActivityButton, 500L);
+        waitForElementToBeClickable(logActivityButton).click();
 
         return new LogActivityModal(getDriver());
     }
