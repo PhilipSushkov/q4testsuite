@@ -57,8 +57,7 @@ public class DashboardLogActivity extends AbstractSpec {
         new Dashboard(driver).logActivity();
         new LogActivityPage(driver)
                 .enterPhoneNoteDetails(comment, name, note, tag)
-                .choosePhoneTab()
-                .postActivity()
+                .postPhone()
                 .addNewTag(tag)
                 .accessSideNavFromPage()
                 .selectActivityPageFromSideNav()
@@ -79,8 +78,7 @@ public class DashboardLogActivity extends AbstractSpec {
         new Dashboard(driver).logActivity();
         new LogActivityPage(driver)
                 .enterEmailNoteDetails(comment, note, tag)
-                .chooseEmailTab()
-                .postActivity()
+                .postEmail()
                 .addNewTag(tag)
                 .accessSideNavFromPage()
                 .selectActivityPageFromSideNav()
@@ -101,8 +99,7 @@ public class DashboardLogActivity extends AbstractSpec {
         new Dashboard(driver).logActivity();
         new LogActivityPage(driver)
                 .enterMeetingDetails(comment, name, note, tag)
-                .chooseMeetingTab()
-                .postActivity()
+                .postMeeting()
                 .addNewTag(tag)
                 .accessSideNavFromPage()
                 .selectActivityPageFromSideNav()
@@ -124,8 +121,7 @@ public class DashboardLogActivity extends AbstractSpec {
         new Dashboard(driver).logActivity();
         new LogActivityPage(driver)
                 .enterMeetingDetails(comment, name, note, tag)
-                .chooseRoadshowTab()
-                .postActivity()
+                .postRoadshow()
                 .addNewTag(tag)
                 .accessSideNavFromPage()
                 .selectActivityPageFromSideNav()
