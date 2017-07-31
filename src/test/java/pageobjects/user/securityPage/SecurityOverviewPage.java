@@ -43,8 +43,8 @@ public class SecurityOverviewPage extends WatchlistPage {
     final By dropdownModal = By.cssSelector(".company-service-list .company-service-list-container");
 
     final By dropdownMenu = By.cssSelector(".company-header .menu-button .x-button-label");
-    final By dropdownLeftArrow = By.cssSelector(".company-header .navigate-button:first-child");
-    final By dropdownRightArrow = By.cssSelector(".company-header .navigate-button:last-child");
+    final By dropdownLeftArrow = By.xpath("//div[contains(@class,'navigate')][span[contains(@class,'q4i-caret-sm-left-4pt')]]");
+    final By dropdownRightArrow = By.xpath("//div[contains(@class,'navigate')][span[contains(@class,'q4i-caret-sm-right-4pt')]]");
 
     final By dropdownOverview = By.xpath("//*[@class=\"company-service-list-item menu-item\"][1]");
     final By dropdownOwnership = By.xpath("//*[@class=\"company-service-list-item menu-item\"][2]");
