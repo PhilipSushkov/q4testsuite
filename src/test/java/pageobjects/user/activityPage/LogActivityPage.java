@@ -170,9 +170,7 @@ public class LogActivityPage extends AbstractPageObject{
     }
 
     public NoteDetailsPage postRoadshow() {
-        waitForLoadingScreen();
-        waitForElementToBeClickable(roadshowTab);
-        retryClick(roadshowTab);
+        waitForElementToBeClickable(roadshowTab).click();
         return postActivity();
     }
 

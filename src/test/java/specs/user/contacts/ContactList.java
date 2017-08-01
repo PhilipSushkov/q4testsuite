@@ -29,7 +29,7 @@ public class ContactList extends AbstractSpec {
         ContactPage contactPage = new ContactPage(driver);
 
         new Dashboard(driver).searchFor(contactName)
-                .selectContactFromSearchResults()
+                .selectContactFromSearchResults(contactName)
                 .addToContacts()
                 .accessSideNavFromPage()
                 .selectContactsFromSideNav()
@@ -53,7 +53,7 @@ public class ContactList extends AbstractSpec {
         ContactPage contactPage = new ContactPage(driver);
 
         new Dashboard(driver).searchFor(contactName)
-                .selectContactFromSearchResults()
+                .selectContactFromSearchResults(contactName)
                 .addToContacts()
                 .accessSideNavFromPage()
                 .selectContactsFromSideNav()

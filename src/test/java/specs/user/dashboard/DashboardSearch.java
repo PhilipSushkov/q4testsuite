@@ -23,12 +23,13 @@ public class DashboardSearch extends AbstractSpec{
 
     @Test
     public void canSearchForCompany() {
-        String companyName = "Tesla Inc";
-        SecurityOverviewPage finish = new SecurityOverviewPage(driver);
-        new Dashboard(driver).searchFor(companyName)
-                .selectCompanyFromSearch();
+        String companySearchTerm = "Tesla Inc";
+        String companyName = "Tesla, Inc";
+        SecurityOverviewPage finish = new Dashboard(driver).searchFor(companySearchTerm)
+                .selectSecurityFromSearchResults(companyName);
 
-        Assert.assertEquals("Expected company name is not shown in search results", companyName, finish.getCompanyName());
+        Assert.assertNotNull("Security does not appear in search results", finish);
+        Assert.assertEquals("Did not open expected security page", companySearchTerm, finish.getCompanyName());
     }
 
     @Test
@@ -42,34 +43,36 @@ public class DashboardSearch extends AbstractSpec{
     @Test
     public void specialCharactersShouldntBreakSearch() {
         String crazyCharacters = "!!!$$$%%%";
-        String companyName = "Tesla Inc";
-        SecurityOverviewPage finish = new SecurityOverviewPage(driver);
-        new Dashboard(driver).searchFor(crazyCharacters)
+        String companySearchTerm = "Tesla Inc";
+        String companyName = "Tesla, Inc";
+        SecurityOverviewPage finish = new Dashboard(driver).searchFor(crazyCharacters)
                 .clearSearchField()
-                .searchFor(companyName)
-                .selectCompanyFromSearch();
+                .searchFor(companySearchTerm)
+                .selectSecurityFromSearchResults(companyName);
 
-        Assert.assertEquals("Expected company name is not shown in search results", companyName, finish.getCompanyName());
+        Assert.assertNotNull("Security does not appear in search results", finish);
+        Assert.assertEquals("Did not open expected security page", companySearchTerm, finish.getCompanyName());
     }
 
     @Test
     public void canSearchForInstitution() {
         String institutionName = "JPMorgan Investment Management, Inc.";
-        InstitutionPage finish = new InstitutionPage(driver);
-        new Dashboard(driver).searchFor(institutionName.substring(0,18))
+        InstitutionPage finish = new Dashboard(driver).searchFor(institutionName)
                 .selectInstitutionFromSearchResults(institutionName);
 
-        Assert.assertThat("Expected institution name is not shown in search results", finish.getInstitutionName(), containsString(institutionName));
+        Assert.assertNotNull("Known Issue: DESKTOP-9093 - Institution does not appear in search results", finish);
+        Assert.assertThat("Did not open expected institution page", finish.getInstitutionName(), containsString(institutionName));
     }
 
     @Test
     public void canSearchForContact() {
+        String contactSearchTerm = "Christoph Christen";
         String contactName = "Mr. Christoph Christen";
-        ContactDetailsPage finish = new ContactDetailsPage(driver);
-        new Dashboard(driver).searchFor(contactName)
-                .selectContactFromSearchResults();
+        ContactDetailsPage finish = new Dashboard(driver).searchFor(contactSearchTerm)
+                .selectContactFromSearchResults(contactSearchTerm);
 
-        Assert.assertEquals("Expected contact name is not shown in search results", contactName, finish.getContactName());
+        Assert.assertNotNull("Contact does not appear in search results", finish);
+        Assert.assertEquals("Did not open expected contact page", contactName, finish.getContactName());
     }
 
     @Test
@@ -77,11 +80,11 @@ public class DashboardSearch extends AbstractSpec{
         String fundName = "Fundy";
         String pageTitle = "Fundy\n" +
                 "Open-End Fund";
-        FundPage finish = new FundPage(driver);
-        new Dashboard(driver).searchFor(fundName)
-                .selectFundFromSearchResults();
+        FundPage finish = new Dashboard(driver).searchFor(fundName)
+                .selectFundFromSearchResults(fundName);
 
-        Assert.assertEquals("Expected fund name is not shown in search results", pageTitle, finish.getFundName());
+        Assert.assertNotNull("Fund does not appear in search results", finish);
+        Assert.assertEquals("Did not open expected fund page", pageTitle, finish.getFundName());
     }
 }
 
