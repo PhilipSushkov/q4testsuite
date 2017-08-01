@@ -3,7 +3,6 @@ package pageobjects.user.activityPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageobjects.AbstractPageObject;
 import pageobjects.user.noteDetailsPage.NoteDetailsPage;
@@ -15,7 +14,7 @@ public class LogActivityPage extends AbstractPageObject{
     private final By cancelActivityButton = By.xpath("//div[contains(@class,'x-unsized x-button form-button no-background x-button-no-icon')]");
     private final By titleField = By.name("title");
     private final By saveButton = By.xpath("//span[@class='x-button-label'][text()='Save']");
-    private final By selectInstitutionButton = By.id("ext-radiofield-10");
+    private final By selectInstitutionButton = By.id("ext-radiofield-7");
     private final By keywordField = By.xpath("//div[contains(@class, 'x-container x-field x-field-text x-label-align-left typeaheaded-search x-form-label-nowrap x-empty')]/div[contains(@class,'x-component-outer')]/div[contains(@class,'x-unsized x-field-input')]/input[contains(@class, 'x-input-el x-form-field x-input-text')]");
     private  String keyword = "";
     private final By keywordSearchDropdown = By.xpath("//div[contains(@class, 'x-inner x-dataview-inner')]/div[contains(text(), '" + keyword + "')]");
@@ -24,8 +23,8 @@ public class LogActivityPage extends AbstractPageObject{
     private final By tagField = By.name("tag");
     private final By locationField = By.xpath("//div[contains(@class, 'x-container activity-location-field capitalized x-label-align-left x-form-label-nowrap')]/div[contains(@class, 'x-component-outer')]/div[contains(@class, 'x-container x-unsized')]/div[contains(@class, 'x-inner')]/div[contains(@class, 'x-container x-field x-field-text x-label-align-left x-form-label-nowrap x-empty')]/div[contains(@class, 'x-component-outer')]/div[contains(@class, 'x-unsized x-field-input')]/*[contains(@type, 'text')]");
     private final By nameField = By.xpath("//div[contains(@class, 'x-container x-field x-field-text x-label-align-left participants-field')]/div[contains(@class, 'x-component-outer')]/div[contains(@class, 'x-unsized x-field-input')]/*[contains(@type, 'text')]");
-    private final By fundIcon = By.id("ext-radiofield-11");
-    private final By contactIcon = By.id("ext-radiofield-12");
+    private final By fundIcon = By.id("ext-radiofield-8");
+    private final By contactIcon = By.id("ext-radiofield-9");
     private final By phoneTab = By.id("ext-radiofield-2");
     private final By emailTab = By.id("ext-radiofield-3");
     private final By meetingTab = By.id("ext-radiofield-4");
