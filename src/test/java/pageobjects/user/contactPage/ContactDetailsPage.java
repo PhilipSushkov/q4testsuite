@@ -126,8 +126,7 @@ public class ContactDetailsPage extends Page {
 
     public String getContactTags() {
         waitForLoadingScreen();
-        waitForAnyElementToAppear(contactTags);
-        return findElement(contactTags).getText();
+        return waitForElementToAppear(contactTags).getText();
     }
 
     public String getInstitutionName() {

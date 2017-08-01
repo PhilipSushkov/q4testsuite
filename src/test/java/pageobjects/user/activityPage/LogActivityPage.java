@@ -153,41 +153,29 @@ public class LogActivityPage extends AbstractPageObject{
         return this;
     }
 
-    public LogActivityPage choosePhoneTab() {
+    public NoteDetailsPage postPhone() {
         waitForElementToBeClickable(phoneTab).click();
-        waitForElementToBeClickable(saveButton).click();
-
-        return this;
+        return postActivity();
     }
 
-    public LogActivityPage chooseEmailTab() {
+    public NoteDetailsPage postEmail() {
         waitForElementToBeClickable(emailTab).click();
-        waitForElementToBeClickable(saveButton).click();
-
-        return this;
+        return postActivity();
     }
 
-    public LogActivityPage chooseMeetingTab() {
+    public NoteDetailsPage postMeeting() {
         waitForElementToBeClickable(meetingTab).click();
-        waitForElementToBeClickable(saveButton).click();
-
-        return this;
+        return postActivity();
     }
 
-    public LogActivityPage chooseRoadshowTab() {
-        waitForLoadingScreen();
-        waitForElementToBeClickable(roadshowTab);
-        retryClick(roadshowTab);
-        findVisibleElement(saveButton).click();
-
-        return this;
+    public NoteDetailsPage postRoadshow() {
+        waitForElementToBeClickable(roadshowTab).click();
+        return postActivity();
     }
 
     public NoteDetailsPage postActivity() {
-        waitForElementToAppear(saveButton);
-        clickElementLocation(saveButton);
-        pause(2000);
-
+        waitForElementToBeClickable(saveButton);
+        retryClick(saveButton);
         return new NoteDetailsPage(getDriver());
     }
 }

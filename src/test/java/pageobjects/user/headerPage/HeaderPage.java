@@ -6,6 +6,9 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageobjects.PageObject;
 import pageobjects.user.securityPage.SecurityOverviewPage;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by sarahr on 2/1/2017.
  */
@@ -62,59 +65,98 @@ public interface HeaderPage extends PageObject{
 
 
     //Search results
-    By securityResult = By.xpath("//div[contains(@class,'list-header') and contains(@class,'security')]/../../following-sibling::div[1]");
-    By institutionResult = By.xpath("//div[contains(@class,'list-header') and contains(@class,'institution')]/../../following-sibling::div[1]");
-    By contactResult = By.xpath("//div[contains(@class,'list-header') and contains(@class,'contact')]/../../following-sibling::div[1]");
-    By fundResult = By.xpath("//div[contains(@class,'list-header') and contains(@class,'fund')]/../../following-sibling::div[1]");
+    By securityResults = By.xpath("//div[preceding-sibling::div[contains(@class, 'x-list-item')][contains(@class, 'x-size-monitored')][not(contains(@class, 'x-hidden-display'))]//div[text()='security'] and following-sibling::div[contains(@class, 'x-list-item')][contains(@class, 'x-size-monitored')][not(contains(@class, 'x-hidden-display'))]]");
+    By institutionResults = By.xpath("//div[preceding-sibling::div[contains(@class, 'x-list-item')][contains(@class, 'x-size-monitored')][not(contains(@class, 'x-hidden-display'))]//div[text()='institution'] and following-sibling::div[contains(@class, 'x-list-item')][contains(@class, 'x-size-monitored')][not(contains(@class, 'x-hidden-display'))]]");
+    By contactResults = By.xpath("//div[preceding-sibling::div[contains(@class, 'x-list-item')][contains(@class, 'x-size-monitored')][not(contains(@class, 'x-hidden-display'))]//div[text()='contact'] and following-sibling::div[contains(@class, 'x-list-item')][contains(@class, 'x-size-monitored')][not(contains(@class, 'x-hidden-display'))]]");
+    By fundResults = By.xpath("//div[preceding-sibling::div[contains(@class, 'x-list-item')][contains(@class, 'x-size-monitored')][not(contains(@class, 'x-hidden-display'))]//div[text()='fund']]");
 
     By releaseNotesPageHeader = By.xpath("//h1[contains(text(),'Release Notes')]");
 
 
-
-    /*
-    This search method needs some work
-    We need to decide how we want to search things
-
-    Right now, you can search and click ~first~ fund, contact, etc. in the list
-     */
-
-
-    default HeaderPage contactSearch(String searchTerm){
-        findElement(searchBar).click();
+    default HeaderPage contactSearch(String searchTerm, String name){
+        waitForElementToBeClickable(searchBar).click();
         findElement(searchBar).clear();
         findElement(searchBar).sendKeys(searchTerm);
 
-        findElement(contactResult).click();
+        waitForAnyElementToAppear(contactResults);
+
+        List<WebElement> contacts = findElements(contactResults);
+        for (WebElement contact : contacts) {
+            if (contact.getText().contains(name)) {
+                contact.click();
+                return this;
+            }
+        }
+
+        // If not found, click first element
+        System.out.println("Failed to find " + name + " in search results, choosing first from list");
+        findElement(contactResults).click();
 
         return this;
     }
 
-    default HeaderPage securitySearch(String searchTerm){
-        findElement(searchBar).click();
+    default HeaderPage securitySearch(String searchTerm, String title){
+        waitForElementToBeClickable(searchBar).click();
         findElement(searchBar).clear();
         findElement(searchBar).sendKeys(searchTerm);
 
-        findElement(securityResult).click();
+        waitForAnyElementToAppear(securityResults);
+
+        List<WebElement> contacts = findElements(securityResults);
+        for (WebElement contact : contacts) {
+            if (contact.getText().contains(title)) {
+                contact.click();
+                return this;
+            }
+        }
+
+        // If not found, click first element
+        System.out.println("Failed to find " + title + " in search results, choosing first from list");
+        findElement(securityResults).click();
 
         return this;
     }
 
-    default HeaderPage institutionSearch(String searchTerm){
-        findElement(searchBar).click();
+    default HeaderPage institutionSearch(String searchTerm, String title){
+        waitForElementToBeClickable(searchBar).click();
         findElement(searchBar).clear();
         findElement(searchBar).sendKeys(searchTerm);
 
-        findElement(institutionResult).click();
+        waitForAnyElementToAppear(institutionResults);
+
+        List<WebElement> contacts = findElements(institutionResults);
+        for (WebElement contact : contacts) {
+            if (contact.getText().contains(title)) {
+                contact.click();
+                return this;
+            }
+        }
+
+        // If not found, click first element
+        System.out.println("Failed to find " + title + " in search results, choosing first from list");
+        findElement(institutionResults).click();
 
         return this;
     }
 
-    default HeaderPage fundSearch(String searchTerm){
+    default HeaderPage fundSearch(String searchTerm, String title){
         findElement(searchBar).click();
         findElement(searchBar).clear();
         findElement(searchBar).sendKeys(searchTerm);
 
-        findElement(fundResult).click();
+        waitForAnyElementToAppear(fundResults);
+
+        List<WebElement> contacts = findElements(fundResults);
+        for (WebElement contact : contacts) {
+            if (contact.getText().contains(title)) {
+                contact.click();
+                return this;
+            }
+        }
+
+        // If not found, click first element
+        System.out.println("Failed to find " + title + " in search results, choosing first from list");
+        findElement(fundResults).click();
 
         return this;
     }
@@ -374,4 +416,16 @@ public interface HeaderPage extends PageObject{
         getWait().until(ExpectedConditions.stalenessOf(staleElement));
     }
 
+    default By getSearchResultsBetween(String first, String last) {
+        String path;
+        if (last != null) {
+            path = "//div[preceding-sibling::div[contains(@class, 'x-list-item')][contains(@class, 'x-size-monitored')][not(contains(@class, 'x-hidden-display'))]//div[text()='"
+            + first + "'] and following-sibling::div[contains(@class, 'x-list-item')][contains(@class, 'x-size-monitored')][not(contains(@class, 'x-hidden-display'))]//div[@class='type'][text()='"
+            + last + "']]";
+        } else {
+            path = "//div[preceding-sibling::div[contains(@class, 'x-list-item')][contains(@class, 'x-size-monitored')][not(contains(@class, 'x-hidden-display'))]//div[text()='"
+                    + first + "']]";
+        }
+        return By.xpath(path);
+    }
 }

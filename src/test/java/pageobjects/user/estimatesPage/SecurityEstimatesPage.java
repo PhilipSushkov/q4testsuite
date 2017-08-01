@@ -40,8 +40,8 @@ public class SecurityEstimatesPage extends AbstractPageObject{
 
     public Calendar filterDate(Calendar calendar) {
         waitForLoadingScreen();
-        waitForElement(researchAnchorLink);
-        findElement(researchAnchorLink).click();
+        //waitForElement(researchAnchorLink);
+        //findElement(researchAnchorLink).click();
         calendar.selectStartDate(startTimeSelector, previousMonthButton, selectedMonth, selectedDay);
         calendar.selectEndDate(endTimeSelector, previousMonthButton, selectedMonth, selectedDay);
         calendar.filter(dateFilterButton);

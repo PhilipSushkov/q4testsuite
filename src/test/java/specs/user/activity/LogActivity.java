@@ -79,7 +79,7 @@ public class LogActivity extends AbstractSpec {
 
         new ActivityPage(driver).logNote()
                 .enterPhoneNoteDetails(comment, name, note, tag)
-                .choosePhoneTab();
+                .postPhone();
 
         // Make sure the new comment appears on page
         Assert.assertThat("Note text does not match expected", noteDetailsPage.getCommentText(), containsString(comment));
@@ -95,7 +95,7 @@ public class LogActivity extends AbstractSpec {
 
         new ActivityPage(driver).logNote()
                 .enterEmailNoteDetails(comment, note, tag)
-                .chooseEmailTab();
+                .postEmail();
 
         // Make sure the new comment appears on page
         Assert.assertThat("Note text does not match expected", noteDetailsPage.getCommentText(), containsString(comment));
@@ -112,7 +112,7 @@ public class LogActivity extends AbstractSpec {
 
         new ActivityPage(driver).logNote()
                 .enterMeetingDetails(comment, name, note, tag)
-                .chooseMeetingTab();
+                .postMeeting();
 
         // Make sure the new comment appears on page
         Assert.assertThat("Note text does not match expected", noteDetailsPage.getCommentText(), containsString(comment));
@@ -128,7 +128,7 @@ public class LogActivity extends AbstractSpec {
 
         new ActivityPage(driver).logNote()
                 .enterRoadshowDetails(title, location, tag)
-                .chooseRoadshowTab();
+                .postRoadshow();
 
         // Make sure the new comment appears on page
         Assert.assertThat("Note text does not match expected", noteDetailsPage.getLocation(), containsString(location));

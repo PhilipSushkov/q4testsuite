@@ -53,7 +53,6 @@ public class AbstractPageObject implements HeaderPage{
 
     // Admin page elements
     private final By adminPageTitle = By.cssSelector(".page-header .page-title .details h2");
-    private final By loading = By.className("x-loading-spinner");
     private final By companyPage = By.cssSelector("body > q4-app > div > q4-navbar > nav > div > ul > li:nth-child(2) > a > i");
     private final By profilesPage = By.cssSelector("body > q4-app > div > q4-navbar > nav > div > ul > li:nth-child(3) > a > i");
     private final By intelligencePage = By.cssSelector("body > q4-app > div > q4-navbar > nav > div > ul > li:nth-child(4) > a > i");
@@ -189,17 +188,6 @@ public class AbstractPageObject implements HeaderPage{
 
         Actions execute = new Actions(driver);
         execute.moveToElement(findElement(anyElement)).click().perform();
-    }
-
-    public void waitForLoadingScreen() {
-        //Waits 2 sec for spinners to appear, then 10 sec for spinners to disappear
-        WebDriverWait spinnerWait = new WebDriverWait(driver, 2);
-        try {
-            spinnerWait.until(ExpectedConditions.presenceOfElementLocated(loading));
-            wait.until(ExpectedConditions.invisibilityOfAllElements(findElements(loading)));
-        } catch (Exception e) {
-            // No loading spinners; do nothing
-        }
     }
 
     public void waitForDashboardToLoad() {

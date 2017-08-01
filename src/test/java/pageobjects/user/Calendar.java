@@ -1,7 +1,10 @@
 package pageobjects.user;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.interactions.Actions;
 import pageobjects.AbstractPageObject;
 
 import java.text.ParseException;
@@ -26,17 +29,22 @@ public class Calendar extends AbstractPageObject{
     // these parameters change according to where the calendar tool appears on the web page
     public Calendar selectStartDate(By startTimeSelector, By previousMonthButton, By selectedMonth, By selectedDay) {
         waitForLoadingScreen();
+        waitForElementToBeClickable(startTimeSelector);
+        scrollToElement(startTimeSelector);
         findElement(startTimeSelector).click();
             // start time will always go back 5 months from the current month. This will adapt over time
             for (int i = 0; i < 6; i++)
             {
-                findElement(previousMonthButton).click();
+                scrollToElement(previousMonthButton);
+                waitForElementToBeClickable(previousMonthButton).click();
             }
         // collects a string in format "SEPTEMBER 2016"
-        startMonth = findElement(selectedMonth).getText();
+        scrollToElement(selectedMonth);
+        startMonth = waitForElementToAppear(selectedMonth).getText();
         // collects a string in format "20"
-        startDay = findElement(selectedDay).getText();
-        findElement(selectedDay).click();
+        scrollToElement(selectedDay);
+        startDay = waitForElementToAppear(selectedDay).getText();
+        waitForElementToBeClickable(selectedDay).click();
         // calls method to convert 2 strings into format "MM/DD/YY"
         formattedStartDate = dateFormatConversion(startMonth, startDay);
         return this;
@@ -45,15 +53,19 @@ public class Calendar extends AbstractPageObject{
     // these parameters change according to where the calendar tool appears on the web page
     public Calendar selectEndDate(By endTimeSelector, By nextMonthButton, By selectedMonth, By selectedDay) {
 
-        findElement(endTimeSelector).click();
+        scrollToElement(endTimeSelector);
+        waitForElementToBeClickable(endTimeSelector).click();
         // end time will always go ahead 2 months from the current month
             for (int i = 0; i < 3; i++)
             {
+                scrollToElement(nextMonthButton);
                 findElement(nextMonthButton).click();
             }
         // collects a string in format "NOVEMBER 2016"
+        scrollToElement(selectedMonth);
         endMonth = findElement(selectedMonth).getText();
         // collects a string in format "20"
+        scrollToElement(selectedDay);
         endDay = findElement(selectedDay).getText();
         findElement(selectedDay).click();
         // calls method to convert 2 strings into format "MM/DD/YY"

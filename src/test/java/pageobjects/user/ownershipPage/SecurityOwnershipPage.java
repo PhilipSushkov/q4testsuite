@@ -1168,17 +1168,17 @@ public class SecurityOwnershipPage extends AbstractPageObject implements DateDro
 
     //different types of Holder Searches
     public String getHistoricalInstitutionsHolderSearchResults() {
-        waitForElementToRest(historicalInstitutionsHolderSearchResult, 500L);
+        waitForElementToRest(historicalInstitutionsHolderSearchResult, 700L);
         return waitForElementToAppear(historicalInstitutionsHolderSearchResult).getText();
     }
 
     public String getCurrentInsidersHolderSearchResults() {
-        waitForElementToRest(currentInsidersHolderSearchResult, 500L);
+        waitForElementToRest(currentInsidersHolderSearchResult, 700L);
         return waitForElementToAppear(currentInsidersHolderSearchResult).getText();
     }
 
     public String getHistoricalFundsHolderSearchResults(){
-        waitForElementToRest(historicalFundsHolderSearchResults, 500L);
+        waitForElementToRest(historicalFundsHolderSearchResults, 700L);
         return waitForElementToAppear(historicalFundsHolderSearchResults).getText();
     }
 
@@ -1191,7 +1191,7 @@ public class SecurityOwnershipPage extends AbstractPageObject implements DateDro
 
 
     public String getInstitutionSearchResults() {
-        waitForElementToRest(InstitutionSearchResult, 500L);
+        waitForElementToRest(InstitutionSearchResult, 700L);
         return waitForElementToAppear(InstitutionSearchResult).getText();
     }
 
@@ -1203,12 +1203,12 @@ public class SecurityOwnershipPage extends AbstractPageObject implements DateDro
     }
 
     public String getInsiderSearchResults() {
-        waitForElementToRest(InsiderSearchResult, 500L);
+        waitForElementToRest(InsiderSearchResult, 700L);
         return waitForElementToAppear(InsiderSearchResult).getText();
     }
 
     public String getHolderSearchResults() {
-        waitForElementToRest(holderSearchResult, 500L);
+        waitForElementToRest(holderSearchResult, 700L);
         return waitForElementToAppear(holderSearchResult).getText();
     }
 
@@ -1220,6 +1220,7 @@ public class SecurityOwnershipPage extends AbstractPageObject implements DateDro
     }
 
     public String getHolderSearchResultstwo() {
+        waitForElement(holderSearchResulttwo);
         scrollToElement(holderSearchResulttwo);
         waitForElementToAppear(holderSearchResulttwo);
         return findElement(holderSearchResulttwo).getText();

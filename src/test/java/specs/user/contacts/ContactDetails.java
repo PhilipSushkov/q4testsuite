@@ -30,7 +30,7 @@ public class ContactDetails extends AbstractSpec {
     public void setUp() {
         new LoginPage(driver).loginUser()
                 .searchFor(contactName)
-                .selectContactFromSearchResults();
+                .selectContactFromSearchResults(shortName);
     }
 
     @Test
