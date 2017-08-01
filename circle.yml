@@ -8,12 +8,6 @@ machine:
 # Only runs a full test suite on CircleCI when build parameters are passed in.
 # otherwise only runs compile on a git push
 
-steps:
-  - restore_cache:
-     keys:
-        - m2-{{ checksum pom.xml }}
-        - m2- # used if checksum fails
-
 dependencies:
   override:
     - curl -L -o google-chrome.deb https://s3.amazonaws.com/circle-downloads/google-chrome-stable_current_amd64_47.0.2526.73-1.deb
