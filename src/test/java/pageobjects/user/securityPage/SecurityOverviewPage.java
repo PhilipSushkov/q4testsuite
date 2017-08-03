@@ -57,11 +57,11 @@ public class SecurityOverviewPage extends WatchlistPage {
 
     //buttons\\ -> to add stuff for modals that appear when clicking button
 
-    private final By recentEstimatesBtn = By.cssSelector(".company-header .header-notifications-tab .x-button:first-child");
-    private final By recentEventsBtn = By.xpath("//div[contains(@class, 'x-iconalign-center')][span[contains(@class,'q4i-events-transcripts-2pt')]]");
-    private final By recentTranscriptsBtn = By.xpath("//div[contains(@class, 'x-iconalign-center')][span[contains(@class,'q4i-transcripts-2pt')]]");
-    private final By recentNewsBtn = By.xpath("//div[contains(@class, 'x-iconalign-center')][span[contains(@class,'q4i-press-releases-2pt')]]");
-    private final By recentResearchBtn = By.xpath("//div[contains(@class, 'research-buttonresearch-button')]");
+    private final By recentEstimatesBtn = By.xpath("//div[contains(@id, 'header-notifications-tab')]//div[contains(@class, 'x-iconalign-center')][span[contains(@class,'q4i-estimates-research-2pt')]]");
+    private final By recentEventsBtn = By.xpath("//div[contains(@id, 'header-notifications-tab')]//div[contains(@class, 'x-iconalign-center')][span[contains(@class,'q4i-events-transcripts-2pt')]]");
+    private final By recentTranscriptsBtn = By.xpath("//div[contains(@id, 'header-notifications-tab')]//div[contains(@class, 'x-iconalign-center')][span[contains(@class,'q4i-transcripts-2pt')]]");
+    private final By recentNewsBtn = By.xpath("//div[contains(@id, 'header-notifications-tab')]//div[contains(@class, 'x-iconalign-center')][span[contains(@class,'q4i-press-releases-2pt')]]");
+    private final By recentResearchBtn = By.xpath("//div[contains(@id, 'header-notifications-tab')]//div[contains(@class, 'research-buttonresearch-button')]");
 
     private final By recentEstimatesResults = By.cssSelector(".company-header-latest-estimates .latest-estimate-item");
     private final By recentEventsResults = By.xpath("//div[contains(@class,'latest-events-item')]");

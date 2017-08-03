@@ -28,7 +28,7 @@ public class CreateBriefingBook extends AbstractSpec {
                 .selectBriefingBookFromSideNav();
     }
 
-    //@After
+    @After
     public void cleanUp(){
         try {
             BriefingBookList briefingBookList = new BriefingBookDetailsPage(driver).accessSideNavFromPage().selectBriefingBookFromSideNav();
@@ -177,5 +177,26 @@ public class CreateBriefingBook extends AbstractSpec {
         list.clickHeader(BriefingBookColumnType.LAST_UPDATED);
         Assert.assertTrue("Last Updated not sorted correctly",list.isSortedBy(BriefingBookColumnType.LAST_UPDATED));
 
+    }
+
+    @Test
+    public void canGenerateBriefingBook(){
+        String briefingBookName = briefingBookTitle + RandomStringUtils.randomAlphanumeric(6);
+        BriefingBookList briefingBookList = new BriefingBookList(driver).addNewBriefingBook()
+                .saveBriefingBook(briefingBookName)
+                .waitForListToUpdate();
+
+        String briefingBookContent = briefingBookList.viewNewBriefingBook()
+                .addContact("Samuel Stursburg")
+                .generateBriefingBook(false)
+                .getBriefingBookPdfContent(briefingBookName)
+                .replaceAll("\\s", "");
+        // Test checks pdf content with whitespace removed for consistency
+
+        System.out.println(briefingBookContent);
+        Assert.assertNotNull("Briefing book did not generate properly", briefingBookContent);
+
+        Assert.assertTrue("Briefing book did not contain proper text",
+                briefingBookContent.contains("CONTACTTEARSHEET"));
     }
 }

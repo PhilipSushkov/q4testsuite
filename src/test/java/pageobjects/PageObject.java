@@ -159,12 +159,7 @@ public interface PageObject {
     default void waitForTextToChange(By selector) {
         waitForElement(selector);
         String currentText = findElement(selector).getText();
-        getWait().until(new ExpectedCondition() {
-            @Override
-            public Object apply(Object o) {
-                return !findElement(selector).getText().equals(currentText);
-            }
-        });
+        getWait().until((ExpectedCondition<Boolean>) d -> !d.findElement(selector).getText().equals(currentText));
     }
 
     default void waitForTextToChange(By selector, String from) {
