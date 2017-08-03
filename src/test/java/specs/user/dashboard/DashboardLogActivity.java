@@ -47,95 +47,6 @@ public class DashboardLogActivity extends AbstractSpec {
     }
 
     @Test
-    public void canLogPhoneCallFromDashboard() {
-        String comment = "This is a phone comment" + RandomStringUtils.randomAlphanumeric(6);
-        String name = "Joe" + RandomStringUtils.randomAlphanumeric(6);
-        String note = "This is a phone note" + RandomStringUtils.randomAlphanumeric(6);
-        String tag = "PhoneTag" + RandomStringUtils.randomAlphanumeric(6);
-
-        ActivityPage activityPage = new ActivityPage(driver);
-        new Dashboard(driver).logActivity();
-        new LogActivityPage(driver)
-                .enterPhoneNoteDetails(comment, name, note, tag)
-                .choosePhoneTab()
-                .postActivity()
-                .addNewTag(tag)
-                .accessSideNavFromPage()
-                .selectActivityPageFromSideNav()
-                .searchForNote(comment)
-                .waitForText(comment);
-
-        Assert.assertThat("Note does not contain the expected comment text", activityPage.getNewNote(), containsString(comment));
-        Assert.assertThat("Note does not contain the expected tag", activityPage.getNewNote(), containsString(tag));
-    }
-
-    @Test
-    public void canLogEmailFromDashboard() {
-        String comment = "This is an email comment" + RandomStringUtils.randomAlphanumeric(6);
-        String note = "This is an email noe" + RandomStringUtils.randomAlphanumeric(6);
-        String tag = "EmailTag" + RandomStringUtils.randomAlphanumeric(6);
-
-        ActivityPage activityPage = new ActivityPage(driver);
-        new Dashboard(driver).logActivity();
-        new LogActivityPage(driver)
-                .enterEmailNoteDetails(comment, note, tag)
-                .chooseEmailTab()
-                .postActivity()
-                .addNewTag(tag)
-                .accessSideNavFromPage()
-                .selectActivityPageFromSideNav()
-                .searchForNote(comment);
-
-        Assert.assertThat("Note does not contain the expected comment text", activityPage.getNewNote(), containsString(comment));
-        Assert.assertThat("Note does not contain the expected tag", activityPage.getNewNote(), containsString(tag));
-    }
-
-    @Test
-    public void canLogMeetingFromDashboard() {
-        String comment = "This is a meeting comment" + RandomStringUtils.randomAlphanumeric(6);
-        String name = "Joe" + RandomStringUtils.randomAlphanumeric(5);
-        String note = "This is a meeting note" + RandomStringUtils.randomAlphanumeric(6);
-        String tag = "MeetingTag" + RandomStringUtils.randomAlphanumeric(3);
-
-        ActivityPage activityPage = new ActivityPage(driver);
-        new Dashboard(driver).logActivity();
-        new LogActivityPage(driver)
-                .enterMeetingDetails(comment, name, note, tag)
-                .chooseMeetingTab()
-                .postActivity()
-                .addNewTag(tag)
-                .accessSideNavFromPage()
-                .selectActivityPageFromSideNav()
-                .searchForNote(comment);
-
-        Assert.assertThat("Note does not contain the expected comment text", activityPage.getNewNote(), containsString(comment));
-        Assert.assertThat("Note does not contain the expected tag", activityPage.getNewNote(), containsString(tag));
-    }
-
-    @Test
-    public void canLogRoadshowFromDashboard() {
-        String comment = "This is a meeting comment" + RandomStringUtils.randomAlphanumeric(6);
-        String name = "Joe" + RandomStringUtils.randomAlphanumeric(5);
-        String note = "This is a meeting note" + RandomStringUtils.randomAlphanumeric(6);
-        String tag = "MeetingTag" + RandomStringUtils.randomAlphanumeric(3);
-
-
-        ActivityPage activityPage = new ActivityPage(driver);
-        new Dashboard(driver).logActivity();
-        new LogActivityPage(driver)
-                .enterMeetingDetails(comment, name, note, tag)
-                .chooseRoadshowTab()
-                .postActivity()
-                .addNewTag(tag)
-                .accessSideNavFromPage()
-                .selectActivityPageFromSideNav()
-                .searchForNote(comment);
-
-        Assert.assertThat("Note does not contain the expected comment text", activityPage.getNewNote(), containsString(comment));
-        Assert.assertThat("Note does not contain the expected tag", activityPage.getNewNote(), containsString(tag));
-    }
-
-    @Test
     public void canCancelActivity() {
         new Dashboard(driver).logActivity()
                 .cancelNote();
@@ -155,7 +66,7 @@ public class DashboardLogActivity extends AbstractSpec {
         NoteDetailsPage noteDetailsPage = new NoteDetailsPage(driver);
 
         new Dashboard(driver).logActivity();
-        LogActivityPage logActivityPage = new LogActivityPage(driver)
+        new LogActivityPage(driver)
                 .linkNoteToInstitution(institution)
                 .enterNoteDetails(comment,note,tag);
 
@@ -182,7 +93,7 @@ public class DashboardLogActivity extends AbstractSpec {
         NoteDetailsPage noteDetailsPage = new NoteDetailsPage(driver);
 
         new Dashboard(driver).logActivity();
-        LogActivityPage logActivityPage = new LogActivityPage(driver)
+        new LogActivityPage(driver)
                 .linkNoteToFund(fund)
                 .enterNoteDetails(comment,note,tag);
 

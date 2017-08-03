@@ -102,6 +102,17 @@ public interface PageObject {
         return findElement(selector).findElement(By.xpath("parent::*"));
     }
 
+    default void waitForLoadingScreen() {
+        //Waits 2 sec for spinners to appear, then 10 sec for spinners to disappear
+        WebDriverWait spinnerWait = new WebDriverWait(getDriver(), 2);
+        try {
+            spinnerWait.until(ExpectedConditions.presenceOfElementLocated(By.className("x-loading-spinner")));
+            getWait().until(ExpectedConditions.invisibilityOfAllElements(findElements(By.className("x-loading-spinner"))));
+        } catch (Exception e) {
+            // No loading spinners; do nothing
+        }
+    }
+
     default WebElement waitForElement(By selector) {
         return getWait().until(ExpectedConditions.presenceOfElementLocated(selector));
     }
@@ -148,24 +159,16 @@ public interface PageObject {
     default void waitForTextToChange(By selector) {
         waitForElement(selector);
         String currentText = findElement(selector).getText();
-        getWait().until(new ExpectedCondition() {
-            @Override
-            public Object apply(Object o) {
-                return !findElement(selector).getText().equals(currentText);
-            }
-        });
+        getWait().until((ExpectedCondition<Boolean>) d -> !d.findElement(selector).getText().equals(currentText));
     }
 
     default void waitForTextToChange(By selector, String from) {
         try {
-            if (findElement(selector).getText().contains(from)) {
+            if (findVisibleElement(selector).getText().contains(from)) {
                 waitForTextToChange(selector);
             }
         } catch (StaleElementReferenceException e) {
-           pause(500L);
-           if (findElement(selector).getText().contains(from)) {
-               waitForTextToChange(selector);
-           }
+           pause(2000L);
         }
     }
 

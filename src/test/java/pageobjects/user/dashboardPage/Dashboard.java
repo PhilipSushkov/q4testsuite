@@ -20,9 +20,7 @@ public class Dashboard extends AbstractPageObject {
     private final By searchField = By.name("search");
     private final By firstCompanyInList = By.cssSelector("span:nth-child(1)");
     private final By clearSearchButton = By.cssSelector(".home-search .x-field-input .x-clear-icon");
-    private final By institutionResult = By.xpath("//div[contains(@class,'x-list-item')]");
-    private final By contactResult = By.id("ext-simplelistitem-11");
-    private final By fundResult = By.id("ext-simplelistitem-3");
+    // Search results selectors are defined in HeaderPage.java
 
     // Dashboard background (to get out of focused search)
     private final By dashboardGeneral = By.className("x-dock-body");
@@ -115,30 +113,42 @@ public class Dashboard extends AbstractPageObject {
         return true;
     }
 
-    public InstitutionPage selectInstitutionFromSearchResults(String institution) {
-        waitForElementToAppear(institutionResult);
-        ArrayList<WebElement> searchResults = new ArrayList<>(findElements(institutionResult));
+    public SecurityOverviewPage selectSecurityFromSearchResults(String security) {
+        if (selectItemFromSearchResults(security, securityResults)) {
+            return new SecurityOverviewPage(driver);
+        } else return null;
+    }
 
-        for(WebElement row: searchResults){
-            if(row.getText().contains(institution)){
+    public InstitutionPage selectInstitutionFromSearchResults(String institution) {
+        if (selectItemFromSearchResults(institution, institutionResults)) {
+            return new InstitutionPage(driver);
+        } else return null;
+    }
+
+    public ContactDetailsPage selectContactFromSearchResults(String contact) {
+        if (selectItemFromSearchResults(contact, contactResults)) {
+            return new ContactDetailsPage(driver);
+        } else return null;
+    }
+
+    public FundPage selectFundFromSearchResults(String fund) {
+        if (selectItemFromSearchResults(fund, fundResults)) {
+            return new FundPage(driver);
+        } else return null;
+    }
+
+    private Boolean selectItemFromSearchResults(String item, By selector) {
+        waitForElementToAppear(selector);
+        ArrayList<WebElement> searchResults = new ArrayList<>(findElements(selector));
+
+        for (WebElement row: searchResults) {
+            if (row.getText().contains(item)) {
                 row.click();
-                break;
+                return true;
             }
         }
 
-        return new InstitutionPage(getDriver());
-    }
-
-    public ContactDetailsPage selectContactFromSearchResults() {
-        waitForElementToBeClickable(contactResult).click();
-
-        return new ContactDetailsPage(getDriver());
-    }
-
-    public FundPage selectFundFromSearchResults() {
-        waitForElementToBeClickable(fundResult).click();
-
-        return new FundPage(getDriver());
+        return false;
     }
 
     public CreateBriefingBookModal selectCreateBriefingBook() {

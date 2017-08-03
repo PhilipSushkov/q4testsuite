@@ -53,10 +53,8 @@ public class ContactDetailsPage extends Page {
         super(driver);
     }
 
-    public String getActivityDate()
-    {
-        pause(500L);
-        return findElement(postedDate).getText();
+    public String getActivityDate() {
+        return waitForElementToAppear(postedDate).getText();
     }
 
     public String getContactName() {
@@ -67,16 +65,12 @@ public class ContactDetailsPage extends Page {
 
     public ContactDetailsPage addToContacts() {
 
-        pause(500L);
         waitForElementToBeClickable(contactDropDown).click();
 
         try {
-            waitForElementToBeClickable(addOption);
-            findElement(addOption).click();
-            waitForElementToBeClickable(contactListSave);
-            findElement(contactListSave).click();
-            waitForElementToBeClickable(okayConfirmationButton);
-            findElement(okayConfirmationButton).click();
+            waitForElementToBeClickable(addOption).click();
+            waitForElementToBeClickable(contactListSave).click();
+            waitForElementToBeClickable(okayConfirmationButton).click();
         }
         catch (Exception e){
             waitForElementToBeClickable(removeFromContacts).click();
@@ -91,13 +85,12 @@ public class ContactDetailsPage extends Page {
             waitForElementToBeClickable(okayConfirmationButton).click();
 
         }
-        pause(500L);
 
         return this;
     }
 
     public ContactDetailsPage removeContactFromList() {
-        pause(500L);
+        waitForLoadingScreen();
         driver.navigate().refresh();
         waitForLoadingScreen();
         waitForElementToBeClickable(contactDropdownPostAdd);
@@ -126,8 +119,7 @@ public class ContactDetailsPage extends Page {
 
     public String getContactTags() {
         waitForLoadingScreen();
-        waitForAnyElementToAppear(contactTags);
-        return findElement(contactTags).getText();
+        return waitForElementToAppear(contactTags).getText();
     }
 
     public String getInstitutionName() {
@@ -136,7 +128,8 @@ public class ContactDetailsPage extends Page {
     }
 
     public InstitutionPage navigateToInstitution() {
-        findElement(institutionName).click();
+        waitForLoadingScreen();
+        waitForElementToBeClickable(institutionName).click();
         driver.navigate().refresh();
         return new InstitutionPage(getDriver());
     }

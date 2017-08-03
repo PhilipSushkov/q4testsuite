@@ -106,6 +106,7 @@ public class NoteDetailsPage extends ActivityPage {
     }
 
     public String returnAttendeesList(){
+        pause(1000L);
         waitForElement(linkedToDetails);
         return findVisibleElement(linkedToDetails).getText();
     }
@@ -136,8 +137,7 @@ public class NoteDetailsPage extends ActivityPage {
 
     public String getNoteBody() {
         waitForLoadingScreen();
-        wait.until(ExpectedConditions.visibilityOfElementLocated(noteDetails));
-        return findElement(noteDetails).getText();
+        return waitForElementToAppear(noteDetails).getText();
     }
 
     public String getActivityTitle(){
