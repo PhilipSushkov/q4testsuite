@@ -117,7 +117,12 @@ public class TargetingList extends AbstractSpec {
         Assert.assertTrue("'Saved Target' icon does not appear on institution page.", new InstitutionPage(driver).isSavedTarget());
 
         // going to targets list and checking that institution appears
-        int targetedInstitutionIndex = new InstitutionPage(driver).accessSideNavFromPage().selectTargetingFromSideNav().findInstitutionIndex(targetedInstitution); //will be -1 if not listed
+        int targetedInstitutionIndex = new InstitutionPage(driver)
+                .accessSideNavFromPage()
+                .selectTargetingFromSideNav()
+                .selectTargetsTab()
+                .searchForSearch(targetedInstitution)
+                .findInstitutionIndex(targetedInstitution); //will be -1 if not listed
         Assert.assertNotEquals("Institution not found in targets list", -1, targetedInstitutionIndex);
 
         // removing the target and checking that the target no longer appears
@@ -125,7 +130,12 @@ public class TargetingList extends AbstractSpec {
         Assert.assertFalse("'Saved Target' icon still appears on institution page.", new TargetingPage(driver).goToInstitutionURL(institutionPageURL).isSavedTarget());
 
         // going to institution page and checking that institution no longer appears
-        targetedInstitutionIndex = new InstitutionPage(driver).accessSideNavFromPage().selectTargetingFromSideNav().findInstitutionIndex(targetedInstitution); //will be -1 if not listed
+        targetedInstitutionIndex = new InstitutionPage(driver)
+                .accessSideNavFromPage()
+                .selectTargetingFromSideNav()
+                .selectTargetsTab()
+                .searchForSearch(targetedInstitution)
+                .findInstitutionIndex(targetedInstitution); //will be -1 if not listed
         Assert.assertEquals("Institution has not been removed from targets list", -1, targetedInstitutionIndex);
     }
 

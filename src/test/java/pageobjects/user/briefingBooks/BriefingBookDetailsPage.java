@@ -207,7 +207,7 @@ public class BriefingBookDetailsPage extends AbstractPageObject {
         waitForLoadingScreen();
         actions.dragAndDrop(findElements(entityDragHandle).get(originIndex), findElement(topOfEntityList)).perform();
         waitForElementToRest(topOfEntityList, 1000L);
-        driver.navigate().refresh();
+        pageRefresh();
     }
 
     public BriefingBookDetailsPage generateBriefingBook(Boolean includeActivity) {

@@ -4,14 +4,12 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import specs.user.WebAnalytics.WebAnalytics;
 import specs.user.activism.Activism;
-import specs.user.activity.ActivityDetails;
-import specs.user.activity.FilterActivity;
-import specs.user.activity.LogActivity;
-import specs.user.activity.SearchForActivity;
+import specs.user.activity.*;
 import specs.user.advancedSearch.AdvancedSearchNavigation;
 import specs.user.advancedSearch.AdvancedSearching;
 import specs.user.briefingBooks.CreateBriefingBook;
 import specs.user.briefingBooks.EditBriefingBook;
+import specs.user.briefingBooks.GenerateBriefingBook;
 import specs.user.contacts.ContactDetails;
 import specs.user.contacts.ContactList;
 import specs.user.dashboard.DashboardLinks;
@@ -37,6 +35,7 @@ import specs.user.webcastAnalytics.WebcastAnalytics;
         LogActivity.class,
         FilterActivity.class,
         ActivityDetails.class,
+        BulkActivityActions.class,
         ContactList.class,
         ContactDetails.class,
         DashboardLinks.class,
@@ -55,6 +54,7 @@ import specs.user.webcastAnalytics.WebcastAnalytics;
         Ownership.class,
         CreateBriefingBook.class,
         EditBriefingBook.class,
+        GenerateBriefingBook.class,
         header.class,
         Activism.class,
         Sentiment.class,

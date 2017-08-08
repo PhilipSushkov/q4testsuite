@@ -145,6 +145,7 @@ public class AbstractPageObject implements HeaderPage{
     public LogActivityModal pageRefresh() {
         pause(2000L);
         driver.navigate().refresh();
+        waitForSiteToLoad();
         waitForLoadingScreen();
 
         return new LogActivityModal(getDriver());

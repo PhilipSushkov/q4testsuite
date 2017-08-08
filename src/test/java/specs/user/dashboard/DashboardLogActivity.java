@@ -122,9 +122,8 @@ public class DashboardLogActivity extends AbstractSpec {
         new Dashboard(driver).logActivity();
         new LogActivityPage(driver)
                 .linkNoteToContact(contact)
-                .enterNoteDetails(comment,note,tag);
-
-        driver.navigate().refresh();
+                .enterNoteDetails(comment,note,tag)
+                .pageRefresh();
 
     //search comment and then search contacts
         Assert.assertThat("Note does not contain expected text", noteDetailsPage.getNoteBody(), containsString(expectedNote));
