@@ -103,7 +103,7 @@ public class BriefingBookList extends AbstractPageObject {
     public BriefingBookDetailsPage viewNewBriefingBook() {
         waitForLoadingScreen();
         waitForElementToBeClickable(newBriefingBook);
-        findElement(newBriefingBook).click();
+        waitForElementToRest(newBriefingBook, 300L).click();
 
         return new BriefingBookDetailsPage(getDriver());
     }

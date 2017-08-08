@@ -90,9 +90,7 @@ public class ContactDetailsPage extends Page {
     }
 
     public ContactDetailsPage removeContactFromList() {
-        waitForLoadingScreen();
-        driver.navigate().refresh();
-        waitForLoadingScreen();
+        pageRefresh();
         waitForElementToBeClickable(contactDropdownPostAdd);
         retryClick(contactDropdownPostAdd);
         wait.until(ExpectedConditions.elementToBeClickable(removeFromContacts));
@@ -112,7 +110,7 @@ public class ContactDetailsPage extends Page {
         findElement(tagInputField).sendKeys(tag);
         findElement(tagInputField).sendKeys(Keys.RETURN);
         pause(500L);
-        driver.navigate().refresh();
+        pageRefresh();
 
         return this;
     }
@@ -130,7 +128,7 @@ public class ContactDetailsPage extends Page {
     public InstitutionPage navigateToInstitution() {
         waitForLoadingScreen();
         waitForElementToBeClickable(institutionName).click();
-        driver.navigate().refresh();
+        pageRefresh();
         return new InstitutionPage(getDriver());
     }
 

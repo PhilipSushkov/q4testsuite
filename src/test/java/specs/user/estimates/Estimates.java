@@ -97,14 +97,13 @@ public class Estimates extends AbstractSpec {
         Assert.assertTrue("Research Reports cannot be sorted by contributor", estimatesPage.sortByContributor());
     }
 
-    @Ignore
     @Test
     public void canSortResearchByAnalyst() {
         SecurityEstimatesPage estimatesPage = new SecurityEstimatesPage(driver);
         Calendar calendar = new Calendar(driver);
         estimatesPage.filterDate(calendar);
 
-        Assert.assertTrue("Research Reports cannot be sorted by contributor", estimatesPage.sortByAnalyst());
+        Assert.assertTrue("KNOWN ISSUE: DESKTOP 9124 - Research Reports cannot be sorted by analyst", estimatesPage.sortByAnalyst());
     }
 
     @Test
