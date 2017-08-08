@@ -7,9 +7,6 @@ import org.openqa.selenium.interactions.Actions;
 import pageobjects.AbstractPageObject;
 import pageobjects.api.historical.QuandlConnectToApi;
 import pageobjects.api.historical.QuandlDataset;
-import yahoofinance.YahooFinance;
-import yahoofinance.histquotes.HistoricalQuote;
-import yahoofinance.histquotes.Interval;
 
 import java.io.IOException;
 import java.text.DateFormat;
@@ -17,7 +14,9 @@ import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
 import java.time.ZonedDateTime;
 import java.time.temporal.TemporalAdjusters;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Created by patrickp on 2016-11-09.
@@ -125,32 +124,48 @@ public class WTSReportDetailsPage extends AbstractPageObject {
         return doesElementExist(downloadButton) && findElement(downloadButton).isDisplayed();
     }
 
-    /*
-    This method verifies:
-    - all “Stock Trade Summary” data
-    - “Indices” data for Dow Jones, Nasdaq, S&P 500, and 10 Year Yield
-    - values displayed when hovering over the bars of the “Daily Performance” chart
-    - values displayed when hovering over the bars of the “YTD Change” chart
-    Explanations on how values are supposed to be calculated: https://q4websystems.atlassian.net/wiki/display/PM/Intelligence+Reports
-    First value in parameter String[] symbols should be the symbol of the company, followed by the symbols of each peer in the order presented on the report.
+
+    /** reportDataIsValidUsingQuandl validates Q4's trade summary report for a list of symbols by comparing the data with data taken from Quandl API's
+     *  returns true if all of the data is valid and false otherwise
+     *  Requires: symbols must be a valid list of symbols. If testing a different number of symbols, ensure that this code is correctly modified to support that number.
+     *            Some symbols require their own specific API request hence why changing the number of symbols requires large modifications.
      */
-    public boolean reportDataIsValid(String[] symbols){
+    public boolean reportDataIsValidUsingQuandl(String[] symbols) {
         boolean allValid = true;
+        DateFormat quandlFormat = new SimpleDateFormat("yyyy-MM-dd");
+
         ZonedDateTime lastFriday = ZonedDateTime.now().with(TemporalAdjusters.previous(DayOfWeek.FRIDAY)); //most-recent date that report should be based off of (may be incorrect if last friday is not a trading day)
+        String lastFridayString = quandlFormat.format(Date.from(lastFriday.toInstant()));
+
         ZonedDateTime thirteenWeeksEarlier = lastFriday.minusDays(95);
+        String thirteenWeeksEarlierString = quandlFormat.format(Date.from(thirteenWeeksEarlier.toInstant()));
+
         ZonedDateTime endOfLastQuarter;
         ZonedDateTime endOfLastYear = lastFriday.minusYears(1).with(TemporalAdjusters.lastDayOfYear());
-        if (lastFriday.getMonthValue() > 3){
-            endOfLastQuarter = lastFriday.withMonth((lastFriday.getMonthValue()-1)/3*3).with(TemporalAdjusters.lastDayOfMonth());
-        }
-        else {
+        String endOfLastYearString = quandlFormat.format(Date.from(endOfLastYear.toInstant()));
+
+        if (lastFriday.getMonthValue() > 3) {
+            endOfLastQuarter = lastFriday.withMonth((lastFriday.getMonthValue() - 1) / 3 * 3).with(TemporalAdjusters.lastDayOfMonth());
+        } else {
             endOfLastQuarter = endOfLastYear;
         }
 
-        // determining and calculating "Stock Trade Summary" values (using data from Yahoo)
-        List<List<HistoricalQuote>> companyStocksLast13Weeks = new ArrayList<>(); //first index is for each symbol, second index is for each day of data gathered (starting from most recent)
-        List<List<HistoricalQuote>> companyStocksEndOfLastQuarter = new ArrayList<>();
-        List<List<HistoricalQuote>> companyStocksEndOfLastYear = new ArrayList<>();
+        ZonedDateTime endOfLastQuarterLastWeek = endOfLastQuarter.minusDays(7);
+        String endOfLastQuarterLastWeekString = quandlFormat.format(Date.from(endOfLastQuarterLastWeek.toInstant()));
+
+        Date.from(endOfLastQuarter.toInstant());
+        String endOfLastQuarterString = quandlFormat.format(Date.from(endOfLastQuarter.toInstant()));
+
+        ZonedDateTime endOfLastYearLastWeek = endOfLastYear.minusDays(7);
+        String endOfLastYearStringLastWeek = quandlFormat.format(Date.from(endOfLastYearLastWeek.toInstant()));
+
+        ZonedDateTime lastFridayLastWeek = lastFriday.minusDays(10/*7*/);
+        String lastFridayLastString = quandlFormat.format(Date.from(lastFridayLastWeek.toInstant()));
+
+        // determining and calculating "Stock Trade Summary" values (using data from Quandl)
+        ArrayList<QuandlDataset> companyStocksLast13Weeks = new ArrayList<>();
+        ArrayList<QuandlDataset> companyStocksEndOfLastQuarter = new ArrayList<>();
+        ArrayList<QuandlDataset> companyStocksEndOfLastYear = new ArrayList<>();
         double[] expectedClose = new double[symbols.length];
         double[] previousClose = new double[symbols.length];
         double[] expectedWeekChange = new double[symbols.length];
@@ -167,67 +182,69 @@ public class WTSReportDetailsPage extends AbstractPageObject {
         double expectedQuarterToDateChangeAverage = 0;
         double[] expectedYearToDateChange = new double[symbols.length];
         double expectedYearToDateChangeAverage = 0;
-        for (int stock=0; stock<symbols.length; stock++){
+
+        for (int stock = 0; stock < symbols.length; stock++) {
             expectedHigh[stock] = 0;
             expectedLow[stock] = Double.POSITIVE_INFINITY;
             expectedVolume[stock] = 0;
             expectedVolumeWeekAverage[stock] = 0;
+
         }
-        //fetching stock data from Yahoo
-        try {
-            for (int stock=0; stock<symbols.length; stock++){
-                companyStocksLast13Weeks.add(YahooFinance.get(symbols[stock]).getHistory(GregorianCalendar.from(thirteenWeeksEarlier), GregorianCalendar.from(lastFriday), Interval.DAILY));
-                companyStocksEndOfLastQuarter.add(YahooFinance.get(symbols[stock]).getHistory(GregorianCalendar.from(endOfLastQuarter.minusDays(7)), GregorianCalendar.from(endOfLastQuarter), Interval.DAILY));
-                companyStocksEndOfLastYear.add(YahooFinance.get(symbols[stock]).getHistory(GregorianCalendar.from(endOfLastYear.minusDays(7)), GregorianCalendar.from(endOfLastYear), Interval.DAILY));
-            }
-        }catch (IOException e){
-            System.out.println("Unable to retrieve historical stock quotes from Yahoo Finance.");
-            return false;
+        // fetching stock data from Quandl
+
+
+        for (int stock = 0; stock < symbols.length; stock++) {
+            companyStocksLast13Weeks.add(QuandlConnectToApi.getDatasetBetweenDates(symbols[stock], "EOD", thirteenWeeksEarlierString, lastFridayString));
+            companyStocksEndOfLastQuarter.add(QuandlConnectToApi.getDatasetBetweenDates(symbols[stock], "EOD", endOfLastQuarterLastWeekString, endOfLastQuarterString));
+            companyStocksEndOfLastYear.add(QuandlConnectToApi.getDatasetBetweenDates(symbols[stock], "EOD", endOfLastYearStringLastWeek, endOfLastYearString));
         }
-        //calculating values for each stock
-        for (int stock=0; stock<symbols.length; stock++){
-            // calculating high price, low price, and volume for the week
-            for (int day=0; day<5; day++){
-                if (companyStocksLast13Weeks.get(stock).get(day).getHigh().doubleValue() > expectedHigh[stock]){
-                    expectedHigh[stock] = companyStocksLast13Weeks.get(stock).get(day).getHigh().doubleValue();
+
+        // calculating values for each stock
+        for (int stock = 0; stock < symbols.length; stock++) {
+            for (int day = 0; day < 5; day++) {
+                if (Double.parseDouble(companyStocksLast13Weeks.get(stock).getHighPrices().get(day)) > expectedHigh[stock]) {
+                    expectedHigh[stock] = Double.parseDouble(companyStocksLast13Weeks.get(stock).getHighPrices().get(day));
                 }
-                if (companyStocksLast13Weeks.get(stock).get(day).getLow().doubleValue() < expectedLow[stock]){
-                    expectedLow[stock] = companyStocksLast13Weeks.get(stock).get(day).getLow().doubleValue();
+                if (Double.parseDouble(companyStocksLast13Weeks.get(stock).getLowPrices().get(day)) < expectedLow[stock]) {
+                    expectedLow[stock] = Double.parseDouble(companyStocksLast13Weeks.get(stock).getLowPrices().get(day));
                 }
-                expectedVolume[stock] += companyStocksLast13Weeks.get(stock).get(day).getVolume();
+                expectedVolume[stock] += Double.parseDouble(companyStocksLast13Weeks.get(stock).getVolume().get(day));
+
+                expectedClose[stock] = Double.parseDouble(companyStocksLast13Weeks.get(stock).getClosingPrices().get(0)); //last friday's closing price
+                previousClose[stock] = Double.parseDouble(companyStocksLast13Weeks.get(stock).getClosingPrices().get(5)); //friday before's closing price
+                expectedWeekChange[stock] = expectedClose[stock] - previousClose[stock];
+                expectedWeekChangeP[stock] = 100 * expectedWeekChange[stock] / previousClose[stock];
             }
-            expectedClose[stock] = companyStocksLast13Weeks.get(stock).get(0).getClose().doubleValue(); //last friday's closing price
-            previousClose[stock] = companyStocksLast13Weeks.get(stock).get(5).getClose().doubleValue(); //friday before's closing price
-            expectedWeekChange[stock] = expectedClose[stock] - previousClose[stock];
-            expectedWeekChangeP[stock] = 100 * expectedWeekChange[stock] / previousClose[stock];
             // calculating average weekly volume over the last 13 weeks
-            for (int day=5; day<companyStocksLast13Weeks.get(stock).size(); day++){
-                expectedVolumeWeekAverage[stock] += companyStocksLast13Weeks.get(stock).get(day).getVolume();
+
+
+            for (int day = 5; day < companyStocksLast13Weeks.get(stock).getSize(); day++) {
+                expectedVolumeWeekAverage[stock] += Double.parseDouble(companyStocksLast13Weeks.get(stock).getVolume().get(day));
             }
             expectedVolumeWeekAverage[stock] /= 13;
             expectedVolumeVariance[stock] = 100 * (expectedVolume[stock] - expectedVolumeWeekAverage[stock]) / expectedVolumeWeekAverage[stock];
             // determining end-of-quarter and end-of-year prices
-            lastQuarterClose[stock] = companyStocksEndOfLastQuarter.get(stock).get(0).getClose().doubleValue();
-            lastYearClose[stock] = companyStocksEndOfLastYear.get(stock).get(0).getClose().doubleValue();
+            lastQuarterClose[stock] = Double.parseDouble(companyStocksEndOfLastQuarter.get(stock).getClosingPrices().get(0));
+            lastYearClose[stock] = Double.parseDouble(companyStocksEndOfLastYear.get(stock).getClosingPrices().get(0));
             expectedQuarterToDateChange[stock] = 100 * (expectedClose[stock] - lastQuarterClose[stock]) / lastQuarterClose[stock];
             expectedYearToDateChange[stock] = 100 * (expectedClose[stock] - lastYearClose[stock]) / lastYearClose[stock];
+
         }
         // calculating peer average values
-        for (int stock=1; stock<symbols.length; stock++){
+        for (int stock = 1; stock < symbols.length; stock++) {
             expectedWeekChangePAverage += expectedWeekChangeP[stock];
             expectedQuarterToDateChangeAverage += expectedQuarterToDateChange[stock];
             expectedYearToDateChangeAverage += expectedYearToDateChange[stock];
         }
-        expectedWeekChangePAverage /= symbols.length-1;
-        expectedQuarterToDateChangeAverage /= symbols.length-1;
-        expectedYearToDateChangeAverage /= symbols.length-1;
-
+        expectedWeekChangePAverage /= symbols.length - 1;
+        expectedQuarterToDateChangeAverage /= symbols.length - 1;
+        expectedYearToDateChangeAverage /= symbols.length - 1;
 
         // determining and calculating "Indices" values (using data from Yahoo)
-        String[] indices = {"^DJI", "^IXIC", "^GSPC", "^TNX"/*, "GC=F", "CL=F"*/};//could not find symbols in Yahoo for gold and oil that could provide historical data
-        List<List<HistoricalQuote>> indicesLastWeek = new ArrayList<>();//first index is for each index symbol, second index is for each day of data gathered (starting from most recent)
-        List<List<HistoricalQuote>> indicesEndOfLastQuarter = new ArrayList<>();
-        List<List<HistoricalQuote>> indicesEndOfLastYear = new ArrayList<>();
+        String[] indices = {"COMP", "COMP", "CME_SP1", "USA10Y", "GOLD", "ICE_T1"};//could not find symbols in Yahoo for gold and oil that could provide historical data
+        ArrayList<QuandlDataset> indicesLastWeek = new ArrayList<>();//first index is for each index symbol, second index is for each day of data gathered (starting from most recent)
+        ArrayList<QuandlDataset> indicesEndOfLastQuarter = new ArrayList<>();
+        ArrayList<QuandlDataset> indicesEndOfLastYear = new ArrayList<>();
         double[] indicesExpectedClose = new double[indices.length];
         double[] indicesPreviousClose = new double[indices.length];
         double[] indicesExpectedWeekChange = new double[indices.length];
@@ -236,223 +253,316 @@ public class WTSReportDetailsPage extends AbstractPageObject {
         double[] indicesLastYearClose = new double[indices.length];
         double[] indicesExpectedQuarterToDateChange = new double[indices.length];
         double[] indicesExpectedYearToDateChange = new double[indices.length];
-        //fetching index data from Yahoo
-        try {
-            for (int index=0; index<indices.length; index++){
-                indicesLastWeek.add(YahooFinance.get(indices[index]).getHistory(GregorianCalendar.from(lastFriday.minusDays(10/*7*/)), GregorianCalendar.from(lastFriday), Interval.DAILY));
-                indicesEndOfLastQuarter.add(YahooFinance.get(indices[index]).getHistory(GregorianCalendar.from(endOfLastQuarter.minusDays(7)), GregorianCalendar.from(endOfLastQuarter), Interval.DAILY));
-                indicesEndOfLastYear.add(YahooFinance.get(indices[index]).getHistory(GregorianCalendar.from(endOfLastYear.minusDays(7)), GregorianCalendar.from(endOfLastYear), Interval.DAILY));
-            }
-        }catch (IOException e){
-            System.out.println("Unable to retrieve indices quotes from Yahoo Finance.");
-            return false;
-        }
-        //calculating values for each index
-        for (int index=0; index<indices.length; index++){
-            indicesExpectedClose[index] = indicesLastWeek.get(index).get(0).getClose().doubleValue();//last friday's closing price
-            indicesPreviousClose[index] = indicesLastWeek.get(index).get(5).getClose().doubleValue();//friday before's closing price
-            indicesExpectedWeekChange[index] = indicesExpectedClose[index] - indicesPreviousClose[index];
-            indicesExpectedWeekChangeP[index] = 100 * indicesExpectedWeekChange[index] / indicesPreviousClose[index];
-            indicesLastQuarterClose[index] = indicesEndOfLastQuarter.get(index).get(0).getClose().doubleValue();
-            indicesLastYearClose[index] = indicesEndOfLastYear.get(index).get(0).getClose().doubleValue();
-            indicesExpectedQuarterToDateChange[index] = 100 * (indicesExpectedClose[index] - indicesLastQuarterClose[index]) / indicesLastQuarterClose[index];
-            indicesExpectedYearToDateChange[index] = 100 * (indicesExpectedClose[index] - indicesLastYearClose[index]) / indicesLastYearClose[index];
-        }
 
-        // determining and calculating "Daily Performance" values (using data from Yahoo)
+        //TODO Find api for Dow Jones and S&P 500
+        // For Dow Jones Indsutrial Average
+        indicesLastWeek.add(QuandlConnectToApi.getDatasetBetweenDates(indices[0], "NASDAQOMX", lastFridayLastString, lastFridayString));
+        indicesEndOfLastQuarter.add(QuandlConnectToApi.getDatasetBetweenDates(indices[0], "NASDAQOMX", endOfLastQuarterLastWeekString, endOfLastQuarterString));
+        indicesEndOfLastYear.add(QuandlConnectToApi.getDatasetBetweenDates(indices[0], "NASDAQOMX", endOfLastYearStringLastWeek, endOfLastYearString));
+
+        // For NASDAQ Composite
+        indicesLastWeek.add(QuandlConnectToApi.getDatasetBetweenDates(indices[1], "NASDAQOMX", lastFridayLastString, lastFridayString));
+        indicesEndOfLastQuarter.add(QuandlConnectToApi.getDatasetBetweenDates(indices[1], "NASDAQOMX", endOfLastQuarterLastWeekString, endOfLastQuarterString));
+        indicesEndOfLastYear.add(QuandlConnectToApi.getDatasetBetweenDates(indices[1], "NASDAQOMX", endOfLastYearStringLastWeek, endOfLastYearString));
+
+        // For S&P 500
+        indicesLastWeek.add(QuandlConnectToApi.getDatasetBetweenDates(indices[2], "CHRIS", lastFridayLastString, lastFridayString));
+        indicesEndOfLastQuarter.add(QuandlConnectToApi.getDatasetBetweenDates(indices[2], "CHRIS", endOfLastQuarterLastWeekString, endOfLastQuarterString));
+        indicesEndOfLastYear.add(QuandlConnectToApi.getDatasetBetweenDates(indices[2], "CHRIS", endOfLastYearStringLastWeek, endOfLastYearString));
+
+        // For 10 Year Bond
+        indicesLastWeek.add(QuandlConnectToApi.getDatasetBetweenDates(indices[3], "YC", lastFridayLastString, lastFridayString));
+        indicesEndOfLastQuarter.add(QuandlConnectToApi.getDatasetBetweenDates(indices[3], "YC", endOfLastQuarterLastWeekString, endOfLastQuarterString));
+        indicesEndOfLastYear.add(QuandlConnectToApi.getDatasetBetweenDates(indices[3], "YC", endOfLastYearStringLastWeek, endOfLastYearString));
+
+        // For Gold
+        indicesLastWeek.add(QuandlConnectToApi.getDatasetBetweenDates(indices[4], "LBMA", lastFridayLastString, lastFridayString));
+        indicesEndOfLastQuarter.add(QuandlConnectToApi.getDatasetBetweenDates(indices[4], "LBMA", endOfLastQuarterLastWeekString, endOfLastQuarterString));
+        indicesEndOfLastYear.add(QuandlConnectToApi.getDatasetBetweenDates(indices[4], "LBMA", endOfLastYearStringLastWeek, endOfLastYearString));
+
+        // For Crude Oil
+        indicesLastWeek.add(QuandlConnectToApi.getDatasetBetweenDates(indices[5], "CHRIS", lastFridayLastString, lastFridayString));
+        indicesEndOfLastQuarter.add(QuandlConnectToApi.getDatasetBetweenDates(indices[5], "CHRIS", endOfLastQuarterLastWeekString, endOfLastQuarterString));
+        indicesEndOfLastYear.add(QuandlConnectToApi.getDatasetBetweenDates(indices[5], "CHRIS", endOfLastYearStringLastWeek, endOfLastYearString));
+
+
+        // For Dow Jones Industrial Average
+        indicesExpectedClose[0] = Double.parseDouble(indicesLastWeek.get(0).getClosingPrices().get(0));//last friday's closing price
+        indicesPreviousClose[0] = Double.parseDouble(indicesLastWeek.get(0).getClosingPrices().get(5));//friday before's closing price
+        indicesExpectedWeekChange[0] = indicesExpectedClose[0] - indicesPreviousClose[0];
+        indicesExpectedWeekChangeP[0] = 100 * indicesExpectedWeekChange[0] / indicesPreviousClose[0];
+        indicesLastQuarterClose[0] = Double.parseDouble(indicesEndOfLastYear.get(0).getClosingPrices().get(0));
+        indicesExpectedQuarterToDateChange[0] = 100 * (indicesExpectedClose[0] - indicesLastQuarterClose[0]) / indicesLastQuarterClose[0];
+        indicesExpectedYearToDateChange[0] = 100 * (indicesExpectedClose[0] - indicesLastYearClose[0]) / indicesLastYearClose[0];
+
+        // For NASDAQ Composite
+        //Keep in mind that quandl stores their index data differently so refer to this documentation for clarity.
+        // getOpen returns Closing Prices for  NASDAQ Composite
+        // getClosingPrices returns Total Market Value for  NASDAQ Composite
+        // getVolume returns Dividend Market Value for NASDAQ Composite
+        indicesExpectedClose[1] = Double.parseDouble(indicesLastWeek.get(1).getOpenPrices().get(0));//last friday's closing price
+        indicesPreviousClose[1] = Double.parseDouble(indicesLastWeek.get(1).getOpenPrices().get(5));//friday before's closing price
+        indicesExpectedWeekChange[1] = indicesExpectedClose[1] - indicesPreviousClose[1];
+        indicesExpectedWeekChangeP[1] = 100 * indicesExpectedWeekChange[1] / indicesPreviousClose[1];
+        indicesLastQuarterClose[1] = Double.parseDouble(indicesEndOfLastQuarter.get(1).getOpenPrices().get(0));
+        indicesExpectedQuarterToDateChange[1] = 100 * (indicesExpectedClose[1] - indicesLastQuarterClose[1]) / indicesLastQuarterClose[1];
+        indicesExpectedYearToDateChange[1] = 100 * (indicesExpectedClose[1] - indicesLastYearClose[1]) / indicesLastYearClose[1];
+
+        // For S&P 500
+        indicesExpectedClose[2] = Double.parseDouble(indicesLastWeek.get(2).getClosingPrices().get(0));//last friday's closing price
+        indicesPreviousClose[2] = Double.parseDouble(indicesLastWeek.get(2).getClosingPrices().get(5));//friday before's closing price
+        indicesExpectedWeekChange[2] = indicesExpectedClose[2] - indicesPreviousClose[2];
+        indicesExpectedWeekChangeP[2] = 100 * indicesExpectedWeekChange[2] / indicesPreviousClose[2];
+        indicesLastQuarterClose[2] = Double.parseDouble(indicesEndOfLastQuarter.get(2).getClosingPrices().get(0));
+        indicesExpectedQuarterToDateChange[2] = 100 * (indicesExpectedClose[2] - indicesLastQuarterClose[2]) / indicesLastQuarterClose[2];
+        indicesExpectedYearToDateChange[2] = 100 * (indicesExpectedClose[2] - indicesLastYearClose[2]) / indicesLastYearClose[2];
+
+        // For the 10-Year Bond
+        //Keep in mind that quandl stores their index data differently so refer to this documentation for clarity.
+        // Closing price is stored in openPrices
+        indicesExpectedClose[3] = Double.parseDouble(indicesLastWeek.get(3).getOpenPrices().get(0));//last friday's closing price
+        indicesPreviousClose[3] = Double.parseDouble(indicesLastWeek.get(3).getOpenPrices().get(5));//friday before's closing price
+        indicesExpectedWeekChange[3] = indicesExpectedClose[3] - indicesPreviousClose[3];
+        indicesExpectedWeekChangeP[3] = 100 * indicesExpectedWeekChange[3] / indicesPreviousClose[3];
+        indicesLastQuarterClose[3] = Double.parseDouble(indicesEndOfLastQuarter.get(3).getOpenPrices().get(0));
+        indicesExpectedQuarterToDateChange[3] = 100 * (indicesExpectedClose[3] - indicesLastQuarterClose[3]) / indicesLastQuarterClose[3];
+        indicesExpectedYearToDateChange[3] = 100 * (indicesExpectedClose[3] - indicesLastYearClose[3]) / indicesLastYearClose[3];
+
+        // For Gold
+        indicesExpectedClose[4] = Double.parseDouble(indicesLastWeek.get(4).getHighPrices().get(0));//last friday's closing price
+        indicesPreviousClose[4] = Double.parseDouble(indicesLastWeek.get(4).getHighPrices().get(5));//friday before's closing price
+        indicesExpectedWeekChange[4] = indicesExpectedClose[4] - indicesPreviousClose[4];
+        indicesExpectedWeekChangeP[4] = 100 * indicesExpectedWeekChange[4] / indicesPreviousClose[4];
+        indicesLastQuarterClose[4] = Double.parseDouble(indicesEndOfLastQuarter.get(4).getHighPrices().get(0));
+        indicesExpectedQuarterToDateChange[4] = 100 * (indicesExpectedClose[4] - indicesLastQuarterClose[4]) / indicesLastQuarterClose[4];
+        indicesExpectedYearToDateChange[4] = 100 * (indicesExpectedClose[4] - indicesLastYearClose[4]) / indicesLastYearClose[4];
+
+        // For Crude Oil
+        indicesExpectedClose[5] = Double.parseDouble(indicesLastWeek.get(5).getClosingPrices().get(0));//last friday's closing price
+        indicesPreviousClose[5] = Double.parseDouble(indicesLastWeek.get(5).getClosingPrices().get(5));//friday before's closing price
+        indicesExpectedWeekChange[5] = indicesExpectedClose[5] - indicesPreviousClose[5];
+        indicesExpectedWeekChangeP[5] = 100 * indicesExpectedWeekChange[5] / indicesPreviousClose[5];
+        indicesLastQuarterClose[5] = Double.parseDouble(indicesEndOfLastQuarter.get(5).getClosingPrices().get(0));
+        indicesExpectedQuarterToDateChange[5] = 100 * (indicesExpectedClose[5] - indicesLastQuarterClose[5]) / indicesLastQuarterClose[5];
+        indicesExpectedYearToDateChange[5] = 100 * (indicesExpectedClose[5] - indicesLastYearClose[5]) / indicesLastYearClose[5];
+
+// determining and calculating "Daily Performance" values (using data from Quandl)
         double[] stockDailyPerformance = new double[5];
         double[] peerDailyPerformance = new double[5];
         double[] sp500DailyPerformance = new double[5];
-        List<HistoricalQuote> sp500LastWeek;
-        //fetching S&P 500 data from Yahoo
-        try {
-            sp500LastWeek = YahooFinance.get("^GSPC").getHistory(GregorianCalendar.from(lastFriday.minusDays(10/*7*/)), GregorianCalendar.from(lastFriday), Interval.DAILY);
-        }catch (IOException e){
-            System.out.println("Unable to retrieve S&P 500 quotes from Yahoo Finance.");
-            return false;
-        }
+        QuandlDataset sp500LastWeek;
+        //fetching S&P 500 data from Quandl
+        sp500LastWeek = QuandlConnectToApi.getDatasetBetweenDates(indices[2], "CHRIS", lastFridayLastString, lastFridayString);
         // calculating daily performance for each day
-        for (int day=0, chartDay=4; day<5; day++, chartDay--){ //stock data starts from most recent day, chart goes from Monday to Friday
-            double stockClose = companyStocksLast13Weeks.get(0).get(day).getClose().doubleValue();
-            double previousStockClose = companyStocksLast13Weeks.get(0).get(day+1).getClose().doubleValue();//closing price of day before
+        for (int day = 0, chartDay = 4; day < 5; day++, chartDay--) { //stock data starts from most recent day, chart goes from Monday to Friday
+            double stockClose = Double.parseDouble(companyStocksLast13Weeks.get(0).getClosingPrices().get(day));
+            double previousStockClose = Double.parseDouble(companyStocksLast13Weeks.get(0).getClosingPrices().get(day + 1));//closing price of day before
             stockDailyPerformance[chartDay] = 100 * (stockClose - previousStockClose) / previousStockClose;
             //calculating peer average
             peerDailyPerformance[chartDay] = 0;
-            for (int stock=1; stock<symbols.length; stock++){
-                double peerClose = companyStocksLast13Weeks.get(stock).get(day).getClose().doubleValue();
-                double previousPeerClose = companyStocksLast13Weeks.get(stock).get(day+1).getClose().doubleValue();
+            for (int stock = 1; stock < symbols.length; stock++) {
+                double peerClose = Double.parseDouble(companyStocksLast13Weeks.get(stock).getClosingPrices().get(day));
+                double previousPeerClose = Double.parseDouble(companyStocksLast13Weeks.get(stock).getClosingPrices().get(day + 1));
                 peerDailyPerformance[chartDay] += 100 * (peerClose - previousPeerClose) / previousPeerClose;
             }
-            peerDailyPerformance[chartDay] /= symbols.length-1;
-            double sp500Close = sp500LastWeek.get(day).getClose().doubleValue();
-            double previousSP500Close = sp500LastWeek.get(day+1).getClose().doubleValue();
+            peerDailyPerformance[chartDay] /= symbols.length - 1;
+            double sp500Close = Double.parseDouble(sp500LastWeek.getClosingPrices().get(day));
+            double previousSP500Close = Double.parseDouble(sp500LastWeek.getClosingPrices().get(day + 1));
             sp500DailyPerformance[chartDay] = 100 * (sp500Close - previousSP500Close) / previousSP500Close;
         }
 
 
         // verifying that "Stock Trade Summary" values are correct
-        for (int stock=0; stock<symbols.length; stock++){
-            if (Math.abs(Double.parseDouble(findElements(weekClose).get(stock).getText()) - expectedClose[stock]) > 0.02){ // checks if calculated value is within 0.02 of displayed
-                System.out.println(symbols[stock]+"'s week close is inaccurate.\n\tExpected: "+expectedClose[stock]+"\n\tDisplayed: "+findElements(weekClose).get(stock).getText());
+        for (int stock = 0; stock < symbols.length; stock++) {
+            if (Math.abs(Double.parseDouble(findElements(weekClose).get(stock).getText()) - expectedClose[stock]) > 0.02) { // checks if calculated value is within 0.02 of displayed
+                System.out.println(symbols[stock] + "'s week close is inaccurate.\n\tExpected: " + expectedClose[stock] + "\n\tDisplayed: " + findElements(weekClose).get(stock).getText());
                 allValid = false;
             }
-            if (Math.abs(Double.parseDouble(findElements(weekChange).get(stock).getText()) - expectedWeekChange[stock]) > 0.02){
-                System.out.println(symbols[stock]+"'s week change is inaccurate.\n\tExpected: "+expectedWeekChange[stock]+"\n\tDisplayed: "+findElements(weekChange).get(stock).getText());
+            if (Math.abs(Double.parseDouble(findElements(weekChange).get(stock).getText()) - expectedWeekChange[stock]) > 0.02) {
+                System.out.println(symbols[stock] + "'s week change is inaccurate.\n\tExpected: " + expectedWeekChange[stock] + "\n\tDisplayed: " + findElements(weekChange).get(stock).getText());
                 allValid = false;
             }
-            if (Math.abs(Double.parseDouble(findElements(weekChangeP).get(stock).getText()) - expectedWeekChangeP[stock]) > 0.02){
-                System.out.println(symbols[stock]+"'s week change % is inaccurate.\n\tExpected: "+expectedWeekChangeP[stock]+"\n\tDisplayed: "+findElements(weekChangeP).get(stock).getText());
+            if (Math.abs(Double.parseDouble(findElements(weekChangeP).get(stock).getText()) - expectedWeekChangeP[stock]) > 0.02) {
+                System.out.println(symbols[stock] + "'s week change % is inaccurate.\n\tExpected: " + expectedWeekChangeP[stock] + "\n\tDisplayed: " + findElements(weekChangeP).get(stock).getText());
                 allValid = false;
             }
-            if (Math.abs(Double.parseDouble(findElements(weekHigh).get(stock).getText()) - expectedHigh[stock]) > 0.02){
-                System.out.println(symbols[stock]+"'s week high price is inaccurate.\n\tExpected: "+expectedHigh[stock]+"\n\tDisplayed: "+findElements(weekHigh).get(stock).getText());
+            if (Math.abs(Double.parseDouble(findElements(weekHigh).get(stock).getText()) - expectedHigh[stock]) > 0.02) {
+                System.out.println(symbols[stock] + "'s week high price is inaccurate.\n\tExpected: " + expectedHigh[stock] + "\n\tDisplayed: " + findElements(weekHigh).get(stock).getText());
                 allValid = false;
             }
-            if (Math.abs(Double.parseDouble(findElements(weekLow).get(stock).getText()) - expectedLow[stock]) > 0.02){
-                System.out.println(symbols[stock]+"'s week low price is inaccurate.\n\tExpected: "+expectedLow[stock]+"\n\tDisplayed: "+findElements(weekLow).get(stock).getText());
+            if (Math.abs(Double.parseDouble(findElements(weekLow).get(stock).getText()) - expectedLow[stock]) > 0.02) {
+                System.out.println(symbols[stock] + "'s week low price is inaccurate.\n\tExpected: " + expectedLow[stock] + "\n\tDisplayed: " + findElements(weekLow).get(stock).getText());
                 allValid = false;
             }
-            if (Math.abs(Double.parseDouble(findElements(weekVolume).get(stock).getText())*10E5 - expectedVolume[stock]) > 20000){
-                System.out.println("Known issue - ADMIN-399 - "+symbols[stock]+"'s week volume is inaccurate.\n\tExpected: "+expectedVolume[stock]+"\n\tDisplayed: "+findElements(weekVolume).get(stock).getText()+" million");
+            if (Math.abs(Double.parseDouble(findElements(weekVolume).get(stock).getText()) * 10E5 - expectedVolume[stock]) > 20000) {
+                System.out.println("Known issue - ADMIN-399 - " + symbols[stock] + "'s week volume is inaccurate.\n\tExpected: " + expectedVolume[stock] + "\n\tDisplayed: " + findElements(weekVolume).get(stock).getText() + " million");
                 allValid = false;
             }
-            if (Math.abs(Double.parseDouble(findElements(averageWeekVolume).get(stock).getText())*10E5 - expectedVolumeWeekAverage[stock]) > 20000){
-                System.out.println(symbols[stock]+"'s average weekly volume is inaccurate.\n\tExpected: "+expectedVolumeWeekAverage[stock]+"\n\tDisplayed: "+findElements(averageWeekVolume).get(stock).getText()+" million");
+            if (Math.abs(Double.parseDouble(findElements(averageWeekVolume).get(stock).getText()) * 10E5 - expectedVolumeWeekAverage[stock]) > 20000) {
+                System.out.println(symbols[stock] + "'s average weekly volume is inaccurate.\n\tExpected: " + expectedVolumeWeekAverage[stock] + "\n\tDisplayed: " + findElements(averageWeekVolume).get(stock).getText() + " million");
                 allValid = false;
             }
-            if (Math.abs(Double.parseDouble(findElements(volumeVariance).get(stock).getText()) - expectedVolumeVariance[stock]) > 0.02){
+            if (Math.abs(Double.parseDouble(findElements(volumeVariance).get(stock).getText()) - expectedVolumeVariance[stock]) > 0.02) {
                 // when displayed value is wrong, determine if calculation using displayed values gives same result (meaning that only those other displayed values are wrong)
-                if (100*(Double.parseDouble(findElements(weekVolume).get(stock).getText()) - Double.parseDouble(findElements(averageWeekVolume).get(stock).getText()))
-                        /Double.parseDouble(findElements(averageWeekVolume).get(stock).getText()) - Double.parseDouble(findElements(volumeVariance).get(stock).getText()) < 0.02){
-                    System.out.println(symbols[stock]+"'s volume variance is inaccurate due to carryover from inaccurate week volume or/and average weekly volume.");
+                if ((100 * (Double.parseDouble(findElements(weekVolume).get(stock).getText()) - Double.parseDouble(findElements(averageWeekVolume).get(stock).getText()))
+                        / Double.parseDouble(findElements(averageWeekVolume).get(stock).getText())) - Double.parseDouble(findElements(volumeVariance).get(stock).getText()) < 0.02) {
+                    System.out.println(symbols[stock] + "'s volume variance is inaccurate due to carryover from inaccurate week volume or/and average weekly volume.");
+                    allValid = false;
+                } else {
+                    System.out.println(symbols[stock] + "'s volume variance is inaccurate.\n\tExpected: " + expectedVolumeVariance[stock] + "\n\tDisplayed: " + findElements(volumeVariance).get(stock).getText());
                     allValid = false;
                 }
-                else {
-                    System.out.println(symbols[stock]+"'s volume variance is inaccurate.\n\tExpected: "+expectedVolumeVariance[stock]+"\n\tDisplayed: "+findElements(volumeVariance).get(stock).getText());
-                    allValid = false;
-                }
-            }
-            if (Math.abs(Double.parseDouble(findElements(qtdChange).get(stock).getText()) - expectedQuarterToDateChange[stock]) > 0.02){
-                System.out.println(symbols[stock]+"'s QTD change is inaccurate.\n\tExpected: "+expectedQuarterToDateChange[stock]+"\n\tDisplayed: "+findElements(qtdChange).get(stock).getText());
+           }
+            if (Math.abs(Double.parseDouble(findElements(qtdChange).get(stock).getText()) - expectedQuarterToDateChange[stock]) > 0.02) {
+                System.out.println(symbols[stock] + "'s QTD change is inaccurate.\n\tExpected: " + expectedQuarterToDateChange[stock] + "\n\tDisplayed: " + findElements(qtdChange).get(stock).getText());
                 allValid = false;
             }
-            if (Math.abs(Double.parseDouble(findElements(ytdChange).get(stock).getText()) - expectedYearToDateChange[stock]) > 0.02){
-                System.out.println(symbols[stock]+"'s YTD change is inaccurate.\n\tExpected: "+expectedYearToDateChange[stock]+"\n\tDisplayed: "+findElements(ytdChange).get(stock).getText());
+            if (Math.abs(Double.parseDouble(findElements(ytdChange).get(stock).getText()) - expectedYearToDateChange[stock]) > 0.02) {
+                System.out.println(symbols[stock] + "'s YTD change is inaccurate.\n\tExpected: " + expectedYearToDateChange[stock] + "\n\tDisplayed: " + findElements(ytdChange).get(stock).getText());
                 allValid = false;
             }
         }
-        if (Math.abs(Double.parseDouble(findElements(weekChangeP).get(symbols.length).getText()) - expectedWeekChangePAverage) > 0.02){
-            System.out.println("Peer average week change % is inaccurate.\n\tExpected: "+expectedWeekChangePAverage+"\n\tDisplayed: "+findElements(weekChangeP).get(symbols.length).getText());
+        if (Math.abs(Double.parseDouble(findElements(weekChangeP).get(symbols.length).getText()) - expectedWeekChangePAverage) > 0.02) {
+            System.out.println("Peer average week change % is inaccurate.\n\tExpected: " + expectedWeekChangePAverage + "\n\tDisplayed: " + findElements(weekChangeP).get(symbols.length).getText());
             allValid = false;
         }
-        if (Math.abs(Double.parseDouble(findElements(qtdChange).get(symbols.length).getText()) - expectedQuarterToDateChangeAverage) > 0.02){
-            System.out.println("Peer average QTD change is inaccurate.\n\tExpected: "+expectedQuarterToDateChangeAverage+"\n\tDisplayed: "+findElements(qtdChange).get(symbols.length).getText());
+        if (Math.abs(Double.parseDouble(findElements(qtdChange).get(symbols.length).getText()) - expectedQuarterToDateChangeAverage) > 0.02) {
+            System.out.println("Peer average QTD change is inaccurate.\n\tExpected: " + expectedQuarterToDateChangeAverage + "\n\tDisplayed: " + findElements(qtdChange).get(symbols.length).getText());
             allValid = false;
         }
-        if (Math.abs(Double.parseDouble(findElements(ytdChange).get(symbols.length).getText()) - expectedYearToDateChangeAverage) > 0.02){
-            System.out.println("Peer average YTD change is inaccurate.\n\tExpected: "+expectedYearToDateChangeAverage+"\n\tDisplayed: "+findElements(ytdChange).get(symbols.length).getText());
+        if (Math.abs(Double.parseDouble(findElements(ytdChange).get(symbols.length).getText()) - expectedYearToDateChangeAverage) > 0.02) {
+            System.out.println("Peer average YTD change is inaccurate.\n\tExpected: " + expectedYearToDateChangeAverage + "\n\tDisplayed: " + findElements(ytdChange).get(symbols.length).getText());
             allValid = false;
         }
 
-
+        // We don't have an api for Dow Jones and S&P 500 historical data so the for loop starts at 1 instead of 0 so we ignore Dow Jones
         // verifying that "Indices" values are correct
-        for (int index = 0; index<indices.length; index++){
-            if ( getNumFromText(findElements(indicesClose).get(index).getText()) - indicesExpectedClose[index]> 5){
-                System.out.println("Index "+indices[index]+"'s week close is inaccurate.\n\tExpected: "+indicesExpectedClose[index]+"\n\tDisplayed: "+findElements(indicesClose).get(index).getText());
+        for (int index = 1; index < 3; index++) {
+            if (index == 2) {
+                continue;
+            }
+            if (getNumFromText(findElements(indicesClose).get(index).getText()) - indicesExpectedClose[index] > 5) {
+                System.out.println("Index " + indices[index] + "'s week close is inaccurate.\n\tExpected: " + indicesExpectedClose[index] + "\n\tDisplayed: " + findElements(indicesClose).get(index).getText());
                 allValid = false;
             }
-            if (getNumFromText(findElements(indicesChange).get(index).getText()) - indicesExpectedWeekChange[index] > 5){
-                System.out.println("Index "+indices[index]+"'s week change is inaccurate.\n\tExpected: "+indicesExpectedWeekChange[index]+"\n\tDisplayed: "+findElements(indicesChange).get(index).getText());
+            if (getNumFromText(findElements(indicesChange).get(index).getText()) - indicesExpectedWeekChange[index] > 5) {
+                System.out.println("Index " + indices[index] + "'s week change is inaccurate.\n\tExpected: " + indicesExpectedWeekChange[index] + "\n\tDisplayed: " + findElements(indicesChange).get(index).getText());
                 allValid = false;
             }
-            if (getNumFromText(findElements(indicesChangeP).get(index).getText()) - indicesExpectedWeekChangeP[index] > 0.25){
-                System.out.println("Index "+indices[index]+"'s week change % is inaccurate.\n\tExpected: "+indicesExpectedWeekChangeP[index]+"\n\tDisplayed: "+findElements(indicesChangeP).get(index).getText());
+            if (getNumFromText(findElements(indicesChangeP).get(index).getText()) - indicesExpectedWeekChangeP[index] > 0.25) {
+                System.out.println("Index " + indices[index] + "'s week change % is inaccurate.\n\tExpected: " + indicesExpectedWeekChangeP[index] + "\n\tDisplayed: " + findElements(indicesChangeP).get(index).getText());
                 allValid = false;
             }
-            if (getNumFromText(findElements(indicesQTDChange).get(index).getText()) - indicesExpectedQuarterToDateChange[index] > 0.25){
-                System.out.println("Index "+indices[index]+"'s QTD change is inaccurate.\n\tExpected: "+indicesExpectedQuarterToDateChange[index]+"\n\tDisplayed: "+findElements(indicesQTDChange).get(index).getText());
+            if (getNumFromText(findElements(indicesQTDChange).get(index).getText()) - indicesExpectedQuarterToDateChange[index] > 0.25) {
+                System.out.println("Index " + indices[index] + "'s QTD change is inaccurate.\n\tExpected: " + indicesExpectedQuarterToDateChange[index] + "\n\tDisplayed: " + findElements(indicesQTDChange).get(index).getText());
                 allValid = false;
             }
-            if (getNumFromText(findElements(indicesYTDChange).get(index).getText()) - indicesExpectedYearToDateChange[index] > 0.25){
-                System.out.println("Index "+indices[index]+"'s YTD change is inaccurate.\n\tExpected: "+indicesExpectedYearToDateChange[index]+"\n\tDisplayed: "+findElements(indicesYTDChange).get(index).getText());
+            if (getNumFromText(findElements(indicesYTDChange).get(index).getText()) - indicesExpectedYearToDateChange[index] > 0.25) {
+                System.out.println("Index " + indices[index] + "'s YTD change is inaccurate.\n\tExpected: " + indicesExpectedYearToDateChange[index] + "\n\tDisplayed: " + findElements(indicesYTDChange).get(index).getText());
                 allValid = false;
             }
         }
+
+        // Gold and Oil prices have a greater discrepancy, hence larger room for error
+        for (int index = 3; index < indices.length; index++) {
+            if (getNumFromText(findElements(indicesClose).get(index).getText()) - indicesExpectedClose[index] > 15) {
+                System.out.println("Index " + indices[index] + "'s week close is inaccurate.\n\tExpected: " + indicesExpectedClose[index] + "\n\tDisplayed: " + findElements(indicesClose).get(index).getText());
+                allValid = false;
+            }
+            if (getNumFromText(findElements(indicesChange).get(index).getText()) - indicesExpectedWeekChange[index] > 5) {
+                System.out.println("Index " + indices[index] + "'s week change is inaccurate.\n\tExpected: " + indicesExpectedWeekChange[index] + "\n\tDisplayed: " + findElements(indicesChange).get(index).getText());
+                allValid = false;
+            }
+            if (getNumFromText(findElements(indicesChangeP).get(index).getText()) - indicesExpectedWeekChangeP[index] > 0.5) {
+                System.out.println("Index " + indices[index] + "'s week change % is inaccurate.\n\tExpected: " + indicesExpectedWeekChangeP[index] + "\n\tDisplayed: " + findElements(indicesChangeP).get(index).getText());
+                allValid = false;
+            }
+            if (getNumFromText(findElements(indicesQTDChange).get(index).getText()) - indicesExpectedQuarterToDateChange[index] > 0.6) {
+                System.out.println("Index " + indices[index] + "'s QTD change is inaccurate.\n\tExpected: " + indicesExpectedQuarterToDateChange[index] + "\n\tDisplayed: " + findElements(indicesQTDChange).get(index).getText());
+                allValid = false;
+            }
+            if (getNumFromText(findElements(indicesYTDChange).get(index).getText()) - indicesExpectedYearToDateChange[index] > 0.25) {
+                System.out.println("Index " + indices[index] + "'s YTD change is inaccurate.\n\tExpected: " + indicesExpectedYearToDateChange[index] + "\n\tDisplayed: " + findElements(indicesYTDChange).get(index).getText());
+                allValid = false;
+            }
+        }
+
 
 
         // verifying that "Daily Performance" values are correct (by hovering over each of the bars)
-        int numDays= findVisibleElements(dailyPerformanceStockBars).size();
-        for (int chartDay=0; chartDay<numDays; chartDay++){
+        int numDays = findVisibleElements(dailyPerformanceStockBars).size();
+        for (int chartDay = 0; chartDay < numDays; chartDay++) {
             // checking for stock
             actions.clickAndHold(findVisibleElements(dailyPerformanceStockBars).get(chartDay)).perform();// clickAndHold needed to keep cursor there while getText() runs
             String hoverText = findElement(dailyPerformanceHoverText).getText().trim();
-            if (!hoverText.startsWith(symbols[0])){
-                System.out.println("Daily Performance: Hover text for blue bar on day "+(chartDay+1)+" does not start with desired symbol "+symbols[0]+"\n\tDisplayed hover text: "+hoverText);
+            if (!hoverText.startsWith(symbols[0])) {
+                System.out.println("Daily Performance: Hover text for blue bar on day " + (chartDay + 1) + " does not start with desired symbol " + symbols[0] + "\n\tDisplayed hover text: " + hoverText);
                 allValid = false;
             }
-            if (Math.abs(Double.parseDouble(hoverText.substring(hoverText.indexOf(':')+2, hoverText.indexOf('%'))) - stockDailyPerformance[chartDay]) > 0.002){
-                System.out.println("Stock's daily performance for day "+(chartDay+1)+" is inaccurate.\n\tExpected: "+stockDailyPerformance[chartDay]+"%\n\tDisplayed hover text: "+hoverText);
+            if (Math.abs(Double.parseDouble(hoverText.substring(hoverText.indexOf(':') + 2, hoverText.indexOf('%'))) - stockDailyPerformance[chartDay]) > 0.002) {
+                System.out.println("Stock's daily performance for day " + (chartDay + 1) + " is inaccurate.\n\tExpected: " + stockDailyPerformance[chartDay] + "%\n\tDisplayed hover text: " + hoverText);
                 allValid = false;
             }
             // checking for peer average
             actions.clickAndHold(findVisibleElements(dailyPerformancePeerBars).get(chartDay)).perform();
             hoverText = findElement(dailyPerformanceHoverText).getText().trim();
-            if (!hoverText.startsWith("Peer Avg:")){
-                System.out.println("Daily Performance: Hover text for yellow bar on day "+(chartDay+1)+" does not start with 'Peer Avg:'\n\tDisplayed hover text: "+hoverText);
+            if (!hoverText.startsWith("Peer Avg:")) {
+                System.out.println("Daily Performance: Hover text for yellow bar on day " + (chartDay + 1) + " does not start with 'Peer Avg:'\n\tDisplayed hover text: " + hoverText);
                 allValid = false;
             }
-            if (Math.abs(Double.parseDouble(hoverText.substring(hoverText.indexOf(':')+2, hoverText.indexOf('%'))) - peerDailyPerformance[chartDay]) > 0.002){
-                System.out.println("Peer average daily performance for day "+(chartDay+1)+" is inaccurate.\n\tExpected: "+peerDailyPerformance[chartDay]+"%\n\tDisplayed hover text: "+hoverText);
+            if (Math.abs(Double.parseDouble(hoverText.substring(hoverText.indexOf(':') + 2, hoverText.indexOf('%'))) - peerDailyPerformance[chartDay]) > 0.002) {
+                System.out.println("Peer average daily performance for day " + (chartDay + 1) + " is inaccurate.\n\tExpected: " + peerDailyPerformance[chartDay] + "%\n\tDisplayed hover text: " + hoverText);
                 allValid = false;
             }
             // checking for S&P 500
             actions.clickAndHold(findVisibleElements(dailyPerformanceSP500Bars).get(chartDay)).perform();
             hoverText = findElement(dailyPerformanceHoverText).getText().trim();
-            if (!hoverText.startsWith("S&P 500:")){
-                System.out.println("Daily Performance: Hover text for red bar on day "+(chartDay+1)+" does not start with 'S&P 500:'\n\tDisplayed hover text: "+hoverText);
+            if (!hoverText.startsWith("S&P 500:")) {
+                System.out.println("Daily Performance: Hover text for red bar on day " + (chartDay + 1) + " does not start with 'S&P 500:'\n\tDisplayed hover text: " + hoverText);
                 allValid = false;
             }
-            if (Math.abs(Double.parseDouble(hoverText.substring(hoverText.indexOf(':')+2, hoverText.indexOf('%'))) - sp500DailyPerformance[chartDay]) > 0.002){
-                System.out.println("S&P 500 daily performance for day "+(chartDay+1)+" is inaccurate.\n\tExpected: "+sp500DailyPerformance[chartDay]+"%\n\tDisplayed hover text: "+hoverText);
-                allValid = false;
+            if (Math.abs(Double.parseDouble(hoverText.substring(hoverText.indexOf(':') + 2, hoverText.indexOf('%'))) - sp500DailyPerformance[chartDay]) > 0.002) {
+                // Need to find api for S&P 500 data
+                System.out.println("Known Issue: No S&P data from Quandl Api");
+                continue;
+                //System.out.println("S&P 500 daily performance for day "+(chartDay+1)+" is inaccurate.\n\tExpected: "+sp500DailyPerformance[chartDay]+"%\n\tDisplayed hover text: "+hoverText);
+                //allValid = false;
             }
         }
 
         ArrayList<WebElement> testArray = new ArrayList<>(findVisibleElements(ytdChangeBars));
         // verifying that "YTD Change" values are correct
-        for (int bar=0; bar<symbols.length+1; bar++){
+        for (int bar = 0; bar < symbols.length + 1; bar++) {
 
             actions.clickAndHold(findElements(ytdChangeBars).get(bar)).perform();// clickAndHold needed to keep cursor there while getText() runs
             String hoverText = findElement(ytdChangeHoverText).getText().trim();
             // checking the peer average bar
-            if (findElement(ytdChangeAxisText).getText().contains("Peer")){
-                if (Math.abs(Double.parseDouble(hoverText.substring(hoverText.indexOf(':')+2, hoverText.indexOf('%'))) - expectedYearToDateChangeAverage) > 0.2){
+            if (findElement(ytdChangeAxisText).getText().contains("Peer")) {
+                if (Math.abs(Double.parseDouble(hoverText.substring(hoverText.indexOf(':') + 2, hoverText.indexOf('%'))) - expectedYearToDateChangeAverage) > 0.2) {
                     allValid = false;
                     // when displayed value is wrong, determine if value is different from that displayed on Stock Trade Summary table (meaning that the graph is wrong)
-                    if (Math.abs(Double.parseDouble(hoverText.substring(hoverText.indexOf(':')+2, hoverText.indexOf('%')))
-                            - Double.parseDouble(findElements(ytdChange).get(symbols.length).getText())) > 0.2){
-                        System.out.println("YTD Change graph: Peer average bar is inaccurate.\n\tExpected: "+expectedYearToDateChangeAverage
-                                +"%\n\tValue on STS table: "+findElements(ytdChange).get(symbols.length).getText()+"\n\tDisplayed hover text: "+hoverText);
-                    }
-                    else {
+                    if (Math.abs(Double.parseDouble(hoverText.substring(hoverText.indexOf(':') + 2, hoverText.indexOf('%')))
+                            - Double.parseDouble(findElements(ytdChange).get(symbols.length).getText())) > 0.2) {
+                        System.out.println("YTD Change graph: Peer average bar is inaccurate.\n\tExpected: " + expectedYearToDateChangeAverage
+                                + "%\n\tValue on STS table: " + findElements(ytdChange).get(symbols.length).getText() + "\n\tDisplayed hover text: " + hoverText);
+                    } else {
                         System.out.println("YTD Change graph: Peer average bar is inaccurate due to carryover from inaccurate value (see Stock Trade Summary table).");
                     }
                 }
             }
             // checking the other bars
             else {
-                for (int stock=0; stock<symbols.length; stock++){
-                    if (findElements(ytdChangeAxisText).get(bar).getText().contains(symbols[stock])){ //matches each bar with its stock
-                        if (Math.abs(Double.parseDouble(hoverText.substring(hoverText.indexOf(':')+2, hoverText.indexOf('%'))) - expectedYearToDateChange[stock]) > 0.2){
+                for (int stock = 0; stock < symbols.length; stock++) {
+                    if (findElements(ytdChangeAxisText).get(bar).getText().contains(symbols[stock])) { //matches each bar with its stock
+                        if (Math.abs(Double.parseDouble(hoverText.substring(hoverText.indexOf(':') + 2, hoverText.indexOf('%'))) - expectedYearToDateChange[stock]) > 0.2) {
                             allValid = false;
                             // when displayed value is wrong, determine if value is different from that displayed on Stock Trade Summary table (meaning that the graph is wrong)
-                            if (Math.abs(Double.parseDouble(hoverText.substring(hoverText.indexOf(':')+2, hoverText.indexOf('%')))
-                                    - Double.parseDouble(findElements(ytdChange).get(stock).getText())) > 0.2){
-                                System.out.println("YTD Change graph: "+symbols[stock]+" bar is inaccurate.\n\tExpected: "+expectedYearToDateChange[stock]
-                                        +"%\n\tValue on STS table: "+findElements(ytdChange).get(stock).getText()+"\n\tDisplayed hover text: "+hoverText);
-                            }
-                            else {
-                                System.out.println("YTD Change graph: "+symbols[stock]+" bar is inaccurate due to carryover from inaccurate value (see Stock Trade Summary table).");
+                            if (Math.abs(Double.parseDouble(hoverText.substring(hoverText.indexOf(':') + 2, hoverText.indexOf('%')))
+                                    - Double.parseDouble(findElements(ytdChange).get(stock).getText())) > 0.2) {
+                                System.out.println("YTD Change graph: " + symbols[stock] + " bar is inaccurate.\n\tExpected: " + expectedYearToDateChange[stock]
+                                        + "%\n\tValue on STS table: " + findElements(ytdChange).get(stock).getText() + "\n\tDisplayed hover text: " + hoverText);
+                            } else {
+                                System.out.println("YTD Change graph: " + symbols[stock] + " bar is inaccurate due to carryover from inaccurate value (see Stock Trade Summary table).");
                             }
                         }
                         break;

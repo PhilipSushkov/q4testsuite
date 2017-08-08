@@ -3,7 +3,6 @@ package pageobjects;
 import org.apache.commons.collections4.Predicate;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import pageobjects.admin.companyPage.CompanyList;
@@ -11,12 +10,12 @@ import pageobjects.admin.implementationPage.ImplementationPage;
 import pageobjects.admin.intelligencePage.IntelligencePage;
 import pageobjects.admin.morningCoffeePage.MorningCoffeePage;
 import pageobjects.admin.profilesPage.ProfilesList;
+import pageobjects.admin.releaseNotesPage.ReleaseNotesPage;
 import pageobjects.admin.usersPage.UsersPage;
 import pageobjects.user.headerPage.HeaderPage;
 import pageobjects.user.logActivityModal.LogActivityModal;
 import pageobjects.user.loginPage.LoginPage;
 import pageobjects.user.sideNavBar.SideNavBar;
-
 
 import java.text.NumberFormat;
 import java.text.ParseException;
@@ -60,6 +59,7 @@ public class AbstractPageObject implements HeaderPage{
     private final By morningCoffeePage = By.partialLinkText("Morning Coffee");
     private final By reportHeader = By.cssSelector(".page-header .page-title .details");
     private final By usersPage = By.cssSelector("body > q4-app > div > q4-navbar > nav > div > ul > li:nth-child(6) > a > i");
+    private final By releaseNotesPage = By.xpath("//a[contains(@title, 'Release Notes')]");
     private final By profileIcon = By.xpath("//div[contains(@class,'profile dropdown')]");
     private final By feedback = By.xpath("//div[@class='profile-menu-item']/span[contains(text(),'Leave Feedback')]");
     private final By password = By.xpath("//div[@class='profile-menu-item']/span[contains(text(),'Change Password')]");
@@ -612,6 +612,14 @@ public class AbstractPageObject implements HeaderPage{
         findElement(usersPage).click();
 
         return new UsersPage(getDriver());
+    }
+
+    public ReleaseNotesPage navigateToReleaseNotesPage(){
+        waitForLoadingScreen();
+        selectProduct(DESKTOP);
+        findElement(releaseNotesPage).click();
+
+        return new ReleaseNotesPage(getDriver());
     }
 
     public String getReportHeader() {
