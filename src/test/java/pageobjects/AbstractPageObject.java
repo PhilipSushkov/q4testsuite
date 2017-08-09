@@ -3,7 +3,6 @@ package pageobjects;
 import org.apache.commons.collections4.Predicate;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import pageobjects.admin.companyPage.CompanyList;
@@ -11,12 +10,12 @@ import pageobjects.admin.implementationPage.ImplementationPage;
 import pageobjects.admin.intelligencePage.IntelligencePage;
 import pageobjects.admin.morningCoffeePage.MorningCoffeePage;
 import pageobjects.admin.profilesPage.ProfilesList;
+import pageobjects.admin.releaseNotesPage.ReleaseNotesPage;
 import pageobjects.admin.usersPage.UsersPage;
 import pageobjects.user.headerPage.HeaderPage;
 import pageobjects.user.logActivityModal.LogActivityModal;
 import pageobjects.user.loginPage.LoginPage;
 import pageobjects.user.sideNavBar.SideNavBar;
-
 
 import java.text.NumberFormat;
 import java.text.ParseException;
@@ -60,6 +59,7 @@ public class AbstractPageObject implements HeaderPage{
     private final By morningCoffeePage = By.partialLinkText("Morning Coffee");
     private final By reportHeader = By.cssSelector(".page-header .page-title .details");
     private final By usersPage = By.cssSelector("body > q4-app > div > q4-navbar > nav > div > ul > li:nth-child(6) > a > i");
+    private final By releaseNotesPage = By.xpath("//a[contains(@title, 'Release Notes')]");
     private final By profileIcon = By.xpath("//div[contains(@class,'profile dropdown')]");
     private final By feedback = By.xpath("//div[@class='profile-menu-item']/span[contains(text(),'Leave Feedback')]");
     private final By password = By.xpath("//div[@class='profile-menu-item']/span[contains(text(),'Change Password')]");
@@ -145,6 +145,7 @@ public class AbstractPageObject implements HeaderPage{
     public LogActivityModal pageRefresh() {
         pause(2000L);
         driver.navigate().refresh();
+        waitForSiteToLoad();
         waitForLoadingScreen();
 
         return new LogActivityModal(getDriver());
@@ -198,68 +199,33 @@ public class AbstractPageObject implements HeaderPage{
     public boolean elementsAreAlphaUpSorted(List<WebElement> elements){
         //adding so to ignore the Multiple
         //Must account for - contacts too
-        By multipleFirstResult = By.xpath("//div//h2//..//div[1]");
-        By test = By.xpath("//div[contains(@class,'footer-content')]");
+        By footer = By.xpath("//div[contains(@class,'footer-content')]");
+        By multipleFirstResult = By.xpath("//div[contains(@class, 'modal')]//div[@class='contact'][1]//*[text()]");
 
-        boolean sortedWell = true;
-        for (int i=0; i<elements.size()-1; i++){
+        waitForElement(footer);
+        scrollToElement(footer);
 
-            String frontElement = elements.get(i+1).getText();
-            String backElement = elements.get(i).getText();
+        String previous = null;
+        for (WebElement element : elements) {
+            String current = element.getText();
 
-            if(frontElement.contains("Multiple")){
-                findElement(test);
-                (elements.get(i+1)).click();
-                waitForElementToAppear(multipleFirstResult);
-                frontElement = findElement(multipleFirstResult).getText();
-
-                // Sometimes multipleFirstResult returns nothing so we run a loop to try again 10 times until text is returned.
-                for (int k = 0; k < 9; k++)
-                {
-                    if (frontElement.equalsIgnoreCase("")){
-                        (elements.get(i+1)).click();
-                        waitForElementToAppear(multipleFirstResult);
-                        frontElement = findElement(multipleFirstResult).getText();
-                    }
-                    else
-                    {
-                        break;
-                    }
-                }
+            if (current.contains("Multiple")) {
+                element.click();
+                current = waitForElementToAppear(multipleFirstResult).getText();
                 clickCoordinate(searchBar,10,10);
-                pause(500);
             }
 
-            if(backElement.contains("Multiple")){
-                findElement(test);
-                (elements.get(i)).click();
-                waitForElementToAppear(multipleFirstResult);
-                backElement = findElement(multipleFirstResult).getText();
-
-                // Sometimes multipleFirstResult returns nothing so we run a loop to try again 10 times until text is returned.
-                for (int k = 0; k < 9; k++)
-                {
-                    if (backElement.equalsIgnoreCase("")){
-                        (elements.get(i)).click();
-                        waitForElementToAppear(multipleFirstResult);
-                        backElement = findElement(multipleFirstResult).getText();
-                    }
-                    else
-                    {
-                        break;
-                    }
+            if (previous != null) {
+                if (current.compareTo(previous) < 0) {
+                    System.out.println("MIS-SORT: Ascending: '"+current+"' should not be after '"+previous+"'");
+                    return false;
                 }
-
-                clickCoordinate(searchBar,10,10);
-                pause(500);
             }
 
-            if (frontElement.compareTo(backElement) < 0){
-                System.out.println("MIS-SORT: Ascending: '"+frontElement+"' should not be after '"+backElement+"'");
-                sortedWell = false;
-            }
+            previous = current;
         }
-        return sortedWell;
+
+        return true;
     }
 
     public boolean elementsAreAlphaUpSortedMorningCoffee(List<WebElement> elements){
@@ -352,14 +318,33 @@ public class AbstractPageObject implements HeaderPage{
     }
 
     public boolean elementsAreAlphaDownSorted(List<WebElement> elements){
-        boolean sortedWell = true;
-        for (int i=0; i<elements.size()-1; i++){
-            if (elements.get(i+1).getText().compareTo/*IgnoreCase*/(elements.get(i).getText()) > 0){
-                System.out.println("MIS-SORT: Descending: '"+elements.get(i+1).getText()+"' should not be after '"+elements.get(i).getText()+"'");
-                sortedWell = false;
+        By footer = By.xpath("//div[contains(@class,'footer-content')]");
+        By multipleFirstResult = By.xpath("//div[contains(@class, 'modal')]//div[@class='contact'][1]//*[text()]");
+
+        waitForElement(footer);
+        scrollToElement(footer);
+
+        String previous = null;
+        for (WebElement element : elements) {
+            String current = element.getText();
+
+            if (current.contains("Multiple")) {
+                element.click();
+                current = waitForElementToAppear(multipleFirstResult).getText();
+                clickCoordinate(searchBar,10,10);
             }
+
+            if (previous != null) {
+                if (current.compareTo(previous) > 0) {
+                    System.out.println("MIS-SORT: Descending: '"+current+"' should not be after '"+previous+"'");
+                    return false;
+                }
+            }
+
+            previous = current;
         }
-        return sortedWell;
+
+        return true;
     }
 
     /** Used for numerical values displayed on page. Treats '-' as having value of zero. */
@@ -627,6 +612,14 @@ public class AbstractPageObject implements HeaderPage{
         findElement(usersPage).click();
 
         return new UsersPage(getDriver());
+    }
+
+    public ReleaseNotesPage navigateToReleaseNotesPage(){
+        waitForLoadingScreen();
+        selectProduct(DESKTOP);
+        findElement(releaseNotesPage).click();
+
+        return new ReleaseNotesPage(getDriver());
     }
 
     public String getReportHeader() {

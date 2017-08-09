@@ -1,5 +1,8 @@
 package pageobjects.user.briefingBooks;
 
+import org.apache.pdfbox.pdfparser.PDFParser;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.text.PDFTextStripper;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -7,6 +10,10 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageobjects.AbstractPageObject;
 
+import java.io.BufferedInputStream;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 
 /**
@@ -34,6 +41,12 @@ public class BriefingBookDetailsPage extends AbstractPageObject {
     private final By entityDragHandle = By.className("x-list-sortablehandle");
     private final By topOfEntityList = By.className("bulk-action-toolbar");
     private final By entityName = By.cssSelector(".x-list-item .name");
+    private final By generateButton = By.xpath("//span[@class='x-button-label'][text()='Generate']");
+    private final By includeActivityBox = By.xpath("//input[@name='activity']/following-sibling::div[1]");
+    private final By includeCoverPageBox = By.xpath("//input[@name='cover']/following-sibling::div[1]");
+    private final By coverPageTitle = By.xpath("//input[@name='title']");
+    private final By coverPageNotes = By.xpath("//textarea[@name='note']");
+    private final By generateButtonModal = By.xpath("//form[contains(@class, 'q4-modal')]//span[@class='x-button-label'][text()='Generate']");
 
 
     Actions actions = new Actions(driver);
@@ -194,7 +207,74 @@ public class BriefingBookDetailsPage extends AbstractPageObject {
         waitForLoadingScreen();
         actions.dragAndDrop(findElements(entityDragHandle).get(originIndex), findElement(topOfEntityList)).perform();
         waitForElementToRest(topOfEntityList, 1000L);
-        driver.navigate().refresh();
+        pageRefresh();
     }
 
+    public BriefingBookDetailsPage generateBriefingBook(Boolean includeActivity) {
+        waitForElementToBeClickable(generateButton).click();
+        if (!includeActivity) {
+            waitForElementToBeClickable(includeActivityBox).click();
+        }
+        waitForElementToBeClickable(generateButtonModal).click();
+        waitForLoadingScreen();
+        return this;
+    }
+
+    public BriefingBookDetailsPage generateBriefingBookWithCoverPage(String title, String notes, Boolean includeActivity) {
+        waitForElementToBeClickable(generateButton).click();
+        if (!includeActivity) {
+            waitForElementToBeClickable(includeActivityBox).click();
+        }
+        waitForElementToBeClickable(includeCoverPageBox).click();
+        waitForElementToAppear(coverPageTitle).sendKeys(title);
+        findElement(coverPageNotes).sendKeys(notes);
+        findElement(generateButtonModal).click();
+        waitForLoadingScreen();
+        return this;
+    }
+
+    public String getBriefingBookPdfContent(String title) {
+        try {
+            URL briefingBookUrl = getPdfUrl(title);
+            BufferedInputStream briefingBookFile = new BufferedInputStream(briefingBookUrl.openStream());
+            PDDocument document = PDDocument.load(briefingBookFile);
+            String contents = new PDFTextStripper().getText(document);
+
+            document.close();
+            briefingBookFile.close();
+            return contents;
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public int getBriefingBookPdfNumOfPages(String title) {
+        try {
+            URL briefingBookUrl = getPdfUrl(title);
+            BufferedInputStream briefingBookFile = new BufferedInputStream(briefingBookUrl.openStream());
+            PDDocument document = PDDocument.load(briefingBookFile);
+            int pages =  document.getNumberOfPages();
+
+            document.close();
+            briefingBookFile.close();
+            return pages;
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
+    private URL getPdfUrl(String title) {
+        try {
+            return new URL("file://" + System.getProperty("user.home") + "/Downloads/"
+                    + title.replace('*', '-').replace(" ", "%20")
+                    + ".pdf");
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 }

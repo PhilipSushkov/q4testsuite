@@ -18,7 +18,7 @@ public class QuandlConnectToApi {
     private static final String baseUrl = "https://www.quandl.com/api/v3/datasets/";
 
     /**
-     * This method uses the uses the createURL method to return the dataset corresponding to the ticker and exchange.
+     * This method uses the createURL method to return the dataset corresponding to the ticker and exchange.
      *
      * @param  ticker this is the stock you want.
      *                exchange is the stock exchange you want (exchange = "EOD" means end of day stock info)

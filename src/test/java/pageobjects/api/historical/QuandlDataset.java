@@ -26,6 +26,7 @@ public class QuandlDataset {
     private ArrayList<String> lowPrices = new ArrayList<>();
     private ArrayList<String> volume = new ArrayList<>();
     private String rawData;
+    private int size = 0;
 
     JSONParser parser = new JSONParser();
     // Fills the data-types initialized above with it's corresponding data
@@ -43,12 +44,20 @@ public class QuandlDataset {
             // Store the data in their corresponding ArrayLists by looping through the iterator
             while (iterator.hasNext()){
                 JSONArray handler = iterator.next();
+
                 closingPriceDate.add(handler.get(0).toString());
                 openPrices.add(handler.get(1).toString());
+                try{
                 highPrices.add(handler.get(2).toString());
                 lowPrices.add(handler.get(3).toString());
                 closingPrices.add(handler.get(4).toString());
                 volume.add(handler.get(5).toString());
+                size++;
+                }
+                 catch (IndexOutOfBoundsException i){
+                }
+                catch (NullPointerException n){
+                }
             }
         } catch (ParseException e) {
             e.printStackTrace();
@@ -75,4 +84,6 @@ public class QuandlDataset {
     public ArrayList<String> getLowPrices(){ return lowPrices; }
 
     public ArrayList<String> getVolume() { return volume; }
+
+    public int getSize(){ return size; }
 }
