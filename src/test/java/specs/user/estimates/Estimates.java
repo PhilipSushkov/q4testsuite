@@ -104,7 +104,7 @@ public class Estimates extends AbstractSpec {
         Calendar calendar = new Calendar(driver);
         estimatesPage.filterDate(calendar);
 
-        Assert.assertTrue("Research Reports cannot be sorted by contributor", estimatesPage.sortByAnalyst());
+        Assert.assertTrue("KNOWN ISSUE: DESKTOP 9124 - Research Reports cannot be sorted by analyst", estimatesPage.sortByAnalyst());
     }
 
     @Test

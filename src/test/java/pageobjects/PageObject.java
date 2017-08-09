@@ -188,6 +188,12 @@ public interface PageObject {
         return element;
     }
 
+    default void waitForSiteToLoad() {
+        // Waits for blue site loading screen to disappear (use after refresh)
+        new WebDriverWait(getDriver(), 5).until(ExpectedConditions.visibilityOfElementLocated(By.className("loading")));
+        new WebDriverWait(getDriver(), 20).until(ExpectedConditions.invisibilityOfElementLocated(By.className("loading")));
+    }
+
     default void disableAnimations() {
 
         // See https://stackoverflow.com/questions/14791094/how-to-set-the-universal-css-selector-with-javascript

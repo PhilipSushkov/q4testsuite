@@ -205,6 +205,7 @@ public class TargetingPage extends AbstractPageObject {
     }
 
     public boolean searchesCanBeSortedByUpdatedDate() {
+        waitForLoadingScreen();
         waitForElementToAppear(searchesColumnHeader);
         // sorting by last updated date ascending
         waitForElementToBeClickable(updatedColumnSearches).click();

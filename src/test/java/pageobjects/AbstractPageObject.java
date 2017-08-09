@@ -3,7 +3,6 @@ package pageobjects;
 import org.apache.commons.collections4.Predicate;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import pageobjects.admin.companyPage.CompanyList;
 import pageobjects.admin.implementationPage.ImplementationPage;
@@ -145,6 +144,7 @@ public class AbstractPageObject implements HeaderPage{
     public LogActivityModal pageRefresh() {
         pause(2000L);
         driver.navigate().refresh();
+        waitForSiteToLoad();
         waitForLoadingScreen();
 
         return new LogActivityModal(getDriver());
