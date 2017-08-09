@@ -1,18 +1,15 @@
 package pageobjects;
 
-import java.sql.Time;
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.collections4.Predicate;
+import org.openqa.selenium.*;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import com.sun.org.apache.xpath.internal.operations.Bool;
-import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.collections4.Predicate;
-import org.openqa.selenium.*;
-import org.openqa.selenium.support.ui.ExpectedCondition;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 public interface PageObject {
 
@@ -157,9 +154,8 @@ public interface PageObject {
     }
 
     default void waitForTextToChange(By selector) {
-        waitForElement(selector);
         String currentText = findElement(selector).getText();
-        getWait().until((ExpectedCondition<Boolean>) d -> !d.findElement(selector).getText().equals(currentText));
+        getWait().until(ExpectedConditions.not(ExpectedConditions.textToBe(selector, currentText)));
     }
 
     default void waitForTextToChange(By selector, String from) {

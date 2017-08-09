@@ -97,8 +97,8 @@ public class Estimates extends AbstractSpec {
         Assert.assertTrue("Research Reports cannot be sorted by contributor", estimatesPage.sortByContributor());
     }
 
-    @Ignore
     @Test
+    @Ignore
     public void canSortResearchByAnalyst() {
         SecurityEstimatesPage estimatesPage = new SecurityEstimatesPage(driver);
         Calendar calendar = new Calendar(driver);
