@@ -490,15 +490,18 @@ public class SecurityOwnershipPage extends AbstractPageObject implements DateDro
         boolean isSorted =true;
 
         findVisibleElement(holderTableHeaderStyle).click();
-        waitForLoadingScreen();;
+        waitForLoadingScreen();
         if (!elementsAreAlphaUpSorted(findElements(holderTableStyle))){
             System.out.println("Holders are not sorted by style ascending.");
             isSorted = false;
         }
 
         // sorting by style descending
-        findVisibleElement(holderTableHeaderStyle);
-        waitForElementToBeClickable(holderTableHeaderStyle).click();
+        // Scrolling to the Activists toggle button so that the style header is back in the frame
+        scrollToElement(activistFilter);
+        findVisibleElement(holderTableHeaderStyle).click();
+
+        //waitForElementToBeClickable(holderTableHeaderStyle).click();
         waitForLoadingScreen();
         if (!elementsAreAlphaDownSorted(findElements(holderTableStyle))){
             System.out.println("Holders are not sorted by style descending.");

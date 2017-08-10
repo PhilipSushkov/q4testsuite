@@ -1,9 +1,6 @@
 package pageobjects.user.activityPage;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.StaleElementReferenceException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageobjects.AbstractPageObject;
 import pageobjects.user.Calendar;
@@ -91,8 +88,14 @@ public class ActivityPage extends AbstractPageObject {
 
     public NoteDetailsPage selectFirstNoteInList() {
         waitForLoadingScreen();
-        waitForElement(firstNoteInList);
-        findVisibleElement(firstNoteInList).click();
+        List<WebElement> elements = findVisibleElements(firstNoteInList);
+        for(WebElement i : elements){
+            try {
+                i.click();
+            }
+            catch (WebDriverException e)
+            {}
+        }
 
         return new NoteDetailsPage(getDriver());
     }
