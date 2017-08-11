@@ -55,6 +55,18 @@ public class LoginPage extends Page {
         return new Dashboard(getDriver());
     }
 
+    public Dashboard loginUnsubscribedUser() {
+        longWait.until(ExpectedConditions.elementToBeClickable(emailField)).clear();
+        findElement(passwordField).clear();
+        findElement(emailField).sendKeys("test@q4websystems.com");
+        findElement(passwordField).sendKeys("q4pass1234!");
+        waitForElementToBeClickable(loginButton).click();
+        waitForDashboardToLoad();
+        pause(1000L);
+
+        return new Dashboard(getDriver());
+    }
+
     public Dashboard customLoginUser(String email, String password) {
         longWait.until(ExpectedConditions.elementToBeClickable(emailField)).clear();
         findElement(passwordField).clear();
