@@ -16,6 +16,8 @@ import specs.user.dashboard.DashboardLinks;
 import specs.user.dashboard.DashboardLogActivity;
 import specs.user.dashboard.DashboardSearch;
 import specs.user.estimates.Estimates;
+import specs.user.eventsTranscripts.EventsTranscriptsList;
+import specs.user.eventsTranscripts.SecuritySearch;
 import specs.user.header.header;
 import specs.user.login.ForgotPassword;
 import specs.user.login.UserLogin;
@@ -42,6 +44,8 @@ import specs.user.webcastAnalytics.WebcastAnalytics;
         DashboardLogActivity.class,
         DashboardSearch.class,
         Estimates.class,
+        EventsTranscriptsList.class,
+        SecuritySearch.class,
         ForgotPassword.class,
         UserLogin.class,
         Overview.class,
