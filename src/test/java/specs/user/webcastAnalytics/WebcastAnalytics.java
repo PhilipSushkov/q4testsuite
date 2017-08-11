@@ -63,4 +63,34 @@ public class WebcastAnalytics extends AbstractSpec {
         Assert.assertEquals("Number of total attendees are not eqaul", total, detailsTotal);
 
     }
+
+    @Test
+    public void checkSortByDetails(){
+        WebcastAnalyticsDetailsPage page = new WebcastAnalyticsDetailsPage(driver);
+        Assert.assertTrue("Did not sort by details properly", page.canSortByDetails());
+    }
+
+    @Test
+    public void checkSortByRegistrants(){
+        WebcastAnalyticsDetailsPage page = new WebcastAnalyticsDetailsPage(driver);
+        Assert.assertTrue("Did not sort by registrants properly", page.canSortByRegistrants());
+    }
+
+    @Test
+    public void checkSortByLiveAttendees(){
+        WebcastAnalyticsDetailsPage page = new WebcastAnalyticsDetailsPage(driver);
+        Assert.assertTrue("Did not sort by live attendees properly", page.canSortByLiveAttendees());
+    }
+
+    @Test
+    public void checkSortByOnDemandAttendees(){
+        WebcastAnalyticsDetailsPage page = new WebcastAnalyticsDetailsPage(driver);
+        Assert.assertTrue("Did not sort by on demand attendees properly", page.canSortByOnDemandAttendees());
+    }
+
+    @Test
+    public void checkSortByTotalAttendees(){
+        WebcastAnalyticsDetailsPage page = new WebcastAnalyticsDetailsPage(driver);
+        Assert.assertTrue("Did not sort by total attendees properly", page.canSortByTotalAttendees());
+    }
 }

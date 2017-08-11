@@ -28,7 +28,7 @@ public class ReleaseNotesPage extends AbstractPageObject{
     public ReleaseNotesPage (WebDriver driver) {super(driver);}
 
     private List<WebElement> returnTableRows (){
-        List<WebElement> rowList = findVisibleElements(By.xpath("//tbody[contains(@class,'ui-datatable-data')]//div[contains(@class,'row')]"));
+        List<WebElement> rowList = findVisibleElements(By.xpath("//tbody[contains(@class,'ui-datatable-data')]//div[contains(@class,'row')]//div[contains(@class, 'x-unsized x-list-item x-list-item-tpl event-list-item x-list-item-relative')]"));
         ArrayList<WebElement> tableRowsList = new ArrayList<>(rowList);
         return tableRowsList;
 

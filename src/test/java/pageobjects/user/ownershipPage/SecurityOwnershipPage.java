@@ -1,9 +1,6 @@
 package pageobjects.user.ownershipPage;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.TimeoutException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageobjects.AbstractPageObject;
@@ -117,6 +114,8 @@ public class SecurityOwnershipPage extends AbstractPageObject implements DateDro
     private final By DefaultInsiderResult = By.cssSelector("#ext-element-1965");
     private final By DefaultHolderResult = By.cssSelector("#ext-element-5048");
     private final By thirteenFButton = By.xpath("//span[contains(text(),'13F')]");
+    private final By nextPageButton = By.xpath("//div[contains(@class, 'x-unsized x-button nav-button next-page x-iconalign-center')]");
+    private final By previousPageButton = By.xpath("//div[contains(@class, 'x-unsized x-button nav-button prev-page x-iconalign-center')]");
 
     public SecurityOwnershipPage(WebDriver driver) {
         super(driver);
@@ -321,6 +320,21 @@ public class SecurityOwnershipPage extends AbstractPageObject implements DateDro
         return this;
     }
 
+    public boolean checkShowMoreHolders(){
+        waitForLoadingScreen();
+        scrollToElement(nextPageButton);
+        try {
+            findVisibleElement(nextPageButton).click();
+            waitForLoadingScreen();
+            findVisibleElement(previousPageButton).click();
+        }
+        catch (WebDriverException e)
+        {
+            return false;
+        }
+        return true;
+    }
+
     public boolean canSortByName(){
         waitForLoadingScreen();
         boolean isSorted = true;
@@ -476,14 +490,18 @@ public class SecurityOwnershipPage extends AbstractPageObject implements DateDro
         boolean isSorted =true;
 
         findVisibleElement(holderTableHeaderStyle).click();
-        waitForLoadingScreen();;
+        waitForLoadingScreen();
         if (!elementsAreAlphaUpSorted(findElements(holderTableStyle))){
             System.out.println("Holders are not sorted by style ascending.");
             isSorted = false;
         }
 
         // sorting by style descending
+        // Scrolling to the Activists toggle button so that the style header is back in the frame
+        scrollToElement(activistFilter);
         findVisibleElement(holderTableHeaderStyle).click();
+
+        //waitForElementToBeClickable(holderTableHeaderStyle).click();
         waitForLoadingScreen();
         if (!elementsAreAlphaDownSorted(findElements(holderTableStyle))){
             System.out.println("Holders are not sorted by style descending.");

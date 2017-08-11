@@ -98,6 +98,7 @@ public class Estimates extends AbstractSpec {
     }
 
     @Test
+    @Ignore
     public void canSortResearchByAnalyst() {
         SecurityEstimatesPage estimatesPage = new SecurityEstimatesPage(driver);
         Calendar calendar = new Calendar(driver);
