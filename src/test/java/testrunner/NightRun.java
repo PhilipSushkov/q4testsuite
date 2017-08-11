@@ -15,6 +15,7 @@ import specs.user.contacts.ContactList;
 import specs.user.dashboard.DashboardLinks;
 import specs.user.dashboard.DashboardLogActivity;
 import specs.user.dashboard.DashboardSearch;
+import specs.user.desktopSubscriptions.DesktopSubscriptions;
 import specs.user.estimates.Estimates;
 import specs.user.header.header;
 import specs.user.login.ForgotPassword;
@@ -41,6 +42,7 @@ import specs.user.webcastAnalytics.WebcastAnalytics;
         DashboardLinks.class,
         DashboardLogActivity.class,
         DashboardSearch.class,
+        DesktopSubscriptions.class,
         Estimates.class,
         ForgotPassword.class,
         UserLogin.class,

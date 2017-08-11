@@ -10,6 +10,7 @@ import specs.admin.loginPage.AdminLogin;
 import specs.admin.morningCoffee.morningCoffeeReport;
 import specs.admin.profiles.EditProfilesList;
 import specs.admin.profiles.EnableDisableSubscriptions;
+import specs.admin.releaseNotes.ReleaseNotes;
 import specs.admin.users.UserRoles;
 
 /**
@@ -23,6 +24,7 @@ import specs.admin.users.UserRoles;
         EditProfilesList.class,
         // AddEditImplementations.class,
         IntelligenceList.class,
+        ReleaseNotes.class,
         WTSReportDetails.class,
         UserRoles.class,
         EnableDisableSubscriptions.class,
