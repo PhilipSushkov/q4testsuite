@@ -15,6 +15,7 @@ import specs.user.contacts.ContactList;
 import specs.user.dashboard.DashboardLinks;
 import specs.user.dashboard.DashboardLogActivity;
 import specs.user.dashboard.DashboardSearch;
+import specs.user.desktopSubscriptions.DesktopSubscriptions;
 import specs.user.estimates.Estimates;
 import specs.user.eventsTranscripts.EventsTranscripts;
 import specs.user.eventsTranscripts.EventsTranscriptsList;
@@ -43,6 +44,7 @@ import specs.user.webcastAnalytics.WebcastAnalytics;
         DashboardLinks.class,
         DashboardLogActivity.class,
         DashboardSearch.class,
+        DesktopSubscriptions.class,
         Estimates.class,
         EventsTranscriptsList.class,
         EventsTranscripts.class,
