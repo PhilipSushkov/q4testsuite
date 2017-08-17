@@ -25,10 +25,10 @@ module for q4webdriver, if not add one.
 
 **To trigger build manually, copy the line below and paste it into your terminal (change {"TEST_ENV":"BETA","SUITE_NAME":"SmokeTest"} to appropriate environment and suite if needed)**
 
-curl -H "Content-Type: application/json" -d '{"build_parameters": {"TEST_ENV":"DEVELOP","SUITE_NAME":"NightRun", "THREADS":"5"}}' https://circleci.com/api/v1/project/q4mobile/q4testsuite/tree/master?circle-token=5439aa08dd79b73f2f13535f252c0d69dbb31edb
+curl -H "Content-Type: application/json" -d '{"build_parameters": {"TEST_ENV":"DEVELOP","SUITE_NAME":"NightRun", "THREADS":"5"}}' https://circleci.com/api/v1/project/q4mobile/q4testsuite/tree/master?circle-token=e32327f6b564def43c8ccb12243b1fdeeb10e7cf
 
 Admin suite
 
-curl -H "Content-Type: application/json" -d '{"build_parameters": {"TEST_ENV":"DEVELOPADMIN","SUITE_NAME":"AdminSuite"}}' https://circleci.com/api/v1/project/q4mobile/q4testsuite/tree/master?circle-token=5439aa08dd79b73f2f13535f252c0d69dbb31edb
+curl -H "Content-Type: application/json" -d '{"build_parameters": {"TEST_ENV":"DEVELOPADMIN","SUITE_NAME":"AdminSuite"}}' https://circleci.com/api/v1/project/q4mobile/q4testsuite/tree/master?circle-token=e32327f6b564def43c8ccb12243b1fdeeb10e7cf
 
 
