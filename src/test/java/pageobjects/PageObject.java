@@ -159,13 +159,7 @@ public interface PageObject {
     }
 
     default void waitForTextToChange(By selector, String from) {
-        try {
-            if (findVisibleElement(selector).getText().contains(from)) {
-                waitForTextToChange(selector);
-            }
-        } catch (StaleElementReferenceException e) {
-           pause(2000L);
-        }
+        getWait().until(ExpectedConditions.not(ExpectedConditions.textToBe(selector, from)));
     }
 
     default WebElement waitForElementToRest(By selector, long restTime) {

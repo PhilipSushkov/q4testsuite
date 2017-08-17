@@ -319,6 +319,7 @@ public class SecurityEstimatesPage extends AbstractPageObject{
 
     public String getReportPdfContent(String title) {
         try {
+            title = title.replaceAll(">", "-"); // Some characters are replaced in the download title
             URL reportUrl = getPdfUrl(title);
             BufferedInputStream briefingBookFile = new BufferedInputStream(reportUrl.openStream());
             PDDocument document = PDDocument.load(briefingBookFile);

@@ -55,7 +55,9 @@ public class Estimates extends AbstractSpec {
         ContactDetailsPage analystPage = securityEstimatesPage.selectNthAnalyst(0);
 
         Assert.assertTrue("Did not open correct contact page", analystPage.getContactName().contains(analyst));
-        Assert.assertTrue("Did not open correct contact page", analystPage.getInstitutionName().contains(broker));
+        Assert.assertTrue("Did not open correct contact page", analystPage.getInstitutionName()
+                // brokers sometimes don't match because of bracketed detail
+                .contains(broker.replaceAll("\\(\\w+\\)", "")));
     }
 
     @Test
@@ -114,7 +116,8 @@ public class Estimates extends AbstractSpec {
 
         Assert.assertTrue("Search did not return any results", estimatesPage.getNumberOfResearch()>0);
 
-        String searchedResult = estimatesPage.searchForResearch(lastHeadline)
+        String searchedResult = estimatesPage.searchForResearch(lastHeadline.replaceAll("[.]", ""))
+                // search did not recognize a specific title because of included periods
                 .getNthResearchHeadline(0)
                 .getText();
 
@@ -127,6 +130,7 @@ public class Estimates extends AbstractSpec {
         SecurityEstimatesPage estimatesPage = new SecurityEstimatesPage(driver);
         String report = estimatesPage.getNthResearchHeadline(0).getText();
         estimatesPage.getNthResearchHeadline(0).click();
+        estimatesPage.waitForLoadingScreen();
 
         Assert.assertFalse("Downloaded report was empty", estimatesPage.getReportPdfContent(report).isEmpty());
     }
