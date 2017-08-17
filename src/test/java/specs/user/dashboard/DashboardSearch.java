@@ -56,7 +56,7 @@ public class DashboardSearch extends AbstractSpec{
 
     @Test
     public void canSearchForInstitution() {
-        String institutionName = "JPMorgan Investment Management, Inc.";
+        String institutionName = "The Vanguard Group, Inc.";
         InstitutionPage finish = new Dashboard(driver).searchFor(institutionName)
                 .selectInstitutionFromSearchResults(institutionName);
 
