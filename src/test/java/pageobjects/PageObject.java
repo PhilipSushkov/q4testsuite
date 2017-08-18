@@ -159,13 +159,7 @@ public interface PageObject {
     }
 
     default void waitForTextToChange(By selector, String from) {
-        try {
-            if (findVisibleElement(selector).getText().contains(from)) {
-                waitForTextToChange(selector);
-            }
-        } catch (StaleElementReferenceException e) {
-           pause(2000L);
-        }
+        getWait().until(ExpectedConditions.not(ExpectedConditions.textToBe(selector, from)));
     }
 
     default WebElement waitForElementToRest(By selector, long restTime) {
@@ -190,7 +184,7 @@ public interface PageObject {
 
     default void waitForSiteToLoad() {
         // Waits for blue site loading screen to disappear (use after refresh)
-        new WebDriverWait(getDriver(), 20).until(ExpectedConditions.visibilityOfElementLocated(By.className("loading")));
+        new WebDriverWait(getDriver(), 20).until(ExpectedConditions.presenceOfElementLocated(By.className("loading")));
         new WebDriverWait(getDriver(), 20).until(ExpectedConditions.invisibilityOfElementLocated(By.className("loading")));
     }
 

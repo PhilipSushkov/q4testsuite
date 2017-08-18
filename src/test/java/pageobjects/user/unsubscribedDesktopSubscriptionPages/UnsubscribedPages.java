@@ -16,6 +16,7 @@ public class UnsubscribedPages extends AbstractPageObject {
     public UnsubscribedPages(WebDriver driver){super(driver);}
 
     public boolean checkForUnsubscribedMessage() {
+        waitForLoadingScreen();
         try {
             findVisibleElement(unsubscribedMessage);
         } catch (ElementNotVisibleException e) {
