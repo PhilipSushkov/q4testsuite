@@ -34,7 +34,6 @@ public class EditWatchlist extends AbstractSpec {
 
         watchlist.removeSecurityFromWatchlist(security);
         Assert.assertThat("Removed company is still visible in watchlist", watchlist.getWatchlistSecurities(), is(not(security)));
-
     }
 
     @Test

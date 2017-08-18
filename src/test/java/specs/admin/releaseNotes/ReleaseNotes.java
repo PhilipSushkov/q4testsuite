@@ -53,7 +53,7 @@ public class ReleaseNotes extends AdminAbstractSpec {
 
     @Test
     public void canEditReleaseNote(){
-        String version = "0.0.5";
+        String version = "0.0.6";
         String title = "Big Baller Test Release Note " + RandomStringUtils.randomAlphanumeric(6);
         String releaseDay = "15";
         String overview = "Testing Comment " + RandomStringUtils.randomAlphanumeric(6);
@@ -80,11 +80,15 @@ public class ReleaseNotes extends AdminAbstractSpec {
         Assert.assertThat("Version does not match.", releaseNoteDetails.getVersion(), containsString(edittedVersion));
         Assert.assertThat("Release Date does not match.", releaseNoteDetails.getReleaseDate(), containsString(edittedReleaseDay));
 
+        new ReleaseNotesPage(driver)
+                .navigateToReleaseNotesPage()
+                .openReleaseNoteEdit(edittedTitle);
+
     }
 
     @Test
     public void canPublishReleaseNote(){
-        String version = "0.0.5";
+        String version = "0.0.7";
         String title = "Big Baller Test Release Note " + RandomStringUtils.randomAlphanumeric(6);
         String releaseDay = "15";
         String overview = "Testing Comment " + RandomStringUtils.randomAlphanumeric(6);
@@ -102,7 +106,7 @@ public class ReleaseNotes extends AdminAbstractSpec {
 
     @Test
     public void canDeleteReleaseNote(){
-        String version = "0.0.5";
+        String version = "0.0.8";
         String title = "Big Baller Test Release Note " + RandomStringUtils.randomAlphanumeric(6);
         String releaseDay = "15";
         String overview = "Testing Comment " + RandomStringUtils.randomAlphanumeric(6);
@@ -118,7 +122,7 @@ public class ReleaseNotes extends AdminAbstractSpec {
 
     @Test
     public void canCancelDeleteReleaseNote(){
-        String version = "0.0.5";
+        String version = "0.0.9";
         String title = "Big Baller Test Release Note " + RandomStringUtils.randomAlphanumeric(6);
         String releaseDay = "15";
         String overview = "Testing Comment " + RandomStringUtils.randomAlphanumeric(6);
@@ -133,7 +137,7 @@ public class ReleaseNotes extends AdminAbstractSpec {
 
     @Test
     public void canSearchForReleaseNote(){
-        String version = "0.0.5";
+        String version = "0.0.3";
         String title = "Big Baller Test Release Note " + RandomStringUtils.randomAlphanumeric(6);
         String releaseDay = "15";
         String overview = "Testing Comment " + RandomStringUtils.randomAlphanumeric(6);
