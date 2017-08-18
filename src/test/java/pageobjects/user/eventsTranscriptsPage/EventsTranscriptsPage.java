@@ -26,6 +26,7 @@ public class EventsTranscriptsPage extends AbstractPageObject {
     private final By dateHeaders = By.xpath("//div[contains(@class, 'group-header')]");
     private final By dateFilter = By.xpath("//div[contains(@class, 'x-size-monitored x-paint-monitored current-date-range x-layout-box-item x-stretched')]");
     private final By transcriptIcon = By.xpath("//i[contains(@class, 'q4i-transcripts-2pt')]");
+    private final By eventTranscriptList = By.xpath("//div[contains(@class, 'event-list-item')]");
 
     private final By addSymbolInput = By.name("symbol");
     private final By addSymbolResultList = By.xpath("//div[contains(@class,'filter-by-company-results')]");
@@ -111,8 +112,10 @@ public class EventsTranscriptsPage extends AbstractPageObject {
     }
 
     public Boolean filterByToday(){
+        waitForElementToBeClickable(watchlistToggle).click(); // otherwise there are rarely any items in the list
         waitForElementToBeClickable(todayFilterButton).click();
         waitForLoadingScreen();
+        waitForElementToRest(eventTranscriptList, 500L);
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM d, yyyy");
         Calendar cal = Calendar.getInstance();
