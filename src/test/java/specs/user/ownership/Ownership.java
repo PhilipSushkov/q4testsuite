@@ -313,7 +313,7 @@ public class Ownership extends AbstractSpec {
                 .viewHistoricalHolders()
                 .showOnlyFunds()
                 .searchForHoldings(holder);
-        Assert.assertThat(securityOwnershipPage.getHistoricalFundsHolderSearchResults(), containsString(holder));
+        Assert.assertThat("DESKTOP-9192",securityOwnershipPage.getHistoricalFundsHolderSearchResults(), containsString(holder));
     }
 
     @Test
