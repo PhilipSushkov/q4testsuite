@@ -45,7 +45,7 @@ public class GenerateBriefingBook extends AbstractSpec {
                 .waitForListToUpdate()
                 .viewNewBriefingBook();
 
-        String briefingBookContent = briefingBookDetailsPage.addContact("Samuel Stursburg")
+        String briefingBookContent = briefingBookDetailsPage.addContact("Automation Test Contact")
                 .generateBriefingBook(false)
                 .getBriefingBookPdfContent(briefingBookName)
                 .replaceAll("\\s", "");
