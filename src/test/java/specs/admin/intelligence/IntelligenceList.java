@@ -37,8 +37,7 @@ public class IntelligenceList extends AdminAbstractSpec {
         String searchTerm = "Sysco";
         String symbol = "SYY";
         String type = "Weekly Trade Summary";
-        String reportTitle = "Sysco Corp. | SYY | XNYS\n" +
-                "Weekly Trade Summary";
+        String reportTitle = "Sysco Corp. | SYY | XNYS";
 
         IntelligencePage intelligencePage = new IntelligencePage(driver).createWeeklyTradeSummary(searchTerm);
 
@@ -61,8 +60,7 @@ public class IntelligenceList extends AdminAbstractSpec {
         String searchTerm = "Sysco";
         String symbol = "SYY";
         String type = "Weekly Options Analytics";
-        String reportTitle = "Sysco Corp. | SYY | XNYS\n" +
-                "Weekly Options Analytics";
+        String reportTitle = "Sysco Corp. | SYY | XNYS";
 
         IntelligencePage intelligencePage = new IntelligencePage(driver).createWeeklyOptionsAnalytics(searchTerm);
 
@@ -85,8 +83,7 @@ public class IntelligenceList extends AdminAbstractSpec {
         String searchTerm = "Sysco";
         String symbol = "SYY";
         String type = "Sales Equity And Options";
-        String reportTitle = "Sysco Corp. | SYY | XNYS\n" +
-                "Sales Equity And Options";
+        String reportTitle = "Sysco Corp. | SYY | XNYS";
 
         IntelligencePage intelligencePage = new IntelligencePage(driver).createSalesEquitAndOptions(searchTerm);
 
@@ -149,8 +146,7 @@ public class IntelligenceList extends AdminAbstractSpec {
     public void canApproveNewReports(){
         // creating new report
         String symbol = "IBM";
-        String reportTitle = "International Business Machines Corp | IBM | XNYS\n" +
-                "Weekly Trade Summary";
+        String reportTitle = "International Business Machines Corp | IBM | XNYS";
         IntelligencePage intelligencePage = new IntelligencePage(driver).createWeeklyTradeSummary(symbol);
         // checking that report is listed
         Assert.assertThat("Expected stock symbol doesn't match with first listed report", intelligencePage.getNewReport(), containsString(symbol));
@@ -166,8 +162,7 @@ public class IntelligenceList extends AdminAbstractSpec {
     @Test
     public void canProduceValidWeeklyTradeSummaryReport(){
         String[] symbols = {"JLL", "CIGI", "CBG", "MMI"}; // first symbol is the one that the report is of, the others are its peers in the order displayed in the report
-        String reportTitle = "Jones Lang LaSalle, Inc. | JLL | XNYS\n" +
-                "Weekly Trade Summary";
+        String reportTitle = "Jones Lang LaSalle, Inc. | JLL | XNYS";
         IntelligencePage intelligencePage = new IntelligencePage(driver).createWeeklyTradeSummary(symbols[0]);
         Assert.assertThat("Expected stock symbol doesn't match with first listed report", intelligencePage.getNewReport(), containsString(symbols[0]));
         WTSReportDetailsPage wtsReportDetailsPage = intelligencePage.selectNewReport();
