@@ -53,8 +53,8 @@ public class morningCoffeeReport extends AdminAbstractSpec {
 
     @Test
     public void canRemoveEmailFromMailingList(){
-        String name ="ZPatrick Priestley";
-        String symbol ="EIX";
+        String name ="Patrick Priestley";
+        String symbol ="SYY";
         Date currentDate = new Date();
         MorningCoffeePage morningCoffeePage =  new MorningCoffeePage(driver);
         MorningCoffeePreview morningCoffeePreview= morningCoffeePage.clickAddReport().inputCompanySymbol(symbol).clickCreateReport().clickRecentReport(symbol, currentDate).clickMailIcon();
