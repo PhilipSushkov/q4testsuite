@@ -72,7 +72,7 @@ public class AdvancedSearching extends AbstractSpec {
 
     @Test
     public void canSearchForActivityByTag() {
-        String tagName = "#test";
+        String tagName = "#sysco";
         String comment = "Sysco";
         AdvancedSearchPage advancedSearchPage = new AdvancedSearchPage(driver).advancedSearchFor(tagName);
 
