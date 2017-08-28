@@ -116,13 +116,20 @@ public class Estimates extends AbstractSpec {
 
         Assert.assertTrue("Search did not return any results", estimatesPage.getNumberOfResearch()>0);
 
-        String searchedResult = estimatesPage.searchForResearch(lastHeadline.replaceAll("[.]", ""))
-                // search did not recognize a specific title because of included periods
+        // research search does not like certain string constructions, so we clean up the query
+        String searchQuery = "";
+        String[] headlineWords = lastHeadline.split("\\s");
+        for (String word : headlineWords) {
+            if (word.matches("([a-zA-Z])\\w+[.,]*")) {
+                searchQuery += word.replaceAll("[.,]", "") + " ";
+            }
+        }
+
+        String searchedResult = estimatesPage.searchForResearch(searchQuery)
                 .getNthResearchHeadline(0)
                 .getText();
 
         Assert.assertTrue("Search found the wrong result", searchedResult.equals(lastHeadline));
-
     }
 
     @Test

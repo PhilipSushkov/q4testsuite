@@ -151,6 +151,9 @@ public class ReleaseNotes extends AdminAbstractSpec {
 
         Assert.assertThat("Can't find press release", releaseNoteDetails.getTitle(), containsString(title));
 
+        new ReleaseNotesPage(driver)
+                .navigateToReleaseNotesPage()
+                .openReleaseNoteEdit(title);
     }
 
     @Test
