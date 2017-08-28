@@ -63,7 +63,7 @@ public class UserLogin extends AbstractSpec {
         Assert.assertEquals("Login error message not displayed", errorMessage, start.getErrorMessage());
 
         start.dismissErrorModal()
-                .customLoginUser("patrickp@q4inc.com", "patrick!");
+                .customLoginUser("test@q4inc.com", "q4pass1234!");
 
         Assert.assertEquals("User was not logged in successfully", searchFieldText, finish.getSearchFieldText());
     }
