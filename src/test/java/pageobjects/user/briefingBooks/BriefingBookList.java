@@ -119,12 +119,13 @@ public class BriefingBookList extends AbstractPageObject {
 
     public BriefingBookList deleteAllBriefingBooks(){
         waitForLoadingScreen();
-        if(!findVisibleElement(bulkCheckbox).getAttribute("class").contains("x-item-disabled")){
+        if(!waitForAnyElementToAppear(bulkCheckbox).getAttribute("class").contains("x-item-disabled")){
         findVisibleElement(bulkCheckbox).click();
             findVisibleElement(deleteButton).click();
             waitForElementToAppear(confirmDeleteButton);
             findVisibleElement(confirmDeleteButton).click();
         }
+        waitForLoadingScreen();
         return this;
     }
 
