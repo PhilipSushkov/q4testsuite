@@ -1,7 +1,6 @@
 package specs.user.briefingBooks;
 
 import org.junit.*;
-import org.testng.annotations.TestInstance;
 import pageobjects.user.briefingBooks.BriefingBookDetailsPage;
 import pageobjects.user.briefingBooks.BriefingBookList;
 import pageobjects.user.loginPage.LoginPage;
