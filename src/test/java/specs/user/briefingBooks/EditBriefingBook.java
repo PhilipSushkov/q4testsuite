@@ -1,7 +1,6 @@
 package specs.user.briefingBooks;
 
 import org.junit.*;
-import org.testng.annotations.TestInstance;
 import pageobjects.user.briefingBooks.BriefingBookDetailsPage;
 import pageobjects.user.briefingBooks.BriefingBookList;
 import pageobjects.user.loginPage.LoginPage;
@@ -38,14 +37,14 @@ public class EditBriefingBook extends AbstractSpec {
 
     @After
     public void cleanUp(){
-        //try {
+        try {
             BriefingBookList briefingBookList = new BriefingBookDetailsPage(driver).accessSideNavFromPage().selectBriefingBookFromSideNav();
             briefingBookList.searchFor(keyword);
             briefingBookList.deleteAllBriefingBooks();
-       // }
-       // catch(Exception e) {
+        }
+        catch(Exception e) {
 
-        //}
+        }
     }
 
     @Test
