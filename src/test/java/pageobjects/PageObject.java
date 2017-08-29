@@ -122,7 +122,7 @@ public interface PageObject {
          return getWait().until(ExpectedConditions.visibilityOfElementLocated(selector));
     }
 
-    default void waitForAnyElementToAppear(By selector) {
+    default WebElement waitForAnyElementToAppear(By selector) {
 
         long startTime = System.currentTimeMillis();
         long elapsedTime = 0;
@@ -133,7 +133,7 @@ public interface PageObject {
             if (loopTime > 500) {
                 List<WebElement> elements = findElements(selector);
                 for (WebElement element : elements) {
-                    if (element.isDisplayed()) return;
+                    if (element.isDisplayed()) return element;
                 }
                 loopStartTime = System.currentTimeMillis();
                 loopTime = 0;
