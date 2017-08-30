@@ -109,7 +109,12 @@ public class MorningCoffeePage extends AbstractPageObject {
 
     public MorningCoffeePreview clickRecentReport(String symbol,Date date) {
          WebElement report = findReport(symbol,date);
-        wait.until(ExpectedConditions.textToBePresentInElement(report,"Ready"));
+         try {
+             wait.until(ExpectedConditions.textToBePresentInElement(report, "Ready"));
+         }
+         catch(Exception e){
+             wait.until(ExpectedConditions.textToBePresentInElement(report, "Published"));
+         }
         pause(500L);
         report.click();
         waitForLoadingScreen();
