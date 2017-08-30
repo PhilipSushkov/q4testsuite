@@ -178,6 +178,7 @@ public class morningCoffeeReport extends AdminAbstractSpec {
         MorningCoffeePage morningCoffeePage =  new MorningCoffeePage(driver);
         MorningCoffeePreview morningCoffeePreview= morningCoffeePage.clickAddReport().inputCompanySymbol(symbol).clickCreateReport().clickRecentReport(symbol, currentDate).typeInMarketCommentary(editText).clickSaveIcon();
         driver.navigate().back();
+        driver.navigate().refresh();
         morningCoffeePage = new MorningCoffeePage(driver);
         morningCoffeePreview = morningCoffeePage.clickRecentReport(symbol, currentDate);
         Assert.assertTrue("Commentary not saved",morningCoffeePreview.returnMarketCommentary().contains(editText));
