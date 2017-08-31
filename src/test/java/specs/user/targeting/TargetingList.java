@@ -195,6 +195,7 @@ public class TargetingList extends AbstractSpec {
         new TargetingPage(driver).newSearch().performBasicLocationSearch("Toronto, ON");
         // obtaining number of results (as displayed on top of results)
         int numResultsExpected = new NewSearchPage(driver).numResultsClaimed();
+        System.out.println("Expected results total expected: "+numResultsExpected+"\n");
         int expectedExpansions = numResultsExpected/20; // how many clicks of "Show more" should it take to show all the results
         if (numResultsExpected%20==0){
             expectedExpansions--;
@@ -203,7 +204,7 @@ public class TargetingList extends AbstractSpec {
         Assert.assertEquals("Incorrect number of initial results displayed", 20, new NewSearchPage(driver).numResultsDisplayed());
         for (int i=1; i<expectedExpansions; i++){
             new NewSearchPage(driver).showMoreResults();
-            Assert.assertEquals("Incorrect number of results displayed upon iteration "+i, 20*(i+1), new NewSearchPage(driver).numResultsDisplayed());
+            Assert.assertEquals("KNOWN ISSUE Desktop 9248- ncorrect number of results displayed upon iteration "+i, 20*(i+1), new NewSearchPage(driver).numResultsDisplayed());
         }
         new NewSearchPage(driver).showMoreResults(); // after this click all results should be displayed
         System.out.println("Finished clicking 'Show more' after "+expectedExpansions+" iterations.");
