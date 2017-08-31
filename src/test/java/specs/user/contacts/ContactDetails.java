@@ -37,10 +37,14 @@ public class ContactDetails extends AbstractSpec {
     public void canAddTagToContact() {
         String tagName = "CoolTag" + RandomStringUtils.randomAlphanumeric(3);
         ContactDetailsPage contactDetailsPage = new ContactDetailsPage(driver).addTagToContact(tagName);
-
         Assert.assertThat("New tag is not shown on Contact page", contactDetailsPage.getContactTags(), containsString(tagName));
     }
 
+    @Test
+    public void contactActivityChartIsDisplayed(){
+        ContactDetailsPage contactDetailsPage = new ContactDetailsPage(driver);
+        Assert.assertTrue("Contact's Activity Chart is not displayed", contactDetailsPage.activityChartIsDisplayed());
+    }
 
     @Test
     public void loggedActivityDateCorrect()
