@@ -4,6 +4,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.testng.annotations.TestInstance;
 import pageobjects.user.Calendar;
 import pageobjects.user.contactPage.ContactDetailsPage;
 import pageobjects.user.estimatesPage.SecurityEstimatesPage;
@@ -151,5 +152,16 @@ public class Estimates extends AbstractSpec {
         Assert.assertTrue("Clicking 'Show More' did not show more research", estimatesPage.getNumberOfResearch() > reportsNum);
     }
 
+    @Test
+    public void headerAnalystNumbersMatchBrokerDetails(){
+        SecurityEstimatesPage estimatesPage = new SecurityEstimatesPage(driver);
+        int headerEpsAnalystNumber=estimatesPage.returnHeaderEpsAnalystNumber();
+        int headerSalesAnalystNumber =estimatesPage.returnHeaderSalesAnalystNumber();
+        int brokerDetailsEpsAnalystNumber = estimatesPage.returnBrokerDetailsEpsAnalystNumber();
+        int brokerDetailsSalesAnalystNumber =estimatesPage.returnBrokerDetailsSalesAnalystNumber();
+
+        Assert.assertEquals("Analyst numbers for EPS do not match between header and broker details",headerEpsAnalystNumber,brokerDetailsEpsAnalystNumber);
+        Assert.assertEquals("Analyst numbers for Sales do not match between header and broker details",headerSalesAnalystNumber,brokerDetailsSalesAnalystNumber);
+    }
 
 }
