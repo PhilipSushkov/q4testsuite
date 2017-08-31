@@ -150,4 +150,6 @@ public class Estimates extends AbstractSpec {
         estimatesPage.showMoreResearch();
         Assert.assertTrue("Clicking 'Show More' did not show more research", estimatesPage.getNumberOfResearch() > reportsNum);
     }
+
+
 }
