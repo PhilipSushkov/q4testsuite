@@ -164,4 +164,16 @@ public class Estimates extends AbstractSpec {
         Assert.assertEquals("Analyst numbers for Sales do not match between header and broker details",headerSalesAnalystNumber,brokerDetailsSalesAnalystNumber);
     }
 
+    @Test
+    public void correctNumberOfEPSEstimatesDisplayed(){
+        SecurityEstimatesPage estimatesPage = new SecurityEstimatesPage(driver);
+        Assert.assertEquals("The number of expected estimates for EPS differs from the number displayed.",estimatesPage.returnNumItemsInEPSBrokerList(),estimatesPage.returnBrokerDetailsEpsAnalystNumber());
+    }
+
+    @Test
+    public void correctNumberOfSalesEstimatesDisplayed(){
+        SecurityEstimatesPage estimatesPage = new SecurityEstimatesPage(driver);
+        Assert.assertEquals("The number of expected estimates for EPS differs from the number displayed.",estimatesPage.returnNumItemsInSalesBrokerList(),estimatesPage.returnBrokerDetailsSalesAnalystNumber());
+    }
+
 }
