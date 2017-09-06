@@ -56,7 +56,7 @@ public class SecurityEstimatesPage extends AbstractPageObject{
     private final By salesBarChart = By.xpath("//div[contains(@id, 'broker-detail-sales')]//div[contains(@class, 'bar-chart')]");
     private final By brokerDetailsSalesMeanNum = By.xpath("//div[@id='ext-broker-detail-sales-1']//div[span[contains(text(),'Mean')]]");
 
-    private final By brokerEarningsPerShareTable = By.xpath("//div[contains(@id, 'ext-earnings-per-share-list')]//div[contains(@class, 'list-item')]");
+    private final By brokerEarningsPerShareTable = By.xpath("//div[contains(@id, 'ext-earnings-per-share-list-1')]//div[contains(@class, 'list-item')]");
     private final By salesTable = By.xpath("//div[contains(@id, 'ext-sales-list')]//div[contains(@class, 'list-item')]");
 
     private final By brokerEarningsPerShareNumValues = By.xpath("//div[contains(@id, 'ext-earnings-per-share-list')]//div[contains(@class, 'list-item')]//div[@class='column']");
