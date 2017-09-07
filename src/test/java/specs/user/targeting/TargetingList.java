@@ -2,6 +2,7 @@ package specs.user.targeting;
 
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.openqa.selenium.WebElement;
 import pageobjects.user.contactPage.ContactDetailsPage;
@@ -174,6 +175,7 @@ public class TargetingList extends AbstractSpec {
         Assert.assertEquals("Contact has not been removed from targets list", -1, targetedContactIndex);
     }
 
+    @Ignore
     @Test
     public void canShowMoreAndSortResults(){
         // performing a filterless institution search and verifying sorting
@@ -188,6 +190,7 @@ public class TargetingList extends AbstractSpec {
         }
     }
 
+    @Ignore
     @Test
     public void canShowAllSearchResults(){
         // performing an institution search with only the location filter
