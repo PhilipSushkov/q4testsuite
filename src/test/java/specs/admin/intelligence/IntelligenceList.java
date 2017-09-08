@@ -37,7 +37,7 @@ public class IntelligenceList extends AdminAbstractSpec {
         String searchTerm = "Sysco";
         String symbol = "SYY";
         String type = "Weekly Trade Summary";
-        String reportTitle = "Sysco Corp. | SYY | XNYS";
+        String reportTitle = "SYY | XNYS";
 
         IntelligencePage intelligencePage = new IntelligencePage(driver).createWeeklyTradeSummary(searchTerm);
 
@@ -60,7 +60,7 @@ public class IntelligenceList extends AdminAbstractSpec {
         String searchTerm = "Sysco";
         String symbol = "SYY";
         String type = "Weekly Options Analytics";
-        String reportTitle = "Sysco Corp. | SYY | XNYS";
+        String reportTitle = "SYY | XNYS";
 
         IntelligencePage intelligencePage = new IntelligencePage(driver).createWeeklyOptionsAnalytics(searchTerm);
 
@@ -83,7 +83,7 @@ public class IntelligenceList extends AdminAbstractSpec {
         String searchTerm = "Sysco";
         String symbol = "SYY";
         String type = "Sales Equity And Options";
-        String reportTitle = "Sysco Corp. | SYY | XNYS";
+        String reportTitle = "SYY | XNYS";
 
         IntelligencePage intelligencePage = new IntelligencePage(driver).createSalesEquitAndOptions(searchTerm);
 
@@ -146,7 +146,7 @@ public class IntelligenceList extends AdminAbstractSpec {
     public void canApproveNewReports(){
         // creating new report
         String symbol = "IBM";
-        String reportTitle = "International Business Machines Corp | IBM | XNYS";
+        String reportTitle = "IBM | XNYS";
         IntelligencePage intelligencePage = new IntelligencePage(driver).createWeeklyTradeSummary(symbol);
         // checking that report is listed
         Assert.assertThat("Expected stock symbol doesn't match with first listed report", intelligencePage.getNewReport(), containsString(symbol));
