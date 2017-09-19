@@ -42,12 +42,12 @@ public class TabNavigationExpanded extends AbstractSpec {
 
     @Test
     public void canNavigateToWatchlist() {
-        String pageTitle = "Watchlist";
+        String pageTitle = "Peer List";
         WatchlistPage finish = new WatchlistPage(driver);
         new Dashboard(driver).accessSideNav()
                 .selectWatchListFromSideNav();
 
-        Assert.assertThat("User was not taken to watchlist", finish.getWatchListPageTitle(), containsString(pageTitle));
+        Assert.assertThat("User was not taken to peer list", finish.getWatchListPageTitle(), containsString(pageTitle));
     }
 
     @Test
