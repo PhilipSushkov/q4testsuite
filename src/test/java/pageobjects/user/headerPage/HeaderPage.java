@@ -65,10 +65,10 @@ public interface HeaderPage extends PageObject{
 
 
     //Search results
-    By securityResults = By.xpath("//div[preceding-sibling::div[contains(@class, 'x-list-item')][contains(@class, 'x-size-monitored')][not(contains(@class, 'x-hidden-display'))]//div[text()='security '] and following-sibling::div[contains(@class, 'x-list-item')][contains(@class, 'x-size-monitored')][not(contains(@class, 'x-hidden-display'))]]");
-    By institutionResults = By.xpath("//div[preceding-sibling::div[contains(@class, 'x-list-item')][contains(@class, 'x-size-monitored')][not(contains(@class, 'x-hidden-display'))]//div[text()='institution '] and following-sibling::div[contains(@class, 'x-list-item')][contains(@class, 'x-size-monitored')][not(contains(@class, 'x-hidden-display'))]]");
-    By contactResults = By.xpath("//div[preceding-sibling::div[contains(@class, 'x-list-item')][contains(@class, 'x-size-monitored')][not(contains(@class, 'x-hidden-display'))]//div[text()='contact '] and following-sibling::div[contains(@class, 'x-list-item')][contains(@class, 'x-size-monitored')][not(contains(@class, 'x-hidden-display'))]]");
-    By fundResults = By.xpath("//div[preceding-sibling::div[contains(@class, 'x-list-item')][contains(@class, 'x-size-monitored')][not(contains(@class, 'x-hidden-display'))]//div[text()='fund ']]");
+    By securityResults = By.xpath("//div[preceding-sibling::div[contains(@class, 'x-list-item')][contains(@class, 'x-size-monitored')][not(contains(@class, 'x-hidden-display'))]//div[text()='security'] and following-sibling::div[contains(@class, 'x-list-item')][contains(@class, 'x-size-monitored')][not(contains(@class, 'x-hidden-display'))]]");
+    By institutionResults = By.xpath("//div[preceding-sibling::div[contains(@class, 'x-list-item')][contains(@class, 'x-size-monitored')][not(contains(@class, 'x-hidden-display'))]//div[text()='institution'] and following-sibling::div[contains(@class, 'x-list-item')][contains(@class, 'x-size-monitored')][not(contains(@class, 'x-hidden-display'))]]");
+    By contactResults = By.xpath("//div[preceding-sibling::div[contains(@class, 'x-list-item')][contains(@class, 'x-size-monitored')][not(contains(@class, 'x-hidden-display'))]//div[text()='contact'] and following-sibling::div[contains(@class, 'x-list-item')][contains(@class, 'x-size-monitored')][not(contains(@class, 'x-hidden-display'))]]");
+    By fundResults = By.xpath("//div[preceding-sibling::div[contains(@class, 'x-list-item')][contains(@class, 'x-size-monitored')][not(contains(@class, 'x-hidden-display'))]//div[text()='fund']]");
 
     By releaseNotesPageHeader = By.xpath("//h1[contains(text(),'Release Notes')]");
 
