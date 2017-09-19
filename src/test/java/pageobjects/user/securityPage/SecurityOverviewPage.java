@@ -84,7 +84,7 @@ public class SecurityOverviewPage extends WatchlistPage {
 
     private final By threePointBtn = By.xpath("//span[contains(@class,'q4i-utility-4pt')]");
 
-    private final By watchlistBtn = By.xpath("//span[contains(text(),'Watchlist')]");
+    private final By watchlistBtn = By.xpath("//span[contains(text(),'Peer List')]");
     private final By logActivityBtn = By.xpath("//*[@class=\"x-unsized x-button x-iconalign-left x-text-align-left\"][1]");
     private final By suggestEditBtn = By.xpath("//*[@class=\"x-unsized x-button x-iconalign-left x-text-align-left\"][2]");
 
