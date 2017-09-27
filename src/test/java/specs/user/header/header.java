@@ -39,11 +39,11 @@ public class header extends AbstractSpec{
 
     @Test
     public void canSearchForSecurityFromHeader() {
-        String securitySearchTerm = "FB";
+        String securitySearchTerm = "Facebook";
         String expectedSecurity = "Facebook, Inc.";
 
         SecurityOverviewPage securityOverviewPage = new SecurityOverviewPage(driver);
-        securityOverviewPage.securitySearch(securitySearchTerm, expectedSecurity)
+        securityOverviewPage.searchResults(securitySearchTerm, expectedSecurity)
             .waitForLoadingScreen();
 
         Assert.assertEquals("Did not open correct security page", securityOverviewPage.getCompanyName(), "Facebook Inc");
@@ -55,7 +55,7 @@ public class header extends AbstractSpec{
         String expectedInstitution = "The Vanguard Group, Inc";
 
         SecurityOverviewPage securityOverviewPage = new SecurityOverviewPage(driver);
-        securityOverviewPage.institutionSearch(institutionSearchTerm, expectedInstitution)
+        securityOverviewPage.searchResults(institutionSearchTerm, expectedInstitution)
                 .waitForLoadingScreen();
 
         InstitutionPage institutionPage = new InstitutionPage(driver);
@@ -69,7 +69,7 @@ public class header extends AbstractSpec{
         String expectedContact = "Andrew C. McCormick";
 
         SecurityOverviewPage securityOverviewPage = new SecurityOverviewPage(driver);
-        securityOverviewPage.contactSearch(contactSearchTerm, expectedContact)
+        securityOverviewPage.searchResults(contactSearchTerm, expectedContact)
                 .waitForLoadingScreen();
 
         ContactDetailsPage contactDetailsPage = new ContactDetailsPage(driver);
@@ -83,7 +83,7 @@ public class header extends AbstractSpec{
         String expectedFund = "Parnassus Fund";
 
         SecurityOverviewPage securityOverviewPage = new SecurityOverviewPage(driver);
-        securityOverviewPage.fundSearch(fundSearchTerm, expectedFund)
+        securityOverviewPage.searchResults(fundSearchTerm, expectedFund)
                 .waitForLoadingScreen();
 
         FundPage fundPage = new FundPage(driver);

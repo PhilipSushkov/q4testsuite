@@ -114,25 +114,25 @@ public class Dashboard extends AbstractPageObject {
     }
 
     public SecurityOverviewPage selectSecurityFromSearchResults(String security) {
-        if (selectItemFromSearchResults(security, securityResults)) {
+        if (selectItemFromSearchResults(security, genericSearchResults)) {
             return new SecurityOverviewPage(driver);
         } else return null;
     }
 
     public InstitutionPage selectInstitutionFromSearchResults(String institution) {
-        if (selectItemFromSearchResults(institution, institutionResults)) {
+        if (selectItemFromSearchResults(institution, genericSearchResults)) {
             return new InstitutionPage(driver);
         } else return null;
     }
 
     public ContactDetailsPage selectContactFromSearchResults(String contact) {
-        if (selectItemFromSearchResults(contact, contactResults)) {
+        if (selectItemFromSearchResults(contact, genericSearchResults)) {
             return new ContactDetailsPage(driver);
         } else return null;
     }
 
     public FundPage selectFundFromSearchResults(String fund) {
-        if (selectItemFromSearchResults(fund, fundResults)) {
+        if (selectItemFromSearchResults(fund, genericSearchResults)) {
             return new FundPage(driver);
         } else return null;
     }
