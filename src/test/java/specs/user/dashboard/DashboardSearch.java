@@ -77,8 +77,8 @@ public class DashboardSearch extends AbstractSpec{
 
     @Test
     public void canSearchForFund() {
-        String fundName = "Fundy";
-        String pageTitle = "Fundy\n" +
+        String fundName = "Fidelity Global Fund";
+        String pageTitle = "Fidelity - Fidelity Global Fund\n" +
                 "Open-End Fund";
         FundPage finish = new Dashboard(driver).searchFor(fundName)
                 .selectFundFromSearchResults(fundName);
