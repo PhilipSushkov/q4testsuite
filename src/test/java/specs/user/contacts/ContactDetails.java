@@ -7,6 +7,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 import pageobjects.user.advancedSearchPage.AdvancedSearchPage;
 import pageobjects.user.contactPage.ContactDetailsPage;
+import pageobjects.user.dashboardPage.Dashboard;
 import pageobjects.user.institutionPage.InstitutionPage;
 import pageobjects.user.loginPage.LoginPage;
 import specs.AbstractSpec;
@@ -23,13 +24,13 @@ import static org.hamcrest.CoreMatchers.containsString;
  */
 public class ContactDetails extends AbstractSpec {
 
-    private String contactName = "Mr. Christoph Christen";
+    private String contactName = "Christoph Christen";
     private String shortName = "Christoph Christen";
 
     @Before
     public void setUp() {
-        new LoginPage(driver).loginUser()
-                .searchFor(contactName)
+        new LoginPage(driver).loginUser().waitForLoadingScreen();
+            new Dashboard(driver).searchFor(contactName)
                 .selectContactFromSearchResults(shortName);
     }
 
