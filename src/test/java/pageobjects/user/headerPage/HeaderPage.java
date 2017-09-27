@@ -65,36 +65,39 @@ public interface HeaderPage extends PageObject{
 
 
     //Search results
+    //These xpaths are large because the selectors completely change if a search query returns only one result.
+    /*
     By securityResults = By.xpath("//div[preceding-sibling::div[contains(@class, 'x-list-item')][contains(@class, 'x-size-monitored')][not(contains(@class, 'x-hidden-display'))]//div[contains(text(),'security')] and following-sibling::div[contains(@class, 'x-list-item')][contains(@class, 'x-size-monitored')][not(contains(@class, 'x-hidden-display'))]]");
     By institutionResults = By.xpath("//div[preceding-sibling::div[contains(@class, 'x-list-item')][contains(@class, 'x-size-monitored')][not(contains(@class, 'x-hidden-display'))]//div[contains(text(),'institution')] and following-sibling::div[contains(@class, 'x-list-item')][contains(@class, 'x-size-monitored')][not(contains(@class, 'x-hidden-display'))]]");
-    By contactResults = By.xpath("//div[preceding-sibling::div[contains(@class, 'x-list-item')][contains(@class, 'x-size-monitored')][not(contains(@class, 'x-hidden-display'))]//div[contains(text(),'contact')] and following-sibling::div[contains(@class, 'x-list-item')][contains(@class, 'x-size-monitored')][not(contains(@class, 'x-hidden-display'))]]");
+   By contactResults = By.xpath("//div[preceding-sibling::div[contains(@class, 'x-list-item')][contains(@class, 'x-size-monitored')][not(contains(@class, 'x-hidden-display'))]//div[contains(text(),'contact')] and following-sibling::div[contains(@class, 'x-list-item')][contains(@class, 'x-size-monitored')][not(contains(@class, 'x-hidden-display'))]] | //div[preceding-sibling::div[contains(@class, 'x-list-item')][contains(@class, 'x-size-monitored')][contains(@class, 'x-list-item-first')][not(contains(@class, 'x-hidden-display'))]//div[contains(text(),'contact')]]");
     By fundResults = By.xpath("//div[preceding-sibling::div[contains(@class, 'x-list-item')][contains(@class, 'x-size-monitored')][not(contains(@class, 'x-hidden-display'))]//div[contains(text(),'fund')]]");
-
+  */
+    By genericSearchResults = By.xpath("//div[contains(@class,'search-results')]//div[contains(@class,'x-list-item-tpl')]");
     By releaseNotesPageHeader = By.xpath("//h1[contains(text(),'Release Notes')]");
 
 
-    default HeaderPage contactSearch(String searchTerm, String name){
+    default HeaderPage searchResults(String searchTerm, String name){
         waitForElementToBeClickable(searchBar).click();
         findElement(searchBar).clear();
         findElement(searchBar).sendKeys(searchTerm);
 
-        waitForAnyElementToAppear(contactResults);
+        waitForAnyElementToAppear(genericSearchResults);
 
-        List<WebElement> contacts = findElements(contactResults);
-        for (WebElement contact : contacts) {
-            if (contact.getText().contains(name)) {
-                contact.click();
+        List<WebElement> results = findElements(genericSearchResults);
+        for (WebElement result : results) {
+            if (result.getText().contains(name)) {
+                result.click();
                 return this;
             }
         }
 
         // If not found, click first element
         System.out.println("Failed to find " + name + " in search results, choosing first from list");
-        findElement(contactResults).click();
+        findElement(genericSearchResults).click();
 
         return this;
     }
-
+/*
     default HeaderPage securitySearch(String searchTerm, String title){
         waitForElementToBeClickable(searchBar).click();
         findElement(searchBar).clear();
@@ -160,7 +163,7 @@ public interface HeaderPage extends PageObject{
 
         return this;
     }
-
+*/
     /////
     /////
 
