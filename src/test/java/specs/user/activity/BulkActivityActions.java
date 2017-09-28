@@ -28,7 +28,6 @@ public class BulkActivityActions extends AbstractSpec {
 
         ActivityPage activityPage = new ActivityPage(driver);
 
-        try {
 
             for (int i=0; i<5; i++) {
             comment = keyword + "This is a test comment" + RandomStringUtils.randomAlphanumeric(6);
@@ -49,15 +48,10 @@ public class BulkActivityActions extends AbstractSpec {
 
 
             activityPage.clickDeleteButton();
-            Thread.sleep(2000L);
-            Assert.assertEquals(activityPage.getNumberOfDisplayedActivities(), 2);
+            Assert.assertEquals(2, activityPage.getNumberOfDisplayedActivities());
 
             activityPage.deleteAllNotes(keyword);
-            Thread.sleep(200L);
-            Assert.assertEquals(activityPage.getNumberOfDisplayedActivities(), 0);
+            Assert.assertEquals(0,activityPage.getNumberOfDisplayedActivities());
 
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
     }
 }

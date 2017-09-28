@@ -11,6 +11,7 @@ import pageobjects.user.Calendar;
 import pageobjects.user.contactPage.ContactDetailsPage;
 
 import java.io.BufferedInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -327,11 +328,19 @@ public class SecurityEstimatesPage extends AbstractPageObject{
     public String getReportPdfContent(String title) {
         try {
             title = title.replaceAll(">", "-"); // Some characters are replaced in the download title
-            URL reportUrl = getPdfUrl(title);
-            BufferedInputStream briefingBookFile = new BufferedInputStream(reportUrl.openStream());
+            title = title.replaceAll("\\|", "-");
+            URL reportUrl;
+            reportUrl = getPdfUrl(title);
+            BufferedInputStream briefingBookFile;
+            try {
+               briefingBookFile = new BufferedInputStream(reportUrl.openStream());
+            }
+            catch(FileNotFoundException e){
+                reportUrl = getNonPdfUrl(title);
+                briefingBookFile = new BufferedInputStream(reportUrl.openStream());
+            }
             PDDocument document = PDDocument.load(briefingBookFile);
-            String contents = new PDFTextStripper().getText(document);
-
+                String contents = new PDFTextStripper().getText(document);
             document.close();
             briefingBookFile.close();
             return contents;
@@ -345,10 +354,22 @@ public class SecurityEstimatesPage extends AbstractPageObject{
     private URL getPdfUrl(String title) {
         try {
             return new URL("file://" + System.getProperty("user.home") + "/Downloads/" + title.replace(" ", "%20") + ".pdf");
-        } catch (MalformedURLException e) {
+        }
+        catch (MalformedURLException e) {
             e.printStackTrace();
             return null;
         }
+
+    }
+    private URL getNonPdfUrl(String title) {
+        try {
+            return new URL("file://" + System.getProperty("user.home") + "/Downloads/" + title.replace(" ", "%20"));
+        }
+        catch (MalformedURLException e) {
+            e.printStackTrace();
+            return null;
+        }
+
     }
 
     private Boolean valueIsAValidNumber(WebElement element) {
