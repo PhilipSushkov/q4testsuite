@@ -562,6 +562,7 @@ public class ActivityPage extends AbstractPageObject {
     }
 
     public ActivityPage clickNthActivityCheckBox(int n) {
+        waitForLoadingScreen();
         try {
             findVisibleElements(rowCheckBox).get(n).click();
         } catch (StaleElementReferenceException e) {
@@ -575,6 +576,7 @@ public class ActivityPage extends AbstractPageObject {
         findVisibleElement(deleteButton).click();
         waitForElementToAppear(confirmDeleteButton);
         findVisibleElement(confirmDeleteButton).click();
+        waitForLoadingScreen();
 
         return this;
     }
@@ -596,10 +598,12 @@ public class ActivityPage extends AbstractPageObject {
             waitForElementToAppear(deleteConfirm);
             findVisibleElement(deleteConfirm).click();
         }
+        waitForLoadingScreen();
         return this;
     }
 
     public int getNumberOfDisplayedActivities(){
+        waitForLoadingScreen();
         try {
             return findVisibleElements(rowCheckBox).size();
         } catch (StaleElementReferenceException e) {
