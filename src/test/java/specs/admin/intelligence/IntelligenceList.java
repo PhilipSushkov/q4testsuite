@@ -3,6 +3,7 @@ package specs.admin.intelligence;
 import org.joda.time.DateTime;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import pageobjects.admin.intelligencePage.IntelligencePage;
 import pageobjects.admin.intelligencePage.WTSReportDetailsPage;
@@ -159,6 +160,7 @@ public class IntelligenceList extends AdminAbstractSpec {
         Assert.assertTrue("Download button is not present.", wtsReportDetailsPage.downloadButtonIsPresent());
     }
 
+    @Ignore
     @Test
     public void canProduceValidWeeklyTradeSummaryReport(){
         String[] symbols = {"JLL", "CIGI", "CBG", "MMI"}; // first symbol is the one that the report is of, the others are its peers in the order displayed in the report
