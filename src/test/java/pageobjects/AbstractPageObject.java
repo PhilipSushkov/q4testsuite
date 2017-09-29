@@ -76,7 +76,7 @@ public class AbstractPageObject implements HeaderPage{
 
     public AbstractPageObject(WebDriver driver) {
         this.driver = driver;
-        this.wait = new WebDriverWait(driver, 10L, 500L);
+        this.wait = new WebDriverWait(driver, 15L, 500L);
     }
 
     @Override
