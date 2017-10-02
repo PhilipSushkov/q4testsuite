@@ -28,5 +28,6 @@ test:
             mvn compile
           fi
         : parallel: true
+          timeout: 2500
 
       - google-chrome --version
