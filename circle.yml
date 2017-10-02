@@ -23,7 +23,7 @@ test:
   override:
       - ? |
           if [ -n "${TEST_ENV}" ]; then
-            -case $CIRCLE_NODE_INDEX in
+             case $CIRCLE_NODE_INDEX in
               0)
                 mvn -Dsurefire.rerunFailingTestsCount=1 test -fae -D q4inc.specs=${TEST_ENV} -Dtest=${SUITE_NAME}A -Dthreads=${THREADS};;
               1)
