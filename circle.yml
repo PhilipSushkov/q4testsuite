@@ -34,7 +34,6 @@ test:
           else
             mvn compile
           fi:
-              parallel:true
-              timeout: 2500
-
+          parallel:true
+          timeout: 2500
       - google-chrome --version
