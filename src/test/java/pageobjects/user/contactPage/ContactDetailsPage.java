@@ -44,7 +44,8 @@ public class ContactDetailsPage extends Page {
     private final By removeTarget = By.xpath("//*[contains(text(), 'Remove from Targets')]");
     private final By postedDate = By.cssSelector(".entity-note-list .details .create-date");
     private final By generateButton = By.cssSelector(".q4-modal.briefing-book-generate.q4-form .action-buttons .form-button.yellow");
-
+    private final By activityChartTitle = By.xpath("//div[contains(@class,'activity-chart-container')]//h3[contains(text(),'Ownership Activity')]");
+    private final By activityChart = By.xpath("//div[contains(@class,'activity-chart-container')]//div[contains(@class,'activity-chart')]");
     // Add contact modal and confirmation
     private final By contactListSave = By.cssSelector(".add-contact-to-list .modal-btns-panel .form-button");
     private final By okayConfirmationButton = By.cssSelector(".q4-message-modal .x-button.primary");
@@ -87,6 +88,19 @@ public class ContactDetailsPage extends Page {
         }
 
         return this;
+    }
+
+    public boolean activityChartIsDisplayed(){
+
+        try {
+            waitForElementToAppear(activityChartTitle);
+            waitForElementToAppear(activityChart);
+            return true;
+        }catch(Exception e){
+            return false;
+        }
+
+
     }
 
     public ContactDetailsPage removeContactFromList() {

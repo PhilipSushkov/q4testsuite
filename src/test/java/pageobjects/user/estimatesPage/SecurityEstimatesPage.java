@@ -45,13 +45,17 @@ public class SecurityEstimatesPage extends AbstractPageObject{
     private final By balanceSheetValues = By.xpath("//div[contains(@id, 'ext-consensus-balance-sheet')]//div[contains(@class, 'x-grid-cell-align-right')][div[text()]]");
     private final By cashFlowValues = By.xpath("//div[contains(@id, 'ext-consensus-cash-flow')]//div[contains(@class, 'x-grid-cell-align-right')][div[text()]]");
     private final By perShareItemsValues = By.xpath("//div[contains(@id, 'ext-consensus-per-share-items')]//div[contains(@class, 'x-grid-cell-align-right')][div[text()]]");
-
+    private final By headerEPSAnalystNum = By.xpath("//div[contains(@class,'eps')]//div[contains(@class,'row')][1]//div[contains(@class,'details')][div[contains(text(),'Analyst')]]");
+    private final By headerSalesAnalystNum =By.xpath("//div[span[contains(text(),'Sales')]]//div[contains(@class,'row')][1]//div[contains(@class,'details')][div[contains(text(),'Analyst')]]");
     // for broker detail
     private final By brokerEarningsPerShareTab = By.xpath("//div[contains(@id, 'ext-estimates-broker-detail')]//span[@class='x-button-label'][text()='Earnings Per Share']");
+    private final By brokerSalesTab= By.xpath("//div[contains(@id, 'ext-estimates-broker-detail')]//span[@class='x-button-label'][text()='Sales']");
     private final By salesTab = By.xpath("//div[contains(@id, 'ext-estimates-broker-detail')]//span[@class='x-button-label'][text()='Sales']");
+    private final By brokerDetailsList= By.xpath("//div[contains(@class,'broker-detail-list')]//div[contains(@class,'row')]");
 
     private final By earningsPerShareBarChart = By.xpath("//div[contains(@id, 'broker-detail-earnings-per-share')]//div[contains(@class, 'bar-chart')]");
     private final By salesBarChart = By.xpath("//div[contains(@id, 'broker-detail-sales')]//div[contains(@class, 'bar-chart')]");
+    private final By brokerDetailsSalesMeanNum = By.xpath("//div[@id='ext-broker-detail-sales-1']//div[span[contains(text(),'Mean')]]");
 
     private final By brokerEarningsPerShareTable = By.xpath("//div[contains(@id, 'ext-earnings-per-share-list-1')]//div[contains(@class, 'list-item')]");
     private final By salesTable = By.xpath("//div[contains(@id, 'ext-sales-list')]//div[contains(@class, 'list-item')]");
@@ -61,6 +65,7 @@ public class SecurityEstimatesPage extends AbstractPageObject{
 
     private final By brokerDetailDateSelector = By.className("broker-details-date-selector");
     private final By brokerDetailDateOptions = By.xpath("//div[contains(@class, 'estimates-date-selector-dropdown')]//div[contains(@id, 'ext-simplelistitem')]");
+    private final By brokerDetailEPSMeanNum =By.xpath("//div[@id='ext-broker-detail-earnings-per-share-1']//div[span[contains(text(),'Mean')]]");
 
     // for historical
     private final By historicalTable = By.xpath("//div[contains(@class, 'estimates-historical')]//div[contains(@class, 'x-dataview')]");
@@ -126,7 +131,6 @@ public class SecurityEstimatesPage extends AbstractPageObject{
                 }
             }
         }
-
         return true;
     }
 
@@ -158,6 +162,9 @@ public class SecurityEstimatesPage extends AbstractPageObject{
         }
         return true;
     }
+
+
+
 
     public SecurityEstimatesPage changeBrokerDetailsDate(int i) {
         waitForLoadingScreen();
@@ -380,4 +387,35 @@ public class SecurityEstimatesPage extends AbstractPageObject{
         }
     }
 
+    public int returnHeaderEpsAnalystNumber(){
+
+        return Integer.parseInt(waitForElementToAppear(headerEPSAnalystNum).getText().replaceAll("[^\\d]", ""));
+    }
+    public int returnHeaderSalesAnalystNumber(){
+        return Integer.parseInt(waitForElementToAppear(headerSalesAnalystNum).getText().replaceAll("[^\\d]", ""));
+    }
+
+    public int returnBrokerDetailsEpsAnalystNumber(){
+        selectTab(brokerEarningsPerShareTab);
+        waitForLoadingScreen();
+        return Integer.parseInt(waitForElementToAppear(brokerDetailEPSMeanNum).getText().replaceAll("[^\\d]", ""));
+    }
+    public int returnBrokerDetailsSalesAnalystNumber(){
+        selectTab(brokerSalesTab);
+        waitForLoadingScreen();
+        return Integer.parseInt(waitForElementToAppear(brokerDetailsSalesMeanNum).getText().replaceAll("[^\\d]", ""));
+    }
+
+    public int returnNumItemsInEPSBrokerList(){
+        selectTab(brokerEarningsPerShareTab);
+        waitForLoadingScreen();
+        return findVisibleElements(brokerDetailsList).size();
+    }
+
+    public int returnNumItemsInSalesBrokerList(){
+        selectTab(brokerSalesTab);
+        waitForLoadingScreen();
+        return findVisibleElements(brokerDetailsList).size();
+
+    }
 }
