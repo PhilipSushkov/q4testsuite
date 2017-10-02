@@ -33,9 +33,8 @@ test:
               esac
           else
             mvn compile
-          fi
-        :
-            parallel:true
-        : timeout: 2500
+          fi:
+              parallel:true
+              timeout: 2500
 
       - google-chrome --version
