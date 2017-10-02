@@ -23,17 +23,11 @@ test:
   override:
       - ? |
           if [ -n "${TEST_ENV}" ]; then
-             case $CIRCLE_NODE_INDEX in
-              0)
-                mvn -Dsurefire.rerunFailingTestsCount=1 test -fae -D q4inc.specs=${TEST_ENV} -Dtest=${SUITE_NAME}A -Dthreads=${THREADS};;
-              1)
-                mvn -Dsurefire.rerunFailingTestsCount=1 test -fae -D q4inc.specs=${TEST_ENV} -Dtest=${SUITE_NAME}B -Dthreads=${THREADS};;
-              2)
-                mvn -Dsurefire.rerunFailingTestsCount=1 test -fae -D q4inc.specs=${TEST_ENV} -Dtest=${SUITE_NAME}C -Dthreads=${THREADS};;
-              esac
+            mvn -Dsurefire.rerunFailingTestsCount=1 test -fae -D q4inc.specs=${TEST_ENV} -Dtest=${SUITE_NAME} -Dthreads=${THREADS}:
+                parallel:true
           else
             mvn compile
-          fi:
-          parallel:true
+          fi
+        : parallel: true
 
       - google-chrome --version
