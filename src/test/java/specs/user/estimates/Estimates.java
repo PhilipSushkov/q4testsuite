@@ -4,6 +4,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.testng.annotations.TestInstance;
 import pageobjects.user.Calendar;
 import pageobjects.user.contactPage.ContactDetailsPage;
 import pageobjects.user.estimatesPage.SecurityEstimatesPage;
@@ -116,13 +117,20 @@ public class Estimates extends AbstractSpec {
 
         Assert.assertTrue("Search did not return any results", estimatesPage.getNumberOfResearch()>0);
 
-        String searchedResult = estimatesPage.searchForResearch(lastHeadline.replaceAll("[.]", ""))
-                // search did not recognize a specific title because of included periods
+        // research search does not like certain string constructions, so we clean up the query
+        String searchQuery = "";
+        String[] headlineWords = lastHeadline.split("\\s");
+        for (String word : headlineWords) {
+            if (word.matches("([a-zA-Z])\\w+[.,]*")) {
+                searchQuery += word.replaceAll("[.,]", "") + " ";
+            }
+        }
+
+        String searchedResult = estimatesPage.searchForResearch(searchQuery)
                 .getNthResearchHeadline(0)
                 .getText();
 
         Assert.assertTrue("Search found the wrong result", searchedResult.equals(lastHeadline));
-
     }
 
     @Test
@@ -143,4 +151,29 @@ public class Estimates extends AbstractSpec {
         estimatesPage.showMoreResearch();
         Assert.assertTrue("Clicking 'Show More' did not show more research", estimatesPage.getNumberOfResearch() > reportsNum);
     }
+
+    @Test
+    public void headerAnalystNumbersMatchBrokerDetails(){
+        SecurityEstimatesPage estimatesPage = new SecurityEstimatesPage(driver);
+        int headerEpsAnalystNumber=estimatesPage.returnHeaderEpsAnalystNumber();
+        int headerSalesAnalystNumber =estimatesPage.returnHeaderSalesAnalystNumber();
+        int brokerDetailsEpsAnalystNumber = estimatesPage.returnBrokerDetailsEpsAnalystNumber();
+        int brokerDetailsSalesAnalystNumber =estimatesPage.returnBrokerDetailsSalesAnalystNumber();
+
+        Assert.assertEquals("Analyst numbers for EPS do not match between header and broker details",headerEpsAnalystNumber,brokerDetailsEpsAnalystNumber);
+        Assert.assertEquals("Analyst numbers for Sales do not match between header and broker details",headerSalesAnalystNumber,brokerDetailsSalesAnalystNumber);
+    }
+
+    @Test
+    public void correctNumberOfEPSEstimatesDisplayed(){
+        SecurityEstimatesPage estimatesPage = new SecurityEstimatesPage(driver);
+        Assert.assertEquals("The number of expected estimates for EPS differs from the number displayed.",estimatesPage.returnNumItemsInEPSBrokerList(),estimatesPage.returnBrokerDetailsEpsAnalystNumber());
+    }
+
+    @Test
+    public void correctNumberOfSalesEstimatesDisplayed(){
+        SecurityEstimatesPage estimatesPage = new SecurityEstimatesPage(driver);
+        Assert.assertEquals("The number of expected estimates for EPS differs from the number displayed.",estimatesPage.returnNumItemsInSalesBrokerList(),estimatesPage.returnBrokerDetailsSalesAnalystNumber());
+    }
+
 }

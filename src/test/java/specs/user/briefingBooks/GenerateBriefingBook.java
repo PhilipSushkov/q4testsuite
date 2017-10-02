@@ -45,7 +45,8 @@ public class GenerateBriefingBook extends AbstractSpec {
                 .waitForListToUpdate()
                 .viewNewBriefingBook();
 
-        String briefingBookContent = briefingBookDetailsPage.addContact("Samuel Stursburg")
+
+        String briefingBookContent = briefingBookDetailsPage.addContact("Automation Test Contact")
                 .generateBriefingBook(false)
                 .getBriefingBookPdfContent(briefingBookName)
                 .replaceAll("\\s", "");
@@ -56,7 +57,6 @@ public class GenerateBriefingBook extends AbstractSpec {
         Assert.assertNotNull("Briefing book did not generate properly", briefingBookContent);
 
         Assert.assertTrue("Briefing book generated with incorrect number of pages", briefingBookPages == 1);
-        Assert.assertTrue("Briefing book did not contain proper text", briefingBookContent.contains("CONTACTTEARSHEET"));
         Assert.assertFalse("Briefing book contained incorrect text", briefingBookContent.contains(briefingBookName.replaceAll("\\s", "")));
     }
 

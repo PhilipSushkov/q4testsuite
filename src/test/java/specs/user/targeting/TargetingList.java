@@ -12,6 +12,7 @@ import pageobjects.user.targeting.EditSearchPage;
 import pageobjects.user.targeting.NewSearchPage;
 import pageobjects.user.targeting.TargetingPage;
 import specs.AbstractSpec;
+import util.EnvironmentType;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -197,6 +198,7 @@ public class TargetingList extends AbstractSpec {
         new TargetingPage(driver).newSearch().performBasicLocationSearch("Toronto, ON");
         // obtaining number of results (as displayed on top of results)
         int numResultsExpected = new NewSearchPage(driver).numResultsClaimed();
+        System.out.println("Expected results total expected: "+numResultsExpected+"\n");
         int expectedExpansions = numResultsExpected/20; // how many clicks of "Show more" should it take to show all the results
         if (numResultsExpected%20==0){
             expectedExpansions--;
@@ -205,7 +207,7 @@ public class TargetingList extends AbstractSpec {
         Assert.assertEquals("Incorrect number of initial results displayed", 20, new NewSearchPage(driver).numResultsDisplayed());
         for (int i=1; i<expectedExpansions; i++){
             new NewSearchPage(driver).showMoreResults();
-            Assert.assertEquals("Incorrect number of results displayed upon iteration "+i, 20*(i+1), new NewSearchPage(driver).numResultsDisplayed());
+            Assert.assertEquals("KNOWN ISSUE Desktop 9248- ncorrect number of results displayed upon iteration "+i, 20*(i+1), new NewSearchPage(driver).numResultsDisplayed());
         }
         new NewSearchPage(driver).showMoreResults(); // after this click all results should be displayed
         System.out.println("Finished clicking 'Show more' after "+expectedExpansions+" iterations.");
@@ -335,7 +337,15 @@ public class TargetingList extends AbstractSpec {
     *  If this search does not exist or was not created on 01/26/17, the test will fail.*/
     public void canEditSearchAndSeeUpdatedDate(){
         String expectedSearchName = "Testing updated date - DO NOT REMOVE";
-        String expectedCreatedDate = "08/14/17";
+        String expectedCreatedDate = "";
+        //This is not the best solution but for now it's the best I can think of.
+        if(getActiveEnvironment() == EnvironmentType.STAGING) {
+            expectedCreatedDate = "08/28/17";
+        }
+        else {
+            expectedCreatedDate = "08/14/17";
+        }
+
         SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yy");
         // checking that required search is present and that created date is correct
         WebElement search = new TargetingPage(driver).returnSearch(expectedSearchName);
