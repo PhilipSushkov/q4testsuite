@@ -46,6 +46,7 @@ import specs.user.webcastAnalytics.WebcastAnalytics;
         DashboardSearch.class,
         DesktopSubscriptions.class,
         Estimates.class,
+
         EventsTranscriptsList.class,
         EventsTranscripts.class,
         ForgotPassword.class,
@@ -58,6 +59,7 @@ import specs.user.webcastAnalytics.WebcastAnalytics;
         TargetingList.class,
         ResearchList.class,
         Ownership.class,
+
         CreateBriefingBook.class,
         EditBriefingBook.class,
         GenerateBriefingBook.class,
