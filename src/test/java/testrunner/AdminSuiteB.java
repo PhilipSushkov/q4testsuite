@@ -2,6 +2,9 @@ package testrunner;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
+import specs.admin.intelligence.IntelligenceList;
+import specs.admin.profiles.EditProfilesList;
+import specs.admin.releaseNotes.ReleaseNotes;
 import specs.user.activity.SearchForActivity;
 import specs.user.sideNavBar.TabNavigationExpanded;
 import specs.user.team.Q4TeamPage;
@@ -12,10 +15,10 @@ import specs.user.watchlist.EditWatchlist;
  */
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
-        TabNavigationExpanded.class,
-        EditWatchlist.class,
-        Q4TeamPage.class,
-        SearchForActivity.class
+        EditProfilesList.class,
+        // AddEditImplementations.class,
+        IntelligenceList.class,
+        ReleaseNotes.class,
 })
-public class SuiteD {
+public class AdminSuiteB {
 }
