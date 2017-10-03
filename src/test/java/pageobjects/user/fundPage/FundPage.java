@@ -8,7 +8,7 @@ import pageobjects.Page;
  * Created by patrickp on 2016-08-08.
  */
 public class FundPage extends Page {
-    private final By fundName = By.className("company-details");
+    private final By fundName = By.className("page-title");
 
     public FundPage(WebDriver driver) {
         super(driver);

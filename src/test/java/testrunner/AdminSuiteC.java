@@ -6,6 +6,10 @@ package testrunner;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
+import specs.admin.intelligence.WTSReportDetails;
+import specs.admin.morningCoffee.morningCoffeeReport;
+import specs.admin.profiles.EnableDisableSubscriptions;
+import specs.admin.users.UserRoles;
 import specs.user.activity.ActivityDetails;
 import specs.user.briefingBooks.CreateBriefingBook;
 import specs.user.contacts.ContactDetails;
@@ -15,13 +19,11 @@ import specs.user.targeting.TargetingList;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
-        //TargetingList.class
-        ContactList.class,
-        ActivityDetails.class,
-        ContactDetails.class,
-        DashboardLogActivity.class,
-        CreateBriefingBook.class
+        WTSReportDetails.class,
+        UserRoles.class,
+        EnableDisableSubscriptions.class,
+        morningCoffeeReport.class,
 
 })
-public class SuiteE {
+public class AdminSuiteC {
 }

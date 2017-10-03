@@ -17,16 +17,25 @@ dependencies:
 
 test:
   post:
-      - mkdir -p $CIRCLE_TEST_REPORTS/junit/
-      - find . -type f -regex ".*/target/surefire-reports/.*xml" -exec cp {} $CIRCLE_TEST_REPORTS/junit/ \;
+      - mkdir -p $CIRCLE_TEST_REPORTS/junit/;:
+          parallel: true
+      - find . -type f -regex ".*/target/surefire-reports/.*xml" -exec cp {} $CIRCLE_TEST_REPORTS/junit/ \;;:
+          parallel: true
 
   override:
       - ? |
           if [ -n "${TEST_ENV}" ]; then
-            mvn -Dsurefire.rerunFailingTestsCount=2 test -fae -D q4inc.specs=${TEST_ENV} -Dtest=${SUITE_NAME} -Dthreads=${THREADS}
+            case $CIRCLE_NODE_INDEX in
+              0)
+                  mvn -Dsurefire.rerunFailingTestsCount=1 test -fae -D q4inc.specs=${TEST_ENV} -Dtest=${SUITE_NAME}A -Dthreads=${THREADS};;
+              1)
+                  mvn -Dsurefire.rerunFailingTestsCount=1 test -fae -D q4inc.specs=${TEST_ENV} -Dtest=${SUITE_NAME}B -Dthreads=${THREADS};;
+              2)
+                  mvn -Dsurefire.rerunFailingTestsCount=1 test -fae -D q4inc.specs=${TEST_ENV} -Dtest=${SUITE_NAME}C -Dthreads=${THREADS};;
+            esac
           else
             mvn compile
           fi
-        : timeout: 2500
-
+        : parallel: true
+          timeout: 2500
       - google-chrome --version
