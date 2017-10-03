@@ -37,8 +37,6 @@ import specs.user.webcastAnalytics.WebcastAnalytics;
         AdvancedSearching.class,
         AdvancedSearchNavigation.class,
         WebcastAnalytics.class,
-        WebAnalytics.class,
-        TargetingList.class,
         ResearchList.class,
         Ownership.class
 })

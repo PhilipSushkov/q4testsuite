@@ -2,6 +2,7 @@ package testrunner;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
+import specs.user.WebAnalytics.WebAnalytics;
 import specs.user.activity.SearchForActivity;
 import specs.user.contacts.ContactDetails;
 import specs.user.dashboard.DashboardLinks;
@@ -32,7 +33,9 @@ import specs.user.watchlist.EditWatchlist;
         TabNavigationExpanded.class,
         EditWatchlist.class,
         Q4TeamPage.class,
-        SearchForActivity.class
+        SearchForActivity.class,
+        WebAnalytics.class,
+        TargetingList.class
 })
 public class NightRunB {
 }
