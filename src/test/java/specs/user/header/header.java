@@ -79,8 +79,8 @@ public class header extends AbstractSpec{
 
     @Test
     public void canSearchForFundFromHeader() {
-        String fundSearchTerm = "parnassus";
-        String expectedFund = "Parnassus Fund";
+        String fundSearchTerm = "belfund";
+        String expectedFund = "Belfund";
 
         SecurityOverviewPage securityOverviewPage = new SecurityOverviewPage(driver);
         securityOverviewPage.searchResults(fundSearchTerm, expectedFund)
