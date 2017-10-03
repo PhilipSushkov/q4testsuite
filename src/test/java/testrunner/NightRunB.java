@@ -32,10 +32,7 @@ import specs.user.watchlist.EditWatchlist;
         TabNavigationExpanded.class,
         EditWatchlist.class,
         Q4TeamPage.class,
-        SearchForActivity.class,
-        TargetingList.class,
-        ResearchList.class,
-        Ownership.class
+        SearchForActivity.class
 })
 public class NightRunB {
 }

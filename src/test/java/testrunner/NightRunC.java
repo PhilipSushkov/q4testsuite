@@ -34,7 +34,10 @@ import specs.user.webcastAnalytics.WebcastAnalytics;
         AdvancedSearching.class,
         AdvancedSearchNavigation.class,
         WebcastAnalytics.class,
-        WebAnalytics.class
+        WebAnalytics.class,
+        TargetingList.class,
+        ResearchList.class,
+        Ownership.class
 
 })
 public class NightRunC {
