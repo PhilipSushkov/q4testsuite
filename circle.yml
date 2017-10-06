@@ -24,7 +24,8 @@ test:
 
   override:
       - ? |
-          if [ -n "${TEST_ENV}" && "${SUITE_NAME}" -eq "NightRun" ]; then
+          if [ -n "${TEST_ENV}"]; then
+            if["${SUITE_NAME}"="NightRun"]; then
                   case $CIRCLE_NODE_INDEX in
                     0)
                         mvn -Dsurefire.rerunFailingTestsCount=1 test -fae -D q4inc.specs=${TEST_ENV} -Dtest=${SUITE_NAME}A -Dthreads=${THREADS};;
@@ -33,8 +34,7 @@ test:
                     2)
                         mvn -Dsurefire.rerunFailingTestsCount=1 test -fae -D q4inc.specs=${TEST_ENV} -Dtest=${SUITE_NAME}C -Dthreads=${THREADS};;
                   esac
-          fi
-          if [ -n "${TEST_ENV}" && "${SUITE_NAME}" -eq "AdminSuite"]; then
+            elif["${SUITE_NAME}" = "AdminSuite"]; then
                    case $CIRCLE_NODE_INDEX in
                     0)
                         mvn -Dsurefire.rerunFailingTestsCount=1 test -fae -D q4inc.specs=${TEST_ENV} -Dtest=${SUITE_NAME} -Dthreads=${THREADS};;
@@ -43,6 +43,7 @@ test:
                     2)
                         mvn compile;;
                    esac
+            fi
           else
             mvn compile
           fi
