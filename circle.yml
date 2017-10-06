@@ -38,4 +38,4 @@ test:
           fi
         : parallel: true
           timeout: 2500
-      - google-chrome --version
+      - google-chrome --version 
