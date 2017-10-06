@@ -33,6 +33,15 @@ test:
                     2)
                         mvn -Dsurefire.rerunFailingTestsCount=1 test -fae -D q4inc.specs=${TEST_ENV} -Dtest=${SUITE_NAME}C -Dthreads=${THREADS};;
                   esac
+          else if [ -n "${TEST_ENV}" && "{$SUITE_NAME}"=="AdminSuite" ]; then
+                   case $CIRCLE_NODE_INDEX in
+                      0)
+                          mvn -Dsurefire.rerunFailingTestsCount=1 test -fae -D q4inc.specs=${TEST_ENV} -Dtest=${SUITE_NAME} -Dthreads=${THREADS};;
+                      1)
+                          mvn compile;;
+                      2)
+                          mvn compile;;
+                   esac
           else
             mvn compile
           fi
