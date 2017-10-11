@@ -96,10 +96,6 @@ public class AdminAbstractSpec {
         file.createNewFile();
         file = new File("session_profile.txt");
         file.createNewFile();
-        file = new File("session_pusher.txt");
-        file.createNewFile();
-        file = new File("session_cookie.txt");
-        file.createNewFile();
     }
 private void setTokenId(){
         try {
