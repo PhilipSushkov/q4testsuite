@@ -1,10 +1,16 @@
 package pageobjects.admin.loginPage;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import pageobjects.AbstractPageObject;
+
+import java.io.BufferedWriter;
+import java.io.FileOutputStream;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 
 /**
  * Created by patrickp on 2016-09-16.
@@ -57,6 +63,7 @@ public class AdminLoginPage extends AbstractPageObject {
         // Switch back to original browser (first window)
         //windowDidLoad(mainWindowTitle);
         driver.switchTo().window(winHandleBefore);
+        getSessionVariables();
 
         return this;
     }
@@ -77,17 +84,16 @@ public class AdminLoginPage extends AbstractPageObject {
         }
 
         // Perform the actions on new window
-        findElement(enterEmail).sendKeys("test@q4websystems.com");
+        findElement(enterEmail).sendKeys("test@q4inc.com");
         findElement(nextButton).click();
         waitForElementToAppear(enterPassword);
         findElement(enterPassword).sendKeys("testing!");
         waitForElementToAppear(submit);
         findElement(submit).click();
         pause(2000L);
-
         // Switch back to original browser (first window)
         driver.switchTo().window(winHandleBefore);
-
+        getSessionVariables();
         return this;
     }
 
@@ -101,6 +107,12 @@ public class AdminLoginPage extends AbstractPageObject {
         catch(Exception e){
             return false;
         }
+    }
+
+    private void getSessionVariables(){
+        pause(5000L);
+        getProfile();
+        getTokenId();
     }
 
 }

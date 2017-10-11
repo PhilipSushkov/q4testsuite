@@ -3,13 +3,16 @@ package specs.admin.morningCoffee;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.openqa.selenium.JavascriptExecutor;
 import pageobjects.admin.loginPage.AdminLoginPage;
 import pageobjects.admin.morningCoffeePage.Market;
 import pageobjects.admin.morningCoffeePage.MorningCoffeePage;
 import pageobjects.admin.morningCoffeePage.MorningCoffeePreview;
 import pageobjects.admin.morningCoffeePage.Sector;
+import pageobjects.user.dashboardPage.Dashboard;
 import specs.AdminAbstractSpec;
 
+import java.io.*;
 import java.util.Date;
 
 /**
@@ -20,9 +23,15 @@ public class morningCoffeeReport extends AdminAbstractSpec {
 
     @Before
     public void setUp() {
-        new AdminLoginPage(driver).loginAdmin()
-                .navigateToMorningCoffeePage();
+            if (hasLoggedIn()) {
+                    new Dashboard(driver).navigateToMorningCoffeePage();
+                }
+                else {
+                    new AdminLoginPage(driver).loginAdmin().navigateToMorningCoffeePage();
+                }
     }
+
+
 
     @Test
     public void canCreateReport(){
@@ -183,4 +192,5 @@ public class morningCoffeeReport extends AdminAbstractSpec {
         morningCoffeePreview = morningCoffeePage.clickRecentReport(symbol, currentDate);
         Assert.assertTrue("Commentary not saved",morningCoffeePreview.returnMarketCommentary().contains(editText));
     }
+
 }

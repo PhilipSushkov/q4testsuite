@@ -8,6 +8,7 @@ import pageobjects.admin.loginPage.AdminLoginPage;
 import pageobjects.admin.usersPage.UserRole;
 import pageobjects.admin.usersPage.UserRoleDetails;
 import pageobjects.admin.usersPage.UsersPage;
+import pageobjects.user.dashboardPage.Dashboard;
 import specs.AdminAbstractSpec;
 
 /**
@@ -16,7 +17,12 @@ import specs.AdminAbstractSpec;
 public class UserRoles extends AdminAbstractSpec{
     @Before
     public void setUp() {
-        new AdminLoginPage(driver).loginAdmin().navigateToUsersPage();
+        if (hasLoggedIn()) {
+            new Dashboard(driver).navigateToUsersPage();
+        }
+        else {
+            new AdminLoginPage(driver).loginAdmin().navigateToUsersPage();
+        }
 
     }
 

@@ -5,16 +5,19 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.rules.TestName;
-import org.openqa.selenium.Dimension;
-import org.openqa.selenium.Platform;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
+import org.openqa.selenium.remote.SessionId;
+import org.testng.annotations.AfterSuite;
 import util.BrowserStackCapability;
 import util.BrowserType;
 import util.EnvironmentType;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.net.URL;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
@@ -40,9 +43,24 @@ public class AdminAbstractSpec {
     protected static WebDriver driver;
     private static boolean setupIsDone = false;
     private static final Logger LOG = Logger.getLogger(AbstractSpec.class.getName());
+    private SessionId sessionId;
+    private static File file;
 
     @Rule
     public TestName testName = new TestName();
+
+    @AfterSuite
+    public void cleanUp(){
+        try {
+            file = new File("session_file.txt");
+            file.delete();
+            file = new File("session_profile.txt");
+            file.delete();
+        }
+        catch(Exception e){
+
+        }
+    }
 
     @Before
     public void init() throws Exception {
@@ -70,6 +88,47 @@ public class AdminAbstractSpec {
                 setupWebDriver();
                 break;
         }
+        file = new File("session_file.txt");
+        file.createNewFile();
+        file = new File("session_profile.txt");
+        file.createNewFile();
+    }
+private void setTokenId(){
+        try {
+            BufferedReader br = new BufferedReader(new FileReader("session_file.txt"));
+            String line;
+            String session_id = "";
+            FileReader fileReader = new FileReader(file);
+            while ((line = br.readLine()) != null) {
+                session_id += line;
+            }
+            JavascriptExecutor js = (JavascriptExecutor) driver;
+            String test = ((String) js.executeScript(String.format("return window.localStorage.setItem('%s','%s');", "id_token", session_id)));
+        }
+        catch(Exception e){
+
+        }
+}
+private void setProfile(){
+    try {
+        BufferedReader br = new BufferedReader(new FileReader("session_profile.txt"));
+        String line;
+        String session_profile = "";
+        while ((line = br.readLine()) != null) {
+            session_profile += line;
+        }
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        String test = ((String) js.executeScript(String.format("return window.localStorage.setItem('%s','%s');", "profile", session_profile)));
+    }
+    catch(Exception e){
+
+    }
+
+}
+    public void setSessionVariables(){
+    setProfile();
+    setTokenId();
+
     }
 
     private void setupLocalDriver() {
@@ -77,7 +136,12 @@ public class AdminAbstractSpec {
         driver = new ChromeDriver();
         driver.manage().timeouts().implicitlyWait(DEFAULT_TIMEOUT, TimeUnit.SECONDS);
         driver.manage().window().setSize(new Dimension(1400, 1400));
+
         driver.get(desktopUrl.toString());
+        setProfile();
+        setTokenId();
+        driver.navigate().refresh();
+
 
     }
 
@@ -99,7 +163,12 @@ public class AdminAbstractSpec {
 
         driver.get(desktopUrl.toString());
 
+        setProfile();
+        setTokenId();
+        driver.navigate().refresh();
+
     }
+
 
     @After
     public void teardownWebDriver() {
@@ -108,11 +177,27 @@ public class AdminAbstractSpec {
         if (getActiveEnvironment() != EnvironmentType.LOCALADMIN) {
             driver.quit();
             System.out.println(testMethodName + " - " + "complete");
-        }
+       }
     }
 
     public static EnvironmentType getActiveEnvironment() {
         return activeEnvironment;
+    }
+
+    public boolean hasLoggedIn(){
+        File file = new File("session_file.txt");
+        if (file.exists()) {
+            if(file.length()>0){
+                setSessionVariables();
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+        else{
+            return false;
+        }
     }
 
     private static EnvironmentType setupEnvironment () {
@@ -123,4 +208,6 @@ public class AdminAbstractSpec {
             return DEFAULT_ENVIRONMENT;
         }
     }
+
+
 }

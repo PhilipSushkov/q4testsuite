@@ -24,15 +24,24 @@ test:
 
   override:
       - ? |
-          if [ -n "${TEST_ENV}" ]; then
-            case $CIRCLE_NODE_INDEX in
-              0)
-                  mvn -Dsurefire.rerunFailingTestsCount=1 test -fae -D q4inc.specs=${TEST_ENV} -Dtest=${SUITE_NAME}A -Dthreads=${THREADS};;
-              1)
-                  mvn -Dsurefire.rerunFailingTestsCount=1 test -fae -D q4inc.specs=${TEST_ENV} -Dtest=${SUITE_NAME}B -Dthreads=${THREADS};;
-              2)
-                  mvn -Dsurefire.rerunFailingTestsCount=1 test -fae -D q4inc.specs=${TEST_ENV} -Dtest=${SUITE_NAME}C -Dthreads=${THREADS};;
-            esac
+          if [ -n "${TEST_ENV}" ] && [ "${SUITE_NAME}" == "NightRun" ]; then
+                  case $CIRCLE_NODE_INDEX in
+                    0)
+                        mvn -Dsurefire.rerunFailingTestsCount=1 test -fae -D q4inc.specs=${TEST_ENV} -Dtest=${SUITE_NAME}A -Dthreads=${THREADS};;
+                    1)
+                        mvn -Dsurefire.rerunFailingTestsCount=1 test -fae -D q4inc.specs=${TEST_ENV} -Dtest=${SUITE_NAME}B -Dthreads=${THREADS};;
+                    2)
+                        mvn -Dsurefire.rerunFailingTestsCount=1 test -fae -D q4inc.specs=${TEST_ENV} -Dtest=${SUITE_NAME}C -Dthreads=${THREADS};;
+                  esac
+          elif [ -n "${TEST_ENV}" ] && [ "${SUITE_NAME}" == "AdminSuite" ]; then
+                   case $CIRCLE_NODE_INDEX in
+                    0)
+                        mvn -Dsurefire.rerunFailingTestsCount=1 test -fae -D q4inc.specs=${TEST_ENV} -Dtest=${SUITE_NAME} -Dthreads=${THREADS};;
+                    1)
+                        mvn compile;;
+                    2)
+                        mvn compile;;
+                   esac
           else
             mvn compile
           fi

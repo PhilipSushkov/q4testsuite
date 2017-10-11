@@ -16,12 +16,16 @@ import pageobjects.user.logActivityModal.LogActivityModal;
 import pageobjects.user.loginPage.LoginPage;
 import pageobjects.user.sideNavBar.SideNavBar;
 
+import java.io.*;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
 public class AbstractPageObject implements HeaderPage{
 
@@ -693,4 +697,29 @@ public class AbstractPageObject implements HeaderPage{
         JavascriptExecutor jse = (JavascriptExecutor) driver;
         jse.executeScript("window.scrollTo(0,0)");
     }
+
+    public void getTokenId(){
+        try{
+            JavascriptExecutor js  = (JavascriptExecutor) driver;
+            Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("session_file.txt"),"utf-8"));
+            String test = ((String)js.executeScript(String.format("return window.localStorage.getItem('%s');", "id_token")));
+            writer.write(test);
+            writer.close();
+        }catch(Exception e){
+
+        }
+    }
+
+    public void getProfile(){
+        try{
+            JavascriptExecutor js  = (JavascriptExecutor) driver;
+            Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("session_profile.txt"),"utf-8"));
+            String test = ((String)js.executeScript(String.format("return window.localStorage.getItem('%s');", "profile")));
+            writer.write(test);
+            writer.close();
+        }catch(Exception e){
+
+        }
+    }
+
 }
