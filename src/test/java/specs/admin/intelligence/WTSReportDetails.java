@@ -5,6 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 import pageobjects.admin.intelligencePage.WTSReportDetailsPage;
 import pageobjects.admin.loginPage.AdminLoginPage;
+import pageobjects.user.dashboardPage.Dashboard;
 import specs.AdminAbstractSpec;
 
 import java.io.IOException;
@@ -20,17 +21,28 @@ public class WTSReportDetails extends AdminAbstractSpec {
     @Before
     public void setUp() {
         if (setUpIsDone) {
-        new AdminLoginPage(driver).loginAdmin()
-                .navigateToIntelligencePage()
-                .selectNewReport();
+            if (hasLoggedIn()) {
+                new Dashboard(driver).navigateToIntelligencePage().selectNewReport();
+            }
+            else {
+                new AdminLoginPage(driver).loginAdmin()
+                        .navigateToIntelligencePage()
+                        .selectNewReport();
+            }
             return;
         }
 
-        new AdminLoginPage(driver).loginAdmin()
-                .navigateToIntelligencePage()
-                .createWeeklyTradeSummary(company)
-                .selectNewReport();
-
+        if (hasLoggedIn()) {
+            new Dashboard(driver).navigateToIntelligencePage()
+                    .createWeeklyTradeSummary(company)
+                    .selectNewReport();
+        }
+        else {
+            new AdminLoginPage(driver).loginAdmin()
+                    .navigateToIntelligencePage()
+                    .createWeeklyTradeSummary(company)
+                    .selectNewReport();
+        }
         setUpIsDone = true;
     }
 
