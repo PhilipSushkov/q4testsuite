@@ -56,10 +56,6 @@ public class AdminAbstractSpec {
             file.delete();
             file = new File("session_profile.txt");
             file.delete();
-            file = new File("session_pusher.txt");
-            file.delete();
-            file = new File("session_cookie.txt");
-            file.delete();
         }
         catch(Exception e){
 
