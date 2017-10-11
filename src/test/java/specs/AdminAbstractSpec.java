@@ -161,9 +161,11 @@ private void setProfile(){
         driver.manage().timeouts().implicitlyWait(DEFAULT_TIMEOUT, TimeUnit.SECONDS);
         driver.manage().window().setSize(new Dimension(1400, 1400));
 
+        driver.get(desktopUrl.toString());
+
         setProfile();
         setTokenId();
-        driver.get(desktopUrl.toString());
+        driver.navigate().refresh();
 
     }
 
@@ -172,10 +174,10 @@ private void setProfile(){
     public void teardownWebDriver() {
         String testMethodName = testName.getMethodName();
 
-        //if (getActiveEnvironment() != EnvironmentType.LOCALADMIN) {
+        if (getActiveEnvironment() != EnvironmentType.LOCALADMIN) {
             driver.quit();
-       //     System.out.println(testMethodName + " - " + "complete");
-      //  }
+            System.out.println(testMethodName + " - " + "complete");
+       }
     }
 
     public static EnvironmentType getActiveEnvironment() {
