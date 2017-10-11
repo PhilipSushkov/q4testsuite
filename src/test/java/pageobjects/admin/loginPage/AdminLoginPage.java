@@ -84,7 +84,7 @@ public class AdminLoginPage extends AbstractPageObject {
         }
 
         // Perform the actions on new window
-        findElement(enterEmail).sendKeys("test@q4websystems.com");
+        findElement(enterEmail).sendKeys("test@q4inc.com");
         findElement(nextButton).click();
         waitForElementToAppear(enterPassword);
         findElement(enterPassword).sendKeys("testing!");
