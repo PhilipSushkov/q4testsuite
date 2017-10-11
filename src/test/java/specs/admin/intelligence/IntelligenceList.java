@@ -8,6 +8,7 @@ import org.junit.Test;
 import pageobjects.admin.intelligencePage.IntelligencePage;
 import pageobjects.admin.intelligencePage.WTSReportDetailsPage;
 import pageobjects.admin.loginPage.AdminLoginPage;
+import pageobjects.user.dashboardPage.Dashboard;
 import specs.AdminAbstractSpec;
 
 import java.text.ParseException;
@@ -24,8 +25,13 @@ public class IntelligenceList extends AdminAbstractSpec {
 
     @Before
     public void setUp() {
-        new AdminLoginPage(driver).loginAdmin()
-                .navigateToIntelligencePage();
+        if (hasLoggedIn()) {
+            new Dashboard(driver).navigateToIntelligencePage();
+        }
+        else {
+            new AdminLoginPage(driver).loginAdmin()
+                    .navigateToIntelligencePage();
+        }
     }
 
     @Test
