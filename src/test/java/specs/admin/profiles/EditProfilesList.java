@@ -8,6 +8,7 @@ import org.junit.Test;
 import pageobjects.admin.loginPage.AdminLoginPage;
 import pageobjects.admin.profilesPage.ProfileDetails;
 import pageobjects.admin.profilesPage.ProfilesList;
+import pageobjects.user.dashboardPage.Dashboard;
 import specs.AdminAbstractSpec;
 
 import static org.hamcrest.CoreMatchers.containsString;
@@ -19,8 +20,13 @@ public class EditProfilesList extends AdminAbstractSpec {
 
     @Before
     public void setUp() {
-        new AdminLoginPage(driver).loginAdmin()
-                .navigateToProfilesPage();
+        if (hasLoggedIn()) {
+            new Dashboard(driver).navigateToProfilesPage();
+        }
+        else {
+            new AdminLoginPage(driver).loginAdmin()
+                    .navigateToProfilesPage();
+        }
     }
 
     @Test
