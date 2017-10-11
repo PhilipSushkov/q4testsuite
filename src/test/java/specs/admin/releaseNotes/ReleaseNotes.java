@@ -10,6 +10,7 @@ import pageobjects.admin.releaseNotesPage.EditReleaseNotesPage;
 import pageobjects.admin.releaseNotesPage.ReleaseNoteDetails;
 import pageobjects.admin.releaseNotesPage.ReleaseNotesPage;
 import pageobjects.user.activityPage.ColumnType;
+import pageobjects.user.dashboardPage.Dashboard;
 import specs.AdminAbstractSpec;
 
 import static org.hamcrest.CoreMatchers.containsString;
@@ -21,8 +22,13 @@ public class ReleaseNotes extends AdminAbstractSpec {
 
     @Before
     public void setUp(){
-        new AdminLoginPage(driver).loginAdmin()
-                .navigateToReleaseNotesPage();
+        if (hasLoggedIn()) {
+            new Dashboard(driver).navigateToReleaseNotesPage();
+        }
+        else {
+            new AdminLoginPage(driver).loginAdmin()
+                    .navigateToReleaseNotesPage();
+        }
     }
 
     @After
