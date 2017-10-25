@@ -1,5 +1,6 @@
 package pageobjects.user.watchlist;
 
+import com.google.common.collect.Ordering;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -26,6 +27,7 @@ public class WatchlistPage extends AbstractPageObject{
     private final By confirmDelete = By.xpath("//div[contains(@class,'x-msgbox')]//div[span[contains(text(),'Yes')]]");
     private final By cancelDelete =By.xpath("//div[contains(@class,'x-msgbox')]//div[span[contains(text(),'No')]]");
     private final By watchlistSearchField = By.cssSelector(".toolbar-panel .search .x-field-input .x-input-el");
+    private final By selectAll = By.xpath("//div[contains(@class,'bulk-checkbox')]//div[contains(@class,'field-mask')]");
 
 
     public WatchlistPage(WebDriver driver) {
@@ -44,6 +46,13 @@ public class WatchlistPage extends AbstractPageObject{
         pause(1000L);
 
 
+        return this;
+    }
+
+    public WatchlistPage addListOfSecuritiesToWatchlist(String[] securities) {
+        for (int i = 0; i < securities.length; i++) {
+           addSecurityToWatchlist(securities[i]);
+        }
         return this;
     }
 
@@ -80,7 +89,6 @@ public class WatchlistPage extends AbstractPageObject{
             findElement(confirmDelete).click();
         return this;
     }
-
 
     public String getFirstCompanyInList() {
         waitForLoadingScreen();
@@ -150,8 +158,19 @@ public class WatchlistPage extends AbstractPageObject{
         return this;
     }
 
-    public String getAllCompanyNames() {
-        return findElement(firstCompanyNameInList).getText();
+    public List<String> getAllCompanyNames() {
+        List<String> names = new ArrayList<String>();
+        int i = 1;
+        while (doesElementExist(By.xpath("//div[contains(@class,'dataview-container')]/div[" + i + "]//h5"))){
+            System.out.println(findElement(By.xpath("//div[contains(@class,'dataview-container')]/div[" + i + "]//h5")).getText());
+            names.add(findElement(By.xpath("//div[contains(@class,'dataview-container')]/div[" + i + "]//h5")).getText());
+           i++;
+           }
+        return names;
+    }
+
+    public boolean isAlphabeticallySorted(List<String> names){
+        return Ordering.from(String.CASE_INSENSITIVE_ORDER).isOrdered(names);
     }
 }
 

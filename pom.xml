@@ -70,7 +70,7 @@
             <groupId>org.seleniumhq.selenium</groupId>
 
             <artifactId>selenium-chrome-driver</artifactId>
-            <version>2.46.0</version>
+            <version>3.4.0</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -170,7 +170,7 @@
                             <systemProperties>
                                 <property>
                                     <name>webdriver.chrome.driver</name>
-                                    <value>/Users/patrickpriestley/Workspace/chromedriver</value>
+                                    <value>/Users/juntianz/Workspace/chromedriver</value>
                                 </property>
                             </systemProperties>
                         </configuration>
