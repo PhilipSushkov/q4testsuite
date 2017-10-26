@@ -154,19 +154,17 @@ public class WatchlistPage extends AbstractPageObject{
 
     public WatchlistPage searchForEntity(String companyName) {
         findElement(watchlistSearchField).sendKeys(companyName);
-
         return this;
     }
 
     public List<String> getAllCompanyNames() {
-        List<String> names = new ArrayList<String>();
-        int i = 1;
-        while (doesElementExist(By.xpath("//div[contains(@class,'dataview-container')]/div[" + i + "]//h5"))){
-            System.out.println(findElement(By.xpath("//div[contains(@class,'dataview-container')]/div[" + i + "]//h5")).getText());
-            names.add(findElement(By.xpath("//div[contains(@class,'dataview-container')]/div[" + i + "]//h5")).getText());
-           i++;
-           }
-        return names;
+        List<WebElement> companyList = findElements(By.xpath("//div[contains(@class,'dataview-container')]/div//h5"));
+        List<String> companyNameList = new ArrayList <String>();
+        for(WebElement e:companyList)
+        {
+            companyNameList.add(e.getText());
+        }
+        return companyNameList;
     }
 
     public boolean isAlphabeticallySorted(List<String> names){

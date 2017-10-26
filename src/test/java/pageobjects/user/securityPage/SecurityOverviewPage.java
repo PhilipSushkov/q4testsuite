@@ -697,9 +697,8 @@ public class SecurityOverviewPage extends WatchlistPage {
        try{ waitForLoadingScreen();
         waitForElementToAppear(indexInput);
         findElement(indexInput).sendKeys(index);
-        wait.until(ExpectedConditions.elementToBeClickable(searchResult));
+        waitForLoadingScreen();
         findElement(searchResult).click();
-        pause(1000L);
         return true;
        }
         catch(NoSuchElementException e)

@@ -7,11 +7,13 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.openqa.selenium.WebElement;
 import pageobjects.user.securityPage.SecurityOverviewPage;
 import pageobjects.user.loginPage.LoginPage;
 import pageobjects.user.watchlist.WatchlistPage;
 import specs.AbstractSpec;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.containsString;

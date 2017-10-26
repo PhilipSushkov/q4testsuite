@@ -354,7 +354,7 @@ public class Overview extends AbstractSpec {
     }
 
     @Test
-    public void chartIndexWorks(){
+    public void canAddIndexToChart(){
         SecurityOverviewPage securityOverviewPage = new SecurityOverviewPage(driver);
 
 
