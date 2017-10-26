@@ -34,6 +34,9 @@ public class ResearchPage extends AbstractPageObject {
     private final By selectedDay = By.xpath("//div[@class='pmu-days']/div[@class='pmu-button'][11]");
     private final By dateFilterButton = By.cssSelector(".toolbar-panel .date-range .search-range");
 
+    //for unsubscribers
+    private final By unsubscribeMessage = By.xpath("//h1[text()=\"Looks like you haven't subscribed to this feature. Interested?\"]");
+
 
     public ResearchPage(WebDriver driver) {
         super(driver);
@@ -173,5 +176,9 @@ public class ResearchPage extends AbstractPageObject {
         return Sorted;
     }
 
+    public Boolean isUnsubscribed(){
+        waitForLoadingScreen();
+        return doesElementExist(unsubscribeMessage);
+    }
 }
 
