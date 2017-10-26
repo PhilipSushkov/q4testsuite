@@ -353,4 +353,13 @@ public class Overview extends AbstractSpec {
                 , securityOverviewPage.recentResearchModalExists());
     }
 
+    @Test
+    public void chartIndexWorks(){
+        SecurityOverviewPage securityOverviewPage = new SecurityOverviewPage(driver);
+
+
+        Assert.assertTrue("Unable to add index",securityOverviewPage.addIndexToChart("NAS"));
+        Assert.assertTrue("Index not added",securityOverviewPage.isIndexAdded("NASDAQ"));
+    }
+
 }
