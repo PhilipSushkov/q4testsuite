@@ -10,6 +10,7 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAdjusters;
+import java.util.ArrayList;
 import java.util.List;
 
 public class SecurityOwnershipPage extends AbstractPageObject implements DateDropDownConstants {
@@ -116,6 +117,11 @@ public class SecurityOwnershipPage extends AbstractPageObject implements DateDro
     private final By thirteenFButton = By.xpath("//span[contains(text(),'13F')]");
     private final By nextPageButton = By.xpath("//div[contains(@class, 'x-unsized x-button nav-button next-page x-iconalign-center')]");
     private final By previousPageButton = By.xpath("//div[contains(@class, 'x-unsized x-button nav-button prev-page x-iconalign-center')]");
+
+    //peer analysis section
+    private final By peerAnalysisTab = By.xpath("//span[text()='Peer Analysis']");
+    private final By institutionFilter = By.xpath("//div[contains(@class,'tab-icon')]//span[text()='Institutions']");
+    private final By peerAnalysisCompany = By.xpath("//div[contains(@class,'domscroller')]/div/div[contains(@class,'company')]/div[contains(@class,'innerhtml')]");
 
     public SecurityOwnershipPage(WebDriver driver) {
         super(driver);
@@ -1264,4 +1270,66 @@ public class SecurityOwnershipPage extends AbstractPageObject implements DateDro
         findElement(trendAnalysisPage).click();
         return this;
     }
+
+     public boolean checkPeerAnalysis(String companyName){
+        waitForLoadingScreen();
+        findElement(thirteenFButton).click();
+        waitForLoadingScreen();
+        findElement(peerAnalysisTab).click();
+        waitForLoadingScreen();
+        if (!getPeerAnalysisName().contains(companyName))return false; //check company title for institutions
+        List<String> firstTenPeerDataIns = getFirstTenPeerDataIns(); //check data is in correct form
+        for (String s: firstTenPeerDataIns){
+            if (s == "-" || s == null || s == "0"){
+                return false;
+            }
+        }
+         waitForLoadingScreen();
+         findVisibleElement(fundsFilter).click();
+         waitForLoadingScreen();
+         if (!getPeerAnalysisName().contains(companyName))return false; //check company title for funds
+         List<String> firstTenPeerDataFund = getFirstTenPeerDataFund(); //check data is correct form
+         for (String s: firstTenPeerDataFund){
+             if (s == "-" || s == null || s == "0"){
+                 return false;
+             }
+         }
+        return true;
+    }
+
+    public String getPeerAnalysisName(){
+        return findVisibleElement(peerAnalysisCompany).getText();
+    }
+
+    public List<String> getFirstTenPeerDataIns(){
+        List<WebElement> peerData = new ArrayList<WebElement>();
+        try {
+            peerData = findVisibleElements(By.xpath("//div[div[contains(@class,'x-grid-cell') and div[contains(@class,'details')]]]//following-sibling::div[contains(@class,'x-grid-cell')]"));
+        }catch(NullPointerException e)
+        {
+            e.printStackTrace();
+        }
+        List<String> list = new ArrayList<String>();
+        for (WebElement e : peerData){
+            list.add(e.getText());
+        }
+        return list;
+    }
+
+    public List<String> getFirstTenPeerDataFund(){
+        List<WebElement> peerData = new ArrayList<WebElement>();
+        try {
+            peerData = findVisibleElements(By.xpath("//div[div[contains(@class,'x-grid-cell') and div[contains(@class,'details')]]]//following-sibling::div[contains(@class,'x-grid-cell')]"));
+        }catch(NullPointerException e)
+        {
+            e.printStackTrace();
+        }
+        List<String> list = new ArrayList<String>();
+        for (WebElement e : peerData){
+            list.add(e.getText());
+        }
+        return list;
+    }
+
+
 }
