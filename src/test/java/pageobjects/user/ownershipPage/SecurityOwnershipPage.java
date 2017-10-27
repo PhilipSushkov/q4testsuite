@@ -1278,7 +1278,7 @@ public class SecurityOwnershipPage extends AbstractPageObject implements DateDro
         findElement(peerAnalysisTab).click();
         waitForLoadingScreen();
         if (!getPeerAnalysisName().contains(companyName))return false; //check company title for institutions
-        List<String> firstTenPeerDataIns = getFirstTenPeerDataIns(); //check data is in correct form
+        List<String> firstTenPeerDataIns = getFirstTenPeerData(); //check data is in correct form
         for (String s: firstTenPeerDataIns){
             if (s == "-" || s == null || s == "0"){
                 return false;
@@ -1288,7 +1288,7 @@ public class SecurityOwnershipPage extends AbstractPageObject implements DateDro
          findVisibleElement(fundsFilter).click();
          waitForLoadingScreen();
          if (!getPeerAnalysisName().contains(companyName))return false; //check company title for funds
-         List<String> firstTenPeerDataFund = getFirstTenPeerDataFund(); //check data is correct form
+         List<String> firstTenPeerDataFund = getFirstTenPeerData(); //check data is correct form
          for (String s: firstTenPeerDataFund){
              if (s == "-" || s == null || s == "0"){
                  return false;
@@ -1301,7 +1301,7 @@ public class SecurityOwnershipPage extends AbstractPageObject implements DateDro
         return findVisibleElement(peerAnalysisCompany).getText();
     }
 
-    public List<String> getFirstTenPeerDataIns(){
+    public List<String> getFirstTenPeerData(){
         List<WebElement> peerData = new ArrayList<WebElement>();
         try {
             peerData = findVisibleElements(By.xpath("//div[div[contains(@class,'x-grid-cell') and div[contains(@class,'details')]]]//following-sibling::div[contains(@class,'x-grid-cell')]"));
@@ -1315,21 +1315,5 @@ public class SecurityOwnershipPage extends AbstractPageObject implements DateDro
         }
         return list;
     }
-
-    public List<String> getFirstTenPeerDataFund(){
-        List<WebElement> peerData = new ArrayList<WebElement>();
-        try {
-            peerData = findVisibleElements(By.xpath("//div[div[contains(@class,'x-grid-cell') and div[contains(@class,'details')]]]//following-sibling::div[contains(@class,'x-grid-cell')]"));
-        }catch(NullPointerException e)
-        {
-            e.printStackTrace();
-        }
-        List<String> list = new ArrayList<String>();
-        for (WebElement e : peerData){
-            list.add(e.getText());
-        }
-        return list;
-    }
-
 
 }
