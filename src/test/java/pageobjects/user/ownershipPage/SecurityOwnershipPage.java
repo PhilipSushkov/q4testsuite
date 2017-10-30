@@ -123,6 +123,9 @@ public class SecurityOwnershipPage extends AbstractPageObject implements DateDro
     private final By institutionFilter = By.xpath("//div[contains(@class,'tab-icon')]//span[text()='Institutions']");
     private final By peerAnalysisCompany = By.xpath("//div[contains(@class,'domscroller')]/div/div[contains(@class,'company')]/div[contains(@class,'innerhtml')]");
 
+    //buyers&sellers filter section
+    private final By weekData = By.xpath("//div[contains(@class,'dataview-item')]/div[contains(@class,'view-list-item')][4]");
+
     public SecurityOwnershipPage(WebDriver driver) {
         super(driver);
     }
@@ -1314,6 +1317,38 @@ public class SecurityOwnershipPage extends AbstractPageObject implements DateDro
             list.add(e.getText());
         }
         return list;
+    }
+
+    public boolean checkBuyerSellerFilter(){
+        waitForLoadingScreen();
+        findElement(buyersFilter).click();
+        waitForLoadingScreen();
+        List <String> buyers = getWeekData();
+        findElement(sellersFilter).click();
+        waitForLoadingScreen();
+        List <String> sellers = getWeekData();
+        for (String e : buyers)
+        {
+            if (e.contains("-")){
+                return false;
+            }
+        }
+        for (String e : sellers)
+        {
+            if (!e.contains("-")){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public List<String> getWeekData(){
+        List <WebElement> dataElements = findVisibleElements(weekData);
+        List <String> dataStrings = new ArrayList<>();
+        for (WebElement e : dataElements){
+            dataStrings.add(e.getText());
+        }
+        return dataStrings;
     }
 
 }
