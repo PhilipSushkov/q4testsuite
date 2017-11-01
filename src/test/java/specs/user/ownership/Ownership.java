@@ -366,4 +366,11 @@ public class Ownership extends AbstractSpec {
         SecurityOwnershipPage securityOwnershipPage = new SecurityOwnershipPage(driver);
         Assert.assertTrue("Failed checking Buyer&Seller filter", securityOwnershipPage.checkBuyerSellerFilter());
     }
+
+    @Test
+    public void canShowCorrectChartLabels(){
+        SecurityOwnershipPage securityOwnershipPage = new SecurityOwnershipPage(driver);
+        Assert.assertTrue("Failed checking Pies", securityOwnershipPage.checkPies());
+        Assert.assertTrue("Failed checking Bars", securityOwnershipPage.checkBars());
+    }
 }

@@ -6,11 +6,15 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageobjects.AbstractPageObject;
 import pageobjects.user.institutionPage.InstitutionPage;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class SecurityOwnershipPage extends AbstractPageObject implements DateDropDownConstants {
@@ -125,6 +129,8 @@ public class SecurityOwnershipPage extends AbstractPageObject implements DateDro
 
     //buyers&sellers filter section
     private final By weekData = By.xpath("//div[contains(@class,'dataview-item')]/div[contains(@class,'view-list-item')][4]");
+    private final By pieLabels = By.xpath("//*[name()='svg']//*[contains(@class,'highcharts-title')]");
+    private final By barLabels = By.xpath("//div[contains(@class,'trend-by-qr')]//*[name()='svg']//*[name()='text']");
 
     public SecurityOwnershipPage(WebDriver driver) {
         super(driver);
@@ -1351,4 +1357,96 @@ public class SecurityOwnershipPage extends AbstractPageObject implements DateDro
         return dataStrings;
     }
 
+    public boolean checkPies(){
+        waitForLoadingScreen();
+        findElement(buyersFilter).click();
+        waitForLoadingScreen();
+        List<WebElement> pieTitle = findElements(pieLabels);
+        if(!(pieTitle.get(0).getText().trim().contentEquals(pieTitle.get(4).getText().trim())
+        && getLastFriday().contains(pieTitle.get(4).getText().trim()))){
+            return false;
+        }
+        else if(!(pieTitle.get(2).getText().trim().contentEquals(pieTitle.get(6).getText().trim())
+                && getEndOfLastQuarter().contains(pieTitle.get(6).getText().trim()))){
+            return false;
+        }
+        else if(!(pieTitle.get(3).getText().trim().contentEquals(pieTitle.get(7).getText().trim())
+                && getEndOfQuarterBeforeLast().contains(pieTitle.get(7).getText().trim()))){
+            return false;
+        }
+        else if(!(pieTitle.get(1).getText().trim().contentEquals(pieTitle.get(5).getText().trim())
+                && pieTitle.get(5).getText().trim().contains("6WK"))){
+            return false;
+        }
+        return true;
+    }
+
+    public Boolean checkBars(){
+        waitForLoadingScreen();
+        findElement(buyersFilter).click();
+        waitForLoadingScreen();
+        List<WebElement> barTitle = findElements(barLabels);
+        for(int i = 0; i < 4; i++){
+        if(Integer.parseInt(barTitle.get(i).getText().trim()) < 0
+                || Integer.parseInt(barTitle.get(i).getText().trim()) > 100){
+            return false;
+        }
+        }
+        if(!(getLastFriday().contains(barTitle.get(4).getText().trim()))){
+            return false;
+        }
+        else if(!(barTitle.get(5).getText().trim().contains("6WK"))){
+            return false;
+        }
+        else if(!(getEndOfLastQuarter().contains(barTitle.get(6).getText().trim()))){
+            return false;
+        }
+        else if(!(getEndOfQuarterBeforeLast().contains(barTitle.get(7).getText().trim()))){
+            return false;
+        }
+        
+        return true;
+    }
+
+    private String getLastFriday() {
+        DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+        Date date = new Date();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.add(Calendar.WEEK_OF_YEAR, -1);
+        cal.set(Calendar.DAY_OF_WEEK, 6);
+        return dateFormat.format(cal.getTime());
+    }
+
+    private String getEndOfLastQuarter(){
+        Date date = new Date();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        switch (cal.get (Calendar.MONTH) / 3){
+            case 3 :
+                return "9/30/2017";
+            case 2 :
+                return "6/30/2017";
+            case 1 :
+                return "3/31/2017";
+            case 0 : default :
+                return "12/31/2017";
+        }
+    }
+
+    private String getEndOfQuarterBeforeLast(){
+        Date date = new Date();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        switch (cal.get (Calendar.MONTH) / 3){
+            case 3 :
+                return "6/30/2017";
+            case 2 :
+                return "3/31/2017";
+            case 1 :
+                return "12/31/2017";
+            case 0 : default :
+                return "9/30/2017";
+        }
+    }
 }
