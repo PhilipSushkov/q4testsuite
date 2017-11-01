@@ -94,6 +94,9 @@ public class SecurityEstimatesPage extends AbstractPageObject{
     private final By selectedDay = By.xpath("//div[@class='pmu-days']/div[@class='pmu-button'][11]");
     private final By dateFilterButton = By.xpath("//span[contains(string(),'GO')]");
 
+    //for unsubscribers
+    private final By unsubscribeMessage = By.xpath("//h1[text()=\"Looks like you haven't subscribed to this feature. Interested?\"]");
+
     public SecurityEstimatesPage(WebDriver driver) {
         super(driver);
     }
@@ -417,5 +420,10 @@ public class SecurityEstimatesPage extends AbstractPageObject{
         waitForLoadingScreen();
         return findVisibleElements(brokerDetailsList).size();
 
+    }
+
+    public Boolean isUnsubscribed(){
+        waitForLoadingScreen();
+        return doesElementExist(unsubscribeMessage);
     }
 }

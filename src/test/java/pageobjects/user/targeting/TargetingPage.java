@@ -438,4 +438,14 @@ public class TargetingPage extends AbstractPageObject {
         waitForLoadingScreen();
         return this;
     }
+
+    public String getLocationType (String companyName){
+        waitForElement(By.xpath("//div[contains(text(),'" + companyName + "')]/ancestor::div/following-sibling::div[contains(@class,'locations')]/div"));
+        return findVisibleElement(By.xpath("//div[contains(text(),'" + companyName + "')]/ancestor::div/following-sibling::div[contains(@class,'locations')]/div"))
+                .getAttribute("class");
+    }
+
+    public Boolean isLocationMultiple (String locationType){
+        return locationType.contains("multiple");
+    }
 }

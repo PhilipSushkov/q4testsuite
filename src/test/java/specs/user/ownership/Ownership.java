@@ -355,4 +355,15 @@ public class Ownership extends AbstractSpec {
         Assert.assertThat(securityOwnershipPage.getInsiderSearchResults(), containsString(holder));
     }
 
+    @Test
+    public void canGetPeerAnalysisData(){
+        SecurityOwnershipPage securityOwnershipPage = new SecurityOwnershipPage(driver);
+        Assert.assertTrue("Failed checking peer analysis", securityOwnershipPage.checkPeerAnalysis("SYY NYSE"));
+    }
+
+    @Test
+    public void canUseBuyerSellerFilter(){
+        SecurityOwnershipPage securityOwnershipPage = new SecurityOwnershipPage(driver);
+        Assert.assertTrue("Failed checking Buyer&Seller filter", securityOwnershipPage.checkBuyerSellerFilter());
+    }
 }

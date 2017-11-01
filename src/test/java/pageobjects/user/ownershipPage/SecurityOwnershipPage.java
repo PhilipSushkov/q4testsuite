@@ -10,6 +10,7 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAdjusters;
+import java.util.ArrayList;
 import java.util.List;
 
 public class SecurityOwnershipPage extends AbstractPageObject implements DateDropDownConstants {
@@ -116,6 +117,14 @@ public class SecurityOwnershipPage extends AbstractPageObject implements DateDro
     private final By thirteenFButton = By.xpath("//span[contains(text(),'13F')]");
     private final By nextPageButton = By.xpath("//div[contains(@class, 'x-unsized x-button nav-button next-page x-iconalign-center')]");
     private final By previousPageButton = By.xpath("//div[contains(@class, 'x-unsized x-button nav-button prev-page x-iconalign-center')]");
+
+    //peer analysis section
+    private final By peerAnalysisTab = By.xpath("//span[text()='Peer Analysis']");
+    private final By institutionFilter = By.xpath("//div[contains(@class,'tab-icon')]//span[text()='Institutions']");
+    private final By peerAnalysisCompany = By.xpath("//div[contains(@class,'domscroller')]/div/div[contains(@class,'company')]/div[contains(@class,'innerhtml')]");
+
+    //buyers&sellers filter section
+    private final By weekData = By.xpath("//div[contains(@class,'dataview-item')]/div[contains(@class,'view-list-item')][4]");
 
     public SecurityOwnershipPage(WebDriver driver) {
         super(driver);
@@ -1264,4 +1273,82 @@ public class SecurityOwnershipPage extends AbstractPageObject implements DateDro
         findElement(trendAnalysisPage).click();
         return this;
     }
+
+     public boolean checkPeerAnalysis(String companyName){
+        waitForLoadingScreen();
+        findElement(thirteenFButton).click();
+        waitForLoadingScreen();
+        findElement(peerAnalysisTab).click();
+        waitForLoadingScreen();
+        if (!getPeerAnalysisName().contains(companyName))return false; //check company title for institutions
+        List<String> firstTenPeerDataIns = getFirstTenPeerData(); //check data is in correct form
+        for (String s: firstTenPeerDataIns){
+            if (s == "-" || s == null || s == "0"){
+                return false;
+            }
+        }
+         waitForLoadingScreen();
+         findVisibleElement(fundsFilter).click();
+         waitForLoadingScreen();
+         if (!getPeerAnalysisName().contains(companyName))return false; //check company title for funds
+         List<String> firstTenPeerDataFund = getFirstTenPeerData(); //check data is correct form
+         for (String s: firstTenPeerDataFund){
+             if (s == "-" || s == null || s == "0"){
+                 return false;
+             }
+         }
+        return true;
+    }
+
+    public String getPeerAnalysisName(){
+        return findVisibleElement(peerAnalysisCompany).getText();
+    }
+
+    public List<String> getFirstTenPeerData(){
+        List<WebElement> peerData = new ArrayList<WebElement>();
+        try {
+            peerData = findVisibleElements(By.xpath("//div[div[contains(@class,'x-grid-cell') and div[contains(@class,'details')]]]//following-sibling::div[contains(@class,'x-grid-cell')]"));
+        }catch(NullPointerException e)
+        {
+            e.printStackTrace();
+        }
+        List<String> list = new ArrayList<String>();
+        for (WebElement e : peerData){
+            list.add(e.getText());
+        }
+        return list;
+    }
+
+    public boolean checkBuyerSellerFilter(){
+        waitForLoadingScreen();
+        findElement(buyersFilter).click();
+        waitForLoadingScreen();
+        List <String> buyers = getWeekData();
+        findElement(sellersFilter).click();
+        waitForLoadingScreen();
+        List <String> sellers = getWeekData();
+        for (String e : buyers)
+        {
+            if (e.contains("-")){
+                return false;
+            }
+        }
+        for (String e : sellers)
+        {
+            if (!e.contains("-")){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public List<String> getWeekData(){
+        List <WebElement> dataElements = findVisibleElements(weekData);
+        List <String> dataStrings = new ArrayList<>();
+        for (WebElement e : dataElements){
+            dataStrings.add(e.getText());
+        }
+        return dataStrings;
+    }
+
 }

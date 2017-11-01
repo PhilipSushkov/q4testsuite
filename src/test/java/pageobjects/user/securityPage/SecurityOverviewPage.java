@@ -1,6 +1,8 @@
 package pageobjects.user.securityPage;
 
+import org.apache.commons.lang.ObjectUtils;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageobjects.user.activismPage.ActivismPage;
@@ -24,7 +26,6 @@ public class SecurityOverviewPage extends WatchlistPage {
 
 
                             /**        HEADER       */
-
 
     //data\\
 
@@ -129,6 +130,11 @@ public class SecurityOverviewPage extends WatchlistPage {
     private final By yearHighValue2 = By.xpath("//*[@id=\"week-bg-group\"]/text[3]"); //Found on 52wk chart, above "HIGH"
     private final By dailyVolumeValue = By.xpath("//*[@class=\"value\"][6]");
     private final By currencyType = By.xpath("//*[@class=\"value\"][10]");
+    private final By searchResult = By.xpath("//div[contains(@class,'company-item')]");
+
+                                /**     INPUT       */
+
+    private final By indexInput = By.xpath("//input[contains(@placeholder,'Add index')]");
 
 
                                 /**     QUALITY RATING       */
@@ -685,5 +691,31 @@ public class SecurityOverviewPage extends WatchlistPage {
         waitForLoadingScreen();
 
         return new ActivismPage(driver);
+    }
+
+    public Boolean addIndexToChart(String index) {
+       try{ waitForLoadingScreen();
+        waitForElementToAppear(indexInput);
+        findElement(indexInput).sendKeys(index);
+        waitForLoadingScreen();
+        findElement(searchResult).click();
+        return true;
+       }
+        catch(NoSuchElementException e)
+        { e.printStackTrace();}
+        catch(NullPointerException e)
+        { e.printStackTrace();}
+        return false;
+    }
+
+    public Boolean isIndexAdded(String index) {
+        waitForLoadingScreen();
+        //As I am not able to get the path for the added index in the chart
+        //this is the best test method I can think of for now :
+        //checks if the INDEX tag is added below the chart
+        if (findElement(By.xpath("//div[contains(@class,'index')]")).getText().contains(index))
+        return true;
+        else
+            return false;
     }
 }
