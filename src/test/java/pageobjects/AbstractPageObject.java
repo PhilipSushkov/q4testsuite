@@ -63,10 +63,10 @@ public class AbstractPageObject implements HeaderPage{
     private final By reportHeader = By.cssSelector(".page-header .page-title .details");
     private final By usersPage = By.cssSelector("body > q4-app > div > q4-navbar > nav > div > ul > li:nth-child(6) > a > i");
     private final By releaseNotesPage = By.xpath("//a[contains(@title, 'Release Notes')]");
-    private final By profileIcon = By.xpath("//div[contains(@class,'profile dropdown')]");
+    private final By profileIcon = By.xpath("//div[contains(@class,'profile x-dock-item')]");
     private final By feedback = By.xpath("//div[@class='profile-menu-item']/span[contains(text(),'Leave Feedback')]");
     private final By password = By.xpath("//div[@class='profile-menu-item']/span[contains(text(),'Change Password')]");
-    private final By logout = By.xpath("//a[span[contains(text(),'Logout')]]");
+    private final By logout = By.xpath("//span[contains(text(),'Logout')]");
     private final By confirmLogout = By.xpath("//div[contains(@class,'x-button-action') and ./span[contains(text(),'Yes')]]");
     private final By productDropDown = By.xpath("//p-dropdown");
     private final By desktopSelect = By.xpath("//p-dropdown//span[contains(text(),'Desktop')]");
@@ -76,6 +76,8 @@ public class AbstractPageObject implements HeaderPage{
     private final String WEB ="Web";
     private final String SURVEILLANCE = "Surveillance";
 
+    //Check unsubscribers
+    private final By unsubscribeMessage = By.xpath("//h1[text()=\"Looks like you haven't subscribed to this feature. Interested?\"]");
 
 
     public AbstractPageObject(WebDriver driver) {
@@ -633,8 +635,8 @@ public class AbstractPageObject implements HeaderPage{
 
     public LoginPage logout (){
         waitForElement(profileIcon);
-        ArrayList<WebElement> testing = new ArrayList<>(findElements(profileIcon));
-        findElement(profileIcon).click();
+        findVisibleElement(profileIcon).click();
+        waitForElement(logout);
         findElement(logout).click();
         waitForLoadingScreen();
         return new LoginPage(getDriver());
@@ -721,6 +723,12 @@ public class AbstractPageObject implements HeaderPage{
         }catch(Exception e){
 
         }
+    }
+
+
+    public Boolean isUnsubscribed(){
+        waitForLoadingScreen();
+        return doesElementExist(unsubscribeMessage);
     }
 
 }

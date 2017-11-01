@@ -1,6 +1,7 @@
 package specs.user.activity;
 
 import org.junit.*;
+import pageobjects.AbstractPageObject;
 import pageobjects.user.activityPage.ActivityPage;
 import pageobjects.user.loginPage.LoginPage;
 import specs.AbstractSpec;
@@ -23,13 +24,15 @@ public class ActivityUserAccess extends AbstractSpec  {
     @Test
     public void checkActivityUserAccess(){
         ActivityPage activityPage = new ActivityPage(driver);
-        activityPage.searchForNote("binbin");
+        activityPage.createNewNote("test","","");
+        activityPage.searchForNote("test");
         List<String> userOne = activityPage.getActivityTitles();
-        activityPage.logOut();
-        new LoginPage(driver).customLoginUser("juntianz@q4inc.com","asdf1234!")
+        activityPage.deleteNote("test");
+        activityPage.logout();
+        new LoginPage(driver).customLoginUser("testy1234@q4inc.com","q4pass1234!")
                 .accessSideNav()
                 .selectActivityPageFromSideNav();
-        activityPage.searchForNote("binbin");
+        activityPage.searchForNote("test");
         List<String> userTwo = activityPage.getActivityTitles();
         Assert.assertTrue("Activities should be different for different users", activityPage
                 .showsDifferentActivitiesForDifferentUser(userOne, userTwo));

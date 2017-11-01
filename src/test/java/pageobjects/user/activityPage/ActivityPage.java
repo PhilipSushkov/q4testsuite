@@ -47,8 +47,6 @@ public class ActivityPage extends AbstractPageObject {
     private final By meetingFilterCheckbox = By.xpath("//div[contains(@class,'x-button') and .//span[contains(text(),'Meetings')]]");
     private final By roadshowFilterCheckbox = By.xpath("//div[contains(@class,'x-button') and .//span[contains(text(),'Roadshows')]]");
     private final By activityDataTable = By.cssSelector(".x-dataview-container");
-    private final By avatar = By.xpath("(//div[contains(@class,'avatar')])[2]");
-    private final By logOut = By.xpath("//span[contains(text(),'Logout')]");
 
 
     //Column headers
@@ -632,11 +630,21 @@ public class ActivityPage extends AbstractPageObject {
         return true;
     }
 
-    public void logOut(){
+    public void createNewNote(String title, String note, String tag) {
         waitForLoadingScreen();
-        findElement(avatar).click();
+        LogActivityPage logActivityPage = logNote();
         waitForLoadingScreen();
-        findElement(logOut).click();
+        logActivityPage.enterNoteDetails(title,note,tag);
+        waitForLoadingScreen();
+        accessSideNavFromPage().selectActivityPageFromSideNav();
+    }
+
+    public void deleteNote(String title) {
+        waitForLoadingScreen();
+        searchForNote(title);
+        waitForElement(By.xpath("//div[contains(text(),'" + title +"')]/preceding-sibling::div[contains(@class,'checkbox')]"));
+        findElement(By.xpath("//div[contains(text(),'" + title +"')]/preceding-sibling::div[contains(@class,'checkbox')]")).click();
+        clickDeleteButton();
     }
 
 }
