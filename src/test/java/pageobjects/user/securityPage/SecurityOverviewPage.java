@@ -131,8 +131,9 @@ public class SecurityOverviewPage extends WatchlistPage {
     private final By dailyVolumeValue = By.xpath("//*[@class=\"value\"][6]");
     private final By currencyType = By.xpath("//*[@class=\"value\"][10]");
     private final By searchResult = By.xpath("//div[contains(@class,'company-item')]");
+    private final By profileModal = By.xpath("//div[contains(@class,'profile-modal')]");
 
-                                /**     INPUT       */
+    /**     INPUT       */
 
     private final By indexInput = By.xpath("//input[contains(@placeholder,'Add index')]");
 
@@ -159,6 +160,7 @@ public class SecurityOverviewPage extends WatchlistPage {
     //buttons\\
 
     private final By ownershipBtn = By.cssSelector(".overview-quality-rating");
+    private final By profile = By.xpath("//span[contains(@class,'button-label') and contains(text(),'Profile')]");
     //^^This is the Ownership Quality Rating modal, excluding EPS/SALES
 
     //private final By epsBtn = //EPS value to be found here
@@ -717,5 +719,19 @@ public class SecurityOverviewPage extends WatchlistPage {
         return true;
         else
             return false;
+    }
+
+    public Boolean checkSpeicalCharacter(String companyName) {
+        waitForLoadingScreen();
+        findElement(searchBar).sendKeys(companyName);
+        waitForElement(By.xpath("//span[contains(text(),'" + companyName + "')][contains(@class,'name')]"));
+        findElement(By.xpath("//span[contains(text(),'" + companyName + "')][contains(@class,'name')]")).click();
+        waitForLoadingScreen();
+        findVisibleElement(profile).click();
+        waitForLoadingScreen();
+        if(findElement(profileModal).getText().contains("<?>")){
+            return false;
+        }
+        return true;
     }
 }
