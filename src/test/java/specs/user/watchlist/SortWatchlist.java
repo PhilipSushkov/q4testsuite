@@ -1,24 +1,13 @@
 package specs.user.watchlist;
 
-import com.google.common.collect.Ordering;
-import com.sun.source.tree.AssertTree;
-import org.apache.commons.lang.ObjectUtils;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.openqa.selenium.WebElement;
-import pageobjects.user.securityPage.SecurityOverviewPage;
 import pageobjects.user.loginPage.LoginPage;
 import pageobjects.user.watchlist.WatchlistPage;
 import specs.AbstractSpec;
-
-import java.util.ArrayList;
 import java.util.List;
-
-import static org.hamcrest.CoreMatchers.containsString;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.not;
 
 
 /**
