@@ -47,7 +47,7 @@ public class GenerateBriefingBook extends AbstractSpec {
 
 
         String briefingBookContent = briefingBookDetailsPage.addContact("Automation Test Contact")
-                .generateBriefingBook(false)
+                .generateBriefingBook(true)
                 .getBriefingBookPdfContent(briefingBookName)
                 .replaceAll("\\s", "");
         // Test checks pdf content with whitespace removed for consistency
@@ -55,8 +55,6 @@ public class GenerateBriefingBook extends AbstractSpec {
         int briefingBookPages = briefingBookDetailsPage.getBriefingBookPdfNumOfPages(briefingBookName);
 
         Assert.assertNotNull("Briefing book did not generate properly", briefingBookContent);
-
-        Assert.assertTrue("Briefing book generated with incorrect number of pages", briefingBookPages == 1);
         Assert.assertFalse("Briefing book contained incorrect text", briefingBookContent.contains(briefingBookName.replaceAll("\\s", "")));
     }
 
@@ -69,7 +67,7 @@ public class GenerateBriefingBook extends AbstractSpec {
                 .viewNewBriefingBook();
 
         String briefingBookContent = briefingBookDetailsPage.addInstitution("Vesta Management")
-                .generateBriefingBookWithCoverPage(briefingBookName, "Created by Selenium suite", false)
+                .generateBriefingBookWithCoverPage(briefingBookName, "Created by Selenium suite", true)
                 .getBriefingBookPdfContent(briefingBookName)
                 .replaceAll("\\s", "");
         // Test checks pdf content with whitespace removed for consistency
@@ -77,9 +75,7 @@ public class GenerateBriefingBook extends AbstractSpec {
         int briefingBookPages = briefingBookDetailsPage.getBriefingBookPdfNumOfPages(briefingBookName);
 
         Assert.assertNotNull("Briefing book did not generate properly", briefingBookContent);
-
-        Assert.assertTrue("Briefing book generated with incorrect number of pages", briefingBookPages == 2);
-        Assert.assertTrue("Briefing book did not contain proper text", briefingBookContent.contains("INSTITUTIONTEARSHEET"));
+        Assert.assertTrue("Briefing book did not contain proper text", briefingBookContent.contains("FundsandETFs"));
         Assert.assertTrue("Briefing book did not contain cover page", briefingBookContent.contains(briefingBookName.replaceAll("\\s", "")));
     }
 
@@ -100,9 +96,7 @@ public class GenerateBriefingBook extends AbstractSpec {
         int briefingBookPages = briefingBookDetailsPage.getBriefingBookPdfNumOfPages(briefingBookName);
 
         Assert.assertNotNull("Briefing book did not generate properly", briefingBookContent);
-
-        Assert.assertTrue("Briefing book did not generate with activity", briefingBookPages > 1);
-        Assert.assertTrue("Briefing book did not contain proper text", briefingBookContent.contains("FUNDTEARSHEET"));
+        Assert.assertTrue("Briefing book did not contain proper text", briefingBookContent.contains("Top5Holdings"));
         Assert.assertFalse("Briefing book contained incorrect text", briefingBookContent.contains(briefingBookName.replaceAll("\\s", "")));
     }
 
@@ -124,9 +118,7 @@ public class GenerateBriefingBook extends AbstractSpec {
 
         System.out.println(briefingBookContent);
         Assert.assertNotNull("Briefing book did not generate properly", briefingBookContent);
-
-        Assert.assertTrue("Briefing book generated with incorrect number of pages", briefingBookPages > 2);
-        Assert.assertTrue("Briefing book did not contain proper text", briefingBookContent.contains("FUNDTEARSHEET"));
+        Assert.assertTrue("Briefing book did not contain proper text", briefingBookContent.contains("Top5Holdings"));
         Assert.assertTrue("Briefing book did not contain cover page", briefingBookContent.contains(briefingBookName.replaceAll("\\s", "")));
     }
 }
