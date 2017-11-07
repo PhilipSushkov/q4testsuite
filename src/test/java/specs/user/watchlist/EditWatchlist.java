@@ -71,7 +71,7 @@ public class EditWatchlist extends AbstractSpec {
 
         new WatchlistPage(driver).searchForEntity(companyName);
 
-        Assert.assertEquals("Search returned incorrect results", watchlist.getAllCompanyNames(), companyName);
+        Assert.assertTrue("Search returned incorrect results", watchlist.getAllCompanyNames().contains(companyName));
 
     }
 }
