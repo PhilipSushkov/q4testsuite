@@ -36,7 +36,7 @@ public class SecurityOwnershipPage extends AbstractPageObject implements DateDro
     private final By sellersFilter = By.cssSelector(".ownership-report-main-content .range-tabs .x-button:nth-child(3)");
     private final By holderTableHeaderName = By.cssSelector(".x-grid-column:nth-child(2)");
     private final By holderTableHeaderPOS = By.cssSelector(".x-grid-column:nth-child(3)");
-    private final By holderTableHeader1QChg = By.xpath("//*[@id=\"ext-column-87\"]");
+    private final By holderTableHeader1QChg = By.cssSelector(".x-grid-column:nth-child(4)");
     private final By holderTableHeaderMktVal = By.cssSelector(".x-grid-column:nth-child(5)");
     private final By holderTableHeaderMktValChg = By.cssSelector(".x-grid-column:nth-child(6)");
     private final By holderTableHeaderPercOS = By.cssSelector(".x-grid-column:nth-child(7)");
@@ -47,6 +47,7 @@ public class SecurityOwnershipPage extends AbstractPageObject implements DateDro
     private final By holderTableHeaderAsOf = By.cssSelector(".x-grid-column:nth-child(12)");
     private final By holderTableHeaderQR = By.cssSelector(".x-grid-column:nth-child(13)");
     private final By holderTableRow = By.cssSelector(".x-grid-row:not([style*='-10000px'])");
+    private final By insiderTableRow = By.xpath("//div[div[contains(@class,'holder-info')]]/i[@class='icon-type q4i-insider-2pt']");
     private final By alternateHolderTableRow = By.cssSelector(".top-holders-list-institutions .x-dataview-item"); // exists instead of above when using Buyers or Sellers filter
     private final By holderTableName = By.cssSelector(".x-grid-row:not([style*='-10000px']) .x-grid-cell:nth-child(2)");
     private final By holderTablePOS = By.cssSelector(".x-grid-row:not([style*='-10000px']) .x-grid-cell:nth-child(3)");
@@ -869,6 +870,7 @@ public class SecurityOwnershipPage extends AbstractPageObject implements DateDro
 
     // this method is to be used while one of the date tabs is selected
     public SecurityOwnershipPage showOnlyInsiders(){
+        waitForLoadingScreen();
         waitForElement(insidersFilter);
         findVisibleElement(insidersFilter).click();
         waitForLoadingScreen();
@@ -891,17 +893,15 @@ public class SecurityOwnershipPage extends AbstractPageObject implements DateDro
     }
 
     // this method is to be used while one of the date tabs is selected
-    // insiders have no QR scores and no institution icons
     public int getNumOfInsidersDisplayed(){
         int numInsiders = 0;
+        waitForLoadingScreen();
         waitForElement(holderTableRow);
         List<WebElement> rows = findVisibleElements(holderTableRow);
         for (WebElement row : rows){
-            if (doesElementExist(By.cssSelector("#"+row.getAttribute("id")+" .rating.no-value"))){ //checks whether there's no QR score within that row
                 if (doesElementExist(By.xpath("//div[@id='"+row.getAttribute("id")+"']//i[contains(@class,'q4i-insider-2pt')]"))){ //checks whether there's no institution icon within that row
                     numInsiders++;
                 }
-            }
         }
         return numInsiders;
     }
