@@ -139,7 +139,7 @@ public class Estimates extends AbstractSpec {
         String report = estimatesPage.getNthResearchHeadline(0).getText();
         estimatesPage.getNthResearchHeadline(0).click();
         estimatesPage.waitForLoadingScreen();
-
+        estimatesPage.waitForLoadingScreen();//HACKY!!!
         Assert.assertFalse("Downloaded report was empty", estimatesPage.getReportPdfContent(report).isEmpty());
     }
 
