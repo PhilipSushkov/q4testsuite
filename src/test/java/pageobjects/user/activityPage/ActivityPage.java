@@ -88,6 +88,7 @@ public class ActivityPage extends AbstractPageObject {
 
     public NoteDetailsPage selectFirstNoteInList() {
         waitForLoadingScreen();
+        waitForLoadingScreen();
         List<WebElement> elements = findVisibleElements(firstNoteInList);
         for(WebElement i : elements){
             try {
@@ -119,7 +120,7 @@ public class ActivityPage extends AbstractPageObject {
         if (doesElementExist(notesSection)) {
             waitForElementToRest(notesSection, 2000L);
         }
-
+        waitForLoadingScreen();
         return this;
     }
 
