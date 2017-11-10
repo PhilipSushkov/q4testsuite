@@ -15,7 +15,8 @@ import specs.AbstractSpec;
  */
 public class GenerateBriefingBook extends AbstractSpec {
 
-    private final static String keyword = "**AUTOMATION**";
+    private final static String keyword = "__AUTOMATION__";
+
     private final static String briefingBookTitle =keyword+"New Briefing Book";
 
     @Before
