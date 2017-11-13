@@ -625,8 +625,10 @@ public class ActivityPage extends AbstractPageObject {
     }
 
     public Boolean showsDifferentActivitiesForDifferentUser(List<String> userOne,List<String> userTwo){
+        if (userOne.size() == userTwo.size()){
         if (userOne.get(0).contentEquals(userTwo.get(0))){
         return false;}
+        return true;}
         return true;
     }
 
