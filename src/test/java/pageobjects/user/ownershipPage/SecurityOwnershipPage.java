@@ -6,6 +6,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageobjects.AbstractPageObject;
 import pageobjects.user.institutionPage.InstitutionPage;
 
+import java.awt.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
@@ -131,6 +132,11 @@ public class SecurityOwnershipPage extends AbstractPageObject implements DateDro
     private final By weekData = By.xpath("//div[contains(@class,'dataview-item')]/div[contains(@class,'view-list-item')][4]");
     private final By pieLabels = By.xpath("//*[name()='svg']//*[contains(@class,'highcharts-title')]");
     private final By barLabels = By.xpath("//div[contains(@class,'trend-by-qr')]//*[name()='svg']//*[name()='text']");
+
+    //map section
+    private final By countryList = By.xpath("(//div[contains(@class,'truncated-list-inner')])[2]//div[contains(@class,'label')]");
+    private final By countryValues = By.xpath("(//div[contains(@class,'truncated-list-inner')])[2]//div[contains(@class,'value')]");
+    private final By other = By.xpath("//div[contains(@class,'list-modal-item')]/span[contains(@class,'label')]");
 
     public SecurityOwnershipPage(WebDriver driver) {
         super(driver);
@@ -1449,4 +1455,68 @@ public class SecurityOwnershipPage extends AbstractPageObject implements DateDro
                 return "9/30/2017";
         }
     }
+
+    private String hexToRgb(String hex){
+        return "color: rgb(" + Color.decode(hex).getRed() + ", " + Color.decode(hex).getGreen()
+                + ", " + Color.decode(hex).getBlue() + ");";
+    }
+
+    public boolean checkInstitutionalHolderAnalysisMap(){
+        waitForLoadingScreen();
+        findElement(thirteenFButton).click();
+        waitForLoadingScreen();
+        List<WebElement> countries = findElements(countryList);
+        List<WebElement> values = findElements(countryValues);
+        List<String> colours = new ArrayList<>();
+        //check all numbers under "countrty by" are between 0 and 100
+        //and records colour in hex form
+        for (WebElement e : values){
+            colours.add(e.getAttribute("style"));
+            if (Double.parseDouble(e.getText()) > 100
+                    || Double.parseDouble(e.getText()) < 0){
+                return false;
+            }
+        }
+        countries.get(3).click();
+        waitForLoadingScreen();
+        List<WebElement> others = findElements(other);
+        List<String> countryNames = new ArrayList<>();
+        for (int i = 0; i < 3; i++){
+            countryNames.add(countries.get(i).getText().toLowerCase().replace(" ","-").split(",")[0]);
+        }
+        for (WebElement e : others){
+            countryNames.add(e.getText().toLowerCase().replace(" ", "-").split(",")[0]);
+        }
+        //compare the colours
+        for (int j = 0; j < countryNames.size(); j++){
+            if (j >= 0 && j <= 2){
+                    if (!(hexToRgb(findVisibleElement(By.xpath("//*[name() = 'path'][contains(@class,'highcharts-name-" + countryNames.get(j) +  "')]"))
+                            .getAttribute("fill")).contentEquals(colours.get(j)))){
+                        System.out.println(hexToRgb(findVisibleElement(By.xpath("//*[name() = 'path'][contains(@class,'highcharts-name-" + countryNames.get(j) +  "')]"))
+                                .getAttribute("fill")));
+                        System.out.println(colours.get(j));
+                        return false;
+                    }
+            }
+            else {
+                if (doesElementExist(By.xpath("//*[name() = 'path'][contains(@class,'highcharts-name-" + countryNames.get(j) + "')]"))) {
+                    if (!(hexToRgb(findVisibleElement(By.xpath("//*[name() = 'path'][contains(@class,'highcharts-name-" + countryNames.get(j) +  "')]"))
+                            .getAttribute("fill")).contentEquals(colours.get(3)))){
+                        System.out.println(hexToRgb(findVisibleElement(By.xpath("//*[name() = 'path'][contains(@class,'highcharts-name-" + countryNames.get(j) +  "')]"))
+                                .getAttribute("fill")));
+                        System.out.println(colours.get(3));
+                        return false;
+                    }
+                }
+                else{
+                    System.out.println(countryNames.get(j)); //shows countries that are not in the map
+                    //note: korea is inspected as south-korea and bahamas as the-bahamas in map hence can't be found
+                }
+            }
+        }
+
+        return true;
+    }
+
+
 }

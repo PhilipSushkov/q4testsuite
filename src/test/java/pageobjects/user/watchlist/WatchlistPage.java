@@ -35,7 +35,6 @@ public class WatchlistPage extends AbstractPageObject{
     }
 
     public WatchlistPage addSecurityToWatchlist(String security) {
-        driver.navigate().refresh();
         waitForLoadingScreen();
         wait.until(ExpectedConditions.elementToBeClickable(addSecurityButton));
         findElement(addSecurityButton).click();
@@ -45,8 +44,8 @@ public class WatchlistPage extends AbstractPageObject{
         wait.until(ExpectedConditions.elementToBeClickable(searchResult));
         retryClick(searchResult);
         pause(1000L);
-
-
+        findElement(addSecurityButton).click();
+        pause(1000L);
         return this;
     }
 
@@ -177,6 +176,8 @@ public class WatchlistPage extends AbstractPageObject{
     }
 
     public boolean isAlphabeticallySorted(List<String> names){
+        driver.navigate().refresh();
+        waitForLoadingScreen();
         return Ordering.from(String.CASE_INSENSITIVE_ORDER).isOrdered(names);
     }
 }

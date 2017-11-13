@@ -373,4 +373,11 @@ public class Ownership extends AbstractSpec {
         Assert.assertTrue("Failed checking Pies", securityOwnershipPage.checkPies());
         Assert.assertTrue("Failed checking Bars", securityOwnershipPage.checkBars());
     }
+
+    @Test
+    public void canShowCorrectMap(){
+        SecurityOwnershipPage securityOwnershipPage = new SecurityOwnershipPage(driver);
+        Assert.assertTrue("Failed checking institutional holder analysis map",
+                securityOwnershipPage.checkInstitutionalHolderAnalysisMap());
+    }
 }
