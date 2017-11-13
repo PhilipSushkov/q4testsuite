@@ -35,6 +35,7 @@ public class WatchlistPage extends AbstractPageObject{
     }
 
     public WatchlistPage addSecurityToWatchlist(String security) {
+        driver.navigate().refresh();
         waitForLoadingScreen();
         wait.until(ExpectedConditions.elementToBeClickable(addSecurityButton));
         findElement(addSecurityButton).click();
@@ -67,7 +68,15 @@ public class WatchlistPage extends AbstractPageObject{
     public boolean watchlistHadSecurities() {
         waitForLoadingScreen();
         if (findElements(firstCompanyInList).size() != 0) {
+            return true;
+        }
+        return false;
+    }
 
+    // Checks to see if th watchlist has enough securities to run sorting test on
+    public boolean watchlistHadEnoughSecurities() {
+        waitForLoadingScreen();
+        if (findElements(firstCompanyInList).size() > 3) {
             return true;
         }
         return false;
