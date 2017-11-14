@@ -105,7 +105,7 @@ public abstract class AbstractSpec {
         String testMethodName = testName.getMethodName();
 
         if (getActiveEnvironment() != EnvironmentType.LOCAL) {
-            driver.quit();
+             driver.quit();
             System.out.println(testMethodName + " - " + "complete");
         }
     }
