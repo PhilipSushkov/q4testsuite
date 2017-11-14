@@ -39,32 +39,33 @@ public class SecurityOwnershipPage extends AbstractPageObject implements DateDro
     private final By allBuyersSellersFilter = By.cssSelector(".ownership-report-main-content .range-tabs .x-button:first-child");
     private final By buyersFilter = By.cssSelector(".ownership-report-main-content .range-tabs .x-button:nth-child(2)");
     private final By sellersFilter = By.cssSelector(".ownership-report-main-content .range-tabs .x-button:nth-child(3)");
-    private final By holderTableHeaderName = By.cssSelector(".x-grid-column:first-child");
-    private final By holderTableHeaderPOS = By.cssSelector(".x-grid-column:nth-child(2)");
-    private final By holderTableHeader1QChg = By.xpath("//*[@id=\"ext-column-87\"]");
-    private final By holderTableHeaderMktVal = By.cssSelector(".x-grid-column:nth-child(4)");
-    private final By holderTableHeaderMktValChg = By.cssSelector(".x-grid-column:nth-child(5)");
-    private final By holderTableHeaderPercOS = By.cssSelector(".x-grid-column:nth-child(6)");
-    private final By holderTableHeaderPercPort = By.cssSelector(".x-grid-column:nth-child(7)");
-    private final By holderTableHeaderStyle = By.cssSelector(".x-grid-column:nth-child(8)");
-    private final By holderTableHeaderTurnover = By.cssSelector(".x-grid-column:nth-child(9)");
-    private final By holderTableHeaderAUM = By.cssSelector(".x-grid-column:nth-child(10)");
-    private final By holderTableHeaderAsOf = By.cssSelector(".x-grid-column:nth-child(11)");
-    private final By holderTableHeaderQR = By.cssSelector(".x-grid-column:nth-child(12)");
+    private final By holderTableHeaderName = By.cssSelector(".x-grid-column:nth-child(2)");
+    private final By holderTableHeaderPOS = By.cssSelector(".x-grid-column:nth-child(3)");
+    private final By holderTableHeader1QChg = By.cssSelector(".x-grid-column:nth-child(4)");
+    private final By holderTableHeaderMktVal = By.cssSelector(".x-grid-column:nth-child(5)");
+    private final By holderTableHeaderMktValChg = By.cssSelector(".x-grid-column:nth-child(6)");
+    private final By holderTableHeaderPercOS = By.cssSelector(".x-grid-column:nth-child(7)");
+    private final By holderTableHeaderPercPort = By.cssSelector(".x-grid-column:nth-child(8)");
+    private final By holderTableHeaderStyle = By.cssSelector(".x-grid-column:nth-child(9)");
+    private final By holderTableHeaderTurnover = By.cssSelector(".x-grid-column:nth-child(10)");
+    private final By holderTableHeaderAUM = By.cssSelector(".x-grid-column:nth-child(11)");
+    private final By holderTableHeaderAsOf = By.cssSelector(".x-grid-column:nth-child(12)");
+    private final By holderTableHeaderQR = By.cssSelector(".x-grid-column:nth-child(13)");
     private final By holderTableRow = By.cssSelector(".x-grid-row:not([style*='-10000px'])");
+    private final By insiderTableRow = By.xpath("//div[div[contains(@class,'holder-info')]]/i[@class='icon-type q4i-insider-2pt']");
     private final By alternateHolderTableRow = By.cssSelector(".top-holders-list-institutions .x-dataview-item"); // exists instead of above when using Buyers or Sellers filter
-    private final By holderTableName = By.cssSelector(".x-grid-row:not([style*='-10000px']) .x-grid-cell:first-child");
-    private final By holderTablePOS = By.cssSelector(".x-grid-row:not([style*='-10000px']) .x-grid-cell:nth-child(2)");
-    private final By holderTable1QChg = By.cssSelector(".x-grid-row:not([style*='-10000px']) .x-grid-cell:nth-child(3) span");
-    private final By holderTableMktVal = By.cssSelector(".x-grid-row:not([style*='-10000px']) .x-grid-cell:nth-child(4)");
-    private final By holderTableMktValChg = By.cssSelector(".x-grid-row:not([style*='-10000px']) .x-grid-cell:nth-child(5) span");
-    private final By holderTablePercOS = By.cssSelector(".x-grid-row:not([style*='-10000px']) .x-grid-cell:nth-child(6)");
-    private final By holderTablePercPort = By.cssSelector(".x-grid-row:not([style*='-10000px']) .x-grid-cell:nth-child(7)");
-    private final By holderTableStyle = By.cssSelector(".x-grid-row:not([style*='-10000px']) .x-grid-cell:nth-child(8)");
-    private final By holderTableTurnover = By.cssSelector(".x-grid-row:not([style*='-10000px']) .x-grid-cell:nth-child(9)");
-    private final By holderTableAUM = By.cssSelector(".x-grid-row:not([style*='-10000px']) .x-grid-cell:nth-child(10)");
-    private final By holderTableAsOf = By.cssSelector(".x-grid-row:not([style*='-10000px']) .x-grid-cell:nth-child(11)");
-    private final By holderTableQR = By.cssSelector(".x-grid-row:not([style*='-10000px']) .x-grid-cell:nth-child(12)");
+    private final By holderTableName = By.cssSelector(".x-grid-row:not([style*='-10000px']) .x-grid-cell:nth-child(2)");
+    private final By holderTablePOS = By.cssSelector(".x-grid-row:not([style*='-10000px']) .x-grid-cell:nth-child(3)");
+    private final By holderTable1QChg = By.cssSelector(".x-grid-row:not([style*='-10000px']) .x-grid-cell:nth-child(4) span");
+    private final By holderTableMktVal = By.cssSelector(".x-grid-row:not([style*='-10000px']) .x-grid-cell:nth-child(5)");
+    private final By holderTableMktValChg = By.cssSelector(".x-grid-row:not([style*='-10000px']) .x-grid-cell:nth-child(6) span");
+    private final By holderTablePercOS = By.cssSelector(".x-grid-row:not([style*='-10000px']) .x-grid-cell:nth-child(7)");
+    private final By holderTablePercPort = By.cssSelector(".x-grid-row:not([style*='-10000px']) .x-grid-cell:nth-child(8)");
+    private final By holderTableStyle = By.cssSelector(".x-grid-row:not([style*='-10000px']) .x-grid-cell:nth-child(9)");
+    private final By holderTableTurnover = By.cssSelector(".x-grid-row:not([style*='-10000px']) .x-grid-cell:nth-child(10)");
+    private final By holderTableAUM = By.cssSelector(".x-grid-row:not([style*='-10000px']) .x-grid-cell:nth-child(11)");
+    private final By holderTableAsOf = By.cssSelector(".x-grid-row:not([style*='-10000px']) .x-grid-cell:nth-child(12)");
+    private final By holderTableQR = By.cssSelector(".x-grid-row:not([style*='-10000px']) .x-grid-cell:nth-child(13)");
     private final By holderTable1W = By.cssSelector(".x-dataview-item .view-list-item:nth-child(4)"); // only exists when using Buyers or Sellers filter
     private final By showMoreButton = By.className("q4i-arrow-down-2pt");
     private final By activistIcon = By.cssSelector(".icon.activists");
@@ -102,20 +103,20 @@ public class SecurityOwnershipPage extends AbstractPageObject implements DateDro
     private final DateTimeFormatter shortDate = DateTimeFormatter.ofPattern("MM/dd/yy");
     private final DateTimeFormatter longDate = DateTimeFormatter.ofPattern("MMMM dd, yyyy");
     private final LocalDate today = LocalDate.now();
-    private final By historicalTab = By.cssSelector("#ext-tab-9");
-    private final By currentTab = By.cssSelector("#ext-tab-5");
+    private final By historicalTab = By.xpath("//div[contains(@class,'ownership-top-holders')]//div[span[contains(text(),'Historical')]] ");
+    private final By currentTab = By.xpath("//div[contains(@class,'ownership-top-holders')]//div[span[contains(text(),'Current')]] ");
     private final By holdingsSearchField = By.cssSelector(".ownership-top-holders.q4-tab .search-field .x-field-input .x-input-el");
 
     //different types of Holder Searches
     private final By historicalInstitutionsHolderSearchResult = By.cssSelector("#ext-top-holders-historical-institutions-1");
     private final By currentInsidersHolderSearchResult = By.cssSelector("#ext-ownership-top-holders-current-1");
-    private final By historicalFundsHolderSearchResults = By.cssSelector("#ext-top-holders-historical-fund-1");
+    private final By historicalFundsHolderSearchResults = By.xpath("//*[@id='ext-ownership-historical-fund-1']//div[contains(@class,'x-list-item')]");
     private final By holderSearchResult = By.cssSelector("#ext-top-holders-historical-institutions-1");
     private final By holderSearchResulttwo = By.cssSelector(".top-holders-list.fund .details .holder-info");
-    private final By FundsETFsTab = By.cssSelector("#ext-tab-8");
-    private final By InstitutionTab = By.cssSelector("#ext-tab-2");
+    private final By FundsETFsTab = By.xpath("//div[contains(@class,'ownership-historical')]//div[contains(@class,'toolbar-panel-row')]//div[span[contains(text(),'Funds')]]");
+    private final By InstitutionTab = By.xpath("//div[contains(@class,'ownership-historical')]//div[contains(@class,'toolbar-panel-row')]//div[span[contains(text(),'Institutions')]]");
     private final By InstitutionSearchResult = By.cssSelector(".top-holders-list.institution .details .holder-info .name");
-    private final By InsidersTab = By.cssSelector("#ext-tab-7");
+    private final By InsidersTab = By.xpath("//div[contains(@class,'ownership-historical')]//div[contains(@class,'toolbar-panel-row')]//div[span[contains(text(),'Insiders')]]");
     private final By InsiderSearchResult = By.cssSelector(".top-holders-list.insider .details .holder-info .name");
     private final By DefaultInsiderResult = By.cssSelector("#ext-element-1965");
     private final By DefaultHolderResult = By.cssSelector("#ext-element-5048");
@@ -881,6 +882,7 @@ public class SecurityOwnershipPage extends AbstractPageObject implements DateDro
 
     // this method is to be used while one of the date tabs is selected
     public SecurityOwnershipPage showOnlyInsiders(){
+        waitForLoadingScreen();
         waitForElement(insidersFilter);
         findVisibleElement(insidersFilter).click();
         waitForLoadingScreen();
@@ -903,17 +905,15 @@ public class SecurityOwnershipPage extends AbstractPageObject implements DateDro
     }
 
     // this method is to be used while one of the date tabs is selected
-    // insiders have no QR scores and no institution icons
     public int getNumOfInsidersDisplayed(){
         int numInsiders = 0;
+        waitForLoadingScreen();
         waitForElement(holderTableRow);
         List<WebElement> rows = findVisibleElements(holderTableRow);
         for (WebElement row : rows){
-            if (doesElementExist(By.cssSelector("#"+row.getAttribute("id")+" .rating.no-value"))){ //checks whether there's no QR score within that row
                 if (doesElementExist(By.xpath("//div[@id='"+row.getAttribute("id")+"']//i[contains(@class,'q4i-insider-2pt')]"))){ //checks whether there's no institution icon within that row
                     numInsiders++;
                 }
-            }
         }
         return numInsiders;
     }

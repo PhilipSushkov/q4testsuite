@@ -18,6 +18,7 @@ public class Activism extends AbstractSpec {
                 .accessSideNav()
                 .selectSecurityFromSideNav()
                 .navigateToActivismPage();
+
     }
 
     @Test

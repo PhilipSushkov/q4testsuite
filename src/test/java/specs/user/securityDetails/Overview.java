@@ -21,7 +21,7 @@ public class Overview extends AbstractSpec {
                 .accessSideNav()
                 .selectSecurityFromSideNav();
     }
-
+    @Ignore // yahoo stock api doesn't exist anymore, will need to replace with another free service.
     @Test
     public void checkStockPrice() throws IOException {
         SecurityOverviewPage finish = new SecurityOverviewPage(driver);
