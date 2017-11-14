@@ -98,8 +98,8 @@ public class SecurityOwnershipPage extends AbstractPageObject implements DateDro
     private final DateTimeFormatter shortDate = DateTimeFormatter.ofPattern("MM/dd/yy");
     private final DateTimeFormatter longDate = DateTimeFormatter.ofPattern("MMMM dd, yyyy");
     private final LocalDate today = LocalDate.now();
-    private final By historicalTab = By.cssSelector("#ext-tab-9");
-    private final By currentTab = By.cssSelector("#ext-tab-5");
+    private final By historicalTab = By.xpath("//div[contains(@class,'ownership-top-holders')]//div[span[contains(text(),'Historical')]] ");
+    private final By currentTab = By.xpath("//div[contains(@class,'ownership-top-holders')]//div[span[contains(text(),'Current')]] ");
     private final By holdingsSearchField = By.cssSelector(".ownership-top-holders.q4-tab .search-field .x-field-input .x-input-el");
 
     //different types of Holder Searches
