@@ -126,7 +126,7 @@ public class SecurityOwnershipPage extends AbstractPageObject implements DateDro
     //peer analysis section
     private final By peerAnalysisTab = By.xpath("//span[text()='Peer Analysis']");
     private final By institutionFilter = By.xpath("//div[contains(@class,'tab-icon')]//span[text()='Institutions']");
-    private final By peerAnalysisCompany = By.xpath("//div[contains(@class,'domscroller')]/div/div[contains(@class,'company')]/div[contains(@class,'innerhtml')]");
+    private final By peerAnalysisCompany = By.xpath("//div[contains(@class,'ownership-peer-analysis-list')]//div[contains(@class,'x-domscroller')]//div[contains(@class,'citrus')]");
 
     //buyers&sellers filter section
     private final By weekData = By.xpath("//div[contains(@class,'dataview-item')]/div[contains(@class,'view-list-item')][4]");
@@ -1370,18 +1370,25 @@ public class SecurityOwnershipPage extends AbstractPageObject implements DateDro
         List<WebElement> pieTitle = findElements(pieLabels);
         if(!(pieTitle.get(0).getText().trim().contentEquals(pieTitle.get(4).getText().trim())
         && getLastFriday().contains(pieTitle.get(4).getText().trim()))){
+            System.out.println(getLastFriday());
+            System.out.println(pieTitle.get(4).getText().trim());
             return false;
         }
         else if(!(pieTitle.get(2).getText().trim().contentEquals(pieTitle.get(6).getText().trim())
                 && getEndOfLastQuarter().contains(pieTitle.get(6).getText().trim()))){
+            System.out.println(getEndOfLastQuarter());
+            System.out.println(pieTitle.get(6).getText().trim());
             return false;
         }
         else if(!(pieTitle.get(3).getText().trim().contentEquals(pieTitle.get(7).getText().trim())
                 && getEndOfQuarterBeforeLast().contains(pieTitle.get(7).getText().trim()))){
+            System.out.println(getEndOfQuarterBeforeLast());
+            System.out.println(pieTitle.get(7).getText().trim());
             return false;
         }
         else if(!(pieTitle.get(1).getText().trim().contentEquals(pieTitle.get(5).getText().trim())
                 && pieTitle.get(5).getText().trim().contains("6WK"))){
+            System.out.println(pieTitle.get(5).getText().trim());
             return false;
         }
         return true;
