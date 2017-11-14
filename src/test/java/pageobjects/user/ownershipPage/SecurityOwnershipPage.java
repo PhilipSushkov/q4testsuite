@@ -122,7 +122,7 @@ public class SecurityOwnershipPage extends AbstractPageObject implements DateDro
     //peer analysis section
     private final By peerAnalysisTab = By.xpath("//span[text()='Peer Analysis']");
     private final By institutionFilter = By.xpath("//div[contains(@class,'tab-icon')]//span[text()='Institutions']");
-    private final By peerAnalysisCompany = By.xpath("//div[contains(@class,'domscroller')]/div/div[contains(@class,'company')]/div[contains(@class,'innerhtml')]");
+    private final By peerAnalysisCompany = By.xpath("//div[contains(@class,'ownership-peer-analysis-list')]//div[contains(@class,'x-domscroller')]//div[contains(@class,'citrus')]");
 
     //buyers&sellers filter section
     private final By weekData = By.xpath("//div[contains(@class,'dataview-item')]/div[contains(@class,'view-list-item')][4]");
