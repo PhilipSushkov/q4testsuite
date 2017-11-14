@@ -108,10 +108,10 @@ public class SecurityOwnershipPage extends AbstractPageObject implements DateDro
     private final By historicalFundsHolderSearchResults = By.xpath("//*[@id='ext-ownership-historical-fund-1']//div[contains(@class,'x-list-item')]");
     private final By holderSearchResult = By.cssSelector("#ext-top-holders-historical-institutions-1");
     private final By holderSearchResulttwo = By.cssSelector(".top-holders-list.fund .details .holder-info");
-    private final By FundsETFsTab = By.xpath("//div[contains(@class,'ownership-historical')]//div[contains(@class,'toolbar-panel-row')]//div[span[contains(text(),'Funds')]]");
-    private final By InstitutionTab = By.xpath("//div[contains(@class,'ownership-historical')]//div[contains(@class,'toolbar-panel-row')]//div[span[contains(text(),'Institutions')]]");
+    private final By FundsETFsTab = By.xpath("//div[span[contains(text(),'Funds')]]");
+    private final By InstitutionTab = By.xpath("//div[span[contains(text(),'Institutions')]]");
     private final By InstitutionSearchResult = By.cssSelector(".top-holders-list.institution .details .holder-info .name");
-    private final By InsidersTab = By.xpath("//div[contains(@class,'ownership-historical')]//div[contains(@class,'toolbar-panel-row')]//div[span[contains(text(),'Insiders')]]");
+    private final By InsidersTab = By.xpath("//div[span[contains(text(),'Insiders')]]");
     private final By InsiderSearchResult = By.cssSelector(".top-holders-list.insider .details .holder-info .name");
     private final By DefaultInsiderResult = By.cssSelector("#ext-element-1965");
     private final By DefaultHolderResult = By.cssSelector("#ext-element-5048");
