@@ -289,8 +289,7 @@ public class Ownership extends AbstractSpec {
                 .viewHistoricalHolders()
                 .searchForHoldings(holder);
       
-        Assert.assertThat("Looks like Chevy Chase isn't in databse", securityOwnershipPage.getHolderSearchResults(), containsString(holder));
-        Assert.assertThat(securityOwnershipPage.getHistoricalInstitutionsHolderSearchResults(), containsString(holder));
+        Assert.assertThat("Institution not found", securityOwnershipPage.getHolderSearchResults(), containsString(holder));
     }
 
     @Test

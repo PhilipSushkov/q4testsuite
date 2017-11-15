@@ -106,7 +106,7 @@ public class SecurityOwnershipPage extends AbstractPageObject implements DateDro
     private final By historicalInstitutionsHolderSearchResult = By.cssSelector("#ext-top-holders-historical-institutions-1");
     private final By currentInsidersHolderSearchResult = By.cssSelector("#ext-ownership-top-holders-current-1");
     private final By historicalFundsHolderSearchResults = By.xpath("//*[@id='ext-ownership-historical-fund-1']//div[contains(@class,'x-list-item')]");
-    private final By holderSearchResult = By.cssSelector("#ext-top-holders-historical-institutions-1");
+    private final By holderSearchResult = By.xpath("//div[@id='ext-ownership-historical-institution-1']//div[contains(@class,'holder-info')]");
     private final By holderSearchResulttwo = By.cssSelector(".top-holders-list.fund .details .holder-info");
     private final By FundsETFsTab = By.xpath("//div[span[contains(text(),'Funds')]]");
     private final By InstitutionTab = By.xpath("//div[span[contains(text(),'Institutions')]]");
@@ -1236,7 +1236,7 @@ public class SecurityOwnershipPage extends AbstractPageObject implements DateDro
 
     public String getHolderSearchResults() {
         waitForElementToRest(holderSearchResult, 700L);
-        return waitForElementToAppear(holderSearchResult).getText();
+        return findVisibleElement(holderSearchResult).getText();
     }
 
     public SecurityOwnershipPage selectFundsETFstab() {
@@ -1262,7 +1262,7 @@ public class SecurityOwnershipPage extends AbstractPageObject implements DateDro
 
     public SecurityOwnershipPage selectThirteenF() {
         waitForLoadingScreen();
-        findElement(thirteenFButton).click();
+        waitForElement(thirteenFButton).click();
         waitForLoadingScreen();
         return this;
     }
