@@ -1225,7 +1225,7 @@ public class SecurityOwnershipPage extends AbstractPageObject implements DateDro
     public void selectInsiderstab() {
         waitForLoadingScreen();
         waitForElementToBeClickable(thirteenFButton).click();
-        waitForElementToBeClickable(InsidersTab).click();
+        findVisibleElement(InsidersTab).click();
 
     }
 
@@ -1241,8 +1241,7 @@ public class SecurityOwnershipPage extends AbstractPageObject implements DateDro
 
     public SecurityOwnershipPage selectFundsETFstab() {
         waitForLoadingScreen();
-        waitForElementToBeClickable(FundsETFsTab).click();
-
+        findVisibleElement(FundsETFsTab).click();
         return this;
     }
 
@@ -1256,7 +1255,7 @@ public class SecurityOwnershipPage extends AbstractPageObject implements DateDro
     public SecurityOwnershipPage viewInstitutiontab() {
         waitForLoadingScreen();
         findElement(thirteenFButton).click();
-        findElement(InstitutionTab).click();
+        findVisibleElement(InstitutionTab).click();
 
         return this;
     }
