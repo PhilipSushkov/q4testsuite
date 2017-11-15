@@ -10,6 +10,7 @@ import pageobjects.admin.companyPage.CompanyList;
 import pageobjects.admin.loginPage.AdminLoginPage;
 import pageobjects.user.dashboardPage.Dashboard;
 import specs.AdminAbstractSpec;
+import util.EnvironmentType;
 
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.is;
@@ -22,7 +23,7 @@ public class CompanyDetails extends AdminAbstractSpec {
 
     @Before
     public void setUp() {
-        if (hasLoggedIn()) {
+        if (hasLoggedIn() && getActiveEnvironment()!= EnvironmentType.LOCALADMIN) {
             new Dashboard(driver).navigateToCompanyPage();
         } else {
             new AdminLoginPage(driver).loginAdmin()

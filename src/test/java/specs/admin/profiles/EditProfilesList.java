@@ -10,6 +10,7 @@ import pageobjects.admin.profilesPage.ProfileDetails;
 import pageobjects.admin.profilesPage.ProfilesList;
 import pageobjects.user.dashboardPage.Dashboard;
 import specs.AdminAbstractSpec;
+import util.EnvironmentType;
 
 import static org.hamcrest.CoreMatchers.containsString;
 
@@ -20,7 +21,7 @@ public class EditProfilesList extends AdminAbstractSpec {
 
     @Before
     public void setUp() {
-        if (hasLoggedIn()) {
+        if (hasLoggedIn() && getActiveEnvironment()!= EnvironmentType.LOCALADMIN) {
             new Dashboard(driver).navigateToProfilesPage();
         }
         else {

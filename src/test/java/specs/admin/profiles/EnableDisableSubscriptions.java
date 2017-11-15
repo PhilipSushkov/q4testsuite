@@ -7,6 +7,7 @@ import pageobjects.user.dashboardPage.Dashboard;
 import pageobjects.user.loginPage.LoginPage;
 import pageobjects.user.estimatesPage.SecurityEstimatesPage;
 import specs.AdminAbstractSpec;
+import util.EnvironmentType;
 
 /**
  * Created by patrickp on 2016-10-13.
@@ -15,7 +16,7 @@ public class EnableDisableSubscriptions extends AdminAbstractSpec {
 
     @Before
     public void setUp() {
-        if (hasLoggedIn()) {
+        if (hasLoggedIn() && getActiveEnvironment()!= EnvironmentType.LOCALADMIN) {
             new Dashboard(driver).navigateToProfilesPage();
         }
         else {

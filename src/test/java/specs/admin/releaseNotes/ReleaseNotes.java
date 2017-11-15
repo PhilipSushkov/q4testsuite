@@ -12,6 +12,7 @@ import pageobjects.admin.releaseNotesPage.ReleaseNotesPage;
 import pageobjects.user.activityPage.ColumnType;
 import pageobjects.user.dashboardPage.Dashboard;
 import specs.AdminAbstractSpec;
+import util.EnvironmentType;
 
 import static org.hamcrest.CoreMatchers.containsString;
 
@@ -22,7 +23,7 @@ public class ReleaseNotes extends AdminAbstractSpec {
 
     @Before
     public void setUp(){
-        if (hasLoggedIn()) {
+        if (hasLoggedIn() && getActiveEnvironment()!= EnvironmentType.LOCALADMIN) {
             new Dashboard(driver).navigateToReleaseNotesPage();
         }
         else {

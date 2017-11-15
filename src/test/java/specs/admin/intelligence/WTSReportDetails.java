@@ -7,6 +7,7 @@ import pageobjects.admin.intelligencePage.WTSReportDetailsPage;
 import pageobjects.admin.loginPage.AdminLoginPage;
 import pageobjects.user.dashboardPage.Dashboard;
 import specs.AdminAbstractSpec;
+import util.EnvironmentType;
 
 import java.io.IOException;
 
@@ -21,7 +22,7 @@ public class WTSReportDetails extends AdminAbstractSpec {
     @Before
     public void setUp() {
         if (setUpIsDone) {
-            if (hasLoggedIn()) {
+            if (hasLoggedIn() && getActiveEnvironment()!= EnvironmentType.LOCALADMIN) {
                 new Dashboard(driver).navigateToIntelligencePage().selectNewReport();
             }
             else {

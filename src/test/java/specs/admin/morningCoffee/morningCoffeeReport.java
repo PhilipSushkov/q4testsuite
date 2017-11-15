@@ -11,6 +11,7 @@ import pageobjects.admin.morningCoffeePage.MorningCoffeePreview;
 import pageobjects.admin.morningCoffeePage.Sector;
 import pageobjects.user.dashboardPage.Dashboard;
 import specs.AdminAbstractSpec;
+import util.EnvironmentType;
 
 import java.io.*;
 import java.util.Date;
@@ -23,7 +24,7 @@ public class morningCoffeeReport extends AdminAbstractSpec {
 
     @Before
     public void setUp() {
-            if (hasLoggedIn()) {
+            if (hasLoggedIn() && getActiveEnvironment()!= EnvironmentType.LOCALADMIN) {
                     new Dashboard(driver).navigateToMorningCoffeePage();
                 }
                 else {
