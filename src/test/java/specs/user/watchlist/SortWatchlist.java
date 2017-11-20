@@ -7,6 +7,7 @@ import org.junit.Test;
 import pageobjects.user.loginPage.LoginPage;
 import pageobjects.user.watchlist.WatchlistPage;
 import specs.AbstractSpec;
+
 import java.util.List;
 
 
@@ -27,7 +28,7 @@ public class SortWatchlist extends AbstractSpec{
     public void canSortAlphabetically() {
         WatchlistPage watchlist = new WatchlistPage(driver);
         //if the watchlist is empty, add a list of peers for testing
-        if (!watchlist.watchlistHadSecurities()){
+        if (!watchlist.watchlistHadEnoughSecurities()){
         String securityList[] = new String[] {"Agilent Technologies Inc",
        "Zillow Group Inc","Dominion Energy Inc", "Barnes Group Inc",
                 "TELUS Corp"};

@@ -40,7 +40,6 @@ public class LoginPage extends Page {
 
     public LoginPage(WebDriver driver) {
         super(driver);
-        disableAnimations();
     }
 
     public Dashboard loginUser() {
@@ -73,7 +72,6 @@ public class LoginPage extends Page {
         findElement(emailField).sendKeys(email);
         findElement(passwordField).sendKeys(password);
         waitForElementToBeClickable(loginButton).click();
-
         return new Dashboard(getDriver());
     }
 

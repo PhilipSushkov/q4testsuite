@@ -362,4 +362,11 @@ public class Overview extends AbstractSpec {
         Assert.assertTrue("Index not added",securityOverviewPage.isIndexAdded("NASDAQ"));
     }
 
+    @Test
+    public void noSpecialCharacters(){
+        SecurityOverviewPage securityOverviewPage = new SecurityOverviewPage(driver);
+
+        Assert.assertTrue(securityOverviewPage.checkSpeicalCharacter("The Vanguard Group, Inc."));
+    }
+
 }

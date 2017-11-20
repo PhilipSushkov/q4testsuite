@@ -6,11 +6,16 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageobjects.AbstractPageObject;
 import pageobjects.user.institutionPage.InstitutionPage;
 
+import java.awt.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class SecurityOwnershipPage extends AbstractPageObject implements DateDropDownConstants {
@@ -126,6 +131,13 @@ public class SecurityOwnershipPage extends AbstractPageObject implements DateDro
 
     //buyers&sellers filter section
     private final By weekData = By.xpath("//div[contains(@class,'dataview-item')]/div[contains(@class,'view-list-item')][4]");
+    private final By pieLabels = By.xpath("//*[name()='svg']//*[contains(@class,'highcharts-title')]");
+    private final By barLabels = By.xpath("//div[contains(@class,'trend-by-qr')]//*[name()='svg']//*[name()='text']");
+
+    //map section
+    private final By countryList = By.xpath("(//div[contains(@class,'truncated-list-inner')])[2]//div[contains(@class,'label')]");
+    private final By countryValues = By.xpath("(//div[contains(@class,'truncated-list-inner')])[2]//div[contains(@class,'value')]");
+    private final By other = By.xpath("//div[contains(@class,'list-modal-item')]/span[contains(@class,'label')]");
 
     public SecurityOwnershipPage(WebDriver driver) {
         super(driver);
@@ -1349,5 +1361,168 @@ public class SecurityOwnershipPage extends AbstractPageObject implements DateDro
         }
         return dataStrings;
     }
+
+    public boolean checkPies(){
+        waitForLoadingScreen();
+        findElement(buyersFilter).click();
+        waitForLoadingScreen();
+        List<WebElement> pieTitle = findElements(pieLabels);
+        if(!(pieTitle.get(0).getText().trim().contentEquals(pieTitle.get(4).getText().trim())
+        && getLastFriday().contains(pieTitle.get(4).getText().trim()))){
+            System.out.println(getLastFriday());
+            System.out.println(pieTitle.get(4).getText().trim());
+            return false;
+        }
+        else if(!(pieTitle.get(2).getText().trim().contentEquals(pieTitle.get(6).getText().trim())
+                && getEndOfLastQuarter().contains(pieTitle.get(6).getText().trim()))){
+            System.out.println(getEndOfLastQuarter());
+            System.out.println(pieTitle.get(6).getText().trim());
+            return false;
+        }
+        else if(!(pieTitle.get(3).getText().trim().contentEquals(pieTitle.get(7).getText().trim())
+                && getEndOfQuarterBeforeLast().contains(pieTitle.get(7).getText().trim()))){
+            System.out.println(getEndOfQuarterBeforeLast());
+            System.out.println(pieTitle.get(7).getText().trim());
+            return false;
+        }
+        else if(!(pieTitle.get(1).getText().trim().contentEquals(pieTitle.get(5).getText().trim())
+                && pieTitle.get(5).getText().trim().contains("6WK"))){
+            System.out.println(pieTitle.get(5).getText().trim());
+            return false;
+        }
+        return true;
+    }
+
+    public Boolean checkBars(){
+        waitForLoadingScreen();
+        findElement(buyersFilter).click();
+        waitForLoadingScreen();
+        List<WebElement> barTitle = findElements(barLabels);
+        for(int i = 0; i < 4; i++){
+        if(Integer.parseInt(barTitle.get(i).getText().trim()) < 0
+                || Integer.parseInt(barTitle.get(i).getText().trim()) > 100){
+            return false;
+        }
+        }
+        if(!(getLastFriday().contains(barTitle.get(4).getText().trim()))){
+            return false;
+        }
+        else if(!(barTitle.get(5).getText().trim().contains("6WK"))){
+            return false;
+        }
+        else if(!(getEndOfLastQuarter().contains(barTitle.get(6).getText().trim()))){
+            return false;
+        }
+        else if(!(getEndOfQuarterBeforeLast().contains(barTitle.get(7).getText().trim()))){
+            return false;
+        }
+        
+        return true;
+    }
+
+    private String getLastFriday() {
+        DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+        Date date = new Date();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.add(Calendar.WEEK_OF_YEAR, -1);
+        cal.set(Calendar.DAY_OF_WEEK, 6);
+        return dateFormat.format(cal.getTime());
+    }
+
+    private String getEndOfLastQuarter(){
+        Date date = new Date();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        switch (cal.get (Calendar.MONTH) / 3){
+            case 3 :
+                return "9/30/2017";
+            case 2 :
+                return "6/30/2017";
+            case 1 :
+                return "3/31/2017";
+            case 0 : default :
+                return "12/31/2017";
+        }
+    }
+
+    private String getEndOfQuarterBeforeLast(){
+        Date date = new Date();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        switch (cal.get (Calendar.MONTH) / 3){
+            case 3 :
+                return "6/30/2017";
+            case 2 :
+                return "3/31/2017";
+            case 1 :
+                return "12/31/2017";
+            case 0 : default :
+                return "9/30/2017";
+        }
+    }
+
+    private String hexToRgb(String hex){
+        return "color: rgb(" + Color.decode(hex).getRed() + ", " + Color.decode(hex).getGreen()
+                + ", " + Color.decode(hex).getBlue() + ");";
+    }
+
+    public boolean checkInstitutionalHolderAnalysisMap(){
+        waitForLoadingScreen();
+        findElement(thirteenFButton).click();
+        waitForLoadingScreen();
+        List<WebElement> countries = findElements(countryList);
+        List<WebElement> values = findElements(countryValues);
+        List<String> colours = new ArrayList<>();
+        //check all numbers under "countrty by" are between 0 and 100
+        //and records colour in hex form
+        for (WebElement e : values){
+            colours.add(e.getAttribute("style"));
+            if (Double.parseDouble(e.getText()) > 100
+                    || Double.parseDouble(e.getText()) < 0){
+                return false;
+            }
+        }
+        countries.get(3).click();
+        waitForLoadingScreen();
+        List<WebElement> others = findElements(other);
+        List<String> countryNames = new ArrayList<>();
+        for (int i = 0; i < 3; i++){
+            countryNames.add(countries.get(i).getText().toLowerCase().replace(" ","-").split(",")[0]);
+        }
+        for (WebElement e : others){
+            countryNames.add(e.getText().toLowerCase().replace(" ", "-").split(",")[0]);
+        }
+        //compare the colours
+        for (int j = 0; j < countryNames.size(); j++){
+            if (j >= 0 && j <= 2){
+                    if (!(hexToRgb(findVisibleElement(By.xpath("//*[name() = 'path'][contains(@class,'highcharts-name-" + countryNames.get(j) +  "')]"))
+                            .getAttribute("fill")).contentEquals(colours.get(j)))){
+                        System.out.println(hexToRgb(findVisibleElement(By.xpath("//*[name() = 'path'][contains(@class,'highcharts-name-" + countryNames.get(j) +  "')]"))
+                                .getAttribute("fill")));
+                        System.out.println(colours.get(j));
+                        return false;
+                    }
+            }
+            else {
+                if (doesElementExist(By.xpath("//*[name() = 'path'][contains(@class,'highcharts-name-" + countryNames.get(j) + "')]"))) {
+                    if (!(hexToRgb(findVisibleElement(By.xpath("//*[name() = 'path'][contains(@class,'highcharts-name-" + countryNames.get(j) +  "')]"))
+                            .getAttribute("fill")).contentEquals(colours.get(3)))){
+                        System.out.println(hexToRgb(findVisibleElement(By.xpath("//*[name() = 'path'][contains(@class,'highcharts-name-" + countryNames.get(j) +  "')]"))
+                                .getAttribute("fill")));
+                        System.out.println(colours.get(3));
+                        return false;
+                    }
+                }
+                else{
+                    System.out.println(countryNames.get(j)); //shows countries that are not in the map
+                    //note: korea is inspected as south-korea and bahamas as the-bahamas in map hence can't be found
+                }
+            }
+        }
+
+        return true;
+    }
+
 
 }
