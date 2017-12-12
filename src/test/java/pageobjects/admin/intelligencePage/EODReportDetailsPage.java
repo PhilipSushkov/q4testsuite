@@ -1,13 +1,7 @@
 package pageobjects.admin.intelligencePage;
 
-import org.junit.Assert;
-import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import pageobjects.admin.homePage.HomePage;
-import pageobjects.admin.loginPage.AdminLoginPage;
-import specs.AdminAbstractSpec;
-import org.openqa.selenium.Keys;
 
 import pageobjects.AbstractPageObject;
 
