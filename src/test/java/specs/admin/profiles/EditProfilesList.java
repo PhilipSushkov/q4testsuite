@@ -42,8 +42,15 @@ public class EditProfilesList extends AdminAbstractSpec {
         String lastName = "Testerson";
         String title = "Tester";
         String phone = "123-456-7890";
+        String accountType = "Q4 Employee";
 
-        ProfilesList profilesList = new ProfilesList(driver).addNewProfile(email, password, organization, firstName, lastName, title, phone);
+        ProfilesList profilesList = new ProfilesList(driver).addNewProfile(email, password, organization, firstName, lastName, title, phone, accountType);
+    }
+
+    @Test
+    public void addMultipleUsers() {
+        ProfilesList profilesList = new ProfilesList(driver);
+        Assert.assertTrue(profilesList.bulkAddUser(true,4, "tickerList.txt"));
     }
 
     @Test

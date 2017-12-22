@@ -22,6 +22,7 @@ public class Overview extends AbstractSpec {
                 .selectSecurityFromSideNav();
     }
 
+    @Ignore
     @Test
     public void checkStockPrice() throws IOException {
         SecurityOverviewPage finish = new SecurityOverviewPage(driver);

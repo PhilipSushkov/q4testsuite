@@ -212,9 +212,9 @@ public class BriefingBookDetailsPage extends AbstractPageObject {
 
     public BriefingBookDetailsPage generateBriefingBook(Boolean includeActivity) {
         waitForElementToBeClickable(generateButton).click();
-        if (!includeActivity) {
-            waitForElementToBeClickable(includeActivityBox).click();
-        }
+//        if (!includeActivity) {
+//            waitForElementToBeClickable(includeActivityBox).click();
+//        }
         waitForElementToBeClickable(generateButtonModal).click();
         waitForLoadingScreen();
         return this;
@@ -222,9 +222,9 @@ public class BriefingBookDetailsPage extends AbstractPageObject {
 
     public BriefingBookDetailsPage generateBriefingBookWithCoverPage(String title, String notes, Boolean includeActivity) {
         waitForElementToBeClickable(generateButton).click();
-        if (!includeActivity) {
-            waitForElementToBeClickable(includeActivityBox).click();
-        }
+//        if (!includeActivity) {
+//            waitForElementToBeClickable(includeActivityBox).click();
+//        }
         waitForElementToBeClickable(includeCoverPageBox).click();
         waitForElementToAppear(coverPageTitle).sendKeys(title);
         findElement(coverPageNotes).sendKeys(notes);
@@ -270,7 +270,7 @@ public class BriefingBookDetailsPage extends AbstractPageObject {
     private URL getPdfUrl(String title) {
         try {
             return new URL("file://" + System.getProperty("user.home") + "/Downloads/"
-                    + title.replace('*', '-').replace(" ", "%20")
+                    + title.replace('*', '_').replace(" ", "%20")
                     + ".pdf");
         } catch (MalformedURLException e) {
             e.printStackTrace();

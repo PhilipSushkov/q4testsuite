@@ -81,6 +81,6 @@ public class EODReportDetails extends AdminAbstractSpec {
         Assert.assertTrue(new EODReportDetailsPage(driver).CHGCheck("percentCHG", delta));
         Assert.assertTrue(new EODReportDetailsPage(driver).CHGCheck("percentQTDCHG", delta));
         Assert.assertTrue(new EODReportDetailsPage(driver).CHGCheck("percentYTDCHG", delta));
-        new EODReportDetailsPage(driver).teardown();
+        //new EODReportDetailsPage(driver).teardown();
     }
 }

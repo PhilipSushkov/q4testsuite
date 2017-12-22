@@ -117,10 +117,11 @@ public class WTSReportDetailsPage extends AbstractPageObject {
 
     public boolean reportIsApproved(){
         waitForLoadingScreen();
-        return findElement(approveButton).getText().equalsIgnoreCase("Approved");
+        return !doesElementExist(approveButton);
     }
 
     public boolean downloadButtonIsPresent(){
+        driver.navigate().refresh();
         return doesElementExist(downloadButton) && findElement(downloadButton).isDisplayed();
     }
 

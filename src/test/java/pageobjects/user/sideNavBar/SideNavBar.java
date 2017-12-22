@@ -36,10 +36,10 @@ public class SideNavBar extends AbstractPageObject{
     private final By advancedSearchSideNav = By.id("ext-treelistitem-8");
     private final By securitySideNav = By.id("ext-treelistitem-10");
     private final By ownershipSideNav = By.id("ext-treelistitem-11");
-    private final By estimatesSideNav = By.id("ext-treelistitem-12");
-    private final By researchSideNav = By.id("ext-treelistitem-13");
-    private final By webAnalyticsSideNav = By.id("ext-treelistitem-14");
-    private final By webcastAnalyticsSideNav = By.id("ext-treelistitem-15");
+    private final By estimatesSideNav = By.id("ext-treelistitem-13");
+    private final By researchSideNav = By.id("ext-treelistitem-14");
+    private final By webAnalyticsSideNav = By.id("ext-treelistitem-15");
+    private final By webcastAnalyticsSideNav = By.id("ext-treelistitem-16");
     private final By supportTicketsSideNav = By.id("ext-treelistitem-17");
     private final By checklistSideNav = By.id("ext-treelistitem-19");
 
