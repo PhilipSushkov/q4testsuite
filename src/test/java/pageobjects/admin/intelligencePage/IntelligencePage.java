@@ -91,6 +91,7 @@ public class IntelligencePage extends AbstractPageObject {
 
     public WTSReportDetailsPage selectNewReport() {
         waitForLoadingScreen();
+        driver.navigate().refresh();
         wait.until(ExpectedConditions.textToBePresentInElementLocated(firstReportInList,"Ready"));
         findElement(firstReportInList).click();
 

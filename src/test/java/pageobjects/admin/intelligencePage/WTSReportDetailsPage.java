@@ -121,6 +121,7 @@ public class WTSReportDetailsPage extends AbstractPageObject {
     }
 
     public boolean downloadButtonIsPresent(){
+        driver.navigate().refresh();
         return doesElementExist(downloadButton) && findElement(downloadButton).isDisplayed();
     }
 

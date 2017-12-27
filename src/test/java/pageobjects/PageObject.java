@@ -101,7 +101,7 @@ public interface PageObject {
 
     default void waitForLoadingScreen() {
         //Waits 2 sec for spinners to appear, then 10 sec for spinners to disappear
-        WebDriverWait spinnerWait = new WebDriverWait(getDriver(), 2);
+        WebDriverWait spinnerWait = new WebDriverWait(getDriver(), 10);
         try {
             spinnerWait.until(ExpectedConditions.presenceOfElementLocated(By.className("x-loading-spinner")));
             getWait().until(ExpectedConditions.invisibilityOfAllElements(findElements(By.className("x-loading-spinner"))));

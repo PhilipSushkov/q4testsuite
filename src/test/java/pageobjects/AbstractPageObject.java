@@ -588,6 +588,12 @@ public class AbstractPageObject implements HeaderPage{
         return new ProfilesList(driver);
     }
 
+    public ProfilesList navigateToProfilesPageFlash() {
+        selectProduct(DESKTOP);
+        findElement(profilesPage).click();
+        return new ProfilesList(driver);
+    }
+
     public ImplementationPage navigateToImplementationPage() {
         waitForLoadingScreen();
         selectProduct(WEB);
