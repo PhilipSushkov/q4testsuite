@@ -6,10 +6,16 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageobjects.AbstractPageObject;
 import pageobjects.user.institutionPage.InstitutionPage;
 
+import java.awt.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAdjusters;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class SecurityOwnershipPage extends AbstractPageObject implements DateDropDownConstants {
@@ -57,7 +63,23 @@ public class SecurityOwnershipPage extends AbstractPageObject implements DateDro
     private final By holderTableHeaderAsOf = By.cssSelector(".x-grid-column:nth-child(11)");
     //private final By holderTableHeaderQR = By.cssSelector(".x-grid-column:nth-child(12)");
     private final By holderTableHeaderQR = By.xpath("(//div[contains(@class, 'x-inner x-grid-header-container-inner x-align-stretch x-horizontal x-pack-start x-layout-box')]//div[contains(text(), 'QR')])[2]");
+    /*
+    private final By holderTableHeaderName = By.cssSelector(".x-grid-column:nth-child(2)");
+    private final By holderTableHeaderPOS = By.cssSelector(".x-grid-column:nth-child(3)");
+    private final By holderTableHeader1QChg = By.cssSelector(".x-grid-column:nth-child(4)");
+    private final By holderTableHeaderMktVal = By.cssSelector(".x-grid-column:nth-child(5)");
+    private final By holderTableHeaderMktValChg = By.cssSelector(".x-grid-column:nth-child(6)");
+    private final By holderTableHeaderPercOS = By.cssSelector(".x-grid-column:nth-child(7)");
+    private final By holderTableHeaderPercPort = By.cssSelector(".x-grid-column:nth-child(8)");
+    private final By holderTableHeaderStyle = By.cssSelector(".x-grid-column:nth-child(9)");
+    private final By holderTableHeaderTurnover = By.cssSelector(".x-grid-column:nth-child(10)");
+    private final By holderTableHeaderAUM = By.cssSelector(".x-grid-column:nth-child(11)");
+    private final By holderTableHeaderAsOf = By.cssSelector(".x-grid-column:nth-child(12)");
+    private final By holderTableHeaderQR = By.cssSelector(".x-grid-column:nth-child(13)");
+    */
+  
     private final By holderTableRow = By.cssSelector(".x-grid-row:not([style*='-10000px'])");
+    private final By insiderTableRow = By.xpath("//div[div[contains(@class,'holder-info')]]/i[@class='icon-type q4i-insider-2pt']");
     private final By alternateHolderTableRow = By.cssSelector(".top-holders-list-institutions .x-dataview-item"); // exists instead of above when using Buyers or Sellers filter
     //private final By holderTableName = By.cssSelector(".x-grid-row:not([style*='-10000px']) .x-grid-cell:first-child");
     private final By holderTableName = By.xpath("//div[contains(@class,'grid-cell-align-left')]");
@@ -73,6 +95,22 @@ public class SecurityOwnershipPage extends AbstractPageObject implements DateDro
     private final By holderTableAUM = By.cssSelector(".x-grid-row:not([style*='-10000px']) .x-grid-cell:nth-child(9)");
     private final By holderTableAsOf = By.cssSelector(".x-grid-row:not([style*='-10000px']) .x-grid-cell:nth-child(10)");
     private final By holderTableQR = By.cssSelector(".x-grid-row:not([style*='-10000px']) .x-grid-cell:nth-child(11)");
+  
+    /*
+    private final By holderTableName = By.cssSelector(".x-grid-row:not([style*='-10000px']) .x-grid-cell:nth-child(2)");
+    private final By holderTablePOS = By.cssSelector(".x-grid-row:not([style*='-10000px']) .x-grid-cell:nth-child(3)");
+    private final By holderTable1QChg = By.cssSelector(".x-grid-row:not([style*='-10000px']) .x-grid-cell:nth-child(4) span");
+    private final By holderTableMktVal = By.cssSelector(".x-grid-row:not([style*='-10000px']) .x-grid-cell:nth-child(5)");
+    private final By holderTableMktValChg = By.cssSelector(".x-grid-row:not([style*='-10000px']) .x-grid-cell:nth-child(6) span");
+    private final By holderTablePercOS = By.cssSelector(".x-grid-row:not([style*='-10000px']) .x-grid-cell:nth-child(7)");
+    private final By holderTablePercPort = By.cssSelector(".x-grid-row:not([style*='-10000px']) .x-grid-cell:nth-child(8)");
+    private final By holderTableStyle = By.cssSelector(".x-grid-row:not([style*='-10000px']) .x-grid-cell:nth-child(9)");
+    private final By holderTableTurnover = By.cssSelector(".x-grid-row:not([style*='-10000px']) .x-grid-cell:nth-child(10)");
+    private final By holderTableAUM = By.cssSelector(".x-grid-row:not([style*='-10000px']) .x-grid-cell:nth-child(11)");
+    private final By holderTableAsOf = By.cssSelector(".x-grid-row:not([style*='-10000px']) .x-grid-cell:nth-child(12)");
+    private final By holderTableQR = By.cssSelector(".x-grid-row:not([style*='-10000px']) .x-grid-cell:nth-child(13)");
+    */
+  
     private final By holderTable1W = By.cssSelector(".x-dataview-item .view-list-item:nth-child(4)"); // only exists when using Buyers or Sellers filter
     private final By showMoreButton = By.className("q4i-arrow-down-2pt");
     private final By activistIcon = By.cssSelector(".icon.activists");
@@ -126,14 +164,45 @@ public class SecurityOwnershipPage extends AbstractPageObject implements DateDro
     private final By FundsETFsTab = By.cssSelector("#ext-tab-8");
     //private final By InstitutionTab = By.cssSelector("#ext-tab-2");
     private final By InstitutionTab = By.xpath("//div[contains(@class, 'x-container x-unsized ownership-holders current x-layout-fit-item')]//div[contains(@class, 'x-container x-unsized toolbar-panel q4-blue')]//span[contains(@class, 'q4i-institution-2pt')]");
+
+    /*
+    private final By historicalTab = By.xpath("//div[contains(@class,'ownership-top-holders')]//div[span[contains(text(),'Historical')]] ");
+    private final By currentTab = By.xpath("//div[contains(@class,'ownership-top-holders')]//div[span[contains(text(),'Current')]] ");
+    private final By holdingsSearchField = By.cssSelector(".ownership-top-holders.q4-tab .search-field .x-field-input .x-input-el");
+
+    //different types of Holder Searches
+    private final By historicalInstitutionsHolderSearchResult = By.cssSelector("#ext-top-holders-historical-institutions-1");
+    private final By currentInsidersHolderSearchResult = By.cssSelector("#ext-ownership-top-holders-current-1");
+    private final By historicalFundsHolderSearchResults = By.xpath("//*[@id='ext-ownership-historical-fund-1']//div[contains(@class,'x-list-item')]");
+    private final By holderSearchResult = By.xpath("//div[@id='ext-ownership-historical-institution-1']//div[contains(@class,'holder-info')]");
+    private final By holderSearchResulttwo = By.cssSelector(".top-holders-list.fund .details .holder-info");
+    private final By FundsETFsTab = By.xpath("//div[span[contains(text(),'Funds')]]");
+    private final By InstitutionTab = By.xpath("//div[span[contains(text(),'Institutions')]]");
+    */
+
     private final By InstitutionSearchResult = By.cssSelector(".top-holders-list.institution .details .holder-info .name");
-    private final By InsidersTab = By.cssSelector("#ext-tab-7");
+    private final By InsidersTab = By.xpath("//div[span[contains(text(),'Insiders')]]");
     private final By InsiderSearchResult = By.cssSelector(".top-holders-list.insider .details .holder-info .name");
     private final By DefaultInsiderResult = By.cssSelector("#ext-element-1965");
     private final By DefaultHolderResult = By.cssSelector("#ext-element-5048");
     private final By thirteenFButton = By.xpath("//span[contains(text(),'13F')]");
     private final By nextPageButton = By.xpath("//div[contains(@class, 'x-unsized x-button nav-button next-page x-iconalign-center')]");
     private final By previousPageButton = By.xpath("//div[contains(@class, 'x-unsized x-button nav-button prev-page x-iconalign-center')]");
+
+    //peer analysis section
+    private final By peerAnalysisTab = By.xpath("//span[text()='Peer Analysis']");
+    private final By institutionFilter = By.xpath("//div[contains(@class,'tab-icon')]//span[text()='Institutions']");
+    private final By peerAnalysisCompany = By.xpath("//div[contains(@class,'ownership-peer-analysis-list')]//div[contains(@class,'x-domscroller')]//div[contains(@class,'citrus')]");
+
+    //buyers&sellers filter section
+    private final By weekData = By.xpath("//div[contains(@class,'dataview-item')]/div[contains(@class,'view-list-item')][4]");
+    private final By pieLabels = By.xpath("//*[name()='svg']//*[contains(@class,'highcharts-title')]");
+    private final By barLabels = By.xpath("//div[contains(@class,'trend-by-qr')]//*[name()='svg']//*[name()='text']");
+
+    //map section
+    private final By countryList = By.xpath("(//div[contains(@class,'truncated-list-inner')])[2]//div[contains(@class,'label')]");
+    private final By countryValues = By.xpath("(//div[contains(@class,'truncated-list-inner')])[2]//div[contains(@class,'value')]");
+    private final By other = By.xpath("//div[contains(@class,'list-modal-item')]/span[contains(@class,'label')]");
 
     public SecurityOwnershipPage(WebDriver driver) {
         super(driver);
@@ -878,6 +947,7 @@ public class SecurityOwnershipPage extends AbstractPageObject implements DateDro
 
     // this method is to be used while one of the date tabs is selected
     public SecurityOwnershipPage showOnlyInsiders(){
+        waitForLoadingScreen();
         waitForElement(insidersFilter);
         findVisibleElement(insidersFilter).click();
         waitForLoadingScreen();
@@ -900,17 +970,15 @@ public class SecurityOwnershipPage extends AbstractPageObject implements DateDro
     }
 
     // this method is to be used while one of the date tabs is selected
-    // insiders have no QR scores and no institution icons
     public int getNumOfInsidersDisplayed(){
         int numInsiders = 0;
+        waitForLoadingScreen();
         waitForElement(holderTableRow);
         List<WebElement> rows = findVisibleElements(holderTableRow);
         for (WebElement row : rows){
-            if (doesElementExist(By.cssSelector("#"+row.getAttribute("id")+" .rating.no-value"))){ //checks whether there's no QR score within that row
                 if (doesElementExist(By.xpath("//div[@id='"+row.getAttribute("id")+"']//i[contains(@class,'q4i-insider-2pt')]"))){ //checks whether there's no institution icon within that row
                     numInsiders++;
                 }
-            }
         }
         return numInsiders;
     }
@@ -1234,7 +1302,7 @@ public class SecurityOwnershipPage extends AbstractPageObject implements DateDro
     public void selectInsiderstab() {
         waitForLoadingScreen();
         waitForElementToBeClickable(thirteenFButton).click();
-        waitForElementToBeClickable(InsidersTab).click();
+        findVisibleElement(InsidersTab).click();
 
     }
 
@@ -1245,13 +1313,12 @@ public class SecurityOwnershipPage extends AbstractPageObject implements DateDro
 
     public String getHolderSearchResults() {
         waitForElementToRest(holderSearchResult, 700L);
-        return waitForElementToAppear(holderSearchResult).getText();
+        return findVisibleElement(holderSearchResult).getText();
     }
 
     public SecurityOwnershipPage selectFundsETFstab() {
         waitForLoadingScreen();
-        waitForElementToBeClickable(FundsETFsTab).click();
-
+        findVisibleElement(FundsETFsTab).click();
         return this;
     }
 
@@ -1265,14 +1332,14 @@ public class SecurityOwnershipPage extends AbstractPageObject implements DateDro
     public SecurityOwnershipPage viewInstitutiontab() {
         waitForLoadingScreen();
         findElement(thirteenFButton).click();
-        findElement(InstitutionTab).click();
+        findVisibleElement(InstitutionTab).click();
 
         return this;
     }
 
     public SecurityOwnershipPage selectThirteenF() {
         waitForLoadingScreen();
-        findElement(thirteenFButton).click();
+        waitForElement(thirteenFButton).click();
         waitForLoadingScreen();
         return this;
     }
@@ -1282,4 +1349,245 @@ public class SecurityOwnershipPage extends AbstractPageObject implements DateDro
         findElement(trendAnalysisPage).click();
         return this;
     }
+
+     public boolean checkPeerAnalysis(String companyName){
+        waitForLoadingScreen();
+        findElement(thirteenFButton).click();
+        waitForLoadingScreen();
+        findElement(peerAnalysisTab).click();
+        waitForLoadingScreen();
+        if (!getPeerAnalysisName().contains(companyName))return false; //check company title for institutions
+        List<String> firstTenPeerDataIns = getFirstTenPeerData(); //check data is in correct form
+        for (String s: firstTenPeerDataIns){
+            if (s == "-" || s == null || s == "0"){
+                return false;
+            }
+        }
+         waitForLoadingScreen();
+         findVisibleElement(fundsFilter).click();
+         waitForLoadingScreen();
+         if (!getPeerAnalysisName().contains(companyName))return false; //check company title for funds
+         List<String> firstTenPeerDataFund = getFirstTenPeerData(); //check data is correct form
+         for (String s: firstTenPeerDataFund){
+             if (s == "-" || s == null || s == "0"){
+                 return false;
+             }
+         }
+        return true;
+    }
+
+    public String getPeerAnalysisName(){
+        return findVisibleElement(peerAnalysisCompany).getText();
+    }
+
+    public List<String> getFirstTenPeerData(){
+        List<WebElement> peerData = new ArrayList<WebElement>();
+        try {
+            peerData = findVisibleElements(By.xpath("//div[div[contains(@class,'x-grid-cell') and div[contains(@class,'details')]]]//following-sibling::div[contains(@class,'x-grid-cell')]"));
+        }catch(NullPointerException e)
+        {
+            e.printStackTrace();
+        }
+        List<String> list = new ArrayList<String>();
+        for (WebElement e : peerData){
+            list.add(e.getText());
+        }
+        return list;
+    }
+
+    public boolean checkBuyerSellerFilter(){
+        waitForLoadingScreen();
+        findElement(buyersFilter).click();
+        waitForLoadingScreen();
+        List <String> buyers = getWeekData();
+        findElement(sellersFilter).click();
+        waitForLoadingScreen();
+        List <String> sellers = getWeekData();
+        for (String e : buyers)
+        {
+            if (e.contains("-")){
+                return false;
+            }
+        }
+        for (String e : sellers)
+        {
+            if (!e.contains("-")){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public List<String> getWeekData(){
+        List <WebElement> dataElements = findVisibleElements(weekData);
+        List <String> dataStrings = new ArrayList<>();
+        for (WebElement e : dataElements){
+            dataStrings.add(e.getText());
+        }
+        return dataStrings;
+    }
+
+    public boolean checkPies(){
+        waitForLoadingScreen();
+        findElement(buyersFilter).click();
+        waitForLoadingScreen();
+        List<WebElement> pieTitle = findElements(pieLabels);
+        if(!(pieTitle.get(0).getText().trim().contentEquals(pieTitle.get(4).getText().trim())
+        && getLastFriday().contains(pieTitle.get(4).getText().trim()))){
+            System.out.println(getLastFriday());
+            System.out.println(pieTitle.get(4).getText().trim());
+            return false;
+        }
+        else if(!(pieTitle.get(2).getText().trim().contentEquals(pieTitle.get(6).getText().trim())
+                && getEndOfLastQuarter().contains(pieTitle.get(6).getText().trim()))){
+            System.out.println(getEndOfLastQuarter());
+            System.out.println(pieTitle.get(6).getText().trim());
+            return false;
+        }
+        else if(!(pieTitle.get(3).getText().trim().contentEquals(pieTitle.get(7).getText().trim())
+                && getEndOfQuarterBeforeLast().contains(pieTitle.get(7).getText().trim()))){
+            System.out.println(getEndOfQuarterBeforeLast());
+            System.out.println(pieTitle.get(7).getText().trim());
+            return false;
+        }
+        else if(!(pieTitle.get(1).getText().trim().contentEquals(pieTitle.get(5).getText().trim())
+                && pieTitle.get(5).getText().trim().contains("6WK"))){
+            System.out.println(pieTitle.get(5).getText().trim());
+            return false;
+        }
+        return true;
+    }
+
+    public Boolean checkBars(){
+        waitForLoadingScreen();
+        findElement(buyersFilter).click();
+        waitForLoadingScreen();
+        List<WebElement> barTitle = findElements(barLabels);
+        for(int i = 0; i < 4; i++){
+        if(Integer.parseInt(barTitle.get(i).getText().trim()) < 0
+                || Integer.parseInt(barTitle.get(i).getText().trim()) > 100){
+            return false;
+        }
+        }
+        if(!(getLastFriday().contains(barTitle.get(4).getText().trim()))){
+            return false;
+        }
+        else if(!(barTitle.get(5).getText().trim().contains("6WK"))){
+            return false;
+        }
+        else if(!(getEndOfLastQuarter().contains(barTitle.get(6).getText().trim()))){
+            return false;
+        }
+        else if(!(getEndOfQuarterBeforeLast().contains(barTitle.get(7).getText().trim()))){
+            return false;
+        }
+        
+        return true;
+    }
+
+    private String getLastFriday() {
+        DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+        Date date = new Date();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.add(Calendar.WEEK_OF_YEAR, -1);
+        cal.set(Calendar.DAY_OF_WEEK, 6);
+        return dateFormat.format(cal.getTime());
+    }
+
+    private String getEndOfLastQuarter(){
+        Date date = new Date();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        switch (cal.get (Calendar.MONTH) / 3){
+            case 3 :
+                return "9/30/2017";
+            case 2 :
+                return "6/30/2017";
+            case 1 :
+                return "3/31/2017";
+            case 0 : default :
+                return "12/31/2017";
+        }
+    }
+
+    private String getEndOfQuarterBeforeLast(){
+        Date date = new Date();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        switch (cal.get (Calendar.MONTH) / 3){
+            case 3 :
+                return "6/30/2017";
+            case 2 :
+                return "3/31/2017";
+            case 1 :
+                return "12/31/2017";
+            case 0 : default :
+                return "9/30/2017";
+        }
+    }
+
+    private String hexToRgb(String hex){
+        return "color: rgb(" + Color.decode(hex).getRed() + ", " + Color.decode(hex).getGreen()
+                + ", " + Color.decode(hex).getBlue() + ");";
+    }
+
+    public boolean checkInstitutionalHolderAnalysisMap(){
+        waitForLoadingScreen();
+        findElement(thirteenFButton).click();
+        waitForLoadingScreen();
+        List<WebElement> countries = findElements(countryList);
+        List<WebElement> values = findElements(countryValues);
+        List<String> colours = new ArrayList<>();
+        //check all numbers under "countrty by" are between 0 and 100
+        //and records colour in hex form
+        for (WebElement e : values){
+            colours.add(e.getAttribute("style"));
+            if (Double.parseDouble(e.getText()) > 100
+                    || Double.parseDouble(e.getText()) < 0){
+                return false;
+            }
+        }
+        countries.get(3).click();
+        waitForLoadingScreen();
+        List<WebElement> others = findElements(other);
+        List<String> countryNames = new ArrayList<>();
+        for (int i = 0; i < 3; i++){
+            countryNames.add(countries.get(i).getText().toLowerCase().replace(" ","-").split(",")[0]);
+        }
+        for (WebElement e : others){
+            countryNames.add(e.getText().toLowerCase().replace(" ", "-").split(",")[0]);
+        }
+        //compare the colours
+        for (int j = 0; j < countryNames.size(); j++){
+            if (j >= 0 && j <= 2){
+                    if (!(hexToRgb(findVisibleElement(By.xpath("//*[name() = 'path'][contains(@class,'highcharts-name-" + countryNames.get(j) +  "')]"))
+                            .getAttribute("fill")).contentEquals(colours.get(j)))){
+                        System.out.println(hexToRgb(findVisibleElement(By.xpath("//*[name() = 'path'][contains(@class,'highcharts-name-" + countryNames.get(j) +  "')]"))
+                                .getAttribute("fill")));
+                        System.out.println(colours.get(j));
+                        return false;
+                    }
+            }
+            else {
+                if (doesElementExist(By.xpath("//*[name() = 'path'][contains(@class,'highcharts-name-" + countryNames.get(j) + "')]"))) {
+                    if (!(hexToRgb(findVisibleElement(By.xpath("//*[name() = 'path'][contains(@class,'highcharts-name-" + countryNames.get(j) +  "')]"))
+                            .getAttribute("fill")).contentEquals(colours.get(3)))){
+                        System.out.println(hexToRgb(findVisibleElement(By.xpath("//*[name() = 'path'][contains(@class,'highcharts-name-" + countryNames.get(j) +  "')]"))
+                                .getAttribute("fill")));
+                        System.out.println(colours.get(3));
+                        return false;
+                    }
+                }
+                else{
+                    System.out.println(countryNames.get(j)); //shows countries that are not in the map
+                    //note: korea is inspected as south-korea and bahamas as the-bahamas in map hence can't be found
+                }
+            }
+        }
+
+        return true;
+    }
+
+
 }

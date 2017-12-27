@@ -16,12 +16,16 @@ import pageobjects.user.logActivityModal.LogActivityModal;
 import pageobjects.user.loginPage.LoginPage;
 import pageobjects.user.sideNavBar.SideNavBar;
 
+import java.io.*;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
 public class AbstractPageObject implements HeaderPage{
 
@@ -59,10 +63,10 @@ public class AbstractPageObject implements HeaderPage{
     private final By reportHeader = By.cssSelector(".page-header .page-title .details");
     private final By usersPage = By.cssSelector("body > q4-app > div > q4-navbar > nav > div > ul > li:nth-child(6) > a > i");
     private final By releaseNotesPage = By.xpath("//a[contains(@title, 'Release Notes')]");
-    private final By profileIcon = By.xpath("//div[contains(@class,'profile dropdown')]");
+    private final By profileIcon = By.xpath("//div[contains(@class,'profile x-dock-item')]");
     private final By feedback = By.xpath("//div[@class='profile-menu-item']/span[contains(text(),'Leave Feedback')]");
     private final By password = By.xpath("//div[@class='profile-menu-item']/span[contains(text(),'Change Password')]");
-    private final By logout = By.xpath("//a[span[contains(text(),'Logout')]]");
+    private final By logout = By.xpath("//span[contains(text(),'Logout')]");
     private final By confirmLogout = By.xpath("//div[contains(@class,'x-button-action') and ./span[contains(text(),'Yes')]]");
     private final By productDropDown = By.xpath("//p-dropdown");
     private final By desktopSelect = By.xpath("//p-dropdown//span[contains(text(),'Desktop')]");
@@ -72,6 +76,8 @@ public class AbstractPageObject implements HeaderPage{
     private final String WEB ="Web";
     private final String SURVEILLANCE = "Surveillance";
 
+    //Check unsubscribers
+    private final By unsubscribeMessage = By.xpath("//h1[text()=\"Looks like you haven't subscribed to this feature. Interested?\"]");
 
 
     public AbstractPageObject(WebDriver driver) {
@@ -113,6 +119,7 @@ public class AbstractPageObject implements HeaderPage{
 
     //use from dashboard
     public SideNavBar accessSideNav() {
+        waitForLoadingScreen();
         waitForElementToBeClickable(sideNavIcon).click();
         return new SideNavBar(getDriver());
     }
@@ -634,8 +641,8 @@ public class AbstractPageObject implements HeaderPage{
 
     public LoginPage logout (){
         waitForElement(profileIcon);
-        ArrayList<WebElement> testing = new ArrayList<>(findElements(profileIcon));
-        findElement(profileIcon).click();
+        findVisibleElement(profileIcon).click();
+        waitForElement(logout);
         findElement(logout).click();
         waitForLoadingScreen();
         return new LoginPage(getDriver());
@@ -699,4 +706,35 @@ public class AbstractPageObject implements HeaderPage{
         JavascriptExecutor jse = (JavascriptExecutor) driver;
         jse.executeScript("window.scrollTo(0,0)");
     }
+
+    public void getTokenId(){
+        try{
+            JavascriptExecutor js  = (JavascriptExecutor) driver;
+            Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("session_file.txt"),"utf-8"));
+            String test = ((String)js.executeScript(String.format("return window.localStorage.getItem('%s');", "id_token")));
+            writer.write(test);
+            writer.close();
+        }catch(Exception e){
+
+        }
+    }
+
+    public void getProfile(){
+        try{
+            JavascriptExecutor js  = (JavascriptExecutor) driver;
+            Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("session_profile.txt"),"utf-8"));
+            String test = ((String)js.executeScript(String.format("return window.localStorage.getItem('%s');", "profile")));
+            writer.write(test);
+            writer.close();
+        }catch(Exception e){
+
+        }
+    }
+
+
+    public Boolean isUnsubscribed(){
+        waitForLoadingScreen();
+        return doesElementExist(unsubscribeMessage);
+    }
+
 }

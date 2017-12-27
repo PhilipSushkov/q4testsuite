@@ -10,7 +10,9 @@ import pageobjects.admin.releaseNotesPage.EditReleaseNotesPage;
 import pageobjects.admin.releaseNotesPage.ReleaseNoteDetails;
 import pageobjects.admin.releaseNotesPage.ReleaseNotesPage;
 import pageobjects.user.activityPage.ColumnType;
+import pageobjects.user.dashboardPage.Dashboard;
 import specs.AdminAbstractSpec;
+import util.EnvironmentType;
 
 import static org.hamcrest.CoreMatchers.containsString;
 
@@ -21,8 +23,13 @@ public class ReleaseNotes extends AdminAbstractSpec {
 
     @Before
     public void setUp(){
-        new AdminLoginPage(driver).loginAdmin()
-                .navigateToReleaseNotesPage();
+        if (hasLoggedIn() && getActiveEnvironment()!= EnvironmentType.LOCALADMIN) {
+            new Dashboard(driver).navigateToReleaseNotesPage();
+        }
+        else {
+            new AdminLoginPage(driver).loginAdmin()
+                    .navigateToReleaseNotesPage();
+        }
     }
 
     @After
@@ -37,8 +44,8 @@ public class ReleaseNotes extends AdminAbstractSpec {
 
     @Test
     public void canSaveReleaseNote(){
-        String version = "0.0.5";
-        String title = "Big Baller Test Release Note " + RandomStringUtils.randomAlphanumeric(6);
+        String version = "0.0.5"+RandomStringUtils.randomAlphanumeric(6);
+        String title = "Test Release Note " + RandomStringUtils.randomAlphanumeric(6);
         String releaseDay = "15";
         String overview = "Testing Comment " + RandomStringUtils.randomAlphanumeric(6);
 
@@ -53,8 +60,8 @@ public class ReleaseNotes extends AdminAbstractSpec {
 
     @Test
     public void canEditReleaseNote(){
-        String version = "0.0.6";
-        String title = "Big Baller Test Release Note " + RandomStringUtils.randomAlphanumeric(6);
+        String version = "0.0.6"+RandomStringUtils.randomAlphanumeric(6);
+        String title = "Test Release Note " + RandomStringUtils.randomAlphanumeric(6);
         String releaseDay = "15";
         String overview = "Testing Comment " + RandomStringUtils.randomAlphanumeric(6);
 
@@ -88,8 +95,8 @@ public class ReleaseNotes extends AdminAbstractSpec {
 
     @Test
     public void canPublishReleaseNote(){
-        String version = "0.0.7";
-        String title = "Big Baller Test Release Note " + RandomStringUtils.randomAlphanumeric(6);
+        String version = "0.0.7"+RandomStringUtils.randomAlphanumeric(6);;
+        String title = "Test Release Note " + RandomStringUtils.randomAlphanumeric(6);
         String releaseDay = "15";
         String overview = "Testing Comment " + RandomStringUtils.randomAlphanumeric(6);
 
@@ -107,7 +114,7 @@ public class ReleaseNotes extends AdminAbstractSpec {
     @Test
     public void canDeleteReleaseNote(){
         String version = "0.0.8";
-        String title = "Big Baller Test Release Note " + RandomStringUtils.randomAlphanumeric(6);
+        String title = "Test Release Note " + RandomStringUtils.randomAlphanumeric(6);
         String releaseDay = "15";
         String overview = "Testing Comment " + RandomStringUtils.randomAlphanumeric(6);
 
@@ -122,8 +129,8 @@ public class ReleaseNotes extends AdminAbstractSpec {
 
     @Test
     public void canCancelDeleteReleaseNote(){
-        String version = "0.0.9";
-        String title = "Big Baller Test Release Note " + RandomStringUtils.randomAlphanumeric(6);
+        String version = "0.0.9"+RandomStringUtils.randomAlphanumeric(6);
+        String title = "Test Release Note " + RandomStringUtils.randomAlphanumeric(6);
         String releaseDay = "15";
         String overview = "Testing Comment " + RandomStringUtils.randomAlphanumeric(6);
         EditReleaseNotesPage editReleaseNotesPage = new EditReleaseNotesPage(driver);
@@ -137,8 +144,8 @@ public class ReleaseNotes extends AdminAbstractSpec {
 
     @Test
     public void canSearchForReleaseNote(){
-        String version = "0.0.3";
-        String title = "Big Baller Test Release Note " + RandomStringUtils.randomAlphanumeric(6);
+        String version = "0.0.3"+RandomStringUtils.randomAlphanumeric(6);
+        String title = "Test Release Note " + RandomStringUtils.randomAlphanumeric(6);
         String releaseDay = "15";
         String overview = "Testing Comment " + RandomStringUtils.randomAlphanumeric(6);
 

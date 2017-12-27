@@ -26,6 +26,7 @@ public class LoginPage extends Page {
     private final By forgotPasswordModalTitle = By.cssSelector(".forgot-password-form h1");
     private final By cancelForgotPassword = By.cssSelector(".forgot-password-form .forgot-password-cancel .x-button-label, .forgot-password-form .forgot-password-submit .x-button-label");
     private final By forgotPasswordEmailField = By.id("ext-element-74");
+    //private final By forgotPasswordEmailField = By.xpath("//input[contains(@class,'x-input-email')]");
     private final By submitForgottenEmail = By.cssSelector(".forgot-password-form .forgot-password-submit .x-button-label");
 
     // Invalid email modal (triggered by entering invalid email on password reset)
@@ -40,7 +41,6 @@ public class LoginPage extends Page {
 
     public LoginPage(WebDriver driver) {
         super(driver);
-        disableAnimations();
     }
 
     public Dashboard loginUser() {
@@ -73,7 +73,6 @@ public class LoginPage extends Page {
         findElement(emailField).sendKeys(email);
         findElement(passwordField).sendKeys(password);
         waitForElementToBeClickable(loginButton).click();
-
         return new Dashboard(getDriver());
     }
 
@@ -111,11 +110,10 @@ public class LoginPage extends Page {
     }
 
     public LoginPage enterForgotPasswordEmail(String email) {
-
-        waitForElementToAppear(forgotPasswordEmailField);
-        findElement(forgotPasswordEmailField).click();
-        findElement(forgotPasswordEmailField).sendKeys(email);
-        findElement(submitForgottenEmail).click();
+        waitForLoadingScreen();
+        findVisibleElement(forgotPasswordEmailField).click();
+        findVisibleElement(forgotPasswordEmailField).sendKeys(email);
+        findVisibleElement(submitForgottenEmail).click();
 
         return  this;
     }

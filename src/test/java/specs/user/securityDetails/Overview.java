@@ -22,7 +22,7 @@ public class Overview extends AbstractSpec {
                 .selectSecurityFromSideNav();
     }
 
-    @Ignore
+    @Ignore // yahoo stock api doesn't exist anymore, will need to replace with another free service.
     @Test
     public void checkStockPrice() throws IOException {
         SecurityOverviewPage finish = new SecurityOverviewPage(driver);
@@ -352,6 +352,22 @@ public class Overview extends AbstractSpec {
         securityOverviewPage.clickCoordinate(By.className("company-name"), 99, 223);
         Assert.assertFalse("Recent Research modal failed to close."
                 , securityOverviewPage.recentResearchModalExists());
+    }
+
+    @Test
+    public void canAddIndexToChart(){
+        SecurityOverviewPage securityOverviewPage = new SecurityOverviewPage(driver);
+
+
+        Assert.assertTrue("Unable to add index",securityOverviewPage.addIndexToChart("NAS"));
+        Assert.assertTrue("Index not added",securityOverviewPage.isIndexAdded("NASDAQ"));
+    }
+
+    @Test
+    public void noSpecialCharacters(){
+        SecurityOverviewPage securityOverviewPage = new SecurityOverviewPage(driver);
+
+        Assert.assertTrue(securityOverviewPage.checkSpeicalCharacter("The Vanguard Group, Inc."));
     }
 
 }

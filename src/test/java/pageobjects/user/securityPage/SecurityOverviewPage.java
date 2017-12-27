@@ -1,6 +1,8 @@
 package pageobjects.user.securityPage;
 
+import org.apache.commons.lang.ObjectUtils;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import pageobjects.user.activismPage.ActivismPage;
@@ -24,7 +26,6 @@ public class SecurityOverviewPage extends WatchlistPage {
 
 
                             /**        HEADER       */
-
 
     //data\\
 
@@ -129,6 +130,12 @@ public class SecurityOverviewPage extends WatchlistPage {
     private final By yearHighValue2 = By.xpath("//*[@id=\"week-bg-group\"]/text[3]"); //Found on 52wk chart, above "HIGH"
     private final By dailyVolumeValue = By.xpath("//*[@class=\"value\"][6]");
     private final By currencyType = By.xpath("//*[@class=\"value\"][10]");
+    private final By searchResult = By.xpath("//div[contains(@class,'company-item')]");
+    private final By profileModal = By.xpath("//div[contains(@class,'profile-modal')]");
+
+    /**     INPUT       */
+
+    private final By indexInput = By.xpath("//input[contains(@placeholder,'Add index')]");
 
 
                                 /**     QUALITY RATING       */
@@ -153,6 +160,7 @@ public class SecurityOverviewPage extends WatchlistPage {
     //buttons\\
 
     private final By ownershipBtn = By.cssSelector(".overview-quality-rating");
+    private final By profile = By.xpath("//span[contains(@class,'button-label') and contains(text(),'Profile')]");
     //^^This is the Ownership Quality Rating modal, excluding EPS/SALES
 
     //private final By epsBtn = //EPS value to be found here
@@ -685,5 +693,45 @@ public class SecurityOverviewPage extends WatchlistPage {
         waitForLoadingScreen();
 
         return new ActivismPage(driver);
+    }
+
+    public Boolean addIndexToChart(String index) {
+       try{ waitForLoadingScreen();
+        waitForElementToAppear(indexInput);
+        findElement(indexInput).sendKeys(index);
+        waitForLoadingScreen();
+        findElement(searchResult).click();
+        return true;
+       }
+        catch(NoSuchElementException e)
+        { e.printStackTrace();}
+        catch(NullPointerException e)
+        { e.printStackTrace();}
+        return false;
+    }
+
+    public Boolean isIndexAdded(String index) {
+        waitForLoadingScreen();
+        //As I am not able to get the path for the added index in the chart
+        //this is the best test method I can think of for now :
+        //checks if the INDEX tag is added below the chart
+        if (findElement(By.xpath("//div[contains(@class,'index')]")).getText().contains(index))
+        return true;
+        else
+            return false;
+    }
+
+    public Boolean checkSpeicalCharacter(String companyName) {
+        waitForLoadingScreen();
+        findElement(searchBar).sendKeys(companyName);
+        waitForElement(By.xpath("//span[contains(text(),'" + companyName + "')][contains(@class,'name')]"));
+        findElement(By.xpath("//span[contains(text(),'" + companyName + "')][contains(@class,'name')]")).click();
+        waitForLoadingScreen();
+        findVisibleElement(profile).click();
+        waitForLoadingScreen();
+        if(findElement(profileModal).getText().contains("<?>")){
+            return false;
+        }
+        return true;
     }
 }

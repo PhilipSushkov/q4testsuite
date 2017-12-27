@@ -37,6 +37,7 @@ public class ActivityPage extends AbstractPageObject {
     private final By deleteIcon = By.xpath("//div[span[contains(@class,'q4i-trashbin-4pt')]]");
     private final By deleteConfirm = By.xpath("//div[span[contains(text(),'Yes')]]");
     private final By bulkCheckBox = By.xpath("//div[contains(@class,'bulk-checkbox')]");
+    private final By activityTitles = By.xpath("//div[contains(@class,'dataview-container')]//div[contains(@class,'title')]");
 
     //This is actually the text beside the checkbox. Clicking the checkbox is proving to be difficult
     private final By filterDropDown = By.xpath("//div[contains(@class,'filters-toggle')]");
@@ -68,6 +69,7 @@ public class ActivityPage extends AbstractPageObject {
     private final By dateFilterButton = By.xpath("//div[contains(@class,'go-button')]");
 
 
+
     public ActivityPage(WebDriver driver) {
         super(driver);
     }
@@ -87,6 +89,7 @@ public class ActivityPage extends AbstractPageObject {
     }
 
     public NoteDetailsPage selectFirstNoteInList() {
+        waitForLoadingScreen();
         waitForLoadingScreen();
         List<WebElement> elements = findVisibleElements(firstNoteInList);
         for(WebElement i : elements){
@@ -119,7 +122,7 @@ public class ActivityPage extends AbstractPageObject {
         if (doesElementExist(notesSection)) {
             waitForElementToRest(notesSection, 2000L);
         }
-
+        waitForLoadingScreen();
         return this;
     }
 
@@ -610,5 +613,42 @@ public class ActivityPage extends AbstractPageObject {
             return findVisibleElements(rowCheckBox).size();
         }
     }
+
+    public List<String> getActivityTitles(){
+        waitForLoadingScreen();
+        List<WebElement> titlesElement = findElements(activityTitles);
+        List<String> titlesString = new ArrayList<>();
+        for (WebElement e : titlesElement)
+        {
+            titlesString.add(e.getText());
+        }
+        return titlesString;
+    }
+
+    public Boolean showsDifferentActivitiesForDifferentUser(List<String> userOne,List<String> userTwo){
+        if (userOne.size() == userTwo.size()){
+        if (userOne.get(0).contentEquals(userTwo.get(0))){
+        return false;}
+        return true;}
+        return true;
+    }
+
+    public void createNewNote(String title, String note, String tag) {
+        waitForLoadingScreen();
+        LogActivityPage logActivityPage = logNote();
+        waitForLoadingScreen();
+        logActivityPage.enterNoteDetails(title,note,tag);
+        waitForLoadingScreen();
+        accessSideNavFromPage().selectActivityPageFromSideNav();
+    }
+
+    public void deleteNote(String title) {
+        waitForLoadingScreen();
+        searchForNote(title);
+        waitForElement(By.xpath("//div[contains(text(),'" + title +"')]/preceding-sibling::div[contains(@class,'checkbox')]"));
+        findElement(By.xpath("//div[contains(text(),'" + title +"')]/preceding-sibling::div[contains(@class,'checkbox')]")).click();
+        clickDeleteButton();
+    }
+
 }
 

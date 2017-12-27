@@ -377,4 +377,11 @@ public class TargetingList extends AbstractSpec {
 
         Assert.assertThat(targetingPage.getSearchResults(), containsString(searchTerm));
     }
+
+    @Test
+    public void canShowMultipleLocation(){
+        TargetingPage targetingPage = new TargetingPage(driver).selectTargetsTab();
+        Assert.assertTrue("Location should be multiple",
+                targetingPage.isLocationMultiple(targetingPage.getLocationType("Capital Research & Management Co. (World Investors)")));
+    }
 }

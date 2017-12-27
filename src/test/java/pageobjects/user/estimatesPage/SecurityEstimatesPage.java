@@ -94,6 +94,9 @@ public class SecurityEstimatesPage extends AbstractPageObject{
     private final By selectedDay = By.xpath("//div[@class='pmu-days']/div[@class='pmu-button'][11]");
     private final By dateFilterButton = By.xpath("//span[contains(string(),'GO')]");
 
+    //for unsubscribers
+    private final By unsubscribeMessage = By.xpath("//h1[text()=\"Looks like you haven't subscribed to this feature. Interested?\"]");
+
     public SecurityEstimatesPage(WebDriver driver) {
         super(driver);
     }
@@ -184,13 +187,13 @@ public class SecurityEstimatesPage extends AbstractPageObject{
     public String getNthBroker(int n) {
         waitForLoadingScreen();
         waitForAnyElementToAppear(brokerEarningsPerShareTable);
-        return findVisibleElements(brokerEarningsPerShareTable).get(n).findElement(By.xpath("//div[@class='column auto name']")).getText();
+        return findVisibleElements(brokerEarningsPerShareTable).get(n).findElement(By.xpath(".//div[@class='column auto name']")).getText();
     }
 
     public String getNthAnalyst(int n) {
         waitForLoadingScreen();
         waitForAnyElementToAppear(brokerEarningsPerShareTable);
-        return findVisibleElements(brokerEarningsPerShareTable).get(n).findElement(By.xpath("//div[@class='column analyst']")).getText();
+        return findVisibleElements(brokerEarningsPerShareTable).get(n).findElement(By.xpath(".//div[@class='column analyst']")).getText();
     }
 
     public ContactDetailsPage selectNthAnalyst(int n) {
@@ -328,7 +331,10 @@ public class SecurityEstimatesPage extends AbstractPageObject{
     public String getReportPdfContent(String title) {
         try {
             title = title.replaceAll(">", "-"); // Some characters are replaced in the download title
-            title = title.replaceAll("\\|", "-");
+            title = title.replaceAll("/", "-"); // Some characters are replaced in the download title
+            //title = title.replaceAll("\\|", "-"); // Some characters are replaced in the download title
+
+
             URL reportUrl;
             reportUrl = getPdfUrl(title);
             BufferedInputStream briefingBookFile;
@@ -353,7 +359,7 @@ public class SecurityEstimatesPage extends AbstractPageObject{
 
     private URL getPdfUrl(String title) {
         try {
-            return new URL("file://" + System.getProperty("user.home") + "/Downloads/" + title.replace(" ", "%20") + ".pdf");
+            return new URL("file://" + System.getProperty("user.home") + "/Downloads/" + title + ".pdf");
         }
         catch (MalformedURLException e) {
             e.printStackTrace();
@@ -417,5 +423,10 @@ public class SecurityEstimatesPage extends AbstractPageObject{
         waitForLoadingScreen();
         return findVisibleElements(brokerDetailsList).size();
 
+    }
+
+    public Boolean isUnsubscribed(){
+        waitForLoadingScreen();
+        return doesElementExist(unsubscribeMessage);
     }
 }

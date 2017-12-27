@@ -10,10 +10,13 @@ machine:
 
 dependencies:
   override:
-    - curl -L -o google-chrome.deb https://s3.amazonaws.com/circle-downloads/google-chrome-stable_current_amd64_47.0.2526.73-1.deb
+    - curl -L -o google-chrome.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
     - sudo dpkg -i google-chrome.deb
     - sudo sed -i 's|HERE/chrome\"|HERE/chrome\" --disable-setuid-sandbox|g' /opt/google/chrome/google-chrome
     - rm google-chrome.deb
+    - wget https://chromedriver.storage.googleapis.com/2.33/chromedriver_linux64.zip
+    - unzip chromedriver_linux64.zip
+    - sudo cp chromedriver /usr/local/bin/chromedriver
 
 test:
   post:
@@ -24,18 +27,27 @@ test:
 
   override:
       - ? |
-          if [ -n "${TEST_ENV}" ]; then
-            case $CIRCLE_NODE_INDEX in
-              0)
-                  mvn -Dsurefire.rerunFailingTestsCount=1 test -fae -D q4inc.specs=${TEST_ENV} -Dtest=${SUITE_NAME}A -Dthreads=${THREADS};;
-              1)
-                  mvn -Dsurefire.rerunFailingTestsCount=1 test -fae -D q4inc.specs=${TEST_ENV} -Dtest=${SUITE_NAME}B -Dthreads=${THREADS};;
-              2)
-                  mvn -Dsurefire.rerunFailingTestsCount=1 test -fae -D q4inc.specs=${TEST_ENV} -Dtest=${SUITE_NAME}C -Dthreads=${THREADS};;
-            esac
+          if [ -n "${TEST_ENV}" ] && [ "${SUITE_NAME}" == "NightRun" ]; then
+                  case $CIRCLE_NODE_INDEX in
+                    0)
+                        mvn -Dsurefire.rerunFailingTestsCount=1 test -fae -D q4inc.specs=${TEST_ENV} -Dtest=${SUITE_NAME}A -Dthreads=${THREADS};;
+                    1)
+                        mvn -Dsurefire.rerunFailingTestsCount=1 test -fae -D q4inc.specs=${TEST_ENV} -Dtest=${SUITE_NAME}B -Dthreads=${THREADS};;
+                    2)
+                        mvn -Dsurefire.rerunFailingTestsCount=1 test -fae -D q4inc.specs=${TEST_ENV} -Dtest=${SUITE_NAME}C -Dthreads=${THREADS};;
+                  esac
+          elif [ -n "${TEST_ENV}" ] && [ "${SUITE_NAME}" == "AdminSuite" ]; then
+                   case $CIRCLE_NODE_INDEX in
+                    0)
+                        mvn -Dsurefire.rerunFailingTestsCount=1 test -fae -D q4inc.specs=${TEST_ENV} -Dtest=${SUITE_NAME} -Dthreads=${THREADS};;
+                    1)
+                        mvn compile;;
+                    2)
+                        mvn compile;;
+                   esac
           else
             mvn compile
           fi
         : parallel: true
           timeout: 2500
-      - google-chrome --version
+      - google-chrome --version 

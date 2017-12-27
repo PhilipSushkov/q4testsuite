@@ -3,9 +3,11 @@ package specs.admin.profiles;
 import org.junit.*;
 import pageobjects.admin.loginPage.AdminLoginPage;
 import pageobjects.admin.profilesPage.ProfilesList;
+import pageobjects.user.dashboardPage.Dashboard;
 import pageobjects.user.loginPage.LoginPage;
 import pageobjects.user.estimatesPage.SecurityEstimatesPage;
 import specs.AdminAbstractSpec;
+import util.EnvironmentType;
 
 /**
  * Created by patrickp on 2016-10-13.
@@ -14,8 +16,13 @@ public class EnableDisableSubscriptions extends AdminAbstractSpec {
 
     @Before
     public void setUp() {
-        new AdminLoginPage(driver).loginAdmin()
-                .navigateToProfilesPage();
+        if (hasLoggedIn() && getActiveEnvironment()!= EnvironmentType.LOCALADMIN) {
+            new Dashboard(driver).navigateToProfilesPage();
+        }
+        else {
+            new AdminLoginPage(driver).loginAdmin()
+                    .navigateToProfilesPage();
+        }
     }
 
     //This still needs an assert

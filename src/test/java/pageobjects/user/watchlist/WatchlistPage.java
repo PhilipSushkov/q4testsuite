@@ -1,5 +1,6 @@
 package pageobjects.user.watchlist;
 
+import com.google.common.collect.Ordering;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -26,6 +27,7 @@ public class WatchlistPage extends AbstractPageObject{
     private final By confirmDelete = By.xpath("//div[contains(@class,'x-msgbox')]//div[span[contains(text(),'Yes')]]");
     private final By cancelDelete =By.xpath("//div[contains(@class,'x-msgbox')]//div[span[contains(text(),'No')]]");
     private final By watchlistSearchField = By.cssSelector(".toolbar-panel .search .x-field-input .x-input-el");
+    private final By selectAll = By.xpath("//div[contains(@class,'bulk-checkbox')]//div[contains(@class,'field-mask')]");
 
 
     public WatchlistPage(WebDriver driver) {
@@ -42,8 +44,15 @@ public class WatchlistPage extends AbstractPageObject{
         wait.until(ExpectedConditions.elementToBeClickable(searchResult));
         retryClick(searchResult);
         pause(1000L);
+        findElement(addSecurityButton).click();
+        pause(1000L);
+        return this;
+    }
 
-
+    public WatchlistPage addListOfSecuritiesToWatchlist(String[] securities) {
+        for (int i = 0; i < securities.length; i++) {
+           addSecurityToWatchlist(securities[i]);
+        }
         return this;
     }
 
@@ -58,7 +67,15 @@ public class WatchlistPage extends AbstractPageObject{
     public boolean watchlistHadSecurities() {
         waitForLoadingScreen();
         if (findElements(firstCompanyInList).size() != 0) {
+            return true;
+        }
+        return false;
+    }
 
+    // Checks to see if th watchlist has enough securities to run sorting test on
+    public boolean watchlistHadEnoughSecurities() {
+        waitForLoadingScreen();
+        if (findElements(firstCompanyInList).size() > 3) {
             return true;
         }
         return false;
@@ -80,7 +97,6 @@ public class WatchlistPage extends AbstractPageObject{
             findElement(confirmDelete).click();
         return this;
     }
-
 
     public String getFirstCompanyInList() {
         waitForLoadingScreen();
@@ -146,12 +162,23 @@ public class WatchlistPage extends AbstractPageObject{
 
     public WatchlistPage searchForEntity(String companyName) {
         findElement(watchlistSearchField).sendKeys(companyName);
-
         return this;
     }
 
-    public String getAllCompanyNames() {
-        return findElement(firstCompanyNameInList).getText();
+    public List<String> getAllCompanyNames() {
+        List<WebElement> companyList = findElements(By.xpath("//div[contains(@class,'dataview-container')]/div//h5"));
+        List<String> companyNameList = new ArrayList <String>();
+        for(WebElement e:companyList)
+        {
+            companyNameList.add(e.getText());
+        }
+        return companyNameList;
+    }
+
+    public boolean isAlphabeticallySorted(List<String> names){
+        driver.navigate().refresh();
+        waitForLoadingScreen();
+        return Ordering.from(String.CASE_INSENSITIVE_ORDER).isOrdered(names);
     }
 }
 
