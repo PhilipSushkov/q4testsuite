@@ -580,7 +580,7 @@ public class ActivityPage extends AbstractPageObject {
         waitForElementToAppear(confirmDeleteButton);
         findVisibleElement(confirmDeleteButton).click();
         waitForLoadingScreen();
-
+        pause(2000L);
         return this;
     }
 
@@ -602,6 +602,7 @@ public class ActivityPage extends AbstractPageObject {
             findVisibleElement(deleteConfirm).click();
         }
         waitForLoadingScreen();
+        pause(2000L);
         return this;
     }
 
