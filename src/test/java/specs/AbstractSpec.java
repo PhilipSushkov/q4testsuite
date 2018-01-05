@@ -24,7 +24,8 @@ public abstract class AbstractSpec {
 // IMPORTANT:
 // Determines which environment the test suite will run on but can be overridden by command line
 //------------------------------------------------------------------------------
-    private  final EnvironmentType DEFAULT_ENVIRONMENT = EnvironmentType.LOCAL;
+    //private  final EnvironmentType DEFAULT_ENVIRONMENT = EnvironmentType.LOCAL;
+    private  final EnvironmentType DEFAULT_ENVIRONMENT = EnvironmentType.STAGING;
 //------------------------------------------------------------------------------
 
     private final EnvironmentType activeEnvironment = setupEnvironment();
